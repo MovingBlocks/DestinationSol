@@ -1,0 +1,50 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "description": "Configuration for the effects/sounds linked to in-game special abilities.",
+  "propertyNames": {
+    "pattern": "^\\w+$",
+    "description": "Ability names must be a sequence of basic alphanumeric characters without a space."
+  },
+  "additionalProperties": {
+    "type": "object",
+    "required": [
+      "activatedSound"
+    ],
+    "properties": {
+      "activatedSound": {
+        "type": "string",
+        "description": "The gestalt id of the sound effect played upon ability activation.",
+        "pattern": "^\\w+:\\w+$"
+      },
+      "effect": {
+        "type": "object",
+        "description": "The particle effect used upon ability activation.",
+        "properties": {
+          "effectFile": {
+            "type": "string",
+            "pattern": "^\\w+:\\w+$",
+            "description": "The gestalt id of the .emitter file for this particle effect."
+          },
+          "tex": {
+            "type": "string",
+            "pattern": "^\\w+:\\w+$",
+            "description": "The gestalt id of the particle texture for this effect."
+          },
+          "tint": {
+            "type": "string",
+            "description": "Colors can be defined as a keyword, or in the form `rrr ggg bbb`, `rrr ggg bbb aaa`, `hsb hhh sss bbb` or `hsb hhh sss bbb aaa`",
+            "pattern": "^(\\w+|(hsb (((360)|(3[0-5]\\d)|([012]?\\d?\\d))( ((100)|\\d?\\d)){2})|(((([01]?\\d?\\d)|(2[0-4]\\d)|(25[0-5])) ){2}(([01]?\\d?\\d)|(2[0-4]\\d)|(25[0-5]))))( (([01]?\\d?\\d)|(2[0-4]\\d)|(25[0-5])))?)$"
+          },
+          "floatsUp": {
+            "type": "boolean",
+            "description": "True if particles will float opposing the gravity of the nearest planet, default false."
+          },
+          "size": {
+            "type": "number",
+            "description": "The default unit size of each individual particle. Almost always overwritten for special effects."
+          }
+        }
+      }
+    }
+  }
+}
