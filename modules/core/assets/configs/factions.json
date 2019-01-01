@@ -28,7 +28,7 @@
     },
     {
       "name": "Techie",
-      "color": "169E1",
+      "color": "169E10",
       "disposition": -50,
       "ships": [
         "techieOrbiter",
