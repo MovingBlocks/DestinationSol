@@ -274,7 +274,6 @@ public class ShipBuilder {
             doors.add(door);
         }
 
-        Fixture base = getBase(hullConfig.hasBase(), body);
         Hull hull = new Hull(game, hullConfig, body, gunMount0, gunMount1, lCs, life, beacons, doors, shieldFixture);
         body.setLinearVelocity(velocity);
         body.setAngularVelocity(rotationSpeed * MathUtils.degRad);
