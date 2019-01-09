@@ -8,7 +8,7 @@
       "hard"
     ]
   },
-  "additionalItems": {
+  "additionalProperties": {
     "type": "object",
     "properties": {
       "hard": {
@@ -16,16 +16,16 @@
         "description": "True if this is the 'hard' configuration, false by default."
       },
       "constantAllies": {
-        "$ref": "#/definitions/shipSpawnConfig"
+        "$ref": "#/definitions/shipArray"
       },
       "constantEnemies": {
-        "$ref": "#/definitions/shipSpawnConfig"
+        "$ref": "#/definitions/shipArray"
       },
       "temporaryEnemies": {
-        "$ref": "#/definitions/shipSpawnConfig"
+        "$ref": "#/definitions/shipArray"
       },
       "innerTemporaryEnemies": {
-        "$ref": "#/definitions/shipSpawnConfig"
+        "$ref": "#/definitions/shipArray"
       },
       "trading": {
         "type": "object",
@@ -39,20 +39,35 @@
             "description": "A list of ships that are available to be changed into."
           },
           "mercenaries": {
-            "type": "array",
-            "description": "A list of mercenaries available for hire.",
-            "items": {
-              "$ref": "#/definitions/shipConfig"
-            }
+            "$ref": "#/definitions/shipArray"
           }
+        }
+      },
+      "environment": {
+        "junkTexs": {
+          "type": "string",
+          "description": "The root gestalt ID for the near space junk textures that make up the maze.",
+          "pattern": "^\\w+:\\w+$"
+        },
+        "junkDensity": {
+          "type": "number",
+          "description": "The density of placement of near space junk."
+        },
+        "farJunkTexs": {
+          "type": "string",
+          "descriptions": "The root gestalt ID for the far space junk textures that make up the maze.",
+          "pattern": "^\\w+:\\w+$"
+        },
+        "farJunkDensity": {
+          "type": "number",
+          "description": "The density of placement of far space junk."
         }
       }
     }
   },
   "definitions": {
-    "shipSpawnConfig": {
+    "ship": {
       "type": "object",
-      "description": "The spawn configuration of a single ship.",
       "properties": {
         "hull": {
           "type": "string",
@@ -64,49 +79,27 @@
         },
         "money": {
           "type": "integer",
-          "description": "Starting money for the ship on spawn."
+          "description": "Starting money for the player on spawn."
         },
         "density": {
           "type": "number",
-          "description": "The density of these ships present in the system.",
+          "description": "The density of these ships present on the planet. N/A for 'station'",
           "exclusiveMinimum": 0
         },
         "guard": {
-          "ref": "#/definitions/ship"
+          "$ref": "#/definitions/ship"
         }
       },
       "required": [
         "hull",
-        "items",
-        "money",
-        "density"
+        "items"
       ]
     },
-    "shipConfig": {
-      "type": "object",
-      "description": "The configuration of a single ship.",
-      "properties": {
-        "hull": {
-          "type": "string",
-          "description": "Id of the hull of this ship.",
-          "pattern": "^\\w+:\\w+$"
-        },
-        "items": {
-          "$ref": "#/definitions/items"
-        },
-        "money": {
-          "type": "integer",
-          "description": "Starting money for the ship on spawn."
-        },
-        "guard": {
-          "ref": "#/definitions/ship"
-        }
-      },
-      "required": [
-        "hull",
-        "items",
-        "money"
-      ]
+    "shipArray": {
+      "type": "array",
+      "items": {
+        "$ref": "#/definitions/ship"
+      }
     },
     "items": {
       "type": "string",
