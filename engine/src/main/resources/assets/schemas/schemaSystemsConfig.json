@@ -61,7 +61,13 @@
         "farJunkDensity": {
           "type": "number",
           "description": "The density of placement of far space junk."
-        }
+        },
+        "required": [
+          "junkTexs",
+          "junkDensity",
+          "farJunkTexs",
+          "farJunkDensity"
+        ]
       }
     }
   },

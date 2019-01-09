@@ -23,6 +23,11 @@
         "description": "The scale factor of this type's item icon.",
         "exclusiveMinimum": 0
       }
-    }
+    },
+    "required": [
+      "color",
+      "pickUpSound",
+      "sz"
+    ]
   }
 }
