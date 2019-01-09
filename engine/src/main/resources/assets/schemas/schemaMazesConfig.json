@@ -1,0 +1,86 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "description": "The configuration for various mazes that spawn in the world.",
+  "propertyNames": {
+    "description": "Maze names can be any non-blank string of basic alphanumeric characters without spaces.",
+    "pattern": "^\\w+$"
+  },
+  "additionalProperties": {
+    "type": "object",
+    "properties": {
+      "isMetal": {
+        "type": "boolean",
+        "description": "True if this surface is metal, false otherwise. Metal surfaces make special sounds on impact."
+      },
+      "outerEnemies": {
+        "$ref": "#/definitions/shipArray"
+      },
+      "innerEnemies": {
+        "$ref": "#/definitions/shipArray"
+      },
+      "bosses": {
+        "$ref": "#/definitions/shipArray"
+      },
+      "environment": {
+        "junkTexs": {
+          "type": "string",
+          "description": "The root gestalt ID for the near space junk textures that make up the maze.",
+          "pattern": "^\\w+:\\w+$"
+        },
+        "junkDensity": {
+          "type": "number",
+          "description": "The density of placement of near space junk."
+        },
+        "farJunkTexs": {
+          "type": "string",
+          "descriptions": "The root gestalt ID for the far space junk textures that make up the maze.",
+          "pattern": "^\\w+:\\w+$"
+        },
+        "farJunkDensity": {
+          "type": "number",
+          "description": "The density of placement of far space junk."
+        }
+      }
+    }
+  },
+  "definitions": {
+    "ship": {
+      "type": "object",
+      "properties": {
+        "hull": {
+          "type": "string",
+          "description": "Id of the hull of this ship.",
+          "pattern": "^\\w+:\\w+$"
+        },
+        "items": {
+          "$ref": "#/definitions/items"
+        },
+        "money": {
+          "type": "integer",
+          "description": "Starting money for the player on spawn."
+        },
+        "density": {
+          "type": "number",
+          "description": "The density of these ships present on the planet. N/A for 'station'",
+          "exclusiveMinimum": 0
+        }
+      },
+      "required": [
+        "hull",
+        "items",
+        "money"
+      ]
+    },
+    "shipArray": {
+      "type": "array",
+      "items": {
+        "$ref": "#/definitions/ship"
+      }
+    },
+    "items": {
+      "type": "string",
+      "description": "Space separated list of items the ship possesses on spawn. See /docs/items.txt for a more detailed explanation.",
+      "pattern": "^(((0(\\.\\d+)?|1\\.0)\\|)?(\\d+\\*)?(\\w+(:\\w+)?(-[12])?)(\\+(\\w+(:\\w+)?(-[12])?))*)( ((0(\\.\\d+)?|1\\.0)\\|)?(\\d+\\*)?(\\w+(:\\w+)?(-[12])?)(\\+(\\w+(:\\w+)?(-[12])?))*)* ?$"
+    }
+  }
+}
