@@ -43,7 +43,12 @@
             "type": "number",
             "description": "The default unit size of each individual particle. Almost always overwritten for special effects."
           }
-        }
+        },
+        "required": [
+          "effectFile",
+          "tex",
+          "tint"
+        ]
       }
     }
   }

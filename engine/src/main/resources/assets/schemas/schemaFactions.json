@@ -30,7 +30,13 @@
               "pattern": "^\\w+$"
             }
           }
-        }
+        },
+        "required": [
+          "name",
+          "color",
+          "disposition",
+          "ships"
+        ]
       }
     }
   }

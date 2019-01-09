@@ -162,7 +162,11 @@
           "description": "The density of these ships present on the planet. N/A for 'station'",
           "exclusiveMinimum": 0
         }
-      }
+      },
+      "required": [
+        "hull",
+        "items"
+      ]
     },
     "items": {
       "type": "string",
