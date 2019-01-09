@@ -1,0 +1,117 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "description": "Configurations for space systems created in world generation.",
+  "propertyNames": {
+    "description": "The system type that the configuration should be applied to.",
+    "enum": [
+      "standard",
+      "hard"
+    ]
+  },
+  "additionalItems": {
+    "type": "object",
+    "properties": {
+      "hard": {
+        "type": "boolean",
+        "description": "True if this is the 'hard' configuration, false by default."
+      },
+      "constantAllies": {
+        "$ref": "#/definitions/shipSpawnConfig"
+      },
+      "constantEnemies": {
+        "$ref": "#/definitions/shipSpawnConfig"
+      },
+      "temporaryEnemies": {
+        "$ref": "#/definitions/shipSpawnConfig"
+      },
+      "innerTemporaryEnemies": {
+        "$ref": "#/definitions/shipSpawnConfig"
+      },
+      "trading": {
+        "type": "object",
+        "description": "The trade configuration of friendly stations/large ships in this system.",
+        "properties": {
+          "items": {
+            "$ref": "#/definitions/items"
+          },
+          "ships": {
+            "type": "string",
+            "description": "A list of ships that are available to be changed into."
+          },
+          "mercenaries": {
+            "type": "array",
+            "description": "A list of mercenaries available for hire.",
+            "items": {
+              "$ref": "#/definitions/shipConfig"
+            }
+          }
+        }
+      }
+    }
+  },
+  "definitions": {
+    "shipSpawnConfig": {
+      "type": "object",
+      "description": "The spawn configuration of a single ship.",
+      "properties": {
+        "hull": {
+          "type": "string",
+          "description": "Id of the hull of this ship.",
+          "pattern": "^\\w+:\\w+$"
+        },
+        "items": {
+          "$ref": "#/definitions/items"
+        },
+        "money": {
+          "type": "integer",
+          "description": "Starting money for the ship on spawn."
+        },
+        "density": {
+          "type": "number",
+          "description": "The density of these ships present in the system.",
+          "exclusiveMinimum": 0
+        },
+        "guard": {
+          "ref": "#/definitions/ship"
+        }
+      },
+      "required": [
+        "hull",
+        "items",
+        "money",
+        "density"
+      ]
+    },
+    "shipConfig": {
+      "type": "object",
+      "description": "The configuration of a single ship.",
+      "properties": {
+        "hull": {
+          "type": "string",
+          "description": "Id of the hull of this ship.",
+          "pattern": "^\\w+:\\w+$"
+        },
+        "items": {
+          "$ref": "#/definitions/items"
+        },
+        "money": {
+          "type": "integer",
+          "description": "Starting money for the ship on spawn."
+        },
+        "guard": {
+          "ref": "#/definitions/ship"
+        }
+      },
+      "required": [
+        "hull",
+        "items",
+        "money"
+      ]
+    },
+    "items": {
+      "type": "string",
+      "description": "Space separated list of items the ship possesses on spawn. See /docs/items.txt for a more detailed explanation.",
+      "pattern": "^(((0(\\.\\d+)?|1\\.0)\\|)?(\\d+\\*)?(\\w+(:\\w+)?(-[12])?)(\\+(\\w+(:\\w+)?(-[12])?))*)( ((0(\\.\\d+)?|1\\.0)\\|)?(\\d+\\*)?(\\w+(:\\w+)?(-[12])?)(\\+(\\w+(:\\w+)?(-[12])?))*)* ?$"
+    }
+  }
+}
