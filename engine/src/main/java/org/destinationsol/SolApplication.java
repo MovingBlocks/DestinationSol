@@ -312,6 +312,7 @@ public class SolApplication implements ApplicationListener {
         // Reset the seed so this galaxy isn't the same as the last
         worldConfig.setSeed(System.currentTimeMillis());
         SolRandom.setSeed(worldConfig.getSeed());
+        FactionInfo.clearValues();
 
         worldConfig.setNumberOfSystems(getMenuScreens().newShip.getNumberOfSystems());
     }
