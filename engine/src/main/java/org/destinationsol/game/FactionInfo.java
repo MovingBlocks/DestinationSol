@@ -60,6 +60,12 @@ public class FactionInfo {
         return moduleSet;
     }
 
+    public static void clearValues() {
+        factionName.clear();
+        factionColor.clear();
+        factionDisposition.clear();
+    }
+
     public static ArrayList getFactionNames() {
         return factionName;
     }
