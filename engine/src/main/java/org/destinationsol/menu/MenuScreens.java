@@ -27,6 +27,7 @@ public class MenuScreens {
     public final LoadingScreen loading;
     public final NewGameScreen newGame;
     public final NewShipScreen newShip;
+    public final LanguageScreen language;
 
     public MenuScreens(SolLayouts layouts, boolean mobile, GameOptions gameOptions) {
         MenuLayout menuLayout = layouts.menuLayout;
@@ -38,5 +39,6 @@ public class MenuScreens {
         loading = new LoadingScreen();
         newGame = new NewGameScreen(menuLayout, gameOptions);
         newShip = new NewShipScreen(menuLayout, gameOptions);
+        language = new LanguageScreen(menuLayout, gameOptions);
     }
 }

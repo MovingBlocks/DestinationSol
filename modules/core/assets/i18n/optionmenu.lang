@@ -1,0 +1,10 @@
+{
+  "resolution" : "resolution",
+  "controltype" : "controltype",
+  "controls" : "controls",
+  "language" : "language",
+  "back" : "back",
+  "soundvolume" : "soundvolume",
+  "musicvolume" : "musicvolume",
+  "input" : "input"
+}

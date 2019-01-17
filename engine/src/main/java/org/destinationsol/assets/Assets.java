@@ -22,6 +22,7 @@ import org.destinationsol.assets.audio.OggSound;
 import org.destinationsol.assets.emitters.Emitter;
 import org.destinationsol.assets.fonts.Font;
 import org.destinationsol.assets.json.Json;
+import org.destinationsol.assets.lang.Lang;
 import org.destinationsol.assets.textures.DSTexture;
 import org.json.JSONArray;
 import org.slf4j.Logger;
@@ -161,6 +162,22 @@ public abstract class Assets {
         }
 
         throw new RuntimeException("Json " + path + " not found!");
+    }
+
+    /**
+     * Loads a Lang (.lang) from the current environment. Throws an exception if the asset is not found.
+     *
+     * @param path A String specifying the desired asset.
+     * @return The loaded Lang.
+     */
+    public static Lang getLang(String path) {
+        Optional<Lang> langOptional = assetHelper.get(parsePath(path), Lang.class);
+
+        if (langOptional.isPresent()) {
+            return langOptional.get();
+        }
+
+        throw new RuntimeException("Lang file " + path + " not found!");
     }
 
     /**

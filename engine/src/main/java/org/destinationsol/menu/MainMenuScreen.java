@@ -26,6 +26,7 @@ import org.destinationsol.assets.Assets;
 import org.destinationsol.assets.audio.OggMusicManager;
 import org.destinationsol.common.SolColor;
 import org.destinationsol.game.DebugOptions;
+import org.destinationsol.game.i18n.Translation;
 import org.destinationsol.ui.DisplayDimensions;
 import org.destinationsol.ui.SolInputManager;
 import org.destinationsol.ui.SolUiBaseScreen;
@@ -57,25 +58,25 @@ public class MainMenuScreen extends SolUiBaseScreen {
         displayDimensions = SolApplication.displayDimensions;
 
         tutorialControl = new SolUiControl(buttonWidth, buttonHeight, UiDrawer.positions.get("bottom"), 0, calculateButtonOffsetFromBottom(3), true, Input.Keys.T);
-        tutorialControl.setDisplayName("Tutorial");
+        tutorialControl.setDisplayName(Translation.translate("${core:titlemenu#tutorial}"));
         controls.add(tutorialControl);
 
         newGameControl = new SolUiControl(buttonWidth, buttonHeight, UiDrawer.positions.get("bottom"), 0, calculateButtonOffsetFromBottom(2), true, gameOptions.getKeyShoot());
-        newGameControl.setDisplayName("Play Game");
+        newGameControl.setDisplayName(Translation.translate("${core:titlemenu#play}"));
         controls.add(newGameControl);
 
         // TODO: Temporarily showing on mobile as well. Fix!
         // optionsControl = new SolUiControl(isMobile ? null : menuLayout.buttonRect(-1, 3), true, Input.Keys.O);
         optionsControl = new SolUiControl(buttonWidth, buttonHeight, UiDrawer.positions.get("bottom"), 0, calculateButtonOffsetFromBottom(1), true, Input.Keys.O);
-        optionsControl.setDisplayName("Options");
+        optionsControl.setDisplayName(Translation.translate("${core:titlemenu#options}"));
         controls.add(optionsControl);
 
         exitControl = new SolUiControl(buttonWidth, buttonHeight, UiDrawer.positions.get("bottom"), 0, calculateButtonOffsetFromBottom(0), true, gameOptions.getKeyEscape());
-        exitControl.setDisplayName("Exit");
+        exitControl.setDisplayName(Translation.translate("${core:titlemenu#exit}"));
         controls.add(exitControl);
 
         creditsControl = new SolUiControl(MenuLayout.bottomRightFloatingButton(displayDimensions), true, Input.Keys.C);
-        creditsControl.setDisplayName("Credits");
+        creditsControl.setDisplayName(Translation.translate("${core:titlemenu#credits}"));
         controls.add(creditsControl);
 
         backgroundTexture = Assets.getAtlasRegion("engine:mainMenuBg", Texture.TextureFilter.Linear);

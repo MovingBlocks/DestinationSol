@@ -22,6 +22,7 @@ import org.destinationsol.GameOptions;
 import org.destinationsol.SolApplication;
 import org.destinationsol.assets.Assets;
 import org.destinationsol.common.SolColor;
+import org.destinationsol.game.i18n.Translation;
 import org.destinationsol.ui.DisplayDimensions;
 import org.destinationsol.ui.FontSize;
 import org.destinationsol.ui.SolInputManager;
@@ -42,15 +43,15 @@ public class ResolutionScreen extends SolUiBaseScreen {
         displayDimensions = SolApplication.displayDimensions;
 
         resolutionControl = new SolUiControl(menuLayout.buttonRect(-1, 2), true);
-        resolutionControl.setDisplayName("Resolution");
+        resolutionControl.setDisplayName(Translation.translate("${core:resolutionmenu#resolution}"));
         controls.add(resolutionControl);
 
         fullscreenControl = new SolUiControl(menuLayout.buttonRect(-1, 3), true);
-        fullscreenControl.setDisplayName("Fullscreen");
+        fullscreenControl.setDisplayName(Translation.translate("${core:resolutionmenu#fullscreen}"));
         controls.add(fullscreenControl);
 
         closeControl = new SolUiControl(menuLayout.buttonRect(-1, 4), true, gameOptions.getKeyEscape());
-        closeControl.setDisplayName("Back");
+        closeControl.setDisplayName(Translation.translate("${core:resolutionmenu#back}"));
         controls.add(closeControl);
 
         backgroundTexture = Assets.getAtlasRegion("engine:mainMenuBg", Texture.TextureFilter.Linear);
@@ -72,7 +73,7 @@ public class ResolutionScreen extends SolUiBaseScreen {
             options.advanceResolution();
         }
 
-        fullscreenControl.setDisplayName(options.fullscreen ? "Fullscreen" : "Windowed");
+        fullscreenControl.setDisplayName(options.fullscreen ? Translation.translate("${core:resolutionmenu#fullscreen}") : Translation.translate("${core:resolutionmenu#windowed}"));
         if (fullscreenControl.isJustOff()) {
             options.advanceFullscreen();
         }

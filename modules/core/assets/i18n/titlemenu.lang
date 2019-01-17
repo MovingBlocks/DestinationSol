@@ -1,0 +1,7 @@
+{
+  "tutorial" : "tutorial", 
+  "play" : "play",
+  "options" : "options",
+  "exit" : "exit",
+  "credits" : "credits"
+}

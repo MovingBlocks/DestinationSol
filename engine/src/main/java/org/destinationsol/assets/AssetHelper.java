@@ -25,6 +25,8 @@ import org.destinationsol.assets.fonts.Font;
 import org.destinationsol.assets.fonts.FontFileFormat;
 import org.destinationsol.assets.json.Json;
 import org.destinationsol.assets.json.JsonFileFormat;
+import org.destinationsol.assets.lang.Lang;
+import org.destinationsol.assets.lang.LangFileFormat;
 import org.destinationsol.assets.textures.DSTexture;
 import org.destinationsol.assets.textures.DSTextureFileFormat;
 import org.destinationsol.game.DebugOptions;
@@ -59,6 +61,9 @@ public class AssetHelper {
 
         assetTypeManager.createAssetType(Emitter.class, Emitter::new, "emitters");
         ((AssetFileDataProducer)assetTypeManager.getAssetType(Emitter.class).get().getProducers().get(0)).addAssetFormat(new EmitterFileFormat());
+
+        assetTypeManager.createAssetType(Lang.class, Lang::new, "i18n");
+        ((AssetFileDataProducer)assetTypeManager.getAssetType(Lang.class).get().getProducers().get(0)).addAssetFormat(new LangFileFormat());
 
         assetTypeManager.createAssetType(Json.class, Json::new, "collisionMeshes", "ships", "items", "configs", "grounds", "mazes", "asteroids");
         ((AssetFileDataProducer)assetTypeManager.getAssetType(Json.class).get().getProducers().get(0)).addAssetFormat(new JsonFileFormat());

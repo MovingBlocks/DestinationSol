@@ -154,6 +154,7 @@ public class GameOptions {
     private String keyHireShipMenuName;
     private String keyMercenaryInteractionName;
     private String keyFreeCameraMovementName;
+    private static String locale;
     private int controllerAxisShoot;
     private int controllerAxisShoot2;
     private int controllerAxisAbility;
@@ -215,6 +216,7 @@ public class GameOptions {
         controllerButtonUp = reader.getInt("controllerButtonUp", DEFAULT_BUTTON_UP);
         controllerButtonDown = reader.getInt("controllerButtonDown", DEFAULT_BUTTON_DOWN);
         canSellEquippedItems = reader.getBoolean("canSellEquippedItems", false);
+        locale = reader.getString("language", "en");
     }
 
     public void advanceResolution() {
@@ -250,12 +252,16 @@ public class GameOptions {
         save();
     }
 
+    public void setLocale(String locale) {
+        this.locale = locale;
+    }
+
     /**
      * Save the configuration settings to file.
      */
     public void save() {
         IniReader.write(FILE_NAME, "x", x, "y", y, "fullscreen", fullscreen, "controlType", controlType,
-                "sfxVolume", sfxVolume, "musicVolume", musicVolume, "canSellEquippedItems", canSellEquippedItems,
+                "sfxVolume", sfxVolume, "musicVolume", musicVolume, "canSellEquippedItems", canSellEquippedItems, "language", locale,
                 "keyUpMouse", getKeyUpMouseName(), "keyDownMouse", getKeyDownMouseName(), "keyUp", getKeyUpName(), "keyDown", keyDownName,
                 "keyLeft", keyLeftName, "keyRight", keyRightName, "keyShoot", keyShootName, "keyShoot2", getKeyShoot2Name(),
                 "keyAbility", getKeyAbilityName(), "keyEscape", getKeyEscapeName(), "keyMap", keyMapName, "keyInventory", keyInventoryName,
@@ -830,6 +836,16 @@ public class GameOptions {
      */
     public int getKeyChangeShipMenu() {
         return Input.Keys.valueOf(getKeyChangeShipMenuName());
+    }
+
+    /**
+     * Gets the locale
+     *
+     * @return String representing the locale
+     */
+
+    public static String getLocale() {
+        return locale;
     }
 
     /**

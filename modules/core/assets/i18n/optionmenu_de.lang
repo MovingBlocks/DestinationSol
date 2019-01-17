@@ -1,0 +1,10 @@
+{
+  "resolution" : "Aufloesung",
+  "controltype" : "Steuerelementtyp",
+  "controls" : "Steuerelemente",
+  "language" : "Sprache",
+  "back" : "Zurueck",
+  "soundvolume" : "Lautstaerke",
+  "musicvolume" : "Musiklautstaerke",
+  "input" : "Eingang"
+}

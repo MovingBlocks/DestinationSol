@@ -22,6 +22,7 @@ import org.destinationsol.GameOptions;
 import org.destinationsol.SolApplication;
 import org.destinationsol.assets.Assets;
 import org.destinationsol.common.SolColor;
+import org.destinationsol.game.i18n.Translation;
 import org.destinationsol.ui.DisplayDimensions;
 import org.destinationsol.ui.SolInputManager;
 import org.destinationsol.ui.SolUiBaseScreen;
@@ -39,32 +40,37 @@ public class OptionsScreen extends SolUiBaseScreen {
     private final SolUiControl inputMapControl;
     private final SolUiControl soundVolumeControl;
     private final SolUiControl musicVolumeControl;
+    private final SolUiControl languageControl;
 
     OptionsScreen(MenuLayout menuLayout, GameOptions gameOptions) {
         displayDimensions = SolApplication.displayDimensions;
 
-        resolutionControl = new SolUiControl(menuLayout.buttonRect(-1, 1), true);
-        resolutionControl.setDisplayName("Resolution");
+        resolutionControl = new SolUiControl(menuLayout.buttonRect(-1, 0), true);
+        resolutionControl.setDisplayName(Translation.translate("${core:optionmenu#resolution}"));
         controls.add(resolutionControl);
 
-        inputTypeControl = new SolUiControl(menuLayout.buttonRect(-1, 2), true, Input.Keys.C);
-        inputTypeControl.setDisplayName("Control Type");
+        inputTypeControl = new SolUiControl(menuLayout.buttonRect(-1, 1), true, Input.Keys.C);
+        inputTypeControl.setDisplayName(Translation.translate("${core:optionmenu#controltype}"));
         controls.add(inputTypeControl);
 
-        inputMapControl = new SolUiControl(menuLayout.buttonRect(-1, 3), true, Input.Keys.M);
-        inputMapControl.setDisplayName("Controls");
+        inputMapControl = new SolUiControl(menuLayout.buttonRect(-1, 2), true, Input.Keys.M);
+        inputMapControl.setDisplayName(Translation.translate("${core:optionmenu#controls}"));
         controls.add(inputMapControl);
 
+        languageControl = new SolUiControl(menuLayout.buttonRect(-1, 3), true);
+        languageControl.setDisplayName(Translation.translate("${core:optionmenu#language}"));
+        controls.add(languageControl);
+
         backControl = new SolUiControl(menuLayout.buttonRect(-1, 4), true, gameOptions.getKeyEscape());
-        backControl.setDisplayName("Back");
+        backControl.setDisplayName(Translation.translate("${core:optionmenu#back}"));
         controls.add(backControl);
 
-        soundVolumeControl = new SolUiControl(menuLayout.buttonRect(-1, 0), true);
-        soundVolumeControl.setDisplayName("Sound Volume");
+        soundVolumeControl = new SolUiControl(menuLayout.buttonRect(-1, -1), true);
+        soundVolumeControl.setDisplayName(Translation.translate("${core:optionmenu#soundvolume}"));
         controls.add(soundVolumeControl);
 
-        musicVolumeControl = new SolUiControl(menuLayout.buttonRect(-1, -1), true);
-        musicVolumeControl.setDisplayName("Music Volume");
+        musicVolumeControl = new SolUiControl(menuLayout.buttonRect(-1, -2), true);
+        musicVolumeControl.setDisplayName(Translation.translate("${core:optionmenu#musicvolume}"));
         controls.add(musicVolumeControl);
 
         backgroundTexture = Assets.getAtlasRegion("engine:mainMenuBg", Texture.TextureFilter.Linear);
@@ -80,7 +86,7 @@ public class OptionsScreen extends SolUiBaseScreen {
         }
 
         String controlName = solApplication.getOptions().controlType.getHumanName();
-        inputTypeControl.setDisplayName("Input: " + controlName);
+        inputTypeControl.setDisplayName(Translation.translate("${core:optionmenu#input}") + ": " + controlName);
         if (inputTypeControl.isJustOff()) {
             solApplication.getOptions().advanceControlType(false);
         }
@@ -103,15 +109,19 @@ public class OptionsScreen extends SolUiBaseScreen {
             inputManager.setScreen(solApplication, screens.inputMapScreen);
         }
 
-        soundVolumeControl.setDisplayName("Sound Volume: " + options.sfxVolume.getName());
+        soundVolumeControl.setDisplayName(Translation.translate("${core:optionmenu#soundvolume}") + ": " + options.sfxVolume.getName());
         if (soundVolumeControl.isJustOff()) {
             options.advanceSoundVolMul();
         }
 
-        musicVolumeControl.setDisplayName("Music Volume: " + options.musicVolume.getName());
+        musicVolumeControl.setDisplayName(Translation.translate("${core:optionmenu#musicvolume}") + ": " + options.musicVolume.getName());
         if (musicVolumeControl.isJustOff()) {
             options.advanceMusicVolMul();
             solApplication.getMusicManager().changeVolume(options);
+        }
+
+        if (languageControl.isJustOff()) {
+          inputManager.setScreen(solApplication, screens.language);
         }
     }
 
