@@ -843,7 +843,6 @@ public class GameOptions {
      *
      * @return String representing the locale
      */
-
     public static String getLocale() {
         return locale;
     }
