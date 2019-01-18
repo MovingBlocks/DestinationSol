@@ -38,6 +38,7 @@ import org.destinationsol.game.WorldConfig;
 import org.destinationsol.game.context.Context;
 import org.destinationsol.game.context.internal.ContextImpl;
 import org.destinationsol.menu.MenuScreens;
+import org.destinationsol.state.MainMenuState;
 import org.destinationsol.ui.DebugCollector;
 import org.destinationsol.ui.DisplayDimensions;
 import org.destinationsol.ui.FontSize;
@@ -99,6 +100,7 @@ public class SolApplication implements ApplicationListener {
 
         this.solEngine = new SolEngine();
         solEngine.initialize(new DefaultEngine());
+        solEngine.changeState(new MainMenuState());
 
         context = new ContextImpl();
         context.put(SolApplication.class, this);

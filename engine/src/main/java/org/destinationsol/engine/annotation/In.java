@@ -13,27 +13,16 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.destinationsol.engine;
+package org.destinationsol.engine.annotation;
 
-import org.destinationsol.game.context.Context;
+import java.lang.annotation.Documented;
+import java.lang.annotation.ElementType;
+import java.lang.annotation.Retention;
+import java.lang.annotation.RetentionPolicy;
+import java.lang.annotation.Target;
 
-public interface GameEngine {
-
-    void initialize(EngineFactory factory);
-
-    void changeState(GameState state);
-
-    boolean update();
-
-    /**
-     * Request the engine to stop running
-     */
-    void shutdown();
-
-    /**
-     * @return The current state of the engine
-     */
-    GameState getState();
-
-    Context context();
+@Retention(RetentionPolicy.RUNTIME)
+@Documented
+@Target(ElementType.FIELD)
+public @interface In {
 }

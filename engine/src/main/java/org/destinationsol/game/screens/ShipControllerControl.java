@@ -73,7 +73,7 @@ public class ShipControllerControl implements ShipUiControl {
             logger.debug("#{}:{}", i++, controller.getName());
         }
 
-        // setup the listener that prints events to the console
+        // setup the listener that prints event to the console
         Controllers.addListener(new ControllerListener() {
             int indexOf(Controller controller) {
                 return Controllers.getControllers().indexOf(controller, true);

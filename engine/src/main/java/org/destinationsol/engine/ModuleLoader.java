@@ -13,33 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.destinationsol;
+package org.destinationsol.engine;
 
-import org.destinationsol.engine.GameEngine;
-
-public interface GameState {
-
-    void init(GameEngine engine);
-
-    void dispose(boolean shuttingDown);
-
-    default void dispose() {
-        dispose(false);
-    }
-
-    void handleInput(float delta);
-
-    void update(float delta);
-
-    void render();
-
-    /**
-     * @return Whether the game should hibernate when it loses focus
-     */
-    boolean isHibernationAllowed();
-
-    /**
-     * @return identifies the target for logging events
-     */
-    String getLoggingPhase();
+public class ModuleLoader {
 }

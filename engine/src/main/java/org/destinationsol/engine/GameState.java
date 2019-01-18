@@ -15,25 +15,29 @@
  */
 package org.destinationsol.engine;
 
-import org.destinationsol.game.context.Context;
+import org.destinationsol.engine.GameEngine;
 
-public interface GameEngine {
+public interface GameState {
 
-    void initialize(EngineFactory factory);
+    void init(GameEngine engine);
 
-    void changeState(GameState state);
+    void dispose(boolean shuttingDown);
 
-    boolean update();
+    default void dispose() {
+        dispose(false);
+    }
+
+    void handleInput(float delta);
+
+    void update(float delta);
 
     /**
-     * Request the engine to stop running
+     * @return Whether the game should hibernate when it loses focus
      */
-    void shutdown();
+    boolean isHibernationAllowed();
 
     /**
-     * @return The current state of the engine
+     * @return identifies the target for logging event
      */
-    GameState getState();
-
-    Context context();
+    String getLoggingPhase();
 }

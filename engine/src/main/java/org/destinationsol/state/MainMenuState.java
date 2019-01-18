@@ -13,27 +13,39 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.destinationsol.engine;
+package org.destinationsol.state;
 
-import org.destinationsol.game.context.Context;
+import org.destinationsol.engine.GameState;
+import org.destinationsol.engine.GameEngine;
 
-public interface GameEngine {
+public class MainMenuState implements GameState {
+    @Override
+    public void init(GameEngine engine) {
 
-    void initialize(EngineFactory factory);
+    }
 
-    void changeState(GameState state);
+    @Override
+    public void dispose(boolean shuttingDown) {
 
-    boolean update();
+    }
 
-    /**
-     * Request the engine to stop running
-     */
-    void shutdown();
+    @Override
+    public void handleInput(float delta) {
 
-    /**
-     * @return The current state of the engine
-     */
-    GameState getState();
+    }
 
-    Context context();
+    @Override
+    public void update(float delta) {
+
+    }
+
+    @Override
+    public boolean isHibernationAllowed() {
+        return false;
+    }
+
+    @Override
+    public String getLoggingPhase() {
+        return null;
+    }
 }

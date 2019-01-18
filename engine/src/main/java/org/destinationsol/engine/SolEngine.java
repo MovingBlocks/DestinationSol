@@ -17,11 +17,11 @@ package org.destinationsol.engine;
 
 import com.badlogic.gdx.Gdx;
 import org.destinationsol.Const;
-import org.destinationsol.GameState;
 import org.destinationsol.game.context.Context;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.terasology.entitysystem.core.EntityManager;
+import org.terasology.entitysystem.event.impl.DelayedEventSystem;
 
 /**
  * Core engine for the Destination Sol
@@ -38,12 +38,20 @@ public class SolEngine implements GameEngine {
         setScaleStep(1.0f);
     }
 
+    private EntityManager entityManager;
+    private DelayedEventSystem delayedEventSystem;
+
+
+    public EntityManager getEntityManager(){
+        return entityManager;
+    }
+
 
     @Override
     public void initialize(EngineFactory factory) {
-        EntityManager entityManager = factory.entityManager();
         try {
-
+            this.entityManager = factory.entityManager();
+            this.delayedEventSystem = factory.delayedEventSystem();
 
         }catch (RuntimeException e){
             logger.error("Failed to initialise DestinationSol",e);

@@ -15,25 +15,8 @@
  */
 package org.destinationsol.engine;
 
-import org.destinationsol.game.context.Context;
+public class Environment {
+    public Environment(Environment parent){
 
-public interface GameEngine {
-
-    void initialize(EngineFactory factory);
-
-    void changeState(GameState state);
-
-    boolean update();
-
-    /**
-     * Request the engine to stop running
-     */
-    void shutdown();
-
-    /**
-     * @return The current state of the engine
-     */
-    GameState getState();
-
-    Context context();
+    }
 }

@@ -266,7 +266,7 @@ public class InputMapControllerScreen extends InputMapOperations {
             });
 
             // Controller items
-            // setup the listener that prints events to the console
+            // setup the listener that prints event to the console
             Controllers.addListener(new ControllerListener() {
                 public int indexOf(Controller controller) {
                     return Controllers.getControllers().indexOf(controller, true);

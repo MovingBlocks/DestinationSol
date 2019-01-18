@@ -13,27 +13,9 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.destinationsol.engine;
+package org.destinationsol.engine.event;
 
-import org.destinationsol.game.context.Context;
+import org.terasology.entitysystem.event.Event;
 
-public interface GameEngine {
-
-    void initialize(EngineFactory factory);
-
-    void changeState(GameState state);
-
-    boolean update();
-
-    /**
-     * Request the engine to stop running
-     */
-    void shutdown();
-
-    /**
-     * @return The current state of the engine
-     */
-    GameState getState();
-
-    Context context();
+public class UpdateEvent implements Event {
 }
