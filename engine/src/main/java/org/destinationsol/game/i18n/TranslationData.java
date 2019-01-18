@@ -1,5 +1,5 @@
 /*
- * Copyright 2018 MovingBlocks
+ * Copyright 2019 MovingBlocks
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -18,6 +18,9 @@ package org.destinationsol.game.i18n;
 import org.destinationsol.assets.Assets;
 import org.destinationsol.assets.lang.Lang;
 
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
 public class TranslationData {
 
     protected String getTranslation(String data) {
@@ -35,7 +38,9 @@ public class TranslationData {
     }
 
     private void syntaxCheck(String data) {
-        if (!(data.contains("${") && data.contains(":") && data.contains("#") && data.contains("}"))) {
+        Pattern pattern = Pattern.compile("(^\\$\\{)(\\w+)(:)(\\w+)(#)(\\w+)(})");
+        Matcher matcher = pattern.matcher(data);
+        if (!matcher.matches()) {
             throw new IllegalArgumentException("Invalid syntax for lang lookup");
         }
     }
