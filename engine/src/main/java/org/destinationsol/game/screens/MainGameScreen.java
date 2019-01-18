@@ -82,7 +82,7 @@ public class MainGameScreen extends SolUiBaseScreen {
     private final TextPlace myMoneyExcessTp;
     private final SolApplication solApplication;
 
-    private List<SolUiScreen> gameOverlayScreens = new ArrayList<>();
+//    private List<SolUiScreen> gameOverlayScreens = new ArrayList<>();
     private List<WarnDrawer> warnDrawers = new ArrayList<>();
 
     MainGameScreen(Context context) {
@@ -497,18 +497,18 @@ public class MainGameScreen extends SolUiBaseScreen {
 
         zoneNameAnnouncer.drawText(uiDrawer);
 
-        for (SolUiScreen screen : gameOverlayScreens) {
-            screen.drawText(uiDrawer, solApplication);
-        }
+//        for (SolUiScreen screen : gameOverlayScreens) {
+//            screen.drawText(uiDrawer, solApplication);
+//        }
     }
 
     @Override
     public void blurCustom(SolApplication solApplication) {
         shipControl.blur();
 
-        for (SolUiScreen screen : gameOverlayScreens) {
-            screen.blurCustom(solApplication);
-        }
+//        for (SolUiScreen screen : gameOverlayScreens) {
+//            screen.blurCustom(solApplication);
+//        }
     }
 
     public boolean isLeft() {
@@ -559,20 +559,20 @@ public class MainGameScreen extends SolUiBaseScreen {
         return false;
     }
 
-    public void addOverlayScreen(SolUiScreen screen) {
-        gameOverlayScreens.add(screen);
-        screen.onAdd(solApplication);
-        controls.addAll(screen.getControls());
-    }
-
-    public void removeOverlayScreen(SolUiScreen screen) {
-        gameOverlayScreens.remove(screen);
-        controls.removeAll(screen.getControls());
-    }
-
-    public boolean hasOverlay(SolUiScreen screen) {
-        return gameOverlayScreens.contains(screen);
-    }
+//    public void addOverlayScreen(SolUiScreen screen) {
+//        gameOverlayScreens.add(screen);
+//        screen.onAdd(solApplication);
+//        controls.addAll(screen.getControls());
+//    }
+//
+//    public void removeOverlayScreen(SolUiScreen screen) {
+//        gameOverlayScreens.remove(screen);
+//        controls.removeAll(screen.getControls());
+//    }
+//
+//    public boolean hasOverlay(SolUiScreen screen) {
+//        return gameOverlayScreens.contains(screen);
+//    }
 
     public void addWarnDrawer(WarnDrawer drawer) {
         if (!warnDrawers.contains(drawer)) {

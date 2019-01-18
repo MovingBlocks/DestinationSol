@@ -23,8 +23,6 @@ import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
-import java.util.ArrayList;
-import java.util.List;
 import org.destinationsol.Const;
 import org.destinationsol.GameOptions;
 import org.destinationsol.SolApplication;
@@ -35,6 +33,10 @@ import org.destinationsol.common.SolColor;
 import org.destinationsol.common.SolMath;
 import org.destinationsol.game.SolGame;
 import org.destinationsol.ui.responsiveUi.UiElement;
+
+import java.util.ArrayList;
+import java.util.List;
+
 import static com.badlogic.gdx.graphics.Pixmap.Format.RGBA8888;
 
 public class SolInputManager {
@@ -318,13 +320,15 @@ public class SolInputManager {
 
             screen.draw(uiDrawer, solApplication);
 
-            screen.getRootUiElement().draw();
+            try {
+                screen.getRootUiElement().draw();
+            } catch (NullPointerException e) {
+                throw new RuntimeException(screen.getClass().getSimpleName());
+            }
         }
 
         SolGame game = solApplication.getGame();
         TutorialManager tutorialManager = game == null ? null : game.getTutMan();
-        if (tutorialManager != null && getTopScreen() != game.getScreens().menuScreen) {
-        }
 
         if (currCursor != null) {
             uiDrawer.draw(currCursor, CURSOR_SZ, CURSOR_SZ, CURSOR_SZ / 2, CURSOR_SZ / 2, mousePos.x, mousePos.y, 0, SolColor.WHITE);

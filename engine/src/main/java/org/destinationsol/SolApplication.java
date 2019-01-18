@@ -20,10 +20,6 @@ import com.badlogic.gdx.ApplicationListener;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.physics.box2d.Box2D;
-import java.io.PrintWriter;
-import java.io.StringWriter;
-import java.util.HashSet;
-import java.util.Set;
 import org.destinationsol.assets.audio.OggMusicManager;
 import org.destinationsol.assets.audio.OggSoundManager;
 import org.destinationsol.common.SolColor;
@@ -72,7 +68,7 @@ public class SolApplication implements ApplicationListener {
     public static UiDrawer uiDrawer;
 
     private FactionDisplay factionDisplay;
-    private MenuScreens menuScreens;
+    private static MenuScreens menuScreens;
     private GameOptions options;
     private CommonDrawer commonDrawer;
     private String fatalErrorMsg;
