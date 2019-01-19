@@ -23,6 +23,7 @@ import org.destinationsol.SolApplication;
 import org.destinationsol.assets.Assets;
 import org.destinationsol.common.SolColor;
 import org.destinationsol.game.SaveManager;
+import org.destinationsol.game.i18n.Translation;
 import org.destinationsol.ui.DisplayDimensions;
 import org.destinationsol.ui.SolInputManager;
 import org.destinationsol.ui.SolUiBaseScreen;
@@ -42,15 +43,15 @@ public class NewGameScreen extends SolUiBaseScreen {
         displayDimensions = SolApplication.displayDimensions;
 
         continueControl = new SolUiControl(menuLayout.buttonRect(-1, 1), true, gameOptions.getKeyShoot());
-        continueControl.setDisplayName("Continue");
+        continueControl.setDisplayName(Translation.translate("${core:playmenu#continue}"));
         controls.add(continueControl);
 
         newControl = new SolUiControl(menuLayout.buttonRect(-1, 2), true);
-        newControl.setDisplayName("New game");
+        newControl.setDisplayName(Translation.translate("${core:playmenu#newgame}"));
         controls.add(newControl);
 
         backControl = new SolUiControl(menuLayout.buttonRect(-1, 4), true, gameOptions.getKeyEscape());
-        backControl.setDisplayName("Cancel");
+        backControl.setDisplayName(Translation.translate("${core:playmenu#cancel}"));
         controls.add(backControl);
 
         backgroundTexture = Assets.getAtlasRegion("engine:mainMenuBg", Texture.TextureFilter.Linear);

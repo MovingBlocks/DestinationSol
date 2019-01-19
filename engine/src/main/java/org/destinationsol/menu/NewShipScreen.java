@@ -19,6 +19,7 @@ package org.destinationsol.menu;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import org.destinationsol.assets.json.Validator;
+import org.destinationsol.game.i18n.Translation;
 import org.json.JSONObject;
 import org.destinationsol.GameOptions;
 import org.destinationsol.SolApplication;
@@ -58,19 +59,19 @@ public class NewShipScreen extends SolUiBaseScreen {
 
         int row = 1;
         systemCountControl = new SolUiControl(menuLayout.buttonRect(-1, row++), true);
-        systemCountControl.setDisplayName("Systems: " + numberOfSystems);
+        systemCountControl.setDisplayName(Translation.translate("${core:newshipmenu#system}") + ": " + numberOfSystems);
         controls.add(systemCountControl);
 
         playerSpawnConfigControl = new SolUiControl(menuLayout.buttonRect(-1, row++), true);
-        playerSpawnConfigControl.setDisplayName("Starting Ship: " + playerSpawnConfigNames.get(playerSpawnConfigIndex));
+        playerSpawnConfigControl.setDisplayName(Translation.translate("${core:newshipmenu#startingship}") + ": " + playerSpawnConfigNames.get(playerSpawnConfigIndex));
         controls.add(playerSpawnConfigControl);
 
         okControl = new SolUiControl(menuLayout.buttonRect(-1, row++), true, gameOptions.getKeyEscape());
-        okControl.setDisplayName("OK");
+        okControl.setDisplayName(Translation.translate("${core:newshipmenu#ok}"));
         controls.add(okControl);
 
         cancelControl = new SolUiControl(menuLayout.buttonRect(-1, row), true, gameOptions.getKeyEscape());
-        cancelControl.setDisplayName("Cancel");
+        cancelControl.setDisplayName(Translation.translate("${core:newshipmenu#cancel}"));
         controls.add(cancelControl);
 
         backgroundTexture = Assets.getAtlasRegion("engine:mainMenuBg", Texture.TextureFilter.Linear);
@@ -94,18 +95,18 @@ public class NewShipScreen extends SolUiBaseScreen {
                 systemCount = 2;
             }
             numberOfSystems = systemCount;
-            systemCountControl.setDisplayName("Systems: " + numberOfSystems);
+            systemCountControl.setDisplayName(Translation.translate("${core:newshipmenu#system}") + ": " + numberOfSystems);
         }
 
         if (playerSpawnConfigControl.isJustOff()) {
             playerSpawnConfigIndex = (playerSpawnConfigIndex + 1) % playerSpawnConfigNames.size();
-            playerSpawnConfigControl.setDisplayName("Starting Ship: " + playerSpawnConfigNames.get(playerSpawnConfigIndex));
+            playerSpawnConfigControl.setDisplayName(Translation.translate("${core:newshipmenu#startingship}") + ": " + playerSpawnConfigNames.get(playerSpawnConfigIndex));
         }
     }
 
     @Override
     public void drawText(UiDrawer uiDrawer, SolApplication solApplication) {
-        uiDrawer.drawString("Warning: This will erase any old ship you might have had!", .5f * displayDimensions.getRatio(), .3f, FontSize.MENU, true, SolColor.WHITE);
+        uiDrawer.drawString(Translation.translate("${core:newshipmenu#warning}"), .5f * displayDimensions.getRatio(), .3f, FontSize.MENU, true, SolColor.WHITE);
     }
 
     @Override

@@ -1,0 +1,7 @@
+{
+  "system" : "System",
+  "startingship" : "Schiff Starten",
+  "ok" : "Ok",
+  "cancel" : "Stornieren",
+  "warning" : "Achtung: Dadurch wird jedes alte Schiff geloescht, das Sie vielleicht schon gehabt haben"
+}

@@ -22,6 +22,7 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public class TranslationData {
+    private static Pattern pattern = Pattern.compile("^\\$\\{\\w+:\\w+#\\w+}$");
 
     protected String getTranslation(String data) {
         syntaxCheck(data);
@@ -38,7 +39,6 @@ public class TranslationData {
     }
 
     private void syntaxCheck(String data) {
-        Pattern pattern = Pattern.compile("(^\\$\\{)(\\w+)(:)(\\w+)(#)(\\w+)(})");
         Matcher matcher = pattern.matcher(data);
         if (!matcher.matches()) {
             throw new IllegalArgumentException("Invalid syntax for lang lookup");

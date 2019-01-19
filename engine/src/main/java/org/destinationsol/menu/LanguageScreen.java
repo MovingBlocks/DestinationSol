@@ -36,7 +36,7 @@ public class LanguageScreen extends SolUiBaseScreen {
 
     private final SolUiControl englishControl;
     private final SolUiControl germanControl;
-    private final SolUiControl exitControl;
+    private final SolUiControl backControl;
 
     private String locale;
 
@@ -49,32 +49,39 @@ public class LanguageScreen extends SolUiBaseScreen {
         germanControl = new SolUiControl(menuLayout.buttonRect(-1, 3), true);
         germanControl.setDisplayName(Translation.translate("${core:languagemenu#german}"));
         controls.add(germanControl);
-        exitControl = new SolUiControl(menuLayout.buttonRect(-1, 4), true);
-        exitControl.setDisplayName(Translation.translate("${core:languagemenu#exit}"));
-        controls.add(exitControl);
+        backControl = new SolUiControl(menuLayout.buttonRect(-1, 4), true);
+        backControl.setDisplayName(Translation.translate("${core:languagemenu#back}"));
+        controls.add(backControl);
 
         backgroundTexture = Assets.getAtlasRegion("engine:mainMenuBg", Texture.TextureFilter.Linear);
     }
 
     @Override
     public void updateCustom(SolApplication solApplication, SolInputManager.InputPointer[] inputPointers, boolean clickedOutside) {
+        SolInputManager inputManager = solApplication.getInputManager();
+        MenuScreens screens = solApplication.getMenuScreens();
         if (englishControl.isJustOff()) {
             locale = "en";
+            updateLocale(solApplication);
+            inputManager.setScreen(solApplication, screens.languageQuery);
         }
         if (germanControl.isJustOff()) {
             locale = "de";
+            updateLocale(solApplication);
+            inputManager.setScreen(solApplication, screens.languageQuery);
         }
-        if (exitControl.isJustOff()) {
-            if (locale != null) {
-                solApplication.getOptions().setLocale(locale);
-            }
-            solApplication.getOptions().save();
-            Gdx.app.exit();
+        if (backControl.isJustOff()) {
+            inputManager.setScreen(solApplication, screens.options);
         }
     }
 
     @Override
     public void drawBackground(UiDrawer uiDrawer, SolApplication solApplication) {
         uiDrawer.draw(backgroundTexture, displayDimensions.getRatio(), 1, displayDimensions.getRatio() / 2, 0.5f, displayDimensions.getRatio() / 2, 0.5f, 0, SolColor.WHITE);
+    }
+
+    public void updateLocale(SolApplication solApplication) {
+        solApplication.getOptions().setLocale(locale);
+        solApplication.getOptions().save();
     }
 }
