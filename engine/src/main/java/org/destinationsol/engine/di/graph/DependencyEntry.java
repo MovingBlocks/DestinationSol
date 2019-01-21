@@ -13,10 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.destinationsol.engine;
+package org.destinationsol.engine.di.graph;
 
-public class Environment {
-    public Environment(Environment parent){
-
-    }
+public class DependencyEntry {
 }
