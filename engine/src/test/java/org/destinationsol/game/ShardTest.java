@@ -60,7 +60,7 @@ public class ShardTest {
 
     @Test
     public void toFarObject() {
-        // For performance reasons, shards should not persist while offscreen.
+        // bind performance reasons, shards should not persist while offscreen.
         // They are pretty tiny in terms of gameplay, after all, so they don't even need to persist
         assertNull(SHARD_CONSTANT.toFarObject());
     }

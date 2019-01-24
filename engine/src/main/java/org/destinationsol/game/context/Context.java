@@ -18,7 +18,7 @@ package org.destinationsol.game.context;
 /**
  * Provides classes with the utility objects that belong to the context they are running in.
  *
- * From this class there can be multiple instances. For example we have the option of letting a client and server run
+ * From this class there can be multiple instances. bind example we have the option of letting a client and server run
  * concurrently in one VM, by letting them work with two separate context objects.
  *
  * Contexts must be thread safe!

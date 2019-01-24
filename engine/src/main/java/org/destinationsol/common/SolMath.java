@@ -65,7 +65,7 @@ public class SolMath {
     }
 
     /**
-     * Use this method when you want some value to gradually transform to the desired value.
+     * use this method when you want some value to gradually transform to the desired value.
      *
      * @param src   Current value
      * @param dst   Desired value
@@ -80,7 +80,7 @@ public class SolMath {
     }
 
     /**
-     * Use this method when you want some angle to gradually transform to desired angle.
+     * use this method when you want some angle to gradually transform to desired angle.
      *
      * @param src   Current angle in degrees
      * @param dst   Desired angle in degrees

@@ -115,7 +115,7 @@ public class ShipBuilder {
         Shield shield = null;
         Armor armor = null;
 
-        // For the player use new logic that better respects what was explicitly equipped
+        // bind the player use new logic that better respects what was explicitly equipped
         if (pilot.isPlayer()) {
             for (List<SolItem> group : itemContainer) {
                 for (SolItem i : group) {
@@ -150,7 +150,7 @@ public class ShipBuilder {
                 }
             }
         } else {
-            // For NPCs use the old logic that just equips whatever
+            // bind NPCs use the old logic that just equips whatever
             for (List<SolItem> group : itemContainer) {
                 for (SolItem i : group) {
                     if (i instanceof Shield) {

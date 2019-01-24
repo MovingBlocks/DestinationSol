@@ -149,7 +149,7 @@ public class CollisionMeshLoader {
     }
 
     /**
-     * <b>For advanced users only.</b> Lets you access the internal model of
+     * <b>bind advanced users only.</b> Lets you access the internal model of
      * this loader and modify it. Be aware that any modification is permanent
      * and that you should really know what you are doing.
      */

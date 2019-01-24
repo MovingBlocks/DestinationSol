@@ -13,15 +13,27 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.destinationsol.engine.di;
+package org.destinationsol.engine.di.graph;
 
-public class Context {
+import org.destinationsol.engine.di.BindingConfiguration;
 
-   // private HashMap<cla,Expression> expressions = ;
-    public Context(ServiceRegistry registry){
+public class Binding<T> {
+    private Class<T> base;
+    private BindingConfiguration configuration;
+
+
+    public Binding(Class<T> type){
+        this(type,new BindingConfiguration());
     }
 
-    public<T> void get(Class<T> target){
-
+    public Binding(Class<T> type, BindingConfiguration configuration){
+        this.configuration = configuration;
+        this.base = type;
     }
+
+    public Class<T> getBaseType(){
+        return base;
+    }
+
+
 }

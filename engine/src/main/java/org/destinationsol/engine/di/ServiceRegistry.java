@@ -15,67 +15,39 @@
  */
 package org.destinationsol.engine.di;
 
-import org.destinationsol.engine.di.graph.DependencyGraph;
+import com.google.common.collect.Lists;
+import org.destinationsol.engine.di.build.BindBuilder;
+import org.destinationsol.engine.di.graph.BaseContext;
+import org.destinationsol.engine.di.graph.Binding;
+import org.destinationsol.engine.di.graph.Context;
+import org.destinationsol.engine.di.graph.RootContext;
 
-import java.util.ArrayList;
 import java.util.List;
-import java.util.function.Consumer;
 
-public class ServiceRegistry {
-    private List<Consumer<DependencyGraph>> graph = new ArrayList<>();
+public abstract class ServiceRegistry {
 
-    protected void add(Consumer<DependencyGraph> consumer){
-        graph.add(consumer);
+    private BaseContext context;
+    private List<Binding> bindings = Lists.newArrayList();
+
+    public ServiceRegistry() {
     }
 
-    public ServiceRegistry(){
-
+    public <T> BindBuilder<T> bind(Class<T> implementation) {
+        Binding<T> binding = new Binding<T>(implementation);
+        addBinding(binding);
+        return new BindBuilder<T>(binding);
     }
 
-    public DependencyGraph build(){
-        DependencyGraph dependencyGraph = new DependencyGraph();
-        graph.forEach(consumer -> {
-            consumer.accept(dependencyGraph);
-        });
-        return dependencyGraph;
+    public abstract void load();
+
+    public <T> void addBinding(Binding<T> binding) {
+        bindings.add(binding);
+        context.addBinding(binding);
     }
 
-    protected  <T> InstanceExpression<T> For(Class<T> inst){
-        return new InstanceExpression<T>(this);
+    public void onLoad(BaseContext context) {
+        this.context = context;
+        load();
     }
 
-    public static class InstanceExpression<T> {
-
-        private ServiceRegistry serviceRegistry;
-        public InstanceExpression(ServiceRegistry registry){
-            this.serviceRegistry = registry;
-        }
-
-        public <U> ObjectInstance<U> Use(Class<U> inst){
-            return new ObjectInstance<U>(serviceRegistry);
-        }
-    }
-
-    public static class ObjectInstance<T> {
-        private ServiceRegistry serviceRegistry;
-        public enum LifeCycle {
-            Transient,
-            Singleton
-        }
-
-        public ObjectInstance(ServiceRegistry serviceRegistry) {
-            this.serviceRegistry = serviceRegistry;
-        }
-
-
-        private LifeCycle lifeCycle = LifeCycle.Transient;
-
-        public void setLifecycle(LifeCycle lifeCycle) {
-            this.lifeCycle = lifeCycle;
-        }
-
-        public void singleton() {
-            setLifecycle(LifeCycle.Singleton);
-        }
-    }
 }

@@ -15,17 +15,9 @@
  */
 package org.destinationsol.engine.di.graph;
 
-import java.util.HashMap;
+public interface Context  {
 
-public class DependencyGraph {
-    private HashMap<Class,DependencyEntry> dependencies = new HashMap<>();
+    <T> T get(Class<T> target);
 
-
-    public DependencyGraph(){
-
-    }
-
-    public <T> void register(Class<T> classz,DependencyEntry entry){
-        dependencies.put(classz,entry);
-    }
+    <T> T inject(Object object);
 }

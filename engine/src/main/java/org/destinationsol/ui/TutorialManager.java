@@ -198,12 +198,12 @@ public class TutorialManager implements UpdateAwareSystem {
 //        }
 //
 //        if (mouseCtrl) {
-//            addStep("Use the ability of your ship\n(MIDDLE mouse button or " + gameOptions.getKeyAbilityName() + " key)",
+//            addStep("use the ability of your ship\n(MIDDLE mouse button or " + gameOptions.getKeyAbilityName() + " key)",
 //                    abilityCtrl, true);
 //        } else if (mobile) {
-//            addStep("Use the ability of your ship", abilityCtrl, true);
+//            addStep("use the ability of your ship", abilityCtrl, true);
 //        } else {
-//            addStep("Use the ability of your ship\n(" + gameOptions.getKeyAbilityName() + " key)", abilityCtrl, true);
+//            addStep("use the ability of your ship\n(" + gameOptions.getKeyAbilityName() + " key)", abilityCtrl, true);
 //        }
 //
 //        addStep("Here's a couple of hints...\n" + shootKey2, shootCtrl);

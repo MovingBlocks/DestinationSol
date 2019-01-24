@@ -13,16 +13,16 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.destinationsol.engine.annotation;
+package org.destinationsol.engine.di.graph;
 
-import java.lang.annotation.Documented;
-import java.lang.annotation.ElementType;
-import java.lang.annotation.Retention;
-import java.lang.annotation.RetentionPolicy;
-import java.lang.annotation.Target;
+public class ImmutableContext extends RootContext{
+    @Override
+    public <T> T get(Class<T> target) {
+        return null;
+    }
 
-@Retention(RetentionPolicy.RUNTIME)
-@Documented
-@Target(ElementType.FIELD)
-public @interface In {
+    @Override
+    public <T> T inject(Object object) {
+        return null;
+    }
 }

@@ -13,7 +13,20 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.destinationsol.engine.di.graph;
+package org.destinationsol.engine.di;
 
-public class DependencyEntry {
+public enum LifeCycle {
+    /**
+     * a single instance is created for all child scopes
+     */
+    Singleton,
+    /**
+     * a new instance is created for each scope
+     */
+    Scoped,
+
+    /**
+     * Creates a new instance every time the object is request
+     */
+    Transient
 }

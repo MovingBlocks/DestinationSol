@@ -102,8 +102,8 @@ public final class SolDesktop {
         if (devBuild) {
             DebugOptions.DEV_ROOT_PATH = "engine/src/main/resources/"; // Lets the game run from source without a tweaked working directory
             applicationConfig.vSyncEnabled = false; // Setting to false disables vertical sync
-            applicationConfig.foregroundFPS = 100; // Use 0 to disable foreground fps throttling
-            applicationConfig.backgroundFPS = 10; // Use 0 to disable background fps throttling
+            applicationConfig.foregroundFPS = 100; // use 0 to disable foreground fps throttling
+            applicationConfig.backgroundFPS = 10; // use 0 to disable background fps throttling
         }
     }
 
