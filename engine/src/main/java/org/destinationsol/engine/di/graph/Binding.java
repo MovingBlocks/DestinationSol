@@ -16,6 +16,9 @@
 package org.destinationsol.engine.di.graph;
 
 import org.destinationsol.engine.di.BindingConfiguration;
+import org.destinationsol.game.context.Context;
+
+import java.util.function.Function;
 
 public class Binding<T> {
     private Class<T> base;
@@ -35,5 +38,7 @@ public class Binding<T> {
         return base;
     }
 
-
+    public void AddScopeCallback(Function<Object, Context> callback){
+        configuration.addScopeCallback(callback);
+    }
 }

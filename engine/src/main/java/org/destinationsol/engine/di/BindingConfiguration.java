@@ -19,14 +19,17 @@ import com.google.common.collect.Lists;
 import org.destinationsol.game.context.Context;
 
 import java.util.List;
-import java.util.function.Consumer;
 import java.util.function.Function;
 
 public class BindingConfiguration {
 
-    private List<Function<Boolean,Class>> classValidators = Lists.newArrayList();
+    private List<Function<Object, Context>> scopeCallback = Lists.newArrayList();
 
-    private List<Function<Object, Context>> scope = Lists.newArrayList();
+    private List<Function<Class,Context>> parameters = Lists.newArrayList();
+
+    public void addScopeCallback(Function<Object, Context> callback){
+        scopeCallback.add(callback);
+    }
 
 
 }
