@@ -85,9 +85,10 @@ public class SolApplication implements ApplicationListener {
     // TODO: Make this non-static.
     private static Set<ResizeSubscriber> resizeSubscribers;
 
-    public SolApplication(float targetFPS) {
+    public SolApplication(ModuleManager moduleManager, float targetFPS) {
         // Initiate Box2D to make sure natives are loaded early enough
         Box2D.init();
+        this.moduleManager = moduleManager;
         this.targetFPS = 1.0f / targetFPS;
         resizeSubscribers = new HashSet<>();
     }
@@ -102,8 +103,6 @@ public class SolApplication implements ApplicationListener {
             DebugOptions.read(null);
         }
         options = new GameOptions(isMobile(), null);
-
-        moduleManager = new ModuleManager();
 
         logger.info("\n\n ------------------------------------------------------------ \n");
         moduleManager.printAvailableModules();

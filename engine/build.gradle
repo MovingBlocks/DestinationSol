@@ -90,7 +90,7 @@ jar {
 }
 
 eclipse.project {
-    name = appName + "-main"
+    name = appName + "-engine"
 }
 
 // Extra details provided for unit tests
