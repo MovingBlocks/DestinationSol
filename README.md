@@ -137,11 +137,11 @@ Contributors
 * [Torpedo99](https://github.com/Torpedo99)
 * [AndyTechGuy](https://github.com/AndyTechGuy)
 * [BenjaminAmos](https://github.com/BenjaminAmos)
-* [DannyKelemen](https://github.com/dannykelemen)
-* [MSteiger](https://github.com/msteiger)
-* [Oniatus](https://github.com/oniatus)
-* [Arpitkamboj](https://github.com/arpitkamboj)
-* [Manas96](https://github.com/manas96)
+* [dannykelemen](https://github.com/dannykelemen)
+* [msteiger](https://github.com/msteiger)
+* [oniatus](https://github.com/oniatus)
+* [arpitkamboj](https://github.com/arpitkamboj)
+* [manas96](https://github.com/manas96)
 
 ... and your name here? :-) More coming!
 
