@@ -133,6 +133,15 @@ Contributors
 * [FieryPheonix909](https://github.com/FieryPheonix909)
 * [digitalripperynr](https://github.com/digitalripperynr)
 * [NicholasBatesNZ](https://github.com/NicholasBatesNZ)
+* [Pendi](https://github.com/ZPendi)
+* [Torpedo99](https://github.com/Torpedo99)
+* [AndyTechGuy](https://github.com/AndyTechGuy)
+* [BenjaminAmos](https://github.com/BenjaminAmos)
+* [dannykelemen](https://github.com/dannykelemen)
+* [msteiger](https://github.com/msteiger)
+* [oniatus](https://github.com/oniatus)
+* [arpitkamboj](https://github.com/arpitkamboj)
+* [manas96](https://github.com/manas96)
 
 ... and your name here? :-) More coming!
 
