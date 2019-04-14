@@ -66,7 +66,7 @@ public class Hero {
 
     public void setSolShip(SolShip hero, SolGame solGame) {
         isDead = false;
-        if (hero != shipHero) {
+        if (hero != shipHero && !isTranscendent) {
             mercs = new ItemContainer();
         }
         this.shipHero = hero;
