@@ -83,6 +83,7 @@ public class SolShip implements SolObject {
     private float myAbilityAwait;
     private float myControlEnableAwait;
     private MercItem mercItem;
+    private boolean isMerc;
 
     public SolShip(SolGame game, Pilot pilot, Hull hull, RemoveController removeController, List<Drawable> drawables,
                    ItemContainer container, ShipRepairer repairer, float money, TradeContainer tradeContainer, Shield shield,
@@ -122,8 +123,12 @@ public class SolShip implements SolObject {
     @Override
     public FarShip toFarObject() {
         float rotationSpeed = myHull.getBody().getAngularVelocity() * MathUtils.radDeg;
-        return new FarShip(myHull.getPosition(), myHull.getVelocity(), myHull.getAngle(), rotationSpeed, myPilot, myItemContainer, myHull.config, myHull.life,
+        FarShip farShip = new FarShip(myHull.getPosition(), myHull.getVelocity(), myHull.getAngle(), rotationSpeed, myPilot, myItemContainer, myHull.config, myHull.life,
                 myHull.getGun(false), myHull.getGun(true), myRemoveController, myHull.getEngine(), myRepairer, myMoney, myTradeContainer, myShield, myArmor);
+        if(isMerc){
+            farShip.setMerc(mercItem);
+        }
+        return farShip;
     }
 
     @Override
@@ -661,6 +666,7 @@ public class SolShip implements SolObject {
      */
     public void setMerc(MercItem mercItem) {
         this.mercItem = mercItem;
+        isMerc = true;
     }
 
     /**
