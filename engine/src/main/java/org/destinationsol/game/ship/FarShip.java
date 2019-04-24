@@ -211,4 +211,6 @@ public class FarShip implements FarObject {
         return this.mercItem;
     }
 
+    public boolean isMerc() { return this.isMerc; }
+
 }
