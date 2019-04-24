@@ -671,6 +671,8 @@ public class SolShip implements SolObject {
         return this.mercItem;
     }
 
+    public boolean isMerc() { return this.isMerc; }
+
     public String getFactionName() {
         return factionName;
     }
