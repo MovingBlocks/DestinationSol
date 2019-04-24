@@ -125,7 +125,7 @@ public class SolShip implements SolObject {
         float rotationSpeed = myHull.getBody().getAngularVelocity() * MathUtils.radDeg;
         FarShip farShip = new FarShip(myHull.getPosition(), myHull.getVelocity(), myHull.getAngle(), rotationSpeed, myPilot, myItemContainer, myHull.config, myHull.life,
                 myHull.getGun(false), myHull.getGun(true), myRemoveController, myHull.getEngine(), myRepairer, myMoney, myTradeContainer, myShield, myArmor);
-        if(isMerc){
+        if (isMerc) {
             farShip.setMerc(mercItem);
         }
         return farShip;
@@ -243,14 +243,11 @@ public class SolShip implements SolObject {
         updateIdleTime(game);
         updateShield(game);
 
-
         if (!isMerc && FactionInfo.getDisposition().get(factionID) < -5) {
             getPilot().stringToFaction("ehar");
-        }
-        else {
+        } else {
             getPilot().stringToFaction("laani");
         }
-
 
         if (myArmor != null && !myItemContainer.contains(myArmor)) {
             myArmor = null;
@@ -455,6 +452,7 @@ public class SolShip implements SolObject {
     /**
      * Method to be called on the death of a SolShip
      * Note: Use {@link SolGame#setRespawnState()}} for the death of the player specifically
+     *
      * @param game The SolGame currently in progress.
      */
     private void onDeath(SolGame game) {
@@ -660,20 +658,15 @@ public class SolShip implements SolObject {
     }
 
     /**
-     * Each SolShip could be a mercenary. Each mercenary is definitely a SolShip.
-     * This method sets the associated MercItem.
-     * @param mercItem The {@link MercItem} that this SolShip is associated with. Can be null.
+     * Sets the mercItem and declares the ship to be a mercenary.
+     *
+     * Optional @param mercItem The {@link MercItem} of the SolShip.
      */
     public void setMerc(MercItem mercItem) {
         this.mercItem = mercItem;
         isMerc = true;
     }
 
-    /**
-     * Each SolShip could be a mercenary. Each mercenary is definitely a SolShip.
-     * This method gets the associated MercItem.
-     * @return The {@link MercItem} that this SolShip is associated with. Can be null.
-     */
     public MercItem getMerc() {
         return this.mercItem;
     }
