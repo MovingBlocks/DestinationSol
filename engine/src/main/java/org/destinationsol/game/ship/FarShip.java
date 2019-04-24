@@ -21,7 +21,13 @@ import org.destinationsol.game.FarObject;
 import org.destinationsol.game.RemoveController;
 import org.destinationsol.game.SolGame;
 import org.destinationsol.game.input.Pilot;
-import org.destinationsol.game.item.*;
+import org.destinationsol.game.item.Armor;
+import org.destinationsol.game.item.Engine;
+import org.destinationsol.game.item.Gun;
+import org.destinationsol.game.item.ItemContainer;
+import org.destinationsol.game.item.MercItem;
+import org.destinationsol.game.item.Shield;
+import org.destinationsol.game.item.TradeContainer;
 import org.destinationsol.game.ship.hulls.HullConfig;
 
 public class FarShip implements FarObject {
@@ -92,7 +98,7 @@ public class FarShip implements FarObject {
     public SolShip toObject(SolGame game) {
         SolShip ship = game.getShipBuilder().build(game, position, velocity, angle, rotationSpeed, pilot, container, hullConfig, life, gun1,
                 gun2, removeController, engine, repairer, money, tradeContainer, shield, armor);
-        if(isMerc){
+        if (isMerc) {
             ship.setMerc(mercItem);
         }
         return ship;
@@ -192,20 +198,15 @@ public class FarShip implements FarObject {
     }
 
     /**
-     * Each FarShip could be a mercenary. Each mercenary is definitely a FarShip .
-     * This method sets the associated MercItem.
-     * @param mercItem The {@link MercItem} that this FarShip is associated with. Can be null.
+     * Sets the mercItem and declares the ship to be a mercenary.
+     *
+     * Optional @param mercItem The {@link MercItem} of the FarShip.
      */
     public void setMerc(MercItem mercItem) {
         this.mercItem = mercItem;
         isMerc = true;
     }
 
-    /**
-     * Each FarShip could be a mercenary. Each mercenary is definitely a FarShip .
-     * This method gets the associated MercItem.
-     * @return The {@link MercItem} that this FarShip is associated with. Can be null.
-     */
     public MercItem getMerc() {
         return this.mercItem;
     }
