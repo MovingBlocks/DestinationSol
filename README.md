@@ -142,6 +142,7 @@ Contributors
 * [oniatus](https://github.com/oniatus)
 * [arpitkamboj](https://github.com/arpitkamboj)
 * [manas96](https://github.com/manas96)
+* [IsaacLic](https://github.com/IsaacLic)
 
 ... and your name here? :-) More coming!
 
