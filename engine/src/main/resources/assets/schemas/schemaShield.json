@@ -1,0 +1,69 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "type": "object",
+  "description": "A shield is an item that protects ships from losing health when attacked.",
+  "required": [
+    "maxLife",
+    "idleTime",
+    "regenSpd",
+    "bulletDmgFactor",
+    "energyDmgFactor",
+    "explosionDmgFactor",
+    "displayName",
+    "price",
+    "absorbSound",
+    "regenSound"
+  ],
+  "properties": {
+    "maxLife": {
+      "type": "integer",
+      "description": "The maximum life that this shield can possess.",
+      "exclusiveMinimum": 0
+    },
+    "idleTime": {
+      "type": "number",
+      "description": "The amount of idle time needed before shield health regenerates.",
+      "minimum": 0
+    },
+    "regenSpd": {
+      "type": "number",
+      "description": "The speed of health regeneration, in health points per second.",
+      "minimum": 0
+    },
+    "bulletDmgFactor": {
+      "type": "number",
+      "description": "The damage multiplier when the damage is bullet typed."
+    },
+    "energyDmgFactor": {
+      "type": "number",
+      "description": "The damage multiplier when the damage is energy typed."
+    },
+    "explosionDmgFactor": {
+      "type": "number",
+      "description": "The damage multiplier when the damage is explosion typed."
+    },
+    "displayName": {
+      "type": "string",
+      "description": "The display name of this shield. Must be any non-blank string of printable ascii characters.",
+      "pattern": "^[ -~]+$"
+    },
+    "price": {
+      "type": "integer",
+      "description": "The cost to buy/sell this shield."
+    },
+    "absorbSound": {
+      "type": "string",
+      "description": "The gestalt ID of the sound effect played upon damage absorption",
+      "pattern": "^\\w+:\\w+$"
+    },
+    "absorbSoundPitch": {
+      "type": "number",
+      "description": "The multiplier to raise/lower the pitch of absorbSound by."
+    },
+    "regenSound": {
+      "type": "string",
+      "description": "The gestalt ID of the sound effect played upon shield regen",
+      "pattern": "^\\w+:\\w+$"
+    }
+  }
+}
