@@ -35,8 +35,21 @@ jar {
     }
 }
 
+task moduleDist(type: Sync) {
+    into("$distsDir/app/modules")
+    rootProject.destinationSolModules().each { module ->
+        dependsOn ":modules:$module.name" + ":jar"
+        println "Distributing $module.name..."
+        from("$rootDir/modules/${module.name}/build/libs") {
+            include "*.jar"
+        }
+
+    }
+}
+
 task dist(type: Sync) {
     description = "Creates an application package for distribution"
+    dependsOn jar
 
     into("$distsDir/app")
 
@@ -47,6 +60,8 @@ task dist(type: Sync) {
         from jar
     }
 }
+
+dist.finalizedBy moduleDist
 
 task distZip(type: Zip) {
     dependsOn dist
