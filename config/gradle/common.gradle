@@ -104,11 +104,20 @@ tasks.withType(Checkstyle) {
 tasks.withType(Pmd) {
     group = 'Reporting'
 }
+
 tasks.withType(FindBugs) {
     group = 'Reporting'
     reports {
         xml.enabled = false
         html.enabled = true
+    }
+}
+
+//HACK: FindBugs throws an exception with modules that contain no code.
+String[] srcDir = sourceSets.main.java.srcDirs.iterator().next().list()
+if (srcDir == null || srcDir.length == 0) {
+    findbugs {
+        sourceSets = []
     }
 }
 
