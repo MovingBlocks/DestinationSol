@@ -20,7 +20,7 @@ task run(type: JavaExec) {
     main = project.mainClassName
     classpath = sourceSets.main.runtimeClasspath
     standardInput = System.in
-    workingDir = project(':engine').projectDir
+    workingDir = rootProject.projectDir
     ignoreExitValue = true
 }
 
@@ -43,7 +43,6 @@ task moduleDist(type: Sync) {
         from("$rootDir/modules/${module.name}/build/libs") {
             include "*.jar"
         }
-
     }
 }
 
