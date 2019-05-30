@@ -21,6 +21,11 @@ import org.terasology.assets.format.AssetDataFile;
 import java.io.BufferedInputStream;
 import java.io.InputStream;
 
+/**
+ * AssetDataFileHandle is an instance of FileHandle that provides access to an AssetDataFile, rather than an actual file.
+ * Only reading from files will work. Writing to files will crash the game.
+ * @see com.badlogic.gdx.files.FileHandle
+ */
 public class AssetDataFileHandle extends FileHandle {
     protected AssetDataFile dataFile;
 
@@ -79,7 +84,7 @@ public class AssetDataFileHandle extends FileHandle {
         int length = -1;
         try {
             BufferedInputStream stream = dataFile.openStream();
-            //HACK: This method may not produce reliable results in other JVMs
+            //HACK: This method may not produce reliable results in other JVMs.
             length = stream.available();
             stream.close();
         } catch (Exception ignore) {
