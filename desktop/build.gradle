@@ -16,7 +16,7 @@ dependencies {
 
 task run(type: JavaExec) {
     dependsOn classes
-    jvmArgs = ["-splash:../engine/src/main/resources/assets/textures/mainMenu/mainMenuLogo.png"]
+    jvmArgs = ["-splash:../engine/src/main/resources/assets/textures/mainMenu/mainMenuLogo.png", "-Dlog4j.configuration=log4j-debug.properties"]
     main = project.mainClassName
     classpath = sourceSets.main.runtimeClasspath
     standardInput = System.in
@@ -88,7 +88,7 @@ eclipse {
                         <booleanAttribute key="org.eclipse.jdt.launching.ATTR_USE_START_ON_FIRST_THREAD" value="true"/>
                         <stringAttribute key="org.eclipse.jdt.launching.MAIN_TYPE" value="org.destinationsol.desktop.SolDesktop"/>
                         <stringAttribute key="org.eclipse.jdt.launching.PROJECT_ATTR" value="DestinationSol-desktop"/>
-                        <stringAttribute key="org.eclipse.jdt.launching.VM_ARGUMENTS" value="-splash:../engine/src/main/resources/assets/textures/mainMenu/mainMenuLogo.png"/>
+                        <stringAttribute key="org.eclipse.jdt.launching.VM_ARGUMENTS" value="-splash:../engine/src/main/resources/assets/textures/mainMenu/mainMenuLogo.png -Dlog4j.configuration=log4j-debug.properties"/>
                         <stringAttribute key="org.eclipse.jdt.launching.WORKING_DIRECTORY" value="${workspace_loc:DestinationSol-engine}"/>
                     </launchConfiguration>
                 ''')
@@ -114,6 +114,6 @@ task afterEclipseImport(description: "Post processing after project generation",
 
 tasks.withType(JavaExec) {
     if (System.getProperty('DEBUG', 'false') == 'true') {
-        jvmArgs '-Xdebug', '-Xrunjdwp:transport=dt_socket,server=y,suspend=y,address=9099'
+        jvmArgs '-Xdebug', '-Xrunjdwp:transport=dt_socket,server=y,suspend=y,address=9099', '-Dlog4j.configuration=log4j-debug.properties'
     }
 }
