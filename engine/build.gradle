@@ -2,13 +2,10 @@ apply from: '../config/gradle/common.gradle'
 
 [compileJava, compileTestJava]*.options*.encoding = 'UTF-8'
 
-<<<<<<< HEAD
 repositories {
     jcenter()
 }
 
-||||||| merged common ancestors
-=======
 import org.reflections.Reflections;
 import org.reflections.scanners.SubTypesScanner;
 import org.reflections.scanners.TypeAnnotationsScanner;
@@ -29,7 +26,6 @@ buildscript {
     }
 }
 
->>>>>>> 98baa22316cf51feb83f959675a47ecadeef3ac6
 dependencies {
     compile "com.badlogicgames.gdx:gdx:$gdxVersion"
     compile "com.badlogicgames.gdx:gdx-box2d:$gdxVersion"

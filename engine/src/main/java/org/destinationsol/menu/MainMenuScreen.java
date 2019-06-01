@@ -21,6 +21,7 @@ import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import org.destinationsol.GameOptions;
+import org.destinationsol.RPCManager;
 import org.destinationsol.SolApplication;
 import org.destinationsol.assets.Assets;
 import org.destinationsol.assets.audio.OggMusicManager;
@@ -108,6 +109,7 @@ public class MainMenuScreen extends SolUiBaseScreen {
             // Save the settings on exit, but not on mobile as settings don't exist there.
             if (!isMobile) {
                 solApplication.getOptions().save();
+                RPCManager.disable();
             }
             Gdx.app.exit();
             return;

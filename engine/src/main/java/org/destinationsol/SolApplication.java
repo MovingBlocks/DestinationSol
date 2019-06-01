@@ -306,7 +306,6 @@ public class SolApplication implements ApplicationListener {
         return soundManager;
     }
 
-
     /**
      * This method is called when the "New Game" button gets pressed. It sets the seed for random generation, and the number of systems
      */
