@@ -109,7 +109,7 @@ public class MainMenuScreen extends SolUiBaseScreen {
             // Save the settings on exit, but not on mobile as settings don't exist there.
             if (!isMobile) {
                 solApplication.getOptions().save();
-                RPCManager.disable();
+                RPCManager.shutdown();
             }
             Gdx.app.exit();
             return;

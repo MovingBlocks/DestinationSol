@@ -133,6 +133,7 @@ public class GameOptions {
     public Volume sfxVolume;
     public Volume musicVolume;
     public boolean canSellEquippedItems;
+    public boolean discord;
     private String keyUpMouseName;
     private String keyDownMouseName;
     private String keyUpName;
@@ -215,6 +216,7 @@ public class GameOptions {
         controllerButtonUp = reader.getInt("controllerButtonUp", DEFAULT_BUTTON_UP);
         controllerButtonDown = reader.getInt("controllerButtonDown", DEFAULT_BUTTON_DOWN);
         canSellEquippedItems = reader.getBoolean("canSellEquippedItems", false);
+        discord = reader.getBoolean("discord", true);
     }
 
     public void advanceResolution() {
@@ -250,6 +252,11 @@ public class GameOptions {
         save();
     }
 
+    public void advanceDiscord() {
+        discord = RPCManager.isEnable();
+        save();
+    }
+
     /**
      * Save the configuration settings to file.
      */
@@ -267,7 +274,7 @@ public class GameOptions {
                 "isControllerAxisUpDownInverted", isControllerAxisUpDownInverted(), "controllerButtonShoot", getControllerButtonShoot(),
                 "controllerButtonShoot2", getControllerButtonShoot2(), "controllerButtonAbility", getControllerButtonAbility(),
                 "controllerButtonLeft", getControllerButtonLeft(), "controllerButtonRight", getControllerButtonRight(),
-                "controllerButtonUp", getControllerButtonUp(), "controllerButtonDown", getControllerButtonDown());
+                "controllerButtonUp", getControllerButtonUp(), "controllerButtonDown", getControllerButtonDown(), "discord", RPCManager.isEnable());
     }
 
     /**

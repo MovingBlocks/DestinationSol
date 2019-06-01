@@ -19,6 +19,7 @@ import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import org.destinationsol.GameOptions;
+import org.destinationsol.RPCManager;
 import org.destinationsol.SolApplication;
 import org.destinationsol.assets.Assets;
 import org.destinationsol.common.SolColor;
@@ -39,6 +40,7 @@ public class OptionsScreen extends SolUiBaseScreen {
     private final SolUiControl inputMapControl;
     private final SolUiControl soundVolumeControl;
     private final SolUiControl musicVolumeControl;
+    private final SolUiControl discordRPCControl;
 
     OptionsScreen(MenuLayout menuLayout, GameOptions gameOptions) {
         displayDimensions = SolApplication.displayDimensions;
@@ -59,11 +61,15 @@ public class OptionsScreen extends SolUiBaseScreen {
         backControl.setDisplayName("Back");
         controls.add(backControl);
 
-        soundVolumeControl = new SolUiControl(menuLayout.buttonRect(-1, 0), true);
+        discordRPCControl = new SolUiControl(menuLayout.buttonRect(-1, 0), true);
+        discordRPCControl.setDisplayName("Discord");
+        controls.add(discordRPCControl);
+
+        soundVolumeControl = new SolUiControl(menuLayout.buttonRect(-1, -1), true);
         soundVolumeControl.setDisplayName("Sound Volume");
         controls.add(soundVolumeControl);
 
-        musicVolumeControl = new SolUiControl(menuLayout.buttonRect(-1, -1), true);
+        musicVolumeControl = new SolUiControl(menuLayout.buttonRect(-1, -2), true);
         musicVolumeControl.setDisplayName("Music Volume");
         controls.add(musicVolumeControl);
 
@@ -112,6 +118,17 @@ public class OptionsScreen extends SolUiBaseScreen {
         if (musicVolumeControl.isJustOff()) {
             options.advanceMusicVolMul();
             solApplication.getMusicManager().changeVolume(options);
+        }
+
+        String state = RPCManager.isEnable() ? "On" : "Off";
+        discordRPCControl.setDisplayName("Discord: " + state);
+        if (discordRPCControl.isJustOff()) {
+            if (RPCManager.isEnable()) {
+                RPCManager.disable();
+            } else {
+                RPCManager.enable();
+            }
+            options.advanceDiscord();
         }
     }
 

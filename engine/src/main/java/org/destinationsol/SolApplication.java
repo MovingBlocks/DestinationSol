@@ -123,6 +123,9 @@ public class SolApplication implements ApplicationListener {
         inputManager.setScreen(this, menuScreens.main);
 
         rpcManager = new RPCManager();
+        if (!options.discord) {
+            RPCManager.disable();
+        }
     }
 
     @Override

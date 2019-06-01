@@ -43,7 +43,7 @@ public class RPCManager implements Runnable, IPCListener {
     private Thread thread;
     private int reconnectTries;
     private boolean firstConnect = true;
-    private boolean enabled;
+    private boolean enabled = true;
     private boolean alive;
     private boolean ready;
     private boolean dontTryToConnect;
@@ -90,6 +90,10 @@ public class RPCManager implements Runnable, IPCListener {
      */
     @Override
     public void onReady(IPCClient ipcClient) {
+        if (!enabled) {
+            ipcClient.close();
+            return;
+        }
         ready = true;
         if (firstConnect) {
             logger.info("Successfully! Connected to the rpc.");
@@ -119,6 +123,7 @@ public class RPCManager implements Runnable, IPCListener {
     public void run() {
         while (alive) {
             try {
+
                 if (firstConnect) {
                     client.connect();
                     Thread.sleep(2000L); // short time to check if it connected or not
@@ -214,6 +219,8 @@ public class RPCManager implements Runnable, IPCListener {
             return;
         }
         getInstance().enabled = true;
+        getInstance().firstConnect = true;
+        getInstance().dontTryToConnect = false;
     }
 
     /**
@@ -224,9 +231,26 @@ public class RPCManager implements Runnable, IPCListener {
             return;
         }
         getInstance().enabled = false;
+        getInstance().dontTryToConnect = true;
+        getInstance().reconnectTries = 0;
+        if (getInstance().ready) {
+            getInstance().client.close();
+            getInstance().ready = false;
+        }
+    }
+
+    /**
+     * To shutdown the RPC
+     */
+    public static void shutdown() {
+        if (getInstance() == null) {
+            return;
+        }
+        getInstance().enabled = false;
         if (getInstance().ready) {
             getInstance().client.close();
         }
+        getInstance().alive = false;
     }
 
     /**
