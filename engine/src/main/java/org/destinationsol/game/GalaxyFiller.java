@@ -141,14 +141,9 @@ public class GalaxyFiller {
         createStarPorts(game);
         ArrayList<SolSystem> systems = game.getPlanetManager().getSystems();
 
-        Json json = Assets.getJson(moduleName + ":startingStation");
-        JSONObject rootNode = getRootNode(json);
-
-        Validator.validate(rootNode, "engine:schemaStartingStation");
+        JSONObject rootNode = Validator.getValidatedJSON(moduleName + ":startingStation", "engine:schemaStartingStation");
 
         ShipConfig mainStationCfg = ShipConfig.load(hullConfigManager, rootNode, itemManager);
-
-        json.dispose();
 
         ConsumedAngles angles = new ConsumedAngles();
         FarShip mainStation = build(game, mainStationCfg, Faction.LAANI, true, systems.get(0), angles);

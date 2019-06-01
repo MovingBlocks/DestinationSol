@@ -88,16 +88,11 @@ public class ShipConfig {
         ShipConfig shipConfig = null;
 
         for (ResourceUrn configUrn : configUrnList) {
-            Json json = Assets.getJson(configUrn.toString());
-            JSONObject rootNode = json.getJsonValue();
-
-            Validator.validate(rootNode, "engine:schemaPlayerSpawnConfig");
+            JSONObject rootNode = Validator.getValidatedJSON(configUrn.toString(), "engine:schemaPlayerSpawnConfig");
 
             if (rootNode.keySet().contains(shipName) && rootNode.get(shipName) instanceof JSONObject) {
                 shipConfig = load(hullConfigs, rootNode.has(shipName) ? rootNode.getJSONObject(shipName) : null, itemManager);
             }
-
-            json.dispose();
 
             if (shipConfig != null) {
                 break;

@@ -47,11 +47,7 @@ public class PlanetConfigs {
 
         for (ResourceUrn planetConfigJson : planetJsonConfigs) {
             String moduleName = planetConfigJson.getModuleName().toString();
-
-            Json json = Assets.getJson(planetConfigJson.toString());
-            JSONObject rootNode = json.getJsonValue();
-
-            Validator.validate(rootNode, "engine:schemaPlanetsConfig");
+            JSONObject rootNode = Validator.getValidatedJSON(planetConfigJson.toString(), "engine:schemaPlanetsConfig");
 
             for (String s : rootNode.keySet()) {
                 JSONObject node = rootNode.getJSONObject(s);
@@ -65,8 +61,6 @@ public class PlanetConfigs {
                     medium.add(planetConfig);
                 }
             }
-
-            json.dispose();
         }
     }
 

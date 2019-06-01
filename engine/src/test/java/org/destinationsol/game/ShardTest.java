@@ -16,10 +16,12 @@
 package org.destinationsol.game;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
 import org.destinationsol.assets.Assets;
 import org.destinationsol.game.drawables.Drawable;
+import org.destinationsol.game.drawables.DrawableLevel;
 import org.destinationsol.game.drawables.RectSprite;
 import org.destinationsol.testingUtilities.BodyUtilities;
 import org.destinationsol.testingUtilities.InitializationUtilities;
@@ -47,7 +49,7 @@ public class ShardTest {
 
     private static SolObject createShard() {
         drawables = new ArrayList<>(1);
-        Gdx.app.postRunnable(() -> drawables.add(new RectSprite(Assets.listTexturesMatching("engine:shard_.*").get(0), 1, 1, 1, null, null, 0, 0, null, false)));
+        Gdx.app.postRunnable(() -> drawables.add(new RectSprite(Assets.listTexturesMatching("engine:shard_.*").get(0), 1, 1, 1, new Vector2(), DrawableLevel.PART_FG_0, 0, 0, Color.WHITE, false)));
         return new Shard(BodyUtilities.createDummyBody(), drawables);
     }
 
@@ -81,8 +83,8 @@ public class ShardTest {
         Body body = BodyUtilities.createDummyBody();
         body.setLinearVelocity(1f, 2f);
         final Shard shard = new Shard(body, drawables);
-        assertTrue(shard.getSpeed().epsilonEquals(1f, 2f, 0.01f));
-        assertTrue(SHARD_CONSTANT.getSpeed().epsilonEquals(0f, 0f, 0.01f));
+        assertTrue(shard.getVelocity().epsilonEquals(1f, 2f, 0.01f));
+        assertTrue(SHARD_CONSTANT.getVelocity().epsilonEquals(0f, 0f, 0.01f));
     }
 
     @Test

@@ -27,6 +27,7 @@ import org.destinationsol.common.SolMath;
 import org.destinationsol.common.SolRandom;
 import org.destinationsol.game.AbilityCommonConfig;
 import org.destinationsol.game.DmgType;
+import org.destinationsol.game.FactionInfo;
 import org.destinationsol.game.RemoveController;
 import org.destinationsol.game.SolGame;
 import org.destinationsol.game.SolObject;
@@ -60,6 +61,8 @@ public class SolShip implements SolObject {
     private static final float ENERGY_DMG_FACTOR = .7f;
     private boolean colliding;
 
+    private String factionName;
+    private int factionID;
     private final Pilot myPilot;
     private final ItemContainer myItemContainer;
     private final TradeContainer myTradeContainer;
@@ -80,6 +83,7 @@ public class SolShip implements SolObject {
     private float myAbilityAwait;
     private float myControlEnableAwait;
     private MercItem mercItem;
+    private boolean isMerc;
 
     public SolShip(SolGame game, Pilot pilot, Hull hull, RemoveController removeController, List<Drawable> drawables,
                    ItemContainer container, ShipRepairer repairer, float money, TradeContainer tradeContainer, Shield shield,
@@ -91,7 +95,7 @@ public class SolShip implements SolObject {
         myHull = hull;
         myItemContainer = container;
         myTradeContainer = tradeContainer;
-        List<DSParticleEmitter> effs = game.getSpecialEffects().buildBodyEffs(myHull.config.getApproxRadius(), game, myHull.getPosition(), myHull.getSpeed());
+        List<DSParticleEmitter> effs = game.getSpecialEffects().buildBodyEffs(myHull.config.getApproxRadius(), game, myHull.getPosition(), myHull.getVelocity());
         mySmokeSrc = effs.get(0);
         myFireSrc = effs.get(1);
         myElectricitySrc = effs.get(2);
@@ -107,6 +111,8 @@ public class SolShip implements SolObject {
         if (myAbility != null) {
             myAbilityAwait = myAbility.getConfig().getRechargeTime();
         }
+        factionID = FactionInfo.getFactionID(this);
+        factionName = FactionInfo.getFactionNames().get(factionID).toString();
     }
 
     @Override
@@ -117,8 +123,12 @@ public class SolShip implements SolObject {
     @Override
     public FarShip toFarObject() {
         float rotationSpeed = myHull.getBody().getAngularVelocity() * MathUtils.radDeg;
-        return new FarShip(myHull.getPosition(), myHull.getSpeed(), myHull.getAngle(), rotationSpeed, myPilot, myItemContainer, myHull.config, myHull.life,
+        FarShip farShip = new FarShip(myHull.getPosition(), myHull.getVelocity(), myHull.getAngle(), rotationSpeed, myPilot, myItemContainer, myHull.config, myHull.life,
                 myHull.getGun(false), myHull.getGun(true), myRemoveController, myHull.getEngine(), myRepairer, myMoney, myTradeContainer, myShield, myArmor);
+        if (isMerc) {
+            farShip.setMerc(mercItem);
+        }
+        return farShip;
     }
 
     @Override
@@ -209,8 +219,8 @@ public class SolShip implements SolObject {
     }
 
     @Override
-    public Vector2 getSpeed() {
-        return myHull.getSpeed();
+    public Vector2 getVelocity() {
+        return myHull.getVelocity();
     }
 
     public float getAngle() {
@@ -232,6 +242,13 @@ public class SolShip implements SolObject {
         updateAbility(game);
         updateIdleTime(game);
         updateShield(game);
+
+        if (!isMerc && FactionInfo.getDisposition().get(factionID) < -5) {
+            getPilot().stringToFaction("ehar");
+        } else {
+            getPilot().stringToFaction("laani");
+        }
+
         if (myArmor != null && !myItemContainer.contains(myArmor)) {
             myArmor = null;
         }
@@ -339,7 +356,7 @@ public class SolShip implements SolObject {
     @Override
     public void onRemove(SolGame game) {
         if (myHull.life <= 0) {
-            game.getShardBuilder().buildExplosionShards(game, myHull.getPosition(), myHull.getSpeed(), myHull.config.getSize());
+            game.getShardBuilder().buildExplosionShards(game, myHull.getPosition(), myHull.getVelocity(), myHull.config.getSize());
             throwAllLoot(game);
         }
         myHull.onRemove(game);
@@ -378,24 +395,24 @@ public class SolShip implements SolObject {
     }
 
     private void throwLoot(SolGame game, SolItem item, boolean onDeath) {
-        Vector2 lootSpeed = new Vector2();
-        float speedAngle;
-        float speedLen;
+        Vector2 lootVelocity = new Vector2();
+        float velocityAngle;
+        float speed;
         Vector2 position = new Vector2();
         if (onDeath) {
-            speedAngle = SolRandom.randomFloat(180);
-            speedLen = SolRandom.randomFloat(0, Loot.MAX_SPD);
+            velocityAngle = SolRandom.randomFloat(180);
+            speed = SolRandom.randomFloat(0, Loot.MAX_SPD);
             // TODO: This statement previously caused a crash as getApproxRadius returned 0 - where is it meant to be set / loaded from?
-            SolMath.fromAl(position, speedAngle, SolRandom.randomFloat(myHull.config.getApproxRadius()));
+            SolMath.fromAl(position, velocityAngle, SolRandom.randomFloat(myHull.config.getApproxRadius()));
         } else {
-            speedAngle = getAngle();
-            speedLen = 1f;
-            SolMath.fromAl(position, speedAngle, myHull.config.getApproxRadius());
+            velocityAngle = getAngle();
+            speed = 1f;
+            SolMath.fromAl(position, velocityAngle, myHull.config.getApproxRadius());
         }
-        SolMath.fromAl(lootSpeed, speedAngle, speedLen);
-        lootSpeed.add(myHull.getSpeed());
+        SolMath.fromAl(lootVelocity, velocityAngle, speed);
+        lootVelocity.add(myHull.getVelocity());
         position.add(myHull.getPosition());
-        Loot l = game.getLootBuilder().build(game, position, item, lootSpeed, Loot.MAX_LIFE, SolRandom.randomFloat(Loot.MAX_ROT_SPD), this);
+        Loot l = game.getLootBuilder().build(game, position, item, lootVelocity, Loot.MAX_LIFE, SolRandom.randomFloat(Loot.MAX_ROT_SPD), this);
         game.getObjectManager().addObjDelayed(l);
         if (!onDeath) {
             game.getSoundManager().play(game, game.getSpecialSounds().lootThrow, position, this);
@@ -431,10 +448,11 @@ public class SolShip implements SolObject {
             myFireAwait = MAX_FIRE_AWAIT;
         }
     }
-    
-    /** 
+
+    /**
      * Method to be called on the death of a SolShip
      * Note: Use {@link SolGame#setRespawnState()}} for the death of the player specifically
+     *
      * @param game The SolGame currently in progress.
      */
     private void onDeath(SolGame game) {
@@ -638,22 +656,32 @@ public class SolShip implements SolObject {
     public float getAbilityAwait() {
         return myAbilityAwait;
     }
-    
+
     /**
-     * Each SolShip could be a mercenary. Each mercenary is definitely a SolShip.
-     * This method sets the associated MercItem.
-     * @param mercItem The {@link MercItem} that this SolShip is associated with. Can be null.
+     * Sets the mercItem and declares the ship to be a mercenary.
+     *
+     * Optional @param mercItem The {@link MercItem} of the SolShip.
      */
     public void setMerc(MercItem mercItem) {
         this.mercItem = mercItem;
+        isMerc = true;
     }
-    
-    /**
-     * Each SolShip could be a mercenary. Each mercenary is definitely a SolShip.
-     * This method gets the associated MercItem.
-     * @return The {@link MercItem} that this SolShip is associated with. Can be null.
-     */
+
     public MercItem getMerc() {
         return this.mercItem;
+    }
+
+    public boolean isMerc() { return this.isMerc; }
+
+    public String getFactionName() {
+        return factionName;
+    }
+
+    public int getFactionID() {
+        return factionID;
+    }
+
+    public void changeDisposition(int id) {
+        FactionInfo.setDisposition(id, -1);
     }
 }

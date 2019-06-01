@@ -28,11 +28,11 @@ import org.destinationsol.game.particle.DSParticleEmitter;
 
 public class SloMo implements ShipAbility {
     private static final float SLO_MO_CHG_SPD = .03f;
-    private final Config config;
+    private final SloMoConfig config;
 
     private float factor;
 
-    SloMo(Config config) {
+    SloMo(SloMoConfig config) {
         this.config = config;
         factor = 1;
     }
@@ -57,7 +57,7 @@ public class SloMo implements ShipAbility {
         if (tryToUse) {
             factor = config.factor;
             Vector2 position = owner.getPosition();
-            DSParticleEmitter src = new DSParticleEmitter(config.cc.effect, -1, DrawableLevel.PART_BG_0, new Vector2(), true, game, position, owner.getSpeed(), 0);
+            DSParticleEmitter src = new DSParticleEmitter(config.cc.effect, -1, DrawableLevel.PART_BG_0, new Vector2(), true, game, position, owner.getVelocity(), 0);
             game.getPartMan().finish(game, src, position);
             return true;
         }
@@ -70,13 +70,13 @@ public class SloMo implements ShipAbility {
         return factor;
     }
 
-    public static class Config implements AbilityConfig {
+    public static class SloMoConfig implements AbilityConfig {
         public final float factor;
         public final float rechargeTime;
         private final SolItem chargeExample;
         private final AbilityCommonConfig cc;
 
-        public Config(float factor, float rechargeTime, SolItem chargeExample, AbilityCommonConfig cc) {
+        public SloMoConfig(float factor, float rechargeTime, SolItem chargeExample, AbilityCommonConfig cc) {
             this.factor = factor;
             this.rechargeTime = rechargeTime;
             this.chargeExample = chargeExample;
@@ -87,7 +87,7 @@ public class SloMo implements ShipAbility {
             float factor = (float) abNode.getDouble("factor");
             float rechargeTime = (float) abNode.getDouble("rechargeTime");
             SolItem chargeExample = itemManager.getExample("sloMoCharge");
-            return new Config(factor, rechargeTime, chargeExample, cc);
+            return new SloMoConfig(factor, rechargeTime, chargeExample, cc);
         }
 
         @Override

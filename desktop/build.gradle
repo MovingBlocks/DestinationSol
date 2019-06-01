@@ -8,7 +8,7 @@ repositories {
 
 dependencies {
     compile project(":engine")
-    compile "com.badlogicgames.gdx:gdx-backend-lwjgl:$gdxVersion"
+    compile "com.badlogicgames.gdx:gdx-backend-lwjgl3:$gdxVersion"
     compile "com.badlogicgames.gdx:gdx-platform:$gdxVersion:natives-desktop"
     compile "com.badlogicgames.gdx:gdx-box2d-platform:$gdxVersion:natives-desktop"
     compile "com.badlogicgames.gdx:gdx-controllers-desktop:$gdxVersion"
@@ -20,7 +20,7 @@ dependencies {
 
 task run(type: JavaExec) {
     dependsOn classes
-
+    jvmArgs = ["-splash:../engine/src/main/resources/assets/textures/mainMenu/mainMenuLogo.png"]
     main = project.mainClassName
     classpath = sourceSets.main.runtimeClasspath
     standardInput = System.in
@@ -35,6 +35,7 @@ jar {
         def manifestClasspath = configurations.runtime.collect { it.getName() }.join(" ")
         attributes 'Main-Class': project.mainClassName
         attributes("Class-Path": manifestClasspath)
+        attributes "SplashScreen-Image": "mainMenuLogo.png"
     }
 }
 
@@ -62,16 +63,29 @@ eclipse {
     project {
         name = appName + "-desktop"
         linkedResource name: 'assets', type: '2', location: 'PARENT-1-PROJECT_LOC/android/assets'
-    }
-    // Hack to allow the game to run via eclipse. See #209 for more information.
-    classpath {
         file {
-            withXml { xml ->
-                def node = xml.asNode()
-                node.appendNode('classpathentry', [kind: 'src', path: '/engine' ])
-            }
-            whenMerged {
-                entries.removeAll { it.kind == 'src' && it.path == '/DestinationSol-main' }
+            whenMerged { project ->
+                def destinationSolRunConfig = new XmlParser().parseText('''
+                    <!--<?xml version="1.0" encoding="UTF-8" standalone="no"?>-->
+                    <launchConfiguration type="org.eclipse.jdt.launching.localJavaApplication">
+                        <listAttribute key="org.eclipse.debug.core.MAPPED_RESOURCE_PATHS">
+                            <listEntry value="/DestinationSol-desktop/src/main/java/org/destinationsol/desktop/SolDesktop.java"/>
+                        </listAttribute>
+                        <listAttribute key="org.eclipse.debug.core.MAPPED_RESOURCE_TYPES">
+                            <listEntry value="1"/>
+                        </listAttribute>
+                        <booleanAttribute key="org.eclipse.jdt.launching.ATTR_USE_CLASSPATH_ONLY_JAR" value="false"/>
+                        <booleanAttribute key="org.eclipse.jdt.launching.ATTR_USE_START_ON_FIRST_THREAD" value="true"/>
+                        <stringAttribute key="org.eclipse.jdt.launching.MAIN_TYPE" value="org.destinationsol.desktop.SolDesktop"/>
+                        <stringAttribute key="org.eclipse.jdt.launching.PROJECT_ATTR" value="DestinationSol-desktop"/>
+                        <stringAttribute key="org.eclipse.jdt.launching.VM_ARGUMENTS" value="-splash:../engine/src/main/resources/assets/textures/mainMenu/mainMenuLogo.png"/>
+                        <stringAttribute key="org.eclipse.jdt.launching.WORKING_DIRECTORY" value="${workspace_loc:DestinationSol-engine}"/>
+                    </launchConfiguration>
+                ''')
+                def writer = new FileWriter(file("DestinationSol.launch"))
+                def printer = new XmlNodePrinter(new PrintWriter(writer))
+                printer.setPreserveWhitespace(true)
+                printer.print(destinationSolRunConfig)
             }
         }
     }

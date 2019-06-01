@@ -17,17 +17,22 @@
   ],
   "properties": {
     "maxAngleVar": {
-      "type": "integer",
+      "type": "number",
       "minimum": 0,
       "description": "Maximum angle variation for a shot from the center of the gun"
     },
+    "minAngleVar": {
+      "type": "number",
+      "minimum": 0,
+      "description": "Minimum angle variation for a shot from the center of a gun"
+    },
     "angleVarDamp": {
-      "type": "integer",
+      "type": "number",
       "minimum": 0,
       "description": "Puts a damper or delay on the angle variation"
     },
     "angleVarPerShot": {
-      "type": "integer",
+      "type": "number",
       "minimum": 0,
       "description": "Controls how much the angle of the bullet can vary from shot to shot"
     },
@@ -59,7 +64,8 @@
     "displayName": {
       "type": "string",
       "minLength": 1,
-      "description": "Name to be displayed in inventories and trading stations"
+      "description": "Name to be displayed in inventories and trading stations",
+      "pattern": "^[ -~]+$"
     },
     "shootSounds": {
       "type": "array",

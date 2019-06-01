@@ -19,8 +19,8 @@ allprojects {
     version = '2.0.0'
     ext {
         appName = 'DestinationSol'
-        gdxVersion = '1.7.0'
-        roboVMVersion = '1.8.0'
+        gdxVersion = '1.9.8'
+        roboVMVersion = '2.3.3'
     }
 }
 

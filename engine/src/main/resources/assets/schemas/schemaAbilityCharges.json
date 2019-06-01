@@ -16,7 +16,8 @@
     "displayName": {
       "type": "string",
       "minLength": 1,
-      "description": "Name of the ability charge"
+      "description": "Name of the ability charge",
+      "pattern": "^[ -~]+$"
     },
     "desc": {
       "type": "string",

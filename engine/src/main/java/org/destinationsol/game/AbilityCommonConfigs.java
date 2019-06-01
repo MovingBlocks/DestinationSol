@@ -21,26 +21,27 @@ import org.destinationsol.assets.Assets;
 import org.destinationsol.assets.audio.OggSoundManager;
 import org.destinationsol.assets.json.Json;
 import org.destinationsol.game.particle.EffectTypes;
+import org.terasology.assets.ResourceUrn;
+
+import java.util.HashMap;
+import java.util.Locale;
+import java.util.Map;
 
 public class AbilityCommonConfigs {
-    public final AbilityCommonConfig teleport;
-    public final AbilityCommonConfig emWave;
-    public final AbilityCommonConfig unShield;
-    public final AbilityCommonConfig knockBack;
-    public final AbilityCommonConfig sloMo;
+    public final Map<String, AbilityCommonConfig> abilityConfigs;
 
     public AbilityCommonConfigs(EffectTypes effectTypes, GameColors cols, OggSoundManager soundManager) {
-        Json json = Assets.getJson("core:abilitiesConfig");
-        JSONObject rootNode = json.getJsonValue();
+        abilityConfigs = new HashMap<>();
 
-        Validator.validate(rootNode, "engine:schemaAbilitiesConfig");
+        for (ResourceUrn resource : Assets.getAssetHelper().list(Json.class, "[a-zA-Z0-9]*:abilitiesConfig")) {
+            JSONObject rootNode = Validator.getValidatedJSON(resource.toString(), "engine:schemaAbilitiesConfig");
 
-        teleport = AbilityCommonConfig.load(rootNode.getJSONObject("teleport"), effectTypes, cols, soundManager);
-        emWave = AbilityCommonConfig.load(rootNode.getJSONObject("emWave"), effectTypes, cols, soundManager);
-        unShield = AbilityCommonConfig.load(rootNode.getJSONObject("unShield"), effectTypes, cols, soundManager);
-        knockBack = AbilityCommonConfig.load(rootNode.getJSONObject("knockBack"), effectTypes, cols, soundManager);
-        sloMo = AbilityCommonConfig.load(rootNode.getJSONObject("sloMo"), effectTypes, cols, soundManager);
-
-        json.dispose();
+            for (String abilityName : rootNode.keySet()) {
+                String normalisedName = abilityName.toLowerCase(Locale.ENGLISH);
+                if (!abilityConfigs.containsKey(normalisedName)) {
+                    abilityConfigs.put(normalisedName, AbilityCommonConfig.load(rootNode.getJSONObject(abilityName), effectTypes, cols, soundManager));
+                }
+            }
+        }
     }
 }

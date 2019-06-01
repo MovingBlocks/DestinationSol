@@ -66,7 +66,7 @@ public class Hero {
 
     public void setSolShip(SolShip hero, SolGame solGame) {
         isDead = false;
-        if (hero != shipHero) {
+        if (hero != shipHero && !isTranscendent) {
             mercs = new ItemContainer();
         }
         this.shipHero = hero;
@@ -138,8 +138,8 @@ public class Hero {
         return shipHero.canUseAbility();
     }
 
-    public Vector2 getSpeed() {
-        return isTranscendent ? transcendentHero.getSpeed() : shipHero.getSpeed();
+    public Vector2 getVelocity() {
+        return isTranscendent ? transcendentHero.getVelocity() : shipHero.getVelocity();
     }
 
     public float getAcceleration() {

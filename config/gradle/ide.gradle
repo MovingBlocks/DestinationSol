@@ -99,7 +99,7 @@ ext {
                 </pattern>
               </extension>
               <option name="MAIN_CLASS_NAME" value="org.destinationsol.desktop.SolDesktop"/>
-              <option name="VM_PARAMETERS" value="-Xms256m -Xmx1024m"/>
+              <option name="VM_PARAMETERS" value="-splash:engine/src/main/resources/assets/textures/mainMenu/mainMenuLogo.png -Xms256m -Xmx1024m"/>
               <option name="PROGRAM_PARAMETERS" value="-noCrashReport"/>
               <option name="WORKING_DIRECTORY" value="file://$PROJECT_DIR$"/>
               <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="false"/>

@@ -89,8 +89,11 @@ class common {
         println "Now inside retrieve, user (recursively? $recurse) wants: $items"
         for (String itemName: items) {
             println "Starting retrieval for $itemType $itemName, are we recursing? $recurse"
-            println "Retrieved so far: $itemsRetrieved"
+            if (itemsRetrieved.size() > 0) {
+                println "So far we've processed: $itemsRetrieved"
+            }
             retrieveItem(itemName, recurse)
+            println "Done retrieving $itemName"
         }
     }
 
