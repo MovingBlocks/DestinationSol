@@ -122,7 +122,10 @@ public final class SolDesktop {
         new Thread(new Runnable() {
             @Override
             public void run() {
-                moduleManager = new ModuleManager();
+                try {
+                    moduleManager = new ModuleManager();
+                } catch (Exception ignore) {
+                }
                 initFinished = true;
             }
         }).start();

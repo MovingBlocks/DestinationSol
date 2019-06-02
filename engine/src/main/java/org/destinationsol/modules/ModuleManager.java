@@ -47,7 +47,6 @@ import java.io.InputStreamReader;
 import java.io.Reader;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.ReflectPermission;
-import java.net.URI;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.security.Policy;
@@ -115,14 +114,11 @@ public class ModuleManager {
             "com.badlogic.gdx.physics.box2d"
     };
     private static final Class<?>[] CLASS_WHITELIST = new Class<?>[] {
-            com.esotericsoftware.reflectasm.MethodAccess.class,
             InvocationTargetException.class,
             LoggerFactory.class,
             Logger.class,
-            java.awt.datatransfer.UnsupportedFlavorException.class,
             java.nio.ByteBuffer.class,
             java.nio.IntBuffer.class,
-            java.nio.file.attribute.FileTime.class, // java.util.zip dependency
             // This class only operates on Class<?> or Object instances,
             // effectively adding a way to access arrays without knowing their type
             // beforehand. It's safe despite being in java.lang.reflect.
@@ -168,9 +164,8 @@ public class ModuleManager {
     private ModuleRegistry registry;
     private Module engineModule;
 
-    public ModuleManager() {
+    public ModuleManager() throws Exception {
         try {
-            URI engineClasspath = getClass().getProtectionDomain().getCodeSource().getLocation().toURI();
             Reader engineModuleReader = new InputStreamReader(getClass().getResourceAsStream("/module.json"), Charsets.UTF_8);
             ModuleMetadata engineMetadata = new ModuleMetadataJsonAdapter().read(engineModuleReader);
             engineModuleReader.close();
@@ -195,6 +190,7 @@ public class ModuleManager {
             loadEnvironment(requiredModules);
         } catch (Exception e) {
             e.printStackTrace();
+            throw e;
         }
     }
 
