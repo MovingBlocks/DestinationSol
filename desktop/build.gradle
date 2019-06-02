@@ -16,7 +16,10 @@ dependencies {
 
 task run(type: JavaExec) {
     dependsOn classes
-    jvmArgs = ["-splash:../engine/src/main/resources/assets/textures/mainMenu/mainMenuLogo.png", "-Dlog4j.configuration=log4j-debug.properties"]
+    jvmArgs = ["-splash:../engine/src/main/resources/assets/textures/mainMenu/mainMenuLogo.png", "-XstartOnFirstThread", "-Dlog4j.configuration=log4j-debug.properties"]
+    //TODO: Remove extra args when the splash screen works on Macs again - see https://github.com/MovingBlocks/DestinationSol/issues/414
+    String[] runArgs = ["-noSplash"]
+    args runArgs
     main = project.mainClassName
     classpath = sourceSets.main.runtimeClasspath
     standardInput = System.in
