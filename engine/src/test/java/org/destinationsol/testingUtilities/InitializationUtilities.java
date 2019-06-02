@@ -37,7 +37,12 @@ public final class InitializationUtilities {
         }
         initialized = true;
         DebugOptions.DEV_ROOT_PATH = "engine/src/main/resources/";
-        ModuleManager moduleManager = new ModuleManager();
+        ModuleManager moduleManager;
+        try {
+            moduleManager = new ModuleManager();
+        } catch (Exception ignore) {
+            return;
+        }
         GL20 mockGL = new MockGL();
         Gdx.gl = mockGL;
         Gdx.gl20 = mockGL;
