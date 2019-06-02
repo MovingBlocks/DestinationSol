@@ -90,6 +90,7 @@ ext {
         // Add our run configs - this one launches with homedir set to local and the Crash Reporter off
         def runManager = iwsNode.find { it.@name == 'RunManager' }
         // TODO: Probably should make these run config blocks generic already ...
+        // TODO: Undo the -noSplash tag and -XstartOnFirstThread when the splash screen works on Macs again. See https://github.com/MovingBlocks/DestinationSol/issues/414
         runManager.append(new XmlParser().parseText('''
             <configuration default="false" name="DestSol" type="Application" factoryName="Application">
               <extension name="coverage" enabled="false" merge="false" runner="idea">
@@ -99,8 +100,8 @@ ext {
                 </pattern>
               </extension>
               <option name="MAIN_CLASS_NAME" value="org.destinationsol.desktop.SolDesktop"/>
-              <option name="VM_PARAMETERS" value="-splash:engine/src/main/resources/assets/textures/mainMenu/mainMenuLogo.png -Xms256m -Xmx1024m -Dlog4j.configuration=log4j-debug.properties"/>
-              <option name="PROGRAM_PARAMETERS" value="-noCrashReport"/>
+              <option name="VM_PARAMETERS" value="-splash:engine/src/main/resources/assets/textures/mainMenu/mainMenuLogo.png -XstartOnFirstThread -Xms256m -Xmx1024m -Dlog4j.configuration=log4j-debug.properties"/>
+              <option name="PROGRAM_PARAMETERS" value="-noCrashReport -noSplash"/>
               <option name="WORKING_DIRECTORY" value="file://$PROJECT_DIR$"/>
               <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="false"/>
               <option name="ALTERNATIVE_JRE_PATH" value=""/>
