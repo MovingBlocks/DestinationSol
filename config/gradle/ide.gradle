@@ -91,7 +91,13 @@ ext {
         def runManager = iwsNode.find { it.@name == 'RunManager' }
         // TODO: Probably should make these run config blocks generic already ...
         // TODO: Undo the -noSplash tag and -XstartOnFirstThread when the splash screen works on Macs again. See https://github.com/MovingBlocks/DestinationSol/issues/414
-        runManager.append(new XmlParser().parseText('''
+        def startOnFirstThread = ""
+        def noSplash = ""
+        if (System.properties["os.name"].toLowerCase().contains("mac")) {
+            startOnFirstThread = "-XstartOnFirstThread"
+            noSplash = "-noSplash"
+        }
+        runManager.append(new XmlParser().parseText(String.format('''
             <configuration default="false" name="DestSol" type="Application" factoryName="Application">
               <extension name="coverage" enabled="false" merge="false" runner="idea">
                 <pattern>
@@ -100,8 +106,8 @@ ext {
                 </pattern>
               </extension>
               <option name="MAIN_CLASS_NAME" value="org.destinationsol.desktop.SolDesktop"/>
-              <option name="VM_PARAMETERS" value="-splash:engine/src/main/resources/assets/textures/mainMenu/mainMenuLogo.png -XstartOnFirstThread -Xms256m -Xmx1024m -Dlog4j.configuration=log4j-debug.properties"/>
-              <option name="PROGRAM_PARAMETERS" value="-noCrashReport -noSplash"/>
+              <option name="VM_PARAMETERS" value="-splash:engine/src/main/resources/assets/textures/mainMenu/mainMenuLogo.png %s -Xms256m -Xmx1024m -Dlog4j.configuration=log4j-debug.properties"/>
+              <option name="PROGRAM_PARAMETERS" value="-noCrashReport %s"/>
               <option name="WORKING_DIRECTORY" value="file://$PROJECT_DIR$"/>
               <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="false"/>
               <option name="ALTERNATIVE_JRE_PATH" value=""/>
@@ -120,7 +126,7 @@ ext {
               <ConfigurationWrapper RunnerId="Run"/>
               <method/>
             </configuration>
-        '''))
+        ''', startOnFirstThread, noSplash)))
 
         // This part puts the added run config into the actual "Run" drop-down
         runManager.append(new XmlParser().parseText('''
