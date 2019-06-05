@@ -37,6 +37,7 @@ dependencies {
     compile "com.github.everit-org.json-schema:org.everit.json.schema:1.9.2"
     compile "com.jagrosh:DiscordIPC:0.4"
     compile "ch.qos.logback:logback-classic:1.2.3"
+    compile "com.github.marschall:zipfilesystem-standalone:1.0.1"
 
     //TODO inserted by someone who has no idea how the gradle thing works. Inspect whether necessary (for tests). Copied rom desktop build.gradle. May break things with android (maybe)
     testCompile "com.badlogicgames.gdx:gdx-backend-headless:$gdxVersion"
@@ -56,9 +57,6 @@ dependencies {
 sourceSets {
     // Main is almost everything - the true engine
     main {
-        java {
-            output.classesDir 'build/classes'
-        }
         // This makes the resources (assets, 3d wizardry includes, etc) also go to build/classes
         output.resourcesDir 'build/classes'
     }

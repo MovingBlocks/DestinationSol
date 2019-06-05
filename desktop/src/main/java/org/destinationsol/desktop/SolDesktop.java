@@ -113,7 +113,7 @@ public final class SolDesktop {
         // Set the application's title, icon...
         applicationConfig.setTitle("Destination Sol");
         if (DebugOptions.DEV_ROOT_PATH == null) {
-            applicationConfig.setWindowIcon(Files.FileType.Internal, "src/main/resources/icon.png");
+            applicationConfig.setWindowIcon(Files.FileType.Internal, "icon.png");
         } else {
             applicationConfig.setWindowIcon(Files.FileType.Absolute, DebugOptions.DEV_ROOT_PATH + "/icon.png");
         }
@@ -234,11 +234,9 @@ public final class SolDesktop {
     private static class MyReader implements SolFileReader {
         @Override
         public Path create(String fileName, List<String> lines) {
-            String path;
+            String path = "";
             if (DebugOptions.DEV_ROOT_PATH != null) {
                 path = DebugOptions.DEV_ROOT_PATH;
-            } else {
-                path = "src/main/resources/";
             }
             path += fileName;
 
@@ -253,11 +251,9 @@ public final class SolDesktop {
 
         @Override
         public List<String> read(String fileName) {
-            String path;
+            String path = "";
             if (DebugOptions.DEV_ROOT_PATH != null) {
                 path = DebugOptions.DEV_ROOT_PATH;
-            } else {
-                path = "src/main/resources/";
             }
             path += fileName;
 

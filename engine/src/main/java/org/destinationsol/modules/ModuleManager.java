@@ -182,7 +182,7 @@ public class ModuleManager {
             if (DebugOptions.DEV_ROOT_PATH != null) {
                 modulesRoot = Paths.get(".").resolve("modules");
             } else {
-                modulesRoot = Paths.get(".").resolve("..").resolve("modules");
+                modulesRoot = Paths.get(".").resolve("modules");
             }
             ModulePathScanner scanner = new ModulePathScanner(moduleFactory);
             scanner.scan(registry, modulesRoot);
