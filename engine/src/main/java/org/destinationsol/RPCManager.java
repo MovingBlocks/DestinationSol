@@ -22,9 +22,11 @@ import com.jagrosh.discordipc.IPCListener;
 import com.jagrosh.discordipc.entities.RichPresence;
 import com.jagrosh.discordipc.entities.pipe.Pipe;
 import com.jagrosh.discordipc.entities.pipe.WindowsPipe;
+import org.slf4j.ILoggerFactory;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.lang.reflect.Method;
 import java.time.OffsetDateTime;
 
 /**
@@ -177,9 +179,12 @@ public class RPCManager implements Runnable, IPCListener {
      * @param clazz The class to disable the log from it
      */
     private void disableLogger(Class<?> clazz) {
-        LoggerContext loggerContext = (LoggerContext) LoggerFactory.getILoggerFactory();
-        Logger l = loggerContext.getLogger(clazz);
-        ((ch.qos.logback.classic.Logger) l).setLevel(Level.OFF);
+        ILoggerFactory loggerFactory = LoggerFactory.getILoggerFactory();
+        if (loggerFactory instanceof ch.qos.logback.classic.LoggerContext) {
+            LoggerContext loggerContext = (LoggerContext) loggerFactory;
+            Logger classLogger = loggerContext.getLogger(clazz);
+            ((ch.qos.logback.classic.Logger) classLogger).setLevel(Level.OFF);
+        }
     }
 
     /**
