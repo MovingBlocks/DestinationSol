@@ -16,6 +16,7 @@
 package org.destinationsol.game.screens;
 
 import org.destinationsol.GameOptions;
+import org.destinationsol.RPCManager;
 import org.destinationsol.SolApplication;
 import org.destinationsol.common.SolColor;
 import org.destinationsol.game.SolGame;
@@ -31,6 +32,7 @@ public class MenuScreen extends SolUiBaseScreen {
     private final SolUiControl respawnControl;
     private final SolUiControl soundVolControl;
     private final SolUiControl musicVolumeControl;
+    private final SolUiControl discordRPCControl;
     private final SolUiControl doNotSellEquippedControl;
 
     public MenuScreen(MenuLayout menuLayout, GameOptions gameOptions) {
@@ -43,13 +45,16 @@ public class MenuScreen extends SolUiBaseScreen {
         musicVolumeControl = new SolUiControl(menuLayout.buttonRect(-1, 0), true);
         musicVolumeControl.setDisplayName("Music Volume");
         controls.add(musicVolumeControl);
-        respawnControl = new SolUiControl(menuLayout.buttonRect(-1, 2), true);
+        discordRPCControl = new SolUiControl(menuLayout.buttonRect(-1, 2), true);
+        discordRPCControl.setDisplayName("Discord");
+        controls.add(discordRPCControl);
+        respawnControl = new SolUiControl(menuLayout.buttonRect(-1, 3), true);
         respawnControl.setDisplayName("Respawn");
         controls.add(respawnControl);
-        exitControl = new SolUiControl(menuLayout.buttonRect(-1, 3), true);
+        exitControl = new SolUiControl(menuLayout.buttonRect(-1, 4), true);
         exitControl.setDisplayName("Exit");
         controls.add(exitControl);
-        closeControl = new SolUiControl(menuLayout.buttonRect(-1, 4), true, gameOptions.getKeyClose());
+        closeControl = new SolUiControl(menuLayout.buttonRect(-1, 5), true, gameOptions.getKeyClose());
         closeControl.setDisplayName("Resume");
         controls.add(closeControl);
     }
@@ -69,6 +74,18 @@ public class MenuScreen extends SolUiBaseScreen {
             options.advanceMusicVolMul();
             solApplication.getMusicManager().changeVolume(options);
         }
+
+        String state = RPCManager.isEnable() ? "On" : "Off";
+        discordRPCControl.setDisplayName("Discord: " + state);
+        if (discordRPCControl.isJustOff()) {
+            if (RPCManager.isEnable()) {
+                RPCManager.disable();
+            } else {
+                RPCManager.enable();
+            }
+            options.advanceDiscord();
+        }
+
         if (respawnControl.isJustOff()) {
             game.respawn();
             im.setScreen(solApplication, game.getScreens().mainGameScreen);
