@@ -55,6 +55,12 @@ task extractConfig(type: Copy) {
     into "$rootDir/config/metrics"
 }
 
+
+// Helper that returns a list of all local Destination Sol module projects
+def destinationSolModules() {
+    subprojects.findAll {it.parent.name == 'modules'}
+}
+
 tasks.eclipse.doLast {
     delete ".project"
 }
