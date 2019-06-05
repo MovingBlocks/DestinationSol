@@ -36,25 +36,25 @@ public class MenuScreen extends SolUiBaseScreen {
     private final SolUiControl doNotSellEquippedControl;
 
     public MenuScreen(MenuLayout menuLayout, GameOptions gameOptions) {
-        doNotSellEquippedControl = new SolUiControl(menuLayout.buttonRect(-1, -1), true);
+        doNotSellEquippedControl = new SolUiControl(menuLayout.buttonRect(-1, -2), true);
         doNotSellEquippedControl.setDisplayName("Can sell used items");
         controls.add(doNotSellEquippedControl);
-        soundVolControl = new SolUiControl(menuLayout.buttonRect(-1, 1), true);
+        soundVolControl = new SolUiControl(menuLayout.buttonRect(-1, 0), true);
         soundVolControl.setDisplayName("Sound Volume");
         controls.add(soundVolControl);
-        musicVolumeControl = new SolUiControl(menuLayout.buttonRect(-1, 0), true);
+        musicVolumeControl = new SolUiControl(menuLayout.buttonRect(-1, -1), true);
         musicVolumeControl.setDisplayName("Music Volume");
         controls.add(musicVolumeControl);
-        discordRPCControl = new SolUiControl(menuLayout.buttonRect(-1, 2), true);
+        discordRPCControl = new SolUiControl(menuLayout.buttonRect(-1, 1), true);
         discordRPCControl.setDisplayName("Discord");
         controls.add(discordRPCControl);
-        respawnControl = new SolUiControl(menuLayout.buttonRect(-1, 3), true);
+        respawnControl = new SolUiControl(menuLayout.buttonRect(-1, 2), true);
         respawnControl.setDisplayName("Respawn");
         controls.add(respawnControl);
-        exitControl = new SolUiControl(menuLayout.buttonRect(-1, 4), true);
+        exitControl = new SolUiControl(menuLayout.buttonRect(-1, 3), true);
         exitControl.setDisplayName("Exit");
         controls.add(exitControl);
-        closeControl = new SolUiControl(menuLayout.buttonRect(-1, 5), true, gameOptions.getKeyClose());
+        closeControl = new SolUiControl(menuLayout.buttonRect(-1, 4), true, gameOptions.getKeyClose());
         closeControl.setDisplayName("Resume");
         controls.add(closeControl);
     }
