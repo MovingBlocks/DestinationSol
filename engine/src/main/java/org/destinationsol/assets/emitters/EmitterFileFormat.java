@@ -19,6 +19,7 @@ import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.graphics.g2d.ParticleEmitter;
 import org.destinationsol.assets.AssetDataFileHandle;
 import org.destinationsol.assets.AssetHelper;
+import org.destinationsol.assets.Assets;
 import org.terasology.assets.ResourceUrn;
 import org.terasology.assets.format.AbstractAssetFileFormat;
 import org.terasology.assets.format.AssetDataFile;
@@ -37,7 +38,7 @@ public class EmitterFileFormat extends AbstractAssetFileFormat<EmitterData> {
 
     @Override
     public EmitterData load(ResourceUrn urn, List<AssetDataFile> inputs) throws IOException {
-        String path = AssetHelper.resolveToPath(inputs);
+        String path = Assets.getAssetHelper().resolveToPath(inputs);
 
         FileHandle handle = new AssetDataFileHandle(inputs.get(0));
         BufferedReader reader = new BufferedReader(new InputStreamReader(handle.read()), 512);

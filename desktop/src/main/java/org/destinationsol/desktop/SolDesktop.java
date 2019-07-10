@@ -124,6 +124,7 @@ public final class SolDesktop {
             public void run() {
                 try {
                     moduleManager = new ModuleManager();
+                    moduleManager.init();
                 } catch (Exception ignore) {
                 }
                 initFinished = true;

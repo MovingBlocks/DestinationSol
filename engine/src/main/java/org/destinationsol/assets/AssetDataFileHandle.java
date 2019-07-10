@@ -35,7 +35,7 @@ public class AssetDataFileHandle extends FileHandle {
 
     @Override
     public BufferedInputStream read(int bufferSize) {
-        return (BufferedInputStream) read();
+        return new BufferedInputStream(read());
     }
 
     @Override
@@ -83,8 +83,9 @@ public class AssetDataFileHandle extends FileHandle {
     public long length() {
         int length = -1;
         try {
-            BufferedInputStream stream = dataFile.openStream();
-            //HACK: This method may not produce reliable results in other JVMs.
+            InputStream stream = dataFile.openStream();
+            // HACK: This method may not produce reliable results in other JVMs.
+            // It often only gives the remaining quantity of bytes in the buffer, rather than the stream.
             length = stream.available();
             stream.close();
         } catch (Exception ignore) {
