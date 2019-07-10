@@ -42,10 +42,13 @@ import java.util.Optional;
 import java.util.Set;
 
 public class AssetHelper {
-    private ModuleAwareAssetTypeManager assetTypeManager;
-    private static String[] folders_;
+    protected ModuleAwareAssetTypeManager assetTypeManager;
+    protected static String[] folders_;
 
-    public AssetHelper(ModuleEnvironment environment) {
+    public AssetHelper() {
+    }
+
+    public void init(ModuleEnvironment environment) {
         assetTypeManager = new ModuleAwareAssetTypeManager();
 
         assetTypeManager.createAssetType(OggSound.class, OggSound::new, "sounds");
@@ -94,7 +97,7 @@ public class AssetHelper {
         folders_ = folders;
     }
 
-    public static String resolveToPath(List<AssetDataFile> assetDataFiles) {
+    public String resolveToPath(List<AssetDataFile> assetDataFiles) {
         for (AssetDataFile assetDataFile : assetDataFiles) {
             List<String> folders = assetDataFile.getPath();
 
