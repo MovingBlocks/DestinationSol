@@ -500,7 +500,10 @@ public class SolMath {
         if (listNode == null) {
             return res;
         }
-        for (Object val : listNode) {
+        // JSONArray.iterator must not be used (foreach uses it internally), as Android does not support it
+        // (you cannot override the dependency either, as it is a system library).
+        for (int index = 0; index < listNode.length(); index++) {
+            Object val = listNode.get(index);
             if(val instanceof String) {
                 Vector2 vec = readV2((String) val);
                 res.add(vec);

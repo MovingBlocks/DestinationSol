@@ -19,6 +19,7 @@ import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.graphics.Texture;
 import org.destinationsol.assets.AssetDataFileHandle;
 import org.destinationsol.assets.AssetHelper;
+import org.destinationsol.assets.Assets;
 import org.terasology.assets.ResourceUrn;
 import org.terasology.assets.format.AbstractAssetFileFormat;
 import org.terasology.assets.format.AssetDataFile;
@@ -34,7 +35,7 @@ public class DSTextureFileFormat extends AbstractAssetFileFormat<DSTextureData> 
 
     @Override
     public DSTextureData load(ResourceUrn urn, List<AssetDataFile> inputs) {
-        String path = AssetHelper.resolveToPath(inputs);
+        String path = Assets.getAssetHelper().resolveToPath(inputs);
 
         FileHandle handle = new AssetDataFileHandle(inputs.get(0));
         Texture texture = new Texture(handle);
