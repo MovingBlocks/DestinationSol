@@ -152,6 +152,73 @@ task(fetchGwt, type: GitClone) {
     }
 }
 
+task(fetchGestalt, type: GitClone) {
+    description = 'Git clones the gestalt Android source from GitHub'
+
+    def repo = 'gestalt'
+    def githubHome = 'MovingBlocks'
+    def destination = file('gestalt')
+
+    enabled = !destination.exists()
+
+    if (enabled) {
+        uri = "https://github.com/$githubHome/" + repo + ".git"
+        destinationPath = destination
+        bare = false
+        branch = 'android'
+    }
+}
+
+task(fetchReflections, type: GitClone) {
+    description = 'Git clones the org.reflections.reflections source from GitHub'
+
+    def repo = 'reflections'
+    def githubHome = 'ronmamo'
+    def destination = file('gestalt-reflections')
+
+    enabled = !destination.exists()
+
+    if (enabled) {
+        uri = "https://github.com/$githubHome/" + repo + ".git"
+        destinationPath = destination
+        bare = false
+    }
+}
+
+fetchGestalt.doLast {
+    new File("$rootDir/gestalt", "gradle.properties").text = "version=7.0.0-SNAPSHOT"
+    def localPropertiesFile = new File("$rootDir", "local.properties")
+    if (localPropertiesFile.exists()) {
+        new File("$rootDir/gestalt", "local.properties").text = localPropertiesFile.text
+    }
+
+    File fileToPatch = new File("$rootDir/gestalt/gestalt-android-testbed/src/main/java/org/terasology/gestalt/android/testbed", "GestaltTestActivity.java")
+    fileToPatch.text = fileToPatch.text.replace("new ReflectionComponentTypeFactory()", "new ComponentManager()")
+                       .replace("org.terasology.entitysystem.component.ReflectionComponentTypeFactory", "org.terasology.entitysystem.component.ComponentManager");
+
+
+    def gradleCommand = System.getProperty("os.name").toLowerCase().contains("windows") ? "gradlew.bat" : "gradlew"
+    exec {
+        workingDir "$rootDir/gestalt"
+        commandLine "$rootDir/gestalt/$gradleCommand", 'assemble', '-x', ':gestalt-android-testbed:assemble'
+    }
+}
+
+fetchReflections.doLast {
+    def gradleCommand = System.getProperty("os.name").toLowerCase().contains("windows") ? "gradlew.bat" : "gradlew"
+    exec {
+        workingDir "$rootDir/gestalt-reflections"
+        commandLine "$rootDir/$gradleCommand", 'init', '--type', 'pom'
+    }
+    exec {
+        workingDir "$rootDir/gestalt-reflections"
+        commandLine "$rootDir/$gradleCommand", 'jar', 'install'
+    }
+}
+
+fetchAndroid.dependsOn fetchGestalt
+fetchGestalt.dependsOn fetchReflections
+
 task wrapper(type: Wrapper) {
     gradleVersion = '2.10'
 }

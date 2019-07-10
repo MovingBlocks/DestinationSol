@@ -44,13 +44,19 @@ public class MusicConfig {
         JSONArray menuMusicArray = config.getJSONArray("menuMusic");
         JSONArray gameMusicArray = config.getJSONArray("gameMusic");
 
-        for (Object musicFileName : menuMusicArray) {
+        // JSONArray.iterator must not be used (foreach uses it internally), as Android does not support it
+        // (you cannot override the dependency either, as it is a system library).
+        for (int index = 0; index < menuMusicArray.length(); index++) {
+            Object musicFileName = menuMusicArray.get(index);
             if (musicFileName instanceof String) {
                 menuMusicSet.add(moduleName + ":" + musicFileName);
             }
         }
 
-        for (Object musicFileName : gameMusicArray) {
+        // JSONArray.iterator must not be used (foreach uses it internally), as Android does not support it
+        // (you cannot override the dependency either, as it is a system library).
+        for (int index = 0; index < gameMusicArray.length(); index++) {
+            Object musicFileName = gameMusicArray.get(index);
             if (musicFileName instanceof String) {
                 gameMusicSet.add(moduleName + ":" + musicFileName);
             }
