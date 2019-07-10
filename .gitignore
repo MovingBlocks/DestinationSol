@@ -9,6 +9,7 @@ config/metrics
 android
 gwt
 gestalt
+gestalt-reflections
 modules/*
 modules/**/build.gradle
 !modules/core
