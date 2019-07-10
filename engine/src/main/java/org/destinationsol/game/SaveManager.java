@@ -15,6 +15,7 @@
  */
 package org.destinationsol.game;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.math.Vector2;
 import com.google.gson.Gson;
@@ -151,7 +152,7 @@ public class SaveManager {
         if (DebugOptions.DEV_ROOT_PATH != null) {
             return DebugOptions.DEV_ROOT_PATH + fileName;
         } else {
-            return fileName;
+            return Gdx.files.getLocalStoragePath() + "/" + fileName;
         }
     }
 

@@ -8,6 +8,7 @@ config/metrics
 ## Ignored sub-projects with nested Git roots. Core module is bundled with the main repo.
 android
 gwt
+gestalt
 modules/*
 modules/**/build.gradle
 !modules/core

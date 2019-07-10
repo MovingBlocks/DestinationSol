@@ -59,7 +59,7 @@ public class ModuleManager {
     private static final Logger logger = LoggerFactory.getLogger(ModuleManager.class);
     // The API whitelist is based off Terasology's
     // https://github.com/MovingBlocks/Terasology/blob/948676050a7827dac5e04927087832ffc462da41/engine/src/main/java/org/terasology/engine/module/ExternalApiWhitelist.java
-    private static final String[] API_WHITELIST = new String[] {
+    protected static final String[] API_WHITELIST = new String[] {
             "java.lang",
             "java.lang.invoke",
             "java.lang.ref",
@@ -113,7 +113,7 @@ public class ModuleManager {
             "com.badlogic.gdx.physics",
             "com.badlogic.gdx.physics.box2d"
     };
-    private static final Class<?>[] CLASS_WHITELIST = new Class<?>[] {
+    protected static final Class<?>[] CLASS_WHITELIST = new Class<?>[] {
             InvocationTargetException.class,
             LoggerFactory.class,
             Logger.class,
@@ -160,11 +160,14 @@ public class ModuleManager {
             java.io.PipedOutputStream.class
     };
 
-    private static ModuleEnvironment environment;
-    private ModuleRegistry registry;
-    private Module engineModule;
+    protected static ModuleEnvironment environment;
+    protected ModuleRegistry registry;
+    protected Module engineModule;
 
-    public ModuleManager() throws Exception {
+    public ModuleManager() {
+    }
+
+    public void init() throws Exception {
         try {
             Reader engineModuleReader = new InputStreamReader(getClass().getResourceAsStream("/module.json"), Charsets.UTF_8);
             ModuleMetadata engineMetadata = new ModuleMetadataJsonAdapter().read(engineModuleReader);
@@ -224,7 +227,9 @@ public class ModuleManager {
         Policy.setPolicy(new ModuleSecurityPolicy());
         System.setSecurityManager(new ModuleSecurityManager());
         environment = new ModuleEnvironment(registry, permissionFactory);
-        Assets.initialize(environment);
+        AssetHelper helper = new AssetHelper();
+        helper.init(environment);
+        Assets.initialize(helper);
     }
 
     public static ModuleEnvironment getEnvironment() {

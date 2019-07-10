@@ -154,7 +154,10 @@ public class SolGame {
         onPausedUpdateSystems.put(0, defaultPausedSystems);
 
         try {
-            for (Class<?> updateSystemClass : ModuleManager.getEnvironment().getSubtypesOf(UpdateAwareSystem.class, element -> element.isAnnotationPresent(RegisterUpdateSystem.class))) {
+            for (Class<?> updateSystemClass : ModuleManager.getEnvironment().getSubtypesOf(UpdateAwareSystem.class)) {
+                if (!updateSystemClass.isAnnotationPresent(RegisterUpdateSystem.class)) {
+                    continue;
+                }
                 RegisterUpdateSystem registerAnnotation = updateSystemClass.getDeclaredAnnotation(RegisterUpdateSystem.class);
                 UpdateAwareSystem system = (UpdateAwareSystem) updateSystemClass.newInstance();
                 if (!registerAnnotation.paused()) {
