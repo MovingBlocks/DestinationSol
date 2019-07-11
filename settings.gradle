@@ -1,11 +1,6 @@
 include 'desktop', 'engine', 'modules'
 import groovy.io.FileType
 
-File androidGradle = new File(rootDir, 'android/build.gradle')
-if (androidGradle.exists()) {
-    include 'android'
-}
-
 File gwtGradle = new File(rootDir, 'gwt/build.gradle')
 if (gwtGradle.exists()) {
     include 'gwt'
@@ -21,4 +16,10 @@ rootDir.eachDir { possibleSubprojectDir ->
         //println "Magic is happening, applying from " + subprojectsSpecificationScript
         apply from: subprojectsSpecificationScript
     }
+}
+
+// This is put last to ensure that Android can detect the modules
+File androidGradle = new File(rootDir, 'android/build.gradle')
+if (androidGradle.exists()) {
+    include 'android'
 }
