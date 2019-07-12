@@ -19,7 +19,6 @@ import com.badlogic.gdx.Files;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
-import org.destinationsol.assets.AssetHelper;
 import org.destinationsol.assets.Assets;
 import org.terasology.assets.ResourceUrn;
 import org.terasology.assets.format.AbstractAssetFileFormat;
@@ -27,7 +26,6 @@ import org.terasology.assets.format.AssetDataFile;
 import org.terasology.assets.module.annotations.RegisterAssetFileFormat;
 
 import java.io.IOException;
-import java.nio.file.Paths;
 import java.util.List;
 
 @RegisterAssetFileFormat
@@ -41,7 +39,7 @@ public class FontFileFormat extends AbstractAssetFileFormat<FontData> {
         String path = Assets.getAssetHelper().resolveToPath(inputs);
 
         //NOTE: The BitmapFont class relies on direct filesystem access, so jar modules will not be able to define new fonts.
-        FileHandle handle = Gdx.files.getFileHandle(Paths.get(path).toString(), Files.FileType.Internal);
+        FileHandle handle = Gdx.files.getFileHandle(path, Files.FileType.Internal);
         BitmapFont bitmapFont = new BitmapFont(handle, true);
         bitmapFont.setUseIntegerPositions(false);
         return new FontData(bitmapFont);
