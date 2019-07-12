@@ -192,7 +192,7 @@ public final class SolDesktop {
                 // Create a crash dump file
                 String fileName = "crash-" + new SimpleDateFormat("yyyy-dd-MM_HH-mm-ss").format(new Date()) + ".log";
                 List<String> lines = Collections.singletonList(exceptionString);
-                Path logPath = new MyReader().create(fileName, lines).toAbsolutePath().getParent();
+                Path logPath = Paths.get(new MyReader().create(fileName, lines)).getParent();
 
                 // Run asynchronously so that the error message view is not blocked
                 new Thread(() -> CrashReporter.report(ex, logPath)).start();
@@ -237,7 +237,7 @@ public final class SolDesktop {
     //TODO Since this is currently the only implementation of SolFileReader, consider making this into a self-standing class with static methods. Also, consider uniting SolFileReader and IniReader.
     private static class MyReader implements SolFileReader {
         @Override
-        public Path create(String fileName, List<String> lines) {
+        public String create(String fileName, List<String> lines) {
             String path = "";
             if (DebugOptions.DEV_ROOT_PATH != null) {
                 path = DebugOptions.DEV_ROOT_PATH;
@@ -250,7 +250,7 @@ public final class SolDesktop {
             } catch (IOException e) {
                 logger.error("Failed to write to file", e);
             }
-            return file;
+            return file.toAbsolutePath().toString();
         }
 
         @Override
