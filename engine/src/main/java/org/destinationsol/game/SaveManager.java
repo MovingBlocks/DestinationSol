@@ -36,12 +36,12 @@ import org.destinationsol.game.ship.hulls.HullConfig;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.io.UnsupportedEncodingException;
-import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -165,7 +165,7 @@ public class SaveManager {
     public static boolean resourceExists(String fileName) {
         String path = getResourcePath(fileName);
 
-        return new FileHandle(Paths.get(path).toFile()).exists();
+        return new FileHandle(new File(path)).exists();
     }
 
     /**
