@@ -120,14 +120,10 @@ task(fetchAndroid, type: GitClone) {
     //println "fetchAndroid requested for $repo from Github under $githubHome - exists already? " + !enabled
 
     // Do the actual clone if we don't have the directory already
-    if (enabled) {
-        uri = "https://github.com/$githubHome/" + repo + ".git"
-        //println "Fetching $repo from $uri"
-        destinationPath = destination
-        bare = false
-    } else {
-        throw new StopActionException("The repository $repo already exists. To re-clone the repository, delete the ${destination.name} folder and try again.")
-    }
+    uri = "https://github.com/$githubHome/" + repo + ".git"
+    //println "Fetching $repo from $uri"
+    destinationPath = destination
+    bare = false
 }
 
 task(fetchGwt, type: GitClone) {
@@ -146,14 +142,10 @@ task(fetchGwt, type: GitClone) {
     //println "fetchGwt requested for $repo from Github under $githubHome - exists already? " + !enabled
 
     // Do the actual clone if we don't have the directory already
-    if (enabled) {
-        uri = "https://github.com/$githubHome/" + repo + ".git"
-        //println "Fetching $repo from $uri"
-        destinationPath = destination
-        bare = false
-    } else {
-        throw new StopActionException("The repository $repo already exists. To re-clone the repository, delete the ${destination.name} folder and try again.")
-    }
+    uri = "https://github.com/$githubHome/" + repo + ".git"
+    //println "Fetching $repo from $uri"
+    destinationPath = destination
+    bare = false
 }
 
 task(fetchGestalt, type: GitClone) {
@@ -165,14 +157,10 @@ task(fetchGestalt, type: GitClone) {
 
     enabled = !destination.exists()
 
-    if (enabled) {
-        uri = "https://github.com/$githubHome/" + repo + ".git"
-        destinationPath = destination
-        bare = false
-        branch = 'android'
-    } else {
-        throw new StopActionException("The repository $repo already exists. To re-clone the repository, delete the ${destination.name} folder and try again.")
-    }
+    uri = "https://github.com/$githubHome/" + repo + ".git"
+    destinationPath = destination
+    bare = false
+    branch = 'android'
 }
 
 task(fetchReflections, type: GitClone) {
@@ -184,13 +172,9 @@ task(fetchReflections, type: GitClone) {
 
     enabled = !destination.exists()
 
-    if (enabled) {
-        uri = "https://github.com/$githubHome/" + repo + ".git"
-        destinationPath = destination
-        bare = false
-    } else {
-        throw new StopActionException("The repository $repo already exists. To re-clone the repository, delete the ${destination.name} folder and try again.")
-    }
+    uri = "https://github.com/$githubHome/" + repo + ".git"
+    destinationPath = destination
+    bare = false
 }
 
 fetchGestalt.doLast {
