@@ -125,6 +125,8 @@ task(fetchAndroid, type: GitClone) {
         //println "Fetching $repo from $uri"
         destinationPath = destination
         bare = false
+    } else {
+        throw new StopActionException("The repository $repo already exists. To re-clone the repository, delete the ${destination.name} folder and try again.")
     }
 }
 
@@ -149,6 +151,8 @@ task(fetchGwt, type: GitClone) {
         //println "Fetching $repo from $uri"
         destinationPath = destination
         bare = false
+    } else {
+        throw new StopActionException("The repository $repo already exists. To re-clone the repository, delete the ${destination.name} folder and try again.")
     }
 }
 
@@ -166,6 +170,8 @@ task(fetchGestalt, type: GitClone) {
         destinationPath = destination
         bare = false
         branch = 'android'
+    } else {
+        throw new StopActionException("The repository $repo already exists. To re-clone the repository, delete the ${destination.name} folder and try again.")
     }
 }
 
@@ -182,6 +188,8 @@ task(fetchReflections, type: GitClone) {
         uri = "https://github.com/$githubHome/" + repo + ".git"
         destinationPath = destination
         bare = false
+    } else {
+        throw new StopActionException("The repository $repo already exists. To re-clone the repository, delete the ${destination.name} folder and try again.")
     }
 }
 
