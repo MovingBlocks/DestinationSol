@@ -267,7 +267,7 @@ public class SolApplication implements ApplicationListener {
         commonDrawer.dispose();
 
         if (solGame != null) {
-            solGame.onGameEnd();
+            solGame.onGameEnd(context);
         }
 
         inputManager.dispose();
@@ -282,7 +282,7 @@ public class SolApplication implements ApplicationListener {
     }
 
     public void finishGame() {
-        solGame.onGameEnd();
+        solGame.onGameEnd(context);
         solGame = null;
         inputManager.setScreen(this, menuScreens.main);
     }
