@@ -33,6 +33,7 @@ import org.destinationsol.game.asteroid.AsteroidBuilder;
 import org.destinationsol.game.attributes.RegisterUpdateSystem;
 import org.destinationsol.game.chunk.ChunkManager;
 import org.destinationsol.game.context.Context;
+import org.destinationsol.game.context.internal.ContextImpl;
 import org.destinationsol.game.drawables.DrawableDebugger;
 import org.destinationsol.game.drawables.DrawableManager;
 import org.destinationsol.game.farBg.FarBackgroundManagerOld;
@@ -241,7 +242,7 @@ public class SolGame {
         }
     }
 
-    public void onGameEnd() {
+    public void onGameEnd(Context context) {
         // If the hero tries to exit while dead, respawn them first, then save
         if (hero.isDead()) {
             respawn();
@@ -252,6 +253,9 @@ public class SolGame {
                 saveShip();
             }
             SaveManager.saveWorld(getPlanetManager().getSystems().size());
+        }
+        else {
+            context.remove(TutorialManager.class, tutorialManager);
         }
         objectManager.dispose();
     }
