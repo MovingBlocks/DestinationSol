@@ -111,8 +111,7 @@
       },
       "aoeRadius": {
         "type": "number",
-        "description": "The radius that an enemy must be within to be effected by the projectile. A negative number disables this effect. -1 by default.",
-        "minimum": 0
+        "description": "The radius that an enemy must be within to be effected by the projectile. A negative number disables this effect. -1 by default."
       }
     }
   },
