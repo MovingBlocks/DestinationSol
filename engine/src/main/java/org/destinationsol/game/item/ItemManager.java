@@ -33,6 +33,7 @@ public class ItemManager {
     public final TextureAtlas.AtlasRegion moneyIcon;
     public final TextureAtlas.AtlasRegion medMoneyIcon;
     public final TextureAtlas.AtlasRegion bigMoneyIcon;
+    public final TextureAtlas.AtlasRegion hugeMoneyIcon;
     public final TextureAtlas.AtlasRegion repairIcon;
     private final HashMap<String, SolItem> myM = new HashMap<>();
     private final ArrayList<SolItem> myL= new ArrayList<>();
@@ -51,6 +52,7 @@ public class ItemManager {
         moneyIcon = Assets.getAtlasRegion("engine:iconMoney");
         medMoneyIcon = Assets.getAtlasRegion("engine:iconMedMoney");
         bigMoneyIcon = Assets.getAtlasRegion("engine:iconBigMoney");
+        hugeMoneyIcon = Assets.getAtlasRegion("engine:iconHugeMoney");
         repairIcon = Assets.getAtlasRegion("engine:iconRepairItem");
 
         myTypes = new SolItemTypes(soundManager, gameColors);
@@ -200,9 +202,9 @@ public class ItemManager {
 
     public MoneyItem moneyItem(float amt) {
         SolItemType t;
-        if (amt == MoneyItem.BIG_AMT) {
+        if (amt == MoneyItem.BIG_AMOUNT) {
             t = myTypes.bigMoney;
-        } else if (amt == MoneyItem.MED_AMT) {
+        } else if (amt == MoneyItem.MEDIUM_AMOUNT) {
             t = myTypes.medMoney;
         } else {
             t = myTypes.money;
@@ -231,22 +233,40 @@ public class ItemManager {
         }
     }
 
-    public List<MoneyItem> moneyToItems(float amt) {
-        ArrayList<MoneyItem> res = new ArrayList<>();
-        while (amt > MoneyItem.AMT) {
-            MoneyItem example;
-            if (amt > MoneyItem.BIG_AMT) {
-                example = moneyItem(MoneyItem.BIG_AMT);
-                amt -= MoneyItem.BIG_AMT;
-            } else if (amt > MoneyItem.MED_AMT) {
-                example = moneyItem(MoneyItem.MED_AMT);
-                amt -= MoneyItem.MED_AMT;
+    /**
+     * Turn money into item drops
+     * @param amount the amount of money to turn into drops
+     */
+    public List<MoneyItem> moneyToItems(float amount) {
+        return moneyToItems(amount, -1);
+    }
+
+    /**
+     * Turn money into item drops, with a specifiable limit to the number of items
+     * @param amount the amount of money to turn into drops
+     * @param limit -1 for no limit, otherwise the maximum number of money items to create
+     */
+    public List<MoneyItem> moneyToItems(float amount, int limit) {
+        ArrayList<MoneyItem> items = new ArrayList<>();
+        int moneyAmount;
+        while (amount > MoneyItem.SMALL_AMOUNTT) {
+            if (amount > MoneyItem.HUGE_AMOUNT) {
+                moneyAmount = MoneyItem.HUGE_AMOUNT;
+            } else if (amount > MoneyItem.BIG_AMOUNT) {
+                moneyAmount = MoneyItem.BIG_AMOUNT;
+            } else if (amount > MoneyItem.MEDIUM_AMOUNT) {
+                moneyAmount = MoneyItem.MEDIUM_AMOUNT;
             } else {
-                example = moneyItem(MoneyItem.AMT);
-                amt -= MoneyItem.AMT;
+                moneyAmount = MoneyItem.SMALL_AMOUNTT;
             }
-            res.add(example.copy());
+            amount -= moneyAmount;
+            items.add(moneyItem(moneyAmount));
+
+            // do not create any more money items if limit parameter is reached
+            if((limit != -1) && (items.size() == limit)) {
+                break;
+            }
         }
-        return res;
+        return items;
     }
 }
