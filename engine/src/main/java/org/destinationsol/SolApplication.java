@@ -41,6 +41,7 @@ import org.destinationsol.ui.ResizeSubscriber;
 import org.destinationsol.ui.SolInputManager;
 import org.destinationsol.ui.SolLayouts;
 import org.destinationsol.ui.UiDrawer;
+import org.destinationsol.util.FramerateLimiter;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.terasology.module.sandbox.API;
@@ -89,7 +90,7 @@ public class SolApplication implements ApplicationListener {
         // Initiate Box2D to make sure natives are loaded early enough
         Box2D.init();
         this.moduleManager = moduleManager;
-        this.targetFPS = 1.0f / targetFPS;
+        this.targetFPS = targetFPS;
         resizeSubscribers = new HashSet<>();
     }
 
@@ -139,14 +140,7 @@ public class SolApplication implements ApplicationListener {
             timeAccumulator -= Const.REAL_TIME_STEP;
         }
 
-        //HACK: A crude and primitive frame-limiter...
-        try {
-            if (Gdx.graphics.getDeltaTime() < targetFPS) {
-                Thread.sleep((long) ((targetFPS - Gdx.graphics.getDeltaTime()) * 1000) * 2);
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+        FramerateLimiter.synchronizeFPS(Math.round(targetFPS));
 
         try {
             draw();
