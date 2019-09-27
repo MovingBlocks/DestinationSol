@@ -19,6 +19,7 @@ import com.badlogic.gdx.math.Vector2;
 import org.destinationsol.GameOptions;
 import org.destinationsol.assets.audio.OggMusicManager;
 import org.destinationsol.common.SolException;
+import org.destinationsol.game.console.commands.DieCommandHandler;
 import org.destinationsol.game.console.commands.PositionCommandHandler;
 import org.destinationsol.game.input.Pilot;
 import org.destinationsol.game.item.Armor;
@@ -50,12 +51,9 @@ public class Hero {
         setSolShip(shipHero, solGame);
     }
 
-    public void initialise() {
-        if (!Console.getInstance().getDefaultInputHandler().commandExists("position")) {
-            Console.getInstance().getDefaultInputHandler().registerCommand("position", new PositionCommandHandler(this));
-        } else {
-            ((PositionCommandHandler) Console.getInstance().getDefaultInputHandler().getRegisteredCommand("position")).hero = this;
-        }
+    public void initialise(SolGame game) {
+        Console.getInstance().getDefaultInputHandler().registerOrReplaceCommand("position", new PositionCommandHandler(this));
+        Console.getInstance().getDefaultInputHandler().registerOrReplaceCommand("die", new DieCommandHandler(this, game));
     }
 
     public void setTranscendent(StarPort.Transcendent transcendentHero) {
