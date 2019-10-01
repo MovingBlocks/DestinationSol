@@ -238,15 +238,15 @@ public class ItemManager {
      * @param amount the amount of money to turn into drops
      */
     public List<MoneyItem> moneyToItems(float amount) {
-        return moneyToItems(amount, -1);
+        return moneyToItems(amount, 60);
     }
 
     /**
      * Turn money into item drops, with a specifiable limit to the number of items
      * @param amount the amount of money to turn into drops
-     * @param limit -1 for no limit, otherwise the maximum number of money items to create
+     * @param maxNoItemsCreated -1 for no limit, otherwise the maximum number of money items to create
      */
-    public List<MoneyItem> moneyToItems(float amount, int limit) {
+    public List<MoneyItem> moneyToItems(float amount, int maxNoItemsCreated) {
         ArrayList<MoneyItem> items = new ArrayList<>();
         int moneyAmount;
         while (amount > MoneyItem.SMALL_AMOUNTT) {
@@ -263,7 +263,7 @@ public class ItemManager {
             items.add(moneyItem(moneyAmount));
 
             // do not create any more money items if limit parameter is reached
-            if((limit != -1) && (items.size() == limit)) {
+            if((maxNoItemsCreated != -1) && (items.size() == maxNoItemsCreated)) {
                 break;
             }
         }
