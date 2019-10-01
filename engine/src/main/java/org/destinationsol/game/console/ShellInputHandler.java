@@ -1,5 +1,5 @@
 /*
- * Copyright 2018 MovingBlocks
+ * Copyright 2019 MovingBlocks
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -43,10 +43,11 @@ public class ShellInputHandler implements ConsoleInputHandler {
     }
 
     /**
-     * Registers a command with this input handler. If the command is already registered throws a {@link SolException}
+     * Registers a command with this input handler.
      *
      * @param cmdName Name, that is first word, of the command
      * @param callback This callback will be called with the full entered command
+     * @throws SolException If the command is already registered
      */
     public void registerCommand(String cmdName, ConsoleInputHandler callback) {
         if (commandExists(cmdName)) {
