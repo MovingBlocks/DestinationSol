@@ -208,7 +208,7 @@ public class Console implements SolUiScreen {
      */
     public void registerCharEntered(char c) {
         if (isActive) {
-            if (c == '\r') {
+            if (c == '\r' || c == '\n') {
                 inputHandler.handle(inputLine.toString(), this);
                 inputLine = new StringBuilder();
                 return;
