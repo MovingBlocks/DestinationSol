@@ -1,5 +1,5 @@
 /*
- * Copyright 2018 MovingBlocks
+ * Copyright 2019 MovingBlocks
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -17,6 +17,8 @@ package org.destinationsol.game.console;
 
 import org.destinationsol.common.SolException;
 import org.destinationsol.game.Console;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -29,6 +31,7 @@ import java.util.Map;
 public class ShellInputHandler implements ConsoleInputHandler {
 
     private final Map<String, ConsoleInputHandler> commands;
+    private static Logger logger = LoggerFactory.getLogger(ShellInputHandler.class);
 
     public ShellInputHandler() {
         commands = new HashMap<>();
@@ -44,10 +47,25 @@ public class ShellInputHandler implements ConsoleInputHandler {
      *
      * @param cmdName Name, that is first word, of the command
      * @param callback This callback will be called with the full entered command
+     * @throws SolException If the command is already registered
      */
     public void registerCommand(String cmdName, ConsoleInputHandler callback) {
         if (commandExists(cmdName)) {
             throw new SolException("Trying to register command that already exists (" + cmdName + ")");
+        }
+        commands.put(cmdName, callback);
+    }
+
+    /**
+     * Registers a command with this input handler. If the command was already registered then it is replaced
+     *
+     * @param cmdName Name, that is first word, of the command
+     * @param callback This callback will be called with the full entered command
+     */
+    public void registerOrReplaceCommand(String cmdName, ConsoleInputHandler callback) {
+        if (commandExists(cmdName)) {
+            commands.remove(cmdName);
+            logger.debug("Command " + cmdName + " already exists, replacing it with given parameter");
         }
         commands.put(cmdName, callback);
     }
