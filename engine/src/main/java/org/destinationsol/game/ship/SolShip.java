@@ -388,7 +388,7 @@ public class SolShip implements SolObject {
             }
         }
         float thrMoney = myMoney * SolRandom.randomFloat(.2f, 1);
-        List<MoneyItem> moneyItems = game.getItemMan().moneyToItems(thrMoney);
+        List<MoneyItem> moneyItems = game.getItemMan().moneyToItems(thrMoney, 60);
         for (MoneyItem mi : moneyItems) {
             throwLoot(game, mi, true);
         }
