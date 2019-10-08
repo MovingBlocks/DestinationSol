@@ -36,7 +36,7 @@ public class ItemManager {
     public final TextureAtlas.AtlasRegion hugeMoneyIcon;
     public final TextureAtlas.AtlasRegion repairIcon;
     private final HashMap<String, SolItem> myM = new HashMap<>();
-    private final ArrayList<SolItem> myL= new ArrayList<>();
+    private final ArrayList<SolItem> myL = new ArrayList<>();
     private final HashMap<String, Engine.Config> engineConfigs = new HashMap<>();
     private final SolItemTypes myTypes;
     private final RepairItem myRepairExample;
@@ -235,6 +235,7 @@ public class ItemManager {
 
     /**
      * Turn money into item drops
+     *
      * @param amount the amount of money to turn into drops
      */
     public List<MoneyItem> moneyToItems(float amount) {
@@ -243,13 +244,15 @@ public class ItemManager {
 
     /**
      * Turn money into item drops, with a specifiable limit to the number of items
-     * @param amount the amount of money to turn into drops
+     *
+     * @param amount            the amount of money to turn into drops
      * @param maxNoItemsCreated -1 for no limit, otherwise the maximum number of money items to create
      */
     public List<MoneyItem> moneyToItems(float amount, int maxNoItemsCreated) {
         ArrayList<MoneyItem> items = new ArrayList<>();
-        int moneyAmount;
-        while (amount > MoneyItem.SMALL_AMOUNTT) {
+        float moneyAmount;
+
+        while (amount > 0) {
             if (amount > MoneyItem.HUGE_AMOUNT) {
                 moneyAmount = MoneyItem.HUGE_AMOUNT;
             } else if (amount > MoneyItem.BIG_AMOUNT) {
@@ -257,13 +260,13 @@ public class ItemManager {
             } else if (amount > MoneyItem.MEDIUM_AMOUNT) {
                 moneyAmount = MoneyItem.MEDIUM_AMOUNT;
             } else {
-                moneyAmount = MoneyItem.SMALL_AMOUNTT;
+                moneyAmount = amount;
             }
             amount -= moneyAmount;
             items.add(moneyItem(moneyAmount));
 
             // do not create any more money items if limit parameter is reached
-            if((maxNoItemsCreated != -1) && (items.size() == maxNoItemsCreated)) {
+            if ((maxNoItemsCreated != -1) && (items.size() == maxNoItemsCreated)) {
                 break;
             }
         }
