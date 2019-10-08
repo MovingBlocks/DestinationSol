@@ -20,10 +20,10 @@ import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import org.destinationsol.game.SolGame;
 
 public class MoneyItem implements SolItem {
-    public static final int SMALL_AMOUNTT = 10;
-    public static final int MEDIUM_AMOUNT = 3 * SMALL_AMOUNTT;
-    public static final int BIG_AMOUNT = 10 * SMALL_AMOUNTT;
-    public static final int HUGE_AMOUNT = 100 * SMALL_AMOUNTT;
+    public static final int SMALL_AMOUNT = 10;
+    public static final int MEDIUM_AMOUNT = 3 * SMALL_AMOUNT;
+    public static final int BIG_AMOUNT = 10 * SMALL_AMOUNT;
+    public static final int HUGE_AMOUNT = 100 * SMALL_AMOUNT;
 
     private final float amount;
     private final SolItemType itemType;
