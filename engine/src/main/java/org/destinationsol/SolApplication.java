@@ -109,7 +109,7 @@ public class SolApplication implements ApplicationListener {
 
         musicManager = new OggMusicManager(options);
         soundManager = new OggSoundManager(context);
-        inputManager = new SolInputManager(soundManager);
+        inputManager = new SolInputManager(soundManager, context);
 
         musicManager.playMusic(OggMusicManager.MENU_MUSIC_SET, options);
 
@@ -267,7 +267,7 @@ public class SolApplication implements ApplicationListener {
         commonDrawer.dispose();
 
         if (solGame != null) {
-            solGame.onGameEnd();
+            solGame.onGameEnd(context);
         }
 
         inputManager.dispose();
@@ -282,7 +282,7 @@ public class SolApplication implements ApplicationListener {
     }
 
     public void finishGame() {
-        solGame.onGameEnd();
+        solGame.onGameEnd(context);
         solGame = null;
         inputManager.setScreen(this, menuScreens.main);
     }

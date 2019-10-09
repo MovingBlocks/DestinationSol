@@ -35,4 +35,9 @@ public interface Context {
      */
     <T, U extends T> void put(Class<T> type, U object);
 
+    /**
+     * Removes the object known in this context for the given type.
+     */
+    <T, U extends T> void remove(Class<T> type, U object);
+
 }
