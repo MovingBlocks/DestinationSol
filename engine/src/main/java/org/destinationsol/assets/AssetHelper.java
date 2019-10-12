@@ -34,6 +34,7 @@ import org.terasology.assets.ResourceUrn;
 import org.terasology.assets.format.AssetDataFile;
 import org.terasology.assets.format.producer.AssetFileDataProducer;
 import org.terasology.assets.module.ModuleAwareAssetTypeManager;
+import org.terasology.assets.module.ModuleAwareAssetTypeManagerImpl;
 import org.terasology.module.ModuleEnvironment;
 
 import java.util.HashSet;
@@ -49,7 +50,7 @@ public class AssetHelper {
     }
 
     public void init(ModuleEnvironment environment) {
-        assetTypeManager = new ModuleAwareAssetTypeManager();
+        assetTypeManager = new ModuleAwareAssetTypeManagerImpl();
 
         assetTypeManager.createAssetType(OggSound.class, OggSound::new, "sounds");
         ((AssetFileDataProducer)assetTypeManager.getAssetType(OggSound.class).get().getProducers().get(0)).addAssetFormat(new OggSoundFileFormat());

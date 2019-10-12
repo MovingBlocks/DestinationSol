@@ -22,14 +22,34 @@ buildscript {
     }
 }
 
+repositories {
+    mavenLocal()
+
+    // Good ole Maven central
+    mavenCentral()
+
+    // Repos for LibGDX
+    maven { url "https://oss.sonatype.org/content/repositories/snapshots/" }
+    maven { url "https://oss.sonatype.org/content/repositories/releases/" }
+
+    // Terasology Artifactory for any shared libs
+    maven { url "http://artifactory.terasology.org/artifactory/virtual-nanoware-and-remote" }
+
+    maven { url "https://maven.google.com" }
+}
+
 dependencies {
     compile "com.badlogicgames.gdx:gdx:$gdxVersion"
     compile "com.badlogicgames.gdx:gdx-box2d:$gdxVersion"
     compile "com.badlogicgames.gdx:gdx-controllers:$gdxVersion"
-    compile "org.terasology:gestalt-util:6.0.0"
-    compile "org.terasology:gestalt-module:6.0.0"
-    compile "org.terasology:gestalt-asset-core:6.0.0"
-    compile "org.terasology:gestalt-entity-system:6.0.0"
+
+    compile(group: 'gestalt', name: 'gestalt-asset-core', version: '7.42.0-SNAPSHOT')
+    compile(group: 'gestalt', name: 'gestalt-asset-core', version: '7.42.0-SNAPSHOT')
+    compile(group: 'gestalt', name: 'gestalt-asset-core', version: '7.42.0-SNAPSHOT')
+    compile(group: 'gestalt', name: 'gestalt-asset-core', version: '7.42.0-SNAPSHOT')
+
+    compile group: 'com.android.support', name: 'support-annotations', version: '28.0.0'
+
     compile "com.github.everit-org.json-schema:org.everit.json.schema:1.11.1"
     compile "com.github.marschall:zipfilesystem-standalone:1.0.1"
 
@@ -39,7 +59,6 @@ dependencies {
     testCompile "com.badlogicgames.gdx:gdx-box2d-platform:$gdxVersion:natives-desktop"
     testCompile "com.badlogicgames.gdx:gdx-controllers-desktop:$gdxVersion"
     testCompile "com.badlogicgames.gdx:gdx-controllers-platform:$gdxVersion:natives-desktop"
-
 
     // Test lib dependencies
     testCompile group: 'junit', name: 'junit', version: '4.12'

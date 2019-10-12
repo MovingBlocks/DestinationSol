@@ -27,6 +27,8 @@ sourceCompatibility = 1.8
 targetCompatibility = 1.8
 
 repositories {
+    mavenLocal()
+
     // Good ole Maven central
     mavenCentral()
 
@@ -35,10 +37,12 @@ repositories {
     maven { url "https://oss.sonatype.org/content/repositories/releases/" }
 
     // Terasology Artifactory for any shared libs
-    maven { url "http://artifactory.terasology.org/artifactory/virtual-repo-live" }
+    maven { url "http://artifactory.terasology.org/artifactory/virtual-nanoware-and-remote" }
 
     //everit-org JSON schema dependency
     maven { url "https://jitpack.io" }
+
+    maven { url "https://maven.google.com" }
 }
 
 test {
