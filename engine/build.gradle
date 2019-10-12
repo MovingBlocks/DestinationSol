@@ -44,9 +44,9 @@ dependencies {
     compile "com.badlogicgames.gdx:gdx-controllers:$gdxVersion"
 
     compile(group: 'gestalt', name: 'gestalt-asset-core', version: '7.42.0-SNAPSHOT')
-    compile(group: 'gestalt', name: 'gestalt-asset-core', version: '7.42.0-SNAPSHOT')
-    compile(group: 'gestalt', name: 'gestalt-asset-core', version: '7.42.0-SNAPSHOT')
-    compile(group: 'gestalt', name: 'gestalt-asset-core', version: '7.42.0-SNAPSHOT')
+    compile(group: 'gestalt', name: 'gestalt-entity-system', version: '7.42.0-SNAPSHOT')
+    compile(group: 'gestalt', name: 'gestalt-module', version: '7.42.0-SNAPSHOT')
+    compile(group: 'gestalt', name: 'gestalt-util', version: '7.42.0-SNAPSHOT')
 
     compile group: 'com.android.support', name: 'support-annotations', version: '28.0.0'
 
