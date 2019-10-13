@@ -24,7 +24,7 @@ public interface ConsoleInputHandler {
     /**
      * Handles user input from console.
      *
-     * @param input User input from console
+     * @param input   User input from console
      * @param console Console from where the input originates
      */
     void handle(String input, Console console);
