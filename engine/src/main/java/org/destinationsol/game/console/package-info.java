@@ -13,6 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-@API package org.destinationsol.game.console;
+@API
+package org.destinationsol.game.console;
 
 import org.terasology.module.sandbox.API;
