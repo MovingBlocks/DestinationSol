@@ -27,8 +27,9 @@ import org.slf4j.LoggerFactory;
  * A command used to instantly destroy the hero's ship, mostly for debugging purposes.
  */
 public class DieCommandHandler implements ConsoleInputHandler {
-    public Hero hero;
-    public SolGame game;
+
+    private Hero hero;
+    private SolGame game;
 
     public DieCommandHandler(Hero hero, SolGame game) {
         this.hero = hero;
@@ -39,14 +40,16 @@ public class DieCommandHandler implements ConsoleInputHandler {
 
     @Override
     public void handle(String input, Console console) {
-        if(hero.isTranscendent()) {
+        if (hero.isTranscendent()) {
             logger.warn("Cannot kill hero when transcendent!");
             console.println("Cannot kill hero when transcendent!");
+            return;
         }
-        if(!hero.isAlive()) {
+        if (!hero.isAlive()) {
             logger.warn("Hero is already dead!");
             console.println("Hero is already dead!");
+            return;
         }
-        hero.getShip().receivePiercingDmg(hero.getHull().getHullConfig().getMaxLife() + 1, game, hero.getPosition(), DmgType.CRASH);
+        hero.getShip().receivePiercingDmg(hero.getHull().getHullConfig().getMaxLife() + 1f, game, hero.getPosition(), DmgType.CRASH);
     }
 }
