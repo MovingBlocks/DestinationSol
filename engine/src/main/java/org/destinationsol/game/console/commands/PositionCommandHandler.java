@@ -1,5 +1,5 @@
 /*
- * Copyright 2018 MovingBlocks
+ * Copyright 2019 MovingBlocks
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -73,7 +73,7 @@ public class PositionCommandHandler implements ConsoleInputHandler {
      */
     private final int boldExtraCharacters = 6;
     private final PositionFormat defaultFormat = PositionFormat.TERSE;
-    
+
     public PositionCommandHandler(Hero player) {
         hero = player;
     }
