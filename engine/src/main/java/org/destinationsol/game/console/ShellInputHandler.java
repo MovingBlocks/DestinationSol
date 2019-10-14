@@ -25,7 +25,7 @@ import java.util.Map;
 
 /**
  * Default user input handler used by {@link Console}.
- *
+ * <p>
  * Can register additional accepted commands and handle their params.
  */
 public class ShellInputHandler implements ConsoleInputHandler {
@@ -45,7 +45,7 @@ public class ShellInputHandler implements ConsoleInputHandler {
     /**
      * Registers a command with this input handler.
      *
-     * @param cmdName Name, that is first word, of the command
+     * @param cmdName  Name, that is first word, of the command
      * @param callback This callback will be called with the full entered command
      * @throws SolException If the command is already registered
      */
@@ -59,13 +59,13 @@ public class ShellInputHandler implements ConsoleInputHandler {
     /**
      * Registers a command with this input handler. If the command was already registered then it is replaced
      *
-     * @param cmdName Name, that is first word, of the command
+     * @param cmdName  Name, that is first word, of the command
      * @param callback This callback will be called with the full entered command
      */
     public void registerOrReplaceCommand(String cmdName, ConsoleInputHandler callback) {
         if (commandExists(cmdName)) {
             commands.remove(cmdName);
-            logger.debug("Command " + cmdName + " already exists, replacing it with given parameter");
+            logger.debug("Command {} already exists, replacing it with given parameter", cmdName);
         }
         commands.put(cmdName, callback);
     }
@@ -75,8 +75,8 @@ public class ShellInputHandler implements ConsoleInputHandler {
      *
      * @param cmdName Name, that is first word, of the command
      */
-    public boolean commandExists(String cmdName) {
-        return commands.keySet().contains(cmdName);
+    private boolean commandExists(String cmdName) {
+        return commands.containsKey(cmdName);
     }
 
     /**
@@ -93,9 +93,9 @@ public class ShellInputHandler implements ConsoleInputHandler {
 
     @Override
     public void handle(String input, Console console) {
-        for (String cmdName : commands.keySet()) {
-            if (input.startsWith(cmdName + " ") || input.equals(cmdName)) {
-                commands.get(cmdName).handle(input, console);
+        for (Map.Entry<String, ConsoleInputHandler> command : commands.entrySet()) {
+            if (input.startsWith(command.getKey() + " ") || input.equals(command.getKey())) {
+                command.getValue().handle(input, console);
                 break;
             }
         }
