@@ -16,7 +16,6 @@
 package org.destinationsol.game.console.commands;
 
 import org.destinationsol.game.Console;
-import org.destinationsol.game.DmgType;
 import org.destinationsol.game.Hero;
 import org.destinationsol.game.SolGame;
 import org.destinationsol.game.console.ConsoleInputHandler;
@@ -24,32 +23,27 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 /**
- * A command used to instantly destroy the hero's ship, mostly for debugging purposes.
+ * A command used to respawn player's ship
  */
-public class DieCommandHandler implements ConsoleInputHandler {
+public class RespawnCommandHandler implements ConsoleInputHandler {
 
     private Hero hero;
     private SolGame game;
 
-    public DieCommandHandler(Hero hero, SolGame game) {
+    public RespawnCommandHandler(Hero hero, SolGame game) {
         this.hero = hero;
         this.game = game;
     }
 
-    private static Logger logger = LoggerFactory.getLogger(DieCommandHandler.class);
+    private static Logger logger = LoggerFactory.getLogger(RespawnCommandHandler.class);
 
     @Override
     public void handle(String input, Console console) {
-        if (hero.isTranscendent()) {
-            logger.warn("Cannot kill hero when transcendent!");
-            console.println("Cannot kill hero when transcendent!");
+        if (hero.isAlive()) {
+            logger.warn("Cannot respawn hero when not dead!");
+            console.println("Cannot respawn hero when not dead!");
             return;
         }
-        if (!hero.isAlive()) {
-            logger.warn("Hero is already dead!");
-            console.println("Hero is already dead!");
-            return;
-        }
-        hero.getShip().receivePiercingDmg(hero.getHull().getHullConfig().getMaxLife() + 1f, game, hero.getPosition(), DmgType.CRASH);
+        game.respawn();
     }
 }

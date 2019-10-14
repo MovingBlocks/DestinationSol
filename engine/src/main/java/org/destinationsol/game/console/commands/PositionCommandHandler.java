@@ -1,5 +1,5 @@
 /*
- * Copyright 2018 MovingBlocks
+ * Copyright 2019 MovingBlocks
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -24,16 +24,16 @@ import java.util.Locale;
 
 /**
  * A command used to output the position of the hero.
- *
+ * <p>
  * It takes only (optionally) a single parameter: the format to output the position in.
+ *
  * @see PositionCommandHandler.PositionFormat for more details
  */
 public class PositionCommandHandler implements ConsoleInputHandler {
     /**
      * The format that the position should be outputted in.
      */
-    public enum PositionFormat
-    {
+    public enum PositionFormat {
         /**
          * A minimal output, designed to be as concise and to-the-point as possible.
          */
@@ -48,6 +48,7 @@ public class PositionCommandHandler implements ConsoleInputHandler {
         BOLD,
         /**
          * The default formatting of the position, used internally by the engine.
+         *
          * @see Vector2.toString()
          */
         INTERNAL
@@ -55,21 +56,24 @@ public class PositionCommandHandler implements ConsoleInputHandler {
 
     /**
      * The hero to track the position of.
+     *
      * @see Hero for more information.
      */
     public Hero hero;
     /**
      * The character that the bars will consist of when outputting in the BOLD format
+     *
      * @see PositionFormat.BOLD
      */
     private final char boldLineCharacter = '*';
     /**
      * The number of additional characters to add to the bars when outputting in the BOLD format
+     *
      * @see PositionFormat.BOLD
      */
     private final int boldExtraCharacters = 6;
     private final PositionFormat defaultFormat = PositionFormat.TERSE;
-    
+
     public PositionCommandHandler(Hero player) {
         hero = player;
     }
@@ -83,8 +87,7 @@ public class PositionCommandHandler implements ConsoleInputHandler {
         if (args.length == 2) {
             try {
                 outputFormat = PositionFormat.valueOf(args[1].toUpperCase(Locale.ENGLISH));
-            }
-            catch (IllegalArgumentException e) {
+            } catch (IllegalArgumentException e) {
                 console.println("Invalid position format: \"" + args[1] + "\"!");
                 console.println("Currently available formats: ");
                 for (PositionFormat format : PositionFormat.values()) {

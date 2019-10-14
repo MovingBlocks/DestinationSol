@@ -1,5 +1,5 @@
 /*
- * Copyright 2018 MovingBlocks
+ * Copyright 2019 MovingBlocks
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -24,7 +24,7 @@ public interface ConsoleInputHandler {
     /**
      * Handles user input from console.
      *
-     * @param input User input from console
+     * @param input   User input from console
      * @param console Console from where the input originates
      */
     void handle(String input, Console console);
