@@ -192,7 +192,7 @@ fetchGestalt.doLast {
     def gradleCommand = System.getProperty("os.name").toLowerCase().contains("windows") ? "gradlew.bat" : "gradlew"
     exec {
         workingDir "$rootDir/gestalt"
-        commandLine "$rootDir/gestalt/$gradleCommand", 'assemble', '-x', ':gestalt-android-testbed:assemble'
+        commandLine "$rootDir/gestalt/$gradleCommand", 'assemble', '-x', ':gestalt-android-testbed:assemble', '-x', ':gestalt-es-perf:assemble'
     }
 }
 
