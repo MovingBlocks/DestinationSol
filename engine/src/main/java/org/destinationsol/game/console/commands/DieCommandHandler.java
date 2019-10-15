@@ -43,7 +43,7 @@ public class DieCommandHandler implements ConsoleInputHandler {
             return;
         }
         if (!hero.isAlive()) {
-            console.warn("Hero is already dead!");
+            console.error("Hero is already dead!");
             return;
         }
         hero.getShip().receivePiercingDmg(hero.getHull().getHullConfig().getMaxLife() + 1f, game, hero.getPosition(), DmgType.CRASH);
