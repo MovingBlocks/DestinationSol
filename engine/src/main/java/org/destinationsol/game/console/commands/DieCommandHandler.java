@@ -36,18 +36,14 @@ public class DieCommandHandler implements ConsoleInputHandler {
         this.game = game;
     }
 
-    private static Logger logger = LoggerFactory.getLogger(DieCommandHandler.class);
-
     @Override
     public void handle(String input, Console console) {
         if (hero.isTranscendent()) {
-            logger.warn("Cannot kill hero when transcendent!");
-            console.println("Cannot kill hero when transcendent!");
+            console.warn("Cannot kill hero when transcendent!");
             return;
         }
         if (!hero.isAlive()) {
-            logger.warn("Hero is already dead!");
-            console.println("Hero is already dead!");
+            console.warn("Hero is already dead!");
             return;
         }
         hero.getShip().receivePiercingDmg(hero.getHull().getHullConfig().getMaxLife() + 1f, game, hero.getPosition(), DmgType.CRASH);
