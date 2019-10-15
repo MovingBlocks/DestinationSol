@@ -35,13 +35,10 @@ public class RespawnCommandHandler implements ConsoleInputHandler {
         this.game = game;
     }
 
-    private static Logger logger = LoggerFactory.getLogger(RespawnCommandHandler.class);
-
     @Override
     public void handle(String input, Console console) {
         if (hero.isAlive()) {
-            logger.warn("Cannot respawn hero when not dead!");
-            console.println("Cannot respawn hero when not dead!");
+            console.warn("Cannot respawn hero when not dead!");
             return;
         }
         game.respawn();
