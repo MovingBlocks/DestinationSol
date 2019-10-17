@@ -30,26 +30,31 @@ import java.util.Locale;
  * @see PositionCommandHandler.PositionFormat for more details
  */
 public class PositionCommandHandler implements ConsoleInputHandler {
+
     /**
      * The format that the position should be outputted in.
      */
     public enum PositionFormat {
+
         /**
          * A minimal output, designed to be as concise and to-the-point as possible.
          */
         TERSE,
+
         /**
          * A user-readable output, designed to be easily interpreted and understood.
          */
         VERBOSE,
+
         /**
          * An output designed for maximum visibility.
          */
         BOLD,
+
         /**
          * The default formatting of the position, used internally by the engine.
          *
-         * @see Vector2.toString()
+         * @see Vector2#toString()
          */
         INTERNAL
     }
@@ -59,20 +64,26 @@ public class PositionCommandHandler implements ConsoleInputHandler {
      *
      * @see Hero for more information.
      */
-    public Hero hero;
+    private Hero hero;
+
     /**
      * The character that the bars will consist of when outputting in the BOLD format
      *
-     * @see PositionFormat.BOLD
+     * @see PositionFormat#BOLD
      */
-    private final char boldLineCharacter = '*';
+    private static final char BOLD_LINE_CHARACTER = '*';
+
     /**
      * The number of additional characters to add to the bars when outputting in the BOLD format
      *
-     * @see PositionFormat.BOLD
+     * @see PositionFormat#BOLD
      */
-    private final int boldExtraCharacters = 6;
-    private final PositionFormat defaultFormat = PositionFormat.TERSE;
+    private static final int BOLD_EXTRA_CHARACTERS = 6;
+
+    /**
+     * The default format ouf output if not specified
+     */
+    private static final PositionFormat DEFAULT_FORMAT = PositionFormat.TERSE;
 
     public PositionCommandHandler(Hero player) {
         hero = player;
@@ -83,15 +94,15 @@ public class PositionCommandHandler implements ConsoleInputHandler {
         Vector2 heroPosition = hero.getPosition();
         String[] args = input.split(" ", 2);
 
-        PositionFormat outputFormat = defaultFormat;
+        PositionFormat outputFormat = DEFAULT_FORMAT;
         if (args.length == 2) {
             try {
                 outputFormat = PositionFormat.valueOf(args[1].toUpperCase(Locale.ENGLISH));
             } catch (IllegalArgumentException e) {
-                console.println("Invalid position format: \"" + args[1] + "\"!");
-                console.println("Currently available formats: ");
+                console.warn("Invalid position format: \"" + args[1] + "\"!");
+                console.warn("Currently available formats: ");
                 for (PositionFormat format : PositionFormat.values()) {
-                    console.println("   " + format.toString());
+                    console.warn("   " + format.toString());
                 }
                 return;
             }
@@ -99,29 +110,29 @@ public class PositionCommandHandler implements ConsoleInputHandler {
 
         switch (outputFormat) {
             case TERSE:
-                console.println("X: " + heroPosition.x + "   Y: " + heroPosition.y);
+                console.info("X: " + heroPosition.x + "   Y: " + heroPosition.y);
                 break;
             case VERBOSE:
-                console.println("The hero's X co-ordinate is: " + heroPosition.x);
-                console.println("The hero's Y co-ordinate is: " + heroPosition.y);
+                console.info("The hero's X co-ordinate is: " + heroPosition.x);
+                console.info("The hero's Y co-ordinate is: " + heroPosition.y);
                 break;
             case BOLD:
                 String xOutputString = "X: " + heroPosition.x;
                 String yOutputString = "Y: " + heroPosition.y;
 
-                String boldLine = "";
+                StringBuilder boldLine = new StringBuilder();
                 int boldLineLength = Math.max(xOutputString.length(), yOutputString.length());
-                for (int i = 0; i < boldLineLength + boldExtraCharacters; i++) {
-                    boldLine += boldLineCharacter;
+                for (int i = 0; i < boldLineLength + BOLD_EXTRA_CHARACTERS; i++) {
+                    boldLine.append(BOLD_LINE_CHARACTER);
                 }
 
-                console.println(boldLine);
-                console.println(xOutputString);
-                console.println(yOutputString);
-                console.println(boldLine);
+                console.info(boldLine.toString());
+                console.info(xOutputString);
+                console.info(yOutputString);
+                console.info(boldLine.toString());
                 break;
             case INTERNAL:
-                console.println(heroPosition.toString());
+                console.info(heroPosition.toString());
                 break;
         }
     }
