@@ -20,8 +20,6 @@ import org.destinationsol.game.DmgType;
 import org.destinationsol.game.Hero;
 import org.destinationsol.game.SolGame;
 import org.destinationsol.game.console.ConsoleInputHandler;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 /**
  * A command used to instantly destroy the hero's ship, mostly for debugging purposes.
@@ -43,7 +41,7 @@ public class DieCommandHandler implements ConsoleInputHandler {
             return;
         }
         if (!hero.isAlive()) {
-            console.error("Hero is already dead!");
+            console.warn("Hero is already dead!");
             return;
         }
         hero.getShip().receivePiercingDmg(hero.getHull().getHullConfig().getMaxLife() + 1f, game, hero.getPosition(), DmgType.CRASH);
