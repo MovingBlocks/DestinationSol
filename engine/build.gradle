@@ -67,14 +67,6 @@ dependencies {
     testCompile group: 'org.assertj', name: 'assertj-core', version: '3.9.0'
 }
 
-sourceSets {
-    // Main is almost everything - the true engine
-    main {
-        // This makes the resources (assets, 3d wizardry includes, etc) also go to build/classes
-        output.resourcesDir 'build/classes'
-    }
-}
-
 task cacheReflections {
     description = 'Caches reflection output to make regular startup faster. May go stale and need cleanup at times.'
     // TODO: The extra "org" qualifier excludes test classes otherwise sucked up in Jenkins, causing issues. Redo later
