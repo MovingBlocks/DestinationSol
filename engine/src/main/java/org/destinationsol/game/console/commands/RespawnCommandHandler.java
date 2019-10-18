@@ -19,8 +19,6 @@ import org.destinationsol.game.Console;
 import org.destinationsol.game.Hero;
 import org.destinationsol.game.SolGame;
 import org.destinationsol.game.console.ConsoleInputHandler;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 /**
  * A command used to respawn player's ship
@@ -35,13 +33,10 @@ public class RespawnCommandHandler implements ConsoleInputHandler {
         this.game = game;
     }
 
-    private static Logger logger = LoggerFactory.getLogger(RespawnCommandHandler.class);
-
     @Override
     public void handle(String input, Console console) {
         if (hero.isAlive()) {
-            logger.warn("Cannot respawn hero when not dead!");
-            console.println("Cannot respawn hero when not dead!");
+            console.warn("Cannot respawn hero when not dead!");
             return;
         }
         game.respawn();
