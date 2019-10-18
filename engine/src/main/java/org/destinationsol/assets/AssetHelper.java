@@ -27,7 +27,6 @@ import org.destinationsol.assets.json.Json;
 import org.destinationsol.assets.json.JsonFileFormat;
 import org.destinationsol.assets.textures.DSTexture;
 import org.destinationsol.assets.textures.DSTextureFileFormat;
-import org.destinationsol.game.DebugOptions;
 import org.terasology.assets.Asset;
 import org.terasology.assets.AssetData;
 import org.terasology.assets.ResourceUrn;
@@ -64,7 +63,7 @@ public class AssetHelper {
         assetTypeManager.createAssetType(Emitter.class, Emitter::new, "emitters");
         ((AssetFileDataProducer)assetTypeManager.getAssetType(Emitter.class).get().getProducers().get(0)).addAssetFormat(new EmitterFileFormat());
 
-        assetTypeManager.createAssetType(Json.class, Json::new, "collisionMeshes", "ships", "items", "configs", "grounds", "mazes", "asteroids");
+        assetTypeManager.createAssetType(Json.class, Json::new, "collisionMeshes", "ships", "items", "configs", "grounds", "mazes", "asteroids", "schemas");
         ((AssetFileDataProducer)assetTypeManager.getAssetType(Json.class).get().getProducers().get(0)).addAssetFormat(new JsonFileFormat());
 
         assetTypeManager.createAssetType(DSTexture.class, DSTexture::new, "textures", "ships", "items", "grounds", "mazes", "asteroids");
@@ -116,10 +115,8 @@ public class AssetHelper {
 
             StringBuilder path = new StringBuilder();
 
-            if (folders.get(0).equals("engine")) {
-                if (DebugOptions.DEV_ROOT_PATH != null) {
-                    path.append(DebugOptions.DEV_ROOT_PATH);
-                }
+            if (folders.get(0).equals("assets")) {
+                path.append("assets/");
             } else {
                 path.append("modules/").append(folders.get(0)).append("/");
             }
