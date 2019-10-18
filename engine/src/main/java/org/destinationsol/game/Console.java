@@ -47,7 +47,7 @@ public class Console implements SolUiScreen {
 
     /**
      * Magic happens here.
-     *
+     * <p>
      * Sets the maximum width a line of text can have to fit into the console, in some sort of magical units. If you
      * change {@link #TOP_LEFT}, {@link #BOTTOM_RIGHT} or {@link #FRAME_WIDTH}, be sure to change this number too. The
      * only way known to me how to figure out the expected value of this field, is to randomly change it until the text
@@ -58,21 +58,21 @@ public class Console implements SolUiScreen {
 
     /**
      * Position of top left corner of the outermost frame of the console.
-     *
+     * <p>
      * See also {@link #MAX_WIDTH_OF_LINE}.
      */
     private static final Vector2 TOP_LEFT = new Vector2(0.03f, 0.03f);
 
     /**
      * Position of bottom right corner of the outermost frame of the console.
-     *
+     * <p>
      * See also {@link #MAX_WIDTH_OF_LINE}.
      */
     private static final Vector2 BOTTOM_RIGHT = new Vector2(0.8f, 0.5f);
 
     /**
      * Width of the gap between outer, inner and text area frames.
-     *
+     * <p>
      * See also {@link #MAX_WIDTH_OF_LINE}
      */
     private static final float FRAME_WIDTH = 0.02f;
@@ -92,10 +92,10 @@ public class Console implements SolUiScreen {
     /**
      * Stores all the lines of output printed to console, each line shorter in rendered text width than {@link #MAX_WIDTH_OF_LINE}.
      */
-    private final List<String> linesOfOutput;
+    private final List<ConsoleLine> linesOfOutput;
     /**
      * Basically the same font as {@link org.destinationsol.CommonDrawer#font}.
-     *
+     * <p>
      * Required for figuring out char widths.
      */
     private final BitmapFont font;
@@ -130,40 +130,84 @@ public class Console implements SolUiScreen {
             try {
                 defaultInputHandler.registerCommand(commandName, (ConsoleInputHandler) commandHandler.newInstance());
             } catch (Exception e) {
-                logger.error("Error creating instance of command " + commandHandler.getTypeName());
+                logger.error("Error creating instance of command {}", commandHandler.getTypeName());
             }
         }
     }
 
-    public ShellInputHandler getDefaultInputHandler() {
+    ShellInputHandler getDefaultInputHandler() {
         return defaultInputHandler;
     }
 
     /**
-     * Registers a line of text to be rendered in console.
+     * Prints info message to console.
+     * Also logs the message with info level.
      *
+     * @param message message to print & log
+     */
+    public void info(String message) {
+        logger.info(message);
+        println(message);
+    }
+
+    /**
+     * Prints warn message to console.
+     * Also logs the message WARN info level.
+     *
+     * @param message message to print & log
+     */
+    public void warn(String message) {
+        logger.warn(message);
+        println(message, Color.YELLOW);
+    }
+
+    /**
+     * Prints error message to console.
+     * Also logs the message with ERROR level.
+     *
+     * @param message message to print & log
+     */
+    public void error(String message) {
+        logger.error(message);
+        println(message, Color.RED);
+    }
+
+    /**
+     * Prints message to console.
+     * Message is not logged.
+     *
+     * @param message to print
+     * @see Console#println(String, Color)
+     */
+    public void println(String message) {
+        println(message, Color.WHITE);
+    }
+
+    /**
+     * Registers a line of text to be rendered in console in specified color.
+     * <p>
      * Lines too long will be automatically split into several for each to fit nicely into the console space.
-     *
+     * <p>
      * NOTE: Due to limitations of linGdx {@link BitmapFont}, only ASCII characters are allowed. Newlines are also
      * prohibited.
      * TODO allow unicode and newlines. Unicode can be handled by replacing required characters with others, newlines by splitting the input string and recursive calls
      *
      * @param s String to print.
      */
-    public void println(String s) {
+    private void println(String s, Color color) {
         try {
             int width = 0;
             StringBuilder currentLine = new StringBuilder();
             for (char c : s.toCharArray()) {
                 width += (c == ' ' ? 3 : 1) * font.getData().getGlyph(c).width; // Why is this multiplier here? Well, don't ask, I don't know and I wrote it.
                 if (width > MAX_WIDTH_OF_LINE) {
-                    linesOfOutput.add(currentLine.toString());
+                    linesOfOutput.add(ConsoleLine.create(currentLine.toString(), color));
                     currentLine = new StringBuilder();
                     width = (c == ' ' ? 3 : 1) * font.getData().getGlyph(c).width;
                 }
                 currentLine.append(c);
             }
-            linesOfOutput.add(currentLine.toString());
+            linesOfOutput.add(ConsoleLine.create(currentLine.toString(), color));
         } catch (NullPointerException e) {
             throw new SolException("Exception in console: Unicode characters are not permitted. Newlines are not permitted.");
         }
@@ -174,7 +218,7 @@ public class Console implements SolUiScreen {
      *
      * @param inputHandler Handler to use.
      */
-    public void setInputHandler(ConsoleInputHandler inputHandler) {
+    private void setInputHandler(ConsoleInputHandler inputHandler) {
         this.inputHandler = inputHandler;
     }
 
@@ -201,7 +245,7 @@ public class Console implements SolUiScreen {
 
     /**
      * Registers a char entered by user in-game.
-     *
+     * <p>
      * Char is handled only when Console is currently open.
      *
      * @param c Char user entered.
@@ -284,8 +328,9 @@ public class Console implements SolUiScreen {
         final float textX = TOP_LEFT.x + 2 * FRAME_WIDTH; // X position of all text
         for (int line = 0; line < 20; line++) { // Magic constant. Change if Console is resized.
             if (linesOfOutput.size() + line > 19) { // to prevent IndexOutOfBoundsException
-                final String text = linesOfOutput.get(linesOfOutput.size() - 20 + line);
-                uiDrawer.drawString(text, textX, getLineY(line), 0.5f, UiDrawer.TextAlignment.LEFT, false, Color.WHITE);
+                ConsoleLine currentLine = linesOfOutput.get(linesOfOutput.size() - 20 + line);
+                uiDrawer.drawString(currentLine.getMessage(), textX, getLineY(line), 0.5f,
+                        UiDrawer.TextAlignment.LEFT, false, currentLine.getColor());
             }
         }
         drawInputLine(uiDrawer, textX);
@@ -294,11 +339,11 @@ public class Console implements SolUiScreen {
 
     /**
      * Renders the line of user input.
-     *
+     * <p>
      * When the line is longer than {@link #MAX_WIDTH_OF_LINE}, renders only the last part of it that fits.
      *
      * @param uiDrawer Drawer to draw to.
-     * @param textX X position of the text.
+     * @param textX    X position of the text.
      */
     private void drawInputLine(UiDrawer uiDrawer, float textX) {
         StringBuilder stringBuilder = new StringBuilder();
@@ -319,13 +364,14 @@ public class Console implements SolUiScreen {
             }
         }
         // 20.666f - magic constant, change if console is ever resized.
-        uiDrawer.drawString(stringBuilder.reverse().toString(), textX, getLineY(INPUT_LINE_Y), 0.5f, UiDrawer.TextAlignment.LEFT, false, Color.WHITE);
+        uiDrawer.drawString(stringBuilder.reverse().toString(), textX, getLineY(INPUT_LINE_Y), 0.5f,
+                UiDrawer.TextAlignment.LEFT, false, Color.WHITE);
         inputLine.reverse();
     }
 
     /**
      * Returns the Y position of given line.
-     *
+     * <p>
      * Magic constants, change if needed.
      *
      * @param line Line Y position of which to return
