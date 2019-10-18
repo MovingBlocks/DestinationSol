@@ -26,6 +26,11 @@ import org.destinationsol.assets.json.Json;
 import org.destinationsol.assets.textures.DSTexture;
 import org.destinationsol.game.DebugOptions;
 import org.destinationsol.game.SaveManager;
+import org.reflections.Reflections;
+import org.reflections.scanners.SubTypesScanner;
+import org.reflections.scanners.TypeAnnotationsScanner;
+import org.reflections.util.ClasspathHelper;
+import org.reflections.util.ConfigurationBuilder;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.terasology.assets.ResourceUrn;
@@ -172,7 +177,7 @@ public class ModuleManager {
             Reader engineModuleReader = new InputStreamReader(getClass().getResourceAsStream("/module.json"), Charsets.UTF_8);
             ModuleMetadata engineMetadata = new ModuleMetadataJsonAdapter().read(engineModuleReader);
             engineModuleReader.close();
-            ModuleFactory moduleFactory = new DestinationSolModuleFactory();
+            DestinationSolModuleFactory moduleFactory = new DestinationSolModuleFactory();
             engineModule = moduleFactory.createClasspathModule(engineMetadata, false, getClass());
 
             registry = new TableModuleRegistry();
@@ -183,12 +188,11 @@ public class ModuleManager {
                 modulesRoot = Paths.get(".").resolve("modules");
             }
             ModulePathScanner scanner = new ModulePathScanner(moduleFactory);
-            scanner.scan(registry, modulesRoot);
+            scanner.scan(registry, modulesRoot.toFile());
 
             Set<Module> requiredModules = Sets.newHashSet();
-            requiredModules.add(engineModule);
-            requiredModules.addAll(registry);
             registry.add(engineModule);
+            requiredModules.addAll(registry);
 
             loadEnvironment(requiredModules);
         } catch (Exception e) {
@@ -221,12 +225,17 @@ public class ModuleManager {
         permissionFactory.getBasePermissionSet().grantPermission("org.destinationsol.assets.json", FilePermission.class);
         permissionFactory.getBasePermissionSet().grantPermission("org.destinationsol.assets.textures", FilePermission.class);
 
+        ConfigurationBuilder config = new ConfigurationBuilder()
+                .addClassLoader(ClasspathHelper.contextClassLoader())
+                .addUrls(ClasspathHelper.forClassLoader())
+                .addScanners(new TypeAnnotationsScanner(), new SubTypesScanner());
+        Reflections reflections = new Reflections(config);
+
         APIScanner scanner = new APIScanner(permissionFactory);
-        scanner.scan(registry);
-        scanner.scan(engineModule);
+        scanner.scan(reflections);
         Policy.setPolicy(new ModuleSecurityPolicy());
         System.setSecurityManager(new ModuleSecurityManager());
-        environment = new ModuleEnvironment(registry, permissionFactory);
+        environment = new ModuleEnvironment(modules, permissionFactory);
         AssetHelper helper = new AssetHelper();
         helper.init(environment);
         Assets.initialize(helper);
