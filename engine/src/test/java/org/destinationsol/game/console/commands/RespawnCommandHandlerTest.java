@@ -20,37 +20,43 @@ import org.destinationsol.game.Hero;
 import org.destinationsol.game.SolGame;
 import org.junit.Before;
 import org.junit.Test;
+import org.junit.runner.RunWith;
 import org.mockito.Mock;
-import org.mockito.Mockito;
+import org.mockito.junit.MockitoJUnitRunner;
 
-import static org.junit.Assert.*;
+import static org.mockito.Mockito.*;
 
+@RunWith(MockitoJUnitRunner.class)
 public class RespawnCommandHandlerTest {
 
     private RespawnCommandHandler commandHandler;
+
+    @Mock
     private SolGame game;
+
+    @Mock
     private Hero hero;
+
+    @Mock
     private Console console;
 
     @Before
     public void init() {
-        game = Mockito.mock(SolGame.class);
-        hero = Mockito.mock(Hero.class);
         commandHandler = new RespawnCommandHandler(hero, game);
-        console = Mockito.mock(Console.class);
     }
 
     @Test
     public void shouldRespawnWhenDead() {
-        Mockito.when(hero.isAlive()).thenReturn(false);
+        when(hero.isAlive()).thenReturn(false);
         commandHandler.handle("respawn", console);
-        Mockito.verify(game, Mockito.times(1)).respawn();
+        verify(game, times(1)).respawn();
     }
 
     @Test
     public void shouldNotRespawnWhenAlive() {
-        Mockito.when(hero.isAlive()).thenReturn(true);
+        when(hero.isAlive()).thenReturn(true);
         commandHandler.handle("respawn", console);
-        Mockito.verify(game, Mockito.never()).respawn();
+        verify(console, times(1)).warn(anyString());
+        verify(game, never()).respawn();
     }
 }
