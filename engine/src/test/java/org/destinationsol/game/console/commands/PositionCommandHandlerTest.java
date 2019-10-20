@@ -51,8 +51,9 @@ public class PositionCommandHandlerTest {
     }
 
     @Test
-    public void shouldPrintErrorOnUnknownFormat() {
+    public void shouldPrintWarningOnUnknownFormat() {
         commandHandler.handle("position xyz", console);
+        verify(ship, never()).getPosition();
         verify(console, never()).info(anyString());
         verify(console, times(1)).warn("Invalid position format: \"xyz\"!");
     }
@@ -64,6 +65,12 @@ public class PositionCommandHandlerTest {
         int totalLines = formatsCount + additionalLines;
         commandHandler.handle("position xyz", console);
         verify(console, times(totalLines)).warn(anyString());
+    }
+
+    @Test
+    public void checkDefaultOutput() {
+        commandHandler.handle("position", console);
+        verify(console, only()).info("X: " + ship.getPosition().x + "   Y: " + ship.getPosition().y);
     }
 
     @Test
