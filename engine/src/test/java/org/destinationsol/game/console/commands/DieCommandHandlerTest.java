@@ -20,41 +20,55 @@ import org.destinationsol.game.Hero;
 import org.destinationsol.game.SolGame;
 import org.junit.Before;
 import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.mockito.Answers;
+import org.mockito.Mock;
 import org.mockito.Mockito;
+import org.mockito.junit.MockitoJUnitRunner;
 
+import static org.mockito.Mockito.*;
+
+@RunWith(MockitoJUnitRunner.class)
 public class DieCommandHandlerTest {
 
     private DieCommandHandler commandHandler;
+
+    @Mock
+    private SolGame game;
+
+    @Mock(answer = Answers.RETURNS_DEEP_STUBS)
     private Hero hero;
+
+    @Mock
     private Console console;
 
     @Before
     public void init() {
-        SolGame game = Mockito.mock(SolGame.class);
-        hero = Mockito.mock(Hero.class, Mockito.RETURNS_DEEP_STUBS);
         commandHandler = new DieCommandHandler(hero, game);
-        console = Mockito.mock(Console.class);
     }
 
     @Test
     public void shouldKillWhenAliveAndNotTranscendent() {
-        Mockito.when(hero.isTranscendent()).thenReturn(false);
-        Mockito.when(hero.isAlive()).thenReturn(true);
-        Mockito.verify(hero, Mockito.never()).getShip();
+        when(hero.isTranscendent()).thenReturn(false);
+        when(hero.isAlive()).thenReturn(true);
+        commandHandler.handle("die", console);
+        verify(hero, Mockito.times(1)).getShip();
     }
 
     @Test
     public void shouldNotKillWhenTranscendent() {
-        Mockito.when(hero.isTranscendent()).thenReturn(true);
-        commandHandler.handle("respawn", console);
-        Mockito.verify(hero, Mockito.never()).getShip();
+        when(hero.isTranscendent()).thenReturn(true);
+        commandHandler.handle("die", console);
+        verify(console, times(1)).warn(anyString());
+        verify(hero, never()).getShip();
     }
 
     @Test
     public void shouldNotKillWhenAlreadyDead() {
-        Mockito.when(hero.isAlive()).thenReturn(false);
-        commandHandler.handle("respawn", console);
-        Mockito.verify(hero, Mockito.never()).getShip();
+        when(hero.isAlive()).thenReturn(false);
+        commandHandler.handle("die", console);
+        verify(console, times(1)).warn(anyString());
+        verify(hero, never()).getShip();
     }
 
 }
