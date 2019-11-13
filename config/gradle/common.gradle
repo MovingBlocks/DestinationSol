@@ -27,6 +27,8 @@ sourceCompatibility = 1.8
 targetCompatibility = 1.8
 
 repositories {
+    mavenLocal()
+
     // Good ole Maven central
     mavenCentral()
 
