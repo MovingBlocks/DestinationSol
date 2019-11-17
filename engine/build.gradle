@@ -37,6 +37,13 @@ dependencies {
     compile "com.github.marschall:zipfilesystem-standalone:1.0.1"
     compile 'dom4j:dom4j:1.6.1'
 
+    //TODO inserted by someone who has no idea how the gradle thing works. Inspect whether necessary (for tests). Copied rom desktop build.gradle. May break things with android (maybe)
+    testCompile "com.badlogicgames.gdx:gdx-backend-headless:$gdxVersion"
+    testCompile "com.badlogicgames.gdx:gdx-platform:$gdxVersion:natives-desktop"
+    testCompile "com.badlogicgames.gdx:gdx-box2d-platform:$gdxVersion:natives-desktop"
+    testCompile "com.badlogicgames.gdx:gdx-controllers-desktop:$gdxVersion"
+    testCompile "com.badlogicgames.gdx:gdx-controllers-platform:$gdxVersion:natives-desktop"
+
     // Test lib dependencies
     testCompile group: 'junit', name: 'junit', version: '4.12'
     testCompile group: 'org.mockito', name: 'mockito-core', version: '2.7.22'
