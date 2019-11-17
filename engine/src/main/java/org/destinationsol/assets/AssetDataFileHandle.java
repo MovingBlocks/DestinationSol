@@ -16,7 +16,7 @@
 package org.destinationsol.assets;
 
 import com.badlogic.gdx.files.FileHandle;
-import org.terasology.assets.format.AssetDataFile;
+import org.terasology.gestalt.assets.format.AssetDataFile;
 
 import java.io.BufferedInputStream;
 import java.io.InputStream;

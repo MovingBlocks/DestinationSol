@@ -26,8 +26,8 @@ import org.destinationsol.assets.textures.DSTexture;
 import org.json.JSONArray;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.terasology.assets.ResourceUrn;
-import org.terasology.module.ModuleEnvironment;
+import org.terasology.gestalt.assets.ResourceUrn;
+import org.terasology.gestalt.module.ModuleEnvironment;
 
 import java.util.ArrayList;
 import java.util.Arrays;
