@@ -21,8 +21,8 @@ import com.google.common.base.Joiner;
 import com.google.common.collect.HashMultimap;
 import com.google.common.collect.Maps;
 import com.google.common.collect.SetMultimap;
-import org.terasology.module.resources.FileReference;
-import org.terasology.module.resources.ModuleFileSource;
+import org.terasology.gestalt.module.resources.FileReference;
+import org.terasology.gestalt.module.resources.ModuleFileSource;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -45,7 +45,7 @@ import java.util.zip.ZipFile;
 /**
  * A ModuleFileSource that exposes the content of an archive file (zip/jar).
  * This class is mostly a copy of ArchiveFileSource but uses ZipFile rather then ZipInputStream.
- * @see org.terasology.module.resources.ArchiveFileSource
+ * @see org.terasology.gestalt.module.resources.ArchiveFileSource
  */
 public class OptimisedArchiveFileSource implements ModuleFileSource {
     private static final String PATH_SEPARATOR = "/";

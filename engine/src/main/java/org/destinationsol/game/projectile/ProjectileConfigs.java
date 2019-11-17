@@ -28,7 +28,7 @@ import org.destinationsol.game.DmgType;
 import org.destinationsol.game.GameColors;
 import org.destinationsol.game.particle.EffectConfig;
 import org.destinationsol.game.particle.EffectTypes;
-import org.terasology.assets.ResourceUrn;
+import org.terasology.gestalt.assets.ResourceUrn;
 
 import java.util.HashMap;
 import java.util.Map;

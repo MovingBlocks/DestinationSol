@@ -16,7 +16,7 @@
 package org.destinationsol.assets.json;
 
 import org.json.JSONObject;
-import org.terasology.assets.AssetData;
+import org.terasology.gestalt.assets.AssetData;
 
 public class JsonData implements AssetData {
     private JSONObject jsonValue;
