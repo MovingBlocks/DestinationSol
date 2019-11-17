@@ -16,7 +16,7 @@
 package org.destinationsol.assets.emitters;
 
 import com.badlogic.gdx.graphics.g2d.ParticleEmitter;
-import org.terasology.assets.AssetData;
+import org.terasology.gestalt.assets.AssetData;
 
 public class EmitterData implements AssetData {
     private ParticleEmitter particleEmitter;

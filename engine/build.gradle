@@ -27,20 +27,15 @@ dependencies {
     compile "com.badlogicgames.gdx:gdx-box2d:$gdxVersion"
     compile "com.badlogicgames.gdx:gdx-controllers:$gdxVersion"
 
-    compile "gestalt:gestalt-asset-core:7.42.0-SNAPSHOT"
-    compile "gestalt:gestalt-entity-system:7.42.0-SNAPSHOT"
-    compile "gestalt:gestalt-module:7.42.0-SNAPSHOT"
-    compile "gestalt:gestalt-util:7.42.0-SNAPSHOT"
+    compile(group: 'org.terasology.gestalt', name: 'gestalt-asset-core', version: '7.0.3')
+    compile(group: 'org.terasology.gestalt', name: 'gestalt-entity-system', version: '7.0.3')
+    compile(group: 'org.terasology.gestalt', name: 'gestalt-module', version: '7.0.3')
+    compile(group: 'org.terasology.gestalt', name: 'gestalt-util', version: '7.0.3')
+
 
     compile "com.github.everit-org.json-schema:org.everit.json.schema:1.11.1"
     compile "com.github.marschall:zipfilesystem-standalone:1.0.1"
-
-    //TODO inserted by someone who has no idea how the gradle thing works. Inspect whether necessary (for tests). Copied rom desktop build.gradle. May break things with android (maybe)
-    testCompile "com.badlogicgames.gdx:gdx-backend-headless:$gdxVersion"
-    testCompile "com.badlogicgames.gdx:gdx-platform:$gdxVersion:natives-desktop"
-    testCompile "com.badlogicgames.gdx:gdx-box2d-platform:$gdxVersion:natives-desktop"
-    testCompile "com.badlogicgames.gdx:gdx-controllers-desktop:$gdxVersion"
-    testCompile "com.badlogicgames.gdx:gdx-controllers-platform:$gdxVersion:natives-desktop"
+    compile 'dom4j:dom4j:1.6.1'
 
     // Test lib dependencies
     testCompile group: 'junit', name: 'junit', version: '4.12'
