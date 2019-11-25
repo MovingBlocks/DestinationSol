@@ -26,6 +26,7 @@ import org.destinationsol.common.SolColor;
 import org.destinationsol.common.SolMath;
 import org.destinationsol.common.SolRandom;
 import org.destinationsol.game.DebugOptions;
+import org.destinationsol.game.FactionInfo;
 import org.destinationsol.game.SaveManager;
 import org.destinationsol.game.SolGame;
 import org.destinationsol.game.WorldConfig;
@@ -64,6 +65,7 @@ public class SolApplication implements ApplicationListener {
 
     private UiDrawer uiDrawer;
 
+    private FactionDisplay factionDisplay;
     private MenuScreens menuScreens;
     private SolLayouts layouts;
     private GameOptions options;
@@ -83,9 +85,10 @@ public class SolApplication implements ApplicationListener {
     // TODO: Make this non-static.
     private static Set<ResizeSubscriber> resizeSubscribers;
 
-    public SolApplication(float targetFPS) {
+    public SolApplication(ModuleManager moduleManager, float targetFPS) {
         // Initiate Box2D to make sure natives are loaded early enough
         Box2D.init();
+        this.moduleManager = moduleManager;
         this.targetFPS = 1.0f / targetFPS;
         resizeSubscribers = new HashSet<>();
     }
@@ -101,14 +104,12 @@ public class SolApplication implements ApplicationListener {
         }
         options = new GameOptions(isMobile(), null);
 
-        moduleManager = new ModuleManager();
-
         logger.info("\n\n ------------------------------------------------------------ \n");
         moduleManager.printAvailableModules();
 
         musicManager = new OggMusicManager(options);
         soundManager = new OggSoundManager(context);
-        inputManager = new SolInputManager(soundManager);
+        inputManager = new SolInputManager(soundManager, context);
 
         musicManager.playMusic(OggMusicManager.MENU_MUSIC_SET, options);
 
@@ -218,6 +219,7 @@ public class SolApplication implements ApplicationListener {
         inputManager.draw(uiDrawer, this);
         if (solGame != null) {
             solGame.drawDebugUi(uiDrawer);
+            factionDisplay.drawFactionNames(solGame, uiDrawer, inputManager, solGame.getObjectManager());
         }
         if (fatalErrorMsg != null) {
             uiDrawer.draw(uiDrawer.whiteTexture, displayDimensions.getRatio(), .5f, 0, 0, 0, .25f, 0, SolColor.UI_BG);
@@ -247,7 +249,9 @@ public class SolApplication implements ApplicationListener {
             beforeLoadGame();
         }
 
+        FactionInfo factionInfo = new FactionInfo();
         solGame = new SolGame(shipName, tut, isNewGame, commonDrawer, context, worldConfig);
+        factionDisplay = new FactionDisplay(solGame, factionInfo);
         inputManager.setScreen(this, solGame.getScreens().mainGameScreen);
     }
 
@@ -263,7 +267,7 @@ public class SolApplication implements ApplicationListener {
         commonDrawer.dispose();
 
         if (solGame != null) {
-            solGame.onGameEnd();
+            solGame.onGameEnd(context);
         }
 
         inputManager.dispose();
@@ -278,7 +282,7 @@ public class SolApplication implements ApplicationListener {
     }
 
     public void finishGame() {
-        solGame.onGameEnd();
+        solGame.onGameEnd(context);
         solGame = null;
         inputManager.setScreen(this, menuScreens.main);
     }
@@ -307,6 +311,7 @@ public class SolApplication implements ApplicationListener {
         // Reset the seed so this galaxy isn't the same as the last
         worldConfig.setSeed(System.currentTimeMillis());
         SolRandom.setSeed(worldConfig.getSeed());
+        FactionInfo.clearValues();
 
         worldConfig.setNumberOfSystems(getMenuScreens().newShip.getNumberOfSystems());
     }

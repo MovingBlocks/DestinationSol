@@ -26,6 +26,7 @@ import org.destinationsol.common.SolMath;
 import org.destinationsol.common.SolRandom;
 import org.destinationsol.game.AbilityCommonConfig;
 import org.destinationsol.game.DmgType;
+import org.destinationsol.game.FactionInfo;
 import org.destinationsol.game.RemoveController;
 import org.destinationsol.game.SolGame;
 import org.destinationsol.game.SolObject;
@@ -59,6 +60,8 @@ public class SolShip implements SolObject {
     private static final float ENERGY_DMG_FACTOR = .7f;
     private boolean colliding;
 
+    private String factionName;
+    private int factionID;
     private final Pilot myPilot;
     private final ItemContainer myItemContainer;
     private final TradeContainer myTradeContainer;
@@ -79,6 +82,7 @@ public class SolShip implements SolObject {
     private float myAbilityAwait;
     private float myControlEnableAwait;
     private MercItem mercItem;
+    private boolean isMerc;
 
     public SolShip(SolGame game, Pilot pilot, Hull hull, RemoveController removeController, List<Drawable> drawables,
                    ItemContainer container, ShipRepairer repairer, float money, TradeContainer tradeContainer, Shield shield,
@@ -106,6 +110,8 @@ public class SolShip implements SolObject {
         if (myAbility != null) {
             myAbilityAwait = myAbility.getConfig().getRechargeTime();
         }
+        factionID = FactionInfo.getFactionID(this);
+        factionName = FactionInfo.getFactionNames().get(factionID).toString();
     }
 
     @Override
@@ -116,8 +122,12 @@ public class SolShip implements SolObject {
     @Override
     public FarShip toFarObject() {
         float rotationSpeed = myHull.getBody().getAngularVelocity() * MathUtils.radDeg;
-        return new FarShip(myHull.getPosition(), myHull.getVelocity(), myHull.getAngle(), rotationSpeed, myPilot, myItemContainer, myHull.config, myHull.life,
+        FarShip farShip = new FarShip(myHull.getPosition(), myHull.getVelocity(), myHull.getAngle(), rotationSpeed, myPilot, myItemContainer, myHull.config, myHull.life,
                 myHull.getGun(false), myHull.getGun(true), myRemoveController, myHull.getEngine(), myRepairer, myMoney, myTradeContainer, myShield, myArmor);
+        if (isMerc) {
+            farShip.setMerc(mercItem);
+        }
+        return farShip;
     }
 
     @Override
@@ -228,6 +238,13 @@ public class SolShip implements SolObject {
         updateAbility(game);
         updateIdleTime(game);
         updateShield(game);
+
+        if (!isMerc && FactionInfo.getDisposition().get(factionID) < -5) {
+            getPilot().stringToFaction("ehar");
+        } else {
+            getPilot().stringToFaction("laani");
+        }
+
         if (myArmor != null && !myItemContainer.contains(myArmor)) {
             myArmor = null;
         }
@@ -367,7 +384,7 @@ public class SolShip implements SolObject {
             }
         }
         float thrMoney = myMoney * SolRandom.randomFloat(.2f, 1);
-        List<MoneyItem> moneyItems = game.getItemMan().moneyToItems(thrMoney);
+        List<MoneyItem> moneyItems = game.getItemMan().moneyToItems(thrMoney, 60);
         for (MoneyItem mi : moneyItems) {
             throwLoot(game, mi, true);
         }
@@ -413,6 +430,21 @@ public class SolShip implements SolObject {
             }
             dmg *= (1 - myArmor.getPerc());
         }
+        getHitWith(dmg, game, position, dmgType);
+    }
+
+    /**
+     * Like {{@link #receiveDmg(float, SolGame, Vector2, DmgType)} but shield and armor are ignored, the damage goes straight to the hull
+     */
+    public void receivePiercingDmg(float dmg, SolGame game, Vector2 position, DmgType dmgType) {
+        if (dmg <= 0) {
+            return;
+        }
+
+        getHitWith(dmg, game, position, dmgType);
+    }
+
+    private void getHitWith(float dmg, SolGame game, Vector2 position, DmgType dmgType) {
         playHitSound(game, position, dmgType);
 
         boolean wasAlive = myHull.life > 0;
@@ -431,6 +463,7 @@ public class SolShip implements SolObject {
     /**
      * Method to be called on the death of a SolShip
      * Note: Use {@link SolGame#setRespawnState()}} for the death of the player specifically
+     *
      * @param game The SolGame currently in progress.
      */
     private void onDeath(SolGame game) {
@@ -636,20 +669,30 @@ public class SolShip implements SolObject {
     }
 
     /**
-     * Each SolShip could be a mercenary. Each mercenary is definitely a SolShip.
-     * This method sets the associated MercItem.
-     * @param mercItem The {@link MercItem} that this SolShip is associated with. Can be null.
+     * Sets the mercItem and declares the ship to be a mercenary.
+     *
+     * Optional @param mercItem The {@link MercItem} of the SolShip.
      */
     public void setMerc(MercItem mercItem) {
         this.mercItem = mercItem;
+        isMerc = true;
     }
 
-    /**
-     * Each SolShip could be a mercenary. Each mercenary is definitely a SolShip.
-     * This method gets the associated MercItem.
-     * @return The {@link MercItem} that this SolShip is associated with. Can be null.
-     */
     public MercItem getMerc() {
         return this.mercItem;
+    }
+
+    public boolean isMerc() { return this.isMerc; }
+
+    public String getFactionName() {
+        return factionName;
+    }
+
+    public int getFactionID() {
+        return factionID;
+    }
+
+    public void changeDisposition(int id) {
+        FactionInfo.setDisposition(id, -1);
     }
 }

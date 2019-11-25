@@ -22,6 +22,7 @@ import com.badlogic.gdx.backends.lwjgl3.Lwjgl3Application;
 import com.badlogic.gdx.backends.lwjgl3.Lwjgl3ApplicationConfiguration;
 import com.badlogic.gdx.backends.lwjgl3.Lwjgl3Graphics;
 import org.destinationsol.GameOptions;
+import org.destinationsol.modules.ModuleManager;
 import org.destinationsol.SolApplication;
 import org.destinationsol.SolFileReader;
 import org.destinationsol.game.DebugOptions;
@@ -30,11 +31,15 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.terasology.crashreporter.CrashReporter;
 
+import java.awt.Graphics2D;
+import java.awt.Color;
+import java.awt.SplashScreen;
+import java.awt.Rectangle;
+import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.io.StringWriter;
-import java.io.BufferedReader;
 import java.nio.charset.Charset;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -52,11 +57,23 @@ import java.util.stream.Stream;
 public final class SolDesktop {
 
     private static Logger logger = LoggerFactory.getLogger(SolDesktop.class);
+    private static boolean initFinished;
+    private static ModuleManager moduleManager;
 
     /**
      * Specifies the commandline option to pass to the application for it to generate no crash reports.
      */
     private static final String NO_CRASH_REPORT = "-noCrashReport";
+
+    /**
+     * Specifies the commandline option to pass to the application for it to not show a splash-screen.
+     */
+    private static final String NO_SPLASH_SCREEN = "-noSplash";
+
+    /**
+     * The colour for the splash-screen logo to be shown in.
+     */
+    private static final Color LOGO_COLOUR = Color.LIGHT_GRAY;
 
     /**
      * This class is basically only a holder for the Java's {@code main(String[])} method, thus needs not to be
@@ -66,6 +83,23 @@ public final class SolDesktop {
     }
 
     public static void main(String[] argv) {
+        SplashScreen splash = null;
+        try {
+            splash = SplashScreen.getSplashScreen();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        boolean useSplash = (splash != null) && Stream.of(argv).noneMatch(s -> s.equals(NO_SPLASH_SCREEN));
+        if (useSplash) {
+            Graphics2D splashScreenGraphics = splash.createGraphics();
+            Rectangle splashBounds = splash.getBounds();
+            splashScreenGraphics.setColor(LOGO_COLOUR);
+            splashScreenGraphics.setPaintMode();
+            splashScreenGraphics.fillRect(0, 0, splashBounds.width, splashBounds.height);
+            splash.update();
+        }
+
         Lwjgl3ApplicationConfiguration applicationConfig = new Lwjgl3ApplicationConfiguration();
         //TODO: Is checking for a presence of the file really the way we want to determine if it is a debug build?
         handleDevBuild(applicationConfig);
@@ -79,13 +113,33 @@ public final class SolDesktop {
         // Set the application's title, icon...
         applicationConfig.setTitle("Destination Sol");
         if (DebugOptions.DEV_ROOT_PATH == null) {
-            applicationConfig.setWindowIcon(Files.FileType.Internal, "src/main/resources/icon.png");
+            applicationConfig.setWindowIcon(Files.FileType.Internal, "icon.png");
         } else {
             applicationConfig.setWindowIcon(Files.FileType.Absolute, DebugOptions.DEV_ROOT_PATH + "/icon.png");
         }
 
         handleCrashReporting(argv);
-        SolApplication application = new SolApplication(100);
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                moduleManager = new ModuleManager();
+                initFinished = true;
+            }
+        }).start();
+
+        while (!initFinished) {
+            try {
+                Thread.sleep(100);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+
+        if (useSplash) {
+            splash.close();
+        }
+        // Everything is set up correctly, launch the application
+        SolApplication application = new SolApplication(moduleManager, 100);
         SolApplication.addResizeSubscriber(new SolDesktop.FullScreenWindowPositionAdjustment(!options.fullscreen));
         // Everything is set up correctly, launch the application
         new Lwjgl3Application(application, applicationConfig);
@@ -180,11 +234,9 @@ public final class SolDesktop {
     private static class MyReader implements SolFileReader {
         @Override
         public Path create(String fileName, List<String> lines) {
-            String path;
+            String path = "";
             if (DebugOptions.DEV_ROOT_PATH != null) {
                 path = DebugOptions.DEV_ROOT_PATH;
-            } else {
-                path = "src/main/resources/";
             }
             path += fileName;
 
@@ -199,11 +251,9 @@ public final class SolDesktop {
 
         @Override
         public List<String> read(String fileName) {
-            String path;
+            String path = "";
             if (DebugOptions.DEV_ROOT_PATH != null) {
                 path = DebugOptions.DEV_ROOT_PATH;
-            } else {
-                path = "src/main/resources/";
             }
             path += fileName;
 

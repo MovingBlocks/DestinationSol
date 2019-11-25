@@ -17,6 +17,7 @@ package org.destinationsol.assets.audio;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.files.FileHandle;
+import org.destinationsol.assets.AssetDataFileHandle;
 import org.destinationsol.assets.AssetHelper;
 import org.terasology.assets.ResourceUrn;
 import org.terasology.assets.format.AbstractAssetFileFormat;
@@ -24,7 +25,6 @@ import org.terasology.assets.format.AssetDataFile;
 import org.terasology.assets.module.annotations.RegisterAssetFileFormat;
 
 import java.io.IOException;
-import java.nio.file.Paths;
 import java.util.List;
 
 @RegisterAssetFileFormat
@@ -37,7 +37,7 @@ public class OggMusicFileFormat extends AbstractAssetFileFormat<OggMusicData> {
     public OggMusicData load(ResourceUrn urn, List<AssetDataFile> inputs) throws IOException {
         String path = AssetHelper.resolveToPath(inputs);
 
-        FileHandle handle = new FileHandle(Paths.get(path).toFile());
+        FileHandle handle = new AssetDataFileHandle(inputs.get(0));
         return new OggMusicData(Gdx.audio.newMusic(handle));
     }
 }

@@ -19,7 +19,9 @@ import com.badlogic.gdx.math.Vector2;
 import org.destinationsol.GameOptions;
 import org.destinationsol.assets.audio.OggMusicManager;
 import org.destinationsol.common.SolException;
+import org.destinationsol.game.console.commands.DieCommandHandler;
 import org.destinationsol.game.console.commands.PositionCommandHandler;
+import org.destinationsol.game.console.commands.RespawnCommandHandler;
 import org.destinationsol.game.input.Pilot;
 import org.destinationsol.game.item.Armor;
 import org.destinationsol.game.item.ItemContainer;
@@ -29,8 +31,6 @@ import org.destinationsol.game.ship.FarShip;
 import org.destinationsol.game.ship.ShipAbility;
 import org.destinationsol.game.ship.SolShip;
 import org.destinationsol.game.ship.hulls.Hull;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 /**
  * A wrapper class for the Hero, that handles the normal and transcendent ships transparently.
@@ -50,12 +50,10 @@ public class Hero {
         setSolShip(shipHero, solGame);
     }
 
-    public void initialise() {
-        if (!Console.getInstance().getDefaultInputHandler().commandExists("position")) {
-            Console.getInstance().getDefaultInputHandler().registerCommand("position", new PositionCommandHandler(this));
-        } else {
-            ((PositionCommandHandler) Console.getInstance().getDefaultInputHandler().getRegisteredCommand("position")).hero = this;
-        }
+    public void initialise(SolGame game) {
+        Console.getInstance().getDefaultInputHandler().registerOrReplaceCommand("position", new PositionCommandHandler(this));
+        Console.getInstance().getDefaultInputHandler().registerOrReplaceCommand("die", new DieCommandHandler(this, game));
+        Console.getInstance().getDefaultInputHandler().registerOrReplaceCommand("respawn", new RespawnCommandHandler(this, game));
     }
 
     public void setTranscendent(StarPort.Transcendent transcendentHero) {
@@ -66,7 +64,7 @@ public class Hero {
 
     public void setSolShip(SolShip hero, SolGame solGame) {
         isDead = false;
-        if (hero != shipHero) {
+        if (hero != shipHero && !isTranscendent) {
             mercs = new ItemContainer();
         }
         this.shipHero = hero;
@@ -76,7 +74,7 @@ public class Hero {
         }
         GameOptions options = solGame.getSolApplication().getOptions();
         //Satisfying unit tests
-        if(hero.getHull() != null)
+        if (hero.getHull() != null)
             solGame.getSolApplication().getMusicManager().registerModuleMusic(hero.getHull().getHullConfig().getInternalName().split(":")[0], options);
         solGame.getSolApplication().getMusicManager().playMusic(OggMusicManager.GAME_MUSIC_SET, options);
     }

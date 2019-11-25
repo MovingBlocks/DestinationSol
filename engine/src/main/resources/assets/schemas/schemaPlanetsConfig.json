@@ -1,0 +1,188 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "description": "Configuration for planets that spawn in the world.",
+  "propertyNames": {
+    "pattern": "^\\w+$",
+    "description": "Planet config names must be a sequence of basic alphanumeric characters without a space."
+  },
+  "additionalProperties": {
+    "type": "object",
+    "required": [
+      "minGrav",
+      "maxGrav",
+      "cloudTexs",
+      "groundTexs",
+      "rowCount"
+    ],
+    "properties": {
+      "minGrav": {
+        "type": "number",
+        "description": "The minimum value of gravity for this planet.",
+        "minimum": 0
+      },
+      "maxGrav": {
+        "type": "number",
+        "description": "The maximum value of gravity for this planet.",
+        "minimum": 0
+      },
+      "decorations": {
+        "type": "object",
+        "propertyNames": {
+          "description": "Decoration config names must be the gestalt ID of the decoration texture.",
+          "pattern": "^\\w+:\\w+$"
+        },
+        "additionalProperties": {
+          "type": "object",
+          "properties": {
+            "density": {
+              "type": "number",
+              "description": "The frequency of placement for this decoration on the planet.",
+              "exclusiveMinimum": 0
+            },
+            "szMin": {
+              "type": "number",
+              "description": "The minimum size of this decoration.",
+              "exclusiveMinimum": 0
+            },
+            "szMax": {
+              "type": "number",
+              "description": "The maximum size of this decoration.",
+              "exclusiveMinimum": 0
+            },
+            "orig": {
+              "$ref": "#/definitions/vec2"
+            },
+            "allowFlip": {
+              "type": "boolean",
+              "description": "True if the decoration could be drawn flipped, false otherwise."
+            }
+          },
+          "required": [
+            "density",
+            "szMin",
+            "szMax",
+            "orig",
+            "allowFlip"
+          ]
+        }
+      },
+      "highOrbitEnemies": {
+        "$ref": "#/definitions/shipArray"
+      },
+      "lowOrbitEnemies": {
+        "$ref": "#/definitions/shipArray"
+      },
+      "groundEnemies": {
+        "$ref": "#/definitions/shipArray"
+      },
+      "station": {
+        "$ref": "#/definitions/ship"
+      },
+      "cloudTexs": {
+        "type": "string",
+        "description": "The root gestalt ID of the textures for the planet's clouds.",
+        "pattern": "^\\w+:\\w+$"
+      },
+      "groundTexs": {
+        "type": "string",
+        "description": "The root gestalt ID of the JSON config and textures for the planet ground.",
+        "pattern": "^\\w+:\\w+$"
+      },
+      "sky": {
+        "type": "object",
+        "description": "The configuration for the colors in the planet's sky.",
+        "properties": {
+          "dawnColor": {
+            "$ref": "#/definitions/color"
+          },
+          "dayColor": {
+            "$ref": "#/definitions/color"
+          }
+        }
+      },
+      "rows": {
+        "type": "integer",
+        "description": "The number of iterations performed during planet generation.",
+        "exclusiveMinimum": 0
+      },
+      "smoothLandscape": {
+        "type": "boolean",
+        "description": "True if smoothing should be performed on the planet terrain, false otherwise."
+      },
+      "trading": {
+        "type": "object",
+        "description": "The configuration of the trading stations that spawn on the planet.",
+        "properties": {
+          "items": {
+            "$ref": "#/definitions/items"
+          },
+          "ships": {
+            "type": "string",
+            "description": "A list of ships that the player can change their ship to.",
+            "pattern": "^(\\w+:\\w+)( \\w+:\\w+)*$"
+          },
+          "mercenaries": {
+            "$ref": "#/definitions/shipArray"
+          }
+        }
+      },
+      "hardOnly": {
+        "type": "boolean",
+        "description": "True if the planet should only be spawned when the parent system is in hard mode. False by default."
+      },
+      "easyOnly": {
+        "type": "boolean",
+        "description": "True if the planet should only be spawned when the parent system is in easy mode, False by default."
+      }
+    }
+  },
+  "definitions": {
+    "vec2": {
+      "type": "string",
+      "pattern": "^(-?([0-9]*\\.)?[0-9]+ +(-?[0-9]*\\.)?[0-9]+)$",
+      "$comment": "2 float values separated by one or more spaces, ints also accepted"
+    },
+    "ship": {
+      "type": "object",
+      "properties": {
+        "hull": {
+          "type": "string",
+          "description": "Id of the hull of this ship.",
+          "pattern": "^\\w+:\\w+$"
+        },
+        "items": {
+          "$ref": "#/definitions/items"
+        },
+        "money": {
+          "type": "integer",
+          "description": "Starting money for the player on spawn."
+        },
+        "density": {
+          "type": "number",
+          "description": "The density of these ships present on the planet. N/A for 'station'",
+          "exclusiveMinimum": 0
+        }
+      },
+      "required": [
+        "hull",
+        "items"
+      ]
+    },
+    "items": {
+      "type": "string",
+      "description": "Space separated list of items the ship possesses on spawn. See /docs/items.txt for a more detailed explanation.",
+      "pattern": "^(((0(\\.\\d+)?|1\\.0)\\|)?(\\d+\\*)?(\\w+(:\\w+)?(-[12])?)(\\+(\\w+(:\\w+)?(-[12])?))*)( ((0(\\.\\d+)?|1\\.0)\\|)?(\\d+\\*)?(\\w+(:\\w+)?(-[12])?)(\\+(\\w+(:\\w+)?(-[12])?))*)* ?$"
+    },
+    "shipArray": {
+      "type": "array",
+      "items": {
+        "$ref": "#/definitions/ship"
+      }
+    },
+    "color": {
+      "type": "string",
+      "pattern": "^((hsb (((360)|(3[0-5]\\d)|([012]?\\d?\\d))( ((100)|\\d?\\d)){2})|(((([01]?\\d?\\d)|(2[0-4]\\d)|(25[0-5])) ){2}(([01]?\\d?\\d)|(2[0-4]\\d)|(25[0-5]))))( (([01]?\\d?\\d)|(2[0-4]\\d)|(25[0-5])))?)$",
+      "description": "Color can be defined in the form `rrr ggg bbb`, `rrr ggg bbb aaa`, `hsb hhh sss bbb` or `hsb hhh sss bbb aaa`"
+    }
+  }
+}
