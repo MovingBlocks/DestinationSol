@@ -1,0 +1,70 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "description": "Clips are the ITEMS loaded into guns. They specify things like buying price, display name...",
+  "type": "object",
+  "required": [
+    "projectile",
+    "size"
+  ],
+  "properties": {
+    "projectile": {
+      "description": "name of the projectile shot by this clip, defined in projectilesConfig",
+      "type": "string",
+      "pattern": "^\\w+$"
+    },
+    "infinite": {
+      "type": "boolean",
+      "description": "True if it never runs out, false otherwise. When false, several new fields are required"
+    },
+    "size": {
+      "type": "integer",
+      "exclusiveMinimum": 0,
+      "description": "Amount of projectiles in the clip"
+    },
+    "projectilesPerShot": {
+      "type": "integer",
+      "minimum": 1,
+      "description": "Amount of projectiles consumed per shot"
+    }
+  },
+  "anyOf": [
+    {
+      "properties": {
+        "infinite": {
+          "enum": [
+            true
+          ]
+        }
+      },
+      "required": ["infinite"]
+    },
+    {
+      "properties": {
+        "infinite": {
+          "enum": [
+            false
+          ]
+        },
+        "price": {
+          "type": "integer",
+          "description": "Buying price of the clip"
+        },
+        "displayName": {
+          "type": "string",
+          "description": "Name of the clip"
+          "pattern": "^[ -~]+$"
+        },
+        "plural": {
+          "type": "string",
+          "description": "Plural form of 'displayName'"
+          "pattern": "^[ -~]+$"
+        }
+      },
+      "required": [
+        "price",
+        "displayName",
+        "plural"
+      ]
+    }
+  ]
+}

@@ -47,7 +47,6 @@ public class Hull {
     private final Body body;
     private final GunMount gunMount1;
     private final GunMount gunMount2;
-    private final Fixture base;
     private final List<LightSource> lightSources;
     private final Vector2 position;
     private final Vector2 velocity;
@@ -62,14 +61,13 @@ public class Hull {
     private ShipEngine engine;
     private List<DSParticleEmitter> particleEmitters;
 
-    public Hull(SolGame game, HullConfig hullConfig, Body body, GunMount gunMount1, GunMount gunMount2, Fixture base,
+    public Hull(SolGame game, HullConfig hullConfig, Body body, GunMount gunMount1, GunMount gunMount2,
                 List<LightSource> lightSources, float life, ArrayList<ForceBeacon> forceBeacons,
                 ArrayList<Door> doors, Fixture shieldFixture) {
         config = hullConfig;
         this.body = body;
         this.gunMount1 = gunMount1;
         this.gunMount2 = gunMount2;
-        this.base = base;
         this.lightSources = lightSources;
         this.life = life;
         this.doors = doors;
@@ -88,10 +86,6 @@ public class Hull {
 
     public Body getBody() {
         return body;
-    }
-
-    public Fixture getBase() {
-        return base;
     }
 
     public GunMount getGunMount(boolean second) {
