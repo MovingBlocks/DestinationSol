@@ -16,11 +16,19 @@ dependencies {
 
 task run(type: JavaExec) {
     dependsOn classes
-
+    //TODO: Remove extra args when the splash screen works on Macs again - see https://github.com/MovingBlocks/DestinationSol/issues/414
+    if (System.properties["os.name"].toLowerCase().contains("mac")) {
+        jvmArgs = ["-splash:../engine/src/main/resources/assets/textures/mainMenu/mainMenuLogo.png", "-XstartOnFirstThread", "-Dlog4j.configuration=log4j-debug.properties"]
+        String[] runArgs = ["-noSplash"]
+        args runArgs
+    }
+    else {
+        jvmArgs = ["-splash:../engine/src/main/resources/assets/textures/mainMenu/mainMenuLogo.png", "-Dlog4j.configuration=log4j-debug.properties"]
+    }
     main = project.mainClassName
     classpath = sourceSets.main.runtimeClasspath
     standardInput = System.in
-    workingDir = project(':engine').projectDir
+    workingDir = rootProject.projectDir
     ignoreExitValue = true
 }
 
@@ -31,11 +39,24 @@ jar {
         def manifestClasspath = configurations.runtime.collect { it.getName() }.join(" ")
         attributes 'Main-Class': project.mainClassName
         attributes("Class-Path": manifestClasspath)
+        attributes "SplashScreen-Image": "mainMenuLogo.png"
+    }
+}
+
+task moduleDist(type: Sync) {
+    into("$distsDir/app/modules")
+    rootProject.destinationSolModules().each { module ->
+        dependsOn ":modules:$module.name" + ":jar"
+        println "Distributing $module.name..."
+        from("$rootDir/modules/${module.name}/build/libs") {
+            include "*.jar"
+        }
     }
 }
 
 task dist(type: Sync) {
     description = "Creates an application package for distribution"
+    dependsOn jar
 
     into("$distsDir/app")
 
@@ -46,6 +67,8 @@ task dist(type: Sync) {
         from jar
     }
 }
+
+dist.finalizedBy moduleDist
 
 task distZip(type: Zip) {
     dependsOn dist
@@ -58,16 +81,29 @@ eclipse {
     project {
         name = appName + "-desktop"
         linkedResource name: 'assets', type: '2', location: 'PARENT-1-PROJECT_LOC/android/assets'
-    }
-    // Hack to allow the game to run via eclipse. See #209 for more information.
-    classpath {
         file {
-            withXml { xml ->
-                def node = xml.asNode()
-                node.appendNode('classpathentry', [kind: 'src', path: '/engine' ])
-            }
-            whenMerged {
-                entries.removeAll { it.kind == 'src' && it.path == '/DestinationSol-main' }
+            whenMerged { project ->
+                def destinationSolRunConfig = new XmlParser().parseText('''
+                    <!--<?xml version="1.0" encoding="UTF-8" standalone="no"?>-->
+                    <launchConfiguration type="org.eclipse.jdt.launching.localJavaApplication">
+                        <listAttribute key="org.eclipse.debug.core.MAPPED_RESOURCE_PATHS">
+                            <listEntry value="/DestinationSol-desktop/src/main/java/org/destinationsol/desktop/SolDesktop.java"/>
+                        </listAttribute>
+                        <listAttribute key="org.eclipse.debug.core.MAPPED_RESOURCE_TYPES">
+                            <listEntry value="1"/>
+                        </listAttribute>
+                        <booleanAttribute key="org.eclipse.jdt.launching.ATTR_USE_CLASSPATH_ONLY_JAR" value="false"/>
+                        <booleanAttribute key="org.eclipse.jdt.launching.ATTR_USE_START_ON_FIRST_THREAD" value="true"/>
+                        <stringAttribute key="org.eclipse.jdt.launching.MAIN_TYPE" value="org.destinationsol.desktop.SolDesktop"/>
+                        <stringAttribute key="org.eclipse.jdt.launching.PROJECT_ATTR" value="DestinationSol-desktop"/>
+                        <stringAttribute key="org.eclipse.jdt.launching.VM_ARGUMENTS" value="-splash:../engine/src/main/resources/assets/textures/mainMenu/mainMenuLogo.png -Dlog4j.configuration=log4j-debug.properties"/>
+                        <stringAttribute key="org.eclipse.jdt.launching.WORKING_DIRECTORY" value="${workspace_loc:DestinationSol-engine}"/>
+                    </launchConfiguration>
+                ''')
+                def writer = new FileWriter(file("DestinationSol.launch"))
+                def printer = new XmlNodePrinter(new PrintWriter(writer))
+                printer.setPreserveWhitespace(true)
+                printer.print(destinationSolRunConfig)
             }
         }
     }
@@ -86,6 +122,6 @@ task afterEclipseImport(description: "Post processing after project generation",
 
 tasks.withType(JavaExec) {
     if (System.getProperty('DEBUG', 'false') == 'true') {
-        jvmArgs '-Xdebug', '-Xrunjdwp:transport=dt_socket,server=y,suspend=y,address=9099'
+        jvmArgs '-Xdebug', '-Xrunjdwp:transport=dt_socket,server=y,suspend=y,address=9099', '-Dlog4j.configuration=log4j-debug.properties'
     }
 }

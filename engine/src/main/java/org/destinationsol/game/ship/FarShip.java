@@ -25,6 +25,7 @@ import org.destinationsol.game.item.Armor;
 import org.destinationsol.game.item.Engine;
 import org.destinationsol.game.item.Gun;
 import org.destinationsol.game.item.ItemContainer;
+import org.destinationsol.game.item.MercItem;
 import org.destinationsol.game.item.Shield;
 import org.destinationsol.game.item.TradeContainer;
 import org.destinationsol.game.ship.hulls.HullConfig;
@@ -47,6 +48,8 @@ public class FarShip implements FarObject {
     private float life;
     private ShipRepairer repairer;
     private float money;
+    private MercItem mercItem;
+    private boolean isMerc;
 
     public FarShip(Vector2 position, Vector2 velocity, float angle, float rotationSpeed, Pilot pilot, ItemContainer container,
                    HullConfig hullConfig, float life,
@@ -93,8 +96,12 @@ public class FarShip implements FarObject {
 
     @Override
     public SolShip toObject(SolGame game) {
-        return game.getShipBuilder().build(game, position, velocity, angle, rotationSpeed, pilot, container, hullConfig, life, gun1,
+        SolShip ship = game.getShipBuilder().build(game, position, velocity, angle, rotationSpeed, pilot, container, hullConfig, life, gun1,
                 gun2, removeController, engine, repairer, money, tradeContainer, shield, armor);
+        if (isMerc) {
+            ship.setMerc(mercItem);
+        }
+        return ship;
     }
 
     @Override
@@ -189,4 +196,21 @@ public class FarShip implements FarObject {
     public ItemContainer getIc() {
         return container;
     }
+
+    /**
+     * Sets the mercItem and declares the ship to be a mercenary.
+     *
+     * Optional @param mercItem The {@link MercItem} of the FarShip.
+     */
+    public void setMerc(MercItem mercItem) {
+        this.mercItem = mercItem;
+        isMerc = true;
+    }
+
+    public MercItem getMerc() {
+        return this.mercItem;
+    }
+
+    public boolean isMerc() { return this.isMerc; }
+
 }

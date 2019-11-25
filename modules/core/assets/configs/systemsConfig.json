@@ -10,7 +10,6 @@
             {
                 "hull": "core:imperialCapital",
                 "items": "core:gun+core:blaster core:gun+core:blaster core:advancedArmor core:advancedShield",
-                "repairer": true,
                 "density": 1,
 
                 "guard": {
@@ -29,7 +28,6 @@
             {
                 "hull": "core:station",
                 "items": "core:cannon core:gun",
-                "repairer": true,
                 "density": 1,
 
                 "guard": {
@@ -109,7 +107,6 @@
             {
                 "hull": "core:station",
                 "items": "core:gun core:cannon",
-                "repairer": true,
                 "density": 2,
 
                 "guard": {

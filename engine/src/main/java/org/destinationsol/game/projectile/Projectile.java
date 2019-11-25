@@ -55,12 +55,15 @@ public class Projectile implements SolObject {
 
     private boolean shouldBeRemoved;
     private SolObject obstacle;
+    private SolShip ship;
     private boolean wasDamageDealt;
 
     public Projectile(SolGame game, float angle, Vector2 muzzlePos, Vector2 gunVelocity, Faction faction,
-                      ProjectileConfig config, boolean varySpeed) {
+                      ProjectileConfig config, boolean varySpeed, SolShip ship) {
         drawables = new ArrayList<>();
         this.config = config;
+
+        this.ship = ship;
 
         Drawable drawable;
         if (config.stretch) {
@@ -112,7 +115,13 @@ public class Projectile implements SolObject {
         body.update(game);
         if (obstacle != null) {
             if (!wasDamageDealt) {
-                obstacle.receiveDmg(config.dmg, game, body.getPosition(), config.dmgType);
+                if(config.aoeRadius >= 0) { //If AoE is enabled for this Projectile, damage all within the radius.
+                    game.getObjectManager().doToAllCloserThan(config.aoeRadius, this, (SolObject obj) ->
+                        obj.receiveDmg(config.dmg, game, body.getPosition(), config.dmgType)
+                    );
+                } else {
+                    obstacle.receiveDmg(config.dmg, game, body.getPosition(), config.dmgType);
+                }
             }
             if (config.density > 0) {
                 obstacle = null;
@@ -161,6 +170,10 @@ public class Projectile implements SolObject {
         if (config.collisionEffectBackground != null) {
             game.getPartMan().blinks(position, game, config.collisionEffectBackground.size);
         }
+        if (ship.getPilot().isPlayer() && obstacle instanceof SolShip) {
+            ship.changeDisposition(((SolShip) obstacle).getFactionID());
+        }
+
         game.getSoundManager().play(game, config.collisionSound, null, this);
     }
 
@@ -251,7 +264,7 @@ public class Projectile implements SolObject {
     public boolean shouldCollide(SolObject object, Fixture fixture, FactionManager factionManager) {
         if (object instanceof SolShip) {
             SolShip ship = (SolShip) object;
-            if (!factionManager.areEnemies(ship.getPilot().getFaction(), faction)) {
+            if (this.ship == ship) {
                 return false;
             }
             if (ship.getHull().getShieldFixture() == fixture) {
@@ -263,9 +276,7 @@ public class Projectile implements SolObject {
             }
             return true;
         }
-        if (object instanceof Projectile) {
-            return factionManager.areEnemies(((Projectile) object).faction, faction);
-        }
+
         return true;
     }
 
