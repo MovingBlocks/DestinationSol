@@ -51,12 +51,12 @@
         },
         "displayName": {
           "type": "string",
-          "description": "Name of the clip"
+          "description": "Name of the clip",
           "pattern": "^[ -~]+$"
         },
         "plural": {
           "type": "string",
-          "description": "Plural form of 'displayName'"
+          "description": "Plural form of 'displayName'",
           "pattern": "^[ -~]+$"
         }
       },
