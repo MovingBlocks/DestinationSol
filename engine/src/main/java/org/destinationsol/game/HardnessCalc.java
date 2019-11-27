@@ -23,7 +23,6 @@ import org.destinationsol.game.item.ItemConfig;
 import org.destinationsol.game.item.ItemManager;
 import org.destinationsol.game.item.Shield;
 import org.destinationsol.game.item.SolItem;
-import org.destinationsol.game.maze.MazeConfig;
 import org.destinationsol.game.planet.PlanetConfig;
 import org.destinationsol.game.planet.SysConfig;
 import org.destinationsol.game.projectile.ProjectileConfig;
@@ -181,13 +180,6 @@ public class HardnessCalc {
 
     public static float getAtmDps(PlanetConfig pc) {
         return getShipConfListDps(pc.highOrbitEnemies);
-    }
-
-    public static float getMazeDps(MazeConfig c) {
-        float outer = getShipConfListDps(c.outerEnemies);
-        float inner = getShipConfListDps(c.innerEnemies);
-        float res = inner < outer ? outer : inner;
-        return res * 1.25f;
     }
 
     public static float getBeltDps(SysConfig c) {

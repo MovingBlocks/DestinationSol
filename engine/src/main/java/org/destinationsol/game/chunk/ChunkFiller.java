@@ -23,6 +23,7 @@ import org.destinationsol.assets.Assets;
 import org.destinationsol.common.SolColor;
 import org.destinationsol.common.SolMath;
 import org.destinationsol.common.SolRandom;
+import org.destinationsol.game.BuildableSystem;
 import org.destinationsol.game.DebugOptions;
 import org.destinationsol.game.Faction;
 import org.destinationsol.game.RemoveController;
@@ -37,7 +38,6 @@ import org.destinationsol.game.input.AiPilot;
 import org.destinationsol.game.input.MoveDestProvider;
 import org.destinationsol.game.input.Pilot;
 import org.destinationsol.game.input.StillGuard;
-import org.destinationsol.game.maze.Maze;
 import org.destinationsol.game.planet.Planet;
 import org.destinationsol.game.planet.PlanetManager;
 import org.destinationsol.game.planet.SolSystem;
@@ -66,7 +66,7 @@ public class ChunkFiller {
     private static final float DUST_SZ = .02f;
     private static final float MAX_A_SPD = .2f;
     private static final float BELT_A_DENSITY = .04f;
-    private static final float MAZE_ZONE_BORDER = 20;
+    private static final float BACKGROUND_OBJECT_SYSTEM_ZONE_BORDER = 20;
     private final TextureAtlas.AtlasRegion dustTexture;
 
     public ChunkFiller() {
@@ -148,12 +148,12 @@ public class ChunkFiller {
             }
             return Optional.of(system.getConfig().envConfig);
         }
-        Maze maze = planetManager.getNearestMaze(chunkCenter);
-        float distanceToMaze = maze.getPos().dst(chunkCenter);
-        float zoneRadius = maze.getRadius() + MAZE_ZONE_BORDER;
-        if (distanceToMaze < zoneRadius) {
-            densityMultiplier[0] = 1 - distanceToMaze / zoneRadius;
-            return Optional.of(maze.getConfig().envConfig);
+        BuildableSystem buildableSystem = planetManager.getNearestBackgroundObjectSystem(chunkCenter);
+        float distanceToObjectSystem = buildableSystem.getPosition().dst(chunkCenter);
+        float zoneRadius = buildableSystem.getRadius() + BACKGROUND_OBJECT_SYSTEM_ZONE_BORDER;
+        if (distanceToObjectSystem < zoneRadius) {
+            densityMultiplier[0] = 1 - distanceToObjectSystem / zoneRadius;
+            return Optional.of(buildableSystem.getSpaceEnvironmentConfiguration());
         }
         return Optional.empty();
     }

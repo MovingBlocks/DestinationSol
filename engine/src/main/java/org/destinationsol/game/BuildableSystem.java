@@ -1,5 +1,5 @@
 /*
- * Copyright 2018 MovingBlocks
+ * Copyright 2019 MovingBlocks
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -13,6 +13,28 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-@API package org.destinationsol.game.maze;
+package org.destinationsol.game;
 
-import org.terasology.module.sandbox.API;
+import com.badlogic.gdx.math.Vector2;
+import org.destinationsol.game.chunk.SpaceEnvConfig;
+
+import java.util.List;
+
+public interface BuildableSystem {
+
+    void build(List<ConfigurationSystem> configurationSystems, Vector2 position, float radius);
+
+    Vector2 getPosition();
+
+    float getRadius();
+
+    float getMaximumRadius();
+
+    SpaceEnvConfig getSpaceEnvironmentConfiguration();
+
+    float getDamagePerSecond();
+
+    float getBorder();
+
+    String getTexture();
+}

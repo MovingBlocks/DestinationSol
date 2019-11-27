@@ -161,7 +161,10 @@ public class ModuleManager {
             java.io.ByteArrayOutputStream.class,
             java.io.DataOutputStream.class,
             java.io.FilterOutputStream.class,
-            java.io.PipedOutputStream.class
+            java.io.PipedOutputStream.class,
+            /* gestalt classes, probably not a good idea to keep permanently */
+            org.terasology.assets.ResourceUrn.class,
+            org.terasology.naming.Name.class
     };
 
     private static ModuleEnvironment environment;

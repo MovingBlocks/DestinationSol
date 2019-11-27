@@ -22,6 +22,8 @@ import org.destinationsol.Const;
 import org.destinationsol.common.SolColor;
 import org.destinationsol.common.SolMath;
 import org.destinationsol.files.HullConfigManager;
+import org.destinationsol.game.BuildableSystem;
+import org.destinationsol.game.ConfigurationSystem;
 import org.destinationsol.game.DebugOptions;
 import org.destinationsol.game.GameColors;
 import org.destinationsol.game.GameDrawer;
@@ -31,11 +33,10 @@ import org.destinationsol.game.SolNames;
 import org.destinationsol.game.SolObject;
 import org.destinationsol.game.UpdateAwareSystem;
 import org.destinationsol.game.item.ItemManager;
-import org.destinationsol.game.maze.Maze;
-import org.destinationsol.game.maze.MazeConfigs;
 import org.destinationsol.game.ship.SolShip;
 import org.destinationsol.game.ship.hulls.Hull;
 import org.destinationsol.game.ship.hulls.HullConfig;
+import org.destinationsol.modules.ModuleManager;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -46,21 +47,30 @@ public class PlanetManager implements UpdateAwareSystem {
     private final ArrayList<SystemBelt> belts;
     private final FlatPlaceFinder flatPlaceFinder;
     private final PlanetConfigs planetConfigs;
-    private final MazeConfigs mazeConfigs;
-    private final ArrayList<Maze> mazes;
+    private final ArrayList<ConfigurationSystem> configurationSystems;
+    private final ArrayList<BuildableSystem> buildableSystems;
     private final SunSingleton sunSingleton;
     private final SysConfigs sysConfigs;
     private final PlanetCoreSingleton planetCoreSingleton;
     private Planet nearestPlanet;
 
-    public PlanetManager(HullConfigManager hullConfigs, GameColors cols,
-                            ItemManager itemManager) {
+    public PlanetManager(HullConfigManager hullConfigs, GameColors cols, ItemManager itemManager) {
         planetConfigs = new PlanetConfigs(hullConfigs, cols, itemManager);
         sysConfigs = new SysConfigs(hullConfigs, itemManager);
-        mazeConfigs = new MazeConfigs(hullConfigs, itemManager);
+
+        configurationSystems = new ArrayList<>();
+        for (Class<?> configurationSystem : ModuleManager.getEnvironment().getSubtypesOf(ConfigurationSystem.class)) {
+            try {
+                ConfigurationSystem system = (ConfigurationSystem) configurationSystem.newInstance();
+                system.generateConfigurations(hullConfigs, itemManager);
+                configurationSystems.add(system);
+            } catch (InstantiationException | IllegalAccessException e) {
+                e.printStackTrace();
+            }
+        }
 
         systems = new ArrayList<>();
-        mazes = new ArrayList<>();
+        buildableSystems = new ArrayList<>();
         planets = new ArrayList<>();
         belts = new ArrayList<>();
         flatPlaceFinder = new FlatPlaceFinder();
@@ -69,7 +79,7 @@ public class PlanetManager implements UpdateAwareSystem {
     }
 
     public void fill(SolNames names, int numberOfSystems) {
-        new SystemsBuilder().build(systems, planets, belts, planetConfigs, mazeConfigs, mazes, sysConfigs, names, numberOfSystems);
+        new SystemsBuilder().build(systems, planets, belts, planetConfigs, configurationSystems, buildableSystems, sysConfigs, names, numberOfSystems);
     }
 
     @Override
@@ -77,9 +87,6 @@ public class PlanetManager implements UpdateAwareSystem {
         Vector2 camPos = game.getCam().getPosition();
         for (Planet planet : planets) {
             planet.update(game, timeStep);
-        }
-        for (Maze maze : mazes) {
-            maze.update(game);
         }
 
         nearestPlanet = getNearestPlanet(camPos);
@@ -225,8 +232,8 @@ public class PlanetManager implements UpdateAwareSystem {
         return flatPlaceFinder.find(game, planet, takenAngles, objHalfWidth);
     }
 
-    public ArrayList<Maze> getMazes() {
-        return mazes;
+    public ArrayList<BuildableSystem> getBuildableSystems() {
+        return buildableSystems;
     }
 
     public SolSystem getNearestSystem(Vector2 position) {
@@ -242,14 +249,14 @@ public class PlanetManager implements UpdateAwareSystem {
         return res;
     }
 
-    public Maze getNearestMaze(Vector2 position) {
+    public BuildableSystem getNearestBackgroundObjectSystem(Vector2 position) {
         float minDst = Float.MAX_VALUE;
-        Maze res = null;
-        for (Maze maze : mazes) {
-            float dst = position.dst(maze.getPos());
+        BuildableSystem res = null;
+        for (BuildableSystem system : buildableSystems) {
+            float dst = position.dst(system.getPosition());
             if (dst < minDst) {
                 minDst = dst;
-                res = maze;
+                res = system;
             }
         }
         return res;

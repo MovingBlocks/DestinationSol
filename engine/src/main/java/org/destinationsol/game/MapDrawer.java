@@ -26,10 +26,9 @@ import org.destinationsol.assets.Assets;
 import org.destinationsol.common.Nullable;
 import org.destinationsol.common.SolColor;
 import org.destinationsol.common.SolMath;
-import org.destinationsol.game.maze.Maze;
-import org.destinationsol.game.maze.MazeBuilder;
 import org.destinationsol.game.planet.FarTileObject;
 import org.destinationsol.game.planet.Planet;
+import org.destinationsol.game.planet.PlanetManager;
 import org.destinationsol.game.planet.SolSystem;
 import org.destinationsol.game.planet.SurfaceDirection;
 import org.destinationsol.game.planet.SystemBelt;
@@ -59,7 +58,6 @@ public class MapDrawer implements UpdateAwareSystem{
     private final TextureAtlas.AtlasRegion planetTexture;
     private final TextureAtlas.AtlasRegion planetCoreTexture;
     private final TextureAtlas.AtlasRegion starTexture;
-    private final TextureAtlas.AtlasRegion mazeTexture;
     private final TextureAtlas.AtlasRegion skullTexture;
     private final TextureAtlas.AtlasRegion skullBigTexture;
     private final TextureAtlas.AtlasRegion starPortTexture;
@@ -95,7 +93,6 @@ public class MapDrawer implements UpdateAwareSystem{
         planetTexture = Assets.getAtlasRegion("engine:mapObjects/planet");
         planetCoreTexture = Assets.getAtlasRegion("engine:mapObjects/planetCore");
         starTexture = Assets.getAtlasRegion("engine:mapObjects/star");
-        mazeTexture = Assets.getAtlasRegion("engine:mapObjects/maze");
         skullBigTexture = Assets.getAtlasRegion("engine:mapObjects/skullBig");
         beltTexture = Assets.getAtlasRegion("engine:mapObjects/asteroids");
         beaconAttackTexture = Assets.getAtlasRegion("engine:mapObjects/beaconAttack");
@@ -132,7 +129,7 @@ public class MapDrawer implements UpdateAwareSystem{
         drawer.updateMatrix(game);
         game.getGridDrawer().draw(drawer, game, GRID_SZ, lineTexture);
         drawPlanets(drawer, game, viewDist, np, camPos, heroDmgCap, camAngle);
-        drawMazes(drawer, game, viewDist, np, camPos, heroDmgCap, camAngle);
+        drawBuildableSystems(drawer, game.getPlanetManager(), viewDist, camPos, heroDmgCap, camAngle);
         drawStarNodes(drawer, game, viewDist, camPos, starNodeW);
 
         // using ui textures
@@ -143,19 +140,18 @@ public class MapDrawer implements UpdateAwareSystem{
         return cam.getViewHeight(zoom) * iconRadius;
     }
 
-    private void drawMazes(GameDrawer drawer, SolGame game, float viewDist, Planet np, Vector2 camPos, float heroDmgCap,
-                           float camAngle) {
-        ArrayList<Maze> mazes = game.getPlanetManager().getMazes();
-        for (Maze maze : mazes) {
-            Vector2 mazePos = maze.getPos();
-            float outerRad = maze.getRadius();
-            float rad = outerRad - MazeBuilder.BORDER;
-            if (viewDist < camPos.dst(mazePos) - rad) {
+    private void drawBuildableSystems(GameDrawer drawer, PlanetManager planetManager, float viewDist, Vector2 camPos, float heroDmgCap, float camAngle) {
+        for (BuildableSystem buildableSystem : planetManager.getBuildableSystems()) {
+            TextureRegion texture = Assets.getAtlasRegion(buildableSystem.getTexture());
+            Vector2 position = buildableSystem.getPosition();
+            float outerRad = buildableSystem.getRadius();
+            float rad = outerRad - buildableSystem.getBorder();
+            if (viewDist < camPos.dst(position) - rad) {
                 continue;
             }
-            drawer.draw(mazeTexture, 2 * rad, 2 * rad, rad, rad, mazePos.x, mazePos.y, 45, SolColor.WHITE);
-            if (HardnessCalc.isDangerous(heroDmgCap, maze.getDps())) {
-                drawAreaDanger(drawer, outerRad, mazePos, 1, camAngle);
+            drawer.draw(texture, 2 * rad, 2 * rad, rad, rad, position.x, position.y, 45, SolColor.WHITE);
+            if (HardnessCalc.isDangerous(heroDmgCap, buildableSystem.getDamagePerSecond())) {
+                drawAreaDanger(drawer, outerRad, position, 1, camAngle);
             }
         }
 

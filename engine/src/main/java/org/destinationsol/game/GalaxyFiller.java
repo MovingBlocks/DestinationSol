@@ -18,9 +18,7 @@ package org.destinationsol.game;
 import com.badlogic.gdx.math.Vector2;
 import org.destinationsol.assets.json.Validator;
 import org.json.JSONObject;
-import com.google.gson.JsonParseException;
 import org.destinationsol.Const;
-import org.destinationsol.assets.Assets;
 import org.destinationsol.assets.json.Json;
 import org.destinationsol.common.SolMath;
 import org.destinationsol.common.SolRandom;
@@ -33,7 +31,6 @@ import org.destinationsol.game.input.NoDestProvider;
 import org.destinationsol.game.input.Pilot;
 import org.destinationsol.game.item.ItemManager;
 import org.destinationsol.game.item.TradeConfig;
-import org.destinationsol.game.maze.Maze;
 import org.destinationsol.game.planet.ConsumedAngles;
 import org.destinationsol.game.planet.Planet;
 import org.destinationsol.game.planet.PlanetManager;
@@ -258,10 +255,6 @@ public class GalaxyFiller {
         } else if (DebugOptions.SPAWN_PLACE.isEmpty() && mainStationPos != null) {
             SolMath.fromAl(position, 90, mainStationHc.getSize() / 2);
             position.add(mainStationPos);
-        } else if ("maze".equals(DebugOptions.SPAWN_PLACE)) {
-            Maze maze = game.getPlanetManager().getMazes().get(0);
-            position.set(maze.getPos());
-            position.x += maze.getRadius();
         } else if ("trader".equals(DebugOptions.SPAWN_PLACE)) {
             HullConfig config = hullConfigManager.getConfig("core:bus");
             for (FarObjData farObjData : game.getObjectManager().getFarObjs()) {

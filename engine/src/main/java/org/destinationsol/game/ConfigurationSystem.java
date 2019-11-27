@@ -1,5 +1,5 @@
 /*
- * Copyright 2018 MovingBlocks
+ * Copyright 2019 MovingBlocks
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -13,20 +13,12 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+package org.destinationsol.game;
 
-package org.destinationsol.game.maze;
+import org.destinationsol.files.HullConfigManager;
+import org.destinationsol.game.item.ItemManager;
 
-public class MazeLayout {
-    public final boolean[][] inners;
-    public final boolean[][] holes;
-    public final boolean[][] right;
-    public final boolean[][] down;
+public interface ConfigurationSystem {
 
-    public MazeLayout(boolean[][] inners, boolean[][] holes, boolean[][] right, boolean[][] down) {
-        this.inners = inners;
-        this.holes = holes;
-        this.right = right;
-        this.down = down;
-    }
-
+    void generateConfigurations(HullConfigManager hullConfigs, ItemManager itemManager);
 }

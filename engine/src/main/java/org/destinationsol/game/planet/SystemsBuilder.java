@@ -19,11 +19,11 @@ import com.badlogic.gdx.math.Vector2;
 import org.destinationsol.Const;
 import org.destinationsol.common.SolMath;
 import org.destinationsol.common.SolRandom;
+import org.destinationsol.game.BuildableSystem;
+import org.destinationsol.game.ConfigurationSystem;
 import org.destinationsol.game.DebugOptions;
 import org.destinationsol.game.SolNames;
-import org.destinationsol.game.maze.Maze;
-import org.destinationsol.game.maze.MazeConfig;
-import org.destinationsol.game.maze.MazeConfigs;
+import org.destinationsol.modules.ModuleManager;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -33,12 +33,11 @@ public class SystemsBuilder {
     public static final int PLANET_COUNT = 5;
     public static final float PLANET_SPD = .2f;
     private static final float GROUND_SPD = .2f;
-    private static final float MAX_MAZE_RADIUS = 40f;
-    private static final float MAZE_GAP = 10f;
+    private static final float SYSTEM_GAP = 10f;
     private static final float BELT_HALF_WIDTH = 20f;
 
     public List<SolSystem> build(List<SolSystem> systems, List<Planet> planets, ArrayList<SystemBelt> belts, PlanetConfigs planetConfigs,
-                                 MazeConfigs mazeConfigs, ArrayList<Maze> mazes, SysConfigs sysConfigs, SolNames names, int systemCount) {
+                                 List<ConfigurationSystem> configurationSystems, ArrayList<BuildableSystem> buildableSystems, SysConfigs sysConfigs, SolNames names, int systemCount) {
         
         int sysLeft = systemCount;
         int mazesLeft = systemCount * 2;
@@ -50,17 +49,23 @@ public class SystemsBuilder {
             if (createSys) {
                 List<Float> ghs = generatePlanetGhs();
                 float sysRadius = calcSysRadius(ghs);
-                Vector2 position = getBodyPos(systems, mazes, sysRadius);
+                Vector2 position = getBodyPos(systems, buildableSystems, sysRadius);
                 SolSystem s = createSystem(ghs, position, planets, belts, planetConfigs, sysRadius, sysConfigs, names, systems.isEmpty());
                 systems.add(s);
                 sysLeft--;
             } else {
-                MazeConfig mc = SolRandom.seededRandomElement(mazeConfigs.configs);
-                float mazeRadius = SolRandom.seededRandomFloat(.7f, 1) * MAX_MAZE_RADIUS;
-                Vector2 position = getBodyPos(systems, mazes, mazeRadius + MAZE_GAP);
-                Maze m = new Maze(mc, position, mazeRadius);
-                mazes.add(m);
-                mazesLeft--;
+                for (Class<?> buildableSystem : ModuleManager.getEnvironment().getSubtypesOf(BuildableSystem.class)) {
+                    try {
+                        BuildableSystem system = (BuildableSystem) buildableSystem.newInstance();
+                        float radius = SolRandom.seededRandomFloat(.7f, 1) * system.getMaximumRadius();
+                        Vector2 position = getBodyPos(systems, buildableSystems, radius + SYSTEM_GAP);
+                        system.build(configurationSystems, position, radius);
+                        buildableSystems.add(system);
+                        mazesLeft--;
+                    } catch (InstantiationException | IllegalAccessException e) {
+                        e.printStackTrace();
+                    }
+                }
             }
         }
         return systems;
@@ -102,7 +107,7 @@ public class SystemsBuilder {
         return r;
     }
 
-    private Vector2 getBodyPos(List<SolSystem> systems, ArrayList<Maze> mazes, float bodyRadius) {
+    private Vector2 getBodyPos(List<SolSystem> systems, ArrayList<BuildableSystem> buildableSystems, float bodyRadius) {
         Vector2 res = new Vector2();
         float dist = 0;
         while (true) {
@@ -116,8 +121,8 @@ public class SystemsBuilder {
                         break;
                     }
                 }
-                for (Maze maze : mazes) {
-                    if (maze.getPos().dst(res) < maze.getRadius() + bodyRadius) {
+                for (BuildableSystem system : buildableSystems) {
+                    if (system.getPosition().dst(res) < system.getRadius() + bodyRadius) {
                         good = false;
                         break;
                     }
