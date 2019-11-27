@@ -20,7 +20,7 @@ import org.destinationsol.game.chunk.SpaceEnvConfig;
 
 import java.util.List;
 
-public interface BuildableSystem {
+public interface BuildableSystem extends UpdateAwareSystem {
 
     void build(List<ConfigurationSystem> configurationSystems, Vector2 position, float radius);
 

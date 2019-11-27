@@ -66,7 +66,7 @@ public class ChunkFiller {
     private static final float DUST_SZ = .02f;
     private static final float MAX_A_SPD = .2f;
     private static final float BELT_A_DENSITY = .04f;
-    private static final float BACKGROUND_OBJECT_SYSTEM_ZONE_BORDER = 20;
+    private static final float BUILDABLE_SYSTEM_ZONE_BORDER = 20;
     private final TextureAtlas.AtlasRegion dustTexture;
 
     public ChunkFiller() {
@@ -148,11 +148,11 @@ public class ChunkFiller {
             }
             return Optional.of(system.getConfig().envConfig);
         }
-        BuildableSystem buildableSystem = planetManager.getNearestBackgroundObjectSystem(chunkCenter);
-        float distanceToObjectSystem = buildableSystem.getPosition().dst(chunkCenter);
-        float zoneRadius = buildableSystem.getRadius() + BACKGROUND_OBJECT_SYSTEM_ZONE_BORDER;
-        if (distanceToObjectSystem < zoneRadius) {
-            densityMultiplier[0] = 1 - distanceToObjectSystem / zoneRadius;
+        BuildableSystem buildableSystem = planetManager.getNearestBuildableSystem(chunkCenter);
+        float distanceToBuildableSystem = buildableSystem.getPosition().dst(chunkCenter);
+        float zoneRadius = buildableSystem.getRadius() + BUILDABLE_SYSTEM_ZONE_BORDER;
+        if (distanceToBuildableSystem < zoneRadius) {
+            densityMultiplier[0] = 1 - distanceToBuildableSystem / zoneRadius;
             return Optional.of(buildableSystem.getSpaceEnvironmentConfiguration());
         }
         return Optional.empty();

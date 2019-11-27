@@ -89,6 +89,10 @@ public class PlanetManager implements UpdateAwareSystem {
             planet.update(game, timeStep);
         }
 
+        for (BuildableSystem system : buildableSystems) {
+            system.update(game, timeStep);
+        }
+
         nearestPlanet = getNearestPlanet(camPos);
 
         SolSystem nearestSys = getNearestSystem(camPos);
@@ -249,7 +253,7 @@ public class PlanetManager implements UpdateAwareSystem {
         return res;
     }
 
-    public BuildableSystem getNearestBackgroundObjectSystem(Vector2 position) {
+    public BuildableSystem getNearestBuildableSystem(Vector2 position) {
         float minDst = Float.MAX_VALUE;
         BuildableSystem res = null;
         for (BuildableSystem system : buildableSystems) {
