@@ -40,10 +40,10 @@ public class SystemsBuilder {
                                  List<ConfigurationSystem> configurationSystems, ArrayList<BuildableSystem> buildableSystems, SysConfigs sysConfigs, SolNames names, int systemCount) {
         
         int sysLeft = systemCount;
-        int mazesLeft = systemCount * 2;
-        while (sysLeft > 0 || mazesLeft > 0) {
+        int buildableSystemsLeft = systemCount * 2;
+        while (sysLeft > 0 || buildableSystemsLeft > 0) {
             boolean createSys = sysLeft > 0;
-            if (createSys && mazesLeft > 0 && !systems.isEmpty()) {
+            if (createSys && buildableSystemsLeft > 0 && !systems.isEmpty()) {
                 createSys = SolRandom.seededTest(.5f);
             }
             if (createSys) {
@@ -61,7 +61,7 @@ public class SystemsBuilder {
                         Vector2 position = getBodyPos(systems, buildableSystems, radius + SYSTEM_GAP);
                         system.build(configurationSystems, position, radius);
                         buildableSystems.add(system);
-                        mazesLeft--;
+                        buildableSystemsLeft--;
                     } catch (InstantiationException | IllegalAccessException e) {
                         e.printStackTrace();
                     }

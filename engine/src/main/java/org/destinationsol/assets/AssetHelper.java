@@ -60,10 +60,10 @@ public class AssetHelper {
         assetTypeManager.createAssetType(Emitter.class, Emitter::new, "emitters");
         ((AssetFileDataProducer)assetTypeManager.getAssetType(Emitter.class).get().getProducers().get(0)).addAssetFormat(new EmitterFileFormat());
 
-        assetTypeManager.createAssetType(Json.class, Json::new, "collisionMeshes", "ships", "items", "configs", "grounds", "mazes", "asteroids");
+        assetTypeManager.createAssetType(Json.class, Json::new, "collisionMeshes", "ships", "items", "configs", "grounds", "asteroids");
         ((AssetFileDataProducer)assetTypeManager.getAssetType(Json.class).get().getProducers().get(0)).addAssetFormat(new JsonFileFormat());
 
-        assetTypeManager.createAssetType(DSTexture.class, DSTexture::new, "textures", "ships", "items", "grounds", "mazes", "asteroids");
+        assetTypeManager.createAssetType(DSTexture.class, DSTexture::new, "textures", "ships", "items", "grounds", "asteroids");
         ((AssetFileDataProducer)assetTypeManager.getAssetType(DSTexture.class).get().getProducers().get(0)).addAssetFormat(new DSTextureFileFormat());
 
         assetTypeManager.switchEnvironment(environment);

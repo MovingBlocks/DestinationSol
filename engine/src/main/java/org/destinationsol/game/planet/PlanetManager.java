@@ -76,8 +76,8 @@ public class PlanetManager implements UpdateAwareSystem {
                     for (String name : rootNode.keySet()) {
                         if (!(rootNode.get(name) instanceof JSONObject))
                             continue;
-                        JSONObject mazeNode = rootNode.getJSONObject(name);
-                        system.loadConfiguration(moduleName, name, mazeNode, hullConfigs, itemManager);
+                        JSONObject node = rootNode.getJSONObject(name);
+                        system.loadConfiguration(moduleName, name, node, hullConfigs, itemManager);
                     }
                 }
                 configurationSystems.add(system);

@@ -21,7 +21,7 @@ import org.json.JSONObject;
 
 public interface ConfigurationSystem {
 
-    void loadConfiguration(String moduleName, String name, JSONObject mazeNode, HullConfigManager hullConfigManager, ItemManager itemManager);
+    void loadConfiguration(String moduleName, String name, JSONObject node, HullConfigManager hullConfigManager, ItemManager itemManager);
 
     String getJSONValidatorLocation();
 
