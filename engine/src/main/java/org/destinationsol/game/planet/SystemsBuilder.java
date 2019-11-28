@@ -54,6 +54,7 @@ public class SystemsBuilder {
                 systems.add(s);
                 sysLeft--;
             } else {
+                // create one of every BuildableSystem found by gestalt up to the limit
                 for (Class<?> buildableSystem : ModuleManager.getEnvironment().getSubtypesOf(BuildableSystem.class)) {
                     try {
                         BuildableSystem system = (BuildableSystem) buildableSystem.newInstance();
@@ -62,6 +63,9 @@ public class SystemsBuilder {
                         system.build(configurationSystems, position, radius);
                         buildableSystems.add(system);
                         buildableSystemsLeft--;
+                        if (buildableSystemsLeft <= 0) {
+                            break;
+                        }
                     } catch (InstantiationException | IllegalAccessException e) {
                         e.printStackTrace();
                     }

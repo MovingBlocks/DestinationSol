@@ -142,10 +142,10 @@ public class MapDrawer implements UpdateAwareSystem{
 
     private void drawBuildableSystems(GameDrawer drawer, PlanetManager planetManager, float viewDist, Vector2 camPos, float heroDmgCap, float camAngle) {
         for (BuildableSystem buildableSystem : planetManager.getBuildableSystems()) {
-            TextureRegion texture = Assets.getAtlasRegion(buildableSystem.getTexture());
+            TextureRegion texture = Assets.getAtlasRegion(buildableSystem.getMapTextureLocation());
             Vector2 position = buildableSystem.getPosition();
             float outerRad = buildableSystem.getRadius();
-            float rad = outerRad - buildableSystem.getBorder();
+            float rad = outerRad - buildableSystem.getMapBorder();
             if (viewDist < camPos.dst(position) - rad) {
                 continue;
             }

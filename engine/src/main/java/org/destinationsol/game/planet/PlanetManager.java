@@ -64,12 +64,14 @@ public class PlanetManager implements UpdateAwareSystem {
         planetConfigs = new PlanetConfigs(hullConfigs, cols, itemManager);
         sysConfigs = new SysConfigs(hullConfigs, itemManager);
 
+        // initialise all ConfigurationsSystems found by gestalt
         configurationSystems = new ArrayList<>();
         for (Class<?> configurationSystem : ModuleManager.getEnvironment().getSubtypesOf(ConfigurationSystem.class)) {
             try {
                 ConfigurationSystem system = (ConfigurationSystem) configurationSystem.newInstance();
                 final Set<ResourceUrn> configUrns = Assets.getAssetHelper().list(Json.class, system.getConfigurationLocations());
 
+                // load all the configurations
                 for (ResourceUrn configUrn : configUrns) {
                     String moduleName = configUrn.getModuleName().toString();
                     JSONObject rootNode = Validator.getValidatedJSON(configUrn.toString(), system.getJSONValidatorLocation());
