@@ -19,6 +19,9 @@ import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
 import org.destinationsol.Const;
+import org.destinationsol.assets.Assets;
+import org.destinationsol.assets.json.Json;
+import org.destinationsol.assets.json.Validator;
 import org.destinationsol.common.SolColor;
 import org.destinationsol.common.SolMath;
 import org.destinationsol.files.HullConfigManager;
@@ -37,9 +40,12 @@ import org.destinationsol.game.ship.SolShip;
 import org.destinationsol.game.ship.hulls.Hull;
 import org.destinationsol.game.ship.hulls.HullConfig;
 import org.destinationsol.modules.ModuleManager;
+import org.json.JSONObject;
+import org.terasology.assets.ResourceUrn;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 
 public class PlanetManager implements UpdateAwareSystem {
     private final ArrayList<SolSystem> systems;
@@ -62,7 +68,18 @@ public class PlanetManager implements UpdateAwareSystem {
         for (Class<?> configurationSystem : ModuleManager.getEnvironment().getSubtypesOf(ConfigurationSystem.class)) {
             try {
                 ConfigurationSystem system = (ConfigurationSystem) configurationSystem.newInstance();
-                system.generateConfigurations(hullConfigs, itemManager);
+                final Set<ResourceUrn> configUrns = Assets.getAssetHelper().list(Json.class, system.getConfigurationLocations());
+
+                for (ResourceUrn configUrn : configUrns) {
+                    String moduleName = configUrn.getModuleName().toString();
+                    JSONObject rootNode = Validator.getValidatedJSON(configUrn.toString(), system.getJSONValidatorLocation());
+                    for (String name : rootNode.keySet()) {
+                        if (!(rootNode.get(name) instanceof JSONObject))
+                            continue;
+                        JSONObject mazeNode = rootNode.getJSONObject(name);
+                        system.loadConfiguration(moduleName, name, mazeNode, hullConfigs, itemManager);
+                    }
+                }
                 configurationSystems.add(system);
             } catch (InstantiationException | IllegalAccessException e) {
                 e.printStackTrace();

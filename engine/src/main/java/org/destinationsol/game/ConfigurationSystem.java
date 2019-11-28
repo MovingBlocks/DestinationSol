@@ -17,8 +17,13 @@ package org.destinationsol.game;
 
 import org.destinationsol.files.HullConfigManager;
 import org.destinationsol.game.item.ItemManager;
+import org.json.JSONObject;
 
 public interface ConfigurationSystem {
 
-    void generateConfigurations(HullConfigManager hullConfigs, ItemManager itemManager);
+    void loadConfiguration(String moduleName, String name, JSONObject mazeNode, HullConfigManager hullConfigManager, ItemManager itemManager);
+
+    String getJSONValidatorLocation();
+
+    String getConfigurationLocations();
 }
