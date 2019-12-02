@@ -180,7 +180,7 @@ public class MainGameScreen extends SolUiBaseScreen {
                     if (!isOn) {
                         inventoryScreen.setOperations(new ChooseMercenaryScreen());
                         inputManager.addScreen(inventoryScreen);
-                        solApplication.getGame().getHero().getTradeContainer().getMercs().markAllAsSeen();
+                        solApplication.getGame().getHero().getShip().getTradeContainer().getMercs().markAllAsSeen();
                     }
                 });
         buttonList.addElement(mercenariesButton);
