@@ -16,7 +16,8 @@
 package org.destinationsol.game.item;
 
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
-import com.badlogic.gdx.utils.JsonValue;
+import org.destinationsol.assets.json.Validator;
+import org.json.JSONObject;
 import org.destinationsol.assets.Assets;
 import org.destinationsol.assets.json.Json;
 import org.destinationsol.game.SolGame;
@@ -121,15 +122,12 @@ public class Engine implements SolItem {
         }
 
         public static Config load(String engineName) {
-            Json json = Assets.getJson(engineName);
-            JsonValue rootNode = json.getJsonValue();
+            JSONObject rootNode = Validator.getValidatedJSON(engineName, "engine:schemaEngine");
 
             boolean isBig = rootNode.getBoolean("big");
             float rotationAcceleration = isBig ? 100f : 515f;
             float acceleration = 2f;
             float maxRotationSpeed = isBig ? 40f : 230f;
-
-            json.dispose();
 
             // TODO: VAMPCAT: The icon / displayName was initially set to null. Is that correct?
 

@@ -28,16 +28,17 @@ import com.badlogic.gdx.physics.box2d.Shape;
 import com.badlogic.gdx.physics.box2d.World;
 import com.badlogic.gdx.physics.box2d.joints.PrismaticJoint;
 import com.badlogic.gdx.physics.box2d.joints.PrismaticJointDef;
-import com.badlogic.gdx.utils.JsonValue;
+import org.destinationsol.assets.json.Validator;
+import org.destinationsol.game.CollisionMeshLoader;
+import org.destinationsol.game.Faction;
+import org.destinationsol.game.RemoveController;
+import org.destinationsol.game.SolGame;
+import org.json.JSONObject;
 import org.destinationsol.assets.Assets;
 import org.destinationsol.assets.json.Json;
 import org.destinationsol.common.SolColor;
 import org.destinationsol.common.SolMath;
 import org.destinationsol.common.SolRandom;
-import org.destinationsol.game.CollisionMeshLoader;
-import org.destinationsol.game.Faction;
-import org.destinationsol.game.RemoveController;
-import org.destinationsol.game.SolGame;
 import org.destinationsol.game.drawables.Drawable;
 import org.destinationsol.game.drawables.DrawableLevel;
 import org.destinationsol.game.drawables.RectSprite;
@@ -96,13 +97,13 @@ public class ShipBuilder {
         return base;
     }
 
-    public FarShip buildNewFar(SolGame game, Vector2 position, Vector2 speed, float angle, float rotationSpeed, Pilot pilot,
+    public FarShip buildNewFar(SolGame game, Vector2 position, Vector2 velocity, float angle, float rotationSpeed, Pilot pilot,
                                String items, HullConfig hullConfig,
                                RemoveController removeController,
                                boolean hasRepairer, float money, TradeConfig tradeConfig, boolean giveAmmo) {
 
-        if (speed == null) {
-            speed = new Vector2();
+        if (velocity == null) {
+            velocity = new Vector2();
         }
         ItemContainer itemContainer = new ItemContainer();
         game.getItemMan().fillContainer(itemContainer, items);
@@ -181,7 +182,7 @@ public class ShipBuilder {
             addAmmo(itemContainer, g1, pilot);
             addAmmo(itemContainer, g2, pilot);
         }
-        return new FarShip(new Vector2(position), new Vector2(speed), angle, rotationSpeed, pilot, itemContainer, hullConfig, hullConfig.getMaxLife(),
+        return new FarShip(new Vector2(position), new Vector2(velocity), angle, rotationSpeed, pilot, itemContainer, hullConfig, hullConfig.getMaxLife(),
                 g1, g2, removeController, ei, hasRepairer ? new ShipRepairer() : null, money, tc, shield, armor);
     }
 
@@ -222,13 +223,13 @@ public class ShipBuilder {
         }
     }
 
-    public SolShip build(SolGame game, Vector2 position, Vector2 speed, float angle, float rotationSpeed, Pilot pilot,
+    public SolShip build(SolGame game, Vector2 position, Vector2 velocity, float angle, float rotationSpeed, Pilot pilot,
                          ItemContainer container, HullConfig hullConfig, float life, Gun gun1,
                          Gun gun2, RemoveController removeController, Engine engine,
                          ShipRepairer repairer, float money, TradeContainer tradeContainer, Shield shield,
                          Armor armor) {
         ArrayList<Drawable> drawables = new ArrayList<>();
-        Hull hull = buildHull(game, position, speed, angle, rotationSpeed, hullConfig, life, drawables);
+        Hull hull = buildHull(game, position, velocity, angle, rotationSpeed, hullConfig, life, drawables);
         SolShip ship = new SolShip(game, pilot, hull, removeController, drawables, container, repairer, money, tradeContainer, shield, armor);
         hull.getBody().setUserData(ship);
         for (Door door : hull.getDoors()) {
@@ -257,17 +258,15 @@ public class ShipBuilder {
         return ship;
     }
 
-    private Hull buildHull(SolGame game, Vector2 position, Vector2 speed, float angle, float rotationSpeed, HullConfig hullConfig,
+    private Hull buildHull(SolGame game, Vector2 position, Vector2 velocity, float angle, float rotationSpeed, HullConfig hullConfig,
                            float life, ArrayList<Drawable> drawables) {
         //TODO: This logic belongs in the HullConfigManager/HullConfig
         String shipName = hullConfig.getInternalName();
 
-        Json json = Assets.getJson(shipName);
+        JSONObject rootNode = Validator.getValidatedJSON(shipName, "engine:schemaHullConfig");
 
-        JsonValue rigidBodyNode = json.getJsonValue().get("rigidBody");
+        JSONObject rigidBodyNode = rootNode.getJSONObject("rigidBody");
         myCollisionMeshLoader.readRigidBody(rigidBodyNode, hullConfig);
-
-        json.dispose();
 
         BodyDef.BodyType bodyType = hullConfig.getType() == HullConfig.Type.STATION ? BodyDef.BodyType.KinematicBody : BodyDef.BodyType.DynamicBody;
         DrawableLevel level = hullConfig.getType() == HullConfig.Type.STD ? DrawableLevel.BODIES : hullConfig.getType() == HullConfig.Type.BIG ? DrawableLevel.BIG_BODIES : DrawableLevel.STATIONS;
@@ -289,7 +288,7 @@ public class ShipBuilder {
 
         ArrayList<ForceBeacon> beacons = new ArrayList<>();
         for (Vector2 relPos : hullConfig.getForceBeaconPositions()) {
-            ForceBeacon fb = new ForceBeacon(game, relPos, position, speed);
+            ForceBeacon fb = new ForceBeacon(game, relPos, position, velocity);
             fb.collectDras(drawables);
             beacons.add(fb);
         }
@@ -303,7 +302,7 @@ public class ShipBuilder {
 
         Fixture base = getBase(hullConfig.hasBase(), body);
         Hull hull = new Hull(game, hullConfig, body, gunMount0, gunMount1, base, lCs, life, beacons, doors, shieldFixture);
-        body.setLinearVelocity(speed);
+        body.setLinearVelocity(velocity);
         body.setAngularVelocity(rotationSpeed * MathUtils.degRad);
         return hull;
     }

@@ -73,6 +73,11 @@ public class UiControlledPilot implements Pilot {
     }
 
     @Override
+    public void stringToFaction(String faction) {
+    // TODO Create values outside of laani and ehar, making this necessary
+    }
+
+    @Override
     public boolean shootsAtObstacles() {
         return false;
     }

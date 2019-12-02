@@ -18,6 +18,7 @@ package org.destinationsol.game.screens;
 
 import org.destinationsol.GameOptions;
 import org.destinationsol.SolApplication;
+import org.destinationsol.game.FactionInfo;
 import org.destinationsol.game.Hero;
 import org.destinationsol.game.SolGame;
 import org.destinationsol.game.item.ItemContainer;
@@ -68,5 +69,6 @@ public class BuyItemsScreen extends InventoryOperationsScreen {
 ////            hero.getItemContainer().add(selItem);
 ////            hero.setMoney(hero.getMoney() - selItem.getPrice());
 ////        }
+        // faction stuff missing here - rebase
 //    }
 }

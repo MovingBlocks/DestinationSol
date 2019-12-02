@@ -119,9 +119,9 @@ class PlayerCreator {
                 null,
                 SHIP_SPAWN_HAS_REPAIRER,
                 money,
-                new TradeConfig(),
+                null,
                 giveAmmo);
-        return new Hero(farShip.toObject(game));
+        return new Hero(farShip.toObject(game), game);
     }
 
     private boolean shouldGiveAmmo(RespawnState respawnState, boolean isNewShip) {

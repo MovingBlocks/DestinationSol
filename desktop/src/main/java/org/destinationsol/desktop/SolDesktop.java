@@ -16,21 +16,25 @@
 package org.destinationsol.desktop;
 
 import com.badlogic.gdx.Files;
-import com.badlogic.gdx.backends.lwjgl.LwjglApplication;
-import com.badlogic.gdx.backends.lwjgl.LwjglApplicationConfiguration;
+import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Graphics;
+import com.badlogic.gdx.backends.lwjgl3.Lwjgl3Application;
+import com.badlogic.gdx.backends.lwjgl3.Lwjgl3ApplicationConfiguration;
+import com.badlogic.gdx.backends.lwjgl3.Lwjgl3Graphics;
 import org.destinationsol.GameOptions;
 import org.destinationsol.SolApplication;
 import org.destinationsol.SolFileReader;
 import org.destinationsol.game.DebugOptions;
+import org.destinationsol.ui.ResizeSubscriber;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.terasology.crashreporter.CrashReporter;
 
-import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.io.StringWriter;
+import java.io.BufferedReader;
 import java.nio.charset.Charset;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -62,27 +66,29 @@ public final class SolDesktop {
     }
 
     public static void main(String[] argv) {
-        LwjglApplicationConfiguration applicationConfig = new LwjglApplicationConfiguration();
+        Lwjgl3ApplicationConfiguration applicationConfig = new Lwjgl3ApplicationConfiguration();
         //TODO: Is checking for a presence of the file really the way we want to determine if it is a debug build?
         handleDevBuild(applicationConfig);
         MyReader reader = new MyReader();
         DebugOptions.read(reader);
 
+        GameOptions options = new GameOptions(false, reader);
         // Set screen width, height...
-        setScreenDimensions(applicationConfig, reader);
+        setScreenDimensions(applicationConfig, options);
 
         // Set the application's title, icon...
-        applicationConfig.title = "Destination Sol";
+        applicationConfig.setTitle("Destination Sol");
         if (DebugOptions.DEV_ROOT_PATH == null) {
-            applicationConfig.addIcon("src/main/resources/icon.png", Files.FileType.Internal);
+            applicationConfig.setWindowIcon(Files.FileType.Internal, "src/main/resources/icon.png");
         } else {
-            applicationConfig.addIcon(DebugOptions.DEV_ROOT_PATH + "/icon.png", Files.FileType.Absolute);
+            applicationConfig.setWindowIcon(Files.FileType.Absolute, DebugOptions.DEV_ROOT_PATH + "/icon.png");
         }
 
         handleCrashReporting(argv);
-
+        SolApplication application = new SolApplication(100);
+        SolApplication.addResizeSubscriber(new SolDesktop.FullScreenWindowPositionAdjustment(!options.fullscreen));
         // Everything is set up correctly, launch the application
-        new LwjglApplication(new SolApplication(), applicationConfig);
+        new Lwjgl3Application(application, applicationConfig);
     }
 
     /**
@@ -97,13 +103,15 @@ public final class SolDesktop {
      *
      * @param applicationConfig App config to configure.
      */
-    private static void handleDevBuild(LwjglApplicationConfiguration applicationConfig) {
+    private static void handleDevBuild(Lwjgl3ApplicationConfiguration applicationConfig) {
         boolean devBuild = java.nio.file.Files.exists(Paths.get("devBuild"));
         if (devBuild) {
             DebugOptions.DEV_ROOT_PATH = "engine/src/main/resources/"; // Lets the game run from source without a tweaked working directory
-            applicationConfig.vSyncEnabled = false; // Setting to false disables vertical sync
-            applicationConfig.foregroundFPS = 100; // Use 0 to disable foreground fps throttling
-            applicationConfig.backgroundFPS = 10; // Use 0 to disable background fps throttling
+            applicationConfig.useVsync(false); // Setting to false disables vertical sync
+            //The LWJGL3 backend does not support FPS throttling in the foreground
+            //applicationConfig.foregroundFPS = 100; // Use 0 to disable foreground fps throttling
+            //applicationConfig.backgroundFPS = 10; // Use 0 to disable background fps throttling
+            applicationConfig.setIdleFPS(10);
         }
     }
 
@@ -141,18 +149,27 @@ public final class SolDesktop {
      * load the window resolution from game options.
      *
      * @param applicationConfig App config to configure
-     * @param reader {@link SolFileReader} to read stored settings with.
+     * @param options {@link GameOptions} the configuration to read from.
      */
-    private static void setScreenDimensions(LwjglApplicationConfiguration applicationConfig, MyReader reader) {
+    private static void setScreenDimensions(Lwjgl3ApplicationConfiguration applicationConfig, GameOptions options) {
         if (DebugOptions.EMULATE_MOBILE) {
-            applicationConfig.width = 640;
-            applicationConfig.height = 480;
-            applicationConfig.fullscreen = false;
+            applicationConfig.setWindowedMode(640, 480);
         } else {
-            GameOptions d = new GameOptions(false, reader);
-            applicationConfig.width = d.x;
-            applicationConfig.height = d.y;
-            applicationConfig.fullscreen = d.fullscreen;
+            if (options.fullscreen) {
+                Graphics.DisplayMode mode = null;
+                for (Graphics.DisplayMode displayMode : Lwjgl3ApplicationConfiguration.getDisplayModes()) {
+                    if (displayMode.width == options.x && displayMode.height == options.y) {
+                        mode = displayMode;
+                    }
+                }
+                if (mode != null) {
+                    applicationConfig.setFullscreenMode(mode);
+                } else {
+                    logger.warn("The resolution {}x{} is not supported in fullscreen mode!", options.x, options.y);
+                }
+            } else {
+                applicationConfig.setWindowedMode(options.x, options.y);
+            }
         }
     }
 
@@ -203,6 +220,25 @@ public final class SolDesktop {
             }
 
             return lines;
+        }
+    }
+
+    private static final class FullScreenWindowPositionAdjustment implements ResizeSubscriber {
+        private boolean lastFullScreenState;
+
+        public FullScreenWindowPositionAdjustment(boolean lastFullScreenState) {
+            this.lastFullScreenState = lastFullScreenState;
+        }
+
+        @Override
+        public void resize() {
+            //If the game has gone from full-screen to windowed
+            if (lastFullScreenState && !Gdx.graphics.isFullscreen()) {
+                Graphics.DisplayMode mode = Gdx.graphics.getDisplayMode();
+                ((Lwjgl3Graphics) Gdx.graphics).getWindow().setPosition(mode.width / 4, mode.height / 4);
+            }
+
+            lastFullScreenState = Gdx.graphics.isFullscreen();
         }
     }
 }

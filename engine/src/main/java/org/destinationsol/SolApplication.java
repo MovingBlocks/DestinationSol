@@ -20,22 +20,20 @@ import com.badlogic.gdx.ApplicationListener;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.physics.box2d.Box2D;
-import java.io.PrintWriter;
-import java.io.StringWriter;
-import java.util.HashSet;
-import java.util.Set;
 import org.destinationsol.assets.audio.OggMusicManager;
 import org.destinationsol.assets.audio.OggSoundManager;
 import org.destinationsol.common.SolColor;
 import org.destinationsol.common.SolMath;
 import org.destinationsol.common.SolRandom;
 import org.destinationsol.game.DebugOptions;
+import org.destinationsol.game.FactionInfo;
 import org.destinationsol.game.SaveManager;
 import org.destinationsol.game.SolGame;
 import org.destinationsol.game.WorldConfig;
 import org.destinationsol.game.context.Context;
 import org.destinationsol.game.context.internal.ContextImpl;
 import org.destinationsol.menu.MenuScreens;
+import org.destinationsol.modules.ModuleManager;
 import org.destinationsol.ui.DebugCollector;
 import org.destinationsol.ui.DisplayDimensions;
 import org.destinationsol.ui.FontSize;
@@ -45,9 +43,18 @@ import org.destinationsol.ui.SolUiScreen;
 import org.destinationsol.ui.UiDrawer;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.terasology.module.sandbox.API;
 
+import java.io.PrintWriter;
+import java.io.StringWriter;
+import java.util.HashSet;
+import java.util.Set;
+
+@API
 public class SolApplication implements ApplicationListener {
     private static final Logger logger = LoggerFactory.getLogger(SolApplication.class);
+
+    private final float targetFPS;
 
     @SuppressWarnings("FieldCanBeLocal")
     private ModuleManager moduleManager;
@@ -60,7 +67,7 @@ public class SolApplication implements ApplicationListener {
     // TODO: Make this non-static.
     public static UiDrawer uiDrawer;
 
-    // TODO: Make this non-static.
+    private FactionDisplay factionDisplay;
     private static MenuScreens menuScreens;
     private GameOptions options;
     private CommonDrawer commonDrawer;
@@ -82,17 +89,17 @@ public class SolApplication implements ApplicationListener {
     // TODO: Remove.
     private static SolApplication instance;
 
-    public SolApplication() {
+    public SolApplication(float targetFPS) {
         // Initiate Box2D to make sure natives are loaded early enough
         Box2D.init();
+        this.targetFPS = 1.0f / targetFPS;
+        resizeSubscribers = new HashSet<>();
 
         instance = this;
     }
 
     @Override
     public void create() {
-        resizeSubscribers = new HashSet<>();
-
         context = new ContextImpl();
         context.put(SolApplication.class, this);
         worldConfig = new WorldConfig();
@@ -108,7 +115,7 @@ public class SolApplication implements ApplicationListener {
         logger.info("\n\n ------------------------------------------------------------ \n");
         moduleManager.printAvailableModules();
 
-        musicManager = new OggMusicManager();
+        musicManager = new OggMusicManager(options);
         soundManager = new OggSoundManager(context);
         inputManager = new SolInputManager(soundManager);
 
@@ -139,7 +146,29 @@ public class SolApplication implements ApplicationListener {
             timeAccumulator -= Const.REAL_TIME_STEP;
         }
 
-        draw();
+        //HACK: A crude and primitive frame-limiter...
+        try {
+            if (Gdx.graphics.getDeltaTime() < targetFPS) {
+                Thread.sleep((long) ((targetFPS - Gdx.graphics.getDeltaTime()) * 1000) * 2);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        try {
+            draw();
+        } catch (Throwable t) {
+            logger.error("Fatal Error:", t);
+            fatalErrorMsg = "A fatal error occurred:\n" + t.getMessage();
+            StringWriter sw = new StringWriter();
+            PrintWriter pw = new PrintWriter(sw);
+            t.printStackTrace(pw);
+            fatalErrorTrace = sw.toString();
+
+            if (!isMobile) {
+                throw t;
+            }
+        }
     }
 
     @Override
@@ -197,6 +226,7 @@ public class SolApplication implements ApplicationListener {
         inputManager.draw(uiDrawer, this);
         if (solGame != null) {
             solGame.drawDebugUi(uiDrawer);
+            factionDisplay.drawFactionNames(solGame, uiDrawer, inputManager, solGame.getObjectManager());
         }
         if (fatalErrorMsg != null) {
             uiDrawer.draw(UiDrawer.whiteTexture, displayDimensions.getRatio(), .5f, 0, 0, 0, .25f, 0, SolColor.UI_BG);
@@ -217,7 +247,6 @@ public class SolApplication implements ApplicationListener {
 
         inputManager.changeScreen(menuScreens.loadingScreen);
         menuScreens.loadingScreen.setMode(tut, shipName, isNewGame);
-        musicManager.playMusic(OggMusicManager.GAME_MUSIC_SET, options);
     }
 
     public void play(boolean tut, String shipName, boolean isNewGame) {
@@ -227,9 +256,10 @@ public class SolApplication implements ApplicationListener {
             beforeLoadGame();
         }
 
+        FactionInfo factionInfo = new FactionInfo();
         solGame = new SolGame(shipName, tut, isNewGame, commonDrawer, context, worldConfig);
+        factionDisplay = new FactionDisplay(solGame, factionInfo);
         inputManager.changeScreen(solGame.getScreens().mainGameScreen);
-        musicManager.playMusic(OggMusicManager.GAME_MUSIC_SET, options);
     }
 
     // TODO: Make non-static. Also, move to a dedicated ScreenManager class.
@@ -297,16 +327,21 @@ public class SolApplication implements ApplicationListener {
     }
 
 
-     /** This method is called when the "New Game" button gets pressed. It sets the seed for random generation, and the number of systems */
+    /**
+     * This method is called when the "New Game" button gets pressed. It sets the seed for random generation, and the number of systems
+     */
     private void beforeNewGame() {
         // Reset the seed so this galaxy isn't the same as the last
         worldConfig.setSeed(System.currentTimeMillis());
         SolRandom.setSeed(worldConfig.getSeed());
+        FactionInfo.clearValues();
 
 //        worldConfig.setNumberOfSystems(getMenuScreens().newShipScreen.getNumberOfSystems());
     }
 
-     /** This method is called when the "Continue" button gets pressed. It loads the world file to get the seed used for the world generation, and the number of systems */
+    /**
+     * This method is called when the "Continue" button gets pressed. It loads the world file to get the seed used for the world generation, and the number of systems
+     */
     private void beforeLoadGame() {
         WorldConfig config = SaveManager.loadWorld();
         if (config != null) {

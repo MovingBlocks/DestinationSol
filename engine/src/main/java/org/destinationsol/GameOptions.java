@@ -16,17 +16,15 @@
 package org.destinationsol;
 
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Graphics;
 import com.badlogic.gdx.Input;
 import org.destinationsol.menu.Resolution;
 import org.destinationsol.menu.ResolutionProvider;
-
-import static java.util.Arrays.asList;
 import org.destinationsol.ui.ResizeSubscriber;
 
 import java.util.Arrays;
-import java.util.Comparator;
+
+import static java.util.Arrays.asList;
 
 public class GameOptions implements ResizeSubscriber {
     @Override
@@ -266,7 +264,6 @@ public class GameOptions implements ResizeSubscriber {
                     x = displayMode.width;
                     y = displayMode.height;
                 });
-        Gdx.graphics.setDisplayMode(x, y, fullscreen);
     }
 
     public void advanceSoundVolMul() {

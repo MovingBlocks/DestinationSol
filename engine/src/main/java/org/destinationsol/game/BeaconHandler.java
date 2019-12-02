@@ -50,7 +50,7 @@ public class BeaconHandler implements UpdateAwareSystem{
     private Action currentAction;
     private PlanetBind planetBind;
     private float clickTime;
-    private Vector2 speed;
+    private Vector2 velocity;
     private boolean isInitialized;
 
     public BeaconHandler() {
@@ -61,7 +61,7 @@ public class BeaconHandler implements UpdateAwareSystem{
         TextureAtlas.AtlasRegion moveTexture = Assets.getAtlasRegion("engine:uiBeaconMove");
         moveSprite = new RectSprite(moveTexture, TEX_SZ, 0, 0, new Vector2(), DrawableLevel.PART_FG_0, 0, ROT_SPD, new Color(1, 1, 1, 0), true);
         targetRelativePosition = new Vector2();
-        speed = new Vector2();
+        velocity = new Vector2();
     }
 
     public void init(SolGame game, Vector2 position) {
@@ -80,7 +80,7 @@ public class BeaconHandler implements UpdateAwareSystem{
             return;
         }
         updateD(game);
-        speed.set(0, 0);
+        velocity.set(0, 0);
         if (maybeUpdateTargetPos(game)) {
             return;
         }
@@ -97,7 +97,7 @@ public class BeaconHandler implements UpdateAwareSystem{
         planetBind.setDiff(vec, beaconPos, false);
         beaconPos.add(vec);
         SolMath.free(vec);
-        planetBind.getPlanet().calculateSpeedAtPosition(speed, beaconPos);
+        planetBind.getPlanet().calculateVelocityAtPosition(velocity, beaconPos);
     }
 
     private boolean maybeUpdateTargetPos(SolGame game) {
@@ -108,7 +108,7 @@ public class BeaconHandler implements UpdateAwareSystem{
         Vector2 beaconPos = getPos0();
         if (target != null) {
             SolMath.toWorld(beaconPos, targetRelativePosition, target.getAngle(), target.getPosition());
-            speed.set(target.getSpeed());
+            velocity.set(target.getVelocity());
         } else {
             beaconPos.set(farTarget.getPosition());
         }
@@ -138,7 +138,7 @@ public class BeaconHandler implements UpdateAwareSystem{
             return;
         }
         if (farTarget == null) {
-            throw new AssertionError();
+            throw new AssertionError("Far target does not exist!");
         }
         if (om.getFarShips().contains(farTarget)) {
             return;
@@ -186,7 +186,7 @@ public class BeaconHandler implements UpdateAwareSystem{
             throw new AssertionError();
         }
         if (farDrawable == null) {
-            throw new AssertionError();
+            throw new AssertionError("Far drawable does not exist!");
         }
         if (om.containsFarObj(farDrawable)) {
             return;
@@ -312,8 +312,8 @@ public class BeaconHandler implements UpdateAwareSystem{
         return clickTime;
     }
 
-    public Vector2 getSpeed() {
-        return speed;
+    public Vector2 getVelocity() {
+        return velocity;
     }
 
     public enum Action {

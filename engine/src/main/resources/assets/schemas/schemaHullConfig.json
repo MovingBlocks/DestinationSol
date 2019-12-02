@@ -1,0 +1,243 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "description": "Describes ship configuration, that is size, health and positions of effect or functional elements. Also describes physical shape of ship.",
+  "type": "object",
+  "required": [
+    "size",
+    "maxLife",
+    "type",
+    "rigidBody",
+    "gunSlots"
+  ],
+  "properties": {
+    "size": {
+      "type": "number",
+      "exclusiveMinimum": 0,
+      "description": "Multiplier of ship size in magical units. Common values are between 0.2 (tiny ships) and 5 (huge ships)."
+    },
+    "maxLife": {
+      "type": "integer",
+      "description": "Default and maximum achievable life of ship."
+    },
+    "lightSrcPoss": {
+      "$ref": "#/definitions/vec2List",
+      "description": "Positions of light sources (graphical effect)"
+    },
+    "forceBeaconPoss": {
+      "$ref": "#/definitions/vec2List",
+      "description": "Beacons - things on ships and stations that attract other ships from close enough range ('docking ports')"
+    },
+    "doorPoss": {
+      "$ref": "#/definitions/vec2List",
+      "description": "Positions of door centers on ships - doors are horizontal things opening on other ship proximity."
+    },
+    "type": {
+      "type": "string",
+      "enum": [
+        "std",
+        "big",
+        "station"
+      ],
+      "description": "Denotes whether ship is standard or big size, or if it is a station"
+    },
+    "engine": {
+      "type": "string",
+      "description": "Id of the engine on the ship",
+      "pattern": "^\\w+:\\w+$"
+    },
+    "ability": {
+      "type": "object",
+      "properties": {
+        "type": {
+          "type": "string",
+          "description": "Type of ship's ability"
+        },
+        "rechargeTime": {
+          "type": "number",
+          "minimum": 0,
+          "description": "Recharge time of ability in seconds."
+        }
+      }
+    },
+    "displayName": {
+      "type": "string",
+      "description": "Human friendly name of the ship",
+      "pattern": "^[ -~]+$"
+    },
+    "price": {
+      "type": "number",
+      "description": "Price for buying this ship in shop"
+    },
+    "hirePrice": {
+      "type": "number",
+      "description": "Price for hiring this ship as mercenary"
+    },
+    "rigidBody": {
+      "description": "Physical model of ship's body. This is meant to be exported from some utility application (b2dEditor",
+      "type": "object",
+      "properties": {
+        "origin": {
+          "type": "object",
+          "properties": {
+            "x": {
+              "type": "number"
+            },
+            "y": {
+              "type": "number"
+            }
+          },
+          "required": [
+            "x",
+            "y"
+          ]
+        },
+        "polygons": {
+          "type": "array",
+          "items": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "x": {
+                  "type": "number"
+                },
+                "y": {
+                  "type": "number"
+                }
+              }
+            }
+          }
+        },
+        "shapes": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "type": {
+                "type": "string"
+              }
+            }
+          }
+        },
+        "circles": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "cx": {
+                "type": "number"
+              },
+              "cy": {
+                "type": "number"
+              },
+              "r": {
+                "type": "number"
+              }
+            }
+          }
+        }
+      },
+      "required": [
+        "origin",
+        "polygons",
+        "shapes",
+        "circles"
+      ]
+    },
+    "gunSlots": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "minItems": 1,
+        "maxItems": 2,
+        "properties": {
+          "position": {
+            "$ref": "#/definitions/vec2"
+          },
+          "isUnderneathHull": {
+            "type": "boolean"
+          },
+          "allowsRotation": {
+            "type": "boolean"
+          }
+        },
+        "required": [
+          "position"
+        ]
+      }
+    },
+    "particleEmitters": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "position": {
+            "$ref": "#/definitions/vec2"
+          },
+          "trigger": {
+            "type": "string"
+          },
+          "angleOffset": {
+            "type": "number"
+          },
+          "hasLight": {
+            "type": "boolean"
+          },
+          "particle": {
+            "type": "object",
+            "required": [
+              "effectFile",
+              "tex",
+              "tint"
+            ],
+            "properties": {
+              "effectFile": {
+                "type": "string",
+                "pattern": "^\\w+:\\w+$"
+              },
+              "size": {
+                "type": "number"
+              },
+              "tex": {
+                "type": "string",
+                "pattern": "^\\w+:\\w+$"
+              },
+              "floatsUp": {
+                "type": "boolean"
+              },
+              "tint": {
+                "type": "string",
+                "pattern": "^(\\w+|(hsb (((360)|(3[0-5]\\d)|([012]?\\d?\\d))( ((100)|\\d?\\d)){2})|(((([01]?\\d?\\d)|(2[0-4]\\d)|(25[0-5])) ){2}(([01]?\\d?\\d)|(2[0-4]\\d)|(25[0-5]))))( (([01]?\\d?\\d)|(2[0-4]\\d)|(25[0-5])))?)$"
+              }
+            }
+          },
+          "workSounds": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "pattern": "^\\w+:\\w+$"
+            }
+          }
+        },
+        "required": [
+          "position",
+          "trigger",
+          "particle"
+        ]
+      }
+    }
+  },
+  "definitions": {
+    "vec2": {
+      "type": "string",
+      "pattern": "^(([0-9]*\\.)?[0-9]+ +([0-9]*\\.)?[0-9]+)$",
+      "$comment": "2 float values separated by one or more spaces, ints also accepted"
+    },
+    "vec2List": {
+      "type": "array",
+      "items": {
+        "$ref": "#/definitions/vec2"
+      }
+    }
+  }
+}

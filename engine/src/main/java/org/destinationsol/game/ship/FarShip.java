@@ -31,7 +31,7 @@ import org.destinationsol.game.ship.hulls.HullConfig;
 
 public class FarShip implements FarObject {
     private final Vector2 position;
-    private final Vector2 speed;
+    private final Vector2 velocity;
     private final Shield shield;
     private final Armor armor;
     private final float rotationSpeed;
@@ -48,12 +48,12 @@ public class FarShip implements FarObject {
     private ShipRepairer repairer;
     private float money;
 
-    public FarShip(Vector2 position, Vector2 speed, float angle, float rotationSpeed, Pilot pilot, ItemContainer container,
+    public FarShip(Vector2 position, Vector2 velocity, float angle, float rotationSpeed, Pilot pilot, ItemContainer container,
                    HullConfig hullConfig, float life,
                    Gun gun1, Gun gun2, RemoveController removeController, Engine engine,
                    ShipRepairer repairer, float money, TradeContainer tradeContainer, Shield shield, Armor armor) {
         this.position = position;
-        this.speed = speed;
+        this.velocity = velocity;
         this.angle = angle;
         this.rotationSpeed = rotationSpeed;
         this.pilot = pilot;
@@ -93,7 +93,7 @@ public class FarShip implements FarObject {
 
     @Override
     public SolShip toObject(SolGame game) {
-        return game.getShipBuilder().build(game, position, speed, angle, rotationSpeed, pilot, container, hullConfig, life, gun1,
+        return game.getShipBuilder().build(game, position, velocity, angle, rotationSpeed, pilot, container, hullConfig, life, gun1,
                 gun2, removeController, engine, repairer, money, tradeContainer, shield, armor);
     }
 
@@ -148,12 +148,12 @@ public class FarShip implements FarObject {
         this.angle = angle;
     }
 
-    public Vector2 getSpeed() {
-        return speed;
+    public Vector2 getVelocity() {
+        return velocity;
     }
 
-    public void setSpeed(Vector2 speed) {
-        this.speed.set(speed);
+    public void setVelocity(Vector2 velocity) {
+        this.velocity.set(velocity);
     }
 
     public Engine getEngine() {

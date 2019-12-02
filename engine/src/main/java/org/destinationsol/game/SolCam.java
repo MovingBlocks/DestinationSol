@@ -28,6 +28,7 @@ import org.destinationsol.common.SolMath;
 import org.destinationsol.common.SolRandom;
 import org.destinationsol.game.planet.Planet;
 import org.destinationsol.game.screens.MainGameScreen;
+import org.destinationsol.game.ship.SolShip;
 import org.destinationsol.ui.DisplayDimensions;
 
 public class SolCam implements UpdateAwareSystem {
@@ -83,7 +84,7 @@ public class SolCam implements UpdateAwareSystem {
                 position.set(heroPos);
                 game.getObjectManager().resetDelays();
             } else {
-                Vector2 moveDiff = SolMath.getVec(hero.getSpeed());
+                Vector2 moveDiff = SolMath.getVec(hero.getVelocity());
                 moveDiff.scl(timeStep);
                 position.add(moveDiff);
                 SolMath.free(moveDiff);
@@ -131,7 +132,7 @@ public class SolCam implements UpdateAwareSystem {
         } else if (hero.isDead()) {
             return Const.CAM_VIEW_DIST_GROUND;
         } else {
-            float speed = hero.getSpeed().len();
+            float speed = hero.getVelocity().len();
             float desiredViewDistance = Const.CAM_VIEW_DIST_SPACE;
             Planet nearestPlanet = game.getPlanetManager().getNearestPlanet(position);
             if (nearestPlanet.getFullHeight() < nearestPlanet.getPosition().dst(position) && MAX_ZOOM_SPD < speed) {
@@ -299,5 +300,15 @@ public class SolCam implements UpdateAwareSystem {
         myCam.unproject(myTmpVec);
         position.x = myTmpVec.x;
         position.y = myTmpVec.y;
+    }
+
+    public Vector2 worldToScreen(SolShip ship) {
+        Vector2 distanceDifference = new Vector2(this.getPosition());
+        distanceDifference.sub(ship.getPosition());
+        distanceDifference.x /= this.getViewWidth();
+        distanceDifference.x = .5f - distanceDifference.x;
+        distanceDifference.y /= this.getViewHeight();
+        distanceDifference.y = .5f - distanceDifference.y;
+        return distanceDifference;
     }
 }

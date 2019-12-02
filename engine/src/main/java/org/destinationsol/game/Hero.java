@@ -16,17 +16,21 @@
 package org.destinationsol.game;
 
 import com.badlogic.gdx.math.Vector2;
+import org.destinationsol.GameOptions;
+import org.destinationsol.assets.audio.OggMusicManager;
 import org.destinationsol.common.SolException;
+import org.destinationsol.game.console.commands.PositionCommandHandler;
 import org.destinationsol.game.input.Pilot;
 import org.destinationsol.game.item.Armor;
 import org.destinationsol.game.item.ItemContainer;
 import org.destinationsol.game.item.Shield;
 import org.destinationsol.game.item.SolItem;
-import org.destinationsol.game.item.TradeContainer;
 import org.destinationsol.game.ship.FarShip;
 import org.destinationsol.game.ship.ShipAbility;
 import org.destinationsol.game.ship.SolShip;
 import org.destinationsol.game.ship.hulls.Hull;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * A wrapper class for the Hero, that handles the normal and transcendent ships transparently.
@@ -34,16 +38,24 @@ import org.destinationsol.game.ship.hulls.Hull;
 public class Hero {
     private SolShip shipHero;
     private StarPort.Transcendent transcendentHero;
+    private ItemContainer mercs;
     private FarShip transcendentHeroShip;
     private boolean isTranscendent;
     private boolean isDead;
 
-    public Hero(SolShip shipHero) {
-        this.shipHero = shipHero;
+    public Hero(SolShip shipHero, SolGame solGame) {
         if (shipHero == null) {
-            throw new SolException("Something tries to create hero, when there is no ship linked to him.");
+            throw new SolException("Something is trying to create the hero when there is no ship linked to him.");
         }
-        isTranscendent = false;
+        setSolShip(shipHero, solGame);
+    }
+
+    public void initialise() {
+        if (!Console.getInstance().getDefaultInputHandler().commandExists("position")) {
+            Console.getInstance().getDefaultInputHandler().registerCommand("position", new PositionCommandHandler(this));
+        } else {
+            ((PositionCommandHandler) Console.getInstance().getDefaultInputHandler().getRegisteredCommand("position")).hero = this;
+        }
     }
 
     public void setTranscendent(StarPort.Transcendent transcendentHero) {
@@ -52,10 +64,21 @@ public class Hero {
         isTranscendent = true;
     }
 
-    public void setSolShip(SolShip hero) {
+    public void setSolShip(SolShip hero, SolGame solGame) {
         isDead = false;
+        if (hero != shipHero) {
+            mercs = new ItemContainer();
+        }
         this.shipHero = hero;
         isTranscendent = false;
+        if (shipHero.getTradeContainer() != null) {
+            throw new SolException("Hero is not supposed to have TradeContainer.");
+        }
+        GameOptions options = solGame.getSolApplication().getOptions();
+        //Satisfying unit tests
+        if(hero.getHull() != null)
+            solGame.getSolApplication().getMusicManager().registerModuleMusic(hero.getHull().getHullConfig().getInternalName().split(":")[0], options);
+        solGame.getSolApplication().getMusicManager().playMusic(OggMusicManager.GAME_MUSIC_SET, options);
     }
 
     public boolean isTranscendent() {
@@ -72,7 +95,7 @@ public class Hero {
 
     public SolShip getShip() {
         if (isTranscendent) {
-            throw new SolException("Something is trying to get a SolShip hero while the hero is Transcendent state.");
+            throw new SolException("Something is trying to get a SolShip hero while the hero is in Transcendent state.");
         }
         return shipHero;
     }
@@ -115,8 +138,8 @@ public class Hero {
         return shipHero.canUseAbility();
     }
 
-    public Vector2 getSpeed() {
-        return isTranscendent ? transcendentHero.getSpeed() : shipHero.getSpeed();
+    public Vector2 getVelocity() {
+        return isTranscendent ? transcendentHero.getVelocity() : shipHero.getVelocity();
     }
 
     public float getAcceleration() {
@@ -156,9 +179,9 @@ public class Hero {
         shipHero.setMoney(money);
     }
 
-    public TradeContainer getTradeContainer() {
+    public ItemContainer getMercs() {
         assertNonTranscendent();
-        return shipHero.getTradeContainer();
+        return mercs;
     }
 
     public ItemContainer getItemContainer() {

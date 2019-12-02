@@ -16,7 +16,11 @@
 package org.destinationsol.files;
 
 import com.badlogic.gdx.math.Vector2;
-import com.badlogic.gdx.utils.JsonValue;
+import org.destinationsol.assets.json.Validator;
+import org.destinationsol.game.AbilityCommonConfig;
+import org.destinationsol.modules.ModuleManager;
+import org.json.JSONArray;
+import org.json.JSONObject;
 import org.destinationsol.assets.Assets;
 import org.destinationsol.assets.json.Json;
 import org.destinationsol.common.SolMath;
@@ -25,18 +29,16 @@ import org.destinationsol.game.item.Engine;
 import org.destinationsol.game.item.ItemManager;
 import org.destinationsol.game.particle.DSParticleEmitter;
 import org.destinationsol.game.ship.AbilityConfig;
-import org.destinationsol.game.ship.EmWave;
-import org.destinationsol.game.ship.KnockBack;
-import org.destinationsol.game.ship.SloMo;
-import org.destinationsol.game.ship.Teleport;
-import org.destinationsol.game.ship.UnShield;
 import org.destinationsol.game.ship.hulls.GunSlot;
 import org.destinationsol.game.ship.hulls.HullConfig;
+import org.terasology.module.Module;
+import org.terasology.naming.Name;
 
+import java.lang.reflect.Method;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 
 public final class HullConfigManager {
@@ -44,6 +46,19 @@ public final class HullConfigManager {
     private final AbilityCommonConfigs abilityCommonConfigs;
     private final Map<String, HullConfig> nameToConfigMap;
     private final Map<HullConfig, String> configToNameMap;
+    private static final Map<String, Class<AbilityConfig>> abilityClasses;
+    private static final String LOAD_JSON_METHOD_NAME = "load";
+
+    static {
+        abilityClasses = new HashMap<String, Class<AbilityConfig>>();
+        for (Class abilityClass : ModuleManager.getEnvironment().getSubtypesOf(AbilityConfig.class)) {
+            try {
+                abilityClasses.put(abilityClass.getSimpleName().replace("Config", "").toLowerCase(Locale.ENGLISH), abilityClass);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+    }
 
     public HullConfigManager(ItemManager itemManager, AbilityCommonConfigs abilityCommonConfigs) {
         this.itemManager = itemManager;
@@ -53,16 +68,17 @@ public final class HullConfigManager {
         configToNameMap = new HashMap<>();
     }
 
-    private static Vector2 readVector2(JsonValue jsonValue, String name, Vector2 defaultValue) {
-        String string = jsonValue.getString(name, null);
+    private static Vector2 readVector2(JSONObject JSONObject, String name, Vector2 defaultValue) {
+        String string = JSONObject.optString(name, null);
         return (string == null)
                 ? defaultValue
                 : SolMath.readV2(string);
     }
 
     private static Engine.Config readEngineConfig(String engineName, ItemManager itemManager) {
-        if (engineName == null)
+        if (engineName == null) {
             return null;
+        }
 
         return itemManager.getEngineConfig(engineName);
     }
@@ -99,114 +115,105 @@ public final class HullConfigManager {
 
         configData.internalName = shipName;
 
-        Json json = Assets.getJson(shipName);
+        JSONObject rootNode = Validator.getValidatedJSON(shipName, "engine:schemaHullConfig");
 
-        try {
-            readProperties(json.getJsonValue(), configData);
-        } catch (IllegalArgumentException e) {
-            throw new IllegalArgumentException("The JSON of ship " + shipName + " is missing, or has malformed, a required parameter" + e.getMessage().split(":")[1]);
-        }
+        readProperties(rootNode, configData);
 
         configData.tex = Assets.getAtlasRegion(shipName);
         configData.icon = Assets.getAtlasRegion(shipName + "Icon");
 
         validateEngineConfig(configData);
 
-        json.dispose();
-
         return new HullConfig(configData);
     }
 
-    private void parseGunSlotList(JsonValue containerNode, HullConfig.Data configData) {
+    private void parseGunSlotList(JSONArray containerNode, HullConfig.Data configData) {
         Vector2 builderOrigin = new Vector2(configData.shipBuilderOrigin);
 
-        for (JsonValue gunSlotNode : containerNode) {
+        for (int i = 0; i < containerNode.length(); i++) {
+            JSONObject gunSlotNode = containerNode.getJSONObject(i);
             Vector2 position = readVector2(gunSlotNode, "position", null);
             position.sub(builderOrigin).scl(configData.size);
 
-            boolean isUnderneathHull = gunSlotNode.getBoolean("isUnderneathHull", false);
-            boolean allowsRotation = gunSlotNode.getBoolean("allowsRotation", true);
+            boolean isUnderneathHull = gunSlotNode.optBoolean("isUnderneathHull", false);
+            boolean allowsRotation = gunSlotNode.optBoolean("allowsRotation", true);
 
             configData.gunSlots.add(new GunSlot(position, isUnderneathHull, allowsRotation));
         }
     }
 
-    private void parseParticleEmitters(JsonValue containerNode, HullConfig.Data configData) {
+    private void parseParticleEmitters(JSONArray containerNode, HullConfig.Data configData) {
         Vector2 builderOrigin = new Vector2(configData.shipBuilderOrigin);
 
-        for (JsonValue particleEmitterNode : containerNode) {
+        for (int i = 0; i < containerNode.length(); i++) {
+            JSONObject particleEmitterNode = containerNode.getJSONObject(i);
             Vector2 position = readVector2(particleEmitterNode, "position", null);
             position.sub(builderOrigin).scl(configData.size);
 
-            String trigger = particleEmitterNode.getString("trigger", null);
-            float angleOffset = particleEmitterNode.getFloat("angleOffset", 0f);
-            boolean hasLight = particleEmitterNode.getBoolean("hasLight", false);
-            JsonValue particleNode = particleEmitterNode.get("particle");
+            String trigger = particleEmitterNode.optString("trigger", null);
+            float angleOffset = (float) particleEmitterNode.optDouble("angleOffset", 0f);
+            boolean hasLight = particleEmitterNode.optBoolean("hasLight", false);
+            JSONObject particleNode = particleEmitterNode.getJSONObject("particle");
 
             List<String> workSounds = new ArrayList<>();
-            if (particleEmitterNode.hasChild("workSounds")) {
-                workSounds = Arrays.asList(particleEmitterNode.get("workSounds").asStringArray());
+            if (particleEmitterNode.has("workSounds")) {
+                workSounds = Assets.convertToStringList(particleEmitterNode.getJSONArray("workSounds"));
             }
 
             configData.particleEmitters.add(new DSParticleEmitter(position, trigger, angleOffset, hasLight, particleNode, workSounds));
         }
     }
 
-    private void readProperties(JsonValue rootNode, HullConfig.Data configData) {
-        configData.size = rootNode.getFloat("size");
+    private void readProperties(JSONObject rootNode, HullConfig.Data configData) {
+        configData.size = (float) rootNode.optDouble("size");
         configData.approxRadius = 0.4f * configData.size;
         configData.maxLife = rootNode.getInt("maxLife");
 
         configData.lightSrcPoss = SolMath.readV2List(rootNode, "lightSrcPoss");
-        configData.hasBase = rootNode.getBoolean("hasBase", false);
+        configData.hasBase = rootNode.optBoolean("hasBase");
         configData.forceBeaconPoss = SolMath.readV2List(rootNode, "forceBeaconPoss");
         configData.doorPoss = SolMath.readV2List(rootNode, "doorPoss");
-        configData.type = HullConfig.Type.forName(rootNode.getString("type"));
+        configData.type = HullConfig.Type.forName(rootNode.optString("type"));
         configData.durability = (configData.type == HullConfig.Type.BIG) ? 3 : .25f;
-        configData.engineConfig = readEngineConfig(rootNode.getString("engine", null), itemManager);
+        configData.engineConfig = readEngineConfig(rootNode.optString("engine", null), itemManager);
         configData.ability = loadAbility(rootNode, itemManager, abilityCommonConfigs);
 
-        configData.displayName = rootNode.getString("displayName", "---");
-        configData.price = rootNode.getInt("price", 0);
-        configData.hirePrice = rootNode.getFloat("hirePrice", 0);
+        configData.displayName = rootNode.optString("displayName", "---");
+        configData.price = rootNode.optInt("price", 0);
+        configData.hirePrice = (float) rootNode.optDouble("hirePrice", 0);
 
-        Vector2 tmpV = new Vector2(rootNode.get("rigidBody").get("origin").getFloat("x"),
-                1 - rootNode.get("rigidBody").get("origin").getFloat("y"));
+        Vector2 tmpV = new Vector2((float) rootNode.getJSONObject("rigidBody").getJSONObject("origin").getDouble("x"),
+                1 - (float) rootNode.getJSONObject("rigidBody").getJSONObject("origin").getDouble("y"));
         configData.shipBuilderOrigin.set(tmpV);
 
         process(configData);
 
-        parseGunSlotList(rootNode.get("gunSlots"), configData);
+        parseGunSlotList(rootNode.getJSONArray("gunSlots"), configData);
         if (rootNode.has("particleEmitters")) {
-            parseParticleEmitters(rootNode.get("particleEmitters"), configData);
+            parseParticleEmitters(rootNode.getJSONArray("particleEmitters"), configData);
         }
     }
 
     private AbilityConfig loadAbility(
-            JsonValue hullNode,
+            JSONObject hullNode,
             ItemManager manager,
             AbilityCommonConfigs commonConfigs
     ) {
-        JsonValue abNode = hullNode.get("ability");
+        JSONObject abNode = hullNode.has("ability") ? hullNode.getJSONObject("ability") : null;
         if (abNode == null) {
             return null;
         }
-        String type = abNode.getString("type");
-        if ("sloMo".equals(type)) {
-            return SloMo.Config.load(abNode, manager, commonConfigs.sloMo);
+        String type = abNode.optString("type").toLowerCase(Locale.ENGLISH);
+
+        if (abilityClasses.containsKey(type)) {
+            try {
+                Method loadMethod = abilityClasses.get(type).getDeclaredMethod(LOAD_JSON_METHOD_NAME, JSONObject.class, ItemManager.class, AbilityCommonConfig.class);
+                return (AbilityConfig) loadMethod.invoke(null, abNode, manager, commonConfigs.abilityConfigs.get(type));
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
         }
-        if ("teleport".equals(type)) {
-            return Teleport.Config.load(abNode, manager, commonConfigs.teleport);
-        }
-        if ("knockBack".equals(type)) {
-            return KnockBack.Config.load(abNode, manager, commonConfigs.knockBack);
-        }
-        if ("emWave".equals(type)) {
-            return EmWave.Config.load(abNode, manager, commonConfigs.emWave);
-        }
-        if ("unShield".equals(type)) {
-            return UnShield.Config.load(abNode, manager, commonConfigs.unShield);
-        }
+
         return null;
     }
 

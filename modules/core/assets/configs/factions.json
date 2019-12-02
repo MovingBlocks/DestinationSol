@@ -1,0 +1,73 @@
+{
+  "factions": [
+    {
+      "name": "Imperial",
+      "color": "b0c4de",
+      "disposition": 50,
+      "ships": [
+        "imperialBig",
+        "imperialCapital",
+        "imperialMedium",
+        "imperialSmall",
+        "imperialTiny",
+        "station"
+      ]
+    },
+    {
+      "name": "Pirate",
+      "color": "DC143C",
+      "disposition": -100,
+      "ships": [
+        "pirateMedium",
+        "pirateOrbiter",
+        "piratePlanetTurret",
+        "pirateSmall",
+        "pirateSpaceTurret",
+        "truck"
+      ]
+    },
+    {
+      "name": "Techie",
+      "color": "169E1",
+      "disposition": -50,
+      "ships": [
+        "techieOrbiter",
+        "techiePlanetTurret",
+        "techieSmall"
+      ]
+    },
+    {
+      "name": "Miner",
+      "color": "FFFF33",
+      "disposition":0,
+      "ships": [
+        "minerBoss",
+        "minerMedium",
+        "minerSmall",
+        "minerTurret"
+      ]
+    },
+    {
+      "name": "Desert",
+      "color": "624A2E",
+      "disposition": -50,
+      "ships": [
+        "desertBoss",
+        "desertMedium",
+        "desertPlanetTurret",
+        "desertSmall",
+        "desertSpaceTurret",
+        "desertOrbiter"
+      ]
+    },
+    {
+      "name": "Trader",
+      "color": "006400",
+      "disposition": 50,
+      "ships": [
+        "bus",
+        "drome"
+      ]
+    }
+  ]
+}

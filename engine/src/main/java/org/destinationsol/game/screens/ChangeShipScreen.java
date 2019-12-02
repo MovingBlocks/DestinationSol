@@ -111,9 +111,9 @@ public class ChangeShipScreen extends InventoryOperationsScreen {
         Gun g2 = hull.getGun(true);
         SolShip newHero = game.getShipBuilder().build(game, hero.getPosition(), new Vector2(), hero.getAngle(), 0, hero.getPilot(),
                 hero.getItemContainer(), newConfig, newConfig.getMaxLife(), hull.getGun(false), g2, null,
-                ei, new ShipRepairer(), hero.getMoney(), hero.getTradeContainer(), hero.getShield(), hero.getArmor());
+                ei, new ShipRepairer(), hero.getMoney(), null, hero.getShield(), hero.getArmor());
         game.getObjectManager().removeObjDelayed(hero.getShip());
         game.getObjectManager().addObjDelayed(newHero);
-        game.getHero().setSolShip(newHero);
+        game.getHero().setSolShip(newHero, game);
     }
 }

@@ -16,7 +16,10 @@
 
 package org.destinationsol.game.ship;
 
+import org.destinationsol.game.AbilityCommonConfig;
+import org.destinationsol.game.item.ItemManager;
 import org.destinationsol.game.item.SolItem;
+import org.json.JSONObject;
 
 public interface AbilityConfig {
     public ShipAbility build();
@@ -26,4 +29,8 @@ public interface AbilityConfig {
     public float getRechargeTime();
 
     void appendDesc(StringBuilder sb);
+
+    public static AbilityConfig load(JSONObject abNode, ItemManager itemManager, AbilityCommonConfig cc) {
+        return null;
+    }
 }

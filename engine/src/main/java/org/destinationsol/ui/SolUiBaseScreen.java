@@ -16,13 +16,11 @@
 package org.destinationsol.ui;
 
 import org.destinationsol.SolApplication;
-
-import java.util.ArrayList;
-import java.util.List;
 import org.destinationsol.ui.responsiveUi.UiElement;
+import org.destinationsol.ui.responsiveUi.UiNoneElement;
 
 public abstract class SolUiBaseScreen implements SolUiScreen, ResizeSubscriber {
-    protected UiElement rootUiElement;
+    protected UiElement rootUiElement = new UiNoneElement();
 
     protected SolUiBaseScreen() {
         SolApplication.addResizeSubscriber(this);

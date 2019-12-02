@@ -16,7 +16,8 @@
 package org.destinationsol.game.item;
 
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
-import com.badlogic.gdx.utils.JsonValue;
+import org.destinationsol.assets.json.Validator;
+import org.json.JSONObject;
 import org.destinationsol.assets.Assets;
 import org.destinationsol.assets.json.Json;
 import org.destinationsol.game.SolGame;
@@ -112,14 +113,13 @@ public class Clip implements SolItem {
         }
 
         public static void load(String clipName, ItemManager itemManager, SolItemTypes types) {
-            Json json = Assets.getJson(clipName);
-            JsonValue rootNode = json.getJsonValue();
+            JSONObject rootNode = Validator.getValidatedJSON(clipName, "engine:schemaClip");
 
             String projectileName = rootNode.getString("projectile");
             ProjectileConfig projectileConfig = itemManager.projConfigs.find(projectileName);
-            boolean infinite = rootNode.getBoolean("infinite", false);
+            boolean infinite = rootNode.optBoolean("infinite", false);
             int size = rootNode.getInt("size");
-            int projectilesPerShot = rootNode.getInt("projectilesPerShot", 1);
+            int projectilesPerShot = rootNode.optInt("projectilesPerShot", 1);
             if (projectilesPerShot < 1) {
                 throw new AssertionError("Invalid projectilesPerShot for " + clipName);
             }
@@ -134,8 +134,6 @@ public class Clip implements SolItem {
                 plural = rootNode.getString("plural");
                 icon = Assets.getAtlasRegion(clipName + "Icon");
             }
-
-            json.dispose();
 
             Config clipConfig = new Config(projectileConfig, infinite, price, displayName, size, plural, icon, projectilesPerShot, types.clip, clipName);
             itemManager.registerItem(clipConfig.example);

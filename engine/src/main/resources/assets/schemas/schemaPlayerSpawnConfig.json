@@ -1,0 +1,30 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "description": "Settings for different ships, classifying the hull and items/money given to the player on spawn.",
+  "propertyNames": {
+    "type": "string",
+    "pattern": "^[ -~]+$",
+    "description": "Ship names can be any non-blank string of ascii characters."
+  },
+  "additionalProperties": {
+    "type": "object",
+    "description": "The spawn settings for an individual ship.",
+    "properties": {
+      "hull" :{
+        "type": "string",
+        "description": "Id of the hull of this ship.",
+        "pattern": "^\\w+:\\w+$"
+      },
+      "items": {
+        "type": "string",
+        "description": "Space separated list of items the player possesses on spawn. See /docs/items.txt for a more detailed explanation",
+        "pattern": "^(((0(\\.\\d+)?|1\\.0)\\|)?(\\d+\\*)?(\\w+(:\\w+)?(-[12])?)(\\+(\\w+(:\\w+)?(-[12])?))*)( ((0(\\.\\d+)?|1\\.0)\\|)?(\\d+\\*)?(\\w+(:\\w+)?(-[12])?)(\\+(\\w+(:\\w+)?(-[12])?))*)* ?$"
+      },
+      "money": {
+        "type": "integer",
+        "description": "Starting money for the player on spawn.",
+        "minimum": 0
+      }
+    }
+  }
+}

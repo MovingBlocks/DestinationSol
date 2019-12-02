@@ -101,7 +101,7 @@ public class SaveManager {
     private static void writeMercs(Hero hero, HullConfigManager hullConfigManager) {
         PrintWriter writer;
 
-        ItemContainer mercenaries = hero.getShipUnchecked().getTradeContainer().getMercs();
+        ItemContainer mercenaries = hero.getMercs();
 
         List<JsonObject> jsons = new ArrayList<JsonObject>();
 
