@@ -25,10 +25,12 @@ import org.destinationsol.SolApplication;
 import org.destinationsol.assets.audio.OggSoundManager;
 import org.destinationsol.assets.audio.SpecialSounds;
 import org.destinationsol.common.DebugCol;
+import org.destinationsol.common.SolException;
 import org.destinationsol.common.SolMath;
 import org.destinationsol.common.SolRandom;
 import org.destinationsol.files.HullConfigManager;
 import org.destinationsol.game.asteroid.AsteroidBuilder;
+import org.destinationsol.game.attributes.RegisterUpdateSystem;
 import org.destinationsol.game.chunk.ChunkManager;
 import org.destinationsol.game.context.Context;
 import org.destinationsol.game.drawables.DrawableDebugger;
@@ -51,6 +53,7 @@ import org.destinationsol.game.ship.ShipBuilder;
 import org.destinationsol.game.ship.SloMo;
 import org.destinationsol.game.ship.hulls.HullConfig;
 import org.destinationsol.mercenary.MercenaryUtils;
+import org.destinationsol.modules.ModuleManager;
 import org.destinationsol.ui.DebugCollector;
 import org.destinationsol.ui.TutorialManager;
 import org.destinationsol.ui.UiDrawer;
@@ -58,6 +61,8 @@ import org.destinationsol.ui.UiDrawer;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.SortedMap;
+import java.util.TreeMap;
 
 public class SolGame {
     private final GameScreens gameScreens;
@@ -94,8 +99,8 @@ public class SolGame {
     private boolean paused;
     private float timeFactor;
     private RespawnState respawnState;
-    private List<UpdateAwareSystem> onPausedUpdateSystems;
-    private List<UpdateAwareSystem> updateSystems;
+    private SortedMap<Integer, List<UpdateAwareSystem>> onPausedUpdateSystems;
+    private SortedMap<Integer, List<UpdateAwareSystem>> updateSystems;
 
     public SolGame(String shipName, boolean tut, boolean isNewGame, CommonDrawer commonDrawer, Context context, WorldConfig worldConfig) {
         solApplication = context.get(SolApplication.class);
@@ -134,12 +139,45 @@ public class SolGame {
         timeFactor = 1;
 
         // the ordering of update aware systems is very important, switching them up can cause bugs!
-        updateSystems = new ArrayList<>();
-        updateSystems.addAll(Arrays.asList(planetManager, camera, chunkManager, mountDetectDrawer, objectManager, mapDrawer, soundManager, beaconHandler, drawableDebugger));
+        updateSystems = new TreeMap<Integer, List<UpdateAwareSystem>>();
+        List<UpdateAwareSystem> defaultSystems = new ArrayList<UpdateAwareSystem>();
+        defaultSystems.addAll(Arrays.asList(planetManager, camera, chunkManager, mountDetectDrawer, objectManager, mapDrawer, soundManager, beaconHandler, drawableDebugger));
         if (tutorialManager != null) {
-            updateSystems.add(tutorialManager);
+            defaultSystems.add(tutorialManager);
         }
-        onPausedUpdateSystems = Arrays.asList(mapDrawer, camera, drawableDebugger);
+        updateSystems.put(0, defaultSystems);
+
+        List<UpdateAwareSystem> defaultPausedSystems = new ArrayList<UpdateAwareSystem>();
+        defaultPausedSystems.addAll(Arrays.asList(mapDrawer, camera, drawableDebugger));
+
+        onPausedUpdateSystems = new TreeMap<Integer, List<UpdateAwareSystem>>();
+        onPausedUpdateSystems.put(0, defaultPausedSystems);
+
+        try {
+            for (Class<?> updateSystemClass : ModuleManager.getEnvironment().getSubtypesOf(UpdateAwareSystem.class, element -> element.isAnnotationPresent(RegisterUpdateSystem.class))) {
+                RegisterUpdateSystem registerAnnotation = updateSystemClass.getDeclaredAnnotation(RegisterUpdateSystem.class);
+                UpdateAwareSystem system = (UpdateAwareSystem) updateSystemClass.newInstance();
+                if (!registerAnnotation.paused()) {
+                    if (!updateSystems.containsKey(registerAnnotation.priority())) {
+                        ArrayList<UpdateAwareSystem> systems = new ArrayList<UpdateAwareSystem>();
+                        systems.add(system);
+                        updateSystems.put(registerAnnotation.priority(), systems);
+                    } else {
+                        updateSystems.get(registerAnnotation.priority()).add(system);
+                    }
+                } else {
+                    if (!onPausedUpdateSystems.containsKey(registerAnnotation.priority())) {
+                        ArrayList<UpdateAwareSystem> systems = new ArrayList<UpdateAwareSystem>();
+                        systems.add(system);
+                        onPausedUpdateSystems.put(registerAnnotation.priority(), systems);
+                    } else {
+                        onPausedUpdateSystems.get(registerAnnotation.priority()).add(system);
+                    }
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
 
         // from this point we're ready!
         respawnState = new RespawnState();
@@ -152,8 +190,10 @@ public class SolGame {
         Timer.schedule(new Timer.Task() {
             @Override
             public void run() {
-                saveShip();
-//                Console.getInstance().println("Game saved");
+                if (!hero.isTranscendent()) {
+                    saveShip();
+//                    Console.getInstance().println("Game saved");
+                }
             }
         }, 0, 30);
     }
@@ -174,6 +214,7 @@ public class SolGame {
                 this,
                 solApplication.getOptions().controlType == GameOptions.ControlType.MOUSE,
                 isNewShip);
+        hero.initialise();
     }
 
     private ShipConfig readShipFromConfigOrLoadFromSaveIfNull(String shipName, boolean isNewShip) {
@@ -196,7 +237,11 @@ public class SolGame {
         if (hero.isDead()) {
             respawn();
         }
-        saveShip();
+
+        //The ship should have been saved when it entered the star-port
+        if (!hero.isTranscendent()) {
+            saveShip();
+        }
         saveWorld();
         objectManager.dispose();
     }
@@ -212,9 +257,13 @@ public class SolGame {
         SaveManager.saveWorld(getPlanetManager().getSystems().size());
     }
 
-    private void saveShip() {
+    public void saveShip() {
         if (tutorialManager != null) {
             return;
+        }
+
+        if (hero.isTranscendent()) {
+            throw new SolException("The hero cannot be saved when in a transcendent state.");
         }
 
         HullConfig hull;
@@ -245,10 +294,12 @@ public class SolGame {
 
     public void update() {
         if (paused) {
-            onPausedUpdateSystems.forEach(system -> system.update(this, timeStep));
+            onPausedUpdateSystems.keySet().forEach(key -> onPausedUpdateSystems.get(key).forEach(system -> system.update(this, timeStep)));
         } else {
             updateTime();
-            updateSystems.forEach(system -> system.update(this, timeStep));
+            updateSystems.keySet().forEach(key ->
+                    updateSystems.get(key).forEach(
+                            system -> system.update(this, timeStep)));
         }
     }
 
@@ -483,5 +534,9 @@ public class SolGame {
 
     public SolApplication getSolApplication() {
         return solApplication;
+    }
+
+    public HullConfigManager getHullConfigManager() {
+        return hullConfigManager;
     }
 }

@@ -28,9 +28,13 @@ import org.destinationsol.common.SolColor;
 import org.destinationsol.common.SolException;
 import org.destinationsol.game.console.ConsoleInputHandler;
 import org.destinationsol.game.console.ShellInputHandler;
+import org.destinationsol.modules.ModuleManager;
 import org.destinationsol.ui.SolInputManager;
 import org.destinationsol.ui.SolUiBaseScreen;
 import org.destinationsol.ui.UiDrawer;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import org.destinationsol.ui.responsiveUi.UiHeadlessButton;
 import org.destinationsol.ui.responsiveUi.UiRelativeLayout;
 
@@ -39,6 +43,8 @@ import org.destinationsol.ui.responsiveUi.UiRelativeLayout;
  * Can be hooked with custom command handlers, thus allowing for custom "programs" of sorts.
  */
 public class Console extends SolUiBaseScreen {
+    private static final Logger logger = LoggerFactory.getLogger(Console.class);
+
     /**
      * Magic happens here.
      *
@@ -124,6 +130,15 @@ public class Console extends SolUiBaseScreen {
         println("Welcome to the world of Destination Sol! Your journey begins!");
         defaultInputHandler = new ShellInputHandler();
         setInputHandler(defaultInputHandler);
+
+        for (Class commandHandler : ModuleManager.getEnvironment().getSubtypesOf(ConsoleInputHandler.class)) {
+            String commandName = commandHandler.getSimpleName().replace("Command", "");
+            try {
+                defaultInputHandler.registerCommand(commandName, (ConsoleInputHandler) commandHandler.newInstance());
+            } catch (Exception e) {
+                logger.error("Error creating instance of command " + commandHandler.getTypeName());
+            }
+        }
     }
 
     public ShellInputHandler getDefaultInputHandler() {

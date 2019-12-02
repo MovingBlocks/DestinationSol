@@ -1,4 +1,5 @@
-include 'desktop', 'engine'
+include 'desktop', 'engine', 'modules'
+import groovy.io.FileType
 
 File androidGradle = new File(rootDir, 'android/build.gradle')
 if (androidGradle.exists()) {
@@ -8,4 +9,16 @@ if (androidGradle.exists()) {
 File gwtGradle = new File(rootDir, 'gwt/build.gradle')
 if (gwtGradle.exists()) {
     include 'gwt'
+}
+
+rootProject.name = 'DestinationSol'
+
+// Handy little snippet found online that'll "fake" having nested settings.gradle files under /modules, /libs, etc
+rootDir.eachDir { possibleSubprojectDir ->
+
+    // First scan through all subdirs that has a subprojects.gradle in it and apply that script (recursive search!)
+    possibleSubprojectDir.eachFileMatch FileType.FILES, ~/subprojects\.gradle/, { subprojectsSpecificationScript ->
+        //println "Magic is happening, applying from " + subprojectsSpecificationScript
+        apply from: subprojectsSpecificationScript
+    }
 }

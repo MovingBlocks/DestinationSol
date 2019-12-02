@@ -19,8 +19,8 @@ dependencies {
 version = '2.0.0'
 ext {
     appName = 'DestinationSol'
-    gdxVersion = '1.7.0'
-    roboVMVersion = '1.8.0'
+    gdxVersion = '1.9.8'
+    roboVMVersion = '2.3.3'
 }
 
 sourceCompatibility = 1.8
@@ -36,6 +36,9 @@ repositories {
 
     // Terasology Artifactory for any shared libs
     maven { url "http://artifactory.terasology.org/artifactory/virtual-repo-live" }
+
+    //everit-org JSON schema dependency
+    maven { url "https://jitpack.io" }
 }
 
 test {

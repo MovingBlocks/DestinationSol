@@ -16,6 +16,7 @@
 package org.destinationsol.game.item;
 
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
+import com.badlogic.gdx.utils.SerializationException;
 import org.destinationsol.assets.Assets;
 import org.destinationsol.assets.audio.OggSoundManager;
 import org.destinationsol.common.SolRandom;
@@ -133,16 +134,22 @@ public class ItemManager {
 
                 if (example == null) {
                     // TODO: Temporary hacky way!
-                    if (itemName.endsWith("Charge")) {
-                        AbilityCharge.Config.load(itemName, this, myTypes);
-                    } else if (itemName.endsWith("Armor")) {
-                        Armor.Config.load(itemName, this, soundManager, myTypes);
-                    } else if (itemName.endsWith("Clip")) {
-                        Clip.Config.load(itemName, this, myTypes);
-                    } else if (itemName.endsWith("Shield") || itemName.endsWith("shield")) {
-                        Shield.Config.load(itemName, this, soundManager, myTypes);
-                    } else {
-                        Gun.Config.load(itemName, this, soundManager, myTypes);
+                    try {
+                        if (itemName.endsWith("Charge")) {
+                            AbilityCharge.Config.load(itemName, this, myTypes);
+                        } else if (itemName.endsWith("Armor")) {
+                            Armor.Config.load(itemName, this, soundManager, myTypes);
+                        } else if (itemName.endsWith("Clip")) {
+                            Clip.Config.load(itemName, this, myTypes);
+                        } else if (itemName.endsWith("Shield") || itemName.endsWith("shield")) {
+                            Shield.Config.load(itemName, this, soundManager, myTypes);
+                        } else {
+                            Gun.Config.load(itemName, this, soundManager, myTypes);
+                        }
+                    } catch (IllegalArgumentException e) {
+                        throw new IllegalArgumentException("The JSON of " + itemName + " is missing, or has malformed, a required parameter" + e.getMessage().split(":")[1]);
+                    } catch (SerializationException e) {
+                        throw new SerializationException("The JSON of " + itemName + " has invalid syntax at " + e.getMessage().split(" near")[0].split("on ")[1]);
                     }
 
                     example = getExample(itemName);

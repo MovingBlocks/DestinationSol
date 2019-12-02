@@ -17,6 +17,7 @@
 package org.destinationsol.game.screens;
 
 import org.destinationsol.SolApplication;
+import org.destinationsol.game.FactionInfo;
 import org.destinationsol.game.Hero;
 import org.destinationsol.game.SolGame;
 import org.destinationsol.game.item.ItemContainer;
@@ -59,4 +60,30 @@ public class BuyItemsScreen extends InventoryOperationsScreen {
     public String getHeader() {
         return "Buy:";
     }
+
+//    @Override
+//    public void updateCustom(SolApplication solApplication, SolInputManager.InputPointer[] inputPointers, boolean clickedOutside) {
+//        SolGame game = solApplication.getGame();
+//        InventoryScreen is = game.getScreens().inventoryScreen;
+//        Hero hero = game.getHero();
+//        TalkScreen talkScreen = game.getScreens().talkScreen;
+//        SolShip target = null;
+////        if (talkScreen.isTargetFar(hero)) {
+////            solApplication.getInputManager().setScreen(solApplication, game.getScreens().mainGameScreen);
+////            return;
+////        }
+////        SolItem selItem = is.getSelectedItem();
+////        boolean enabled = selItem != null && hero.getMoney() >= selItem.getPrice() && hero.getItemContainer().canAdd(selItem);
+////        buyControl.setDisplayName(enabled ? "Buy" : "---");
+////        buyControl.setEnabled(enabled);
+////        if (!enabled) {
+////            return;
+////        }
+////        if (buyControl.isJustOff()) {
+////            target.getTradeContainer().getItems().remove(selItem);
+////            hero.getItemContainer().add(selItem);
+////            hero.setMoney(hero.getMoney() - selItem.getPrice());
+////        }
+        // faction stuff missing here - rebase
+//    }
 }

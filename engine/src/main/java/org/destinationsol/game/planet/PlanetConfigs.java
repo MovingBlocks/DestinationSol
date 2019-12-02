@@ -15,18 +15,21 @@
  */
 package org.destinationsol.game.planet;
 
-import com.badlogic.gdx.utils.JsonValue;
+import org.destinationsol.assets.json.Validator;
+import org.json.JSONObject;
 import org.destinationsol.assets.Assets;
 import org.destinationsol.assets.json.Json;
 import org.destinationsol.common.SolRandom;
 import org.destinationsol.files.HullConfigManager;
 import org.destinationsol.game.GameColors;
 import org.destinationsol.game.item.ItemManager;
+import org.terasology.assets.ResourceUrn;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
+import java.util.List;
+import java.util.HashMap;
+import java.util.ArrayList;
+import java.util.Set;
 
 public class PlanetConfigs {
     private final Map<String, PlanetConfig> allConfigs;
@@ -40,26 +43,25 @@ public class PlanetConfigs {
         medium = new ArrayList<>();
         hard = new ArrayList<>();
 
-        Assets.cacheLists();
+        Set<ResourceUrn> planetJsonConfigs = Assets.getAssetHelper().list(Json.class, "[a-zA-Z0-9]*:planetsConfig");
 
-        Json json = Assets.getJson("core:planetsConfig");
-        JsonValue rootNode = json.getJsonValue();
+        for (ResourceUrn planetConfigJson : planetJsonConfigs) {
+            String moduleName = planetConfigJson.getModuleName().toString();
+            JSONObject rootNode = Validator.getValidatedJSON(planetConfigJson.toString(), "engine:schemaPlanetsConfig");
 
-        for (JsonValue node : rootNode) {
-            PlanetConfig planetConfig = PlanetConfig.load(node, hullConfigs, cols, itemManager);
-            allConfigs.put(node.name, planetConfig);
-            if (planetConfig.hardOnly) {
-                hard.add(planetConfig);
-            } else if (planetConfig.easyOnly) {
-                easy.add(planetConfig);
-            } else {
-                medium.add(planetConfig);
+            for (String s : rootNode.keySet()) {
+                JSONObject node = rootNode.getJSONObject(s);
+                PlanetConfig planetConfig = PlanetConfig.load(s, node, hullConfigs, cols, itemManager, moduleName);
+                allConfigs.put(s, planetConfig);
+                if (planetConfig.hardOnly) {
+                    hard.add(planetConfig);
+                } else if (planetConfig.easyOnly) {
+                    easy.add(planetConfig);
+                } else {
+                    medium.add(planetConfig);
+                }
             }
         }
-
-        json.dispose();
-
-        Assets.uncacheLists();
     }
 
     public PlanetConfig getConfig(String name) {

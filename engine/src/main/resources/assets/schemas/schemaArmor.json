@@ -1,0 +1,48 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "description": "Armor decreases the amount of damage received by given percentage",
+  "type": "object",
+  "required": [
+    "displayName",
+    "price",
+    "perc",
+    "bulletHitSounds",
+    "energyHitSounds"
+  ],
+  "properties": {
+    "displayName": {
+      "type": "string",
+      "description": "Name of the armor",
+      "pattern": "^[ -~]+$"
+    },
+    "price":{
+      "type": "integer",
+      "description": "Buying price of the armor"
+    },
+    "perc":{
+      "description": "Values over 1.0 heal the player on hit, values under 0.0 make him even more vulnerable than when unarmored. The greater the number, the more the damage is reduced.",
+      "type": "number"
+    },
+    "bulletHitSounds":{
+      "type": "array",
+      "items": {
+        "type": "string",
+        "pattern": "^\\w+:\\w+$"
+      },
+      "description": "Array of sound ids, one of which is played when hit by bullet."
+    },
+    "energyHitSounds": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "pattern": "^\\w+:\\w+$"
+      },
+      "description": "Array of sound ids, one of which is played when hit by energy type damage."
+    },
+    "baseSoundPitch": {
+      "type": "number",
+      "description": "Multiplier of hit sound pitch. Defaults to 1.",
+      "minimum": 0
+    }
+  }
+}

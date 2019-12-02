@@ -17,14 +17,11 @@ package org.destinationsol.menu;
 
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
-import com.badlogic.gdx.utils.JsonValue;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Set;
 import org.destinationsol.GameOptions;
 import org.destinationsol.SolApplication;
 import org.destinationsol.assets.Assets;
 import org.destinationsol.assets.json.Json;
+import org.destinationsol.assets.json.Validator;
 import org.destinationsol.common.SolColor;
 import org.destinationsol.game.planet.SystemsBuilder;
 import org.destinationsol.ui.DisplayDimensions;
@@ -34,7 +31,13 @@ import org.destinationsol.ui.UiDrawer;
 import org.destinationsol.ui.responsiveUi.UiRelativeLayout;
 import org.destinationsol.ui.responsiveUi.UiTextButton;
 import org.destinationsol.ui.responsiveUi.UiVerticalListLayout;
+import org.json.JSONObject;
 import org.terasology.assets.ResourceUrn;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Set;
+
 import static org.destinationsol.ui.UiDrawer.UI_POSITION_BOTTOM;
 import static org.destinationsol.ui.responsiveUi.UiTextButton.DEFAULT_BUTTON_PADDING;
 
@@ -97,14 +100,12 @@ public class NewShipScreen extends SolUiBaseScreen {
         Set<ResourceUrn> configUrnList = Assets.getAssetHelper().list(Json.class, "[a-zA-Z]*:playerSpawnConfig");
 
         for (ResourceUrn configUrn : configUrnList) {
-            Json json = Assets.getJson(configUrn.toString());
-            JsonValue rootNode = json.getJsonValue();
+            JSONObject rootNode = Validator.getValidatedJSON(configUrn.toString(), "engine:schemaPlayerSpawnConfig");
 
-            for (JsonValue node : rootNode) {
-                playerSpawnConfigNames.add(node.name);
+            for (String s : rootNode.keySet()) {
+                playerSpawnConfigNames.add(s);
             }
 
-            json.dispose();
         }
     }
 

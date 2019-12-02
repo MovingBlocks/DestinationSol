@@ -40,6 +40,8 @@ public interface Pilot {
 
     Faction getFaction();
 
+    void stringToFaction(String faction);
+
     boolean shootsAtObstacles();
 
     float getDetectionDist();

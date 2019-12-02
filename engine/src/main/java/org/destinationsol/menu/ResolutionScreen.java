@@ -15,7 +15,6 @@
  */
 package org.destinationsol.menu;
 
-import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import org.destinationsol.GameOptions;
@@ -29,6 +28,7 @@ import org.destinationsol.ui.UiDrawer;
 import org.destinationsol.ui.responsiveUi.UiRelativeLayout;
 import org.destinationsol.ui.responsiveUi.UiTextButton;
 import org.destinationsol.ui.responsiveUi.UiVerticalListLayout;
+
 import static org.destinationsol.ui.UiDrawer.UI_POSITION_BOTTOM;
 import static org.destinationsol.ui.responsiveUi.UiTextButton.DEFAULT_BUTTON_PADDING;
 
@@ -62,7 +62,7 @@ public class ResolutionScreen extends SolUiBaseScreen {
                 .setTriggerKey(gameOptions.getKeyEscape())
                 .enableSound()
                 .setOnReleaseAction((uiElement) -> {
-                    Gdx.graphics.setDisplayMode(gameOptions.x, gameOptions.y, gameOptions.fullscreen);
+//                    Gdx.graphics.setDisplayMode(gameOptions.x, gameOptions.y, gameOptions.fullscreen);
                     SolApplication.changeScreen(SolApplication.getMenuScreens().optionsScreen);
                 }));
 

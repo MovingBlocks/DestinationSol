@@ -16,7 +16,8 @@
 package org.destinationsol.game.item;
 
 import com.badlogic.gdx.graphics.Color;
-import com.badlogic.gdx.utils.JsonValue;
+import org.destinationsol.assets.json.Validator;
+import org.json.JSONObject;
 import org.destinationsol.assets.Assets;
 import org.destinationsol.assets.audio.OggSound;
 import org.destinationsol.assets.audio.OggSoundManager;
@@ -36,27 +37,24 @@ public class SolItemTypes {
     public final SolItemType fixedGun;
 
     public SolItemTypes(OggSoundManager soundManager, GameColors cols) {
-        Json json = Assets.getJson("core:types");
-        JsonValue rootNode = json.getJsonValue();
+        JSONObject rootNode = Validator.getValidatedJSON("core:types", "engine:schemaTypes");
 
-        clip = load(rootNode.get("clip"), soundManager, cols);
-        shield = load(rootNode.get("shield"), soundManager, cols);
-        armor = load(rootNode.get("armor"), soundManager, cols);
-        abilityCharge = load(rootNode.get("abilityCharge"), soundManager, cols);
-        gun = load(rootNode.get("gun"), soundManager, cols);
-        fixedGun = load(rootNode.get("fixedGun"), soundManager, cols);
-        money = load(rootNode.get("money"), soundManager, cols);
-        medMoney = load(rootNode.get("medMoney"), soundManager, cols);
-        bigMoney = load(rootNode.get("bigMoney"), soundManager, cols);
-        repair = load(rootNode.get("repair"), soundManager, cols);
-
-        json.dispose();
+        clip = load(rootNode.getJSONObject("clip"), soundManager, cols);
+        shield = load(rootNode.getJSONObject("shield"), soundManager, cols);
+        armor = load(rootNode.getJSONObject("armor"), soundManager, cols);
+        abilityCharge = load(rootNode.getJSONObject("abilityCharge"), soundManager, cols);
+        gun = load(rootNode.getJSONObject("gun"), soundManager, cols);
+        fixedGun = load(rootNode.getJSONObject("fixedGun"), soundManager, cols);
+        money = load(rootNode.getJSONObject("money"), soundManager, cols);
+        medMoney = load(rootNode.getJSONObject("medMoney"), soundManager, cols);
+        bigMoney = load(rootNode.getJSONObject("bigMoney"), soundManager, cols);
+        repair = load(rootNode.getJSONObject("repair"), soundManager, cols);
     }
 
-    private SolItemType load(JsonValue itemNode, OggSoundManager soundManager, GameColors cols) {
+    private SolItemType load(JSONObject itemNode, OggSoundManager soundManager, GameColors cols) {
         Color color = cols.load(itemNode.getString("color"));
         OggSound pickUpSound = soundManager.getSound(itemNode.getString("pickUpSound"));
-        float sz = itemNode.getFloat("sz");
+        float sz = (float) itemNode.getDouble("sz");
         return new SolItemType(color, pickUpSound, sz);
     }
 }

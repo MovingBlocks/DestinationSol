@@ -17,7 +17,7 @@
 package org.destinationsol.game.ship;
 
 import com.badlogic.gdx.math.Vector2;
-import com.badlogic.gdx.utils.JsonValue;
+import org.json.JSONObject;
 import org.destinationsol.game.AbilityCommonConfig;
 import org.destinationsol.game.SolGame;
 import org.destinationsol.game.SolObject;
@@ -28,9 +28,9 @@ import org.destinationsol.game.particle.DSParticleEmitter;
 
 public class EmWave implements ShipAbility {
     private static final int MAX_RADIUS = 4;
-    private final Config config;
+    private final EmWaveConfig config;
 
-    EmWave(Config config) {
+    EmWave(EmWaveConfig config) {
         this.config = config;
     }
 
@@ -77,24 +77,24 @@ public class EmWave implements ShipAbility {
         return true;
     }
 
-    public static class Config implements AbilityConfig {
+    public static class EmWaveConfig implements AbilityConfig {
         public final float rechargeTime;
         public final float duration;
         private final SolItem chargeExample;
         private final AbilityCommonConfig cc;
 
-        public Config(float rechargeTime, SolItem chargeExample, float duration, AbilityCommonConfig cc) {
+        public EmWaveConfig(float rechargeTime, SolItem chargeExample, float duration, AbilityCommonConfig cc) {
             this.rechargeTime = rechargeTime;
             this.chargeExample = chargeExample;
             this.duration = duration;
             this.cc = cc;
         }
 
-        public static AbilityConfig load(JsonValue abNode, ItemManager itemManager, AbilityCommonConfig cc) {
-            float rechargeTime = abNode.getFloat("rechargeTime");
-            float duration = abNode.getFloat("duration");
+        public static AbilityConfig load(JSONObject abNode, ItemManager itemManager, AbilityCommonConfig cc) {
+            float rechargeTime = (float) abNode.getDouble("rechargeTime");
+            float duration = (float) abNode.getDouble("duration");
             SolItem chargeExample = itemManager.getExample("emWaveCharge");
-            return new Config(rechargeTime, chargeExample, duration, cc);
+            return new EmWaveConfig(rechargeTime, chargeExample, duration, cc);
         }
 
         @Override

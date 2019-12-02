@@ -17,7 +17,7 @@
 package org.destinationsol.game.ship;
 
 import com.badlogic.gdx.math.Vector2;
-import com.badlogic.gdx.utils.JsonValue;
+import org.json.JSONObject;
 import org.destinationsol.common.SolMath;
 import org.destinationsol.game.AbilityCommonConfig;
 import org.destinationsol.game.DmgType;
@@ -31,9 +31,9 @@ import org.destinationsol.game.particle.DSParticleEmitter;
 
 public class UnShield implements ShipAbility {
     private static final int MAX_RADIUS = 6;
-    private final Config config;
+    private final UnShieldConfig config;
 
-    UnShield(Config config) {
+    UnShield(UnShieldConfig config) {
         this.config = config;
     }
 
@@ -91,24 +91,24 @@ public class UnShield implements ShipAbility {
         return true;
     }
 
-    public static class Config implements AbilityConfig {
+    public static class UnShieldConfig implements AbilityConfig {
         public final float rechargeTime;
         public final float amount;
         private final SolItem chargeExample;
         private final AbilityCommonConfig cc;
 
-        public Config(float rechargeTime, SolItem chargeExample, float amount, AbilityCommonConfig cc) {
+        public UnShieldConfig(float rechargeTime, SolItem chargeExample, float amount, AbilityCommonConfig cc) {
             this.rechargeTime = rechargeTime;
             this.chargeExample = chargeExample;
             this.amount = amount;
             this.cc = cc;
         }
 
-        public static AbilityConfig load(JsonValue abNode, ItemManager itemManager, AbilityCommonConfig cc) {
-            float rechargeTime = abNode.getFloat("rechargeTime");
-            float amount = abNode.getFloat("amount");
+        public static AbilityConfig load(JSONObject abNode, ItemManager itemManager, AbilityCommonConfig cc) {
+            float rechargeTime = (float) abNode.getDouble("rechargeTime");
+            float amount = (float) abNode.getDouble("amount");
             SolItem chargeExample = itemManager.getExample("unShieldCharge");
-            return new Config(rechargeTime, chargeExample, amount, cc);
+            return new UnShieldConfig(rechargeTime, chargeExample, amount, cc);
         }
 
         @Override

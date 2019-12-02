@@ -1,0 +1,27 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "description": "Ability charges allows ships to have special abilities",
+  "type": "object",
+  "required": [
+    "price",
+    "displayName",
+    "desc"
+  ],
+  "properties": {
+    "price": {
+      "type": "integer",
+      "exclusiveMinimum": 0,
+      "description": "Buying price of the ability charge"
+    },
+    "displayName": {
+      "type": "string",
+      "minLength": 1,
+      "description": "Name of the ability charge",
+      "pattern": "^[ -~]+$"
+    },
+    "desc": {
+      "type": "string",
+      "description": "Description of use of ability charge"
+    }
+  }
+}

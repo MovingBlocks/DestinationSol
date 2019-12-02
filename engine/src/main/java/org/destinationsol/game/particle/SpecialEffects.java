@@ -16,7 +16,8 @@
 package org.destinationsol.game.particle;
 
 import com.badlogic.gdx.math.Vector2;
-import com.badlogic.gdx.utils.JsonValue;
+import org.destinationsol.assets.json.Validator;
+import org.json.JSONObject;
 import org.destinationsol.assets.Assets;
 import org.destinationsol.assets.json.Json;
 import org.destinationsol.game.GameColors;
@@ -39,30 +40,27 @@ public class SpecialEffects {
     private final EffectConfig forceBeacon;
 
     public SpecialEffects(EffectTypes effectTypes, GameColors colours) {
-        Json json = Assets.getJson("core:specialEffectsConfig");
-        JsonValue rootNode = json.getJsonValue();
+        JSONObject rootNode = Validator.getValidatedJSON("core:specialEffectsConfig", "engine:schemaSpecialEffectsConfig");
 
-        smoke = EffectConfig.load(rootNode.get("smoke"), effectTypes, colours);
-        fire = EffectConfig.load(rootNode.get("fire"), effectTypes, colours);
-        electricity = EffectConfig.load(rootNode.get("electricity"), effectTypes, colours);
-        shipExplosionSmoke = EffectConfig.load(rootNode.get("shipExplosionSmoke"), effectTypes, colours);
-        shipExplosionFire = EffectConfig.load(rootNode.get("shipExplosionFire"), effectTypes, colours);
-        asteroidDust = EffectConfig.load(rootNode.get("asteroidDust"), effectTypes, colours);
-        forceBeacon = EffectConfig.load(rootNode.get("forceBeacon"), effectTypes, colours);
-        starPortFlow = EffectConfig.load(rootNode.get("starPortFlow"), effectTypes, colours);
-        transcendentWork = EffectConfig.load(rootNode.get("transcendentWork"), effectTypes, colours);
-
-        json.dispose();
+        smoke = EffectConfig.load(rootNode.getJSONObject("smoke"), effectTypes, colours);
+        fire = EffectConfig.load(rootNode.getJSONObject("fire"), effectTypes, colours);
+        electricity = EffectConfig.load(rootNode.getJSONObject("electricity"), effectTypes, colours);
+        shipExplosionSmoke = EffectConfig.load(rootNode.getJSONObject("shipExplosionSmoke"), effectTypes, colours);
+        shipExplosionFire = EffectConfig.load(rootNode.getJSONObject("shipExplosionFire"), effectTypes, colours);
+        asteroidDust = EffectConfig.load(rootNode.getJSONObject("asteroidDust"), effectTypes, colours);
+        forceBeacon = EffectConfig.load(rootNode.getJSONObject("forceBeacon"), effectTypes, colours);
+        starPortFlow = EffectConfig.load(rootNode.getJSONObject("starPortFlow"), effectTypes, colours);
+        transcendentWork = EffectConfig.load(rootNode.getJSONObject("transcendentWork"), effectTypes, colours);
     }
 
-    public List<DSParticleEmitter> buildBodyEffs(float objRad, SolGame game, Vector2 position, Vector2 speed) {
+    public List<DSParticleEmitter> buildBodyEffs(float objRad, SolGame game, Vector2 position, Vector2 velocity) {
         ArrayList<DSParticleEmitter> res = new ArrayList<>();
         float sz = objRad * .9f;
-        DSParticleEmitter smoke = new DSParticleEmitter(this.smoke, sz, DrawableLevel.PART_FG_0, new Vector2(), true, game, position, speed, 0);
+        DSParticleEmitter smoke = new DSParticleEmitter(this.smoke, sz, DrawableLevel.PART_FG_0, new Vector2(), true, game, position, velocity, 0);
         res.add(smoke);
-        DSParticleEmitter fire = new DSParticleEmitter(this.fire, sz, DrawableLevel.PART_FG_1, new Vector2(), true, game, position, speed, 0);
+        DSParticleEmitter fire = new DSParticleEmitter(this.fire, sz, DrawableLevel.PART_FG_1, new Vector2(), true, game, position, velocity, 0);
         res.add(fire);
-        DSParticleEmitter electricity = new DSParticleEmitter(this.electricity, objRad * 1.2f, DrawableLevel.PART_FG_0, new Vector2(), true, game, position, speed, 0);
+        DSParticleEmitter electricity = new DSParticleEmitter(this.electricity, objRad * 1.2f, DrawableLevel.PART_FG_0, new Vector2(), true, game, position, velocity, 0);
         res.add(electricity);
         return res;
     }
@@ -76,12 +74,12 @@ public class SpecialEffects {
         pm.blinks(position, game, size);
     }
 
-    public void asteroidDust(SolGame game, Vector2 position, Vector2 speed, float size) {
-        DSParticleEmitter smoke = new DSParticleEmitter(asteroidDust, size, DrawableLevel.PART_FG_0, new Vector2(), true, game, position, speed, 0);
+    public void asteroidDust(SolGame game, Vector2 position, Vector2 velocity, float size) {
+        DSParticleEmitter smoke = new DSParticleEmitter(asteroidDust, size, DrawableLevel.PART_FG_0, new Vector2(), true, game, position, velocity, 0);
         game.getPartMan().finish(game, smoke, position);
     }
 
-    public DSParticleEmitter buildForceBeacon(float size, SolGame game, Vector2 relativePosition, Vector2 basePosition, Vector2 speed) {
-        return new DSParticleEmitter(forceBeacon, size, DrawableLevel.PART_FG_0, relativePosition, false, game, basePosition, speed, 0);
+    public DSParticleEmitter buildForceBeacon(float size, SolGame game, Vector2 relativePosition, Vector2 basePosition, Vector2 velocity) {
+        return new DSParticleEmitter(forceBeacon, size, DrawableLevel.PART_FG_0, relativePosition, false, game, basePosition, velocity, 0);
     }
 }
