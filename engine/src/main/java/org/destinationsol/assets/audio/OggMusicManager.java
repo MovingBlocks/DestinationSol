@@ -42,6 +42,7 @@ public class OggMusicManager {
     private final Map<String, List<Music>> musicMap;
     private Music currentlyPlaying;
     private String currentlyRegisteredModule;
+    private String currentMusicSet = "";
     private Logger logger = LoggerFactory.getLogger(OggMusicManager.class);
 
     /**
@@ -110,6 +111,7 @@ public class OggMusicManager {
                 index = 0;
             }
         }
+        currentMusicSet = musicSet;
         final Music music = musicMap.get(musicSet).get(index);
         music.setOnCompletionListener(a -> playMusic(musicSet, options));
         playMusicTrack(music, options);
@@ -134,6 +136,7 @@ public class OggMusicManager {
         if (currentlyPlaying != null) {
             currentlyPlaying.stop();
         }
+        currentMusicSet = "";
     }
 
     /**
@@ -224,5 +227,9 @@ public class OggMusicManager {
 
     public void resetMusic() {
         musicMap.put(GAME_MUSIC_SET, new ArrayList<>());
+    }
+
+    public String getCurrentMusicSet() {
+        return currentMusicSet;
     }
 }
