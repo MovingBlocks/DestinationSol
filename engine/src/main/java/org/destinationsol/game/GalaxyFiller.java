@@ -16,12 +16,9 @@
 package org.destinationsol.game;
 
 import com.badlogic.gdx.math.Vector2;
-import org.destinationsol.assets.json.Validator;
-import org.json.JSONObject;
-import com.google.gson.JsonParseException;
 import org.destinationsol.Const;
-import org.destinationsol.assets.Assets;
 import org.destinationsol.assets.json.Json;
+import org.destinationsol.assets.json.Validator;
 import org.destinationsol.common.SolMath;
 import org.destinationsol.common.SolRandom;
 import org.destinationsol.files.HullConfigManager;
@@ -41,6 +38,7 @@ import org.destinationsol.game.planet.SolSystem;
 import org.destinationsol.game.planet.SysConfig;
 import org.destinationsol.game.ship.FarShip;
 import org.destinationsol.game.ship.hulls.HullConfig;
+import org.json.JSONObject;
 
 import java.util.ArrayList;
 

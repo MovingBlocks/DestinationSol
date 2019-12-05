@@ -35,10 +35,10 @@ public class Position {
     }
 
     public int getX() {
-        return (int)(xNormalized * displayDimensions.getWidth());
+        return (int) (xNormalized * displayDimensions.getWidth());
     }
 
     public int getY() {
-        return (int)(yNormalized * displayDimensions.getHeight());
+        return (int) (yNormalized * displayDimensions.getHeight());
     }
 }

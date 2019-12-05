@@ -16,8 +16,6 @@
 package org.destinationsol.menu;
 
 import com.badlogic.gdx.Graphics;
-import org.destinationsol.menu.Resolution;
-import org.destinationsol.menu.ResolutionProvider;
 import org.junit.Test;
 
 import java.util.Arrays;

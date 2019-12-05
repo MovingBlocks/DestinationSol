@@ -16,14 +16,10 @@
 package org.destinationsol.files;
 
 import com.badlogic.gdx.math.Vector2;
-import org.destinationsol.assets.json.Validator;
-import org.destinationsol.game.AbilityCommonConfig;
-import org.destinationsol.modules.ModuleManager;
-import org.json.JSONArray;
-import org.json.JSONObject;
 import org.destinationsol.assets.Assets;
-import org.destinationsol.assets.json.Json;
+import org.destinationsol.assets.json.Validator;
 import org.destinationsol.common.SolMath;
+import org.destinationsol.game.AbilityCommonConfig;
 import org.destinationsol.game.AbilityCommonConfigs;
 import org.destinationsol.game.item.Engine;
 import org.destinationsol.game.item.ItemManager;
@@ -31,8 +27,9 @@ import org.destinationsol.game.particle.DSParticleEmitter;
 import org.destinationsol.game.ship.AbilityConfig;
 import org.destinationsol.game.ship.hulls.GunSlot;
 import org.destinationsol.game.ship.hulls.HullConfig;
-import org.terasology.gestalt.module.Module;
-import org.terasology.gestalt.naming.Name;
+import org.destinationsol.modules.ModuleManager;
+import org.json.JSONArray;
+import org.json.JSONObject;
 
 import java.lang.reflect.Method;
 import java.util.ArrayList;

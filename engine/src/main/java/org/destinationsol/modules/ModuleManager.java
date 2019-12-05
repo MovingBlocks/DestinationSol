@@ -36,7 +36,6 @@ import org.slf4j.LoggerFactory;
 import org.terasology.gestalt.assets.ResourceUrn;
 import org.terasology.gestalt.module.Module;
 import org.terasology.gestalt.module.ModuleEnvironment;
-import org.terasology.gestalt.module.ModuleFactory;
 import org.terasology.gestalt.module.ModuleMetadata;
 import org.terasology.gestalt.module.ModuleMetadataJsonAdapter;
 import org.terasology.gestalt.module.ModulePathScanner;
@@ -64,7 +63,7 @@ public class ModuleManager {
     private static final Logger logger = LoggerFactory.getLogger(ModuleManager.class);
     // The API whitelist is based off Terasology's
     // https://github.com/MovingBlocks/Terasology/blob/948676050a7827dac5e04927087832ffc462da41/engine/src/main/java/org/terasology/engine/module/ExternalApiWhitelist.java
-    protected static final String[] API_WHITELIST = new String[] {
+    protected static final String[] API_WHITELIST = new String[]{
             "java.lang",
             "java.lang.invoke",
             "java.lang.ref",
@@ -118,7 +117,7 @@ public class ModuleManager {
             "com.badlogic.gdx.physics",
             "com.badlogic.gdx.physics.box2d"
     };
-    protected static final Class<?>[] CLASS_WHITELIST = new Class<?>[] {
+    protected static final Class<?>[] CLASS_WHITELIST = new Class<?>[]{
             InvocationTargetException.class,
             LoggerFactory.class,
             Logger.class,

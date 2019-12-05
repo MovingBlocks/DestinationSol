@@ -19,7 +19,6 @@ import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import org.destinationsol.assets.json.Validator;
 import org.json.JSONObject;
 import org.destinationsol.assets.Assets;
-import org.destinationsol.assets.json.Json;
 import org.destinationsol.game.SolGame;
 import org.destinationsol.game.projectile.ProjectileConfig;
 

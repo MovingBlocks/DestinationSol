@@ -16,13 +16,11 @@
 package org.destinationsol.game.item;
 
 import com.badlogic.gdx.graphics.Color;
-import org.destinationsol.assets.json.Validator;
-import org.json.JSONObject;
-import org.destinationsol.assets.Assets;
 import org.destinationsol.assets.audio.OggSound;
 import org.destinationsol.assets.audio.OggSoundManager;
-import org.destinationsol.assets.json.Json;
+import org.destinationsol.assets.json.Validator;
 import org.destinationsol.game.GameColors;
+import org.json.JSONObject;
 
 public class SolItemTypes {
     public final SolItemType clip;

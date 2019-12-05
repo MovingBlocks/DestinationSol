@@ -257,8 +257,7 @@ public class SolGame {
                 saveShip();
             }
             SaveManager.saveWorld(getPlanetManager().getSystems().size());
-        }
-        else {
+        } else {
             context.remove(TutorialManager.class, tutorialManager);
         }
         objectManager.dispose();
@@ -414,7 +413,7 @@ public class SolGame {
         return factionManager;
     }
 
-    public boolean isPlaceEmpty(Vector2 position,boolean considerPlanets) {
+    public boolean isPlaceEmpty(Vector2 position, boolean considerPlanets) {
         if (considerPlanets) {
             Planet np = planetManager.getNearestPlanet(position);
             boolean inPlanet = np.getPosition().dst(position) < np.getFullHeight();

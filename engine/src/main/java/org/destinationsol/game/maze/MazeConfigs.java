@@ -37,8 +37,9 @@ public class MazeConfigs {
             JSONObject rootNode = Validator.getValidatedJSON(configUrn.toString(), "engine:schemaMazesConfig");
 
             for (String s : rootNode.keySet()) {
-                if (!(rootNode.get(s) instanceof JSONObject))
+                if (!(rootNode.get(s) instanceof JSONObject)) {
                     continue;
+                }
                 JSONObject mazeNode = rootNode.getJSONObject(s);
                 MazeConfig c = MazeConfig.load(s, mazeNode, hullConfigs, itemManager);
                 configs.add(c);

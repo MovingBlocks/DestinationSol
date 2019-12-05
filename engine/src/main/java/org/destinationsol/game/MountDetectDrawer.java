@@ -21,7 +21,7 @@ import org.destinationsol.assets.Assets;
 import org.destinationsol.common.SolColor;
 import org.destinationsol.game.ship.SolShip;
 
-public class MountDetectDrawer implements UpdateAwareSystem{
+public class MountDetectDrawer implements UpdateAwareSystem {
     private final Vector2 myNePos;
     private final TextureAtlas.AtlasRegion myTexture;
 
