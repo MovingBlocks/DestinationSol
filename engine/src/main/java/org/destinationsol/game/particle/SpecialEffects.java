@@ -17,12 +17,10 @@ package org.destinationsol.game.particle;
 
 import com.badlogic.gdx.math.Vector2;
 import org.destinationsol.assets.json.Validator;
-import org.json.JSONObject;
-import org.destinationsol.assets.Assets;
-import org.destinationsol.assets.json.Json;
 import org.destinationsol.game.GameColors;
 import org.destinationsol.game.SolGame;
 import org.destinationsol.game.drawables.DrawableLevel;
+import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.List;

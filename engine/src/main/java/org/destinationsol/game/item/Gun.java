@@ -16,20 +16,18 @@
 package org.destinationsol.game.item;
 
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
-import org.destinationsol.assets.json.Validator;
-import org.json.JSONObject;
 import org.destinationsol.assets.Assets;
 import org.destinationsol.assets.audio.OggSoundManager;
 import org.destinationsol.assets.audio.OggSoundSet;
 import org.destinationsol.assets.audio.PlayableSound;
-import org.destinationsol.assets.json.Json;
+import org.destinationsol.assets.json.Validator;
 import org.destinationsol.common.SolMath;
 import org.destinationsol.game.DmgType;
 import org.destinationsol.game.HardnessCalc;
 import org.destinationsol.game.SolGame;
 import org.destinationsol.game.projectile.ProjectileConfig;
+import org.json.JSONObject;
 
-import java.util.Arrays;
 import java.util.List;
 
 public class Gun implements SolItem {

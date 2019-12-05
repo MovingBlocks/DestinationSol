@@ -22,7 +22,6 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.math.collision.BoundingBox;
 import com.badlogic.gdx.utils.Array;
-import org.json.JSONObject;
 import com.google.common.base.Preconditions;
 import org.destinationsol.assets.audio.OggSoundSet;
 import org.destinationsol.common.NotNull;
@@ -36,6 +35,7 @@ import org.destinationsol.game.drawables.Drawable;
 import org.destinationsol.game.drawables.DrawableLevel;
 import org.destinationsol.game.planet.Planet;
 import org.destinationsol.game.ship.SolShip;
+import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -159,7 +159,7 @@ public class DSParticleEmitter {
             areaSize = size;
         }
 
-        particleEmitter.setSprites(new Array<Sprite>(new Sprite[] { new Sprite(config.tex)}));
+        particleEmitter.setSprites(new Array<Sprite>(new Sprite[]{new Sprite(config.tex)}));
         float[] tint = particleEmitter.getTint().getColors();
         tint[0] = config.tint.r;
         tint[1] = config.tint.g;

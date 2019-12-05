@@ -61,11 +61,11 @@ public class MoneyItem implements SolItem {
     @Override
     public TextureAtlas.AtlasRegion getIcon(SolGame game) {
         ItemManager im = game.getItemMan();
-        if(amount == HUGE_AMOUNT) {
+        if (amount == HUGE_AMOUNT) {
             return im.hugeMoneyIcon;
         } else if (amount == BIG_AMOUNT) {
             return im.bigMoneyIcon;
-        }else if (amount == MEDIUM_AMOUNT) {
+        } else if (amount == MEDIUM_AMOUNT) {
             return im.medMoneyIcon;
         }
         return im.moneyIcon;

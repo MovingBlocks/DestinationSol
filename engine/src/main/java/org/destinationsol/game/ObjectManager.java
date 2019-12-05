@@ -287,12 +287,12 @@ public class ObjectManager implements UpdateAwareSystem {
      *
      * @param squaredDistance If the distance between any object and {@code fromObject} is less than this,
      *                        the {@code action} will be executed with that object as the argument.
-     * @param fromObject The point of reference. This is <b>not</b> exempt from the {@code action}.
-     * @param action The action to commit to {@code fromObject}.
+     * @param fromObject      The point of reference. This is <b>not</b> exempt from the {@code action}.
+     * @param action          The action to commit to {@code fromObject}.
      */
     public void doToAllCloserThan(float squaredDistance, SolObject fromObject, Consumer<SolObject> action) {
-        for(SolObject obj : myObjs) {
-            if(fromObject.getPosition().dst2(obj.getPosition()) < squaredDistance) {
+        for (SolObject obj : myObjs) {
+            if (fromObject.getPosition().dst2(obj.getPosition()) < squaredDistance) {
                 action.accept(obj);
             }
         }

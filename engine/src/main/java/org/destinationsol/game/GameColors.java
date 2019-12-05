@@ -17,10 +17,8 @@ package org.destinationsol.game;
 
 import com.badlogic.gdx.graphics.Color;
 import org.destinationsol.assets.json.Validator;
-import org.json.JSONObject;
-import org.destinationsol.assets.Assets;
-import org.destinationsol.assets.json.Json;
 import org.destinationsol.common.SolColorUtil;
+import org.json.JSONObject;
 
 import java.util.HashMap;
 import java.util.Map;
