@@ -18,19 +18,19 @@ package org.destinationsol.game.projectile;
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.math.Vector2;
-import org.destinationsol.assets.json.Validator;
-import org.json.JSONObject;
 import org.destinationsol.assets.Assets;
 import org.destinationsol.assets.audio.OggSound;
 import org.destinationsol.assets.audio.OggSoundManager;
 import org.destinationsol.assets.json.Json;
+import org.destinationsol.assets.json.Validator;
 import org.destinationsol.common.SolMath;
 import org.destinationsol.game.DmgType;
 import org.destinationsol.game.GameColors;
 import org.destinationsol.game.drawables.SpriteInfo;
 import org.destinationsol.game.particle.EffectConfig;
 import org.destinationsol.game.particle.EffectTypes;
-import org.terasology.gestalt.assets.ResourceUrn;
+import org.json.JSONObject;
+import org.terasology.assets.ResourceUrn;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -49,8 +49,9 @@ public class ProjectileConfigs {
             JSONObject rootNode = Validator.getValidatedJSON(configUrn.toString(), "engine:schemaProjectileConfig");
 
             for (String s : rootNode.keySet()) {
-                if (!(rootNode.get(s) instanceof JSONObject))
+                if (!(rootNode.get(s) instanceof JSONObject)) {
                     continue;
+                }
                 JSONObject node = rootNode.getJSONObject(s);
                 String name = s;
                 String texName = node.getString("tex");
