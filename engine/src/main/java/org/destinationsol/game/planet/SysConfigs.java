@@ -15,17 +15,17 @@
  */
 package org.destinationsol.game.planet;
 
-import org.destinationsol.assets.json.Validator;
-import org.json.JSONObject;
 import org.destinationsol.assets.Assets;
 import org.destinationsol.assets.json.Json;
+import org.destinationsol.assets.json.Validator;
 import org.destinationsol.common.SolRandom;
 import org.destinationsol.files.HullConfigManager;
 import org.destinationsol.game.ShipConfig;
 import org.destinationsol.game.chunk.SpaceEnvConfig;
 import org.destinationsol.game.item.ItemManager;
 import org.destinationsol.game.item.TradeConfig;
-import org.terasology.gestalt.assets.ResourceUrn;
+import org.json.JSONObject;
+import org.terasology.assets.ResourceUrn;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -52,8 +52,9 @@ public class SysConfigs {
         JSONObject rootNode = Validator.getValidatedJSON("engine:" + configName, "engine:schemaSystemsConfig");
 
         for (String s : rootNode.keySet()) {
-            if (!(rootNode.get(s) instanceof JSONObject))
+            if (!(rootNode.get(s) instanceof JSONObject)) {
                 continue;
+            }
             JSONObject node = rootNode.getJSONObject(s);
             String name = s;
 
@@ -72,8 +73,9 @@ public class SysConfigs {
             rootNode = Validator.getValidatedJSON(configUrn.toString(), "engine:schemaSystemsConfig");
 
             for (String s : rootNode.keySet()) {
-                if (!(rootNode.get(s) instanceof JSONObject))
+                if (!(rootNode.get(s) instanceof JSONObject)) {
                     continue;
+                }
                 JSONObject node = rootNode.getJSONObject(s);
                 String name = s;
 
