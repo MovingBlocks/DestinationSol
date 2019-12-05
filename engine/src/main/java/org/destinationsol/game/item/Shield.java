@@ -17,18 +17,17 @@ package org.destinationsol.game.item;
 
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.math.Vector2;
-import org.destinationsol.assets.json.Validator;
-import org.json.JSONObject;
 import org.destinationsol.assets.Assets;
 import org.destinationsol.assets.audio.OggSound;
 import org.destinationsol.assets.audio.OggSoundManager;
 import org.destinationsol.assets.audio.PlayableSound;
-import org.destinationsol.assets.json.Json;
+import org.destinationsol.assets.json.Validator;
 import org.destinationsol.common.SolMath;
 import org.destinationsol.game.DmgType;
 import org.destinationsol.game.SolGame;
 import org.destinationsol.game.SolObject;
 import org.destinationsol.game.ship.SolShip;
+import org.json.JSONObject;
 
 public class Shield implements SolItem {
     public static final float SIZE_PERC = .7f;
@@ -162,8 +161,8 @@ public class Shield implements SolItem {
         public TextureAtlas.AtlasRegion tex;
 
         private Config(int maxLife, float idleTime, float regenSpeed, float bulletDmgFactor, float energyDmgFactor, float explosionDmgFactor, String displayName, int price,
-                PlayableSound absorbSound, PlayableSound regenSound,
-                TextureAtlas.AtlasRegion icon, TextureAtlas.AtlasRegion tex, SolItemType itemType, String code) {
+                       PlayableSound absorbSound, PlayableSound regenSound,
+                       TextureAtlas.AtlasRegion icon, TextureAtlas.AtlasRegion tex, SolItemType itemType, String code) {
             this.maxLife = maxLife;
             this.idleTime = idleTime;
             this.regenSpeed = regenSpeed;

@@ -33,7 +33,7 @@ public class DmgWarnDrawer extends WarnDrawer {
         float currentLife = hero.getLife();
 
         // already dead
-        if(currentLife <= 0.0) {
+        if (currentLife <= 0.0) {
             return false;
         }
 

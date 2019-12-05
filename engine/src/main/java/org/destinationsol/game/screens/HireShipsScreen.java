@@ -26,9 +26,6 @@ import org.destinationsol.mercenary.MercenaryUtils;
 import org.destinationsol.ui.SolInputManager;
 import org.destinationsol.ui.SolUiControl;
 
-import java.util.ArrayList;
-import java.util.List;
-
 public class HireShipsScreen extends InventoryOperationsScreen {
     private final SolUiControl hireControl;
 

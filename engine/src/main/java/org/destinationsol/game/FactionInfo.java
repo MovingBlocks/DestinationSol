@@ -54,7 +54,7 @@ public class FactionInfo {
     private static Set<String> getModuleSet() {
         Set<String> moduleSet = new HashSet<String>();
         Set<ResourceUrn> moduleUrn = Assets.getAssetHelper().list(Json.class, "[a-zA-Z0-9]*:factions");
-        for(ResourceUrn module : moduleUrn) {
+        for (ResourceUrn module : moduleUrn) {
             moduleSet.add(module.toString());
         }
         return moduleSet;
@@ -76,14 +76,14 @@ public class FactionInfo {
 
     public static int getFactionID(SolShip ship) {
         String shipName = ship.getHull().getHullConfig().getInternalName();
-        for(String modulePath: getModuleSet()) {
+        for (String modulePath : getModuleSet()) {
             Json factionJson = Assets.getJson(modulePath);
             Validator.getValidatedJSON(modulePath, "engine:schemaFactions");
             JSONArray factionJsonArray = factionJson.getJsonValue().getJSONArray("factions");
             shipName = shipName.replaceAll(".*:", "");
-            for(int n = 0; n < factionJsonArray.length(); n++) {
-                for(int z = 0; z < factionJsonArray.getJSONObject(n).getJSONArray("ships").length(); z++) {
-                    if(shipName.equals(factionJsonArray.getJSONObject(n).getJSONArray("ships").get(z))) {
+            for (int n = 0; n < factionJsonArray.length(); n++) {
+                for (int z = 0; z < factionJsonArray.getJSONObject(n).getJSONArray("ships").length(); z++) {
+                    if (shipName.equals(factionJsonArray.getJSONObject(n).getJSONArray("ships").get(z))) {
                         return n;
                     }
                 }

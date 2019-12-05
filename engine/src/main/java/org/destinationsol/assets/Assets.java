@@ -38,8 +38,6 @@ import java.util.List;
 import java.util.Optional;
 import java.util.Set;
 
-import static java.lang.System.exit;
-
 /**
  * A high-level wrapper over the AssetHelper class.
  *

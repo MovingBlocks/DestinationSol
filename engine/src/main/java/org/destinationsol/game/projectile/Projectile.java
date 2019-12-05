@@ -117,9 +117,9 @@ public class Projectile implements SolObject {
         body.update(game);
         if (obstacle != null) {
             if (!wasDamageDealt) {
-                if(config.aoeRadius >= 0) { //If AoE is enabled for this Projectile, damage all within the radius.
+                if (config.aoeRadius >= 0) { //If AoE is enabled for this Projectile, damage all within the radius.
                     game.getObjectManager().doToAllCloserThan(config.aoeRadius, this, (SolObject obj) ->
-                        obj.receiveDmg(config.dmg, game, body.getPosition(), config.dmgType)
+                            obj.receiveDmg(config.dmg, game, body.getPosition(), config.dmgType)
                     );
                 } else {
                     obstacle.receiveDmg(config.dmg, game, body.getPosition(), config.dmgType);

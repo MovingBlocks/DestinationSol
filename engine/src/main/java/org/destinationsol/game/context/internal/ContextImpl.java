@@ -17,8 +17,6 @@ package org.destinationsol.game.context.internal;
 
 import com.google.common.collect.Maps;
 import org.destinationsol.game.context.Context;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import java.util.Map;
 
@@ -35,7 +33,7 @@ public class ContextImpl implements Context {
     }
 
     @Override
-    public <T, U extends T> void put(Class<T> type, U object)  {
+    public <T, U extends T> void put(Class<T> type, U object) {
         map.put(type, object);
     }
 

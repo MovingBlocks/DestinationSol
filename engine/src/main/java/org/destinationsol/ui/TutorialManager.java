@@ -137,7 +137,7 @@ public class TutorialManager implements UpdateAwareSystem {
 
         // Extra step to make sure an equipped item is selected before asking player to unequip
         if (screens.inventoryScreen.getSelectedItem() == null ||
-            (screens.inventoryScreen.getSelectedItem() != null && screens.inventoryScreen.getSelectedItem().isEquipped() == 0)) {
+                (screens.inventoryScreen.getSelectedItem() != null && screens.inventoryScreen.getSelectedItem().isEquipped() == 0)) {
             addStep(new SelectEquippedItemStep(
                     "Select an equipped item\n(note the text \"using\")", screens.inventoryScreen, game));
         }
@@ -225,7 +225,7 @@ public class TutorialManager implements UpdateAwareSystem {
     }
 
     @Override
-    public void update(SolGame game,float timeStep) {
+    public void update(SolGame game, float timeStep) {
         Step step = steps.get(stepIndex);
         step.highlight();
         if (step.canProgressToNextStep()) {

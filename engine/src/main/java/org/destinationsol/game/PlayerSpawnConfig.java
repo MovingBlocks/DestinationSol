@@ -16,11 +16,9 @@
 package org.destinationsol.game;
 
 import org.destinationsol.assets.json.Validator;
-import org.json.JSONObject;
-import org.destinationsol.assets.Assets;
-import org.destinationsol.assets.json.Json;
 import org.destinationsol.files.HullConfigManager;
 import org.destinationsol.game.item.ItemManager;
+import org.json.JSONObject;
 
 public class PlayerSpawnConfig {
     final ShipConfig mainStation;

@@ -16,14 +16,14 @@
 package org.destinationsol.game;
 
 import com.badlogic.gdx.math.Vector2;
-import org.destinationsol.assets.json.Validator;
-import org.json.JSONArray;
-import org.json.JSONObject;
 import org.destinationsol.assets.Assets;
 import org.destinationsol.assets.json.Json;
+import org.destinationsol.assets.json.Validator;
 import org.destinationsol.files.HullConfigManager;
 import org.destinationsol.game.item.ItemManager;
 import org.destinationsol.game.ship.hulls.HullConfig;
+import org.json.JSONArray;
+import org.json.JSONObject;
 import org.terasology.gestalt.assets.ResourceUrn;
 
 import java.util.ArrayList;
@@ -58,15 +58,15 @@ public class ShipConfig {
         return spawnPos;
     }
 
-    public int getMoney(){
+    public int getMoney() {
         return money;
     }
 
-    public HullConfig getHull(){
+    public HullConfig getHull() {
         return hull;
     }
 
-    public String getItems(){
+    public String getItems() {
         return items;
     }
 

@@ -79,11 +79,16 @@ public class GameOptions {
 
         public Volume advance() {
             switch (this) {
-                case OFF: return LOW;
-                case LOW: return MEDIUM;
-                case MEDIUM: return HIGH;
-                case HIGH: return MAX;
-                case MAX: return OFF;
+                case OFF:
+                    return LOW;
+                case LOW:
+                    return MEDIUM;
+                case MEDIUM:
+                    return HIGH;
+                case HIGH:
+                    return MAX;
+                case MAX:
+                    return OFF;
             }
             return MAX;
         }
@@ -219,7 +224,7 @@ public class GameOptions {
 
     public void advanceResolution() {
         //lazy initialize provider because graphics is not available at the constructor
-        if(resolutionProvider == null){
+        if (resolutionProvider == null) {
             resolutionProvider = new ResolutionProvider(asList(Gdx.graphics.getDisplayModes()));
         }
         Resolution nextResolution = resolutionProvider.increase();

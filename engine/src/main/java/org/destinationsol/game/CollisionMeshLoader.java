@@ -27,8 +27,6 @@ import org.destinationsol.assets.json.Validator;
 import org.json.JSONArray;
 import org.json.JSONObject;
 import org.destinationsol.Const;
-import org.destinationsol.assets.Assets;
-import org.destinationsol.assets.json.Json;
 import org.destinationsol.common.SolColor;
 import org.destinationsol.game.drawables.Drawable;
 import org.destinationsol.game.drawables.DrawableLevel;

@@ -19,12 +19,11 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.math.Vector2;
-
-import org.destinationsol.game.SolGame;
+import org.destinationsol.game.FactionInfo;
 import org.destinationsol.game.ObjectManager;
 import org.destinationsol.game.SolCam;
+import org.destinationsol.game.SolGame;
 import org.destinationsol.game.SolObject;
-import org.destinationsol.game.FactionInfo;
 import org.destinationsol.game.ship.SolShip;
 import org.destinationsol.ui.SolInputManager;
 import org.destinationsol.ui.UiDrawer;
@@ -48,12 +47,12 @@ public class FactionDisplay {
         }
         // angle must be zero as the camera angles on planets mess up the text display
         if (isPressed && cam.getAngle() == 0 && !inputManager.isScreenOn(game.getScreens().mapScreen)) {
-            for(SolObject obj: objManager.getObjects()) {
+            for (SolObject obj : objManager.getObjects()) {
                 if (obj instanceof SolShip) {
                     SolShip ship = (SolShip) obj;
                     Vector2 drawPosition = cam.worldToScreen(ship);
                     uiDrawer.drawString(ship.getFactionName(), drawPosition.x * SolApplication.displayDimensions.getRatio(),
-                            drawPosition.y -.1f, 1, false, Color.valueOf(info.getFactionColors().get(ship.getFactionID()).toString()));
+                            drawPosition.y - .1f, 1, false, Color.valueOf(info.getFactionColors().get(ship.getFactionID()).toString()));
                 }
             }
         }

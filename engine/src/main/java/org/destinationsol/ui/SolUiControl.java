@@ -237,9 +237,9 @@ public class SolUiControl {
 
         DisplayDimensions displayDimensions = SolApplication.displayDimensions;
 
-        int x = referencePosition.getX() + offsetX - width/2;
-        int y = referencePosition.getY() + offsetY - height/2;
+        int x = referencePosition.getX() + offsetX - width / 2;
+        int y = referencePosition.getY() + offsetY - height / 2;
 
-        screenArea = new Rectangle(x * displayDimensions.getRatio() / displayDimensions.getWidth(), y / (float)displayDimensions.getHeight(), width * displayDimensions.getRatio() / displayDimensions.getWidth(), height / (float)displayDimensions.getHeight());
+        screenArea = new Rectangle(x * displayDimensions.getRatio() / displayDimensions.getWidth(), y / (float) displayDimensions.getHeight(), width * displayDimensions.getRatio() / displayDimensions.getWidth(), height / (float) displayDimensions.getHeight());
     }
 }
