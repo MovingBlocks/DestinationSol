@@ -190,7 +190,7 @@ public class SolShip implements SolObject {
         boolean canAdd = c.canAdd(i);
         if (canAdd) {
             c.add(i);
-            if (c == myItemContainer && myPilot.getMapHint() == "Merc") {
+            if (c == myItemContainer && myPilot.getMapHint().equals("Merc")) {
                 //insert equip code here, if it's something we want to do
             }
         }
