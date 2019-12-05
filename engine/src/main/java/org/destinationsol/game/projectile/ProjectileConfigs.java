@@ -57,9 +57,6 @@ public class ProjectileConfigs {
                 String projectileTexName = texName + "Projectile";
                 TextureAtlas.AtlasRegion tex = Assets.getAtlasRegion(projectileTexName);
                 Animation<TextureAtlas.AtlasRegion> animation = Assets.getAnimation(projectileTexName);
-                if (animation == null) {
-                    animation = new Animation<TextureAtlas.AtlasRegion>(0, tex);
-                }
                 SpriteInfo sprite = new SpriteInfo(tex.name, animation);
                 float texSz = (float) node.getDouble("texSz");
                 float speed = (float) node.getDouble("speed");

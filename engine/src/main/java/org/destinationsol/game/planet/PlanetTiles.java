@@ -88,9 +88,6 @@ public class PlanetTiles {
                 points.add(point);
             }
             Animation<TextureAtlas.AtlasRegion> animation = Assets.getAnimation(tex.name);
-            if (animation == null) {
-                animation = new Animation<TextureAtlas.AtlasRegion>(0.0f, tex);
-            }
             SpriteInfo sprite = new SpriteInfo(tex.name, animation);
             tileVariants.add(new Tile(sprite, points, from, to));
         }

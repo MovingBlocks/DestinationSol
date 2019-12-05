@@ -215,7 +215,7 @@ public abstract class Assets {
 
         String animationPath = texturePath + "Animation";
         if (assetHelper.list(Json.class, animationPath).size() == 0) {
-            return null;
+            return new Animation<TextureAtlas.AtlasRegion>(Float.MAX_VALUE, getAtlasRegion(texturePath));
         }
 
         Texture originalTexture = getDSTexture(texturePath).getTexture();
@@ -225,7 +225,7 @@ public abstract class Assets {
         int frameWidth = animationInfo.optInt("frameWidth", 256);
         int frameHeight = animationInfo.optInt("frameHeight", 256);
         int frameCount = animationInfo.optInt("frameCount", 1);
-        float framesPerSecond = animationInfo.optFloat("framesPerSecond", 24);
+        float framesPerSecond = (float) animationInfo.optDouble("framesPerSecond", 24);
         boolean autoGenerateFrames = animationInfo.optBoolean("autoGenerateFrames", false);
         TextureAtlas.AtlasRegion[] frames = new TextureAtlas.AtlasRegion[frameCount];
         if (autoGenerateFrames) {
@@ -237,15 +237,15 @@ public abstract class Assets {
             ArrayList<TextureAtlas.AtlasRegion> regions = new ArrayList<TextureAtlas.AtlasRegion>();
             JSONArray framesArray = animationInfo.optJSONArray("frames");
             if (framesArray != null) {
-                for (int frameNo = 0; frameNo < framesArray.length(); frameNo++) {
-                    JSONObject frameObject = framesArray.getJSONObject(frameNo);
+                for (int frame = 0; frame < framesArray.length(); frame++) {
+                    JSONObject frameObject = framesArray.getJSONObject(frame);
                     int x = frameObject.optInt("x", 0);
                     int y = frameObject.optInt("y", 0);
                     int regionWidth = frameObject.optInt("width", frameWidth);
                     int regionHeight = frameObject.optInt("height", frameHeight);
                     TextureAtlas.AtlasRegion region = new TextureAtlas.AtlasRegion(originalTexture, x, y, regionWidth, regionHeight);
                     region.flip(false, true);
-                    region.name = texturePath + " frame " + frameNo;
+                    region.name = texturePath + " frame " + frame;
                     regions.add(region);
                 }
             }

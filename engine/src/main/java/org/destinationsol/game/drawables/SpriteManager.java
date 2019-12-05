@@ -86,24 +86,41 @@ public final class SpriteManager {
         return createSprite(name, 1, 0, 0, relativePosition, drawLevel, 0, 0, color, additive);
     }
 
+    /**
+     * Creates the specified sprite, which a specified size and texture percentages, at the specified depth, position and
+     * rotation, which is tinted the specified colour amd where additive blending is possible
+     *
+     * @param name The name of the sprite the new sprite should be based on
+     * @param size The scaled size of the sprite when drawn
+     * @param originalXPercentage The original X percentage for the sprite texture
+     * @param originalYPercentage The original Y percentage for the sprite texture
+     * @param relativePosition The relative position of the sprite
+     * @param drawLevel The depth that the sprite should be drawn at
+     * @param angle The angle the sprite is rotated by when drawn
+     * @param rotateSpeed The speed at which the sprite is rotated
+     * @param tint The colour to tint the sprite when drawn
+     * @param additive Should the sprite be blended additively
+     * @return A new sprite
+     */
     public static RectSprite createSprite(String name, float size,
                                                           float originalXPercentage, float originalYPercentage,
                                                           Vector2 relativePosition, DrawableLevel drawLevel, float angle,
                                                           float rotateSpeed, Color tint, boolean additive) {
+        SpriteInfo sprite;
+
+        // Check the sprite cache so that we can create a new sprite if one does not already exist. Otherwise, return the cached sprite.
         if (!sprites.containsKey(name)) {
             try {
                 Animation<TextureAtlas.AtlasRegion> frames = Assets.getAnimation(name);
-                if (frames == null) {
-                    //This sprite has not defined animations.
-                    frames = new Animation<TextureAtlas.AtlasRegion>(Float.MAX_VALUE, Assets.getAtlasRegion(name));
-                }
-                sprites.put(name, new SpriteInfo(name, frames));
+                sprite = new SpriteInfo(name, frames);
+                sprites.put(name, sprite);
             } catch (Exception e) {
                 throw new IllegalArgumentException("There is no sprite called \"" + name + "\"!");
             }
+        } else {
+            sprite = sprites.get(name);
         }
 
-        SpriteInfo sprite = sprites.get(name);
         return new AnimatedRectSprite(sprite.frames, size, originalXPercentage, originalYPercentage, relativePosition,
                 drawLevel, angle, rotateSpeed, tint, additive);
     }
@@ -132,6 +149,26 @@ public final class SpriteManager {
                 drawLevel, angle, rotateSpeed, tint, additive);
     }
 
+    /**
+     * Creates an AnimatedRectSprite
+     * @see AnimatedRectSprite
+     *
+     * @param initialRegion The initial texture region to generate frames from
+     * @param frameWidth The width of a single frame
+     * @param frameHeight The height of a single frame
+     * @param framesPerSecond The rate at which the displayed frame is changed per-second
+     * @param frameCount The quantity of frames in the animation
+     * @param size The size of the sprite
+     * @param originalXPercentage The original X percentage for the sprite texture
+     * @param originalYPercentage The original Y percentage for the sprite texture
+     * @param relativePosition The relative position of the sprite
+     * @param drawLevel The depth for the sprite to be drawn at
+     * @param angle The angle for the sprite to be rotated
+     * @param rotateSpeed The speed that the sprite should be rotated at
+     * @param tint The colour that the sprite should be tinted
+     * @param additive Should the sprite be blended additively
+     * @return The sprite created
+     */
     public static AnimatedRectSprite createAnimatedSprite(TextureAtlas.AtlasRegion initialRegion, int frameWidth, int frameHeight,
                                                           float framesPerSecond, int frameCount, float size,
                                                           float originalXPercentage, float originalYPercentage,
