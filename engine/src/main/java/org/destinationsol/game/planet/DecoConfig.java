@@ -17,9 +17,9 @@ package org.destinationsol.game.planet;
 
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.math.Vector2;
-import org.json.JSONObject;
 import org.destinationsol.assets.Assets;
 import org.destinationsol.common.SolMath;
+import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -45,8 +45,9 @@ public class DecoConfig {
         ArrayList<DecoConfig> res = new ArrayList<>();
         JSONObject decorations = planetConfig.getJSONObject("decorations");
         for (String s : decorations.keySet()) {
-            if (!(decorations.get(s) instanceof JSONObject))
+            if (!(decorations.get(s) instanceof JSONObject)) {
                 continue;
+            }
             JSONObject deco = decorations.getJSONObject(s);
             float density = (float) deco.getDouble("density");
             float szMin = (float) deco.getDouble("szMin");

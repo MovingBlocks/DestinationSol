@@ -53,16 +53,16 @@ public class AssetHelper {
         assetTypeManager = new ModuleAwareAssetTypeManagerImpl();
 
         assetTypeManager.createAssetType(OggSound.class, OggSound::new, "sounds");
-        ((AssetFileDataProducer)assetTypeManager.getAssetType(OggSound.class).get().getProducers().get(0)).addAssetFormat(new OggSoundFileFormat());
+        ((AssetFileDataProducer) assetTypeManager.getAssetType(OggSound.class).get().getProducers().get(0)).addAssetFormat(new OggSoundFileFormat());
 
         assetTypeManager.createAssetType(OggMusic.class, OggMusic::new, "music");
-        ((AssetFileDataProducer)assetTypeManager.getAssetType(OggMusic.class).get().getProducers().get(0)).addAssetFormat(new OggMusicFileFormat());
+        ((AssetFileDataProducer) assetTypeManager.getAssetType(OggMusic.class).get().getProducers().get(0)).addAssetFormat(new OggMusicFileFormat());
 
         assetTypeManager.createAssetType(Font.class, Font::new, "fonts");
-        ((AssetFileDataProducer)assetTypeManager.getAssetType(Font.class).get().getProducers().get(0)).addAssetFormat(new FontFileFormat());
+        ((AssetFileDataProducer) assetTypeManager.getAssetType(Font.class).get().getProducers().get(0)).addAssetFormat(new FontFileFormat());
 
         assetTypeManager.createAssetType(Emitter.class, Emitter::new, "emitters");
-        ((AssetFileDataProducer)assetTypeManager.getAssetType(Emitter.class).get().getProducers().get(0)).addAssetFormat(new EmitterFileFormat());
+        ((AssetFileDataProducer) assetTypeManager.getAssetType(Emitter.class).get().getProducers().get(0)).addAssetFormat(new EmitterFileFormat());
 
         assetTypeManager.createAssetType(Json.class, Json::new, "collisionMeshes", "ships", "items", "configs", "grounds", "mazes", "asteroids", "schemas");
         AssetFileDataProducer dataProducer = (AssetFileDataProducer) assetTypeManager.getAssetType(Json.class).get().getProducers().get(0);
@@ -70,7 +70,7 @@ public class AssetHelper {
         dataProducer.addDeltaFormat(new JsonDeltaFileFormat());
 
         assetTypeManager.createAssetType(DSTexture.class, DSTexture::new, "textures", "ships", "items", "grounds", "mazes", "asteroids", "fonts");
-        ((AssetFileDataProducer)assetTypeManager.getAssetType(DSTexture.class).get().getProducers().get(0)).addAssetFormat(new DSTextureFileFormat());
+        ((AssetFileDataProducer) assetTypeManager.getAssetType(DSTexture.class).get().getProducers().get(0)).addAssetFormat(new DSTextureFileFormat());
 
         assetTypeManager.switchEnvironment(environment);
     }
@@ -113,8 +113,9 @@ public class AssetHelper {
                     }
                 }
             }
-            if (!validPath)
+            if (!validPath) {
                 continue;
+            }
 
             StringBuilder path = new StringBuilder();
 

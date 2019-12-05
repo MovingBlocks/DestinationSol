@@ -52,7 +52,7 @@ public abstract class WarnDrawer {
         backgroundOriginA = backgroundColor.a;
         textColor = new Color(SolColor.WHITE);
         // create the 3 rectangles where notifications can appear
-        for(int i=0; i<3; i++) {
+        for (int i = 0; i < 3; i++) {
             rectangles.add(createRectangle(i));
         }
     }
@@ -70,24 +70,29 @@ public abstract class WarnDrawer {
     protected abstract boolean shouldWarn(SolGame game);
 
     public void draw(UiDrawer uiDrawer, int drawIndex) {
-        if(drawIndex >= rectangles.size()) return;
+        if (drawIndex >= rectangles.size()) {
+            return;
+        }
         uiDrawer.draw(rectangles.get(drawIndex), backgroundColor);
     }
 
     public void drawText(UiDrawer uiDrawer, int drawIndex) {
-        if(drawIndex >= rectangles.size()) return;
+        if (drawIndex >= rectangles.size()) {
+            return;
+        }
         Rectangle warningRectangle = rectangles.get(drawIndex);
         uiDrawer.drawString(text, warningRectangle.x + warningRectangle.width / 2.f, warningRectangle.y + warningRectangle.height / 2.f, FontSize.MENU, true, textColor);
     }
 
     /**
      * Create background rectangle by calculating bounds
+     *
      * @param drawIndex where the rectangle starts on the screen
      */
     private Rectangle createRectangle(int drawIndex) {
         float x;
         float y = 0.05f;
-        switch(drawIndex) {
+        switch (drawIndex) {
             case 1: // left of center
                 x = 0.18f * displayDimensions.getRatio();
                 break;
