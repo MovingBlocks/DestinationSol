@@ -19,10 +19,11 @@ import com.badlogic.gdx.audio.Music;
 import org.destinationsol.GameOptions;
 import org.destinationsol.assets.Assets;
 import org.destinationsol.assets.json.Json;
+import org.json.JSONArray;
 import org.json.JSONObject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.terasology.assets.ResourceUrn;
+import org.terasology.gestalt.assets.ResourceUrn;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -197,7 +198,11 @@ public class OggMusicManager {
             Json musicJson = Assets.getJson(urnString);
             JSONObject musicNode = musicJson.getJsonValue();
 
-            for (Object musicFileName : musicNode.getJSONArray("menuMusic")) {
+            JSONArray array = musicNode.getJSONArray("menuMusic");
+            // JSONArray.iterator must not be used (foreach uses it internally), as Android does not support it
+            // (you cannot override the dependency either, as it is a system library).
+            for (int index = 0; index < array.length(); index++) {
+                Object musicFileName = array.get(index);
                 if (!(musicFileName instanceof String)) {
                     break;
                 }

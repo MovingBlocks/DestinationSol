@@ -28,7 +28,7 @@ import org.destinationsol.game.DmgType;
 import org.destinationsol.game.GameColors;
 import org.destinationsol.game.particle.EffectConfig;
 import org.destinationsol.game.particle.EffectTypes;
-import org.terasology.assets.ResourceUrn;
+import org.terasology.gestalt.assets.ResourceUrn;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -75,7 +75,7 @@ public class ProjectileConfigs {
                 float density = (float) node.optDouble("density", -1);
                 float dmg = (float) node.getDouble("dmg");
                 float emTime = (float) node.optDouble("emTime", 0);
-                float aoeRadius = node.optFloat("aoeRadius", -1);
+                float aoeRadius = (float) node.optDouble("aoeRadius", -1);
                 ProjectileConfig config = new ProjectileConfig(tex, texSz, speed, stretch, physSize, dmgType,
                         collisionSound, lightSz, trailEffect, bodyEffect, collisionEffect, collisionEffectBackground,
                         zeroAbsSpeed, origin, acc, workSound, bodyless, density, guideRotationSpeed, dmg, emTime, aoeRadius);
