@@ -19,8 +19,8 @@ import com.badlogic.gdx.files.FileHandle;
 import org.destinationsol.game.SaveManager;
 
 import java.io.BufferedReader;
+import java.io.File;
 import java.io.IOException;
-import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
@@ -62,7 +62,7 @@ public class IniReader {
 
         String path = SaveManager.getResourcePath(fileName);
 
-        FileHandle file = new FileHandle(Paths.get(path).toFile());
+        FileHandle file = new FileHandle(new File(path));
         file.writeString(stringBuilder.toString(), false);
     }
 
@@ -85,7 +85,7 @@ public class IniReader {
     private List<String> fileToLines(String fileName) {
         String path = SaveManager.getResourcePath(fileName);
 
-        FileHandle file = new FileHandle(Paths.get(path).toFile());
+        FileHandle file = new FileHandle(new File(path));
 
         ArrayList<String> res = new ArrayList<>();
         if (!file.exists()) {

@@ -21,7 +21,7 @@ import org.destinationsol.assets.Assets;
 import org.destinationsol.assets.audio.OggSoundManager;
 import org.destinationsol.assets.json.Json;
 import org.destinationsol.game.particle.EffectTypes;
-import org.terasology.assets.ResourceUrn;
+import org.terasology.gestalt.assets.ResourceUrn;
 
 import java.util.HashMap;
 import java.util.Locale;

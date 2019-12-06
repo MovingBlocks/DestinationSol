@@ -16,7 +16,7 @@
 package org.destinationsol.assets.textures;
 
 import com.badlogic.gdx.graphics.Texture;
-import org.terasology.assets.AssetData;
+import org.terasology.gestalt.assets.AssetData;
 
 public class DSTextureData implements AssetData {
     private Texture texture;

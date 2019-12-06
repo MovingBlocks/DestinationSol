@@ -25,7 +25,7 @@ import org.destinationsol.game.ShipConfig;
 import org.destinationsol.game.chunk.SpaceEnvConfig;
 import org.destinationsol.game.item.ItemManager;
 import org.destinationsol.game.item.TradeConfig;
-import org.terasology.assets.ResourceUrn;
+import org.terasology.gestalt.assets.ResourceUrn;
 
 import java.util.ArrayList;
 import java.util.HashMap;
