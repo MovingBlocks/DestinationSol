@@ -281,7 +281,7 @@ public class InventoryScreen extends SolUiBaseScreen {
             TextureAtlas.AtlasRegion tex = item.getIcon(game);
             Rectangle rect = itemCtrl.getScreenArea();
             float rowCenterY = rect.y + rect.height / 2;
-            uiDrawer.draw(uiDrawer.whiteTexture, imgSz, imgSz, imgSz / 2, imgSz / 2, rect.x + imgColW / 2, rowCenterY, 0, item.getItemType().uiColor);
+            uiDrawer.draw(uiDrawer.WHITE_TEXTURE, imgSz, imgSz, imgSz / 2, imgSz / 2, rect.x + imgColW / 2, rowCenterY, 0, item.getItemType().uiColor);
             uiDrawer.draw(tex, imgSz, imgSz, imgSz / 2, imgSz / 2, rect.x + imgColW / 2, rowCenterY, 0, SolColor.WHITE);
         }
     }

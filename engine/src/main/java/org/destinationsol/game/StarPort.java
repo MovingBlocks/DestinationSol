@@ -152,8 +152,8 @@ public class StarPort implements SolObject {
     }
 
     @Override
-    public void receiveDmg(float dmg, SolGame game, Vector2 position, DmgType dmgType) {
-        game.getSpecialSounds().playHit(game, this, position, dmgType);
+    public void receiveDmg(float dmg, SolGame game, Vector2 hitPosition, DmgType dmgType) {
+        game.getSpecialSounds().playHit(game, this, hitPosition, dmgType);
     }
 
     @Override
@@ -395,13 +395,13 @@ public class StarPort implements SolObject {
                 objectManager.removeObjDelayed(this);
                 ship.setPos(position);
                 ship.setVelocity(new Vector2());
-                SolShip ship = this.ship.toObject(game);
+                SolShip outShip = this.ship.toObject(game);
                 if (ship.getPilot().isPlayer()) {
-                    game.getHero().setSolShip(ship, game);
+                    game.getHero().setSolShip(outShip, game);
                     SaveManager.saveWorld(game.getPlanetManager().getSystems().size());
                 }
-                objectManager.addObjDelayed(ship);
-                blip(game, ship);
+                objectManager.addObjDelayed(outShip);
+                blip(game, outShip);
                 game.getSoundManager().play(game, game.getSpecialSounds().transcendentFinished, null, this);
                 game.getObjectManager().resetDelays(); // because of the hacked speed
             } else {
@@ -430,7 +430,7 @@ public class StarPort implements SolObject {
         }
 
         @Override
-        public void receiveDmg(float dmg, SolGame game, Vector2 position, DmgType dmgType) {
+        public void receiveDmg(float dmg, SolGame game, Vector2 hitPosition, DmgType dmgType) {
             game.getSpecialSounds().playHit(game, this, position, dmgType);
         }
 

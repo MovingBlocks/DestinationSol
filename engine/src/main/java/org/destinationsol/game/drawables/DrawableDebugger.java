@@ -63,7 +63,7 @@ public class DrawableDebugger implements UpdateAwareSystem {
         float y = GAP;
         for (TextureAtlas.AtlasRegion texture : textures) {
             float x = GAP;
-            uiDrawer.draw(uiDrawer.whiteTexture, 5 * TEX_SZ, TEX_SZ + 2 * GAP, 0, 0, x, y, 0, SolColor.DG);
+            uiDrawer.draw(uiDrawer.WHITE_TEXTURE, 5 * TEX_SZ, TEX_SZ + 2 * GAP, 0, 0, x, y, 0, SolColor.DG);
             y += GAP;
             x += GAP;
             float dimensionsRatio = 1f * texture.getTexture().getWidth() / texture.getTexture().getHeight();

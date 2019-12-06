@@ -41,22 +41,22 @@ public class ZoneNameAnnouncer {
 
     public void update(SolGame game) {
         PlanetManager planetManager = game.getPlanetManager();
-        String zone = null;
+        String currentZone = null;
         String pref = null;
         Vector2 camPosition = game.getCam().getPosition();
         Planet planet = planetManager.getNearestPlanet();
         if (planet.getPosition().dst(camPosition) < planet.getFullHeight()) {
-            zone = planet.getName();
+            currentZone = planet.getName();
             pref = "Planet";
         } else {
             SolSystem system = planetManager.getNearestSystem(camPosition);
             if (system.getPosition().dst(camPosition) < system.getRadius()) {
-                zone = system.getName();
+                currentZone = system.getName();
                 pref = "System";
             }
         }
-        boolean reset = zone != null && !zone.equals(this.zone);
-        this.zone = zone;
+        boolean reset = currentZone != null && !currentZone.equals(this.zone);
+        this.zone = currentZone;
         if (reset) {
             color.a = 1f;
             text = pref + ":\n" + this.zone;

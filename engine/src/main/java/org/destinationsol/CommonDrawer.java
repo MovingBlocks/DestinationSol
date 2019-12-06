@@ -114,7 +114,7 @@ public class CommonDrawer implements ResizeSubscriber {
         setTint(tint);
         spriteBatch.draw(tr, x - origX, y - origY, origX, origY, width, height, 1, 1, rot);
 //        setTint(Color.CYAN);
-//        spriteBatch.draw(UiDrawer.whiteTexture, 0, 0, 0.5f, 0.5f); // debug rectangle for render overhaul purpose
+//        spriteBatch.draw(UiDrawer.WHITE_TEXTURE, 0, 0, 0.5f, 0.5f); // debug rectangle for render overhaul purpose
     }
 
     private void setTint(Color tint) {

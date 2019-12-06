@@ -384,8 +384,8 @@ public class MainGameScreen extends SolUiBaseScreen {
 
     private void drawBar(UiDrawer uiDrawer, float x, float y, float curr, float max, TextPlace tp) {
         float perc = curr / max;
-        uiDrawer.draw(uiDrawer.whiteTexture, BAR_SZ, ICON_SZ, 0, 0, x, y, 0, SolColor.UI_DARK);
-        uiDrawer.draw(uiDrawer.whiteTexture, BAR_SZ * perc, ICON_SZ, 0, 0, x, y, 0, SolColor.UI_LIGHT);
+        uiDrawer.draw(uiDrawer.WHITE_TEXTURE, BAR_SZ, ICON_SZ, 0, 0, x, y, 0, SolColor.UI_DARK);
+        uiDrawer.draw(uiDrawer.WHITE_TEXTURE, BAR_SZ * perc, ICON_SZ, 0, 0, x, y, 0, SolColor.UI_LIGHT);
         if (tp != null && max > 1 && curr > 0) {
             tp.text = (int) curr + "/" + (int) max;
             tp.position.set(x + BAR_SZ / 2, y + ICON_SZ / 2);

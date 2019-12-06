@@ -189,7 +189,7 @@ public class SolShip implements SolObject {
         boolean canAdd = c.canAdd(i);
         if (canAdd) {
             c.add(i);
-            if (c == myItemContainer && myPilot.getMapHint() == "Merc") {
+            if (c == myItemContainer && myPilot.getMapHint().equals("Merc")) {
                 //insert equip code here, if it's something we want to do
             }
         }
@@ -424,13 +424,15 @@ public class SolShip implements SolObject {
             myShield.absorb(game, dmg, position, this, dmgType);
             return;
         }
+
+        float hullDamage = dmg;
         if (myArmor != null) {
             if (dmgType == DmgType.ENERGY) {
-                dmg *= ENERGY_DMG_FACTOR;
+                hullDamage *= ENERGY_DMG_FACTOR;
             }
-            dmg *= (1 - myArmor.getPerc());
+            hullDamage *= (1 - myArmor.getPerc());
         }
-        getHitWith(dmg, game, position, dmgType);
+        getHitWith(hullDamage, game, position, dmgType);
     }
 
     /**
@@ -673,8 +675,8 @@ public class SolShip implements SolObject {
      *
      * Optional @param mercItem The {@link MercItem} of the SolShip.
      */
-    public void setMerc(MercItem mercItem) {
-        this.mercItem = mercItem;
+    public void setMerc(MercItem merc) {
+        this.mercItem = merc;
         isMerc = true;
     }
 
@@ -682,7 +684,9 @@ public class SolShip implements SolObject {
         return this.mercItem;
     }
 
-    public boolean isMerc() { return this.isMerc; }
+    public boolean isMerc() {
+        return this.isMerc;
+    }
 
     public String getFactionName() {
         return factionName;

@@ -39,7 +39,7 @@ public class UiDrawer implements ResizeSubscriber {
     private Matrix4 straightMtx;
     private final float uiLineWidth;
 
-    public static final TextureRegion whiteTexture = Assets.getAtlasRegion("engine:uiWhiteTex");
+    public static final TextureRegion WHITE_TEXTURE = Assets.getAtlasRegion("engine:uiWhiteTex");
     public final Rectangle filler;
     private final CommonDrawer drawer;
     //TODO WTF is `isTextMode` for? discuss and potentially (=probably) remove
@@ -101,22 +101,22 @@ public class UiDrawer implements ResizeSubscriber {
 
     public void draw(Rectangle rect, Color tint) {
         check();
-        drawer.draw(whiteTexture, rect, tint);
+        drawer.draw(WHITE_TEXTURE, rect, tint);
     }
 
     public void drawCircle(Vector2 center, float radius, Color col) {
         check();
-        drawer.drawCircle(whiteTexture, center, radius, col, uiLineWidth, 1);
+        drawer.drawCircle(WHITE_TEXTURE, center, radius, col, uiLineWidth, 1);
     }
 
     public void drawLine(float x, float y, float angle, float len, Color col) {
         check();
-        drawer.drawLine(whiteTexture, x, y, angle, len, col, uiLineWidth);
+        drawer.drawLine(WHITE_TEXTURE, x, y, angle, len, col, uiLineWidth);
     }
 
     public void drawLine(Vector2 p1, Vector2 p2, Color col) {
         check();
-        drawer.drawLine(whiteTexture, p1, p2, col, uiLineWidth, false);
+        drawer.drawLine(WHITE_TEXTURE, p1, p2, col, uiLineWidth, false);
     }
 
     public void setTextMode(Boolean textMode) {

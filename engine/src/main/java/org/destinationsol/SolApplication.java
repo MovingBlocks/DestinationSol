@@ -216,7 +216,7 @@ public class SolApplication implements ApplicationListener {
             factionDisplay.drawFactionNames(solGame, uiDrawer, inputManager, solGame.getObjectManager());
         }
         if (fatalErrorMsg != null) {
-            uiDrawer.draw(uiDrawer.whiteTexture, displayDimensions.getRatio(), .5f, 0, 0, 0, .25f, 0, SolColor.UI_BG);
+            uiDrawer.draw(uiDrawer.WHITE_TEXTURE, displayDimensions.getRatio(), .5f, 0, 0, 0, .25f, 0, SolColor.UI_BG);
             uiDrawer.drawString(fatalErrorMsg, displayDimensions.getRatio(), .5f, FontSize.MENU, true, SolColor.WHITE);
             uiDrawer.drawString(fatalErrorTrace, .2f * displayDimensions.getRatio(), .6f, FontSize.DEBUG, false, SolColor.WHITE);
         }

@@ -70,12 +70,16 @@ public abstract class WarnDrawer {
     protected abstract boolean shouldWarn(SolGame game);
 
     public void draw(UiDrawer uiDrawer, int drawIndex) {
-        if(drawIndex >= rectangles.size()) return;
+        if (drawIndex >= rectangles.size()) {
+            return;
+        }
         uiDrawer.draw(rectangles.get(drawIndex), backgroundColor);
     }
 
     public void drawText(UiDrawer uiDrawer, int drawIndex) {
-        if(drawIndex >= rectangles.size()) return;
+        if (drawIndex >= rectangles.size()) {
+            return;
+        }
         Rectangle warningRectangle = rectangles.get(drawIndex);
         uiDrawer.drawString(text, warningRectangle.x + warningRectangle.width / 2.f, warningRectangle.y + warningRectangle.height / 2.f, FontSize.MENU, true, textColor);
     }

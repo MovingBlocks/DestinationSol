@@ -88,11 +88,12 @@ public class SolUiControl {
 
     public void update(SolInputManager.InputPointer[] inputPointers, boolean cursorShown, boolean canBePressed, SolInputManager inputMan,
                        SolApplication cmp) {
+        boolean pressable = canBePressed;
         if (!isEnabled) {
-            canBePressed = false;
+            pressable = false;
         }
-        updateKeys(canBePressed);
-        updateArea(inputPointers, canBePressed);
+        updateKeys(pressable);
+        updateArea(inputPointers, pressable);
         updateHover(inputPointers, cursorShown, inputMan, cmp);
         if (isWithSound && isJustOff()) {
             inputMan.playClick(cmp);

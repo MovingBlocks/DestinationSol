@@ -52,18 +52,19 @@ public class SysConfigs {
         JSONObject rootNode = Validator.getValidatedJSON("engine:" + configName, "engine:schemaSystemsConfig");
 
         for (String s : rootNode.keySet()) {
-            if (!(rootNode.get(s) instanceof JSONObject))
+            if (!(rootNode.get(s) instanceof JSONObject)) {
                 continue;
+            }
             JSONObject node = rootNode.getJSONObject(s);
             String name = s;
 
             boolean hard = node.optBoolean("hard", false);
-            Map<String, SysConfig> configs = belts ? hard ? hardBeltConfigs : beltConfigs : hard ? hardConfigs : this.configs;
+            Map<String, SysConfig> possibleConfigs = belts ? hard ? hardBeltConfigs : beltConfigs : hard ? hardConfigs : this.configs;
 
             SpaceEnvConfig envConfig = new SpaceEnvConfig(node.getJSONObject("environment"));
 
             SysConfig config = new SysConfig(name, new ArrayList<>(), envConfig, new ArrayList<>(), new ArrayList<>(), new TradeConfig(), new ArrayList<>(), hard);
-            configs.put(name, config);
+            possibleConfigs.put(name, config);
         }
 
         Set<ResourceUrn> configUrnList = Assets.getAssetHelper().list(Json.class, "[a-z]*(?<!^engine):" + configName);
@@ -72,15 +73,16 @@ public class SysConfigs {
             rootNode = Validator.getValidatedJSON(configUrn.toString(), "engine:schemaSystemsConfig");
 
             for (String s : rootNode.keySet()) {
-                if (!(rootNode.get(s) instanceof JSONObject))
+                if (!(rootNode.get(s) instanceof JSONObject)) {
                     continue;
+                }
                 JSONObject node = rootNode.getJSONObject(s);
                 String name = s;
 
                 boolean hard = node.optBoolean("hard", false);
-                Map<String, SysConfig> configs = belts ? hard ? hardBeltConfigs : beltConfigs : hard ? hardConfigs : this.configs;
+                Map<String, SysConfig> possibleConfigs = belts ? hard ? hardBeltConfigs : beltConfigs : hard ? hardConfigs : this.configs;
 
-                SysConfig config = configs.get(name);
+                SysConfig config = possibleConfigs.get(name);
 
                 // TODO : Maybe add sanity checks for config?
 
