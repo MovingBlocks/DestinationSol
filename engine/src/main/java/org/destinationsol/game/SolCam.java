@@ -102,10 +102,10 @@ public class SolCam implements UpdateAwareSystem {
         }
         myPrevHeroLife = life;
 
-        Vector2 position = SolMath.fromAl(SolRandom.randomFloat(180), myShake);
-        position.add(this.position);
-        applyPos(position.x, position.y);
-        SolMath.free(position);
+        Vector2 newPosition = SolMath.fromAl(SolRandom.randomFloat(180), myShake);
+        newPosition.add(this.position);
+        applyPos(newPosition.x, newPosition.y);
+        SolMath.free(newPosition);
 
         float desiredAngle = myCamRotStrategy.getRotation(this.position, game);
         float rotationSpeed = CAM_ROT_SPD * timeStep;
@@ -212,8 +212,8 @@ public class SolCam implements UpdateAwareSystem {
         return position;
     }
 
-    public void setPos(Vector2 position) {
-        this.position.set(position);
+    public void setPos(Vector2 newPosition) {
+        this.position.set(newPosition);
     }
 
     public void drawDebug(GameDrawer drawer) {
@@ -272,8 +272,8 @@ public class SolCam implements UpdateAwareSystem {
         return myCam.zoom;
     }
 
-    public boolean isVisible(Vector2 position) {
-        Vector2 rp = SolMath.toRel(position, myAngle, this.position);
+    public boolean isVisible(Vector2 checkPosition) {
+        Vector2 rp = SolMath.toRel(checkPosition, myAngle, this.position);
         boolean res = isRelVisible(rp);
         SolMath.free(rp);
         return res;
@@ -295,11 +295,11 @@ public class SolCam implements UpdateAwareSystem {
         return .04f * getRealZoom();
     }
 
-    public void screenToWorld(Vector2 position) {
-        myTmpVec.set(position, 0);
+    public void screenToWorld(Vector2 screenPosition) {
+        myTmpVec.set(screenPosition, 0);
         myCam.unproject(myTmpVec);
-        position.x = myTmpVec.x;
-        position.y = myTmpVec.y;
+        screenPosition.x = myTmpVec.x;
+        screenPosition.y = myTmpVec.y;
     }
 
     public Vector2 worldToScreen(SolShip ship) {

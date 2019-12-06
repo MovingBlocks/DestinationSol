@@ -256,8 +256,7 @@ public class SolGame {
                 saveShip();
             }
             SaveManager.saveWorld(getPlanetManager().getSystems().size());
-        }
-        else {
+        } else {
             context.remove(TutorialManager.class, tutorialManager);
         }
         objectManager.dispose();

@@ -70,8 +70,8 @@ public class MazeTileObject implements SolObject {
     }
 
     @Override
-    public void receiveDmg(float dmg, SolGame game, Vector2 position, DmgType dmgType) {
-        game.getSpecialSounds().playHit(game, this, position, dmgType);
+    public void receiveDmg(float dmg, SolGame game, Vector2 hitPosition, DmgType dmgType) {
+        game.getSpecialSounds().playHit(game, this, hitPosition, dmgType);
     }
 
     @Override

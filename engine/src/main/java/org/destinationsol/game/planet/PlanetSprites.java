@@ -31,7 +31,7 @@ public class PlanetSprites implements SolObject {
     private final Planet planet;
     private final float distance;
     private final List<Drawable> drawables;
-    private final float RotationSpeedToPlanet;
+    private final float rotationSpeedToPlanet;
     private final Vector2 position;
     private float relativeAngleToPlanet;
     private float angle;
@@ -41,7 +41,7 @@ public class PlanetSprites implements SolObject {
         relativeAngleToPlanet = relAngleToPlanet;
         distance = dist;
         this.drawables = drawables;
-        RotationSpeedToPlanet = toPlanetRotationSpeed;
+        rotationSpeedToPlanet = toPlanetRotationSpeed;
         position = new Vector2();
         setDependentParams();
     }
@@ -49,7 +49,7 @@ public class PlanetSprites implements SolObject {
     @Override
     public void update(SolGame game) {
         setDependentParams();
-        relativeAngleToPlanet += RotationSpeedToPlanet * game.getTimeStep();
+        relativeAngleToPlanet += rotationSpeedToPlanet * game.getTimeStep();
     }
 
     private void setDependentParams() {
@@ -69,7 +69,7 @@ public class PlanetSprites implements SolObject {
     }
 
     @Override
-    public void receiveDmg(float dmg, SolGame game, Vector2 position, DmgType dmgType) {
+    public void receiveDmg(float dmg, SolGame game, Vector2 hitPosition, DmgType dmgType) {
     }
 
     @Override
@@ -88,7 +88,7 @@ public class PlanetSprites implements SolObject {
 
     @Override
     public FarObject toFarObject() {
-        return new FarPlanetSprites(planet, relativeAngleToPlanet, distance, drawables, RotationSpeedToPlanet);
+        return new FarPlanetSprites(planet, relativeAngleToPlanet, distance, drawables, rotationSpeedToPlanet);
     }
 
     @Override

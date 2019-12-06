@@ -47,8 +47,9 @@ public class ProjectileConfigs {
             JSONObject rootNode = Validator.getValidatedJSON(configUrn.toString(), "engine:schemaProjectileConfig");
 
             for (String s : rootNode.keySet()) {
-                if (!(rootNode.get(s) instanceof JSONObject))
+                if (!(rootNode.get(s) instanceof JSONObject)) {
                     continue;
+                }
                 JSONObject node = rootNode.getJSONObject(s);
                 String name = s;
                 String texName = node.getString("tex");

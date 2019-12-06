@@ -240,8 +240,8 @@ public class MapDrawer implements UpdateAwareSystem{
         areaWarningBackgroundColor.a = a;
         areaWarningColor.a = a;
         drawer.draw(warnAreaBackground, rad * 2, rad * 2, rad, rad, position.x, position.y, 0, areaWarningBackgroundColor);
-        rad *= INNER_AREA_ICON_PERC;
-        drawer.draw(skullBigTexture, rad * 2, rad * 2, rad, rad, position.x, position.y, angle, areaWarningColor);
+        float skullRadius = rad * INNER_AREA_ICON_PERC;
+        drawer.draw(skullBigTexture, skullRadius * 2, skullRadius * 2, skullRadius, skullRadius, position.x, position.y, angle, areaWarningColor);
     }
 
     private void drawIcons(GameDrawer drawer, SolGame game, float iconSz, float viewDist, FactionManager factionManager,
@@ -392,8 +392,9 @@ public class MapDrawer implements UpdateAwareSystem{
                             Object shipHack, TextureAtlas.AtlasRegion icon, Object drawerHack) {
         boolean enemy = hero != null && hero.isNonTranscendent() && factionManager.areEnemies(objFac, hero.getPilot().getFaction());
         float angle = objAngle;
+        TextureAtlas.AtlasRegion drawnIcon = icon;
         if (enemy && skullTime > 0 && HardnessCalc.isDangerous(heroDmgCap, shipHack)) {
-            icon = skullTexture;
+            drawnIcon = skullTexture;
             angle = 0;
         }
         float innerIconSz = iconSz * INNER_ICON_PERC;
@@ -401,11 +402,11 @@ public class MapDrawer implements UpdateAwareSystem{
         if (drawerHack instanceof UiDrawer) {
             UiDrawer uiDrawer = (UiDrawer) drawerHack;
             uiDrawer.draw(iconBackground, iconSz, iconSz, iconSz / 2, iconSz / 2, position.x, position.y, 0, enemy ? SolColor.UI_WARN : SolColor.UI_LIGHT);
-            uiDrawer.draw(icon, innerIconSz, innerIconSz, innerIconSz / 2, innerIconSz / 2, position.x, position.y, angle, SolColor.WHITE);
+            uiDrawer.draw(drawnIcon, innerIconSz, innerIconSz, innerIconSz / 2, innerIconSz / 2, position.x, position.y, angle, SolColor.WHITE);
         } else {
             GameDrawer gameDrawer = (GameDrawer) drawerHack;
             gameDrawer.draw(iconBackground, iconSz, iconSz, iconSz / 2, iconSz / 2, position.x, position.y, 0, enemy ? SolColor.UI_WARN : SolColor.UI_LIGHT);
-            gameDrawer.draw(icon, innerIconSz, innerIconSz, innerIconSz / 2, innerIconSz / 2, position.x, position.y, angle, SolColor.WHITE);
+            gameDrawer.draw(drawnIcon, innerIconSz, innerIconSz, innerIconSz / 2, innerIconSz / 2, position.x, position.y, angle, SolColor.WHITE);
         }
     }
 

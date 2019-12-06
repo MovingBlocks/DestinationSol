@@ -124,41 +124,42 @@ public class ItemManager {
             for (String itemName : itemNames) {
                 int wasEquipped = 0;
 
+                String name = itemName;
                 if (itemName.endsWith("-1")) {
                     wasEquipped = 1;
-                    itemName = itemName.substring(0, itemName.length() - 2); // Remove equipped number
+                    name = itemName.substring(0, itemName.length() - 2); // Remove equipped number
                 } else if (itemName.endsWith("-2")) {
                     wasEquipped = 2;
-                    itemName = itemName.substring(0, itemName.length() - 2); // Remove equipped number
+                    name = itemName.substring(0, itemName.length() - 2); // Remove equipped number
                 }
 
-                SolItem example = getExample(itemName);
+                SolItem example = getExample(name);
 
                 if (example == null) {
                     // TODO: Temporary hacky way!
                     try {
-                        if (itemName.endsWith("Charge")) {
-                            AbilityCharge.Config.load(itemName, this, myTypes);
-                        } else if (itemName.endsWith("Armor")) {
-                            Armor.Config.load(itemName, this, soundManager, myTypes);
-                        } else if (itemName.endsWith("Clip")) {
-                            Clip.Config.load(itemName, this, myTypes);
-                        } else if (itemName.endsWith("Shield") || itemName.endsWith("shield")) {
-                            Shield.Config.load(itemName, this, soundManager, myTypes);
+                        if (name.endsWith("Charge")) {
+                            AbilityCharge.Config.load(name, this, myTypes);
+                        } else if (name.endsWith("Armor")) {
+                            Armor.Config.load(name, this, soundManager, myTypes);
+                        } else if (name.endsWith("Clip")) {
+                            Clip.Config.load(name, this, myTypes);
+                        } else if (name.endsWith("Shield") || name.endsWith("shield")) {
+                            Shield.Config.load(name, this, soundManager, myTypes);
                         } else {
-                            Gun.Config.load(itemName, this, soundManager, myTypes);
+                            Gun.Config.load(name, this, soundManager, myTypes);
                         }
                     } catch (IllegalArgumentException e) {
-                        throw new IllegalArgumentException("The JSON of " + itemName + " is missing, or has malformed, a required parameter" + e.getMessage().split(":")[1]);
+                        throw new IllegalArgumentException("The JSON of " + name + " is missing, or has malformed, a required parameter" + e.getMessage().split(":")[1]);
                     } catch (SerializationException e) {
-                        throw new SerializationException("The JSON of " + itemName + " has invalid syntax at " + e.getMessage().split(" near")[0].split("on ")[1]);
+                        throw new SerializationException("The JSON of " + name + " has invalid syntax at " + e.getMessage().split(" near")[0].split("on ")[1]);
                     }
 
-                    example = getExample(itemName);
+                    example = getExample(name);
                 }
 
                 if (example == null) {
-                    throw new AssertionError("Unknown item " + itemName + " @ " + parts[0] + " @ " + rec + " @ " + items);
+                    throw new AssertionError("Unknown item " + name + " @ " + parts[0] + " @ " + rec + " @ " + items);
                 }
 
                 SolItem itemCopy = example.copy();
@@ -252,17 +253,18 @@ public class ItemManager {
         ArrayList<MoneyItem> items = new ArrayList<>();
         float moneyAmount;
 
-        while (amount > 0) {
-            if (amount > MoneyItem.HUGE_AMOUNT) {
+        float currentAmount = amount;
+        while (currentAmount > 0) {
+            if (currentAmount > MoneyItem.HUGE_AMOUNT) {
                 moneyAmount = MoneyItem.HUGE_AMOUNT;
-            } else if (amount > MoneyItem.BIG_AMOUNT) {
+            } else if (currentAmount > MoneyItem.BIG_AMOUNT) {
                 moneyAmount = MoneyItem.BIG_AMOUNT;
-            } else if (amount > MoneyItem.MEDIUM_AMOUNT) {
+            } else if (currentAmount > MoneyItem.MEDIUM_AMOUNT) {
                 moneyAmount = MoneyItem.MEDIUM_AMOUNT;
             } else {
-                moneyAmount = amount;
+                moneyAmount = currentAmount;
             }
-            amount -= moneyAmount;
+            currentAmount -= moneyAmount;
             items.add(moneyItem(moneyAmount));
 
             // do not create any more money items if limit parameter is reached

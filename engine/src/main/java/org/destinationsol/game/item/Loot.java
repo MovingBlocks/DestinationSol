@@ -116,9 +116,9 @@ public class Loot implements SolObject {
     }
 
     @Override
-    public void receiveDmg(float dmg, SolGame game, Vector2 position, DmgType dmgType) {
+    public void receiveDmg(float dmg, SolGame game, Vector2 hitPosition, DmgType dmgType) {
         life -= dmg;
-        game.getSpecialSounds().playHit(game, this, position, dmgType);
+        game.getSpecialSounds().playHit(game, this, hitPosition, dmgType);
     }
 
     @Override

@@ -120,17 +120,18 @@ public class Shield implements SolItem {
             throw new AssertionError("illegal call to absorb");
         }
         myIdleTime = 0f;
+        float shieldDamage = dmg;
         if (dmgType == DmgType.BULLET) {
-            dmg *= config.bulletDmgFactor;
+            shieldDamage *= config.bulletDmgFactor;
         } else if (dmgType == DmgType.ENERGY) {
-            dmg *= config.energyDmgFactor;
+            shieldDamage *= config.energyDmgFactor;
         } else if (dmgType == DmgType.EXPLOSION) {
-            dmg *= config.explosionDmgFactor;
+            shieldDamage *= config.explosionDmgFactor;
         }
-        myLife -= myLife < dmg ? myLife : dmg;
+        myLife -= myLife < shieldDamage ? myLife : shieldDamage;
 
-        game.getPartMan().shieldSpark(game, position, ship.getHull(), config.tex, dmg / config.maxLife);
-        float volMul = SolMath.clamp(4 * dmg / config.maxLife);
+        game.getPartMan().shieldSpark(game, position, ship.getHull(), config.tex, shieldDamage / config.maxLife);
+        float volMul = SolMath.clamp(4 * shieldDamage / config.maxLife);
         game.getSoundManager().play(game, config.absorbSound, null, ship, volMul);
 
     }

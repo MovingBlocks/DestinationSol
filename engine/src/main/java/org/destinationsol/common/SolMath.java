@@ -106,13 +106,14 @@ public class SolMath {
         if (a != a) {
             throw new AssertionError("normalizing NaN angle");
         }
-        while (a <= -180) {
-            a += 360;
+        float normalisedAngle = a;
+        while (normalisedAngle <= -180) {
+            normalisedAngle += 360;
         }
-        while (a > 180) {
-            a -= 360;
+        while (normalisedAngle > 180) {
+            normalisedAngle -= 360;
         }
-        return a;
+        return normalisedAngle;
     }
 
     /**

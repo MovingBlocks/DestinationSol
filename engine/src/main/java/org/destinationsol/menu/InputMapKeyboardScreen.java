@@ -34,7 +34,7 @@ public class InputMapKeyboardScreen extends InputMapOperations {
     private List<InputConfigItem> itemsList = new ArrayList<>();
     private int selectedIndex;
 
-    private void InitialiseList(GameOptions gameOptions) {
+    private void initialiseList(GameOptions gameOptions) {
         itemsList.clear();
 
         // Ship Control Keys
@@ -193,7 +193,7 @@ public class InputMapKeyboardScreen extends InputMapOperations {
 
     @Override
     public void onAdd(SolApplication cmp) {
-        InitialiseList(cmp.getOptions());
+        initialiseList(cmp.getOptions());
         isEnterNewKey = false;
         selectedIndex = 0;
     }

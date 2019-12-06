@@ -71,20 +71,20 @@ public class RectSprite implements Drawable {
     }
 
     public void setTextureSize(float textureSize) {
-        textureSize /= level.depth;
+        float visibleSize = textureSize / level.depth;
         int dimensionsRatio = texture.getRegionWidth() / texture.getRegionHeight();
         if (dimensionsRatio > 1) {
-            textureSizeX = textureSize;
-            textureSizeY = textureSize / dimensionsRatio;
+            textureSizeX = visibleSize;
+            textureSizeY = visibleSize / dimensionsRatio;
         } else {
-            textureSizeX = textureSize / dimensionsRatio;
-            textureSizeY = textureSize;
+            textureSizeX = visibleSize / dimensionsRatio;
+            textureSizeY = visibleSize;
         }
-        originalX = textureSizeX / 2 + textureSize * originalPercentageX;
-        originalY = textureSizeY / 2 + textureSize * originalPercentageY;
+        originalX = textureSizeX / 2 + visibleSize * originalPercentageX;
+        originalY = textureSizeY / 2 + visibleSize * originalPercentageY;
 
-        float relativeX = textureSizeX / 2 + textureSize * SolMath.abs(originalPercentageX);
-        float relativeY = textureSizeY / 2 + textureSize * SolMath.abs(originalPercentageY);
+        float relativeX = textureSizeX / 2 + visibleSize * SolMath.abs(originalPercentageX);
+        float relativeY = textureSizeY / 2 + visibleSize * SolMath.abs(originalPercentageY);
         radius = SolMath.sqrt(relativeX * relativeX + relativeY * relativeY);
     }
 

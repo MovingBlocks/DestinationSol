@@ -26,7 +26,7 @@ import org.destinationsol.ui.SolInputManager;
 import org.destinationsol.ui.SolUiControl;
 
 public class SellItems extends InventoryOperationsScreen {
-    private static float PERC = .8f;
+    private static final float PERC = .8f;
 
     private final SolUiControl sellControl;
 

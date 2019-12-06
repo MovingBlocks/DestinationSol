@@ -22,7 +22,7 @@ import org.destinationsol.ui.DisplayDimensions;
 
 public class MenuLayout {
     public static final float BG_BORDER = .03f;
-    private static final int numberOfRowsTotal = 5;
+    private static final int NUMBER_OF_ROWS_TOTAL = 5;
     private final float btnW;
     private final float btnH;
     private final float colCenter;
@@ -38,14 +38,14 @@ public class MenuLayout {
         myPad = .1f * btnH;
         rowH = btnH + myPad;
         colCenter = .5f * displayDimensions.getRatio() - btnW / 2;
-        row0 = 1 - myPad - numberOfRowsTotal * rowH;
+        row0 = 1 - myPad - NUMBER_OF_ROWS_TOTAL * rowH;
     }
 
     static Rectangle bottomRightFloatingButton(DisplayDimensions aspectRatio) {
-        final float BUTTON_WIDTH = .15f;
-        final float BUTTON_HEIGHT = .07f;
+        final float buttonWidth = .15f;
+        final float buttonHeight = .07f;
 
-        return new Rectangle(aspectRatio.getRatio() - BUTTON_WIDTH, 1 - BUTTON_HEIGHT, BUTTON_WIDTH, BUTTON_HEIGHT);
+        return new Rectangle(aspectRatio.getRatio() - buttonWidth, 1 - buttonHeight, buttonWidth, buttonHeight);
     }
 
     public Rectangle buttonRect(int col, int row) {

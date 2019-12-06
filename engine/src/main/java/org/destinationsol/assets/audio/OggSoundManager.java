@@ -163,11 +163,13 @@ public class OggSoundManager implements UpdateAwareSystem {
         if (source == null && sound.getLoopTime() > 0) {
             throw new AssertionError("Attempted to loop a sound without a parent object: " + sound.getUrn());
         }
+
+        Vector2 soundPosition = position;
         if (position == null) {
-            position = source.getPosition();
+            soundPosition = source.getPosition();
         }
 
-        float volume = getVolume(game, position, volumeMultiplier, sound);
+        float volume = getVolume(game, soundPosition, volumeMultiplier, sound);
 
         if (volume <= 0) {
             return;
@@ -181,7 +183,7 @@ public class OggSoundManager implements UpdateAwareSystem {
         }
 
         if (DebugOptions.SOUND_INFO) {
-            debugHintDrawer.add(source, position, sound.toString());
+            debugHintDrawer.add(source, soundPosition, sound.toString());
         }
 
         Sound gdxSound = sound.getSound();

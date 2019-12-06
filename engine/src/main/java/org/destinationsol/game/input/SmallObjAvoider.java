@@ -58,26 +58,27 @@ public class SmallObjAvoider {
             return toDestAngle;
         }
 
-        toDestAngle += 45;
-        SolMath.fromAl(myDest, toDestAngle, raycastLen);
+        float destAngle = toDestAngle;
+        destAngle += 45;
+        SolMath.fromAl(myDest, destAngle, raycastLen);
         myDest.add(shipPos);
         myCollided = false;
         w.rayCast(myRayBack, shipPos, myDest);
         if (!myCollided) {
-            return toDestAngle;
+            return destAngle;
         }
 
-        toDestAngle -= 90;
-        SolMath.fromAl(myDest, toDestAngle, raycastLen);
+        destAngle -= 90;
+        SolMath.fromAl(myDest, destAngle, raycastLen);
         myDest.add(shipPos);
         myCollided = false;
         w.rayCast(myRayBack, shipPos, myDest);
         if (!myCollided) {
-            return toDestAngle;
+            return destAngle;
         }
 
         if (np.getFullHeight() < np.getPosition().dst(shipPos)) {
-            return toDestAngle - 45;
+            return destAngle - 45;
         }
         return SolMath.angle(np.getPosition(), shipPos);
     }

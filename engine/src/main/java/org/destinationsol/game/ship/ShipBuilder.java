@@ -75,9 +75,9 @@ public class ShipBuilder {
                                String items, HullConfig hullConfig,
                                RemoveController removeController,
                                boolean hasRepairer, float money, TradeConfig tradeConfig, boolean giveAmmo) {
-
+        Vector2 shipVelocity = velocity;
         if (velocity == null) {
-            velocity = new Vector2();
+            shipVelocity = new Vector2();
         }
         ItemContainer itemContainer = new ItemContainer();
         game.getItemMan().fillContainer(itemContainer, items);
@@ -156,7 +156,7 @@ public class ShipBuilder {
             addAmmo(itemContainer, g1, pilot);
             addAmmo(itemContainer, g2, pilot);
         }
-        return new FarShip(new Vector2(position), new Vector2(velocity), angle, rotationSpeed, pilot, itemContainer, hullConfig, hullConfig.getMaxLife(),
+        return new FarShip(new Vector2(position), new Vector2(shipVelocity), angle, rotationSpeed, pilot, itemContainer, hullConfig, hullConfig.getMaxLife(),
                 g1, g2, removeController, ei, hasRepairer ? new ShipRepairer() : null, money, tc, shield, armor);
     }
 

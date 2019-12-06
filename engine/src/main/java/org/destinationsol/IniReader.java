@@ -67,7 +67,8 @@ public class IniReader {
     }
 
     private void initValueMap(List<String> lines) {
-        for (String line : lines) {
+        for (int lineIndex = 0; lineIndex < lines.size(); lineIndex++) {
+            String line = lines.get(lineIndex);
             int commentStart = line.indexOf('#');
             if (commentStart >= 0) {
                 line = line.substring(0, commentStart);

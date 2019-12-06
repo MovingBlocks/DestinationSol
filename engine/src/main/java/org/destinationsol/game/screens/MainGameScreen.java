@@ -223,13 +223,13 @@ public class MainGameScreen extends SolUiBaseScreen {
     }
 
     @Override
-    public void updateCustom(SolApplication solApplication, SolInputManager.InputPointer[] inputPointers, boolean clickedOutside) {
+    public void updateCustom(SolApplication application, SolInputManager.InputPointer[] inputPointers, boolean clickedOutside) {
         if (DebugOptions.PRINT_BALANCE) {
-            solApplication.finishGame();
+            application.finishGame();
             return;
         }
-        SolGame game = solApplication.getGame();
-        SolInputManager inputMan = solApplication.getInputManager();
+        SolGame game = application.getGame();
+        SolInputManager inputMan = application.getInputManager();
         GameScreens screens = game.getScreens();
         Hero hero = game.getHero();
 
@@ -240,14 +240,14 @@ public class MainGameScreen extends SolUiBaseScreen {
         zoneNameAnnouncer.update(game);
 
         if (menuControl.isJustOff()) {
-            inputMan.setScreen(solApplication, screens.menuScreen);
+            inputMan.setScreen(application, screens.menuScreen);
         }
 
         boolean controlsEnabled = inputMan.getTopScreen() == this;
-        shipControl.update(solApplication, controlsEnabled);
+        shipControl.update(application, controlsEnabled);
 
         if (mapControl.isJustOff()) {
-            inputMan.setScreen(solApplication, screens.mapScreen);
+            inputMan.setScreen(application, screens.mapScreen);
         }
 
         inventoryControl.setEnabled(hero.isNonTranscendent());
@@ -259,11 +259,11 @@ public class MainGameScreen extends SolUiBaseScreen {
         if (inventoryControl.isJustOff()) {
             InventoryScreen is = screens.inventoryScreen;
             boolean isOn = inputMan.isScreenOn(is);
-            inputMan.setScreen(solApplication, screens.mainGameScreen);
+            inputMan.setScreen(application, screens.mainGameScreen);
             if (!isOn) {
                 is.showInventory.setTarget(hero.getShip());
                 is.setOperations(is.showInventory);
-                inputMan.addScreen(solApplication, is);
+                inputMan.addScreen(application, is);
             }
         }
 
@@ -276,11 +276,11 @@ public class MainGameScreen extends SolUiBaseScreen {
         if (mercControl.isJustOff()) {
             InventoryScreen is = screens.inventoryScreen;
             boolean isOn = inputMan.isScreenOn(is);
-            inputMan.setScreen(solApplication, screens.mainGameScreen);
+            inputMan.setScreen(application, screens.mainGameScreen);
             if (!isOn) {
                 is.setOperations(is.chooseMercenaryScreen);
-                inputMan.addScreen(solApplication, is);
-                
+                inputMan.addScreen(application, is);
+
                 game.getHero().getMercs().markAllAsSeen();
             }
         }
@@ -294,11 +294,11 @@ public class MainGameScreen extends SolUiBaseScreen {
         }
 
         if (consoleControlGrave.isJustOff() || consoleControlF1.isJustOff()) {
-            inputMan.setScreen(solApplication, screens.console);
+            inputMan.setScreen(application, screens.console);
         }
 
         for (SolUiScreen screen : gameOverlayScreens) {
-            screen.updateCustom(solApplication, inputPointers, clickedOutside);
+            screen.updateCustom(application, inputPointers, clickedOutside);
         }
     }
 
@@ -396,12 +396,13 @@ public class MainGameScreen extends SolUiBaseScreen {
                            TextPlace textPlace) {
         int excess = count - MAX_ICON_COUNT;
         int iconCount = excess > 0 ? MAX_ICON_COUNT : count;
+        float drawX = x;
         for (int i = 0; i < iconCount; i++) {
             uiDrawer.draw(tex, ICON_SZ, ICON_SZ, 0, 0, x, y, 0, SolColor.WHITE);
-            x += ICON_SZ + H_PAD;
+            drawX += ICON_SZ + H_PAD;
         }
         if (excess > 0) {
-            updateTextPlace(x, y, "+" + excess, textPlace);
+            updateTextPlace(drawX, y, "+" + excess, textPlace);
         }
     }
 
@@ -411,7 +412,7 @@ public class MainGameScreen extends SolUiBaseScreen {
     }
 
     @Override
-    public void drawImages(UiDrawer uiDrawer, SolApplication solApplication) {
+    public void drawImages(UiDrawer uiDrawer, SolApplication application) {
         myLifeTp.text = null;
         myRepairsExcessTp.text = null;
         myShieldLifeTp.text = null;
@@ -423,9 +424,9 @@ public class MainGameScreen extends SolUiBaseScreen {
         myMoneyExcessTp.text = null;
 
         maybeDrawHeight(uiDrawer);
-        borderDrawer.draw(uiDrawer, solApplication);
+        borderDrawer.draw(uiDrawer, application);
 
-        SolGame game = solApplication.getGame();
+        SolGame game = application.getGame();
         Hero hero = game.getHero();
         if (hero.isNonTranscendent()) {
             float row = BorderDrawer.PLANET_PROXIMITY_INDICATOR_SIZE + V_PAD;
@@ -484,12 +485,12 @@ public class MainGameScreen extends SolUiBaseScreen {
         }
 
         for (SolUiScreen screen : gameOverlayScreens) {
-            screen.drawImages(uiDrawer, solApplication);
+            screen.drawImages(uiDrawer, application);
         }
     }
 
     @Override
-    public void drawText(UiDrawer uiDrawer, SolApplication solApplication) {
+    public void drawText(UiDrawer uiDrawer, SolApplication application) {
         myLifeTp.draw(uiDrawer);
         myRepairsExcessTp.draw(uiDrawer);
         myShieldLifeTp.draw(uiDrawer);
@@ -510,16 +511,16 @@ public class MainGameScreen extends SolUiBaseScreen {
         zoneNameAnnouncer.drawText(uiDrawer);
 
         for (SolUiScreen screen : gameOverlayScreens) {
-            screen.drawText(uiDrawer, solApplication);
+            screen.drawText(uiDrawer, application);
         }
     }
 
     @Override
-    public void blurCustom(SolApplication solApplication) {
+    public void blurCustom(SolApplication application) {
         shipControl.blur();
 
         for (SolUiScreen screen : gameOverlayScreens) {
-            screen.blurCustom(solApplication);
+            screen.blurCustom(application);
         }
     }
 

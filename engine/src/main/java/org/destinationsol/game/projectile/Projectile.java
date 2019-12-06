@@ -263,15 +263,15 @@ public class Projectile implements SolObject {
 
     public boolean shouldCollide(SolObject object, Fixture fixture, FactionManager factionManager) {
         if (object instanceof SolShip) {
-            SolShip ship = (SolShip) object;
-            if (this.ship == ship) {
+            SolShip otherShip = (SolShip) object;
+            if (this.ship == otherShip) {
                 return false;
             }
-            if (ship.getHull().getShieldFixture() == fixture) {
+            if (otherShip.getHull().getShieldFixture() == fixture) {
                 if (config.density > 0) {
                     return false;
                 }
-                Shield shield = ship.getShield();
+                Shield shield = otherShip.getShield();
                 return shield != null && shield.canAbsorb(config.dmgType);
             }
             return true;

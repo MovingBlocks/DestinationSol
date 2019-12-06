@@ -52,10 +52,10 @@ public class LoadingScreen extends SolUiBaseScreen {
         uiDrawer.drawString("Loading...", displayDimensions.getRatio() / 2, .5f, FontSize.MENU, true, SolColor.WHITE);
     }
 
-    public void setMode(boolean loadTutorial, String shipName, boolean isNewGame) {
-        this.loadTutorial = loadTutorial;
-        this.shipName = shipName;
-        this.isNewGame = isNewGame;
+    public void setMode(boolean shouldLoadTutorial, String currentShipName, boolean gameIsNew) {
+        this.loadTutorial = shouldLoadTutorial;
+        this.shipName = currentShipName;
+        this.isNewGame = gameIsNew;
     }
 
     @Override

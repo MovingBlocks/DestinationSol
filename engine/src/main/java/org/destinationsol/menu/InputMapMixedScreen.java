@@ -33,7 +33,7 @@ public class InputMapMixedScreen extends InputMapOperations {
     private boolean isEnterNewKey;
     private int selectedIndex;
 
-    private void InitialiseList(GameOptions gameOptions) {
+    private void initialiseList(GameOptions gameOptions) {
         itemsList.clear();
 
         // Ship Control Keys
@@ -156,7 +156,7 @@ public class InputMapMixedScreen extends InputMapOperations {
 
     @Override
     public void onAdd(SolApplication cmp) {
-        InitialiseList(cmp.getOptions());
+        initialiseList(cmp.getOptions());
         isEnterNewKey = false;
         selectedIndex = 0;
     }

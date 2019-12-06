@@ -118,12 +118,12 @@ public class Planet {
     }
 
     @Bound
-    public Vector2 getAdjustedEffectVelocity(Vector2 position, Vector2 velocity) {
-        Vector2 r = SolMath.getVec(velocity);
+    public Vector2 getAdjustedEffectVelocity(Vector2 effectPosition, Vector2 effectVelocity) {
+        Vector2 r = SolMath.getVec(effectVelocity);
         if (config.skyConfig == null) {
             return r;
         }
-        Vector2 up = SolMath.distVec(this.position, position);
+        Vector2 up = SolMath.distVec(this.position, effectPosition);
         float dst = up.len();
         if (dst == 0 || getFullHeight() < dst) {
             SolMath.free(up);
@@ -172,8 +172,8 @@ public class Planet {
         return minGroundHeight;
     }
 
-    public boolean isNearGround(Vector2 position) {
-        return this.position.dst(position) - groundHeight < .25f * Const.ATM_HEIGHT;
+    public boolean isNearGround(Vector2 objectPosition) {
+        return this.position.dst(objectPosition) - groundHeight < .25f * Const.ATM_HEIGHT;
     }
 
     public PlanetConfig getConfig() {
@@ -188,13 +188,13 @@ public class Planet {
         return name;
     }
 
-    public void calculateVelocityAtPosition(Vector2 velocity, Vector2 position) {
-        Vector2 toPos = SolMath.distVec(this.position, position);
+    public void calculateVelocityAtPosition(Vector2 currentVelocity, Vector2 currentPosition) {
+        Vector2 toPos = SolMath.distVec(this.position, currentPosition);
         float fromPlanetAngle = SolMath.angle(toPos);
         float hSpeed = SolMath.angleToArc(rotationSpeed, toPos.len());
         SolMath.free(toPos);
-        SolMath.fromAl(velocity, fromPlanetAngle + 90, hSpeed);
-        velocity.add(this.velocity);
+        SolMath.fromAl(currentVelocity, fromPlanetAngle + 90, hSpeed);
+        currentVelocity.add(this.velocity);
     }
 
     public float getAtmosphereDamagePerSecond() {

@@ -40,7 +40,7 @@ public class InputMapControllerScreen extends InputMapOperations {
     private int selectedIndex;
     private int controllerItems;
 
-    private InputConfigItem InitItem(int axis, int button, String displayName) {
+    private InputConfigItem initItem(int axis, int button, String displayName) {
         String inputName;
         boolean isAxis = (axis > -1);
         int controllerInput = isAxis ? axis : button;
@@ -52,17 +52,17 @@ public class InputMapControllerScreen extends InputMapOperations {
         return new InputConfigItem(displayName, inputName, isAxis, controllerInput);
     }
 
-    private void InitialiseList(GameOptions gameOptions) {
+    private void initialiseList(GameOptions gameOptions) {
         itemsList.clear();
 
         // Ship Control Inputs
-        itemsList.add(InitItem(gameOptions.getControllerAxisUpDown(), gameOptions.getControllerButtonUp(), "Up"));
-        itemsList.add(InitItem(gameOptions.getControllerAxisUpDown(), gameOptions.getControllerButtonDown(), "Down"));
-        itemsList.add(InitItem(gameOptions.getControllerAxisLeftRight(), gameOptions.getControllerButtonLeft(), "Left"));
-        itemsList.add(InitItem(gameOptions.getControllerAxisLeftRight(), gameOptions.getControllerButtonRight(), "Right"));
-        itemsList.add(InitItem(gameOptions.getControllerAxisShoot(), gameOptions.getControllerButtonShoot(), "Shoot"));
-        itemsList.add(InitItem(gameOptions.getControllerAxisShoot2(), gameOptions.getControllerButtonShoot2(), "Shoot Secondary"));
-        itemsList.add(InitItem(gameOptions.getControllerAxisAbility(), gameOptions.getControllerButtonAbility(), "Ability"));
+        itemsList.add(initItem(gameOptions.getControllerAxisUpDown(), gameOptions.getControllerButtonUp(), "Up"));
+        itemsList.add(initItem(gameOptions.getControllerAxisUpDown(), gameOptions.getControllerButtonDown(), "Down"));
+        itemsList.add(initItem(gameOptions.getControllerAxisLeftRight(), gameOptions.getControllerButtonLeft(), "Left"));
+        itemsList.add(initItem(gameOptions.getControllerAxisLeftRight(), gameOptions.getControllerButtonRight(), "Right"));
+        itemsList.add(initItem(gameOptions.getControllerAxisShoot(), gameOptions.getControllerButtonShoot(), "Shoot"));
+        itemsList.add(initItem(gameOptions.getControllerAxisShoot2(), gameOptions.getControllerButtonShoot2(), "Shoot Secondary"));
+        itemsList.add(initItem(gameOptions.getControllerAxisAbility(), gameOptions.getControllerButtonAbility(), "Ability"));
 
         controllerItems = itemsList.size();
 
@@ -128,13 +128,13 @@ public class InputMapControllerScreen extends InputMapOperations {
         int index = 0;
 
         // This needs to be in the same order the list is initialised
-        itemsList.set(index++, InitItem(GameOptions.DEFAULT_AXIS_UP_DOWN, GameOptions.DEFAULT_BUTTON_UP, "Up"));
-        itemsList.set(index++, InitItem(GameOptions.DEFAULT_AXIS_UP_DOWN, GameOptions.DEFAULT_BUTTON_DOWN, "Down"));
-        itemsList.set(index++, InitItem(GameOptions.DEFAULT_AXIS_LEFT_RIGHT, GameOptions.DEFAULT_BUTTON_LEFT, "Left"));
-        itemsList.set(index++, InitItem(GameOptions.DEFAULT_AXIS_LEFT_RIGHT, GameOptions.DEFAULT_BUTTON_RIGHT, "Right"));
-        itemsList.set(index++, InitItem(GameOptions.DEFAULT_AXIS_SHOOT, GameOptions.DEFAULT_BUTTON_SHOOT, "Shoot"));
-        itemsList.set(index++, InitItem(GameOptions.DEFAULT_AXIS_SHOOT2, GameOptions.DEFAULT_BUTTON_SHOOT2, "Shoot Secondary"));
-        itemsList.set(index++, InitItem(GameOptions.DEFAULT_AXIS_ABILITY, GameOptions.DEFAULT_BUTTON_ABILITY, "Ability"));
+        itemsList.set(index++, initItem(GameOptions.DEFAULT_AXIS_UP_DOWN, GameOptions.DEFAULT_BUTTON_UP, "Up"));
+        itemsList.set(index++, initItem(GameOptions.DEFAULT_AXIS_UP_DOWN, GameOptions.DEFAULT_BUTTON_DOWN, "Down"));
+        itemsList.set(index++, initItem(GameOptions.DEFAULT_AXIS_LEFT_RIGHT, GameOptions.DEFAULT_BUTTON_LEFT, "Left"));
+        itemsList.set(index++, initItem(GameOptions.DEFAULT_AXIS_LEFT_RIGHT, GameOptions.DEFAULT_BUTTON_RIGHT, "Right"));
+        itemsList.set(index++, initItem(GameOptions.DEFAULT_AXIS_SHOOT, GameOptions.DEFAULT_BUTTON_SHOOT, "Shoot"));
+        itemsList.set(index++, initItem(GameOptions.DEFAULT_AXIS_SHOOT2, GameOptions.DEFAULT_BUTTON_SHOOT2, "Shoot Secondary"));
+        itemsList.set(index++, initItem(GameOptions.DEFAULT_AXIS_ABILITY, GameOptions.DEFAULT_BUTTON_ABILITY, "Ability"));
 
         InputConfigItem item = itemsList.get(index);
         item.setInputKey(GameOptions.DEFAULT_PAUSE);
@@ -202,7 +202,7 @@ public class InputMapControllerScreen extends InputMapOperations {
 
     @Override
     public void onAdd(SolApplication solApplication) {
-        InitialiseList(solApplication.getOptions());
+        initialiseList(solApplication.getOptions());
         Controllers.clearListeners();
         isEnterNewKey = false;
         selectedIndex = 0;

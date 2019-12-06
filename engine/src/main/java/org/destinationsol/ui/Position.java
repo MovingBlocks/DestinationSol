@@ -29,9 +29,9 @@ public class Position {
         set(xNormalized, yNormalized);
     }
 
-    public void set(float xNormalized, float yNormalized) {
-        this.xNormalized = xNormalized;
-        this.yNormalized = yNormalized;
+    public void set(float normalizedX, float normalizedY) {
+        this.xNormalized = normalizedX;
+        this.yNormalized = normalizedY;
     }
 
     public int getX() {

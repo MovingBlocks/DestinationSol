@@ -20,9 +20,13 @@ import com.badlogic.gdx.graphics.Color;
 
 public class SolColorUtil {
     public static void fromHSB(float hue, float saturation, float brightness, float a, Color dest) {
-        float r = 0, g = 0, b = 0;
+        float r = 0;
+        float g = 0;
+        float b = 0;
         if (saturation == 0) {
-            r = g = b = brightness;
+            r = brightness;
+            g = brightness;
+            b = brightness;
         } else {
             float h = (hue - (float) Math.floor(hue)) * 6.0f;
             float f = h - (float) Math.floor(h);
@@ -72,7 +76,9 @@ public class SolColorUtil {
         int r = (int) (src.r * 255 + .5f);
         int g = (int) (src.g * 255 + .5f);
         int b = (int) (src.b * 255 + .5f);
-        float hue, saturation, brightness;
+        float hue;
+        float saturation;
+        float brightness;
         int cmax = (r > g) ? r : g;
         if (b > cmax) {
             cmax = b;

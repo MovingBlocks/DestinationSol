@@ -85,8 +85,10 @@ public class OggSoundManager {
         if (source == null && sound.getLoopTime() > 0) {
             throw new AssertionError("Attempted to loop a sound without a parent object: " + sound.getUrn());
         }
+
+        Vector2 soundPosition = position;
         if (position == null) {
-            position = source.getPosition();
+            soundPosition = source.getPosition();
         }
 
         // Calculate the volume multiplier for the sound
@@ -111,7 +113,7 @@ public class OggSoundManager {
 
         Hero hero = game.getHero();
         float soundRadius = hero.isTranscendent() ? 0 : hero.getHull().config.getApproxRadius();
-        float distance = position.dst(cameraPosition) - soundRadius;
+        float distance = soundPosition.dst(cameraPosition) - soundRadius;
         float distanceMultiplier = SolMath.clamp(1 - distance / maxSoundDist);
 
         float volume = sound.getBaseVolume() * volumeMultiplier * distanceMultiplier * globalVolumeMultiplier;
@@ -128,7 +130,7 @@ public class OggSoundManager {
         }
 
         if (DebugOptions.SOUND_INFO) {
-            debugHintDrawer.add(source, position, sound.toString());
+            debugHintDrawer.add(source, soundPosition, sound.toString());
         }
 
         Sound gdxSound = sound.getSound();

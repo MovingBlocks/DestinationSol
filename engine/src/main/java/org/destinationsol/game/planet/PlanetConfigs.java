@@ -68,8 +68,8 @@ public class PlanetConfigs {
         return allConfigs.get(name);
     }
 
-    public PlanetConfig getRandom(boolean easy, boolean hard) {
-        List<PlanetConfig> cfg = easy ? this.easy : hard ? this.hard : medium;
+    public PlanetConfig getRandom(boolean isEasy, boolean isHard) {
+        List<PlanetConfig> cfg = isEasy ? this.easy : isHard ? this.hard : medium;
         return SolRandom.seededRandomElement(cfg);
     }
 

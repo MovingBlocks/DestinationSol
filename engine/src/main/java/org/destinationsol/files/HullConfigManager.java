@@ -46,14 +46,14 @@ public final class HullConfigManager {
     private final AbilityCommonConfigs abilityCommonConfigs;
     private final Map<String, HullConfig> nameToConfigMap;
     private final Map<HullConfig, String> configToNameMap;
-    private static final Map<String, Class<AbilityConfig>> abilityClasses;
+    private static final Map<String, Class<AbilityConfig>> ABILITY_CLASSES;
     private static final String LOAD_JSON_METHOD_NAME = "load";
 
     static {
-        abilityClasses = new HashMap<String, Class<AbilityConfig>>();
+        ABILITY_CLASSES = new HashMap<String, Class<AbilityConfig>>();
         for (Class abilityClass : ModuleManager.getEnvironment().getSubtypesOf(AbilityConfig.class)) {
             try {
-                abilityClasses.put(abilityClass.getSimpleName().replace("Config", "").toLowerCase(Locale.ENGLISH), abilityClass);
+                ABILITY_CLASSES.put(abilityClass.getSimpleName().replace("Config", "").toLowerCase(Locale.ENGLISH), abilityClass);
             } catch (Exception e) {
                 e.printStackTrace();
             }
@@ -68,8 +68,8 @@ public final class HullConfigManager {
         configToNameMap = new HashMap<>();
     }
 
-    private static Vector2 readVector2(JSONObject JSONObject, String name, Vector2 defaultValue) {
-        String string = JSONObject.optString(name, null);
+    private static Vector2 readVector2(JSONObject jsonObject, String name, Vector2 defaultValue) {
+        String string = jsonObject.optString(name, null);
         return (string == null)
                 ? defaultValue
                 : SolMath.readV2(string);
@@ -204,9 +204,9 @@ public final class HullConfigManager {
         }
         String type = abNode.optString("type").toLowerCase(Locale.ENGLISH);
 
-        if (abilityClasses.containsKey(type)) {
+        if (ABILITY_CLASSES.containsKey(type)) {
             try {
-                Method loadMethod = abilityClasses.get(type).getDeclaredMethod(LOAD_JSON_METHOD_NAME, JSONObject.class, ItemManager.class, AbilityCommonConfig.class);
+                Method loadMethod = ABILITY_CLASSES.get(type).getDeclaredMethod(LOAD_JSON_METHOD_NAME, JSONObject.class, ItemManager.class, AbilityCommonConfig.class);
                 return (AbilityConfig) loadMethod.invoke(null, abNode, manager, commonConfigs.abilityConfigs.get(type));
             } catch (Exception e) {
                 e.printStackTrace();

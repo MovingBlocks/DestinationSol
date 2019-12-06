@@ -87,8 +87,8 @@ public class MercItem implements SolItem {
         return config;
     }
     
-    public void setSolShip(SolShip solship) {
-        this.solship = solship;
+    public void setSolShip(SolShip ship) {
+        this.solship = ship;
     }
     
     public SolShip getSolShip() {
