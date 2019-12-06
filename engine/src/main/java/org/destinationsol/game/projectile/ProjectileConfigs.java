@@ -30,7 +30,7 @@ import org.destinationsol.game.drawables.SpriteInfo;
 import org.destinationsol.game.particle.EffectConfig;
 import org.destinationsol.game.particle.EffectTypes;
 import org.json.JSONObject;
-import org.terasology.assets.ResourceUrn;
+import org.terasology.gestalt.assets.ResourceUrn;
 
 import java.util.HashMap;
 import java.util.Map;

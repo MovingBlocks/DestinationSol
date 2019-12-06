@@ -15,14 +15,14 @@
  */
 package org.destinationsol.game;
 
-import org.destinationsol.assets.json.Validator;
-import org.json.JSONObject;
 import org.destinationsol.assets.Assets;
 import org.destinationsol.assets.json.Json;
+import org.destinationsol.assets.json.Validator;
+import org.json.JSONObject;
 import org.terasology.gestalt.assets.ResourceUrn;
 
-import java.util.HashMap;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Set;
 
 public class SolNames {

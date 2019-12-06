@@ -17,7 +17,6 @@
 package org.destinationsol.game.ship;
 
 import com.badlogic.gdx.math.Vector2;
-import org.json.JSONObject;
 import org.destinationsol.common.SolMath;
 import org.destinationsol.game.AbilityCommonConfig;
 import org.destinationsol.game.SolGame;
@@ -26,6 +25,7 @@ import org.destinationsol.game.drawables.DrawableLevel;
 import org.destinationsol.game.item.ItemManager;
 import org.destinationsol.game.item.SolItem;
 import org.destinationsol.game.particle.DSParticleEmitter;
+import org.json.JSONObject;
 
 public class KnockBack implements ShipAbility {
     private static final int MAX_RADIUS = 8;
