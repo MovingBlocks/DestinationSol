@@ -64,12 +64,12 @@ public class DrawableManager {
     }
 
     public void removeObject(SolObject o) {
-        List<Drawable> drawables = o.getDrawables();
-        removeAll(drawables);
+        List<Drawable> allDrawables = o.getDrawables();
+        removeAll(allDrawables);
     }
 
-    public void removeAll(List<Drawable> drawables) {
-        for (Drawable drawable : drawables) {
+    public void removeAll(List<Drawable> allDrawables) {
+        for (Drawable drawable : allDrawables) {
             DrawableLevel level = drawable.getLevel();
             OrderedMap<Texture, List<Drawable>> map = this.drawables.get(level.ordinal());
             Texture texture = drawable.getTexture().getTexture();
@@ -83,12 +83,12 @@ public class DrawableManager {
     }
 
     public void addObject(SolObject o) {
-        List<Drawable> drawables = o.getDrawables();
-        addAll(drawables);
+        List<Drawable> allDrawables = o.getDrawables();
+        addAll(allDrawables);
     }
 
-    public void addAll(List<Drawable> drawables) {
-        for (Drawable drawable : drawables) {
+    public void addAll(List<Drawable> allDrawables) {
+        for (Drawable drawable : allDrawables) {
             DrawableLevel level = drawable.getLevel();
             OrderedMap<Texture, List<Drawable>> map = this.drawables.get(level.ordinal());
             Texture texture = drawable.getTexture().getTexture();
@@ -123,13 +123,13 @@ public class DrawableManager {
         for (SolObject object : objects) {
             Vector2 objectPosition = object.getPosition();
             float radius = objectManager.getPresenceRadius(object);
-            List<Drawable> drawables = object.getDrawables();
+            List<Drawable> allDrawables = object.getDrawables();
             float drawableLevelViewDistance = viewDistance;
-            if (drawables.size() > 0) {
-                drawableLevelViewDistance *= drawables.get(0).getLevel().depth;
+            if (allDrawables.size() > 0) {
+                drawableLevelViewDistance *= allDrawables.get(0).getLevel().depth;
             }
             boolean isObjectVisible = isVisible(objectPosition, radius, camPos, drawableLevelViewDistance);
-            for (Drawable drawable : drawables) {
+            for (Drawable drawable : allDrawables) {
                 if (!isObjectVisible || !drawable.isEnabled()) {
                     visibleDrawables.remove(drawable);
                     continue;
@@ -155,8 +155,8 @@ public class DrawableManager {
             Array<Texture> texs = map.orderedKeys();
             for (int texIdx = 0, sz = texs.size; texIdx < sz; texIdx++) {
                 Texture tex = texs.get(texIdx);
-                List<Drawable> drawables = map.get(tex);
-                for (Drawable drawable : drawables) {
+                List<Drawable> allDrawables = map.get(tex);
+                for (Drawable drawable : allDrawables) {
                     if (visibleDrawables.contains(drawable)) {
                         if (!DebugOptions.NO_DRAS) {
                             drawable.draw(drawer, game);
@@ -177,8 +177,8 @@ public class DrawableManager {
 
         if (DebugOptions.DRAW_DRA_BORDERS) {
             for (OrderedMap<Texture, List<Drawable>> map : drawables) {
-                for (List<Drawable> drawables : map.values()) {
-                    for (Drawable drawable : drawables) {
+                for (List<Drawable> allDrawables : map.values()) {
+                    for (Drawable drawable : allDrawables) {
                         drawDebug(drawer, game, drawable);
                     }
                 }
@@ -189,12 +189,12 @@ public class DrawableManager {
         drawer.maybeChangeAdditive(false);
     }
 
-    private void drawDebug(GameDrawer drawer, SolGame game, Drawable drawable) {
+    private void drawDebug(GameDrawer gameDrawer, SolGame game, Drawable drawable) {
         SolCam cam = game.getCam();
         float lineWidth = cam.getRealLineWidth();
         Color col = visibleDrawables.contains(drawable) ? DebugCol.DRA : DebugCol.DRA_OUT;
         Vector2 position = drawable.getPosition();
-        drawer.drawCircle(drawer.debugWhiteTexture, position, drawable.getRadius(), col, lineWidth, cam.getViewHeight());
+        gameDrawer.drawCircle(gameDrawer.debugWhiteTexture, position, drawable.getRadius(), col, lineWidth, cam.getViewHeight());
     }
 
     private boolean isVisible(Vector2 position, float radius, Vector2 camPosition, float viewDistance) {

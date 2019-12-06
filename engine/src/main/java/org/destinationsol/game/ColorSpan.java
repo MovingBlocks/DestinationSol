@@ -54,11 +54,11 @@ public abstract class ColorSpan {
 
         @Override
         public void set(float perc, Color col) {
-            perc = MathUtils.clamp(perc, (float) 0, (float) 1);
-            col.r = midVal(myStart.r, myEnd.r, perc);
-            col.g = midVal(myStart.g, myEnd.g, perc);
-            col.b = midVal(myStart.b, myEnd.b, perc);
-            col.a = midVal(myStart.a, myEnd.a, perc);
+            float percentage = MathUtils.clamp(perc, (float) 0, (float) 1);
+            col.r = midVal(myStart.r, myEnd.r, percentage);
+            col.g = midVal(myStart.g, myEnd.g, percentage);
+            col.b = midVal(myStart.b, myEnd.b, percentage);
+            col.a = midVal(myStart.a, myEnd.a, percentage);
         }
 
         private float midVal(float s, float e, float perc) {

@@ -56,9 +56,9 @@ public class Hero {
         Console.getInstance().getDefaultInputHandler().registerOrReplaceCommand("respawn", new RespawnCommandHandler(this, game));
     }
 
-    public void setTranscendent(StarPort.Transcendent transcendentHero) {
-        this.transcendentHero = transcendentHero;
-        transcendentHeroShip = transcendentHero.getShip();
+    public void setTranscendent(StarPort.Transcendent transcendent) {
+        this.transcendentHero = transcendent;
+        transcendentHeroShip = transcendent.getShip();
         isTranscendent = true;
     }
 
@@ -74,8 +74,9 @@ public class Hero {
         }
         GameOptions options = solGame.getSolApplication().getOptions();
         //Satisfying unit tests
-        if (hero.getHull() != null)
+        if (hero.getHull() != null) {
             solGame.getSolApplication().getMusicManager().registerModuleMusic(hero.getHull().getHullConfig().getInternalName().split(":")[0], options);
+        }
         solGame.getSolApplication().getMusicManager().playMusic(OggMusicManager.GAME_MUSIC_SET, options);
     }
 

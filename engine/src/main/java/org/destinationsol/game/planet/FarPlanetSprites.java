@@ -30,7 +30,7 @@ public class FarPlanetSprites implements FarObject {
     private final float distance;
     private final List<Drawable> drawables;
     private final float radius;
-    private final float RotationSpeedToPlanet;
+    private final float rotationSpeedToPlanet;
     private float relativeAngleToPlanet;
     private Vector2 position;
 
@@ -41,7 +41,7 @@ public class FarPlanetSprites implements FarObject {
         distance = dist;
         this.drawables = drawables;
         radius = DrawableManager.radiusFromDrawables(this.drawables);
-        RotationSpeedToPlanet = toPlanetRotationSpeed;
+        rotationSpeedToPlanet = toPlanetRotationSpeed;
         position = new Vector2();
     }
 
@@ -52,12 +52,12 @@ public class FarPlanetSprites implements FarObject {
 
     @Override
     public SolObject toObject(SolGame game) {
-        return new PlanetSprites(planet, relativeAngleToPlanet, distance, drawables, RotationSpeedToPlanet);
+        return new PlanetSprites(planet, relativeAngleToPlanet, distance, drawables, rotationSpeedToPlanet);
     }
 
     @Override
     public void update(SolGame game) {
-        relativeAngleToPlanet += RotationSpeedToPlanet * game.getTimeStep();
+        relativeAngleToPlanet += rotationSpeedToPlanet * game.getTimeStep();
         if (game.getPlanetManager().getNearestPlanet() == planet) {
             SolMath.fromAl(position, planet.getAngle() + relativeAngleToPlanet, distance);
             position.add(planet.getPosition());

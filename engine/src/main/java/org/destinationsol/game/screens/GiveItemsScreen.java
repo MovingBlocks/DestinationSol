@@ -94,11 +94,11 @@ public class GiveItemsScreen extends InventoryOperationsScreen {
      * Inventories can only carry 24 groups of up to 30 items each,
      * hence the need to check if the item can be added
      * @param item The item to give
-     * @param target The mercenary being interacted with
+     * @param itemTarget The mercenary being interacted with
      * @return True if the item can be given
      */
-    private boolean isItemGiveable(SolItem item, SolShip target) {
-        return target.getItemContainer().canAdd(item);
+    private boolean isItemGiveable(SolItem item, SolShip itemTarget) {
+        return itemTarget.getItemContainer().canAdd(item);
     }
 
     /**

@@ -13,7 +13,9 @@ public class FramerateLimiter {
      * @author kappa (On the LWJGL Forums)
      */
     public static void synchronizeFPS(int fps) {
-        if (fps <= 0) return;
+        if (fps <= 0) {
+            return;
+        }
 
         long sleepTime = 1000000000 / fps; // nanoseconds to sleep this frame
         // yieldTime + remainder micro & nano seconds if smaller than sleepTime

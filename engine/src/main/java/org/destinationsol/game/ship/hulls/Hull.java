@@ -127,12 +127,12 @@ public class Hull {
         }
 
         if (planetBind != null) {
-            Vector2 velocity = SolMath.getVec();
-            planetBind.setDiff(velocity, position, true);
+            Vector2 newVelocity = SolMath.getVec();
+            planetBind.setDiff(newVelocity, position, true);
             float fps = 1 / game.getTimeStep();
-            velocity.scl(fps);
-            body.setLinearVelocity(velocity);
-            SolMath.free(velocity);
+            newVelocity.scl(fps);
+            body.setLinearVelocity(newVelocity);
+            SolMath.free(newVelocity);
             float angleDiff = planetBind.getDesiredAngle() - angle;
             body.setAngularVelocity(angleDiff * MathUtils.degRad * fps);
         }

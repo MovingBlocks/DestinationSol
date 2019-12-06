@@ -29,7 +29,7 @@ public class ChooseMercenaryScreen extends InventoryOperationsScreen {
     private final SolUiControl giveControl;
     private final SolUiControl takeControl;
     private final SolUiControl equipControl;
-    private final ItemContainer EMPTY_ITEM_CONTAINER = new ItemContainer();
+    private static final ItemContainer EMPTY_ITEM_CONTAINER = new ItemContainer();
 
     ChooseMercenaryScreen(InventoryScreen inventoryScreen, GameOptions gameOptions) {
         giveControl = new SolUiControl(inventoryScreen.itemCtrl(0), true, gameOptions.getKeyShoot());

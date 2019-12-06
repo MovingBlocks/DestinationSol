@@ -116,28 +116,29 @@ public class DSParticleEmitter {
                 relativeAngle, false);
     }
 
-    private void initialiseEmitter(EffectConfig config, float size, DrawableLevel drawableLevel, Vector2 relativePosition, boolean inheritsVelocity,
-                                   SolGame game, Vector2 basePosition, Vector2 baseVelocity, float relativeAngle, boolean hasLight) {
+    private void initialiseEmitter(EffectConfig newConfig, float newSize, DrawableLevel newDrawableLevel, Vector2 newRelativePosition, boolean newInheritsVelocity,
+                                   SolGame currentGame, Vector2 basePosition, Vector2 baseVelocity, float newRelativeAngle, boolean newHasLight) {
 
         drawables = new ArrayList<>();
         ParticleEmitterDrawable drawable = new ParticleEmitterDrawable();
         drawables.add(drawable);
 
-        this.config = config;
+        this.config = newConfig;
         this.particleEmitter = config.emitter.newEmitter();
-        this.drawableLevel = drawableLevel;
-        this.relativePosition = new Vector2(relativePosition);
+        this.drawableLevel = newDrawableLevel;
+        this.relativePosition = new Vector2(newRelativePosition);
         this.originalRelativePosition = new Vector2(this.relativePosition);
         this.position = new Vector2();
-        this.relativeAngle = relativeAngle;
-        this.game = game;
+        this.relativeAngle = newRelativeAngle;
+        this.game = currentGame;
 
         light = new LightSource(config.size * 2.5f, true, 0.7f, relativePosition, config.tint);
-        if (hasLight) {
+        if (newHasLight) {
             light.collectDrawables(drawables);
         }
 
-        if (size <= 0) {
+        float size = newSize;
+        if (newSize <= 0) {
             size = config.size;
         }
 
@@ -170,7 +171,7 @@ public class DSParticleEmitter {
         transferAngle(particleEmitter.getAngle(), originalVelocityAngle, 0f);
         transferAngle(particleEmitter.getRotation(), originalRotation, 0f);
 
-        this.inheritsVelocity = inheritsVelocity;
+        this.inheritsVelocity = newInheritsVelocity;
         updateVelocity(game, baseVelocity, basePosition);
 
         if (config.emitter.continuous) {
@@ -197,28 +198,30 @@ public class DSParticleEmitter {
         to.setLow(from.getLowMin() + diff, from.getLowMax() + diff);
     }
 
-    private void updateVelocity(SolGame game, Vector2 baseVelocity, Vector2 basePosition) {
+    private void updateVelocity(SolGame currentGame, Vector2 baseVelocity, Vector2 basePosition) {
         if ((isContinuous() && !isWorking()) || floatedUp) {
             return;
         } else {
             floatedUp = true;
         }
+
+        Vector2 initialVelocity = baseVelocity;
         if (!inheritsVelocity) {
-            baseVelocity = Vector2.Zero;
+            initialVelocity = Vector2.Zero;
         }
         if (!config.floatsUp) {
-            setVelocity(baseVelocity);
+            setVelocity(initialVelocity);
             return;
         }
-        Planet nearestPlanet = game.getPlanetManager().getNearestPlanet();
+        Planet nearestPlanet = currentGame.getPlanetManager().getNearestPlanet();
         Vector2 velocity = nearestPlanet.getAdjustedEffectVelocity(basePosition, baseVelocity);
         setVelocity(velocity);
         SolMath.free(velocity);
     }
 
-    public void onRemove(SolGame game, Vector2 basePos) {
-        PartMan partMan = game.getPartMan();
-        partMan.finish(game, this, basePos);
+    public void onRemove(SolGame currentGame, Vector2 basePos) {
+        PartMan partMan = currentGame.getPartMan();
+        partMan.finish(currentGame, this, basePos);
     }
 
     public boolean isComplete() {
@@ -233,25 +236,25 @@ public class DSParticleEmitter {
         return working;
     }
 
-    public void setWorking(boolean working) {
-        setWorking(working, null);
+    public void setWorking(boolean value) {
+        setWorking(value, null);
     }
 
-    public void setWorking(boolean working, SolShip ship) {
-        if (working && workSoundSet != null) {
+    public void setWorking(boolean value, SolShip ship) {
+        if (value && workSoundSet != null) {
             game.getSoundManager().play(game, workSoundSet, position, ship);
         }
-        light.update(working, relativeAngle, game);
+        light.update(value, relativeAngle, game);
 
         if (!isContinuous()) {
             throw new AssertionError("only continuous emitters can start working");
         }
-        if (this.working == working) {
+        if (this.working == value) {
             return;
         }
 
-        this.working = working;
-        if (working) {
+        this.working = value;
+        if (value) {
             particleEmitter.start();
         } else {
             particleEmitter.allowCompletion();
@@ -335,13 +338,13 @@ public class DSParticleEmitter {
 
     public class ParticleEmitterDrawable implements Drawable {
 
-        public void update(SolGame game, SolObject object) {
+        public void update(SolGame currentGame, SolObject object) {
 
-            maybeSwitchRelativePosition(game);
+            maybeSwitchRelativePosition(currentGame);
             Vector2 basePos = object.getPosition();
             float baseAngle = object.getAngle();
             SolMath.toWorld(position, relativePosition, baseAngle, basePos);
-            float timeStep = game.getTimeStep();
+            float timeStep = currentGame.getTimeStep();
 
             // fix speed bug
             position.x -= particleEmitter.getWind().getLowMin() * timeStep;
@@ -351,22 +354,22 @@ public class DSParticleEmitter {
             transferAngle(originalVelocityAngle, particleEmitter.getAngle(), baseAngle + relativeAngle);
             transferAngle(originalRotation, particleEmitter.getRotation(), baseAngle + relativeAngle);
 
-            updateVelocity(game, object.getVelocity(), object.getPosition());
+            updateVelocity(currentGame, object.getVelocity(), object.getPosition());
             particleEmitter.update(timeStep);
 
             if (boundingBoxRecalcAwait > 0) {
-                boundingBoxRecalcAwait -= game.getTimeStep();
+                boundingBoxRecalcAwait -= currentGame.getTimeStep();
             } else {
                 boundingBoxRecalcAwait = MAX_BOUNDINGBOX_RECALC_AWAIT;
                 particleEmitter.getBoundingBox();
             }
         }
 
-        private void maybeSwitchRelativePosition(SolGame game) {
+        private void maybeSwitchRelativePosition(SolGame currentGame) {
             if (areaSize == 0) {
                 return;
             }
-            float timeStep = game.getTimeStep();
+            float timeStep = currentGame.getTimeStep();
             timeSinceLastPositionChange += timeStep;
             if (!working || timeSinceLastPositionChange < MAX_TIME_BETWEEN_POSITION_CHANGE) {
                 return;
@@ -400,7 +403,7 @@ public class DSParticleEmitter {
         }
 
         @Override
-        public void draw(GameDrawer drawer, SolGame game) {
+        public void draw(GameDrawer drawer, SolGame currentGame) {
             drawer.draw(particleEmitter, config.tex, config.emitter.additive);
         }
 

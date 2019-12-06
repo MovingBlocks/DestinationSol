@@ -135,15 +135,16 @@ public class GroundBuilder {
         addToDungeon(col, row);
         while (true) {
             //      if (!isCorner)
-            col = toLeft ? left(col) : right(col);
+            int tunnelColumn = toLeft ? left(col) : right(col);
+            int tunnelRow = row;
             currSpace += SolRandom.randomFloat(.5f, SolRandom.test(.3f) ? 4 : 1);
-            if (addToDungeon(col, row)) {
+            if (addToDungeon(tunnelColumn, tunnelRow)) {
                 return;
             }
             while (currSpace > 0) {
                 currSpace -= 1;
-                row -= 1;
-                if (addToDungeon(col, row)) {
+                tunnelRow -= 1;
+                if (addToDungeon(tunnelColumn, tunnelRow)) {
                     return;
                 }
             }

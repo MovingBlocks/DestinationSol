@@ -153,7 +153,7 @@ public class HullConfig {
         }
     }
 
-    public final static class Data {
+    public static final class Data {
 
         public String internalName;
         public float size;

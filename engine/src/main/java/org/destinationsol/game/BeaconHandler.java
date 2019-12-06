@@ -176,8 +176,7 @@ public class BeaconHandler implements UpdateAwareSystem{
                 if (drawables.size() != 3) {
                     continue;
                 }
-                Drawable drawable = drawables.get(0);
-                if (drawable != attackSprite) {
+                if (drawables.get(0) != attackSprite) {
                     continue;
                 }
                 farDrawable = (FarDrawable) fo;
@@ -198,8 +197,7 @@ public class BeaconHandler implements UpdateAwareSystem{
                 if (drawables.size() != 3) {
                     continue;
                 }
-                Drawable drawable = drawables.get(0);
-                if (drawable != attackSprite) {
+                if (drawables.get(0) != attackSprite) {
                     continue;
                 }
                 this.drawable = (DrawableObject) o;
@@ -211,9 +209,9 @@ public class BeaconHandler implements UpdateAwareSystem{
 
     public Action processMouse(SolGame game, Vector2 position, boolean clicked, boolean onMap) {
         Action action;
-        Pilot targetPilot = findPilotInPos(game, position, onMap, clicked);
-        if (targetPilot != null) {
-            boolean enemies = game.getFactionMan().areEnemies(targetPilot.getFaction(), game.getHero().getPilot().getFaction());
+        Pilot pilot = findPilotInPos(game, position, onMap, clicked);
+        if (pilot != null) {
+            boolean enemies = game.getFactionMan().areEnemies(pilot.getFaction(), game.getHero().getPilot().getFaction());
             if (enemies) {
                 action = Action.ATTACK;
                 if (clicked) {

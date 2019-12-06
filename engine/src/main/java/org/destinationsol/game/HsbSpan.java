@@ -30,11 +30,11 @@ public class HsbSpan extends ColorSpan {
 
     @Override
     public void set(float perc, Color col) {
-        perc = MathUtils.clamp(perc, (float) 0, (float) 1);
-        float hue = midVal(0, perc);
-        float sat = midVal(1, perc);
-        float br = midVal(2, perc);
-        float a = midVal(3, perc);
+        float percentage = MathUtils.clamp(perc, (float) 0, (float) 1);
+        float hue = midVal(0, percentage);
+        float sat = midVal(1, percentage);
+        float br = midVal(2, percentage);
+        float a = midVal(3, percentage);
         SolColorUtil.fromHSB(hue, sat, br, a, col);
     }
 

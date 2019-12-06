@@ -45,8 +45,9 @@ public class DecoConfig {
         ArrayList<DecoConfig> res = new ArrayList<>();
         JSONObject decorations = planetConfig.getJSONObject("decorations");
         for (String s : decorations.keySet()) {
-            if (!(decorations.get(s) instanceof JSONObject))
+            if (!(decorations.get(s) instanceof JSONObject)) {
                 continue;
+            }
             JSONObject deco = decorations.getJSONObject(s);
             float density = (float) deco.getDouble("density");
             float szMin = (float) deco.getDouble("szMin");

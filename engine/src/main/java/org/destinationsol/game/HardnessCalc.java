@@ -78,12 +78,13 @@ public class HardnessCalc {
         if (gc.timeBetweenShots == 0) {
             projectilesPerShot = cc.size;
         }
+        float damage = shotDmg;
         if (projectilesPerShot > 1) {
-            shotDmg *= .6f * projectilesPerShot;
+            damage *= .6f * projectilesPerShot;
         }
 
         float timeBetweenShots = gc.timeBetweenShots == 0 ? gc.reloadTime : gc.timeBetweenShots;
-        return shotDmg / timeBetweenShots;
+        return damage / timeBetweenShots;
     }
 
     private static float getItemCfgDps(ItemConfig ic, boolean fixed) {

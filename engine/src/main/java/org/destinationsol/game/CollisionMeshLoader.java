@@ -280,10 +280,11 @@ public class CollisionMeshLoader {
         }
 
         orig = hullConfig.getShipBuilderOrigin();
+        TextureAtlas.AtlasRegion spriteTexture = tex;
         if (tex == null) {
-            tex = hullConfig.getTexture();
+            spriteTexture = hullConfig.getTexture();
         }
-        RectSprite s = new RectSprite(tex, scale, orig.x - .5f, orig.y - .5f, new Vector2(), level, 0, 0, SolColor.WHITE, false);
+        RectSprite s = new RectSprite(spriteTexture, scale, orig.x - .5f, orig.y - .5f, new Vector2(), level, 0, 0, SolColor.WHITE, false);
         drawables.add(s);
         return body;
     }

@@ -183,14 +183,14 @@ public class Asteroid implements SolObject {
         float sclSum = 0;
         while (sclSum < .7f * size * size) {
             float velocityAngle = SolRandom.randomFloat(180);
-            Vector2 velocity = new Vector2();
-            SolMath.fromAl(velocity, velocityAngle, SolRandom.randomFloat(0, .5f) * MAX_SPLIT_SPD);
-            velocity.add(velocity);
+            Vector2 newVelocity = new Vector2();
+            SolMath.fromAl(newVelocity, velocityAngle, SolRandom.randomFloat(0, .5f) * MAX_SPLIT_SPD);
+            newVelocity.add(newVelocity);
             Vector2 newPos = new Vector2();
             SolMath.fromAl(newPos, velocityAngle, SolRandom.randomFloat(0, size / 2));
             newPos.add(position);
             float sz = size * SolRandom.randomFloat(.25f, .5f);
-            Asteroid a = game.getAsteroidBuilder().buildNew(game, newPos, velocity, sz, removeController);
+            Asteroid a = game.getAsteroidBuilder().buildNew(game, newPos, newVelocity, sz, removeController);
             game.getObjectManager().addObjDelayed(a);
             sclSum += a.size * a.size;
         }
@@ -214,9 +214,9 @@ public class Asteroid implements SolObject {
     }
 
     @Override
-    public void receiveDmg(float dmg, SolGame game, Vector2 position, DmgType dmgType) {
+    public void receiveDmg(float dmg, SolGame game, Vector2 hitPosition, DmgType dmgType) {
         life -= dmg;
-        game.getSpecialSounds().playHit(game, this, position, dmgType);
+        game.getSpecialSounds().playHit(game, this, hitPosition, dmgType);
     }
 
     @Override

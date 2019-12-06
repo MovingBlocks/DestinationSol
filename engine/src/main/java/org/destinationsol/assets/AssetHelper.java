@@ -43,7 +43,7 @@ import java.util.Set;
 
 public class AssetHelper {
     protected ModuleAwareAssetTypeManager assetTypeManager;
-    protected static String[] folders_;
+    protected static String[] searchFolders;
 
     public AssetHelper() {
     }
@@ -94,7 +94,7 @@ public class AssetHelper {
     }
 
     public void setFolders(String... folders) {
-        folders_ = folders;
+        searchFolders = folders;
     }
 
     public String resolveToPath(List<AssetDataFile> assetDataFiles) {
@@ -102,16 +102,17 @@ public class AssetHelper {
             List<String> folders = assetDataFile.getPath();
 
             boolean validPath = true;
-            if (folders_ != null) {
-                for (int i = 0; i < folders_.length; i++) {
-                    if (!folders_[i].equals(folders.get(folders.size() - i - 1))) {
+            if (searchFolders != null) {
+                for (int i = 0; i < searchFolders.length; i++) {
+                    if (!searchFolders[i].equals(folders.get(folders.size() - i - 1))) {
                         validPath = false;
                         break;
                     }
                 }
             }
-            if (!validPath)
+            if (!validPath) {
                 continue;
+            }
 
             StringBuilder path = new StringBuilder();
 

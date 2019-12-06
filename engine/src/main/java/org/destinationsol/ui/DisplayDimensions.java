@@ -29,10 +29,10 @@ public class DisplayDimensions {
         set(width, height);
     }
 
-    public void set(int width, int height) {
-        this.width = width;
-        this.height = height;
-        ratio = width / (float)height;
+    public void set(int newWidth, int newHeight) {
+        this.width = newWidth;
+        this.height = newHeight;
+        ratio = newWidth / (float) newHeight;
     }
 
     public int getWidth() {

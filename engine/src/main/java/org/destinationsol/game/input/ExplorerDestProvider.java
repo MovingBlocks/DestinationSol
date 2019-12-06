@@ -51,11 +51,11 @@ public class ExplorerDestProvider implements MoveDestProvider {
         float minDistance = Float.MAX_VALUE;
         ArrayList<Planet> planets = this.system.getPlanets();
         for (int i = 0, sz = allowedSize(); i < sz; i++) {
-            Planet planet = planets.get(i);
-            float distance = planet.getPosition().dst(position);
+            Planet potentialPlanet = planets.get(i);
+            float distance = potentialPlanet.getPosition().dst(position);
             if (distance < minDistance) {
                 minDistance = distance;
-                this.planet = planet;
+                this.planet = potentialPlanet;
             }
         }
         calculateRelativeDestination(config);

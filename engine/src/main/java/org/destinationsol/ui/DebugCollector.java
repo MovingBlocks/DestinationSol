@@ -26,35 +26,35 @@ import java.util.Map;
 
 public class DebugCollector {
     private static final long WARN_TIME = 6000;
-    private static final StringBuilder myDebugStrings = new StringBuilder();
-    private static final Map<String, Long> myWarnings = new HashMap<>();
+    private static final StringBuilder MY_DEBUG_STRINGS = new StringBuilder();
+    private static final Map<String, Long> MY_WARNINGS = new HashMap<>();
 
     private DebugCollector() {
     }
 
     public static void draw(UiDrawer drawer) {
-        drawer.drawString(myDebugStrings.toString(), .5f, BorderDrawer.PLANET_PROXIMITY_INDICATOR_SIZE, FontSize.DEBUG, false, SolColor.WHITE);
+        drawer.drawString(MY_DEBUG_STRINGS.toString(), .5f, BorderDrawer.PLANET_PROXIMITY_INDICATOR_SIZE, FontSize.DEBUG, false, SolColor.WHITE);
     }
 
     public static void debug(String name, String val) {
-        myDebugStrings.append(name).append(": ").append(val).append("\n");
+        MY_DEBUG_STRINGS.append(name).append(": ").append(val).append("\n");
     }
 
     public static void debug(String name, int val) {
-        myDebugStrings.append(name).append(": ").append(val).append("\n");
+        MY_DEBUG_STRINGS.append(name).append(": ").append(val).append("\n");
     }
 
     public static void warn(String msg) {
         if (!DebugOptions.SHOW_WARNINGS) {
             return;
         }
-        myWarnings.put(msg, TimeUtils.millis() + WARN_TIME);
+        MY_WARNINGS.put(msg, TimeUtils.millis() + WARN_TIME);
     }
 
     public static void update() {
-        myDebugStrings.setLength(0);
+        MY_DEBUG_STRINGS.setLength(0);
 
-        Iterator<Map.Entry<String, Long>> it = myWarnings.entrySet().iterator();
+        Iterator<Map.Entry<String, Long>> it = MY_WARNINGS.entrySet().iterator();
         long now = TimeUtils.millis();
         while (it.hasNext()) {
             Map.Entry<String, Long> e = it.next();
@@ -62,7 +62,7 @@ public class DebugCollector {
                 it.remove();
                 continue;
             }
-            myDebugStrings.append(e.getKey()).append("\n");
+            MY_DEBUG_STRINGS.append(e.getKey()).append("\n");
         }
 
     }

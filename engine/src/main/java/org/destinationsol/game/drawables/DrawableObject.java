@@ -116,7 +116,7 @@ public class DrawableObject implements SolObject {
     }
 
     @Override
-    public void receiveDmg(float dmg, SolGame game, Vector2 position, DmgType dmgType) {
+    public void receiveDmg(float dmg, SolGame game, Vector2 hitPosition, DmgType dmgType) {
     }
 
     @Override
@@ -173,8 +173,8 @@ public class DrawableObject implements SolObject {
         return false;
     }
 
-    public void fade(float fadeTime) {
-        maxFadeTime = fadeTime;
-        this.fadeTime = fadeTime;
+    public void fade(float time) {
+        maxFadeTime = time;
+        this.fadeTime = time;
     }
 }

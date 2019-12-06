@@ -125,8 +125,8 @@ public class FarShip implements FarObject {
         return position;
     }
 
-    public void setPos(Vector2 position) {
-        this.position.set(position);
+    public void setPos(Vector2 newPosition) {
+        this.position.set(newPosition);
     }
 
     @Override
@@ -202,8 +202,8 @@ public class FarShip implements FarObject {
      *
      * Optional @param mercItem The {@link MercItem} of the FarShip.
      */
-    public void setMerc(MercItem mercItem) {
-        this.mercItem = mercItem;
+    public void setMerc(MercItem item) {
+        this.mercItem = item;
         isMerc = true;
     }
 
@@ -211,6 +211,8 @@ public class FarShip implements FarObject {
         return this.mercItem;
     }
 
-    public boolean isMerc() { return this.isMerc; }
+    public boolean isMerc() {
+        return this.isMerc;
+    }
 
 }

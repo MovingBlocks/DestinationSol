@@ -134,7 +134,7 @@ public class GalaxyFiller {
         return node;
     }
 
-    public void fill(SolGame game, HullConfigManager hullConfigManager, ItemManager itemManager, String moduleName) {
+    public void fill(SolGame game, HullConfigManager hullManager, ItemManager itemManager, String moduleName) {
         if (DebugOptions.NO_OBJS) {
             return;
         }
@@ -143,7 +143,7 @@ public class GalaxyFiller {
 
         JSONObject rootNode = Validator.getValidatedJSON(moduleName + ":startingStation", "engine:schemaStartingStation");
 
-        ShipConfig mainStationCfg = ShipConfig.load(hullConfigManager, rootNode, itemManager);
+        ShipConfig mainStationCfg = ShipConfig.load(hullManager, rootNode, itemManager);
 
         ConsumedAngles angles = new ConsumedAngles();
         FarShip mainStation = build(game, mainStationCfg, Faction.LAANI, true, systems.get(0), angles);

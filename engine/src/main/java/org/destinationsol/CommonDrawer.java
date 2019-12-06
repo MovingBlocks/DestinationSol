@@ -88,22 +88,25 @@ public class CommonDrawer implements ResizeSubscriber {
         layout.reset();
         layout.setText(font, s);
 
+        float drawX = x;
+        float drawY = y;
+
         switch (align) {
             case LEFT:
                 break;
             case CENTER:
-                x -= layout.width / 2;
+                drawX -= layout.width / 2;
                 break;
             case RIGHT:
-                x -= layout.width;
+                drawX -= layout.width;
                 break;
         }
 
         if (verticalCentering) {
-            y -= layout.height / 2;
+            drawY -= layout.height / 2;
         }
 
-        font.draw(spriteBatch, layout, x, y);
+        font.draw(spriteBatch, layout, drawX, drawY);
     }
 
     public void draw(TextureRegion tr, float width, float height, float origX, float origY, float x, float y,
