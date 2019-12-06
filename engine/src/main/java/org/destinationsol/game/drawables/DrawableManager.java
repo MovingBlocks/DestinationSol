@@ -64,12 +64,12 @@ public class DrawableManager {
     }
 
     public void removeObject(SolObject o) {
-        List<Drawable> allDrawables = o.getDrawables();
-        removeAll(allDrawables);
+        List<Drawable> drawablesToRemove = o.getDrawables();
+        removeAll(drawablesToRemove);
     }
 
-    public void removeAll(List<Drawable> allDrawables) {
-        for (Drawable drawable : allDrawables) {
+    public void removeAll(List<Drawable> drawablesToRemove) {
+        for (Drawable drawable : drawablesToRemove) {
             DrawableLevel level = drawable.getLevel();
             OrderedMap<Texture, List<Drawable>> map = this.drawables.get(level.ordinal());
             Texture texture = drawable.getTexture().getTexture();
@@ -83,12 +83,12 @@ public class DrawableManager {
     }
 
     public void addObject(SolObject o) {
-        List<Drawable> allDrawables = o.getDrawables();
-        addAll(allDrawables);
+        List<Drawable> drawablesToAdd = o.getDrawables();
+        addAll(drawablesToAdd);
     }
 
-    public void addAll(List<Drawable> allDrawables) {
-        for (Drawable drawable : allDrawables) {
+    public void addAll(List<Drawable> drawablesToAdd) {
+        for (Drawable drawable : drawablesToAdd) {
             DrawableLevel level = drawable.getLevel();
             OrderedMap<Texture, List<Drawable>> map = this.drawables.get(level.ordinal());
             Texture texture = drawable.getTexture().getTexture();
@@ -123,13 +123,13 @@ public class DrawableManager {
         for (SolObject object : objects) {
             Vector2 objectPosition = object.getPosition();
             float radius = objectManager.getPresenceRadius(object);
-            List<Drawable> allDrawables = object.getDrawables();
+            List<Drawable> objectDrawables = object.getDrawables();
             float drawableLevelViewDistance = viewDistance;
-            if (allDrawables.size() > 0) {
-                drawableLevelViewDistance *= allDrawables.get(0).getLevel().depth;
+            if (objectDrawables.size() > 0) {
+                drawableLevelViewDistance *= objectDrawables.get(0).getLevel().depth;
             }
             boolean isObjectVisible = isVisible(objectPosition, radius, camPos, drawableLevelViewDistance);
-            for (Drawable drawable : allDrawables) {
+            for (Drawable drawable : objectDrawables) {
                 if (!isObjectVisible || !drawable.isEnabled()) {
                     visibleDrawables.remove(drawable);
                     continue;
@@ -155,8 +155,8 @@ public class DrawableManager {
             Array<Texture> texs = map.orderedKeys();
             for (int texIdx = 0, sz = texs.size; texIdx < sz; texIdx++) {
                 Texture tex = texs.get(texIdx);
-                List<Drawable> allDrawables = map.get(tex);
-                for (Drawable drawable : allDrawables) {
+                List<Drawable> texDrawables = map.get(tex);
+                for (Drawable drawable : texDrawables) {
                     if (visibleDrawables.contains(drawable)) {
                         if (!DebugOptions.NO_DRAS) {
                             drawable.draw(drawer, game);
@@ -177,8 +177,8 @@ public class DrawableManager {
 
         if (DebugOptions.DRAW_DRA_BORDERS) {
             for (OrderedMap<Texture, List<Drawable>> map : drawables) {
-                for (List<Drawable> allDrawables : map.values()) {
-                    for (Drawable drawable : allDrawables) {
+                for (List<Drawable> texDrawables : map.values()) {
+                    for (Drawable drawable : texDrawables) {
                         drawDebug(drawer, game, drawable);
                     }
                 }

@@ -70,7 +70,7 @@ public class OggSoundManager {
      * @param source           bearer of a sound. Must not be null for looped sounds
      * @param volumeMultiplier multiplier for sound volume
      */
-    public void play(SolGame game, PlayableSound playableSound, @Nullable Vector2 position, @Nullable SolObject source, float volumeMultiplier) {
+    public void play(SolGame game, PlayableSound playableSound, @Nullable final Vector2 position, @Nullable SolObject source, float volumeMultiplier) {
         if (playableSound == null) {
             return;
         }

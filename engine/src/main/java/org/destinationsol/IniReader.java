@@ -66,14 +66,15 @@ public class IniReader {
         file.writeString(stringBuilder.toString(), false);
     }
 
-    private void initValueMap(List<String> lines) {
-        for (int lineIndex = 0; lineIndex < lines.size(); lineIndex++) {
-            String line = lines.get(lineIndex);
-            int commentStart = line.indexOf('#');
+    private void initValueMap(final List<String> lines) {
+        for (String line : lines) {
+            String lineExcludingComment = line;
+
+            int commentStart = lineExcludingComment.indexOf('#');
             if (commentStart >= 0) {
-                line = line.substring(0, commentStart);
+                lineExcludingComment = lineExcludingComment.substring(0, commentStart);
             }
-            String[] sides = line.split("=");
+            String[] sides = lineExcludingComment.split("=");
             if (sides.length < 2) {
                 continue;
             }

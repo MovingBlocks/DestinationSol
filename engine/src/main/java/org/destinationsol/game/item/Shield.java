@@ -115,7 +115,7 @@ public class Shield implements SolItem {
         return myLife > 0 && dmgType != DmgType.FIRE && dmgType != DmgType.CRASH;
     }
 
-    public void absorb(SolGame game, float dmg, Vector2 position, SolShip ship, DmgType dmgType) {
+    public void absorb(SolGame game, final float dmg, Vector2 position, SolShip ship, DmgType dmgType) {
         if (!canAbsorb(dmgType) || dmg <= 0) {
             throw new AssertionError("illegal call to absorb");
         }

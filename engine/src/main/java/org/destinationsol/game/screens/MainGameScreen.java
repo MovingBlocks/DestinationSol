@@ -392,7 +392,7 @@ public class MainGameScreen extends SolUiBaseScreen {
         }
     }
 
-    private void drawIcons(UiDrawer uiDrawer, float x, float y, int count, TextureAtlas.AtlasRegion tex,
+    private void drawIcons(UiDrawer uiDrawer, final float x, float y, int count, TextureAtlas.AtlasRegion tex,
                            TextPlace textPlace) {
         int excess = count - MAX_ICON_COUNT;
         int iconCount = excess > 0 ? MAX_ICON_COUNT : count;

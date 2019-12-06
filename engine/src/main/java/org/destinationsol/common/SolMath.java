@@ -102,7 +102,7 @@ public class SolMath {
      * @param a Angle in degrees
      * @return Normalizes angle in degrees
      */
-    public static float norm(float a) {
+    public static float norm(final float a) {
         if (a != a) {
             throw new AssertionError("normalizing NaN angle");
         }

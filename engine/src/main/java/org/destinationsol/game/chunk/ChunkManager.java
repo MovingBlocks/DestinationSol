@@ -38,8 +38,8 @@ public class ChunkManager implements UpdateAwareSystem {
     private final RemoveController backgroundRemoveController;
     private final ChunkFiller filler;
 
-    private int x;
-    private int y;
+    private int originX;
+    private int originY;
 
     public ChunkManager() {
         filledChunks = new HashSet<>();
@@ -62,11 +62,11 @@ public class ChunkManager implements UpdateAwareSystem {
     }
 
     private boolean updateCurrChunk(Vector2 position) {
-        int oldX = x;
-        int oldY = y;
-        x = posToChunkIdx(position.x);
-        y = posToChunkIdx(position.y);
-        return oldX != x || oldY != y;
+        int oldX = originX;
+        int oldY = originY;
+        originX = posToChunkIdx(position.x);
+        originY = posToChunkIdx(position.y);
+        return oldX != originX || oldY != originY;
     }
 
     private int posToChunkIdx(float v) {
@@ -81,8 +81,8 @@ public class ChunkManager implements UpdateAwareSystem {
         chunks.removeIf(chunk -> isChunkFar((int) chunk.x, (int) chunk.y, dist));
     }
 
-    private boolean isChunkFar(int checkX, int checkY, int dist) {
-        return checkX <= x - dist || x + dist <= checkX || checkY <= y - dist || y + dist <= checkY;
+    private boolean isChunkFar(int x, int y, int dist) {
+        return x <= originX - dist || originX + dist <= x || y <= originY - dist || originY + dist <= y;
     }
 
     private void addNewChunks(Set<Vector2> chunks, int dist, SolGame game) {
@@ -98,7 +98,7 @@ public class ChunkManager implements UpdateAwareSystem {
     }
 
     private void maybeAddChunk(Set<Vector2> chunks, int oX, int oY, SolGame game) {
-        Vector2 v = SolMath.getVec(x + oX, x + oY);
+        Vector2 v = SolMath.getVec(originX + oX, originY + oY);
         if (!chunks.contains(v)) {
             Vector2 chunk = new Vector2(v);
             chunks.add(chunk);
@@ -109,9 +109,9 @@ public class ChunkManager implements UpdateAwareSystem {
     }
 
     public boolean isInactive(Vector2 position, int dist) {
-        int chunkX = posToChunkIdx(position.x);
-        int chunkY = posToChunkIdx(position.y);
-        return isChunkFar(chunkX, chunkY, dist);
+        int x = posToChunkIdx(position.x);
+        int y = posToChunkIdx(position.y);
+        return isChunkFar(x, y, dist);
     }
 
     private class MyRemover implements RemoveController {

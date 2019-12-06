@@ -230,7 +230,7 @@ public class MapDrawer implements UpdateAwareSystem{
         }
     }
 
-    private void drawAreaDanger(GameDrawer drawer, float rad, Vector2 position, float transpMul, float angle) {
+    private void drawAreaDanger(GameDrawer drawer, final float rad, Vector2 position, float transpMul, float angle) {
         float perc = 2 * areaSkullTime / MAX_AREA_SKULL_TIME;
         if (perc > 1) {
             perc = 2 - perc;
@@ -389,7 +389,7 @@ public class MapDrawer implements UpdateAwareSystem{
 
     public void drawObjIcon(float iconSz, Vector2 position, float objAngle,
                             FactionManager factionManager, @Nullable Hero hero, Faction objFac, float heroDmgCap,
-                            Object shipHack, TextureAtlas.AtlasRegion icon, Object drawerHack) {
+                            Object shipHack, final TextureAtlas.AtlasRegion icon, Object drawerHack) {
         boolean enemy = hero != null && hero.isNonTranscendent() && factionManager.areEnemies(objFac, hero.getPilot().getFaction());
         float angle = objAngle;
         TextureAtlas.AtlasRegion drawnIcon = icon;

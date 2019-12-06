@@ -256,7 +256,7 @@ public class CollisionMeshLoader {
      * @param drawables a atlas will be added here
      */
     public Body getBodyAndSprite(SolGame game, HullConfig hullConfig, float scale, BodyDef.BodyType type,
-                                 Vector2 position, float angle, List<Drawable> drawables, float density, DrawableLevel level, TextureAtlas.AtlasRegion tex) {
+                                 Vector2 position, float angle, List<Drawable> drawables, float density, DrawableLevel level, final TextureAtlas.AtlasRegion tex) {
         final String name = hullConfig.getInternalName();
 
         BodyDef bd = new BodyDef();

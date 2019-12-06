@@ -72,7 +72,7 @@ public class HardnessCalc {
         return getShotDps(gc, shotDmg);
     }
 
-    public static float getShotDps(Gun.Config gc, float shotDmg) {
+    public static float getShotDps(Gun.Config gc, final float shotDmg) {
         Clip.Config cc = gc.clipConf;
         int projectilesPerShot = cc.projectilesPerShot;
         if (gc.timeBetweenShots == 0) {

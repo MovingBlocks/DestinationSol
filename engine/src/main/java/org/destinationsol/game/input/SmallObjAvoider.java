@@ -39,7 +39,7 @@ public class SmallObjAvoider {
         myDest = new Vector2();
     }
 
-    public float avoid(SolGame game, SolShip ship, float toDestAngle, Planet np) {
+    public float avoid(SolGame game, SolShip ship, final float toDestAngle, Planet np) {
         myShip = ship;
         Vector2 shipPos = ship.getPosition();
         float shipSpeed = ship.getVelocity().len();

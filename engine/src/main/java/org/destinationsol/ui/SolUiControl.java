@@ -86,7 +86,7 @@ public class SolUiControl {
         return pressed;
     }
 
-    public void update(SolInputManager.InputPointer[] inputPointers, boolean cursorShown, boolean canBePressed, SolInputManager inputMan,
+    public void update(SolInputManager.InputPointer[] inputPointers, boolean cursorShown, final boolean canBePressed, SolInputManager inputMan,
                        SolApplication cmp) {
         boolean pressable = canBePressed;
         if (!isEnabled) {

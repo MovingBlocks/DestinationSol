@@ -130,13 +130,14 @@ public class GroundBuilder {
         buildTunnel(col, row, false);
     }
 
-    private void buildTunnel(int col, int row, boolean toLeft) {
+    private void buildTunnel(final int col, final int row, boolean toLeft) {
         float currSpace = 0f;
         addToDungeon(col, row);
+
+        int tunnelRow = row;
         while (true) {
             //      if (!isCorner)
             int tunnelColumn = toLeft ? left(col) : right(col);
-            int tunnelRow = row;
             currSpace += SolRandom.randomFloat(.5f, SolRandom.test(.3f) ? 4 : 1);
             if (addToDungeon(tunnelColumn, tunnelRow)) {
                 return;

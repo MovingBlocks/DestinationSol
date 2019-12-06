@@ -198,7 +198,7 @@ public class DSParticleEmitter {
         to.setLow(from.getLowMin() + diff, from.getLowMax() + diff);
     }
 
-    private void updateVelocity(SolGame currentGame, Vector2 baseVelocity, Vector2 basePosition) {
+    private void updateVelocity(SolGame currentGame, final Vector2 baseVelocity, Vector2 basePosition) {
         if ((isContinuous() && !isWorking()) || floatedUp) {
             return;
         } else {

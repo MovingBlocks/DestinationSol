@@ -29,7 +29,7 @@ public class HsbSpan extends ColorSpan {
     }
 
     @Override
-    public void set(float perc, Color col) {
+    public void set(final float perc, Color col) {
         float percentage = MathUtils.clamp(perc, (float) 0, (float) 1);
         float hue = midVal(0, percentage);
         float sat = midVal(1, percentage);

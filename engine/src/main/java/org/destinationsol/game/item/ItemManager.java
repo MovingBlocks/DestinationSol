@@ -249,7 +249,7 @@ public class ItemManager {
      * @param amount            the amount of money to turn into drops
      * @param maxNoItemsCreated -1 for no limit, otherwise the maximum number of money items to create
      */
-    public List<MoneyItem> moneyToItems(float amount, int maxNoItemsCreated) {
+    public List<MoneyItem> moneyToItems(final float amount, int maxNoItemsCreated) {
         ArrayList<MoneyItem> items = new ArrayList<>();
         float moneyAmount;
 

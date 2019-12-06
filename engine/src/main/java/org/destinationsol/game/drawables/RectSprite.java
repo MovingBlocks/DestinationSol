@@ -70,7 +70,7 @@ public class RectSprite implements Drawable {
         isAdditive = additive;
     }
 
-    public void setTextureSize(float textureSize) {
+    public void setTextureSize(final float textureSize) {
         float visibleSize = textureSize / level.depth;
         int dimensionsRatio = texture.getRegionWidth() / texture.getRegionHeight();
         if (dimensionsRatio > 1) {
