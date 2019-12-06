@@ -50,6 +50,7 @@ import org.destinationsol.game.ship.hulls.Hull;
 import org.destinationsol.game.ship.hulls.HullConfig;
 
 import java.util.List;
+import java.util.Objects;
 
 public class SolShip implements SolObject {
     public static final float BASE_DUR_MOD = .3f;
@@ -190,7 +191,7 @@ public class SolShip implements SolObject {
         boolean canAdd = c.canAdd(i);
         if (canAdd) {
             c.add(i);
-            if (c == myItemContainer && myPilot.getMapHint().equals("Merc")) {
+            if (c == myItemContainer && Objects.equals(myPilot.getMapHint(), "Merc")) {
                 //insert equip code here, if it's something we want to do
             }
         }
