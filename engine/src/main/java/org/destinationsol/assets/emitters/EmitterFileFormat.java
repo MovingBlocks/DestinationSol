@@ -18,7 +18,6 @@ package org.destinationsol.assets.emitters;
 import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.graphics.g2d.ParticleEmitter;
 import org.destinationsol.assets.AssetDataFileHandle;
-import org.destinationsol.assets.AssetHelper;
 import org.destinationsol.assets.Assets;
 import org.terasology.gestalt.assets.ResourceUrn;
 import org.terasology.gestalt.assets.format.AbstractAssetFileFormat;

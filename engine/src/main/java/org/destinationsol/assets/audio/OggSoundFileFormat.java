@@ -17,7 +17,6 @@ package org.destinationsol.assets.audio;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.files.FileHandle;
-import org.destinationsol.assets.AssetHelper;
 import org.destinationsol.assets.AssetDataFileHandle;
 import org.destinationsol.assets.Assets;
 import org.terasology.gestalt.assets.ResourceUrn;

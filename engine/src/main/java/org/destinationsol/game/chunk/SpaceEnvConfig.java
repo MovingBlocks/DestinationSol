@@ -17,8 +17,8 @@
 package org.destinationsol.game.chunk;
 
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
-import org.json.JSONObject;
 import org.destinationsol.assets.Assets;
+import org.json.JSONObject;
 
 import java.util.List;
 

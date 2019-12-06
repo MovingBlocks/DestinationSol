@@ -16,7 +16,6 @@
 package org.destinationsol.game.maze;
 
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
-import org.json.JSONObject;
 import org.destinationsol.assets.Assets;
 import org.destinationsol.common.SolRandom;
 import org.destinationsol.files.HullConfigManager;
@@ -24,6 +23,7 @@ import org.destinationsol.game.CollisionMeshLoader;
 import org.destinationsol.game.ShipConfig;
 import org.destinationsol.game.chunk.SpaceEnvConfig;
 import org.destinationsol.game.item.ItemManager;
+import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.List;

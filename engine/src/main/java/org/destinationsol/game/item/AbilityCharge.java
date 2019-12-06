@@ -16,10 +16,10 @@
 package org.destinationsol.game.item;
 
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
-import org.destinationsol.assets.json.Validator;
-import org.json.JSONObject;
 import org.destinationsol.assets.Assets;
+import org.destinationsol.assets.json.Validator;
 import org.destinationsol.game.SolGame;
+import org.json.JSONObject;
 
 public class AbilityCharge implements SolItem {
     private final Config config;

@@ -17,9 +17,9 @@ package org.destinationsol.game.particle;
 
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
-import org.json.JSONObject;
 import org.destinationsol.assets.Assets;
 import org.destinationsol.game.GameColors;
+import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.List;

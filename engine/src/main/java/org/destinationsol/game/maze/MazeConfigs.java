@@ -15,12 +15,12 @@
  */
 package org.destinationsol.game.maze;
 
-import org.destinationsol.assets.json.Validator;
-import org.json.JSONObject;
 import org.destinationsol.assets.Assets;
 import org.destinationsol.assets.json.Json;
+import org.destinationsol.assets.json.Validator;
 import org.destinationsol.files.HullConfigManager;
 import org.destinationsol.game.item.ItemManager;
+import org.json.JSONObject;
 import org.terasology.gestalt.assets.ResourceUrn;
 
 import java.util.ArrayList;
