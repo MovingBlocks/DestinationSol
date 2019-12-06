@@ -15,8 +15,6 @@
  */
 package org.destinationsol.modules;
 
-import java.io.IOException;
-
 import com.google.common.base.Joiner;
 import com.google.common.collect.HashMultimap;
 import com.google.common.collect.Maps;
@@ -26,6 +24,7 @@ import org.terasology.gestalt.module.resources.ModuleFileSource;
 
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.io.InputStream;
 import java.util.Arrays;
 import java.util.Collection;

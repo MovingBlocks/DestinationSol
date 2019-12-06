@@ -20,7 +20,6 @@ import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
-import org.json.JSONObject;
 import org.destinationsol.assets.Assets;
 import org.destinationsol.common.SolMath;
 import org.destinationsol.common.SolRandom;
@@ -30,6 +29,7 @@ import org.destinationsol.game.SolGame;
 import org.destinationsol.game.item.ItemManager;
 import org.destinationsol.game.item.SolItem;
 import org.destinationsol.game.planet.Planet;
+import org.json.JSONObject;
 
 public class Teleport implements ShipAbility {
     private static final int MAX_RADIUS = 4;

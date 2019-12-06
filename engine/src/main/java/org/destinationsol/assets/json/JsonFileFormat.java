@@ -17,9 +17,7 @@ package org.destinationsol.assets.json;
 
 import com.badlogic.gdx.files.FileHandle;
 import org.destinationsol.assets.AssetDataFileHandle;
-import org.destinationsol.assets.Assets;
 import org.json.JSONObject;
-import org.destinationsol.assets.AssetHelper;
 import org.terasology.gestalt.assets.ResourceUrn;
 import org.terasology.gestalt.assets.format.AbstractAssetFileFormat;
 import org.terasology.gestalt.assets.format.AssetDataFile;

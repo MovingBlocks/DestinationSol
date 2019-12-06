@@ -15,12 +15,12 @@
  */
 package org.destinationsol.game;
 
-import org.json.JSONObject;
 import org.destinationsol.assets.audio.OggSound;
 import org.destinationsol.assets.audio.OggSoundManager;
 import org.destinationsol.assets.audio.PlayableSound;
 import org.destinationsol.game.particle.EffectConfig;
 import org.destinationsol.game.particle.EffectTypes;
+import org.json.JSONObject;
 
 public class AbilityCommonConfig {
     public final EffectConfig effect;

@@ -16,8 +16,8 @@
 package org.destinationsol.game.planet;
 
 import com.badlogic.gdx.graphics.Color;
-import org.json.JSONObject;
 import org.destinationsol.game.GameColors;
+import org.json.JSONObject;
 
 public class SkyConfig {
     public final Color dawn;

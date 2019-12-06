@@ -15,10 +15,10 @@
  */
 package org.destinationsol.game.item;
 
-import org.json.JSONObject;
 import org.destinationsol.files.HullConfigManager;
 import org.destinationsol.game.ShipConfig;
 import org.destinationsol.game.ship.hulls.HullConfig;
+import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.Collections;
