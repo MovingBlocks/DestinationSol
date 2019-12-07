@@ -38,11 +38,13 @@ import java.util.Set;
  * until another is chosen. By default, music does not play concurrently.
  */
 public class OggMusicManager {
+    public static final String NO_MUSIC = "";
     public static final String MENU_MUSIC_SET = "menu";
     public static final String GAME_MUSIC_SET = "game";
     private final Map<String, List<Music>> musicMap;
     private Music currentlyPlaying;
     private String currentlyRegisteredModule;
+    private String currentMusicSet = NO_MUSIC;
     private Logger logger = LoggerFactory.getLogger(OggMusicManager.class);
 
     /**
@@ -111,6 +113,7 @@ public class OggMusicManager {
                 index = 0;
             }
         }
+        currentMusicSet = musicSet;
         final Music music = musicMap.get(musicSet).get(index);
         music.setOnCompletionListener(a -> playMusic(musicSet, options));
         playMusicTrack(music, options);
@@ -135,6 +138,7 @@ public class OggMusicManager {
         if (currentlyPlaying != null) {
             currentlyPlaying.stop();
         }
+        currentMusicSet = NO_MUSIC;
     }
 
     /**
@@ -229,5 +233,9 @@ public class OggMusicManager {
 
     public void resetMusic() {
         musicMap.put(GAME_MUSIC_SET, new ArrayList<>());
+    }
+
+    public String getCurrentMusicSet() {
+        return currentMusicSet;
     }
 }
