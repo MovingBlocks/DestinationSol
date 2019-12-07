@@ -120,7 +120,10 @@ public class MainMenuScreen extends SolUiBaseScreen {
 
     @Override
     public void onAdd(SolApplication solApplication) {
-        solApplication.getMusicManager().playMusic(OggMusicManager.MENU_MUSIC_SET, gameOptions);
+        final OggMusicManager musicManager = solApplication.getMusicManager();
+        if (!musicManager.getCurrentMusicSet().equals(OggMusicManager.MENU_MUSIC_SET)) {
+            musicManager.playMusic(OggMusicManager.MENU_MUSIC_SET, gameOptions);
+        }
     }
 
     @Override
