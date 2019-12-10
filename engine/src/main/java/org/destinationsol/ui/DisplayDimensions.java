@@ -29,10 +29,12 @@ public class DisplayDimensions {
         set(width, height);
     }
 
-    public void set(int newWidth, int newHeight) {
-        this.width = newWidth;
-        this.height = newHeight;
-        ratio = newWidth / (float) newHeight;
+    // NOTE: Field name warnings are suppressed as this method acts as a setter but is not detected as one.
+    @SuppressWarnings("checkstyle:HiddenField")
+    public void set(int width, int height) {
+        this.width = width;
+        this.height = height;
+        ratio = width / (float) height;
     }
 
     public int getWidth() {

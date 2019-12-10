@@ -29,9 +29,11 @@ public class Position {
         set(xNormalized, yNormalized);
     }
 
-    public void set(float normalizedX, float normalizedY) {
-        this.xNormalized = normalizedX;
-        this.yNormalized = normalizedY;
+    // NOTE: Field name warnings are suppressed as this method acts as a setter but is not detected as one.
+    @SuppressWarnings("checkstyle:HiddenField")
+    public void set(float xNormalized, float yNormalized) {
+        this.xNormalized = xNormalized;
+        this.yNormalized = yNormalized;
     }
 
     public int getX() {
