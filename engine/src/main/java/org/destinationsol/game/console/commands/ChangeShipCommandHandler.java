@@ -43,6 +43,8 @@ public class ChangeShipCommandHandler implements ConsoleInputHandler {
     public void handle(String input, Console console) {
         String[] args = input.split(" ", 2);
 
+        console.warn("test");
+
         if(args.length != 2) {
             printHelp(console);
             return;
@@ -70,6 +72,7 @@ public class ChangeShipCommandHandler implements ConsoleInputHandler {
             newHullConfig = game.getHullConfigManager().getConfig(newShipID);
         }
         catch (RuntimeException e) {
+            System.out.println(e.getMessage());
             return Optional.empty();
         }
 
