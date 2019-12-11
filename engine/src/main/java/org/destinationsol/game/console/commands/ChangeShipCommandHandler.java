@@ -23,6 +23,8 @@ import org.destinationsol.game.ship.ShipRepairer;
 import org.destinationsol.game.ship.SolShip;
 import org.destinationsol.game.ship.hulls.HullConfig;
 
+import java.util.Optional;
+
 /**
  * A command used to change current ship on the fly.
  * Takes one argument - id of the ship you want to load
@@ -41,15 +43,20 @@ public class ChangeShipCommandHandler implements ConsoleInputHandler {
     public void handle(String input, Console console) {
         String[] args = input.split(" ", 2);
 
-        SolShip newShip = cloneAndModifyShip(hero.getShip(), args[1]);
-        if(newShip == null) {
+        if(args.length != 2) {
+            printHelp(console);
+            return;
+        }
+
+        Optional<SolShip> newShip = cloneAndModifyShip(hero.getShip(), args[1]);
+        if(!newShip.isPresent()) {
             printHelp(console);
             return;
         }
 
         game.getObjectManager().removeObjDelayed(hero.getShip());
-        game.getObjectManager().addObjDelayed(newShip);
-        hero.setSolShip(newShip, game);
+        game.getObjectManager().addObjDelayed(newShip.get());
+        hero.setSolShip(newShip.get(), game);
     }
 
     private void printHelp(Console console) {
@@ -57,19 +64,19 @@ public class ChangeShipCommandHandler implements ConsoleInputHandler {
         console.warn("Usage: \"changeship module:shipName\"");
     }
 
-    private SolShip cloneAndModifyShip(SolShip originalShip, String newShipID) {
+    private Optional<SolShip> cloneAndModifyShip(SolShip originalShip, String newShipID) {
         HullConfig newHullConfig;
         try {
             newHullConfig = game.getHullConfigManager().getConfig(newShipID);
         }
         catch (RuntimeException e) {
-            return null;
+            return Optional.empty();
         }
 
         SolShip newShip = game.getShipBuilder().build(game, originalShip.getPosition(), originalShip.getVelocity(), originalShip.getAngle(),
-                originalShip.getRotationSpeed(), originalShip.getPilot(), originalShip.getItemContainer(), newHullConfig,//originalShip.getHull().getHullConfig(),
+                originalShip.getRotationSpeed(), originalShip.getPilot(), originalShip.getItemContainer(), newHullConfig,
                 newHullConfig.getMaxLife(), originalShip.getHull().getGun(false), originalShip.getHull().getGun(true), null,
                 newHullConfig.getEngineConfig().exampleEngine.copy(), new ShipRepairer(), originalShip.getMoney(), null, originalShip.getShield(), originalShip.getArmor());
-        return newShip;
+        return Optional.of(newShip);
     }
 }
