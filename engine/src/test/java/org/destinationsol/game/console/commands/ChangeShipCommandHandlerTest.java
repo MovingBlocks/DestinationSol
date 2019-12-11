@@ -63,6 +63,6 @@ public class ChangeShipCommandHandlerTest {
     @Test
     public void shouldChangeShipOnValidInput() {
         commandHandler.handle("changeship core:imperialTiny", console);
-        verify(hero, times(1)).setSolShip(any(), game);
+        verify(hero, times(1)).setSolShip(any(SolShip.class), game);
     }
 }
