@@ -15,20 +15,19 @@
  */
 package org.destinationsol.game.console.commands;
 
+import org.destinationsol.files.HullConfigManager;
 import org.destinationsol.game.Console;
 import org.destinationsol.game.Hero;
 import org.destinationsol.game.SolGame;
-import org.destinationsol.game.ship.SolShip;
+import org.destinationsol.game.item.ItemManager;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mock;
 import org.mockito.junit.MockitoJUnitRunner;
 
-import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.ArgumentMatchers.anyString;
-import static org.mockito.Mockito.times;
-import static org.mockito.Mockito.verify;
+import static org.mockito.ArgumentMatchers.*;
+import static org.mockito.Mockito.*;
 
 @RunWith(MockitoJUnitRunner.class)
 public class ChangeShipCommandHandlerTest {
@@ -58,11 +57,5 @@ public class ChangeShipCommandHandlerTest {
     public void shouldPrintHelpOnEmptyInput() {
         commandHandler.handle("changeship", console);
         verify(console, times(2)).warn(anyString());
-    }
-
-    @Test
-    public void shouldChangeShipOnValidInput() {
-        commandHandler.handle("changeship core:imperialTiny", console);
-        verify(hero, times(1)).setSolShip(any(SolShip.class), game);
     }
 }

@@ -55,7 +55,7 @@ public class Hero {
         Console.getInstance().getDefaultInputHandler().registerOrReplaceCommand("position", new PositionCommandHandler(this));
         Console.getInstance().getDefaultInputHandler().registerOrReplaceCommand("die", new DieCommandHandler(this, game));
         Console.getInstance().getDefaultInputHandler().registerOrReplaceCommand("respawn", new RespawnCommandHandler(this, game));
-        Console.getInstance().getDefaultInputHandler().registerOrReplaceCommand("changeship", new ChangeShipCommandHandler(this, game));
+        Console.getInstance().getDefaultInputHandler().registerOrReplaceCommand("changeship", new ChangeShipCommandHandler(this, game)); 
     }
 
     public void setTranscendent(StarPort.Transcendent transcendentHero) {

@@ -15,10 +15,12 @@
  */
 package org.destinationsol.game.console.commands;
 
+import org.destinationsol.files.HullConfigManager;
 import org.destinationsol.game.Console;
 import org.destinationsol.game.Hero;
 import org.destinationsol.game.SolGame;
 import org.destinationsol.game.console.ConsoleInputHandler;
+import org.destinationsol.game.screens.ChangeShipScreen;
 import org.destinationsol.game.ship.ShipRepairer;
 import org.destinationsol.game.ship.SolShip;
 import org.destinationsol.game.ship.hulls.HullConfig;
@@ -42,8 +44,6 @@ public class ChangeShipCommandHandler implements ConsoleInputHandler {
     @Override
     public void handle(String input, Console console) {
         String[] args = input.split(" ", 2);
-
-        console.warn("test");
 
         if(args.length != 2) {
             printHelp(console);
@@ -69,7 +69,8 @@ public class ChangeShipCommandHandler implements ConsoleInputHandler {
     private Optional<SolShip> cloneAndModifyShip(SolShip originalShip, String newShipID) {
         HullConfig newHullConfig;
         try {
-            newHullConfig = game.getHullConfigManager().getConfig(newShipID);
+            HullConfigManager hcm = game.getHullConfigManager();
+            newHullConfig = hcm.getConfig(newShipID);
         }
         catch (RuntimeException e) {
             System.out.println(e.getMessage());
