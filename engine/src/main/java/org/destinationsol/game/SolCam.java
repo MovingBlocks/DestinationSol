@@ -76,9 +76,13 @@ public class SolCam implements UpdateAwareSystem {
             return;
         }
 
+
         Hero hero = game.getHero();
         float life = hero.getLife();
-        Hull hull = hero.getHull();
+        Hull hull = null;
+        if(hero.isNonTranscendent())
+            hull = hero.getHull();
+
         if (hero.isDead() || DIRECT_CAM_CONTROL) {
             applyInput(game);
         } else {
