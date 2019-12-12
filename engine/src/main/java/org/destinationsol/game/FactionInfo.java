@@ -20,7 +20,7 @@ import org.destinationsol.assets.json.Json;
 import org.destinationsol.assets.json.Validator;
 import org.destinationsol.game.ship.SolShip;
 import org.json.JSONArray;
-import org.terasology.assets.ResourceUrn;
+import org.terasology.gestalt.assets.ResourceUrn;
 
 import java.util.ArrayList;
 import java.util.HashSet;
