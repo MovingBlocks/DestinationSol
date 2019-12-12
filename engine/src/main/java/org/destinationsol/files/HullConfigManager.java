@@ -31,8 +31,8 @@ import org.destinationsol.game.particle.DSParticleEmitter;
 import org.destinationsol.game.ship.AbilityConfig;
 import org.destinationsol.game.ship.hulls.GunSlot;
 import org.destinationsol.game.ship.hulls.HullConfig;
-import org.terasology.module.Module;
-import org.terasology.naming.Name;
+import org.terasology.gestalt.module.Module;
+import org.terasology.gestalt.naming.Name;
 
 import java.lang.reflect.Method;
 import java.util.ArrayList;

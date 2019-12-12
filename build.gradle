@@ -25,6 +25,8 @@ allprojects {
 }
 
 repositories {
+    mavenLocal()
+
     // Good ole Maven central
     mavenCentral()
 
@@ -34,6 +36,8 @@ repositories {
 
     // Terasology Artifactory for any shared libs
     maven { url "http://artifactory.terasology.org/artifactory/virtual-repo-live" }
+
+    maven { url "https://maven.google.com" }
 }
 
 configurations {
@@ -120,12 +124,10 @@ task(fetchAndroid, type: GitClone) {
     //println "fetchAndroid requested for $repo from Github under $githubHome - exists already? " + !enabled
 
     // Do the actual clone if we don't have the directory already
-    if (enabled) {
-        uri = "https://github.com/$githubHome/" + repo + ".git"
-        //println "Fetching $repo from $uri"
-        destinationPath = destination
-        bare = false
-    }
+    uri = "https://github.com/$githubHome/" + repo + ".git"
+    //println "Fetching $repo from $uri"
+    destinationPath = destination
+    bare = false
 }
 
 task(fetchGwt, type: GitClone) {
@@ -144,12 +146,10 @@ task(fetchGwt, type: GitClone) {
     //println "fetchGwt requested for $repo from Github under $githubHome - exists already? " + !enabled
 
     // Do the actual clone if we don't have the directory already
-    if (enabled) {
-        uri = "https://github.com/$githubHome/" + repo + ".git"
-        //println "Fetching $repo from $uri"
-        destinationPath = destination
-        bare = false
-    }
+    uri = "https://github.com/$githubHome/" + repo + ".git"
+    //println "Fetching $repo from $uri"
+    destinationPath = destination
+    bare = false
 }
 
 task wrapper(type: Wrapper) {

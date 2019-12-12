@@ -15,6 +15,8 @@
  */
 package org.destinationsol.assets.json;
 
+import com.badlogic.gdx.Application;
+import com.badlogic.gdx.Gdx;
 import org.destinationsol.assets.Assets;
 import org.destinationsol.common.SolException;
 import org.everit.json.schema.Schema;
@@ -46,11 +48,15 @@ public class Validator {
             throw e;
         }
 
-        Schema schemaValidator = SchemaLoader.load(schema);
-        try {
-            schemaValidator.validate(jsonObject);
-        } catch (ValidationException e) {
-            throw new SolException("JSON \"" + jsonPath + "\" could not be validated against schema \"" + schemaPath + "\"." + e.getErrorMessage());
+        if (Gdx.app.getType() != Application.ApplicationType.Android) {
+            // HACK: Android's built-in JSON library overrides the org.json dependency, which breaks the validator
+            //       As such, it is not possible at this time to run the validator in Android.
+            Schema schemaValidator = SchemaLoader.load(schema);
+            try {
+                schemaValidator.validate(jsonObject);
+            } catch (ValidationException e) {
+                throw new SolException("JSON \"" + jsonPath + "\" could not be validated against schema \"" + schemaPath + "\"." + e.getErrorMessage());
+            }
         }
 
         json.dispose();

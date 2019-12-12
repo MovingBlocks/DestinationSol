@@ -69,8 +69,9 @@ public class PlanetConfig {
     }
 
     static PlanetConfig load(String name, JSONObject rootNode, HullConfigManager hullConfigs, GameColors cols, ItemManager itemManager, String moduleName) {
-        float minGrav = rootNode.getFloat("minGrav");
-        float maxGrav = rootNode.getFloat("maxGrav");
+        // JSONObject.getDouble must be used, as Android does not support JSONObject.getFloat (you cannot override the dependency either, as it is a system library).
+        float minGrav = (float) rootNode.getDouble("minGrav");
+        float maxGrav = (float) rootNode.getDouble("maxGrav");
         List<DecoConfig> deco = DecoConfig.load(rootNode);
         List<ShipConfig> groundEnemies = ShipConfig.loadList(rootNode.has("groundEnemies") ? rootNode.getJSONArray("groundEnemies") : null, hullConfigs, itemManager);
         List<ShipConfig> highOrbitEnemies = ShipConfig.loadList(rootNode.has("highOrbitEnemies") ? rootNode.getJSONArray("highOrbitEnemies") : null, hullConfigs, itemManager);

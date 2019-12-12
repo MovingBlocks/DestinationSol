@@ -130,7 +130,7 @@ public class Console implements SolUiScreen {
             try {
                 defaultInputHandler.registerCommand(commandName, (ConsoleInputHandler) commandHandler.newInstance());
             } catch (Exception e) {
-                logger.error("Error creating instance of command {}", commandHandler.getTypeName());
+                logger.error("Error creating instance of command {}", commandHandler.getName());
             }
         }
     }
