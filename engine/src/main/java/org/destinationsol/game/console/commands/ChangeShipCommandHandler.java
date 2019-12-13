@@ -68,7 +68,7 @@ public class ChangeShipCommandHandler implements ConsoleInputHandler {
 
     private void printHelp(Console console) {
         console.warn("Invalid or Unknown ship ID.");
-        console.warn("Usage: \"changeship module:shipName\"");
+        console.warn("Usage: \"changeShip module:shipName\"");
     }
 
     private Optional<SolShip> cloneAndModifyShip(SolShip originalShip, String newShipID) {
