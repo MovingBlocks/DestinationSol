@@ -15,6 +15,9 @@
  */
 package org.destinationsol.game.console.commands;
 
+import org.destinationsol.assets.Assets;
+import org.destinationsol.assets.json.Json;
+import org.destinationsol.assets.json.Validator;
 import org.destinationsol.files.HullConfigManager;
 import org.destinationsol.game.Console;
 import org.destinationsol.game.Hero;
@@ -24,8 +27,10 @@ import org.destinationsol.game.screens.ChangeShipScreen;
 import org.destinationsol.game.ship.ShipRepairer;
 import org.destinationsol.game.ship.SolShip;
 import org.destinationsol.game.ship.hulls.HullConfig;
+import org.terasology.gestalt.assets.ResourceUrn;
 
 import java.util.Optional;
+import java.util.logging.Logger;
 
 /**
  * A command used to change current ship on the fly.
@@ -45,13 +50,13 @@ public class ChangeShipCommandHandler implements ConsoleInputHandler {
     public void handle(String input, Console console) {
         String[] args = input.split(" ", 2);
 
-        if(args.length != 2) {
+        if (args.length != 2) {
             printHelp(console);
             return;
         }
 
         Optional<SolShip> newShip = cloneAndModifyShip(hero.getShip(), args[1]);
-        if(!newShip.isPresent()) {
+        if (!newShip.isPresent()) {
             printHelp(console);
             return;
         }
@@ -67,15 +72,19 @@ public class ChangeShipCommandHandler implements ConsoleInputHandler {
     }
 
     private Optional<SolShip> cloneAndModifyShip(SolShip originalShip, String newShipID) {
-        HullConfig newHullConfig;
-        try {
-            HullConfigManager hcm = game.getHullConfigManager();
-            newHullConfig = hcm.getConfig(newShipID);
+        boolean isARealShip = false;
+
+        for (ResourceUrn urn : Assets.getAssetHelper().list(Json.class)) {
+            if((urn.getModuleName() + ":" + urn.getResourceName()).equals(newShipID)) {
+                isARealShip = true;
+                break;
+            }
         }
-        catch (RuntimeException e) {
-            System.out.println(e.getMessage());
+        if(!isARealShip) {
             return Optional.empty();
         }
+
+        HullConfig newHullConfig = game.getHullConfigManager().getConfig(newShipID);
 
         SolShip newShip = game.getShipBuilder().build(game, originalShip.getPosition(), originalShip.getVelocity(), originalShip.getAngle(),
                 originalShip.getRotationSpeed(), originalShip.getPilot(), originalShip.getItemContainer(), newHullConfig,
