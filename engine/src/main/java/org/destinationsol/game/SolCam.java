@@ -48,7 +48,7 @@ public class SolCam implements UpdateAwareSystem {
     private final Vector3 myTmpVec;
 
     private float myPrevHeroLife;
-    private Hull myPrevHeroHull;
+    private Hull previousHeroHull;
     private float myShake;
     private float myAngle;
     private float myZoom;
@@ -76,12 +76,12 @@ public class SolCam implements UpdateAwareSystem {
             return;
         }
 
-
         Hero hero = game.getHero();
         float life = hero.getLife();
         Hull hull = null;
-        if(hero.isNonTranscendent())
+        if (hero.isNonTranscendent()) {
             hull = hero.getHull();
+        }
 
         if (hero.isDead() || DIRECT_CAM_CONTROL) {
             applyInput(game);
@@ -101,14 +101,14 @@ public class SolCam implements UpdateAwareSystem {
             }
         }
 
-        if (life < myPrevHeroLife && hull == myPrevHeroHull) {
+        if (life < myPrevHeroLife && hull == previousHeroHull) { // shake only if hull hasn't changed. If it did, lower health might be caused by the new ship having less max HP.
             float shakeDiff = .1f * MAX_SHAKE * (myPrevHeroLife - life);
             myShake = SolMath.approach(myShake, MAX_SHAKE, shakeDiff);
         } else {
             myShake = SolMath.approach(myShake, 0, SHAKE_DAMP * timeStep);
         }
         myPrevHeroLife = life;
-        myPrevHeroHull = hull;
+        previousHeroHull = hull;
         Vector2 position = SolMath.fromAl(SolRandom.randomFloat(180), myShake);
         position.add(this.position);
         applyPos(position.x, position.y);
