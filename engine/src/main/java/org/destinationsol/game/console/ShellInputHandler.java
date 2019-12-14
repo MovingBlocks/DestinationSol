@@ -94,7 +94,9 @@ public class ShellInputHandler implements ConsoleInputHandler {
     @Override
     public void handle(String input, Console console) {
         for (Map.Entry<String, ConsoleInputHandler> command : commands.entrySet()) {
-            if (input.startsWith(command.getKey() + " ") || input.equals(command.getKey())) {
+            String lowerInput = input.toLowerCase();
+            String lowerCommand = command.getKey().toLowerCase();
+            if (lowerInput.startsWith(lowerCommand + " ") || lowerInput.equals(lowerCommand)) {
                 command.getValue().handle(input, console);
                 break;
             }
