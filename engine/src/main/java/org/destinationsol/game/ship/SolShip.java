@@ -83,6 +83,7 @@ public class SolShip implements SolObject {
     private float myControlEnableAwait;
     private MercItem mercItem;
     private boolean isMerc;
+    public static boolean isInvincible;
 
     public SolShip(SolGame game, Pilot pilot, Hull hull, RemoveController removeController, List<Drawable> drawables,
                    ItemContainer container, ShipRepairer repairer, float money, TradeContainer tradeContainer, Shield shield,
@@ -417,6 +418,9 @@ public class SolShip implements SolObject {
 
     @Override
     public void receiveDmg(float dmg, SolGame game, Vector2 position, DmgType dmgType) {
+        if(isInvincible == true){
+            return;
+        }
         if (dmg <= 0) {
             return;
         }
@@ -694,5 +698,12 @@ public class SolShip implements SolObject {
 
     public void changeDisposition(int id) {
         FactionInfo.setDisposition(id, -1);
+    }
+
+    public static void setInvincible(){
+        isInvincible = true;
+    }
+    public static void setNonInvincible(){
+        isInvincible = false;
     }
 }
