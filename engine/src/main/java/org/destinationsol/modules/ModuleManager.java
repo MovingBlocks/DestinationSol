@@ -47,6 +47,7 @@ import org.terasology.gestalt.module.sandbox.ModuleSecurityManager;
 import org.terasology.gestalt.module.sandbox.ModuleSecurityPolicy;
 import org.terasology.gestalt.module.sandbox.StandardPermissionProviderFactory;
 
+import java.io.File;
 import java.io.FilePermission;
 import java.io.InputStreamReader;
 import java.io.Reader;
@@ -177,8 +178,9 @@ public class ModuleManager {
             Reader engineModuleReader = new InputStreamReader(getClass().getResourceAsStream("/module.json"), Charsets.UTF_8);
             ModuleMetadata engineMetadata = new ModuleMetadataJsonAdapter().read(engineModuleReader);
             engineModuleReader.close();
-            DestinationSolModuleFactory moduleFactory = new DestinationSolModuleFactory();
-            engineModule = moduleFactory.createClasspathModule(engineMetadata, false, getClass());
+            ModuleFactory moduleFactory = new ModuleFactory();
+            File file = new File(Paths.get(getClass().getProtectionDomain().getCodeSource().getLocation().toURI()).toUri());
+            engineModule = moduleFactory.createModule(engineMetadata, file);
 
             registry = new TableModuleRegistry();
             Path modulesRoot;
@@ -218,12 +220,6 @@ public class ModuleManager {
         permissionFactory.getBasePermissionSet().grantPermission("com.google.gson.internal", RuntimePermission.class);
 
         permissionFactory.getBasePermissionSet().grantPermission(SaveManager.class, FilePermission.class);
-        permissionFactory.getBasePermissionSet().grantPermission("org.destinationsol.assets", FilePermission.class);
-        permissionFactory.getBasePermissionSet().grantPermission("org.destinationsol.assets.audio", FilePermission.class);
-        permissionFactory.getBasePermissionSet().grantPermission("org.destinationsol.assets.emitters", FilePermission.class);
-        permissionFactory.getBasePermissionSet().grantPermission("org.destinationsol.assets.fonts", FilePermission.class);
-        permissionFactory.getBasePermissionSet().grantPermission("org.destinationsol.assets.json", FilePermission.class);
-        permissionFactory.getBasePermissionSet().grantPermission("org.destinationsol.assets.textures", FilePermission.class);
 
         ConfigurationBuilder config = new ConfigurationBuilder()
                 .addClassLoader(ClasspathHelper.contextClassLoader())
