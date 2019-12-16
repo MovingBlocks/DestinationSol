@@ -29,9 +29,9 @@ import org.destinationsol.game.particle.DSParticleEmitter;
 
 public class KnockBack implements ShipAbility {
     private static final int MAX_RADIUS = 8;
-    private final Config config;
+    private final KnockBackConfig config;
 
-    KnockBack(Config config) {
+    KnockBack(KnockBackConfig config) {
         this.config = config;
     }
 
@@ -91,13 +91,13 @@ public class KnockBack implements ShipAbility {
         return true;
     }
 
-    public static class Config implements AbilityConfig {
+    public static class KnockBackConfig implements AbilityConfig {
         public final float rechargeTime;
         public final float force;
         public final AbilityCommonConfig cc;
         private final SolItem chargeExample;
 
-        public Config(float rechargeTime, SolItem chargeExample, float force, AbilityCommonConfig cc) {
+        public KnockBackConfig(float rechargeTime, SolItem chargeExample, float force, AbilityCommonConfig cc) {
             this.rechargeTime = rechargeTime;
             this.chargeExample = chargeExample;
             this.force = force;
@@ -108,7 +108,7 @@ public class KnockBack implements ShipAbility {
             float rechargeTime = (float) abNode.getDouble("rechargeTime");
             float force = (float) abNode.getDouble("force");
             SolItem chargeExample = itemManager.getExample("knockBackCharge");
-            return new Config(rechargeTime, chargeExample, force, cc);
+            return new KnockBackConfig(rechargeTime, chargeExample, force, cc);
         }
 
 

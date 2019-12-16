@@ -16,7 +16,7 @@
 package org.destinationsol.assets.fonts;
 
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
-import org.terasology.assets.AssetData;
+import org.terasology.gestalt.assets.AssetData;
 
 public class FontData implements AssetData {
     private BitmapFont bitmapFont;

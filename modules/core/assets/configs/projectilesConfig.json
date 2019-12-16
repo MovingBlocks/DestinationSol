@@ -2,7 +2,7 @@
     "plasma": {
         "dmg": 2.6,
         "dmgType": "energy",
-        "spdLen": 6,
+        "speed": 6,
 
         "tex": "core:plasma",
         "texSz": 0.12,
@@ -20,7 +20,7 @@
     "blast": {
         "dmg": 4.4,
         "dmgType": "energy",
-        "spdLen": 5,
+        "speed": 5,
 
         "tex": "core:blast",
         "texSz": 0.15,
@@ -38,7 +38,7 @@
     "bomb": {
         "dmg": 13,
         "dmgType": "explosion",
-        "spdLen": 0,
+        "speed": 0,
         "physSize": 0.1,
         "zeroAbsSpd": true,
 
@@ -65,7 +65,7 @@
 
     "bullet": {
         "dmg": 1.6,
-        "spdLen": 10,
+        "speed": 10,
         "dmgType": "bullet",
 
         "tex": "core:bullet",
@@ -81,7 +81,7 @@
 
     "highVelocityBullet": {
         "dmg": 25,
-        "spdLen": 25,
+        "speed": 25,
         "dmgType": "bullet",
 
         "tex": "core:bullet",
@@ -97,7 +97,7 @@
 
     "shellBullet": {
         "dmg": 2.9,
-        "spdLen": 8,
+        "speed": 8,
         "dmgType": "bullet",
 
         "tex": "core:bullet",
@@ -115,7 +115,7 @@
     "missile": {
         "dmg": 9,
         "dmgType": "explosion",
-        "spdLen": 1,
+        "speed": 1,
         "physSize": 0.1,
         "guideRotSpd": 180,
         "acceleration": 2,
@@ -160,7 +160,7 @@
     "mine": {
         "dmg": 20,
         "dmgType": "explosion",
-        "spdLen": 0,
+        "speed": 0,
         "physSize": 0.1,
         "zeroAbsSpd": true,
 
@@ -187,7 +187,7 @@
     "slug": {
         "dmg": 33,
         "dmgType": "bullet",
-        "spdLen": 4,
+        "speed": 4,
 
         "tex": "core:slug",
         "texSz": 0.15,
@@ -218,7 +218,7 @@
     "rocket": {
         "dmg": 16,
         "dmgType": "explosion",
-        "spdLen": 1,
+        "speed": 1,
         "physSize": 0.13,
         "acceleration": 4,
 
@@ -262,7 +262,7 @@
     "rail": {
         "dmg": 37,
         "dmgType": "bullet",
-        "spdLen": 15,
+        "speed": 15,
 
         "tex": "core:bullet",
         "texSz": 0.03,
@@ -285,7 +285,7 @@
     "nail": {
         "dmg": 14,
         "dmgType": "bullet",
-        "spdLen": 6,
+        "speed": 6,
         "physSize": 0.15,
         "density": 20,
 
@@ -296,7 +296,7 @@
     "em": {
         "dmg": 0,
         "dmgType": "energy",
-        "spdLen": 2,
+        "speed": 2,
         "emTime": 2,
 
         "tex": "core:plasma",
@@ -323,7 +323,7 @@
         "dmgType": "energy",
         "physSize": 0.8,
         "massless": true,
-        "spdLen": 5,
+        "speed": 5,
 
         "tex": "core:wave",
         "texSz": 0.8,

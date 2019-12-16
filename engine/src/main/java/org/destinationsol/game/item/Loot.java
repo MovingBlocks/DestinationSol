@@ -155,7 +155,7 @@ public class Loot implements SolObject {
     }
 
     @Override
-    public Vector2 getSpeed() {
+    public Vector2 getVelocity() {
         return null;
     }
 
@@ -190,14 +190,14 @@ public class Loot implements SolObject {
         float pullerDist = toPuller.len();
         if (0 < pullerDist && pullerDist < radius) {
             toPuller.scl(PULL_DESIRED_SPD / pullerDist);
-            Vector2 speed = body.getLinearVelocity();
-            Vector2 speedDiff = SolMath.distVec(speed, toPuller);
-            float speedDiffLen = speedDiff.len();
-            if (speedDiffLen > 0) {
-                speedDiff.scl(PULL_FORCE / speedDiffLen);
-                body.applyForceToCenter(speedDiff, true);
+            Vector2 velocity = body.getLinearVelocity();
+            Vector2 velocityDiff = SolMath.distVec(velocity, toPuller);
+            float speedDiff = velocityDiff.len();
+            if (speedDiff > 0) {
+                velocityDiff.scl(PULL_FORCE / speedDiff);
+                body.applyForceToCenter(velocityDiff, true);
             }
-            SolMath.free(speedDiff);
+            SolMath.free(velocityDiff);
         }
         SolMath.free(toPuller);
     }
@@ -216,12 +216,12 @@ public class Loot implements SolObject {
 
     public void pickedUp(SolGame game, SolShip ship) {
         life = 0;
-        Vector2 speed = new Vector2(ship.getPosition());
-        speed.sub(position);
+        Vector2 velocity = new Vector2(ship.getPosition());
+        velocity.sub(position);
         float fadeTime = .25f;
-        speed.scl(1 / fadeTime);
-        speed.add(ship.getSpeed());
-        game.getPartMan().blip(game, position, angle, item.getItemType().sz, fadeTime, speed, item.getIcon(game));
+        velocity.scl(1 / fadeTime);
+        velocity.add(ship.getVelocity());
+        game.getPartMan().blip(game, position, angle, item.getItemType().sz, fadeTime, velocity, item.getIcon(game));
         game.getSoundManager().play(game, item.getItemType().pickUpSound, null, this);
     }
 }

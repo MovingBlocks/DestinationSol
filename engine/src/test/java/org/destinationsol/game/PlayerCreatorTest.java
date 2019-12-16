@@ -75,8 +75,7 @@ public class PlayerCreatorTest {
         when(solGame.getGalaxyFiller().getPlayerSpawnPos(any())).thenReturn(galaxySpawnPosition);
         when(shipConfig.getSpawnPos()).thenReturn(shipConfigSpawnPosition);
         mockShipBuilding();
-        //no tutorial manager == not in tutorial mode
-        when(solGame.getTutMan()).thenReturn(null);
+        when(solGame.isTutorial()).thenReturn(false);
     }
 
     private void mockShipBuilding() {
@@ -160,7 +159,7 @@ public class PlayerCreatorTest {
 
     @Test
     public void testUseTutorialMoneyIfNoRespawnMoneyAndTutorialActive() {
-        when(solGame.getTutMan()).thenReturn(mock(TutorialManager.class));
+        when(solGame.isTutorial()).thenReturn(true);
         respawnState.setRespawnMoney(0);
         playerCreator.createPlayer(shipConfig, false, respawnState, solGame, false, false);
         verifyBuildNewFar(shipConfiguration().withMoney(TUTORIAL_MONEY));
@@ -269,7 +268,7 @@ public class PlayerCreatorTest {
     @Test
     public void testTutorialModeAddsSeenItemsIfRespawnItemsAreEmpty() {
         respawnState.getRespawnItems().clear();
-        when(solGame.getTutMan()).thenReturn(mock(TutorialManager.class));
+        when(solGame.isTutorial()).thenReturn(true);
         int groupCountBefore = shipItemContainer.groupCount();
         playerCreator.createPlayer(shipConfig, false, respawnState, solGame, false, false);
         assertThat(shipItemContainer.groupCount()).isGreaterThan(groupCountBefore);

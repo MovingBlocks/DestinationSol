@@ -32,6 +32,7 @@ import org.destinationsol.assets.audio.PlayableSound;
 import org.destinationsol.common.SolColor;
 import org.destinationsol.common.SolMath;
 import org.destinationsol.game.SolGame;
+import org.destinationsol.game.context.Context;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -56,14 +57,18 @@ public class SolInputManager {
     private final PlayableSound hoverSound;
     private final TextureAtlas.AtlasRegion uiCursor;
     private final Color warnColor;
+    private final Context context;
     private float mouseIdleTime;
+    //HACK: Mouse locking is currently broken on Linux
+    private final boolean osIsLinux;
     private TextureAtlas.AtlasRegion currCursor;
     private boolean mouseOnUi;
     private float warnPercentage;
     private boolean warnPercGrows;
     private Boolean scrolledUp;
 
-    public SolInputManager(OggSoundManager soundManager) {
+    public SolInputManager(OggSoundManager soundManager, Context context) {
+        this.context = context;
         inputPointers = new InputPointer[POINTER_COUNT];
         for (int i = 0; i < POINTER_COUNT; i++) {
             inputPointers[i] = new InputPointer();
@@ -86,6 +91,7 @@ public class SolInputManager {
         warnColor = new Color(SolColor.UI_WARN);
 
         hoverSound = soundManager.getSound("engine:uiHover");
+        osIsLinux = System.getProperty("os.name").equals("Linux");
     }
 
     private static void setPointerPosition(InputPointer inputPointer, int screenX, int screenY) {
@@ -166,7 +172,7 @@ public class SolInputManager {
         // This keeps the mouse within the window, but only when playing the game with the mouse.
         // All other times the mouse can freely leave and return.
         if (!mobile && solApplication.getOptions().controlType == GameOptions.ControlType.MIXED && game != null && getTopScreen() != game.getScreens().menuScreen) {
-            if (!Gdx.input.isCursorCatched()) {
+            if (!Gdx.input.isCursorCatched() && !osIsLinux) {
                 Gdx.input.setCursorCatched(true);
             }
             maybeFixMousePos();
@@ -220,7 +226,7 @@ public class SolInputManager {
             screen.updateCustom(solApplication, inputPointers, clickedOutside);
         }
 
-        TutorialManager tutorialManager = game == null ? null : game.getTutMan();
+        TutorialManager tutorialManager = game == null ? null : context.get(TutorialManager.class);
         if (tutorialManager != null && tutorialManager.isFinished()) {
             solApplication.finishGame();
         }
@@ -283,6 +289,11 @@ public class SolInputManager {
     }
 
     private void maybeFixMousePos() {
+        if (osIsLinux) {
+            //Mouse locking is broken on Linux
+            return;
+        }
+
         int mouseX = Gdx.input.getX();
         int mouseY = Gdx.input.getY();
         // TODO: look into the usefulness of this, and replace with Gdx.graphics.* with displayDimensions if nothing else
@@ -325,7 +336,7 @@ public class SolInputManager {
         uiDrawer.setTextMode(null);
 
         SolGame game = solApplication.getGame();
-        TutorialManager tutorialManager = game == null ? null : game.getTutMan();
+        TutorialManager tutorialManager = game == null ? null : context.get(TutorialManager.class);
         if (tutorialManager != null && getTopScreen() != game.getScreens().menuScreen) {
             tutorialManager.draw(uiDrawer);
         }

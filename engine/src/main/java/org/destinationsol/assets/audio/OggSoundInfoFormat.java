@@ -17,9 +17,9 @@ package org.destinationsol.assets.audio;
 
 import com.google.common.base.Charsets;
 import org.destinationsol.IniReader;
-import org.terasology.assets.format.AbstractAssetAlterationFileFormat;
-import org.terasology.assets.format.AssetDataFile;
-import org.terasology.assets.module.annotations.RegisterAssetSupplementalFileFormat;
+import org.terasology.gestalt.assets.format.AbstractAssetAlterationFileFormat;
+import org.terasology.gestalt.assets.format.AssetDataFile;
+import org.terasology.gestalt.assets.module.annotations.RegisterAssetSupplementalFileFormat;
 
 import java.io.BufferedReader;
 import java.io.IOException;

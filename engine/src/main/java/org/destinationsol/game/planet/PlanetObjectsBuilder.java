@@ -324,12 +324,12 @@ public class PlanetObjectsBuilder {
         if (station) {
             angle += 90;
         }
-        Vector2 speed = new Vector2(distanceToPlanet).nor();
+        Vector2 velocity = new Vector2(distanceToPlanet).nor();
         SolMath.free(distanceToPlanet);
 
         Pilot provider = new AiPilot(new StillGuard(position, game, shipConfig), false, faction, true, mapHint, Const.AI_DET_DIST);
 
-        return game.getShipBuilder().buildNewFar(game, position, speed, angle, 0, provider, shipItems, shipConfig.hull,
+        return game.getShipBuilder().buildNewFar(game, position, velocity, angle, 0, provider, shipItems, shipConfig.hull,
                 null, hasRepairer, money, tradeConfig, true);
     }
 
@@ -339,14 +339,14 @@ public class PlanetObjectsBuilder {
         SolMath.fromAl(position, SolRandom.randomFloat(180), height);
         Vector2 planetPosition = planet.getPosition();
         position.add(planetPosition);
-        float speedLen = SolMath.sqrt(planet.getGravitationConstant() / height);
+        float speed = SolMath.sqrt(planet.getGravitationConstant() / height);
         boolean clockwise = SolRandom.test(.5f);
         if (!clockwise) {
-            speedLen *= -1;
+            speed *= -1;
         }
-        Vector2 speed = new Vector2(0, -speedLen);
+        Vector2 velocity = new Vector2(0, -speed);
         Vector2 directionToPlanet = SolMath.distVec(position, planetPosition);
-        SolMath.rotate(speed, SolMath.angle(directionToPlanet));
+        SolMath.rotate(velocity, SolMath.angle(directionToPlanet));
         SolMath.free(directionToPlanet);
 
         OrbiterDestProvider destProvider = new OrbiterDestProvider(planet, height, clockwise);
@@ -354,7 +354,7 @@ public class PlanetObjectsBuilder {
 
         int money = shipConfig.money;
 
-        return game.getShipBuilder().buildNewFar(game, position, speed, 0, 0, provider, shipConfig.items, shipConfig.hull,
+        return game.getShipBuilder().buildNewFar(game, position, velocity, 0, 0, provider, shipConfig.items, shipConfig.hull,
                 null, false, money, null, true);
     }
 

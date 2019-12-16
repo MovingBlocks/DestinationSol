@@ -64,14 +64,10 @@ class PlayerCreator {
         ItemContainer itemContainer = hero.getItemContainer();
         if (!respawnState.getRespawnItems().isEmpty()) {
             addAndEquipRespawnItems(hero, respawnState, itemContainer, game);
-        } else if (isTutorialMode(game)) {
+        } else if (game.isTutorial()) {
             addRandomTutorialItems(game, itemContainer);
         }
         itemContainer.markAllAsSeen();
-    }
-
-    private boolean isTutorialMode(SolGame game) {
-        return game.getTutMan() != null;
     }
 
     private void addRandomTutorialItems(SolGame game, ItemContainer itemContainer) {
@@ -146,7 +142,7 @@ class PlayerCreator {
         if (respawnState.getRespawnMoney() != 0) {
             return respawnState.getRespawnMoney();
         }
-        if (isTutorialMode(game)) {
+        if (game.isTutorial()) {
             return TUTORIAL_MONEY_AMOUNT;
         }
         return shipConfig.getMoney();

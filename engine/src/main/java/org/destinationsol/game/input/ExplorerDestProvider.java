@@ -37,13 +37,13 @@ public class ExplorerDestProvider implements MoveDestProvider {
     public static final int LAST_PLANETS_TO_AVOID = 2;
     private final Vector2 destination;
     private final boolean isAggressive;
-    private final float desiredSpeedScalar;
+    private final float desiredSpeed;
     private final SolSystem system;
     private Vector2 relativeDestination;
     private Planet planet;
     private float awaitOnPlanet;
     private boolean landInDestination;
-    private Vector2 destinationSpeed;
+    private Vector2 destinationVelocity;
 
     public ExplorerDestProvider(Vector2 position, boolean aggressive, HullConfig config, SolSystem system) {
         this.system = system;
@@ -61,8 +61,8 @@ public class ExplorerDestProvider implements MoveDestProvider {
         calculateRelativeDestination(config);
         awaitOnPlanet = MAX_AWAIT_ON_PLANET;
         isAggressive = aggressive;
-        desiredSpeedScalar = config.getType() == HullConfig.Type.BIG ? Const.BIG_AI_SPD : Const.DEFAULT_AI_SPD;
-        destinationSpeed = new Vector2();
+        desiredSpeed = config.getType() == HullConfig.Type.BIG ? Const.BIG_AI_SPD : Const.DEFAULT_AI_SPD;
+        destinationVelocity = new Vector2();
     }
 
     private int allowedSize() {
@@ -117,7 +117,7 @@ public class ExplorerDestProvider implements MoveDestProvider {
         }
 
         SolMath.toWorld(destination, relativeDestination, planet.getAngle(), planet.getPosition());
-        planet.calculateSpeedAtPosition(destinationSpeed, destination);
+        planet.calculateVelocityAtPosition(destinationVelocity, destination);
     }
 
     @Override
@@ -129,8 +129,8 @@ public class ExplorerDestProvider implements MoveDestProvider {
     }
 
     @Override
-    public Vector2 getDestinationSpeed() {
-        return destinationSpeed;
+    public Vector2 getDestinationVelocity() {
+        return destinationVelocity;
     }
 
     @Override
@@ -139,7 +139,7 @@ public class ExplorerDestProvider implements MoveDestProvider {
     }
 
     @Override
-    public float getDesiredSpeedScalar() {
-        return desiredSpeedScalar;
+    public float getDesiredSpeed() {
+        return desiredSpeed;
     }
 }

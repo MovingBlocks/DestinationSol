@@ -47,6 +47,7 @@ import org.destinationsol.ui.FontSize;
 import org.destinationsol.ui.SolInputManager;
 import org.destinationsol.ui.SolUiBaseScreen;
 import org.destinationsol.ui.SolUiControl;
+import org.destinationsol.ui.SolUiScreen;
 import org.destinationsol.ui.UiDrawer;
 
 import java.util.ArrayList;
@@ -62,6 +63,7 @@ public class MainGameScreen extends SolUiBaseScreen {
     private static final float V_PAD = H_PAD;
     static final float HELPER_ROW_1 = 1 - 3f * CELL_SZ;
     private static final float HELPER_ROW_2 = HELPER_ROW_1 - .5f * CELL_SZ;
+    private static final float HELPER_ROW_3 = HELPER_ROW_2 - .5f * CELL_SZ;
 
     public final ShipUiControl shipControl;
     public final SolUiControl mapControl;
@@ -77,7 +79,6 @@ public class MainGameScreen extends SolUiBaseScreen {
 
     private final ZoneNameAnnouncer zoneNameAnnouncer;
     private final BorderDrawer borderDrawer;
-    private final List<WarnDrawer> warnDrawers = new ArrayList<>();
 
     private final TextureAtlas.AtlasRegion lifeTexture;
     private final TextureAtlas.AtlasRegion infinityTexture;
@@ -95,6 +96,9 @@ public class MainGameScreen extends SolUiBaseScreen {
     private final TextPlace myChargesExcessTp;
     private final TextPlace myMoneyExcessTp;
     private final SolApplication solApplication;
+
+    private List<SolUiScreen> gameOverlayScreens = new ArrayList<>();
+    private List<WarnDrawer> warnDrawers = new ArrayList<>();
 
     MainGameScreen(RightPaneLayout rightPaneLayout, Context context) {
         DisplayDimensions displayDimensions = SolApplication.displayDimensions;
@@ -136,7 +140,7 @@ public class MainGameScreen extends SolUiBaseScreen {
         talkControl = new SolUiControl(talkArea, true, gameOptions.getKeyTalk());
         talkControl.setDisplayName("Talk");
         controls.add(talkControl);
-        Rectangle mercArea = mobile ? btn(lastCol, HELPER_ROW_1, true) : rightPaneLayout.buttonRect(4);
+        Rectangle mercArea = mobile ? btn(lastCol, HELPER_ROW_3, true) : rightPaneLayout.buttonRect(4);
         mercControl = new SolUiControl(mercArea, true, gameOptions.getKeyMercenaryInteraction());
         mercControl.setDisplayName("Mercs");
         controls.add(mercControl);
@@ -291,6 +295,10 @@ public class MainGameScreen extends SolUiBaseScreen {
 
         if (consoleControlGrave.isJustOff() || consoleControlF1.isJustOff()) {
             inputMan.setScreen(solApplication, screens.console);
+        }
+
+        for (SolUiScreen screen : gameOverlayScreens) {
+            screen.updateCustom(solApplication, inputPointers, clickedOutside);
         }
     }
 
@@ -474,6 +482,10 @@ public class MainGameScreen extends SolUiBaseScreen {
                 wd.draw(uiDrawer, drawPlace++);
             }
         }
+
+        for (SolUiScreen screen : gameOverlayScreens) {
+            screen.drawImages(uiDrawer, solApplication);
+        }
     }
 
     @Override
@@ -496,11 +508,19 @@ public class MainGameScreen extends SolUiBaseScreen {
         }
 
         zoneNameAnnouncer.drawText(uiDrawer);
+
+        for (SolUiScreen screen : gameOverlayScreens) {
+            screen.drawText(uiDrawer, solApplication);
+        }
     }
 
     @Override
     public void blurCustom(SolApplication solApplication) {
         shipControl.blur();
+
+        for (SolUiScreen screen : gameOverlayScreens) {
+            screen.blurCustom(solApplication);
+        }
     }
 
     public boolean isLeft() {
@@ -545,6 +565,35 @@ public class MainGameScreen extends SolUiBaseScreen {
 
     public boolean isCameraRight() {
         return cameraControl.isRight();
+    }
+
+    public void addOverlayScreen(SolUiScreen screen) {
+        gameOverlayScreens.add(screen);
+        screen.onAdd(solApplication);
+        controls.addAll(screen.getControls());
+    }
+
+    public void removeOverlayScreen(SolUiScreen screen) {
+        gameOverlayScreens.remove(screen);
+        controls.removeAll(screen.getControls());
+    }
+
+    public boolean hasOverlay(SolUiScreen screen) {
+        return gameOverlayScreens.contains(screen);
+    }
+
+    public void addWarnDrawer(WarnDrawer drawer) {
+        if (!warnDrawers.contains(drawer)) {
+            warnDrawers.add(drawer);
+        }
+    }
+
+    public void removeWarnDrawer(WarnDrawer drawer) {
+        warnDrawers.remove(drawer);
+    }
+
+    public boolean hasWarnDrawer(WarnDrawer drawer) {
+        return warnDrawers.contains(drawer);
     }
 
     public static class TextPlace {

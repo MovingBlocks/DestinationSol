@@ -58,7 +58,7 @@ public class Projectile implements SolObject {
     private SolShip ship;
     private boolean wasDamageDealt;
 
-    public Projectile(SolGame game, float angle, Vector2 muzzlePos, Vector2 gunSpeed, Faction faction,
+    public Projectile(SolGame game, float angle, Vector2 muzzlePos, Vector2 gunVelocity, Faction faction,
                       ProjectileConfig config, boolean varySpeed, SolShip ship) {
         drawables = new ArrayList<>();
         this.config = config;
@@ -72,14 +72,14 @@ public class Projectile implements SolObject {
             drawable = new RectSprite(config.tex, config.texSz, config.origin.x, config.origin.y, new Vector2(), DrawableLevel.PROJECTILES, 0, 0, SolColor.WHITE, false);
         }
         drawables.add(drawable);
-        float speedLen = config.speedLen;
+        float speed = config.speed;
         if (varySpeed) {
-            speedLen *= SolRandom.randomFloat(.9f, 1.1f);
+            speed *= SolRandom.randomFloat(.9f, 1.1f);
         }
         if (config.physSize > 0) {
-            body = new BallProjectileBody(game, muzzlePos, angle, this, gunSpeed, speedLen, config);
+            body = new BallProjectileBody(game, muzzlePos, angle, this, gunVelocity, speed, config);
         } else {
-            body = new PointProjectileBody(angle, muzzlePos, gunSpeed, speedLen, this, game, config.acc);
+            body = new PointProjectileBody(angle, muzzlePos, gunVelocity, speed, this, game, config.acc);
         }
         this.faction = faction;
         bodyEffect = buildEffect(game, config.bodyEffect, DrawableLevel.PART_BG_0, null, true);
@@ -96,11 +96,11 @@ public class Projectile implements SolObject {
         }
     }
 
-    private DSParticleEmitter buildEffect(SolGame game, EffectConfig ec, DrawableLevel drawableLevel, Vector2 position, boolean inheritsSpeed) {
+    private DSParticleEmitter buildEffect(SolGame game, EffectConfig ec, DrawableLevel drawableLevel, Vector2 position, boolean inheritsVelocity) {
         if (ec == null) {
             return null;
         }
-        DSParticleEmitter res = new DSParticleEmitter(ec, -1, drawableLevel, new Vector2(), inheritsSpeed, game, position, body.getSpeed(), 0);
+        DSParticleEmitter res = new DSParticleEmitter(ec, -1, drawableLevel, new Vector2(), inheritsVelocity, game, position, body.getVelocity(), 0);
         if (res.isContinuous()) {
             res.setWorking(true);
             drawables.addAll(res.getDrawables());
@@ -115,7 +115,13 @@ public class Projectile implements SolObject {
         body.update(game);
         if (obstacle != null) {
             if (!wasDamageDealt) {
-                obstacle.receiveDmg(config.dmg, game, body.getPosition(), config.dmgType);
+                if(config.aoeRadius >= 0) { //If AoE is enabled for this Projectile, damage all within the radius.
+                    game.getObjectManager().doToAllCloserThan(config.aoeRadius, this, (SolObject obj) ->
+                        obj.receiveDmg(config.dmg, game, body.getPosition(), config.dmgType)
+                    );
+                } else {
+                    obstacle.receiveDmg(config.dmg, game, body.getPosition(), config.dmgType);
+                }
             }
             if (config.density > 0) {
                 obstacle = null;
@@ -227,8 +233,8 @@ public class Projectile implements SolObject {
     }
 
     @Override
-    public Vector2 getSpeed() {
-        return body.getSpeed();
+    public Vector2 getVelocity() {
+        return body.getVelocity();
     }
 
     @Override
@@ -341,11 +347,11 @@ public class Projectile implements SolObject {
                 h = minH;
             }
             Vector2 position = projectile.getPosition();
-            float w = projectile.getSpeed().len() * game.getTimeStep();
+            float w = projectile.getVelocity().len() * game.getTimeStep();
             if (w < 4 * h) {
                 w = 4 * h;
             }
-            drawer.draw(texture, w, h, w, h / 2, position.x, position.y, SolMath.angle(projectile.getSpeed()), SolColor.LG);
+            drawer.draw(texture, w, h, w, h / 2, position.x, position.y, SolMath.angle(projectile.getVelocity()), SolColor.LG);
         }
 
         @Override

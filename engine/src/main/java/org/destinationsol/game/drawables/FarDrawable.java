@@ -27,16 +27,16 @@ import java.util.List;
 public class FarDrawable implements FarObject {
     private final List<Drawable> drawables;
     private final Vector2 position;
-    private final Vector2 speed;
+    private final Vector2 velocity;
     private final RemoveController removeController;
     private final float radius;
     private final boolean hideOnPlanet;
 
-    public FarDrawable(List<Drawable> drawables, Vector2 position, Vector2 speed, RemoveController removeController,
+    public FarDrawable(List<Drawable> drawables, Vector2 position, Vector2 velocity, RemoveController removeController,
                        boolean hideOnPlanet) {
         this.drawables = drawables;
         this.position = position;
-        this.speed = speed;
+        this.velocity = velocity;
         this.removeController = removeController;
         radius = DrawableManager.radiusFromDrawables(this.drawables);
         this.hideOnPlanet = hideOnPlanet;
@@ -49,7 +49,7 @@ public class FarDrawable implements FarObject {
 
     @Override
     public SolObject toObject(SolGame game) {
-        return new DrawableObject(drawables, position, speed, removeController, false, hideOnPlanet);
+        return new DrawableObject(drawables, position, velocity, removeController, false, hideOnPlanet);
     }
 
     @Override

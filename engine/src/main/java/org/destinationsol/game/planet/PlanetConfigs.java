@@ -23,7 +23,7 @@ import org.destinationsol.common.SolRandom;
 import org.destinationsol.files.HullConfigManager;
 import org.destinationsol.game.GameColors;
 import org.destinationsol.game.item.ItemManager;
-import org.terasology.assets.ResourceUrn;
+import org.terasology.gestalt.assets.ResourceUrn;
 
 import java.util.Map;
 import java.util.List;
@@ -47,11 +47,7 @@ public class PlanetConfigs {
 
         for (ResourceUrn planetConfigJson : planetJsonConfigs) {
             String moduleName = planetConfigJson.getModuleName().toString();
-
-            Json json = Assets.getJson(planetConfigJson.toString());
-            JSONObject rootNode = json.getJsonValue();
-
-            Validator.validate(rootNode, "engine:schemaPlanetsConfig");
+            JSONObject rootNode = Validator.getValidatedJSON(planetConfigJson.toString(), "engine:schemaPlanetsConfig");
 
             for (String s : rootNode.keySet()) {
                 JSONObject node = rootNode.getJSONObject(s);
@@ -65,8 +61,6 @@ public class PlanetConfigs {
                     medium.add(planetConfig);
                 }
             }
-
-            json.dispose();
         }
     }
 

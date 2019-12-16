@@ -33,10 +33,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Door {
-    public static final float SPD_LEN = .4f;
+    public static final float SPEED = .4f;
     public static final float SENSOR_DIST = 3f;
     public static final float DOOR_LEN = 1.1f;
-    public static final float MAX_OPEN_AWAIT = DOOR_LEN / SPD_LEN;
+    public static final float MAX_OPEN_AWAIT = DOOR_LEN / SPEED;
     private final PrismaticJoint myJoint;
     private final RectSprite myS;
     private float myOpenAwait;
@@ -51,12 +51,12 @@ public class Door {
         boolean open = myOpenAwait <= 0 && shouldOpen(game, ship, doorPos);
         if (open) {
             myOpenAwait = MAX_OPEN_AWAIT;
-            myJoint.setMotorSpeed(SPD_LEN);
+            myJoint.setMotorSpeed(SPEED);
             game.getSoundManager().play(game, game.getSpecialSounds().doorMove, doorPos, ship);
         } else if (myOpenAwait > 0) {
             myOpenAwait -= game.getTimeStep();
             if (myOpenAwait < 0) {
-                myJoint.setMotorSpeed(-SPD_LEN);
+                myJoint.setMotorSpeed(-SPEED);
                 game.getSoundManager().play(game, game.getSpecialSounds().doorMove, doorPos, ship);
             }
         }

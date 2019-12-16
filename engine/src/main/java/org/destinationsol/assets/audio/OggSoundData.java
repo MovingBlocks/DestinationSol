@@ -16,7 +16,7 @@
 package org.destinationsol.assets.audio;
 
 import com.badlogic.gdx.audio.Sound;
-import org.terasology.assets.AssetData;
+import org.terasology.gestalt.assets.AssetData;
 
 public class OggSoundData implements AssetData {
     private Sound sound;

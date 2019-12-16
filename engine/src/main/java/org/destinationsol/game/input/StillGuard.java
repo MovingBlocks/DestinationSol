@@ -27,15 +27,15 @@ import org.destinationsol.game.ship.hulls.HullConfig;
 public class StillGuard implements MoveDestProvider {
 
     private final PlanetBind myPlanetBind;
-    private final float myDesiredSpeedLen;
+    private final float myDesiredSpeed;
     private Vector2 myDest;
-    private Vector2 myDestSpeed;
+    private Vector2 myDestVelocity;
 
     public StillGuard(Vector2 target, SolGame game, ShipConfig sc) {
         myDest = new Vector2(target);
         myPlanetBind = PlanetBind.tryBind(game, myDest, 0);
-        myDesiredSpeedLen = sc.hull.getType() == HullConfig.Type.BIG ? Const.BIG_AI_SPD : Const.DEFAULT_AI_SPD;
-        myDestSpeed = new Vector2();
+        myDesiredSpeed = sc.hull.getType() == HullConfig.Type.BIG ? Const.BIG_AI_SPD : Const.DEFAULT_AI_SPD;
+        myDestVelocity = new Vector2();
     }
 
     @Override
@@ -49,8 +49,8 @@ public class StillGuard implements MoveDestProvider {
     }
 
     @Override
-    public float getDesiredSpeedScalar() {
-        return myDesiredSpeedLen;
+    public float getDesiredSpeed() {
+        return myDesiredSpeed;
     }
 
     @Override
@@ -65,7 +65,7 @@ public class StillGuard implements MoveDestProvider {
             myPlanetBind.setDiff(diff, myDest, false);
             myDest.add(diff);
             SolMath.free(diff);
-            myPlanetBind.getPlanet().calculateSpeedAtPosition(myDestSpeed, myDest);
+            myPlanetBind.getPlanet().calculateVelocityAtPosition(myDestVelocity, myDest);
         }
     }
 
@@ -75,7 +75,7 @@ public class StillGuard implements MoveDestProvider {
     }
 
     @Override
-    public Vector2 getDestinationSpeed() {
-        return myDestSpeed;
+    public Vector2 getDestinationVelocity() {
+        return myDestVelocity;
     }
 }

@@ -20,7 +20,7 @@ import org.destinationsol.assets.json.Json;
 import org.destinationsol.assets.json.Validator;
 import org.destinationsol.game.ship.SolShip;
 import org.json.JSONArray;
-import org.terasology.assets.ResourceUrn;
+import org.terasology.gestalt.assets.ResourceUrn;
 
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -41,7 +41,7 @@ public class FactionInfo {
     private void createFactionList() {
         for (String modulePath : getModuleSet()) {
             Json factionJson = Assets.getJson(modulePath);
-            Validator.validate(factionJson.getJsonValue(), modulePath);
+            Validator.getValidatedJSON(modulePath, "engine:schemaFactions");
             JSONArray factionJsonArray = factionJson.getJsonValue().getJSONArray("factions");
             for (int n = 0; n < factionJsonArray.length(); n++) {
                 factionName.add(factionJsonArray.getJSONObject(n).getString("name").replace("\"", ""));
@@ -78,7 +78,7 @@ public class FactionInfo {
         String shipName = ship.getHull().getHullConfig().getInternalName();
         for(String modulePath: getModuleSet()) {
             Json factionJson = Assets.getJson(modulePath);
-            Validator.validate(factionJson.getJsonValue(), modulePath);
+            Validator.getValidatedJSON(modulePath, "engine:schemaFactions");
             JSONArray factionJsonArray = factionJson.getJsonValue().getJSONArray("factions");
             shipName = shipName.replaceAll(".*:", "");
             for(int n = 0; n < factionJsonArray.length(); n++) {

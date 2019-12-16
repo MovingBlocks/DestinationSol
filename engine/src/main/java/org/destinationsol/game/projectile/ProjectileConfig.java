@@ -25,7 +25,7 @@ public class ProjectileConfig {
 
     public final TextureAtlas.AtlasRegion tex;
     public final float texSz;
-    public final float speedLen;
+    public final float speed;
     public final float physSize;
     public final boolean stretch;
     public final DmgType dmgType;
@@ -44,15 +44,16 @@ public class ProjectileConfig {
     public final float guideRotationSpeed;
     public final float dmg;
     public final float emTime;
+    public final float aoeRadius;
 
-    public ProjectileConfig(TextureAtlas.AtlasRegion tex, float texSz, float speedLen, boolean stretch,
+    public ProjectileConfig(TextureAtlas.AtlasRegion tex, float texSz, float speed, boolean stretch,
                             float physSize, DmgType dmgType, PlayableSound collisionSound, float lightSz, EffectConfig trailEffect,
                             EffectConfig bodyEffect, EffectConfig collisionEffect, EffectConfig collisionEffectBackground,
                             boolean zeroAbsSpeed, Vector2 origin, float acc, PlayableSound workSound, boolean massless, float density,
-                            float guideRotationSpeed, float dmg, float emTime) {
+                            float guideRotationSpeed, float dmg, float emTime, float aoeRadius) {
         this.tex = tex;
         this.texSz = texSz;
-        this.speedLen = speedLen;
+        this.speed = speed;
         this.stretch = stretch;
         this.physSize = physSize;
         this.dmgType = dmgType;
@@ -71,6 +72,7 @@ public class ProjectileConfig {
         this.guideRotationSpeed = guideRotationSpeed;
         this.dmg = dmg;
         this.emTime = emTime;
+        this.aoeRadius = aoeRadius;
         if (physSize == 0 && massless) {
             throw new AssertionError("only projectiles with physSize > 0 can be massless");
         }

@@ -54,7 +54,19 @@ switch(cleanerArgs[0]) {
         } else {
             // Note: processCustomRemote also drops one of the array elements from cleanerArgs
             cleanerArgs = common.processCustomRemote(cleanerArgs)
-            common.retrieve cleanerArgs, recurse
+            ArrayList<String> selectedItems = new ArrayList<String>()
+
+            common.cacheItemList()
+            for (String arg : cleanerArgs) {
+                if (!arg.contains('*') && !arg.contains('?')) {
+                    selectedItems.add(arg)
+                } else {
+                    selectedItems.addAll(common.retrieveAvalibleItemsWithWildcardMatch(arg));
+                }
+            }
+            common.unCacheItemList()
+
+            common.retrieve(((String[])selectedItems.toArray()), recurse)
         }
         break
 
@@ -215,6 +227,12 @@ def printUsage() {
     println ""
     println "Example: 'groovyw module create MySpaceShips' - would create that module"
     println "Example: 'groovyw module get caution - remote vampcat - would retrieve caution module from vampcat's account on github.'"
+    println "Example: 'groovyw module get *' - would retrieve all the modules in the DestinationSol organisation on GitHub."
+    println "Example: 'groovyw module get ?r*' - would retrieve all the modules in the DestinationSol organisation on GitHub" +
+            " that start with any single character, then an \"r\" and then end with anything else." +
+            " This should retrieve the draconic, organic and tribe repositories from the DestinationSol organisation on GitHub."
+    println ""
+    println "*NOTE*: On UNIX platforms (MacOS and Linux), the wildcard arguments must be escaped with single quotes e.g. groovyw module get '*'."
     println ""
     println "*NOTE*: Item names are case sensitive. If you add items then `gradlew idea` or similar may be needed to refresh your IDE"
     println ""

@@ -1,0 +1,8 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "description": "Names for in-game systems/planets, selected randomly in world generation",
+  "propertyNames": {
+    "pattern": "^[ -~]+$",
+    "description": "System/Planet names can be any non-blank string of ascii characters."
+  }
+}

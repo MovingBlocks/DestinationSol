@@ -24,7 +24,7 @@ public interface ProjectileBody {
 
     Vector2 getPosition();
 
-    Vector2 getSpeed();
+    Vector2 getVelocity();
 
     void receiveForce(Vector2 force, SolGame game, boolean acc);
 

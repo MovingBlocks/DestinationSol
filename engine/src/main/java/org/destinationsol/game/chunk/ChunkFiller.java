@@ -188,15 +188,15 @@ public class ChunkFiller {
     }
 
     private FarShip buildSpaceEnemy(SolGame game, Vector2 position, RemoveController remover, ShipConfig enemyConf) {
-        Vector2 speed = new Vector2();
-        SolMath.fromAl(speed, SolRandom.randomFloat(180), SolRandom.randomFloat(0, ENEMY_MAX_SPD));
+        Vector2 velocity = new Vector2();
+        SolMath.fromAl(velocity, SolRandom.randomFloat(180), SolRandom.randomFloat(0, ENEMY_MAX_SPD));
         float rotationSpeed = SolRandom.randomFloat(ENEMY_MAX_ROT_SPD);
         MoveDestProvider dp = new StillGuard(position, game, enemyConf);
         Pilot provider = new AiPilot(dp, false, Faction.EHAR, true, null, Const.AI_DET_DIST);
         HullConfig config = enemyConf.hull;
         int money = enemyConf.money;
         float angle = SolRandom.randomFloat(180);
-        return game.getShipBuilder().buildNewFar(game, position, speed, angle, rotationSpeed, provider, enemyConf.items, config,
+        return game.getShipBuilder().buildNewFar(game, position, velocity, angle, rotationSpeed, provider, enemyConf.items, config,
                 remover, false, money, null, true);
     }
 
@@ -213,10 +213,10 @@ public class ChunkFiller {
                 float minSz = forBelt ? MIN_BELT_A_SZ : MIN_SYS_A_SZ;
                 float maxSz = forBelt ? MAX_BELT_A_SZ : MAX_SYS_A_SZ;
                 float sz = SolRandom.randomFloat(minSz, maxSz);
-                Vector2 speed = new Vector2();
-                SolMath.fromAl(speed, SolRandom.randomFloat(180), MAX_A_SPD);
+                Vector2 velocity = new Vector2();
+                SolMath.fromAl(velocity, SolRandom.randomFloat(180), MAX_A_SPD);
 
-                FarAsteroid a = game.getAsteroidBuilder().buildNewFar(asteroidPos, speed, sz, remover);
+                FarAsteroid a = game.getAsteroidBuilder().buildNewFar(asteroidPos, velocity, sz, remover);
                 game.getObjectManager().addFarObjNow(a);
             });
         }
@@ -308,9 +308,9 @@ public class ChunkFiller {
             drawables.add(s);
 
             // Create a FarDrawable instance for this piece of junk and only allow it to be drawn when it's not hidden by a planet
-            Vector2 speed = new Vector2();
-            SolMath.fromAl(speed, SolRandom.randomFloat(180), SolRandom.randomFloat(JUNK_MAX_SPD_LEN));
-            FarDrawable so = new FarDrawable(drawables, junkPos, speed, remover, true);
+            Vector2 velocity = new Vector2();
+            SolMath.fromAl(velocity, SolRandom.randomFloat(180), SolRandom.randomFloat(JUNK_MAX_SPD_LEN));
+            FarDrawable so = new FarDrawable(drawables, junkPos, velocity, remover, true);
             // Add the object to the object manager
             game.getObjectManager().addFarObjNow(so);
         }

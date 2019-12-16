@@ -34,12 +34,12 @@ public class Mover {
     private boolean myUp;
     private boolean myLeft;
     private boolean myRight;
-    private Vector2 myDesiredSpeed;
+    private Vector2 myDesiredVelocity;
 
     Mover() {
         myBigObjAvoider = new BigObjAvoider();
         mySmallObjAvoider = new SmallObjAvoider();
-        myDesiredSpeed = new Vector2();
+        myDesiredVelocity = new Vector2();
     }
 
     public static Boolean needsToTurn(float angle, float destAngle, float rotationSpeed, float rotAcc, float allowedAngleDiff) {
@@ -58,8 +58,8 @@ public class Mover {
     }
 
     public void update(SolGame game, SolShip ship, Vector2 dest, Planet np,
-                       float maxIdleDist, boolean hasEngine, boolean avoidBigObjs, float desiredSpeedLen, boolean stopNearDest,
-                       Vector2 destSpeed) {
+                       float maxIdleDist, boolean hasEngine, boolean avoidBigObjs, float desiredSpeed, boolean stopNearDest,
+                       Vector2 destVelocity) {
         myUp = false;
         myLeft = false;
         myRight = false;
@@ -76,14 +76,14 @@ public class Mover {
             if (!stopNearDest) {
                 return;
             }
-            myDesiredSpeed.set(destSpeed);
+            myDesiredVelocity.set(destVelocity);
         } else {
-            updateDesiredSpeed(game, ship, dest, toDestLen, stopNearDest, np, avoidBigObjs, desiredSpeedLen, destSpeed);
+            updateDesiredVelocity(game, ship, dest, toDestLen, stopNearDest, np, avoidBigObjs, desiredSpeed, destVelocity);
         }
 
-        Vector2 shipSpeed = ship.getSpeed();
-        float speedDeviation = shipSpeed.dst(myDesiredSpeed);
-        if (speedDeviation < MAX_ABS_SPD_DEV || speedDeviation < MAX_REL_SPD_DEV * shipSpeed.len()) {
+        Vector2 shipVelocity = ship.getVelocity();
+        float speedDeviation = shipVelocity.dst(myDesiredVelocity);
+        if (speedDeviation < MAX_ABS_SPD_DEV || speedDeviation < MAX_REL_SPD_DEV * shipVelocity.len()) {
             return;
         }
 
@@ -91,7 +91,7 @@ public class Mover {
         float rotationSpeed = ship.getRotationSpeed();
         float rotAcc = ship.getRotationAcceleration();
 
-        float desiredAngle = SolMath.angle(shipSpeed, myDesiredSpeed);
+        float desiredAngle = SolMath.angle(shipVelocity, myDesiredVelocity);
         float angleDiff = SolMath.angleDiff(desiredAngle, shipAngle);
         myUp = angleDiff < MIN_ANGLE_TO_ACC;
         Boolean ntt = needsToTurn(shipAngle, desiredAngle, rotationSpeed, rotAcc, MIN_MOVE_AAD);
@@ -104,20 +104,20 @@ public class Mover {
         }
     }
 
-    private void updateDesiredSpeed(SolGame game, SolShip ship, Vector2 dest, float toDestLen, boolean stopNearDest,
-                                  Planet np, boolean avoidBigObjs, float desiredSpeedLen, Vector2 destSpeed) {
+    private void updateDesiredVelocity(SolGame game, SolShip ship, Vector2 dest, float toDestLen, boolean stopNearDest,
+                                       Planet np, boolean avoidBigObjs, float desiredSpeed, Vector2 destVelocity) {
         float toDestAngle = getToDestAngle(game, ship, dest, avoidBigObjs, np);
         if (stopNearDest) {
-            float tangentSpeed = SolMath.project(ship.getSpeed(), toDestAngle);
+            float tangentSpeed = SolMath.project(ship.getVelocity(), toDestAngle);
             float turnWay = tangentSpeed * ship.calcTimeToTurn(toDestAngle + 180);
             float breakWay = tangentSpeed * tangentSpeed / ship.getAcceleration() / 2;
             boolean needsToBreak = toDestLen < .5f * tangentSpeed + turnWay + breakWay;
             if (needsToBreak) {
-                myDesiredSpeed.set(destSpeed);
+                myDesiredVelocity.set(destVelocity);
                 return;
             }
         }
-        SolMath.fromAl(myDesiredSpeed, toDestAngle, desiredSpeedLen);
+        SolMath.fromAl(myDesiredVelocity, toDestAngle, desiredSpeed);
     }
 
     public void rotateOnIdle(SolShip ship, Planet np, Vector2 dest, boolean stopNearDest, float maxIdleDist) {
@@ -143,7 +143,7 @@ public class Mover {
             if (dstToPlanet < np.getFullHeight() + Const.ATM_HEIGHT) {
                 return; // near planet, don't care of angle
             }
-            desiredAngle = SolMath.angle(ship.getSpeed());
+            desiredAngle = SolMath.angle(ship.getVelocity());
             allowedAngleDiff = MIN_MOVE_AAD;
         }
 

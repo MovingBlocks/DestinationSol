@@ -30,7 +30,7 @@ import java.util.List;
 
 public class DrawableObject implements SolObject {
     private final Vector2 position;
-    private final Vector2 speed;
+    private final Vector2 velocity;
     private final RemoveController removeController;
     private final boolean hideOnPlanet;
     private final Vector2 moveDifference;
@@ -40,10 +40,10 @@ public class DrawableObject implements SolObject {
     private float maxFadeTime;
     private float fadeTime;
 
-    public DrawableObject(List<Drawable> drawables, @Consumed Vector2 position, @Consumed Vector2 speed, RemoveController removeController, boolean temporary, boolean hideOnPlanet) {
+    public DrawableObject(List<Drawable> drawables, @Consumed Vector2 position, @Consumed Vector2 velocity, RemoveController removeController, boolean temporary, boolean hideOnPlanet) {
         this.drawables = drawables;
         this.position = position;
-        this.speed = speed;
+        this.velocity = velocity;
         this.removeController = removeController;
         this.hideOnPlanet = hideOnPlanet;
         moveDifference = new Vector2();
@@ -55,7 +55,7 @@ public class DrawableObject implements SolObject {
 
     @Override
     public void update(SolGame game) {
-        moveDifference.set(speed);
+        moveDifference.set(velocity);
         float timeStep = game.getTimeStep();
         moveDifference.scl(timeStep);
         position.add(moveDifference);
@@ -135,7 +135,7 @@ public class DrawableObject implements SolObject {
 
     @Override
     public FarObject toFarObject() {
-        return isTemporary ? null : new FarDrawable(drawables, position, speed, removeController, hideOnPlanet);
+        return isTemporary ? null : new FarDrawable(drawables, position, velocity, removeController, hideOnPlanet);
     }
 
     @Override
@@ -149,7 +149,7 @@ public class DrawableObject implements SolObject {
     }
 
     @Override
-    public Vector2 getSpeed() {
+    public Vector2 getVelocity() {
         return null;
     }
 

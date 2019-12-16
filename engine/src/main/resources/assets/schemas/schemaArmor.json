@@ -12,7 +12,8 @@
   "properties": {
     "displayName": {
       "type": "string",
-      "description": "Name of the armor"
+      "description": "Name of the armor",
+      "pattern": "^[ -~]+$"
     },
     "price":{
       "type": "integer",

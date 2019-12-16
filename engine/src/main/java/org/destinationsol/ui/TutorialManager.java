@@ -193,12 +193,6 @@ public class TutorialManager implements UpdateAwareSystem {
             addStep("Close the Buy screen\n(" + gameOptions.getKeyCloseName() + " key)", screens.inventoryScreen.closeControl, true);
         }
 
-        if (mobile) {
-            addStep("Close the Talk screen\n(Touch the screen outside inventory)", screens.talkScreen.closeControl, true);
-        } else {
-            addStep("Close the Talk screen\n(" + gameOptions.getKeyCloseName() + " key)", screens.talkScreen.closeControl, true);
-        }
-
         if (mouseCtrl) {
             addStep("Use the ability of your ship\n(MIDDLE mouse button or " + gameOptions.getKeyAbilityName() + " key)",
                     abilityCtrl, true);

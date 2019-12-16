@@ -1,0 +1,158 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "description": "Configuration for various projectile shot by guns on ships.",
+  "propertyNames": {
+    "pattern": "^\\w+$",
+    "description": "Projectile names must be a sequence of basic alphanumeric characters without a space."
+  },
+  "additionalProperties": {
+    "type": "object",
+    "required": [
+      "tex",
+      "texSz",
+      "speed",
+      "dmgType",
+      "dmg"
+    ],
+    "properties": {
+      "tex": {
+        "type": "string",
+        "description": "The gestalt ID of the texture for this projectile. The file should have 'Projectile' as a prefix.",
+        "pattern": "^\\w+:\\w+$"
+      },
+      "texSz": {
+        "type": "number",
+        "description": "The scale factor of the texture of this projectile.",
+        "minimum": 0
+      },
+      "speed": {
+        "type": "number",
+        "description": "The speed of this projectile when fired."
+      },
+      "physSize": {
+        "type": "number",
+        "description": "The diameter of the bounding circle of this projectile.",
+        "exclusiveMinimum": 0
+      },
+      "stretch": {
+        "type": "boolean",
+        "description": "True if the texture should stretch vertically to resize, false to scale the texture instead. Defaults to false."
+      },
+      "dmgType": {
+        "type": "string",
+        "description": "The type of damage dealt by this projectile on contact.",
+        "enum": [
+          "bullet",
+          "explosion",
+          "energy",
+          "crash",
+          "fire"
+        ]
+      },
+      "collisionSound": {
+        "type": "string",
+        "description": "The gestalt id of the sound effect played on projectile collision",
+        "pattern": "^\\w+:\\w+$"
+      },
+      "lightSz": {
+        "type": "number",
+        "description": "The size of the light source on this projectile. Size of zero by default.",
+        "minimun": 0
+      },
+      "trailEffect": {
+        "$ref": "#/definitions/effect"
+      },
+      "bodyEffect": {
+        "$ref": "#/definitions/effect"
+      },
+      "collisionEffect": {
+        "$ref": "#/definitions/effect"
+      },
+      "collisionEffectBg": {
+        "$ref": "#/definitions/effect"
+      },
+      "guideRotationSpeed": {
+        "type": "number",
+        "description": "How fast the projectile will guide itself towards a target. 0 by default."
+      },
+      "zeroAbsSpd": {
+        "type": "boolean",
+        "description": "True if bullet velocity should not be relative to the gun's velocity. False by default."
+      },
+      "texOrig": {
+        "$ref": "#/definitions/vec2"
+      },
+      "acceleration": {
+        "type": "number",
+        "description": "The acceleration acting on this projectile. Zero by default."
+      },
+      "workSound": {
+        "type": "string",
+        "description": "The gestalt ID of the sound played every frame of the projectile's motion.",
+        "pattern": "^\\w+:\\w+$"
+      },
+      "massless": {
+        "type": "boolean",
+        "description": "True if the projectile does not have mass. False by default."
+      },
+      "density": {
+        "type": "number",
+        "description": "The density of this projectile. Effects various collision behavior. -1 by default."
+      },
+      "dmg": {
+        "type": "number",
+        "description": "The base damage caused to an object when shot by this projectile",
+        "minimum": 0
+      },
+      "emTime": {
+        "type": "number",
+        "description": "The time that an enemy is disabled after collision. 0 by default.",
+        "minimum": 0
+      },
+      "aoeRadius": {
+        "type": "number",
+        "description": "The radius that an enemy must be within to be effected by the projectile. A negative number disables this effect. -1 by default."
+      }
+    }
+  },
+  "definitions": {
+    "vec2": {
+      "type": "string",
+      "pattern": "^(-?([0-9]*\\.)?[0-9]+ +(-?[0-9]*\\.)?[0-9]+)$",
+      "$comment": "2 float values separated by one or more spaces, ints also accepted"
+    },
+    "effect": {
+      "type": "object",
+      "properties": {
+        "effectFile": {
+          "type": "string",
+          "pattern": "^\\w+:\\w+$",
+          "description": "The gestalt id of the .emitter file for this particle effect."
+        },
+        "tex": {
+          "type": "string",
+          "pattern": "^\\w+:\\w+$",
+          "description": "The gestalt id of the particle texture for this effect."
+        },
+        "tint": {
+          "type": "string",
+          "pattern": "^(\\w+|(hsb (((360)|(3[0-5]\\d)|([012]?\\d?\\d))( ((100)|\\d?\\d)){2})|(((([01]?\\d?\\d)|(2[0-4]\\d)|(25[0-5])) ){2}(([01]?\\d?\\d)|(2[0-4]\\d)|(25[0-5]))))( (([01]?\\d?\\d)|(2[0-4]\\d)|(25[0-5])))?)$",
+          "description": "A keyword of a color defined in colorsConfig or in GameColors.java. Must be any sequence of basic alphanumeric characters without a space."
+        },
+        "floatsUp": {
+          "type": "boolean",
+          "description": "True if particles will float opposing the gravity of the nearest planet, default false."
+        },
+        "size": {
+          "type": "number",
+          "description": "The default unit size of each individual particle. Almost always overwritten for special effects."
+        }
+      },
+      "required": [
+        "effectFile",
+        "tex",
+        "tint"
+      ]
+    }
+  }
+}

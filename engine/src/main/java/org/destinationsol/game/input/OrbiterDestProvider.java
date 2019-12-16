@@ -52,7 +52,7 @@ public class OrbiterDestProvider implements MoveDestProvider {
     }
 
     @Override
-    public float getDesiredSpeedScalar() {
+    public float getDesiredSpeed() {
         return myDesiredSpeed;
     }
 
@@ -75,7 +75,7 @@ public class OrbiterDestProvider implements MoveDestProvider {
     }
 
     @Override
-    public Vector2 getDestinationSpeed() {
+    public Vector2 getDestinationVelocity() {
         return Vector2.Zero;
     }
 }

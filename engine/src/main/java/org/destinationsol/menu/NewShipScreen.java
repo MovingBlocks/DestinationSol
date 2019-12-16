@@ -33,7 +33,7 @@ import org.destinationsol.ui.SolInputManager;
 import org.destinationsol.ui.SolUiBaseScreen;
 import org.destinationsol.ui.SolUiControl;
 import org.destinationsol.ui.UiDrawer;
-import org.terasology.assets.ResourceUrn;
+import org.terasology.gestalt.assets.ResourceUrn;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -118,16 +118,12 @@ public class NewShipScreen extends SolUiBaseScreen {
         Set<ResourceUrn> configUrnList = Assets.getAssetHelper().list(Json.class, "[a-zA-Z]*:playerSpawnConfig");
 
         for (ResourceUrn configUrn : configUrnList) {
-            Json json = Assets.getJson(configUrn.toString());
-            JSONObject rootNode = json.getJsonValue();
-
-            Validator.validate(rootNode, "engine:schemaPlayerSpawnConfig");
+            JSONObject rootNode = Validator.getValidatedJSON(configUrn.toString(), "engine:schemaPlayerSpawnConfig");
 
             for (String s : rootNode.keySet()) {
                 playerSpawnConfigNames.add(s);
             }
 
-            json.dispose();
         }
     }
 

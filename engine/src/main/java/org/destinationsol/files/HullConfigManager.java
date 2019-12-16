@@ -17,30 +17,28 @@ package org.destinationsol.files;
 
 import com.badlogic.gdx.math.Vector2;
 import org.destinationsol.assets.json.Validator;
+import org.destinationsol.game.AbilityCommonConfig;
+import org.destinationsol.modules.ModuleManager;
 import org.json.JSONArray;
 import org.json.JSONObject;
-import com.badlogic.gdx.utils.SerializationException;
 import org.destinationsol.assets.Assets;
 import org.destinationsol.assets.json.Json;
-import org.destinationsol.common.SolException;
 import org.destinationsol.common.SolMath;
 import org.destinationsol.game.AbilityCommonConfigs;
 import org.destinationsol.game.item.Engine;
 import org.destinationsol.game.item.ItemManager;
 import org.destinationsol.game.particle.DSParticleEmitter;
 import org.destinationsol.game.ship.AbilityConfig;
-import org.destinationsol.game.ship.EmWave;
-import org.destinationsol.game.ship.KnockBack;
-import org.destinationsol.game.ship.SloMo;
-import org.destinationsol.game.ship.Teleport;
-import org.destinationsol.game.ship.UnShield;
 import org.destinationsol.game.ship.hulls.GunSlot;
 import org.destinationsol.game.ship.hulls.HullConfig;
+import org.terasology.gestalt.module.Module;
+import org.terasology.gestalt.naming.Name;
 
+import java.lang.reflect.Method;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 
 public final class HullConfigManager {
@@ -48,6 +46,19 @@ public final class HullConfigManager {
     private final AbilityCommonConfigs abilityCommonConfigs;
     private final Map<String, HullConfig> nameToConfigMap;
     private final Map<HullConfig, String> configToNameMap;
+    private static final Map<String, Class<AbilityConfig>> abilityClasses;
+    private static final String LOAD_JSON_METHOD_NAME = "load";
+
+    static {
+        abilityClasses = new HashMap<String, Class<AbilityConfig>>();
+        for (Class abilityClass : ModuleManager.getEnvironment().getSubtypesOf(AbilityConfig.class)) {
+            try {
+                abilityClasses.put(abilityClass.getSimpleName().replace("Config", "").toLowerCase(Locale.ENGLISH), abilityClass);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+    }
 
     public HullConfigManager(ItemManager itemManager, AbilityCommonConfigs abilityCommonConfigs) {
         this.itemManager = itemManager;
@@ -65,8 +76,9 @@ public final class HullConfigManager {
     }
 
     private static Engine.Config readEngineConfig(String engineName, ItemManager itemManager) {
-        if (engineName == null)
+        if (engineName == null) {
             return null;
+        }
 
         return itemManager.getEngineConfig(engineName);
     }
@@ -103,10 +115,7 @@ public final class HullConfigManager {
 
         configData.internalName = shipName;
 
-        Json json = Assets.getJson(shipName);
-        JSONObject rootNode = json.getJsonValue();
-
-        Validator.validate(rootNode, "engine:schemaHullConfig");
+        JSONObject rootNode = Validator.getValidatedJSON(shipName, "engine:schemaHullConfig");
 
         readProperties(rootNode, configData);
 
@@ -114,8 +123,6 @@ public final class HullConfigManager {
         configData.icon = Assets.getAtlasRegion(shipName + "Icon");
 
         validateEngineConfig(configData);
-
-        json.dispose();
 
         return new HullConfig(configData);
     }
@@ -163,7 +170,6 @@ public final class HullConfigManager {
         configData.maxLife = rootNode.getInt("maxLife");
 
         configData.lightSrcPoss = SolMath.readV2List(rootNode, "lightSrcPoss");
-        configData.hasBase = rootNode.optBoolean("hasBase");
         configData.forceBeaconPoss = SolMath.readV2List(rootNode, "forceBeaconPoss");
         configData.doorPoss = SolMath.readV2List(rootNode, "doorPoss");
         configData.type = HullConfig.Type.forName(rootNode.optString("type"));
@@ -172,7 +178,7 @@ public final class HullConfigManager {
         configData.ability = loadAbility(rootNode, itemManager, abilityCommonConfigs);
 
         configData.displayName = rootNode.optString("displayName", "---");
-        configData.price = rootNode.optInt("price", 0);
+        configData.price = (float) rootNode.optDouble("price", 0);
         configData.hirePrice = (float) rootNode.optDouble("hirePrice", 0);
 
         Vector2 tmpV = new Vector2((float) rootNode.getJSONObject("rigidBody").getJSONObject("origin").getDouble("x"),
@@ -196,22 +202,17 @@ public final class HullConfigManager {
         if (abNode == null) {
             return null;
         }
-        String type = abNode.optString("type");
-        if ("sloMo".equals(type)) {
-            return SloMo.Config.load(abNode, manager, commonConfigs.sloMo);
+        String type = abNode.optString("type").toLowerCase(Locale.ENGLISH);
+
+        if (abilityClasses.containsKey(type)) {
+            try {
+                Method loadMethod = abilityClasses.get(type).getDeclaredMethod(LOAD_JSON_METHOD_NAME, JSONObject.class, ItemManager.class, AbilityCommonConfig.class);
+                return (AbilityConfig) loadMethod.invoke(null, abNode, manager, commonConfigs.abilityConfigs.get(type));
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
         }
-        if ("teleport".equals(type)) {
-            return Teleport.Config.load(abNode, manager, commonConfigs.teleport);
-        }
-        if ("knockBack".equals(type)) {
-            return KnockBack.Config.load(abNode, manager, commonConfigs.knockBack);
-        }
-        if ("emWave".equals(type)) {
-            return EmWave.Config.load(abNode, manager, commonConfigs.emWave);
-        }
-        if ("unShield".equals(type)) {
-            return UnShield.Config.load(abNode, manager, commonConfigs.unShield);
-        }
+
         return null;
     }
 

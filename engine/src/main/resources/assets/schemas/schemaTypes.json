@@ -1,0 +1,33 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "description": "Configuration for the types of items available to the player.",
+  "propertyNames": {
+    "pattern": "^\\w+$",
+    "description": "Type names must be a sequence of basic alphanumeric characters without a space."
+  },
+  "additionalProperties": {
+    "type": "object",
+    "properties": {
+      "color": {
+        "type": "string",
+        "pattern": "^((hsb (((360)|(3[0-5]\\d)|([012]?\\d?\\d))( ((100)|\\d?\\d)){2})|(((([01]?\\d?\\d)|(2[0-4]\\d)|(25[0-5])) ){2}(([01]?\\d?\\d)|(2[0-4]\\d)|(25[0-5]))))( (([01]?\\d?\\d)|(2[0-4]\\d)|(25[0-5])))?)$",
+        "description": "Color can be defined in the form `rrr ggg bbb`, `rrr ggg bbb aaa`, `hsb hhh sss bbb` or `hsb hhh sss bbb aaa`"
+      },
+      "pickUpSound": {
+        "type": "string",
+        "description": "The gestalt id of the sound asset played when an item of this type is picked up.",
+        "pattern": "^\\w+:\\w+$"
+      },
+      "sz": {
+        "type": "number",
+        "description": "The scale factor of this type's item icon.",
+        "exclusiveMinimum": 0
+      }
+    },
+    "required": [
+      "color",
+      "pickUpSound",
+      "sz"
+    ]
+  }
+}

@@ -1,0 +1,41 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "description": "Configuration for visual particle effects, such as smoke, fire, exhaust, etc.",
+  "propertyNames": {
+    "pattern": "^\\w+$",
+    "description": "Effect names must be a sequence of basic alphanumeric characters without a space."
+  },
+  "additionalProperties": {
+    "type": "object",
+    "required": [
+      "effectFile",
+      "tex",
+      "tint"
+    ],
+    "properties": {
+      "effectFile": {
+        "type": "string",
+        "pattern": "^\\w+:\\w+$",
+        "description": "The gestalt id of the .emitter file for this particle effect."
+      },
+      "tex": {
+        "type": "string",
+        "pattern": "^\\w+:\\w+$",
+        "description": "The gestalt id of the particle texture for this effect."
+      },
+      "tint": {
+        "type": "string",
+        "pattern": "^\\w+$",
+        "description": "A keyword of a color defined in colorsConfig or in GameColors.java. Must be any sequence of basic alphanumeric characters without a space."
+      },
+      "floatsUp": {
+        "type": "boolean",
+        "description": "True if particles will float opposing the gravity of the nearest planet, default false."
+      },
+      "size": {
+        "type": "number",
+        "description": "The default unit size of each individual particle. Almost always overwritten for special effects."
+      }
+    }
+  }
+}

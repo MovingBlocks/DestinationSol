@@ -26,30 +26,30 @@ import org.destinationsol.game.ship.SolShip;
 
 public class PointProjectileBody implements ProjectileBody {
     private final Vector2 position;
-    private final Vector2 speed;
+    private final Vector2 velocity;
     private final ProjectileRayBack rayBack;
     private final float acceleration;
 
-    public PointProjectileBody(float angle, Vector2 muzzlePos, Vector2 gunSpeed, float speedLen,
+    public PointProjectileBody(float angle, Vector2 muzzlePos, Vector2 gunVelocity, float speed,
                                Projectile projectile, SolGame game, float acceleration) {
         position = new Vector2(muzzlePos);
-        speed = new Vector2();
-        SolMath.fromAl(speed, angle, speedLen);
-        speed.add(gunSpeed);
+        velocity = new Vector2();
+        SolMath.fromAl(velocity, angle, speed);
+        velocity.add(gunVelocity);
         rayBack = new ProjectileRayBack(projectile, game);
         this.acceleration = acceleration;
     }
 
     @Override
     public void update(SolGame game) {
-        if (acceleration > 0 && SolMath.canAccelerate(acceleration, speed)) {
-            float speedLen = speed.len();
-            if (speedLen < Const.MAX_MOVE_SPD) {
-                speed.scl((speedLen + acceleration) / speedLen);
+        if (acceleration > 0 && SolMath.canAccelerate(acceleration, velocity)) {
+            float speed = velocity.len();
+            if (speed < Const.MAX_MOVE_SPD) {
+                velocity.scl((speed + acceleration) / speed);
             }
         }
         Vector2 prevPos = SolMath.getVec(position);
-        Vector2 diff = SolMath.getVec(speed);
+        Vector2 diff = SolMath.getVec(velocity);
         diff.scl(game.getTimeStep());
         position.add(diff);
         SolMath.free(diff);
@@ -68,12 +68,12 @@ public class PointProjectileBody implements ProjectileBody {
         if (!acc) {
             force.scl(10f);
         }
-        speed.add(force);
+        velocity.add(force);
     }
 
     @Override
-    public Vector2 getSpeed() {
-        return speed;
+    public Vector2 getVelocity() {
+        return velocity;
     }
 
     @Override
@@ -82,12 +82,12 @@ public class PointProjectileBody implements ProjectileBody {
 
     @Override
     public float getAngle() {
-        return SolMath.angle(speed);
+        return SolMath.angle(velocity);
     }
 
     @Override
     public void changeAngle(float diff) {
-        SolMath.rotate(speed, diff);
+        SolMath.rotate(velocity, diff);
     }
 
     @Override

@@ -10,7 +10,7 @@
   <downloadUrl>http://java.com/download</downloadUrl>
   <supportUrl></supportUrl>
   <stayAlive>false</stayAlive>
-  <manifest></manifest>
+  <manifest>MANIFEST.MF</manifest>
   <icon>D:\j\sol\desktop\tools\sol.ico</icon>
   <jre>
     <path>lwjre</path>

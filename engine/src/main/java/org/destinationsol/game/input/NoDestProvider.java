@@ -41,7 +41,7 @@ public class NoDestProvider implements MoveDestProvider {
     }
 
     @Override
-    public float getDesiredSpeedScalar() {
+    public float getDesiredSpeed() {
         return Const.DEFAULT_AI_SPD;
     }
 
@@ -60,7 +60,7 @@ public class NoDestProvider implements MoveDestProvider {
     }
 
     @Override
-    public Vector2 getDestinationSpeed() {
+    public Vector2 getDestinationVelocity() {
         return Vector2.Zero;
     }
 }

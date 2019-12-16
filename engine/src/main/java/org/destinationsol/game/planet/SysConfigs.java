@@ -25,7 +25,7 @@ import org.destinationsol.game.ShipConfig;
 import org.destinationsol.game.chunk.SpaceEnvConfig;
 import org.destinationsol.game.item.ItemManager;
 import org.destinationsol.game.item.TradeConfig;
-import org.terasology.assets.ResourceUrn;
+import org.terasology.gestalt.assets.ResourceUrn;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -49,10 +49,7 @@ public class SysConfigs {
     }
 
     private void load(String configName, HullConfigManager hullConfigs, boolean belts, ItemManager itemManager) {
-        Json json = Assets.getJson("engine:" + configName);
-        JSONObject rootNode = json.getJsonValue();
-
-        Validator.validate(rootNode, "engine:schemaSystemsConfig");
+        JSONObject rootNode = Validator.getValidatedJSON("engine:" + configName, "engine:schemaSystemsConfig");
 
         for (String s : rootNode.keySet()) {
             if (!(rootNode.get(s) instanceof JSONObject))
@@ -69,15 +66,10 @@ public class SysConfigs {
             configs.put(name, config);
         }
 
-        json.dispose();
-
         Set<ResourceUrn> configUrnList = Assets.getAssetHelper().list(Json.class, "[a-z]*(?<!^engine):" + configName);
 
         for (ResourceUrn configUrn : configUrnList) {
-            json = Assets.getJson(configUrn.toString());
-            rootNode = json.getJsonValue();
-
-            Validator.validate(rootNode, "engine:schemaSystemsConfig");
+            rootNode = Validator.getValidatedJSON(configUrn.toString(), "engine:schemaSystemsConfig");
 
             for (String s : rootNode.keySet()) {
                 if (!(rootNode.get(s) instanceof JSONObject))
@@ -102,8 +94,6 @@ public class SysConfigs {
 
                 config.tradeConfig.load(node.has("trading") ? node.getJSONObject("trading") : null, hullConfigs, itemManager);
             }
-
-            json.dispose();
         }
     }
 

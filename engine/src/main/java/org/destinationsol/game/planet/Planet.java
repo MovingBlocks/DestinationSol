@@ -44,7 +44,7 @@ public class Planet {
     private float angleInSystem;
     private float angle;
     private float minGroundHeight;
-    private Vector2 speed;
+    private Vector2 velocity;
 
     public Planet(SolSystem sys, float angleToSys, float dist, float angle, float toSysRotationSpeed, float rotationSpeed,
                   float groundHeight, boolean objsCreated, PlanetConfig config, String name) {
@@ -60,7 +60,7 @@ public class Planet {
         minGroundHeight = this.groundHeight;
         areObjectsCreated = objsCreated;
         position = new Vector2();
-        speed = new Vector2();
+        velocity = new Vector2();
         float grav = SolRandom.randomFloat(config.minGrav, config.maxGrav);
         gravitationConstant = grav * this.groundHeight * this.groundHeight;
         groundDamagePerSecond = HardnessCalc.getGroundDps(config, grav);
@@ -85,9 +85,9 @@ public class Planet {
     private void setSecondaryParams() {
         SolMath.fromAl(position, angleInSystem, distance);
         position.add(system.getPosition());
-        float speedLen = SolMath.angleToArc(rotationSpeedInSystem, distance);
-        float speedAngle = angleInSystem + 90;
-        SolMath.fromAl(speed, speedAngle, speedLen);
+        float speed = SolMath.angleToArc(rotationSpeedInSystem, distance);
+        float velocityAngle = angleInSystem + 90;
+        SolMath.fromAl(velocity, velocityAngle, speed);
     }
 
     private void fillLangingPlaces(SolGame game) {
@@ -118,8 +118,8 @@ public class Planet {
     }
 
     @Bound
-    public Vector2 getAdjustedEffectSpeed(Vector2 position, Vector2 speed) {
-        Vector2 r = SolMath.getVec(speed);
+    public Vector2 getAdjustedEffectVelocity(Vector2 position, Vector2 velocity) {
+        Vector2 r = SolMath.getVec(velocity);
         if (config.skyConfig == null) {
             return r;
         }
@@ -188,13 +188,13 @@ public class Planet {
         return name;
     }
 
-    public void calculateSpeedAtPosition(Vector2 speed, Vector2 position) {
+    public void calculateVelocityAtPosition(Vector2 velocity, Vector2 position) {
         Vector2 toPos = SolMath.distVec(this.position, position);
         float fromPlanetAngle = SolMath.angle(toPos);
-        float hSpeedLen = SolMath.angleToArc(rotationSpeed, toPos.len());
+        float hSpeed = SolMath.angleToArc(rotationSpeed, toPos.len());
         SolMath.free(toPos);
-        SolMath.fromAl(speed, fromPlanetAngle + 90, hSpeedLen);
-        speed.add(this.speed);
+        SolMath.fromAl(velocity, fromPlanetAngle + 90, hSpeed);
+        velocity.add(this.velocity);
     }
 
     public float getAtmosphereDamagePerSecond() {

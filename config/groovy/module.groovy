@@ -50,6 +50,11 @@ class module {
             moduleManifest << moduleText.replaceAll('MODULENAME', targetDir.name)
             println "WARNING: Module ${targetDir.name} did not have a module.json! One was created, please review and submit to GitHub"
         }
+
+        // Always use the latest build.gradle
+        File buildGradle = new File(targetDir, 'build.gradle')
+        buildGradle.delete();
+        buildGradle << new File('templates/build.gradle').text
     }
 
     /**

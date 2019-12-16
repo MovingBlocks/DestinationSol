@@ -27,8 +27,8 @@ import org.destinationsol.assets.textures.DSTexture;
 import org.json.JSONArray;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.terasology.assets.ResourceUrn;
-import org.terasology.module.ModuleEnvironment;
+import org.terasology.gestalt.assets.ResourceUrn;
+import org.terasology.gestalt.module.ModuleEnvironment;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -53,10 +53,10 @@ public abstract class Assets {
      * Initializes the class for loading assets using the given environment.
      * This function -has- to be called upon startup, and whenever the environment is changed.
      *
-     * @param environment The ModuleEnvironment to load assets from.
+     * @param helper the helper used to initialise the asset system
      */
-    public static void initialize(ModuleEnvironment environment) {
-        assetHelper = new AssetHelper(environment);
+    public static void initialize(AssetHelper helper) {
+        assetHelper = helper;
     }
 
     public static AssetHelper getAssetHelper() {
@@ -67,8 +67,7 @@ public abstract class Assets {
         String[] strings = path.split(":");
 
         if (strings.length < 2) {
-            logger.error("Invalid resource name " + path);
-            exit(-1);
+            throw new RuntimeException("Invalid resource name (missing namespace?) `" + path + "`");
         }
 
         String module = strings[0];

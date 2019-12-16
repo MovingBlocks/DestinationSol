@@ -36,17 +36,17 @@ public class ShipEngine {
         myItem = engine;
     }
 
-    public void update(float angle, SolGame game, Pilot provider, Body body, Vector2 speed, boolean controlsEnabled,
+    public void update(float angle, SolGame game, Pilot provider, Body body, Vector2 velocity, boolean controlsEnabled,
                        float mass, SolShip ship) {
 
-        boolean working = applyInput(game, angle, provider, body, speed, controlsEnabled, mass);
+        boolean working = applyInput(game, angle, provider, body, velocity, controlsEnabled, mass);
         game.getPartMan().updateAllHullEmittersOfType(ship, "engine", working);
     }
 
-    private boolean applyInput(SolGame cmp, float shipAngle, Pilot provider, Body body, Vector2 speed,
+    private boolean applyInput(SolGame cmp, float shipAngle, Pilot provider, Body body, Vector2 velocity,
                                boolean controlsEnabled, float mass) {
-        boolean speedOk = SolMath.canAccelerate(shipAngle, speed);
-        boolean working = controlsEnabled && provider.isUp() && speedOk;
+        boolean canAccelerate = SolMath.canAccelerate(shipAngle, velocity);
+        boolean working = controlsEnabled && provider.isUp() && canAccelerate;
 
         Engine e = myItem;
         if (working) {

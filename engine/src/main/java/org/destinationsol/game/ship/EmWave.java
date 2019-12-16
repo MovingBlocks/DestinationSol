@@ -28,9 +28,9 @@ import org.destinationsol.game.particle.DSParticleEmitter;
 
 public class EmWave implements ShipAbility {
     private static final int MAX_RADIUS = 4;
-    private final Config config;
+    private final EmWaveConfig config;
 
-    EmWave(Config config) {
+    EmWave(EmWaveConfig config) {
         this.config = config;
     }
 
@@ -77,13 +77,13 @@ public class EmWave implements ShipAbility {
         return true;
     }
 
-    public static class Config implements AbilityConfig {
+    public static class EmWaveConfig implements AbilityConfig {
         public final float rechargeTime;
         public final float duration;
         private final SolItem chargeExample;
         private final AbilityCommonConfig cc;
 
-        public Config(float rechargeTime, SolItem chargeExample, float duration, AbilityCommonConfig cc) {
+        public EmWaveConfig(float rechargeTime, SolItem chargeExample, float duration, AbilityCommonConfig cc) {
             this.rechargeTime = rechargeTime;
             this.chargeExample = chargeExample;
             this.duration = duration;
@@ -94,7 +94,7 @@ public class EmWave implements ShipAbility {
             float rechargeTime = (float) abNode.getDouble("rechargeTime");
             float duration = (float) abNode.getDouble("duration");
             SolItem chargeExample = itemManager.getExample("emWaveCharge");
-            return new Config(rechargeTime, chargeExample, duration, cc);
+            return new EmWaveConfig(rechargeTime, chargeExample, duration, cc);
         }
 
         @Override

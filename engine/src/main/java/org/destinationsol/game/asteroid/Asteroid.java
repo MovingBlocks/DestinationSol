@@ -47,7 +47,7 @@ public class Asteroid implements SolObject {
 
     private final Body body;
     private final Vector2 position;
-    private final Vector2 speed;
+    private final Vector2 velocity;
     private final ArrayList<Drawable> drawables;
     private final TextureAtlas.AtlasRegion texture;
     private final RemoveController removeController;
@@ -67,10 +67,10 @@ public class Asteroid implements SolObject {
         this.size = size;
         life = SZ_TO_LIFE * size;
         position = new Vector2();
-        speed = new Vector2();
+        velocity = new Vector2();
         mass = body.getMass();
         setParamsFromBody();
-        List<DSParticleEmitter> effects = game.getSpecialEffects().buildBodyEffs(size / 2, game, position, speed);
+        List<DSParticleEmitter> effects = game.getSpecialEffects().buildBodyEffs(size / 2, game, position, velocity);
         smokeSource = effects.get(0);
         fireSource = effects.get(1);
         this.drawables.addAll(smokeSource.getDrawables());
@@ -85,7 +85,7 @@ public class Asteroid implements SolObject {
     @Override
     public FarObject toFarObject() {
         float rotationSpeed = body.getAngularVelocity();
-        return new FarAsteroid(texture, position, angle, removeController, size, speed, rotationSpeed);
+        return new FarAsteroid(texture, position, angle, removeController, size, velocity, rotationSpeed);
     }
 
     @Override
@@ -99,8 +99,8 @@ public class Asteroid implements SolObject {
     }
 
     @Override
-    public Vector2 getSpeed() {
-        return speed;
+    public Vector2 getVelocity() {
+        return velocity;
     }
 
     @Override
@@ -154,7 +154,7 @@ public class Asteroid implements SolObject {
 
     private void setParamsFromBody() {
         position.set(body.getPosition());
-        speed.set(body.getLinearVelocity());
+        velocity.set(body.getLinearVelocity());
         angle = body.getAngle() * MathUtils.radDeg;
     }
 
@@ -169,7 +169,7 @@ public class Asteroid implements SolObject {
         game.getPartMan().finish(game, fireSource, position);
         body.getWorld().destroyBody(body);
         if (life <= 0) {
-            game.getSpecialEffects().asteroidDust(game, position, speed, size);
+            game.getSpecialEffects().asteroidDust(game, position, velocity, size);
             float vol = SolMath.clamp(size / .5f);
             game.getSoundManager().play(game, game.getSpecialSounds().asteroidCrack, null, this, vol);
             maybeSplit(game);
@@ -182,15 +182,15 @@ public class Asteroid implements SolObject {
         }
         float sclSum = 0;
         while (sclSum < .7f * size * size) {
-            float speedAngle = SolRandom.randomFloat(180);
-            Vector2 speed = new Vector2();
-            SolMath.fromAl(speed, speedAngle, SolRandom.randomFloat(0, .5f) * MAX_SPLIT_SPD);
-            speed.add(speed);
+            float velocityAngle = SolRandom.randomFloat(180);
+            Vector2 velocity = new Vector2();
+            SolMath.fromAl(velocity, velocityAngle, SolRandom.randomFloat(0, .5f) * MAX_SPLIT_SPD);
+            velocity.add(velocity);
             Vector2 newPos = new Vector2();
-            SolMath.fromAl(newPos, speedAngle, SolRandom.randomFloat(0, size / 2));
+            SolMath.fromAl(newPos, velocityAngle, SolRandom.randomFloat(0, size / 2));
             newPos.add(position);
             float sz = size * SolRandom.randomFloat(.25f, .5f);
-            Asteroid a = game.getAsteroidBuilder().buildNew(game, newPos, speed, sz, removeController);
+            Asteroid a = game.getAsteroidBuilder().buildNew(game, newPos, velocity, sz, removeController);
             game.getObjectManager().addObjDelayed(a);
             sclSum += a.size * a.size;
         }
@@ -202,14 +202,14 @@ public class Asteroid implements SolObject {
     }
 
     private void throwLoot(SolGame game, SolItem item) {
-        float speedAngle = SolRandom.randomFloat(180);
-        Vector2 lootSpeed = new Vector2();
-        SolMath.fromAl(lootSpeed, speedAngle, SolRandom.randomFloat(0, Loot.MAX_SPD));
-        lootSpeed.add(speed);
+        float velocityAngle = SolRandom.randomFloat(180);
+        Vector2 lootVelocity = new Vector2();
+        SolMath.fromAl(lootVelocity, velocityAngle, SolRandom.randomFloat(0, Loot.MAX_SPD));
+        lootVelocity.add(velocity);
         Vector2 lootPosition = new Vector2();
-        SolMath.fromAl(lootPosition, speedAngle, SolRandom.randomFloat(0, size / 2)); // calculate random offset inside asteroid
+        SolMath.fromAl(lootPosition, velocityAngle, SolRandom.randomFloat(0, size / 2)); // calculate random offset inside asteroid
         lootPosition.add(position); // add offset to asteroid's position
-        Loot l = game.getLootBuilder().build(game, lootPosition, item, lootSpeed, Loot.MAX_LIFE, SolRandom.randomFloat(Loot.MAX_ROT_SPD), null);
+        Loot l = game.getLootBuilder().build(game, lootPosition, item, lootVelocity, Loot.MAX_LIFE, SolRandom.randomFloat(Loot.MAX_ROT_SPD), null);
         game.getObjectManager().addObjDelayed(l);
     }
 

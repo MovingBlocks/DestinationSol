@@ -35,7 +35,7 @@ ext {
         def copyrightManager = iprNode.find { it.@name == 'CopyrightManager' }
         copyrightManager.@default = "TerasologyEngine"
         def copyright = copyrightManager.appendNode("copyright")
-        copyright.appendNode("option", [name: "notice", value: 'Copyright 2018 MovingBlocks\n\nLicensed under the Apache License, Version 2.0 (the "License");\nyou may not use this file except in compliance with the License.\nYou may obtain a copy of the License at\n\n     http://www.apache.org/licenses/LICENSE-2.0\n\nUnless required by applicable law or agreed to in writing, software\ndistributed under the License is distributed on an "AS IS" BASIS,\nWITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.\nSee the License for the specific language governing permissions and\nlimitations under the License.'])
+        copyright.appendNode("option", [name: "notice", value: 'Copyright 2019 MovingBlocks\n\nLicensed under the Apache License, Version 2.0 (the "License");\nyou may not use this file except in compliance with the License.\nYou may obtain a copy of the License at\n\n     http://www.apache.org/licenses/LICENSE-2.0\n\nUnless required by applicable law or agreed to in writing, software\ndistributed under the License is distributed on an "AS IS" BASIS,\nWITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.\nSee the License for the specific language governing permissions and\nlimitations under the License.'])
         copyright.appendNode("option", [name: "keyword", value: "Copyright"])
         copyright.appendNode("option", [name: "allowReplaceKeyword", value: ""])
         copyright.appendNode("option", [name: "myName", value: "TerasologyEngine"])
@@ -90,7 +90,14 @@ ext {
         // Add our run configs - this one launches with homedir set to local and the Crash Reporter off
         def runManager = iwsNode.find { it.@name == 'RunManager' }
         // TODO: Probably should make these run config blocks generic already ...
-        runManager.append(new XmlParser().parseText('''
+        // TODO: Undo the -noSplash tag and -XstartOnFirstThread when the splash screen works on Macs again. See https://github.com/MovingBlocks/DestinationSol/issues/414
+        def startOnFirstThread = ""
+        def noSplash = ""
+        if (System.properties["os.name"].toLowerCase().contains("mac")) {
+            startOnFirstThread = "-XstartOnFirstThread"
+            noSplash = "-noSplash"
+        }
+        runManager.append(new XmlParser().parseText(String.format('''
             <configuration default="false" name="DestSol" type="Application" factoryName="Application">
               <extension name="coverage" enabled="false" merge="false" runner="idea">
                 <pattern>
@@ -99,8 +106,8 @@ ext {
                 </pattern>
               </extension>
               <option name="MAIN_CLASS_NAME" value="org.destinationsol.desktop.SolDesktop"/>
-              <option name="VM_PARAMETERS" value="-Xms256m -Xmx1024m"/>
-              <option name="PROGRAM_PARAMETERS" value="-noCrashReport"/>
+              <option name="VM_PARAMETERS" value="-splash:engine/src/main/resources/assets/textures/mainMenu/mainMenuLogo.png %s -Xms256m -Xmx1024m -Dlog4j.configuration=log4j-debug.properties"/>
+              <option name="PROGRAM_PARAMETERS" value="-noCrashReport %s"/>
               <option name="WORKING_DIRECTORY" value="file://$PROJECT_DIR$"/>
               <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="false"/>
               <option name="ALTERNATIVE_JRE_PATH" value=""/>
@@ -119,7 +126,7 @@ ext {
               <ConfigurationWrapper RunnerId="Run"/>
               <method/>
             </configuration>
-        '''))
+        ''', startOnFirstThread, noSplash)))
 
         // This part puts the added run config into the actual "Run" drop-down
         runManager.append(new XmlParser().parseText('''

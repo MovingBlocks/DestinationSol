@@ -21,7 +21,7 @@ import org.destinationsol.assets.Assets;
 import org.destinationsol.assets.json.Json;
 import org.destinationsol.files.HullConfigManager;
 import org.destinationsol.game.item.ItemManager;
-import org.terasology.assets.ResourceUrn;
+import org.terasology.gestalt.assets.ResourceUrn;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -34,10 +34,7 @@ public class MazeConfigs {
         configs = new ArrayList<>();
         final Set<ResourceUrn> configUrns = Assets.getAssetHelper().list(Json.class, "[a-zA-Z0-9]*:mazesConfig");
         for (ResourceUrn configUrn : configUrns) {
-            Json json = Assets.getJson(configUrn.toString());
-            JSONObject rootNode = json.getJsonValue();
-
-            Validator.validate(rootNode, "engine:schemaMazesConfig");
+            JSONObject rootNode = Validator.getValidatedJSON(configUrn.toString(), "engine:schemaMazesConfig");
 
             for (String s : rootNode.keySet()) {
                 if (!(rootNode.get(s) instanceof JSONObject))
@@ -47,7 +44,6 @@ public class MazeConfigs {
                 configs.add(c);
             }
 
-            json.dispose();
         }
     }
 }

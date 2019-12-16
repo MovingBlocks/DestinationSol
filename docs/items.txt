@@ -1,0 +1,11 @@
+Item format description:
+Space separated list of individual items ids
+Each id comprised of the following parts (parts surrounded with [] are optional, parts surrounded in <> are to be replaced as per table defined at the end of this document):
+(pay attention to the special chars like | or *)
+[<chance>|][<amount>*]<itemName>[-<slot>][+<itemName>[-<slot>]][+<itemName>[-<slot>]][+<itemName>[-<slot>]]
+The end may optionally continue even with other itemnames.
+chance is a float between 0 and 1, denoting how probable it is ship will receive the item. 0 means not at all probably, 1 means completely sure. Defaults to 1 when not specified
+amount is integer denoting how much of the item player will receive, should the chance check pass. must be >=1, defaults to 1 when not specified
+itemName is the gestalt id of the item, in standard form "moduleName:itemName"
+slot is either a number 1 or number 2, denoting on which equipment slot the item will be equiped. If item does not fit into equipment slots but is just generally equiped, this should be 1. When not specified, defaults to not equiping the item
+first itemname can be followed by one or more other itemnames separated by plus sign, should the chance check pass ONE of those will be selected at random at given to the ship in specified amount. Each itemname denotes its own equipment slot.

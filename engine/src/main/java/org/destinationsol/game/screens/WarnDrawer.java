@@ -40,11 +40,11 @@ public abstract class WarnDrawer {
 
     float drawPercentage;
 
-    WarnDrawer(String text) {
+    public WarnDrawer(String text) {
         this(text, SolColor.UI_WARN);
     }
 
-    WarnDrawer(String text, Color backgroundColor) {
+    public WarnDrawer(String text, Color backgroundColor) {
         displayDimensions = SolApplication.displayDimensions;
 
         this.text = text;

@@ -66,11 +66,11 @@ public class TileObject implements SolObject {
 
         if (body != null) {
             float timeStep = game.getTimeStep();
-            Vector2 speed = SolMath.getVec(position);
-            speed.sub(body.getPosition());
-            speed.scl(1f / timeStep);
-            body.setLinearVelocity(speed);
-            SolMath.free(speed);
+            Vector2 velocity = SolMath.getVec(position);
+            velocity.sub(body.getPosition());
+            velocity.scl(1f / timeStep);
+            body.setLinearVelocity(velocity);
+            SolMath.free(velocity);
             float bodyAngle = body.getAngle() * MathUtils.radDeg;
             float angularVelocity = SolMath.norm(angle - bodyAngle) * MathUtils.degRad / timeStep;
             body.setAngularVelocity(angularVelocity);
@@ -131,7 +131,7 @@ public class TileObject implements SolObject {
     }
 
     @Override
-    public Vector2 getSpeed() {
+    public Vector2 getVelocity() {
         return null;
     }
 

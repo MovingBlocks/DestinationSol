@@ -34,14 +34,14 @@ public class ForceBeacon {
     private final Vector2 myPrevPos;
     private final DSParticleEmitter myEffect;
 
-    public ForceBeacon(SolGame game, Vector2 relPos, Vector2 basePos, Vector2 baseSpeed) {
+    public ForceBeacon(SolGame game, Vector2 relPos, Vector2 basePos, Vector2 baseVelocity) {
         myRelPos = relPos;
-        myEffect = game.getSpecialEffects().buildForceBeacon(.6f, game, relPos, basePos, baseSpeed);
+        myEffect = game.getSpecialEffects().buildForceBeacon(.6f, game, relPos, basePos, baseVelocity);
         myEffect.setWorking(true);
         myPrevPos = new Vector2();
     }
 
-    public static SolShip pullShips(SolGame game, SolObject owner, Vector2 ownPos, Vector2 ownSpeed, Faction faction,
+    public static SolShip pullShips(SolGame game, SolObject owner, Vector2 ownPos, Vector2 ownVelocity, Faction faction,
                                     float maxPullDist) {
         SolShip res = null;
         float minLen = Float.MAX_VALUE;
@@ -67,8 +67,8 @@ public class ForceBeacon {
                 if (toMeLen > 1) {
                     toMe.scl(1 / toMeLen);
                 }
-                if (ownSpeed != null) {
-                    toMe.add(ownSpeed);
+                if (ownVelocity != null) {
+                    toMe.add(ownVelocity);
                 }
                 ship.getHull().getBody().setLinearVelocity(toMe);
                 game.getSoundManager().play(game, game.getSpecialSounds().forceBeaconWork, null, ship);
@@ -88,10 +88,10 @@ public class ForceBeacon {
 
     public void update(SolGame game, Vector2 basePos, float baseAngle, SolShip ship) {
         Vector2 position = SolMath.toWorld(myRelPos, baseAngle, basePos);
-        Vector2 speed = SolMath.distVec(myPrevPos, position).scl(1 / game.getTimeStep());
+        Vector2 velocity = SolMath.distVec(myPrevPos, position).scl(1 / game.getTimeStep());
         Faction faction = ship.getPilot().getFaction();
-        pullShips(game, ship, position, speed, faction, MAX_PULL_DIST);
-        SolMath.free(speed);
+        pullShips(game, ship, position, velocity, faction, MAX_PULL_DIST);
+        SolMath.free(velocity);
         myPrevPos.set(position);
         SolMath.free(position);
     }

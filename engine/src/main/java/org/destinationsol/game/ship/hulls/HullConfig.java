@@ -79,10 +79,6 @@ public class HullConfig {
         return data.durability;
     }
 
-    public boolean hasBase() {
-        return data.hasBase;
-    }
-
     public List<Vector2> getForceBeaconPositions() {
         return deepCopyOf(data.forceBeaconPoss);
     }
@@ -166,7 +162,6 @@ public class HullConfig {
         public List<DSParticleEmitter> particleEmitters = new ArrayList<>();
         public List<Vector2> lightSrcPoss = new ArrayList<>();
         public float durability;
-        public boolean hasBase;
         public List<Vector2> forceBeaconPoss = new ArrayList<>();
         public List<Vector2> doorPoss = new ArrayList<>();
         public TextureAtlas.AtlasRegion icon;
@@ -193,7 +188,6 @@ public class HullConfig {
             this.maxLife = src.maxLife;
             this.lightSrcPoss = deepCopyOf(src.lightSrcPoss);
             this.durability = src.durability;
-            this.hasBase = src.hasBase;
             this.forceBeaconPoss = deepCopyOf(src.forceBeaconPoss);
             this.doorPoss = deepCopyOf(src.doorPoss);
             this.icon = new TextureAtlas.AtlasRegion(src.icon);

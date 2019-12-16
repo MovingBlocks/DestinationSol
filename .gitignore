@@ -9,7 +9,9 @@ config/metrics
 android
 gwt
 modules/*
+modules/**/build.gradle
 !modules/core
+!modules/subprojects.gradle
 
 ## GWT
 war/

@@ -73,7 +73,7 @@ public class PartMan {
         RectSprite s = null;
         int count = (int) alphaSum + 1;
         for (int i = 0; i < count; i++) {
-            s = blip(game, position, angle, sz, .5f, hull.getSpeed(), shieldTexture);
+            s = blip(game, position, angle, sz, .5f, hull.getVelocity(), shieldTexture);
         }
         float lastTint = SolMath.clamp(alphaSum - (int) alphaSum);
         if (s != null) {
@@ -82,11 +82,11 @@ public class PartMan {
         }
     }
 
-    public RectSprite blip(SolGame game, Vector2 position, float angle, float size, float fadeTime, Vector2 speed, TextureAtlas.AtlasRegion texture) {
+    public RectSprite blip(SolGame game, Vector2 position, float angle, float size, float fadeTime, Vector2 velocity, TextureAtlas.AtlasRegion texture) {
         RectSprite sprite = new RectSprite(texture, size, 0, 0, new Vector2(), DrawableLevel.PART_FG_0, angle, 0, SolColor.WHITE, true);
         ArrayList<Drawable> drawables = new ArrayList<>();
         drawables.add(sprite);
-        DrawableObject o = new DrawableObject(drawables, new Vector2(position), new Vector2(speed), null, false, false);
+        DrawableObject o = new DrawableObject(drawables, new Vector2(position), new Vector2(velocity), null, false, false);
         o.fade(fadeTime);
         game.getObjectManager().addObjDelayed(o);
         return sprite;
