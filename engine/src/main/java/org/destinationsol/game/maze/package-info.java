@@ -15,4 +15,4 @@
  */
 @API package org.destinationsol.game.maze;
 
-import org.terasology.module.sandbox.API;
+import org.terasology.gestalt.module.sandbox.API;

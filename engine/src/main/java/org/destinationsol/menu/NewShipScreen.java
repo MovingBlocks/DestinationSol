@@ -32,7 +32,7 @@ import org.destinationsol.ui.SolInputManager;
 import org.destinationsol.ui.SolUiBaseScreen;
 import org.destinationsol.ui.SolUiControl;
 import org.destinationsol.ui.UiDrawer;
-import org.terasology.assets.ResourceUrn;
+import org.terasology.gestalt.assets.ResourceUrn;
 
 import java.util.ArrayList;
 import java.util.List;

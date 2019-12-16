@@ -16,9 +16,9 @@
 package org.destinationsol.assets.fonts;
 
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
-import org.terasology.assets.Asset;
-import org.terasology.assets.AssetType;
-import org.terasology.assets.ResourceUrn;
+import org.terasology.gestalt.assets.Asset;
+import org.terasology.gestalt.assets.AssetType;
+import org.terasology.gestalt.assets.ResourceUrn;
 
 public class Font extends Asset<FontData> {
     private FontData fontData;

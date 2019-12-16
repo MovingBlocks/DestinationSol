@@ -81,8 +81,13 @@ public class ChooseMercenaryScreen extends InventoryOperationsScreen {
 
     @Override
     public ItemContainer getItems(SolGame game) {
-        ItemContainer mercs = game.getHero().getMercs();
-        return mercs != null ? mercs : EMPTY_ITEM_CONTAINER;
+        if (game.getHero().isNonTranscendent()) {
+            ItemContainer mercs = game.getHero().getMercs();
+            if (mercs != null) {
+                return mercs;
+            }
+        }
+        return EMPTY_ITEM_CONTAINER;
     }
 
     @Override

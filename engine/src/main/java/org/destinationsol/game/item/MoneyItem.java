@@ -20,9 +20,10 @@ import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import org.destinationsol.game.SolGame;
 
 public class MoneyItem implements SolItem {
-    public static final int AMT = 10;
-    public static final int MED_AMT = 3 * AMT;
-    public static final int BIG_AMT = 10 * AMT;
+    public static final int SMALL_AMOUNT = 10;
+    public static final int MEDIUM_AMOUNT = 3 * SMALL_AMOUNT;
+    public static final int BIG_AMOUNT = 10 * SMALL_AMOUNT;
+    public static final int HUGE_AMOUNT = 100 * SMALL_AMOUNT;
 
     private final float amount;
     private final SolItemType itemType;
@@ -60,10 +61,11 @@ public class MoneyItem implements SolItem {
     @Override
     public TextureAtlas.AtlasRegion getIcon(SolGame game) {
         ItemManager im = game.getItemMan();
-        if (amount == BIG_AMT) {
+        if(amount == HUGE_AMOUNT) {
+            return im.hugeMoneyIcon;
+        } else if (amount == BIG_AMOUNT) {
             return im.bigMoneyIcon;
-        }
-        if (amount == MED_AMT) {
+        }else if (amount == MEDIUM_AMOUNT) {
             return im.medMoneyIcon;
         }
         return im.moneyIcon;

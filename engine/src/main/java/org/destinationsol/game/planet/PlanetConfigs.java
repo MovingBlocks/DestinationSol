@@ -23,7 +23,7 @@ import org.destinationsol.common.SolRandom;
 import org.destinationsol.files.HullConfigManager;
 import org.destinationsol.game.GameColors;
 import org.destinationsol.game.item.ItemManager;
-import org.terasology.assets.ResourceUrn;
+import org.terasology.gestalt.assets.ResourceUrn;
 
 import java.util.Map;
 import java.util.List;

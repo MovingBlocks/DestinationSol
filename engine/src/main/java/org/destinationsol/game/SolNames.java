@@ -19,7 +19,7 @@ import org.destinationsol.assets.json.Validator;
 import org.json.JSONObject;
 import org.destinationsol.assets.Assets;
 import org.destinationsol.assets.json.Json;
-import org.terasology.assets.ResourceUrn;
+import org.terasology.gestalt.assets.ResourceUrn;
 
 import java.util.HashMap;
 import java.util.ArrayList;

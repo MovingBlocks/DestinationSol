@@ -19,10 +19,11 @@ import com.badlogic.gdx.audio.Music;
 import org.destinationsol.GameOptions;
 import org.destinationsol.assets.Assets;
 import org.destinationsol.assets.json.Json;
+import org.json.JSONArray;
 import org.json.JSONObject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.terasology.assets.ResourceUrn;
+import org.terasology.gestalt.assets.ResourceUrn;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -37,11 +38,13 @@ import java.util.Set;
  * until another is chosen. By default, music does not play concurrently.
  */
 public class OggMusicManager {
+    public static final String NO_MUSIC = "";
     public static final String MENU_MUSIC_SET = "menu";
     public static final String GAME_MUSIC_SET = "game";
     private final Map<String, List<Music>> musicMap;
     private Music currentlyPlaying;
     private String currentlyRegisteredModule;
+    private String currentMusicSet = NO_MUSIC;
     private Logger logger = LoggerFactory.getLogger(OggMusicManager.class);
 
     /**
@@ -110,6 +113,7 @@ public class OggMusicManager {
                 index = 0;
             }
         }
+        currentMusicSet = musicSet;
         final Music music = musicMap.get(musicSet).get(index);
         music.setOnCompletionListener(a -> playMusic(musicSet, options));
         playMusicTrack(music, options);
@@ -134,6 +138,7 @@ public class OggMusicManager {
         if (currentlyPlaying != null) {
             currentlyPlaying.stop();
         }
+        currentMusicSet = NO_MUSIC;
     }
 
     /**
@@ -197,7 +202,11 @@ public class OggMusicManager {
             Json musicJson = Assets.getJson(urnString);
             JSONObject musicNode = musicJson.getJsonValue();
 
-            for (Object musicFileName : musicNode.getJSONArray("menuMusic")) {
+            JSONArray array = musicNode.getJSONArray("menuMusic");
+            // JSONArray.iterator must not be used (foreach uses it internally), as Android does not support it
+            // (you cannot override the dependency either, as it is a system library).
+            for (int index = 0; index < array.length(); index++) {
+                Object musicFileName = array.get(index);
                 if (!(musicFileName instanceof String)) {
                     break;
                 }
@@ -224,5 +233,9 @@ public class OggMusicManager {
 
     public void resetMusic() {
         musicMap.put(GAME_MUSIC_SET, new ArrayList<>());
+    }
+
+    public String getCurrentMusicSet() {
+        return currentMusicSet;
     }
 }

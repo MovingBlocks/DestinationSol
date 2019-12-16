@@ -27,14 +27,14 @@ import org.destinationsol.assets.json.Json;
 import org.destinationsol.assets.json.JsonFileFormat;
 import org.destinationsol.assets.textures.DSTexture;
 import org.destinationsol.assets.textures.DSTextureFileFormat;
-import org.destinationsol.game.DebugOptions;
-import org.terasology.assets.Asset;
-import org.terasology.assets.AssetData;
-import org.terasology.assets.ResourceUrn;
-import org.terasology.assets.format.AssetDataFile;
-import org.terasology.assets.format.producer.AssetFileDataProducer;
-import org.terasology.assets.module.ModuleAwareAssetTypeManager;
-import org.terasology.module.ModuleEnvironment;
+import org.terasology.gestalt.assets.Asset;
+import org.terasology.gestalt.assets.AssetData;
+import org.terasology.gestalt.assets.ResourceUrn;
+import org.terasology.gestalt.assets.format.AssetDataFile;
+import org.terasology.gestalt.assets.format.producer.AssetFileDataProducer;
+import org.terasology.gestalt.assets.module.ModuleAwareAssetTypeManager;
+import org.terasology.gestalt.assets.module.ModuleAwareAssetTypeManagerImpl;
+import org.terasology.gestalt.module.ModuleEnvironment;
 
 import java.util.HashSet;
 import java.util.List;
@@ -42,11 +42,14 @@ import java.util.Optional;
 import java.util.Set;
 
 public class AssetHelper {
-    private ModuleAwareAssetTypeManager assetTypeManager;
-    private static String[] folders_;
+    protected ModuleAwareAssetTypeManager assetTypeManager;
+    protected static String[] folders_;
 
-    public AssetHelper(ModuleEnvironment environment) {
-        assetTypeManager = new ModuleAwareAssetTypeManager();
+    public AssetHelper() {
+    }
+
+    public void init(ModuleEnvironment environment) {
+        assetTypeManager = new ModuleAwareAssetTypeManagerImpl();
 
         assetTypeManager.createAssetType(OggSound.class, OggSound::new, "sounds");
         ((AssetFileDataProducer)assetTypeManager.getAssetType(OggSound.class).get().getProducers().get(0)).addAssetFormat(new OggSoundFileFormat());
@@ -60,7 +63,7 @@ public class AssetHelper {
         assetTypeManager.createAssetType(Emitter.class, Emitter::new, "emitters");
         ((AssetFileDataProducer)assetTypeManager.getAssetType(Emitter.class).get().getProducers().get(0)).addAssetFormat(new EmitterFileFormat());
 
-        assetTypeManager.createAssetType(Json.class, Json::new, "collisionMeshes", "ships", "items", "configs", "grounds", "mazes", "asteroids");
+        assetTypeManager.createAssetType(Json.class, Json::new, "collisionMeshes", "ships", "items", "configs", "grounds", "mazes", "asteroids", "schemas");
         ((AssetFileDataProducer)assetTypeManager.getAssetType(Json.class).get().getProducers().get(0)).addAssetFormat(new JsonFileFormat());
 
         assetTypeManager.createAssetType(DSTexture.class, DSTexture::new, "textures", "ships", "items", "grounds", "mazes", "asteroids");
@@ -94,7 +97,7 @@ public class AssetHelper {
         folders_ = folders;
     }
 
-    public static String resolveToPath(List<AssetDataFile> assetDataFiles) {
+    public String resolveToPath(List<AssetDataFile> assetDataFiles) {
         for (AssetDataFile assetDataFile : assetDataFiles) {
             List<String> folders = assetDataFile.getPath();
 
@@ -112,10 +115,8 @@ public class AssetHelper {
 
             StringBuilder path = new StringBuilder();
 
-            if (folders.get(0).equals("engine")) {
-                if (DebugOptions.DEV_ROOT_PATH != null) {
-                    path.append(DebugOptions.DEV_ROOT_PATH);
-                }
+            if (folders.get(0).equals("assets")) {
+                path.append("assets/");
             } else {
                 path.append("modules/").append(folders.get(0)).append("/");
             }

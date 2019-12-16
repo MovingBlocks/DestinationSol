@@ -20,7 +20,6 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
-import com.badlogic.gdx.physics.box2d.Fixture;
 import org.destinationsol.assets.audio.OggSoundManager;
 import org.destinationsol.assets.audio.SpecialSounds;
 import org.destinationsol.common.SolMath;
@@ -145,11 +144,8 @@ public class SolShip implements SolObject {
             return;
         }
         if (myHull.config.getType() != HullConfig.Type.STATION) {
-            Fixture f = null; // restore?
             float dmg = absImpulse / myHull.getMass() / myHull.config.getDurability();
-            if (f == myHull.getBase()) {
-                dmg *= BASE_DUR_MOD;
-            }
+            dmg *= BASE_DUR_MOD;
             receiveDmg((int) dmg, game, collPos, DmgType.CRASH);
         }
     }
@@ -388,7 +384,7 @@ public class SolShip implements SolObject {
             }
         }
         float thrMoney = myMoney * SolRandom.randomFloat(.2f, 1);
-        List<MoneyItem> moneyItems = game.getItemMan().moneyToItems(thrMoney);
+        List<MoneyItem> moneyItems = game.getItemMan().moneyToItems(thrMoney, 60);
         for (MoneyItem mi : moneyItems) {
             throwLoot(game, mi, true);
         }
@@ -434,6 +430,21 @@ public class SolShip implements SolObject {
             }
             dmg *= (1 - myArmor.getPerc());
         }
+        getHitWith(dmg, game, position, dmgType);
+    }
+
+    /**
+     * Like {{@link #receiveDmg(float, SolGame, Vector2, DmgType)} but shield and armor are ignored, the damage goes straight to the hull
+     */
+    public void receivePiercingDmg(float dmg, SolGame game, Vector2 position, DmgType dmgType) {
+        if (dmg <= 0) {
+            return;
+        }
+
+        getHitWith(dmg, game, position, dmgType);
+    }
+
+    private void getHitWith(float dmg, SolGame game, Vector2 position, DmgType dmgType) {
         playHitSound(game, position, dmgType);
 
         boolean wasAlive = myHull.life > 0;

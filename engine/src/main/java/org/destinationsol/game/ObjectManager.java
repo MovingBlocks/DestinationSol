@@ -31,8 +31,9 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
+import java.util.function.Consumer;
 
-public class ObjectManager implements UpdateAwareSystem{
+public class ObjectManager implements UpdateAwareSystem {
     private static final float MAX_RADIUS_RECALC_AWAIT = 1f;
     private final List<SolObject> myObjs;
     private final List<SolObject> myToRemove;
@@ -279,6 +280,22 @@ public class ObjectManager implements UpdateAwareSystem{
 
     public List<SolObject> getObjects() {
         return myObjs;
+    }
+
+    /**
+     * Commits {@code action} to all (non-far) {@link SolObject}s whose squared distance to {@code fromObject} is less than {@code squaredDistance}.
+     *
+     * @param squaredDistance If the distance between any object and {@code fromObject} is less than this,
+     *                        the {@code action} will be executed with that object as the argument.
+     * @param fromObject The point of reference. This is <b>not</b> exempt from the {@code action}.
+     * @param action The action to commit to {@code fromObject}.
+     */
+    public void doToAllCloserThan(float squaredDistance, SolObject fromObject, Consumer<SolObject> action) {
+        for(SolObject obj : myObjs) {
+            if(fromObject.getPosition().dst2(obj.getPosition()) < squaredDistance) {
+                action.accept(obj);
+            }
+        }
     }
 
     public void addObjDelayed(SolObject p) {

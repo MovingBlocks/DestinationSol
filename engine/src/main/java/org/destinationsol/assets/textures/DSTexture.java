@@ -16,9 +16,9 @@
 package org.destinationsol.assets.textures;
 
 import com.badlogic.gdx.graphics.Texture;
-import org.terasology.assets.Asset;
-import org.terasology.assets.AssetType;
-import org.terasology.assets.ResourceUrn;
+import org.terasology.gestalt.assets.Asset;
+import org.terasology.gestalt.assets.AssetType;
+import org.terasology.gestalt.assets.ResourceUrn;
 
 public class DSTexture extends Asset<DSTextureData> {
     private DSTextureData dsTextureData;

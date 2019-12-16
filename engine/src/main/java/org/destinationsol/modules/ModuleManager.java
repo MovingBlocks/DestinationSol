@@ -26,28 +26,32 @@ import org.destinationsol.assets.json.Json;
 import org.destinationsol.assets.textures.DSTexture;
 import org.destinationsol.game.DebugOptions;
 import org.destinationsol.game.SaveManager;
+import org.reflections.Reflections;
+import org.reflections.scanners.SubTypesScanner;
+import org.reflections.scanners.TypeAnnotationsScanner;
+import org.reflections.util.ClasspathHelper;
+import org.reflections.util.ConfigurationBuilder;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.terasology.assets.ResourceUrn;
-import org.terasology.module.Module;
-import org.terasology.module.ModuleEnvironment;
-import org.terasology.module.ModuleFactory;
-import org.terasology.module.ModuleMetadata;
-import org.terasology.module.ModuleMetadataJsonAdapter;
-import org.terasology.module.ModulePathScanner;
-import org.terasology.module.ModuleRegistry;
-import org.terasology.module.TableModuleRegistry;
-import org.terasology.module.sandbox.APIScanner;
-import org.terasology.module.sandbox.ModuleSecurityManager;
-import org.terasology.module.sandbox.ModuleSecurityPolicy;
-import org.terasology.module.sandbox.StandardPermissionProviderFactory;
+import org.terasology.gestalt.assets.ResourceUrn;
+import org.terasology.gestalt.module.Module;
+import org.terasology.gestalt.module.ModuleEnvironment;
+import org.terasology.gestalt.module.ModuleFactory;
+import org.terasology.gestalt.module.ModuleMetadata;
+import org.terasology.gestalt.module.ModuleMetadataJsonAdapter;
+import org.terasology.gestalt.module.ModulePathScanner;
+import org.terasology.gestalt.module.ModuleRegistry;
+import org.terasology.gestalt.module.TableModuleRegistry;
+import org.terasology.gestalt.module.sandbox.APIScanner;
+import org.terasology.gestalt.module.sandbox.ModuleSecurityManager;
+import org.terasology.gestalt.module.sandbox.ModuleSecurityPolicy;
+import org.terasology.gestalt.module.sandbox.StandardPermissionProviderFactory;
 
 import java.io.FilePermission;
 import java.io.InputStreamReader;
 import java.io.Reader;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.ReflectPermission;
-import java.net.URI;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.security.Policy;
@@ -60,7 +64,7 @@ public class ModuleManager {
     private static final Logger logger = LoggerFactory.getLogger(ModuleManager.class);
     // The API whitelist is based off Terasology's
     // https://github.com/MovingBlocks/Terasology/blob/948676050a7827dac5e04927087832ffc462da41/engine/src/main/java/org/terasology/engine/module/ExternalApiWhitelist.java
-    private static final String[] API_WHITELIST = new String[] {
+    protected static final String[] API_WHITELIST = new String[] {
             "java.lang",
             "java.lang.invoke",
             "java.lang.ref",
@@ -114,15 +118,12 @@ public class ModuleManager {
             "com.badlogic.gdx.physics",
             "com.badlogic.gdx.physics.box2d"
     };
-    private static final Class<?>[] CLASS_WHITELIST = new Class<?>[] {
-            com.esotericsoftware.reflectasm.MethodAccess.class,
+    protected static final Class<?>[] CLASS_WHITELIST = new Class<?>[] {
             InvocationTargetException.class,
             LoggerFactory.class,
             Logger.class,
-            java.awt.datatransfer.UnsupportedFlavorException.class,
             java.nio.ByteBuffer.class,
             java.nio.IntBuffer.class,
-            java.nio.file.attribute.FileTime.class, // java.util.zip dependency
             // This class only operates on Class<?> or Object instances,
             // effectively adding a way to access arrays without knowing their type
             // beforehand. It's safe despite being in java.lang.reflect.
@@ -164,17 +165,19 @@ public class ModuleManager {
             java.io.PipedOutputStream.class
     };
 
-    private static ModuleEnvironment environment;
-    private ModuleRegistry registry;
-    private Module engineModule;
+    protected static ModuleEnvironment environment;
+    protected ModuleRegistry registry;
+    protected Module engineModule;
 
     public ModuleManager() {
+    }
+
+    public void init() throws Exception {
         try {
-            URI engineClasspath = getClass().getProtectionDomain().getCodeSource().getLocation().toURI();
             Reader engineModuleReader = new InputStreamReader(getClass().getResourceAsStream("/module.json"), Charsets.UTF_8);
             ModuleMetadata engineMetadata = new ModuleMetadataJsonAdapter().read(engineModuleReader);
             engineModuleReader.close();
-            ModuleFactory moduleFactory = new DestinationSolModuleFactory();
+            DestinationSolModuleFactory moduleFactory = new DestinationSolModuleFactory();
             engineModule = moduleFactory.createClasspathModule(engineMetadata, false, getClass());
 
             registry = new TableModuleRegistry();
@@ -185,16 +188,16 @@ public class ModuleManager {
                 modulesRoot = Paths.get(".").resolve("modules");
             }
             ModulePathScanner scanner = new ModulePathScanner(moduleFactory);
-            scanner.scan(registry, modulesRoot);
+            scanner.scan(registry, modulesRoot.toFile());
 
             Set<Module> requiredModules = Sets.newHashSet();
-            requiredModules.add(engineModule);
-            requiredModules.addAll(registry);
             registry.add(engineModule);
+            requiredModules.addAll(registry);
 
             loadEnvironment(requiredModules);
         } catch (Exception e) {
             e.printStackTrace();
+            throw e;
         }
     }
 
@@ -222,13 +225,20 @@ public class ModuleManager {
         permissionFactory.getBasePermissionSet().grantPermission("org.destinationsol.assets.json", FilePermission.class);
         permissionFactory.getBasePermissionSet().grantPermission("org.destinationsol.assets.textures", FilePermission.class);
 
+        ConfigurationBuilder config = new ConfigurationBuilder()
+                .addClassLoader(ClasspathHelper.contextClassLoader())
+                .addUrls(ClasspathHelper.forClassLoader())
+                .addScanners(new TypeAnnotationsScanner(), new SubTypesScanner());
+        Reflections reflections = new Reflections(config);
+
         APIScanner scanner = new APIScanner(permissionFactory);
-        scanner.scan(registry);
-        scanner.scan(engineModule);
+        scanner.scan(reflections);
         Policy.setPolicy(new ModuleSecurityPolicy());
         System.setSecurityManager(new ModuleSecurityManager());
-        environment = new ModuleEnvironment(registry, permissionFactory);
-        Assets.initialize(environment);
+        environment = new ModuleEnvironment(modules, permissionFactory);
+        AssetHelper helper = new AssetHelper();
+        helper.init(environment);
+        Assets.initialize(helper);
     }
 
     public static ModuleEnvironment getEnvironment() {

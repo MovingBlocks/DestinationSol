@@ -63,6 +63,7 @@ public class MainGameScreen extends SolUiBaseScreen {
     private static final float V_PAD = H_PAD;
     static final float HELPER_ROW_1 = 1 - 3f * CELL_SZ;
     private static final float HELPER_ROW_2 = HELPER_ROW_1 - .5f * CELL_SZ;
+    private static final float HELPER_ROW_3 = HELPER_ROW_2 - .5f * CELL_SZ;
 
     public final ShipUiControl shipControl;
     public final SolUiControl mapControl;
@@ -139,7 +140,7 @@ public class MainGameScreen extends SolUiBaseScreen {
         talkControl = new SolUiControl(talkArea, true, gameOptions.getKeyTalk());
         talkControl.setDisplayName("Talk");
         controls.add(talkControl);
-        Rectangle mercArea = mobile ? btn(lastCol, HELPER_ROW_1, true) : rightPaneLayout.buttonRect(4);
+        Rectangle mercArea = mobile ? btn(lastCol, HELPER_ROW_3, true) : rightPaneLayout.buttonRect(4);
         mercControl = new SolUiControl(mercArea, true, gameOptions.getKeyMercenaryInteraction());
         mercControl.setDisplayName("Mercs");
         controls.add(mercControl);

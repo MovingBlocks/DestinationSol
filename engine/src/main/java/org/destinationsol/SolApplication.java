@@ -41,9 +41,10 @@ import org.destinationsol.ui.ResizeSubscriber;
 import org.destinationsol.ui.SolInputManager;
 import org.destinationsol.ui.SolLayouts;
 import org.destinationsol.ui.UiDrawer;
+import org.destinationsol.util.FramerateLimiter;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.terasology.module.sandbox.API;
+import org.terasology.gestalt.module.sandbox.API;
 
 import java.io.PrintWriter;
 import java.io.StringWriter;
@@ -90,7 +91,7 @@ public class SolApplication implements ApplicationListener {
         // Initiate Box2D to make sure natives are loaded early enough
         Box2D.init();
         this.moduleManager = moduleManager;
-        this.targetFPS = 1.0f / targetFPS;
+        this.targetFPS = targetFPS;
         resizeSubscribers = new HashSet<>();
     }
 
@@ -110,7 +111,7 @@ public class SolApplication implements ApplicationListener {
 
         musicManager = new OggMusicManager(options);
         soundManager = new OggSoundManager(context);
-        inputManager = new SolInputManager(soundManager);
+        inputManager = new SolInputManager(soundManager, context);
 
         musicManager.playMusic(OggMusicManager.MENU_MUSIC_SET, options);
 
@@ -145,14 +146,7 @@ public class SolApplication implements ApplicationListener {
             timeAccumulator -= Const.REAL_TIME_STEP;
         }
 
-        //HACK: A crude and primitive frame-limiter...
-        try {
-            if (Gdx.graphics.getDeltaTime() < targetFPS) {
-                Thread.sleep((long) ((targetFPS - Gdx.graphics.getDeltaTime()) * 1000) * 2);
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+        FramerateLimiter.synchronizeFPS(Math.round(targetFPS));
 
         try {
             draw();
@@ -273,7 +267,7 @@ public class SolApplication implements ApplicationListener {
         commonDrawer.dispose();
 
         if (solGame != null) {
-            solGame.onGameEnd();
+            solGame.onGameEnd(context);
         }
 
         inputManager.dispose();
@@ -288,7 +282,7 @@ public class SolApplication implements ApplicationListener {
     }
 
     public void finishGame() {
-        solGame.onGameEnd();
+        solGame.onGameEnd(context);
         solGame = null;
         inputManager.setScreen(this, menuScreens.main);
     }
