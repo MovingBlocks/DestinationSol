@@ -418,7 +418,7 @@ public class SolShip implements SolObject {
 
     @Override
     public void receiveDmg(float dmg, SolGame game, Vector2 position, DmgType dmgType) {
-        if(isInvincible == true){
+        if (isInvincible) {
             return;
         }
         if (dmg <= 0) {
@@ -674,7 +674,7 @@ public class SolShip implements SolObject {
 
     /**
      * Sets the mercItem and declares the ship to be a mercenary.
-     *
+     * <p>
      * Optional @param mercItem The {@link MercItem} of the SolShip.
      */
     public void setMerc(MercItem mercItem) {
@@ -686,7 +686,9 @@ public class SolShip implements SolObject {
         return this.mercItem;
     }
 
-    public boolean isMerc() { return this.isMerc; }
+    public boolean isMerc() {
+        return this.isMerc;
+    }
 
     public String getFactionName() {
         return factionName;
@@ -700,10 +702,8 @@ public class SolShip implements SolObject {
         FactionInfo.setDisposition(id, -1);
     }
 
-    public static void setInvincible(){
-        isInvincible = true;
+    public static void setInvincible(boolean b) {
+        isInvincible = b;
     }
-    public static void setNonInvincible(){
-        isInvincible = false;
-    }
+
 }

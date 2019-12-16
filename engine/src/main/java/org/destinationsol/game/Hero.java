@@ -19,7 +19,11 @@ import com.badlogic.gdx.math.Vector2;
 import org.destinationsol.GameOptions;
 import org.destinationsol.assets.audio.OggMusicManager;
 import org.destinationsol.common.SolException;
-import org.destinationsol.game.console.commands.*;
+import org.destinationsol.game.console.commands.ChangeShipCommandHandler;
+import org.destinationsol.game.console.commands.DieCommandHandler;
+import org.destinationsol.game.console.commands.InvincibleCommandHandler;
+import org.destinationsol.game.console.commands.PositionCommandHandler;
+import org.destinationsol.game.console.commands.RespawnCommandHandler;
 import org.destinationsol.game.input.Pilot;
 import org.destinationsol.game.item.Armor;
 import org.destinationsol.game.item.ItemContainer;
@@ -55,7 +59,6 @@ public class Hero {
         Console.getInstance().getDefaultInputHandler().registerOrReplaceCommand("changeShip", new ChangeShipCommandHandler(this, game));
         Console.getInstance().getDefaultInputHandler().registerOrReplaceCommand("godMode", new InvincibleCommandHandler(this, game));
     }
-
 
     public void setTranscendent(StarPort.Transcendent transcendentHero) {
         this.transcendentHero = transcendentHero;
