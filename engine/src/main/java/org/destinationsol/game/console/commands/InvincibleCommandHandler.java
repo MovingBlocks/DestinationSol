@@ -24,36 +24,36 @@ import org.destinationsol.game.console.ConsoleInputHandler;
 /**
  * A command used to make player invincible
  */
-
 public class InvincibleCommandHandler implements ConsoleInputHandler {
 
     private Hero hero;
     private SolGame game;
-    private Boolean isInvincible;
+    private boolean isInvincible = false;
 
-    public InvincibleCommandHandler(Hero hero, SolGame game){
+    public InvincibleCommandHandler(Hero hero, SolGame game) {
         this.hero = hero;
         this.game = game;
     }
 
     @Override
     public void handle(String input, Console console) {
+
         isInvincible = SolShip.isInvincible;
 
-        if(hero.isDead()){
+        if (hero.isDead()) {
             console.warn("Cannot make invincible when dead");
             return;
         }
-        if(hero.isTranscendent()){
+        if (hero.isTranscendent()) {
             console.warn("Cannot make invincible when transdencent");
             return;
         }
-        if(isInvincible == false){
+        if (!isInvincible) {
             console.warn("Set player as invincible");
-            SolShip.setInvincible();
-        }else if(isInvincible == true){
+            SolShip.setInvincible(true);
+        } else if (isInvincible) {
             console.warn("Set player as non invincible");
-            SolShip.setNonInvincible();
+            SolShip.setInvincible(false);
         }
     }
 
