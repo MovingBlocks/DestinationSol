@@ -38,7 +38,9 @@ import org.destinationsol.game.planet.TileObject;
 import org.destinationsol.game.ship.FarShip;
 import org.destinationsol.game.ship.SolShip;
 import org.destinationsol.ui.DisplayDimensions;
+import org.destinationsol.ui.Position;
 import org.destinationsol.ui.UiDrawer;
+import org.destinationsol.ui.Waypoint;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -71,6 +73,7 @@ public class MapDrawer implements UpdateAwareSystem{
     private final TextureAtlas.AtlasRegion warnAreaBackground;
     private final TextureAtlas.AtlasRegion whiteTexture;
     private final TextureAtlas.AtlasRegion lineTexture;
+    private final TextureAtlas.AtlasRegion waypointTexture;
 
     private final Color areaWarningColor;
     private final Color areaWarningBackgroundColor;
@@ -103,6 +106,7 @@ public class MapDrawer implements UpdateAwareSystem{
         beaconFollowTexture = Assets.getAtlasRegion("engine:mapObjects/beaconFollow");
         whiteTexture = Assets.getAtlasRegion("engine:mapObjects/whiteTex");
         lineTexture = Assets.getAtlasRegion("engine:mapObjects/gridLine");
+        waypointTexture = Assets.getAtlasRegion("engine:mapObjects/waypoint");
 
         iconBackground = Assets.getAtlasRegion("engine:mapObjects/hullBg");
         skullTexture = Assets.getAtlasRegion("engine:mapObjects/hullSkull");
@@ -134,7 +138,7 @@ public class MapDrawer implements UpdateAwareSystem{
         drawPlanets(drawer, game, viewDist, np, camPos, heroDmgCap, camAngle);
         drawMazes(drawer, game, viewDist, np, camPos, heroDmgCap, camAngle);
         drawStarNodes(drawer, game, viewDist, camPos, starNodeW);
-
+        drawWaypoints(drawer, game, iconSz, viewDist, camPos);
         // using ui textures
         drawIcons(drawer, game, iconSz, viewDist, factionManager, hero, camPos, heroDmgCap);
     }
@@ -242,6 +246,18 @@ public class MapDrawer implements UpdateAwareSystem{
         drawer.draw(warnAreaBackground, rad * 2, rad * 2, rad, rad, position.x, position.y, 0, areaWarningBackgroundColor);
         rad *= INNER_AREA_ICON_PERC;
         drawer.draw(skullBigTexture, rad * 2, rad * 2, rad, rad, position.x, position.y, angle, areaWarningColor);
+    }
+
+    private void drawWaypoints(GameDrawer drawer, SolGame game, float iconSize, float viewDist, Vector2 camPos) {
+        ArrayList<Waypoint> waypoints = game.getHero().getWaypoints();
+        for(Waypoint waypoint : waypoints) {
+            if(waypoint.position.dst(game.getHero().getPosition()) > viewDist) {
+                continue;
+            }
+            float innerIconSize = iconSize * INNER_ICON_PERC;
+            drawer.draw(iconBackground, iconSize, iconSize, iconSize/2, iconSize/2, waypoint.position.x, waypoint.position.y, 0f, SolColor.UI_LIGHT);
+            drawer.draw(waypointTexture, innerIconSize, innerIconSize, innerIconSize/2, innerIconSize/2, waypoint.position.x, waypoint.position.y, 0f, SolColor.WHITE);
+        }
     }
 
     private void drawIcons(GameDrawer drawer, SolGame game, float iconSz, float viewDist, FactionManager factionManager,
@@ -453,6 +469,10 @@ public class MapDrawer implements UpdateAwareSystem{
 
     public TextureAtlas.AtlasRegion getStarPortTex() {
         return starPortTexture;
+    }
+
+    public TextureAtlas.AtlasRegion getWaypointTexture() {
+        return waypointTexture;
     }
 
 }

@@ -16,18 +16,28 @@
 package org.destinationsol.game.screens;
 
 import com.badlogic.gdx.math.Rectangle;
+import com.badlogic.gdx.math.Vector2;
 import org.destinationsol.GameOptions;
 import org.destinationsol.SolApplication;
 import org.destinationsol.game.MapDrawer;
 import org.destinationsol.game.SolGame;
+import org.destinationsol.game.drawables.Drawable;
+import org.destinationsol.game.drawables.DrawableLevel;
+import org.destinationsol.game.drawables.RectSprite;
 import org.destinationsol.ui.SolInputManager;
 import org.destinationsol.ui.SolUiBaseScreen;
 import org.destinationsol.ui.SolUiControl;
+import org.destinationsol.ui.Waypoint;
+
+import java.awt.*;
+import java.lang.reflect.Array;
+import java.util.ArrayList;
 
 public class MapScreen extends SolUiBaseScreen {
     private final SolUiControl zoomOutControl;
     public final SolUiControl closeControl;
     public final SolUiControl zoomInControl;
+    public final SolUiControl addWaypointControl;
 
     MapScreen(RightPaneLayout rightPaneLayout, boolean mobile, GameOptions gameOptions) {
         Rectangle closeArea = mobile ? MainGameScreen.btn(0, MainGameScreen.HELPER_ROW_1, true) : rightPaneLayout.buttonRect(1);
@@ -44,6 +54,10 @@ public class MapScreen extends SolUiBaseScreen {
         zoomOutControl = new SolUiControl(zoomOutArea, true, gameOptions.getKeyZoomOut());
         zoomOutControl.setDisplayName("Zoom Out");
         controls.add(zoomOutControl);
+        Rectangle addWaypointArea = mobile ? MainGameScreen.btn(0, row0 - MainGameScreen.CELL_SZ, false) : rightPaneLayout.buttonRect(4);
+        addWaypointControl = new SolUiControl(addWaypointArea, true, null);
+        addWaypointControl.setDisplayName("New Waypoint");
+        controls.add(addWaypointControl);
     }
 
     @Override
@@ -75,6 +89,12 @@ public class MapScreen extends SolUiBaseScreen {
             } else {
                 zoomInControl.maybeFlashPressed(gameOptions.getKeyZoomIn());
             }
+        }
+        boolean newWaypoint = addWaypointControl.isJustOff();
+        if(newWaypoint) {
+            Waypoint waypoint = new Waypoint(new Vector2().set(solApplication.getGame().getHero().getPosition()), new Color(0,0,0), "", mapDrawer.getWaypointTexture());
+            solApplication.getGame().getHero().addWaypoint(waypoint);
+            solApplication.getGame().getObjectManager().addObjDelayed(waypoint);
         }
     }
 }
