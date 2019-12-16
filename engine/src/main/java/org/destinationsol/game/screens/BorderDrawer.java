@@ -40,6 +40,7 @@ import org.destinationsol.game.ship.FarShip;
 import org.destinationsol.game.ship.SolShip;
 import org.destinationsol.ui.DisplayDimensions;
 import org.destinationsol.ui.UiDrawer;
+import org.destinationsol.ui.Waypoint;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -121,6 +122,43 @@ public class BorderDrawer {
         for (StarPort.FarStarPort starPort : farPorts) {
             maybeDrawIcon(drawer, starPort.getPosition(), cam, StarPort.SIZE, starPort.getAngle(), mapDrawer, null, null, null, null, -1, mapDrawer.getStarPortTex());
         }
+        drawWaypoints(drawer, hero.getWaypoints(), cam, mapDrawer);
+    }
+
+    private void drawWaypoints(UiDrawer uiDrawer, ArrayList<Waypoint> waypoints, SolCam cam, MapDrawer mapDrawer) {
+        Vector2 camPos = cam.getPosition();
+        for (Waypoint waypoint : waypoints) {
+            float closeness = 1 - waypoint.position.dst(camPos) / MAX_ICON_DIST;
+
+            float size;
+            if(closeness < 0.5f) {
+                size = BORDER_ICON_SZ * 0.5f;
+            } else {
+                size = BORDER_ICON_SZ * closeness;
+            }
+
+            Vector2 position = new Vector2();
+            SolMath.toRel(waypoint.position, position, cam.getAngle(), camPos);
+
+
+            float len = position.len();
+            float newLen = len - .25f * .3f;
+
+            position.scl(newLen / len);
+
+            if(cam.isRelVisible(position)) {
+                return;
+            }
+
+            float prefX = displayDimensions.getRatio() / 2 - size / 2;
+            float prefY = .5f - size / 2;
+            float dimensionsRatio = prefX / prefY;
+            boolean prefXAxis = position.y == 0 || dimensionsRatio < SolMath.abs(position.x / position.y);
+            float mul = SolMath.abs(prefXAxis ? (prefX / position.x) : (prefY / position.y));
+            position.scl(mul);
+            position.add(displayDimensions.getRatio() /2, .5f);
+            mapDrawer.drawObjIcon(size, position, 0f - cam.getAngle(), null, null, null, -1, null, mapDrawer.getWaypointTexture(), uiDrawer);
+        }
     }
 
     private void maybeDrawIcon(UiDrawer drawer, Vector2 position, SolCam cam, float objSize,
@@ -132,7 +170,7 @@ public class BorderDrawer {
             return;
         }
         float camAngle = cam.getAngle();
-        SolMath.toRel(position, myTmpVec, camAngle, camPos);
+            SolMath.toRel(position, myTmpVec, camAngle, camPos);
         float len = myTmpVec.len();
         float newLen = len - .25f * objSize;
         myTmpVec.scl(newLen / len);
