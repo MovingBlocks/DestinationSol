@@ -47,7 +47,6 @@ import org.destinationsol.game.item.TradeContainer;
 import org.destinationsol.game.particle.DSParticleEmitter;
 import org.destinationsol.game.ship.hulls.Hull;
 import org.destinationsol.game.ship.hulls.HullConfig;
-import org.destinationsol.game.Hero;
 
 import java.util.List;
 
