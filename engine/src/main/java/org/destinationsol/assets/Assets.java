@@ -16,6 +16,7 @@
 package org.destinationsol.assets;
 
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import org.destinationsol.assets.audio.OggMusic;
 import org.destinationsol.assets.audio.OggSound;
@@ -24,6 +25,8 @@ import org.destinationsol.assets.fonts.Font;
 import org.destinationsol.assets.json.Json;
 import org.destinationsol.assets.textures.DSTexture;
 import org.json.JSONArray;
+import org.destinationsol.game.drawables.SpriteManager;
+import org.json.JSONObject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.terasology.gestalt.assets.ResourceUrn;
@@ -203,6 +206,56 @@ public abstract class Assets {
      */
     public static TextureAtlas.AtlasRegion getAtlasRegion(String path) {
         return getAtlasRegion(path, Texture.TextureFilter.Nearest);
+    }
+
+    public static Animation<TextureAtlas.AtlasRegion> getAnimation(String texturePath) {
+        if (assetHelper.list(DSTexture.class, texturePath).size() == 0) {
+            return null;
+        }
+
+        String animationPath = texturePath + "Animation";
+        if (assetHelper.list(Json.class, animationPath).size() == 0) {
+            return new Animation<TextureAtlas.AtlasRegion>(Float.MAX_VALUE, getAtlasRegion(texturePath));
+        }
+
+        Texture originalTexture = getDSTexture(texturePath).getTexture();
+
+        Json animationInfoJson = getJson(animationPath);
+        JSONObject animationInfo = animationInfoJson.getJsonValue();
+        int frameWidth = animationInfo.optInt("frameWidth", 256);
+        int frameHeight = animationInfo.optInt("frameHeight", 256);
+        int frameCount = animationInfo.optInt("frameCount", 1);
+        float framesPerSecond = (float) animationInfo.optDouble("framesPerSecond", 24);
+        boolean autoGenerateFrames = animationInfo.optBoolean("autoGenerateFrames", false);
+        TextureAtlas.AtlasRegion[] frames = new TextureAtlas.AtlasRegion[frameCount];
+        if (autoGenerateFrames) {
+            frameCount = (originalTexture.getWidth() / frameWidth) * (originalTexture.getHeight() / frameHeight);
+            TextureAtlas.AtlasRegion region = new TextureAtlas.AtlasRegion(originalTexture, 0, 0, frameWidth, frameHeight);
+            region.name = texturePath;
+            frames = SpriteManager.getSequentialRegions(region, frameCount, frameWidth, frameHeight);
+        } else {
+            ArrayList<TextureAtlas.AtlasRegion> regions = new ArrayList<TextureAtlas.AtlasRegion>();
+            JSONArray framesArray = animationInfo.optJSONArray("frames");
+            if (framesArray != null) {
+                for (int frame = 0; frame < framesArray.length(); frame++) {
+                    JSONObject frameObject = framesArray.getJSONObject(frame);
+                    int x = frameObject.optInt("x", 0);
+                    int y = frameObject.optInt("y", 0);
+                    int regionWidth = frameObject.optInt("width", frameWidth);
+                    int regionHeight = frameObject.optInt("height", frameHeight);
+                    TextureAtlas.AtlasRegion region = new TextureAtlas.AtlasRegion(originalTexture, x, y, regionWidth, regionHeight);
+                    region.flip(false, true);
+                    region.name = texturePath + " frame " + frame;
+                    regions.add(region);
+                }
+            }
+
+            frames = regions.toArray(frames);
+        }
+
+        animationInfoJson.dispose();
+        Animation<TextureAtlas.AtlasRegion> animation = new Animation<TextureAtlas.AtlasRegion>(1.0f / framesPerSecond, frames);
+        return animation;
     }
 
     public static void cacheLists() {

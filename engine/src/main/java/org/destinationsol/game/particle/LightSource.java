@@ -26,6 +26,7 @@ import org.destinationsol.game.SolGame;
 import org.destinationsol.game.drawables.Drawable;
 import org.destinationsol.game.drawables.DrawableLevel;
 import org.destinationsol.game.drawables.RectSprite;
+import org.destinationsol.game.drawables.SpriteManager;
 
 import java.util.List;
 
@@ -34,6 +35,8 @@ public class LightSource {
     public static final float A_RATIO = .5f;
     public static final float SZ_RATIO = .8f;
 
+    private static final String CIRCLE_SPRITE_NAME = "core:lightCircleParticle";
+    private static final String HALO_SPRITE_NAME = "core:lightHaloParticle";
     private final RectSprite circle;
     private final RectSprite halo;
     private final float size;
@@ -45,15 +48,13 @@ public class LightSource {
      * doesn't consume relativePosition
      */
     public LightSource(float size, boolean hasHalo, float intensity, Vector2 relativePosition, Color colour) {
-        TextureAtlas.AtlasRegion tex = Assets.getAtlasRegion("core:lightCircleParticle");
         this.size = size;
         Vector2 relPos1 = new Vector2(relativePosition);
-        circle = new RectSprite(tex, 0, 0, 0, relPos1, DrawableLevel.PART_BG_0, 0, 0, colour, true);
-        tex = Assets.getAtlasRegion("core:lightHaloParticle");
+        circle = SpriteManager.createSprite(CIRCLE_SPRITE_NAME, DrawableLevel.PART_BG_0, relPos1, colour, true);
         if (hasHalo) {
             Color haloCol = new Color(colour);
             SolColorUtil.changeBrightness(haloCol, .8f);
-            halo = new RectSprite(tex, 0, 0, 0, relPos1, DrawableLevel.PART_FG_0, 0, 0, haloCol, true);
+            halo = SpriteManager.createSprite(HALO_SPRITE_NAME, DrawableLevel.PART_BG_0, relativePosition, haloCol, true);
         } else {
             halo = null;
         }

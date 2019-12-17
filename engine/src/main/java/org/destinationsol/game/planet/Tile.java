@@ -15,19 +15,19 @@
  */
 package org.destinationsol.game.planet;
 
-import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.math.Vector2;
+import org.destinationsol.game.drawables.SpriteInfo;
 
 import java.util.List;
 
 public class Tile {
-    public final TextureAtlas.AtlasRegion tex;
+    public final SpriteInfo sprite;
     public final List<Vector2> points;
     public final SurfaceDirection to;
     public final SurfaceDirection from;
 
-    public Tile(TextureAtlas.AtlasRegion tex, List<Vector2> points, SurfaceDirection to, SurfaceDirection from) {
-        this.tex = tex;
+    public Tile(SpriteInfo sprite, List<Vector2> points, SurfaceDirection to, SurfaceDirection from) {
+        this.sprite = sprite;
         this.points = points;
         this.to = to;
         this.from = from;

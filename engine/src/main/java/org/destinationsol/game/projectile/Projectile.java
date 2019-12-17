@@ -16,6 +16,7 @@
 package org.destinationsol.game.projectile;
 
 import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
@@ -33,6 +34,7 @@ import org.destinationsol.game.SolObject;
 import org.destinationsol.game.drawables.Drawable;
 import org.destinationsol.game.drawables.DrawableLevel;
 import org.destinationsol.game.drawables.RectSprite;
+import org.destinationsol.game.drawables.SpriteManager;
 import org.destinationsol.game.item.Shield;
 import org.destinationsol.game.particle.DSParticleEmitter;
 import org.destinationsol.game.particle.EffectConfig;
@@ -67,9 +69,9 @@ public class Projectile implements SolObject {
 
         Drawable drawable;
         if (config.stretch) {
-            drawable = new ProjectileDrawable(this, config.tex, config.texSz);
+            drawable = new ProjectileDrawable(this, config.sprite.frames, config.texSz);
         } else {
-            drawable = new RectSprite(config.tex, config.texSz, config.origin.x, config.origin.y, new Vector2(), DrawableLevel.PROJECTILES, 0, 0, SolColor.WHITE, false);
+            drawable = SpriteManager.createSprite(config.sprite.displayName, config.texSz, config.origin.x, config.origin.y, new Vector2(), DrawableLevel.PROJECTILES, 0, 0, SolColor.WHITE, false);
         }
         drawables.add(drawable);
         float speed = config.speed;
@@ -297,12 +299,15 @@ public class Projectile implements SolObject {
 
     private static class ProjectileDrawable implements Drawable {
         private final Projectile projectile;
-        private final TextureAtlas.AtlasRegion texture;
+        private final Animation<TextureAtlas.AtlasRegion> animation;
         private final float width;
+        private TextureAtlas.AtlasRegion texture;
+        private float animationTime;
 
-        ProjectileDrawable(Projectile projectile, TextureAtlas.AtlasRegion texture, float width) {
+        ProjectileDrawable(Projectile projectile, Animation<TextureAtlas.AtlasRegion> animation, float width) {
             this.projectile = projectile;
-            this.texture = texture;
+            this.animation = animation;
+            texture = animation.getKeyFrame(animationTime, true);
             this.width = width;
         }
 
@@ -318,6 +323,8 @@ public class Projectile implements SolObject {
 
         @Override
         public void update(SolGame game, SolObject o) {
+            animationTime += game.getTimeStep();
+            texture = animation.getKeyFrame(animationTime, true);
         }
 
         @Override

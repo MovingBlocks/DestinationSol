@@ -33,6 +33,7 @@ import org.destinationsol.game.drawables.Drawable;
 import org.destinationsol.game.drawables.DrawableLevel;
 import org.destinationsol.game.drawables.FarDrawable;
 import org.destinationsol.game.drawables.RectSprite;
+import org.destinationsol.game.drawables.SpriteManager;
 import org.destinationsol.game.input.AiPilot;
 import org.destinationsol.game.input.MoveDestProvider;
 import org.destinationsol.game.input.Pilot;
@@ -260,7 +261,7 @@ public class ChunkFiller {
             junkPos.sub(chunkCenter);
 
             // Create the resulting sprite and add it to the list
-            RectSprite s = new RectSprite(tex, sz, 0, 0, junkPos, drawableLevel, SolRandom.randomFloat(180), rotationSpeed, SolColor.DDG, false);
+            RectSprite s = SpriteManager.createSprite(tex.name, sz, 0, 0, junkPos, drawableLevel, SolRandom.randomFloat(180), rotationSpeed, SolColor.DDG, false);
             drawables.add(s);
         }
 
@@ -303,7 +304,7 @@ public class ChunkFiller {
             float rotationSpeed = SolRandom.randomFloat(JUNK_MAX_ROT_SPD);
 
             // Create the resulting sprite and add it to the list as the only element
-            RectSprite s = new RectSprite(tex, sz, 0, 0, new Vector2(), DrawableLevel.DECO, SolRandom.randomFloat(180), rotationSpeed, SolColor.LG, false);
+            RectSprite s = SpriteManager.createSprite(tex.name, sz, 0, 0, new Vector2(), DrawableLevel.DECO, SolRandom.randomFloat(180), rotationSpeed, SolColor.LG, false);
             ArrayList<Drawable> drawables = new ArrayList<>();
             drawables.add(s);
 
@@ -337,7 +338,7 @@ public class ChunkFiller {
             Vector2 dustPos = getRndPos(chunkCenter);
             dustPos.sub(chunkCenter);
             // Create the resulting sprite and add it to the list
-            RectSprite s = new RectSprite(dustTexture, DUST_SZ, 0, 0, dustPos, DrawableLevel.DECO, 0, 0, SolColor.WHITE, false);
+            RectSprite s = SpriteManager.createSprite(dustTexture.name, DUST_SZ, 0, 0, dustPos, DrawableLevel.DECO, 0, 0, SolColor.WHITE, false);
             drawables.add(s);
         }
 

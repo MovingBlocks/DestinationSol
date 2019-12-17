@@ -25,6 +25,7 @@ import org.destinationsol.game.drawables.DrawableLevel;
 import org.destinationsol.game.drawables.DrawableObject;
 import org.destinationsol.game.drawables.FarDrawable;
 import org.destinationsol.game.drawables.RectSprite;
+import org.destinationsol.game.drawables.SpriteManager;
 import org.destinationsol.game.input.Pilot;
 import org.destinationsol.game.planet.PlanetBind;
 import org.destinationsol.game.ship.FarShip;
@@ -33,9 +34,12 @@ import org.destinationsol.game.ship.SolShip;
 import java.util.ArrayList;
 import java.util.List;
 
-public class BeaconHandler implements UpdateAwareSystem{
+public class BeaconHandler implements UpdateAwareSystem {
     private static final float TEX_SZ = .5f;
     private static final float ROT_SPD = 30f;
+    private static final String ATTACK_SPRITE_NAME = "engine:uiBeaconAttack";
+    private static final String FOLLOW_SPRITE_NAME = "engine:uiBeaconFollow";
+    private static final String MOVE_SPRITE_NAME = "engine:uiBeaconMove";
 
     private final RectSprite attackSprite;
     private final RectSprite followSprite;
@@ -54,12 +58,9 @@ public class BeaconHandler implements UpdateAwareSystem{
     private boolean isInitialized;
 
     public BeaconHandler() {
-        TextureAtlas.AtlasRegion attackTexture = Assets.getAtlasRegion("engine:uiBeaconAttack");
-        attackSprite = new RectSprite(attackTexture, TEX_SZ, 0, 0, new Vector2(), DrawableLevel.PART_FG_0, 0, ROT_SPD, new Color(1, 1, 1, 0), true);
-        TextureAtlas.AtlasRegion followTexture = Assets.getAtlasRegion("engine:uiBeaconFollow");
-        followSprite = new RectSprite(followTexture, TEX_SZ, 0, 0, new Vector2(), DrawableLevel.PART_FG_0, 0, ROT_SPD, new Color(1, 1, 1, 0), true);
-        TextureAtlas.AtlasRegion moveTexture = Assets.getAtlasRegion("engine:uiBeaconMove");
-        moveSprite = new RectSprite(moveTexture, TEX_SZ, 0, 0, new Vector2(), DrawableLevel.PART_FG_0, 0, ROT_SPD, new Color(1, 1, 1, 0), true);
+        attackSprite = SpriteManager.createSprite(ATTACK_SPRITE_NAME, TEX_SZ, 0, 0, new Vector2(), DrawableLevel.PART_FG_0, 0, ROT_SPD, new Color(1, 1, 1, 0), true);
+        followSprite = SpriteManager.createSprite(FOLLOW_SPRITE_NAME, TEX_SZ, 0, 0, new Vector2(), DrawableLevel.PART_FG_0, 0, ROT_SPD, new Color(1, 1, 1, 0), true);
+        moveSprite = SpriteManager.createSprite(MOVE_SPRITE_NAME, TEX_SZ, 0, 0, new Vector2(), DrawableLevel.PART_FG_0, 0, ROT_SPD, new Color(1, 1, 1, 0), true);
         targetRelativePosition = new Vector2();
         velocity = new Vector2();
     }
