@@ -44,6 +44,7 @@ public class Hero {
     private FarShip transcendentHeroShip;
     private boolean isTranscendent;
     private boolean isDead;
+    private boolean isInvincible;
 
     public Hero(SolShip shipHero, SolGame solGame) {
         if (shipHero == null) {
@@ -67,6 +68,7 @@ public class Hero {
     }
 
     public void setSolShip(SolShip hero, SolGame solGame) {
+        isInvincible = false;
         isDead = false;
         if (hero != shipHero && !isTranscendent) {
             mercs = new ItemContainer();
@@ -226,5 +228,13 @@ public class Hero {
 
     public boolean isAlive() {
         return !isDead;
+    }
+
+    public boolean isInvincible() {
+        return isInvincible;
+    }
+
+    public void setInvincible(boolean b) {
+        isInvincible = b;
     }
 }
