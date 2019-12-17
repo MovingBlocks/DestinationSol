@@ -31,6 +31,7 @@ import org.destinationsol.game.SolGame;
 import org.destinationsol.game.drawables.Drawable;
 import org.destinationsol.game.drawables.DrawableLevel;
 import org.destinationsol.game.drawables.RectSprite;
+import org.destinationsol.game.drawables.SpriteManager;
 import org.destinationsol.game.input.AiPilot;
 import org.destinationsol.game.input.OrbiterDestProvider;
 import org.destinationsol.game.input.Pilot;
@@ -222,7 +223,7 @@ public class PlanetObjectsBuilder {
         relativePosition.sub(basePosition);
         SolMath.free(basePosition);
 
-        return new RectSprite(texture, size, 0, 0, relativePosition, DrawableLevel.CLOUDS, relativeAngle, rotationSpeed, SolColor.WHITE, false);
+        return SpriteManager.createSprite(texture.name, size, 0, 0, relativePosition, DrawableLevel.CLOUDS, relativeAngle, rotationSpeed, SolColor.WHITE, false);
     }
 
     private void createDecorations(SolGame game, Planet planet) {
@@ -290,7 +291,7 @@ public class PlanetObjectsBuilder {
                 decorationTexture.flip(!decorationTexture.isFlipX(), !decorationTexture.isFlipY());
             }
 
-            RectSprite sprite = new RectSprite(decorationTexture, decorationSize, decoConfig.orig.x, decoConfig.orig.y, decoRelativePosition, DrawableLevel.DECO, decorationRelativeAngle, 0, SolColor.WHITE, false);
+            RectSprite sprite = SpriteManager.createSprite(decorationTexture.name, decorationSize, decoConfig.orig.x, decoConfig.orig.y, decoRelativePosition, DrawableLevel.DECO, decorationRelativeAngle, 0, SolColor.WHITE, false);
             List<Drawable> drawables = collector.get(basePosition);
             if (drawables == null) {
                 drawables = new ArrayList<>();

@@ -29,13 +29,13 @@ public class RectSprite implements Drawable {
     public final Color tint;
     private final float originalPercentageX;
     private final float originalPercentageY;
-    private final TextureAtlas.AtlasRegion texture;
     private final DrawableLevel level;
     private final Vector2 position;
     private final float rotationSpeed;
     private final boolean isAdditive;
     public float relativeAngle;
     public float baseAlpha;
+    protected TextureAtlas.AtlasRegion texture;
     private float textureSizeX;
     private float textureSizeY;
     private float originalX;

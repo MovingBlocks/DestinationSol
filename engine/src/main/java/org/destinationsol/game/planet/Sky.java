@@ -29,11 +29,14 @@ import org.destinationsol.game.SolObject;
 import org.destinationsol.game.drawables.Drawable;
 import org.destinationsol.game.drawables.DrawableLevel;
 import org.destinationsol.game.drawables.RectSprite;
+import org.destinationsol.game.drawables.SpriteManager;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class Sky implements SolObject {
+    private static final String WHITE_TEX_NAME = "engine:planetStarCommonWhiteTex";
+    private static final String PLANET_GRADIENT_TEX_NAME = "engine:planetStarCommonGrad";
 
     private final Planet planet;
     private final RectSprite filling;
@@ -46,9 +49,9 @@ public class Sky implements SolObject {
         this.planet = planet;
         drawables = new ArrayList<>();
 
-        filling = new RectSprite(Assets.getAtlasRegion("engine:planetStarCommonWhiteTex"), 5, 0, 0, new Vector2(), DrawableLevel.ATM, 0f, 0, SolColor.col(.5f, 0), false);
+        filling = SpriteManager.createSprite(WHITE_TEX_NAME, 5, 0, 0, new Vector2(), DrawableLevel.ATM, 0f, 0, SolColor.col(.5f, 0), false);
         drawables.add(filling);
-        gradation = new RectSprite(Assets.getAtlasRegion("engine:planetStarCommonGrad"), 5, 0, 0, new Vector2(), DrawableLevel.ATM, 0f, 0, SolColor.col(.5f, 0), false);
+        gradation = SpriteManager.createSprite(PLANET_GRADIENT_TEX_NAME, 5, 0, 0, new Vector2(), DrawableLevel.ATM, 0f, 0, SolColor.col(.5f, 0), false);
         drawables.add(gradation);
         SkyConfig config = planet.getConfig().skyConfig;
         skySpan = ColorSpan.rgb(config.dawn, config.day);
