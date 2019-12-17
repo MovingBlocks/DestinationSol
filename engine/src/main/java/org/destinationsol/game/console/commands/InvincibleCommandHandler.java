@@ -19,6 +19,7 @@ import org.destinationsol.game.Console;
 import org.destinationsol.game.Hero;
 import org.destinationsol.game.SolGame;
 import org.destinationsol.game.console.ConsoleInputHandler;
+import org.destinationsol.game.ship.SolShip;
 
 /**
  * A command used to make player invincible
@@ -27,10 +28,12 @@ public class InvincibleCommandHandler implements ConsoleInputHandler {
 
     private Hero hero;
     private SolGame game;
+    private SolShip solShip;
 
-    public InvincibleCommandHandler(Hero hero, SolGame game) {
+    public InvincibleCommandHandler(Hero hero, SolGame game, SolShip solShip) {
         this.hero = hero;
         this.game = game;
+        this.solShip = solShip;
     }
 
     @Override
@@ -43,17 +46,12 @@ public class InvincibleCommandHandler implements ConsoleInputHandler {
             console.warn("Cannot make invincible when transdencent");
             return;
         }
-        if (!hero.isInvincible()) {
+        if (!solShip.isInvincible()) {
             console.info("Set player as invincible");
-            hero.setInvincible(true);
-        } else if (hero.isInvincible()) {
+            solShip.setInvincible(true);
+        } else if (solShip.isInvincible()) {
             console.info("Set player as non invincible");
-            hero.setInvincible(false);
+            solShip.setInvincible(false);
         }
     }
-
-    public boolean isInvincible() {
-        return hero.isInvincible();
-    }
-
 }

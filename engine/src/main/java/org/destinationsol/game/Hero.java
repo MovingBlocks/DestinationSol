@@ -44,7 +44,6 @@ public class Hero {
     private FarShip transcendentHeroShip;
     private boolean isTranscendent;
     private boolean isDead;
-    private boolean isInvincible;
 
     public Hero(SolShip shipHero, SolGame solGame) {
         if (shipHero == null) {
@@ -58,7 +57,7 @@ public class Hero {
         Console.getInstance().getDefaultInputHandler().registerOrReplaceCommand("die", new DieCommandHandler(this, game));
         Console.getInstance().getDefaultInputHandler().registerOrReplaceCommand("respawn", new RespawnCommandHandler(this, game));
         Console.getInstance().getDefaultInputHandler().registerOrReplaceCommand("changeShip", new ChangeShipCommandHandler(this, game));
-        Console.getInstance().getDefaultInputHandler().registerOrReplaceCommand("godMode", new InvincibleCommandHandler(this, game));
+        Console.getInstance().getDefaultInputHandler().registerOrReplaceCommand("godMode", new InvincibleCommandHandler(this, game, shipHero));
     }
 
     public void setTranscendent(StarPort.Transcendent transcendentHero) {
@@ -68,7 +67,6 @@ public class Hero {
     }
 
     public void setSolShip(SolShip hero, SolGame solGame) {
-        isInvincible = false;
         isDead = false;
         if (hero != shipHero && !isTranscendent) {
             mercs = new ItemContainer();
@@ -228,13 +226,5 @@ public class Hero {
 
     public boolean isAlive() {
         return !isDead;
-    }
-
-    public boolean isInvincible() {
-        return isInvincible;
-    }
-
-    public void setInvincible(boolean b) {
-        isInvincible = b;
     }
 }

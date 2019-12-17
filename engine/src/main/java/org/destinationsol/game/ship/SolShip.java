@@ -47,6 +47,7 @@ import org.destinationsol.game.item.TradeContainer;
 import org.destinationsol.game.particle.DSParticleEmitter;
 import org.destinationsol.game.ship.hulls.Hull;
 import org.destinationsol.game.ship.hulls.HullConfig;
+import org.destinationsol.game.Hero;
 
 import java.util.List;
 
@@ -83,6 +84,7 @@ public class SolShip implements SolObject {
     private float myControlEnableAwait;
     private MercItem mercItem;
     private boolean isMerc;
+    private boolean isInvincible;
 
     public SolShip(SolGame game, Pilot pilot, Hull hull, RemoveController removeController, List<Drawable> drawables,
                    ItemContainer container, ShipRepairer repairer, float money, TradeContainer tradeContainer, Shield shield,
@@ -417,7 +419,7 @@ public class SolShip implements SolObject {
 
     @Override
     public void receiveDmg(float dmg, SolGame game, Vector2 position, DmgType dmgType) {
-        if (dmg <= 0 || game.isInvincible()) {
+        if (dmg <= 0 || isInvincible()) {
             return;
         }
         if (myShield != null && myShield.canAbsorb(dmgType)) {
@@ -696,5 +698,13 @@ public class SolShip implements SolObject {
 
     public void changeDisposition(int id) {
         FactionInfo.setDisposition(id, -1);
+    }
+
+    public boolean isInvincible() {
+        return isInvincible;
+    }
+
+    public void setInvincible(boolean b) {
+        isInvincible = b;
     }
 }
