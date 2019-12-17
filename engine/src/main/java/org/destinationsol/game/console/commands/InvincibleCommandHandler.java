@@ -18,7 +18,6 @@ package org.destinationsol.game.console.commands;
 import org.destinationsol.game.Console;
 import org.destinationsol.game.Hero;
 import org.destinationsol.game.SolGame;
-import org.destinationsol.game.ship.SolShip;
 import org.destinationsol.game.console.ConsoleInputHandler;
 
 /**
@@ -28,7 +27,6 @@ public class InvincibleCommandHandler implements ConsoleInputHandler {
 
     private Hero hero;
     private SolGame game;
-    private boolean isInvincible = false;
 
     public InvincibleCommandHandler(Hero hero, SolGame game) {
         this.hero = hero;
@@ -37,9 +35,6 @@ public class InvincibleCommandHandler implements ConsoleInputHandler {
 
     @Override
     public void handle(String input, Console console) {
-
-        isInvincible = SolShip.isInvincible;
-
         if (hero.isDead()) {
             console.warn("Cannot make invincible when dead");
             return;
@@ -48,13 +43,17 @@ public class InvincibleCommandHandler implements ConsoleInputHandler {
             console.warn("Cannot make invincible when transdencent");
             return;
         }
-        if (!isInvincible) {
-            console.warn("Set player as invincible");
-            SolShip.setInvincible(true);
-        } else if (isInvincible) {
-            console.warn("Set player as non invincible");
-            SolShip.setInvincible(false);
+        if (!hero.isInvincible()) {
+            console.info("Set player as invincible");
+            hero.setInvincible(true);
+        } else if (hero.isInvincible()) {
+            console.info("Set player as non invincible");
+            hero.setInvincible(false);
         }
+    }
+
+    public boolean isInvincible() {
+        return hero.isInvincible();
     }
 
 }

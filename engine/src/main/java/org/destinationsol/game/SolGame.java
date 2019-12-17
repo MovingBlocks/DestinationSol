@@ -545,4 +545,6 @@ public class SolGame {
     public HullConfigManager getHullConfigManager() {
         return hullConfigManager;
     }
+
+    public boolean isInvincible(){return hero.isInvincible();}
 }
