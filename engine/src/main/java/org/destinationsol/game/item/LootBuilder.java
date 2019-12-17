@@ -44,8 +44,9 @@ public class LootBuilder {
         List<Drawable> drawables = new ArrayList<>();
         TextureAtlas.AtlasRegion tex = item.getIcon(game);
         float sz = item.getItemType().sz;
-        //TODO: Should another SpriteManager.createSprite overload be created for this case (whole texture source, smaller game size)
-        RectSprite s = SpriteManager.createSprite(tex.name, sz, 0, 0, new Vector2(), DrawableLevel.GUNS, 0, 0, SolColor.WHITE, false);
+        // NOTE: The use of animated sprites here caused infrequent game crashes and so has been disabled.
+        // TODO: Should animated icons be possible?
+        RectSprite s = SpriteManager.createStaticSprite(tex, sz, 0, 0, new Vector2(), DrawableLevel.GUNS, 0, 0, SolColor.WHITE, false);
         drawables.add(s);
         Body b = buildBody(game, position, sz);
         b.setLinearVelocity(velocity);
