@@ -15,6 +15,7 @@
  */
 package org.destinationsol.ui;
 
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.math.Vector2;
 import org.destinationsol.common.SolColor;
@@ -24,21 +25,21 @@ import org.destinationsol.game.drawables.DrawableLevel;
 import org.destinationsol.game.drawables.RectSprite;
 import org.destinationsol.game.ship.SolShip;
 
-import java.awt.*;
 import java.util.ArrayList;
 import java.util.List;
 
 public class Waypoint implements SolObject {
+
     public final Vector2 position;
     public final Color color;
     public final String name;
-    public final ArrayList<Drawable> drawables = new ArrayList<>();
+    public ArrayList<Drawable> drawables = new ArrayList<>();
 
     public Waypoint(Vector2 position, Color color, String name, TextureAtlas.AtlasRegion waypointTexture) {
         this.position = position;
         this.color = color;
         this.name = name;
-        drawables.add(new RectSprite(waypointTexture, .3f, 0f, .5f, new Vector2(), DrawableLevel.BODIES, 0f, 0f, SolColor.WHITE, true));
+        drawables.add(new RectSprite(waypointTexture, .3f, 0f, .5f, new Vector2(), DrawableLevel.BODIES, 0f, 0f, this.color, true));
     }
 
     @Override
@@ -89,7 +90,7 @@ public class Waypoint implements SolObject {
                 for(Waypoint waypoint : game.getHero().getWaypoints())
                     if(waypoint.position.x == position.x && waypoint.position.y == position.y)
                         return waypoint;
-
+                    System.out.println("RETURNDED NUL L");
                     return null;
             }
 

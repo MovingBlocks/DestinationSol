@@ -254,9 +254,7 @@ public class MapDrawer implements UpdateAwareSystem{
             if(waypoint.position.dst(game.getHero().getPosition()) > viewDist) {
                 continue;
             }
-            float innerIconSize = iconSize * INNER_ICON_PERC;
-            drawer.draw(iconBackground, iconSize, iconSize, iconSize/2, iconSize/2, waypoint.position.x, waypoint.position.y, 0f, SolColor.UI_LIGHT);
-            drawer.draw(waypointTexture, innerIconSize, innerIconSize, innerIconSize/2, innerIconSize/2, waypoint.position.x, waypoint.position.y, 0f, SolColor.WHITE);
+            drawWaypointIcon(iconSize, waypoint.position, waypointTexture, drawer, waypoint.color);
         }
     }
 
@@ -425,6 +423,20 @@ public class MapDrawer implements UpdateAwareSystem{
         }
     }
 
+    public void drawWaypointIcon(float iconSz, Vector2 position, TextureAtlas.AtlasRegion icon, Object drawerHack, Color color) {
+        float innerIconSz = iconSz * INNER_ICON_PERC;
+
+        if (drawerHack instanceof UiDrawer) {
+            UiDrawer uiDrawer = (UiDrawer) drawerHack;
+            uiDrawer.draw(iconBackground, iconSz, iconSz, iconSz / 2, iconSz / 2, position.x, position.y, 0, SolColor.UI_LIGHT);
+            uiDrawer.draw(icon, innerIconSz, innerIconSz, innerIconSz / 2, innerIconSz / 2, position.x, position.y, 0, color);
+        } else {
+            GameDrawer gameDrawer = (GameDrawer) drawerHack;
+            gameDrawer.draw(iconBackground, iconSz, iconSz, iconSz / 2, iconSz / 2, position.x, position.y, 0, SolColor.UI_LIGHT);
+            gameDrawer.draw(icon, innerIconSz, innerIconSz, innerIconSz / 2, innerIconSz / 2, position.x, position.y, 0, color);
+        }
+    }
+
     public void changeZoom(boolean zoomIn) {
         if (zoomIn) {
             zoom /= MUL_FACTOR;
@@ -473,6 +485,10 @@ public class MapDrawer implements UpdateAwareSystem{
 
     public TextureAtlas.AtlasRegion getWaypointTexture() {
         return waypointTexture;
+    }
+
+    public TextureAtlas.AtlasRegion getIconBackgroundTexture() {
+        return iconBackground;
     }
 
 }

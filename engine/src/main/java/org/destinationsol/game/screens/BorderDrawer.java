@@ -147,7 +147,7 @@ public class BorderDrawer {
             position.scl(newLen / len);
 
             if(cam.isRelVisible(position)) {
-                return;
+                continue;
             }
 
             float prefX = displayDimensions.getRatio() / 2 - size / 2;
@@ -157,7 +157,7 @@ public class BorderDrawer {
             float mul = SolMath.abs(prefXAxis ? (prefX / position.x) : (prefY / position.y));
             position.scl(mul);
             position.add(displayDimensions.getRatio() /2, .5f);
-            mapDrawer.drawObjIcon(size, position, 0f - cam.getAngle(), null, null, null, -1, null, mapDrawer.getWaypointTexture(), uiDrawer);
+            mapDrawer.drawWaypointIcon(size, position, mapDrawer.getWaypointTexture(), uiDrawer, waypoint.color);
         }
     }
 
@@ -187,7 +187,6 @@ public class BorderDrawer {
         float mul = SolMath.abs(prefXAxis ? (prefX / myTmpVec.x) : (prefY / myTmpVec.y));
         myTmpVec.scl(mul);
         myTmpVec.add(displayDimensions.getRatio() / 2, .5f);
-
         mapDrawer.drawObjIcon(size, myTmpVec, objAngle - camAngle, factionManager, hero, objFac, heroDmgCap, shipHack, icon, drawer);
     }
 

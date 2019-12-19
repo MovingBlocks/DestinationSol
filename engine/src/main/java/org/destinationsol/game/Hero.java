@@ -162,6 +162,7 @@ public class Hero {
 
     public void addWaypoint(Waypoint waypoint) {
         waypoints.add(waypoint);
+        System.out.println("ADDED WAYPOINT");
     }
 
     public ArrayList<Waypoint> getWaypoints() {

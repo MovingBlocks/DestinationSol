@@ -15,8 +15,11 @@
  */
 package org.destinationsol.game.screens;
 
+import com.badlogic.gdx.Game;
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
+import com.sun.xml.internal.fastinfoset.tools.FI_DOM_Or_XML_DOM_SAX_SAXEvent;
 import org.destinationsol.GameOptions;
 import org.destinationsol.SolApplication;
 import org.destinationsol.game.MapDrawer;
@@ -38,6 +41,7 @@ public class MapScreen extends SolUiBaseScreen {
     public final SolUiControl closeControl;
     public final SolUiControl zoomInControl;
     public final SolUiControl addWaypointControl;
+    private boolean isCreatingWaypoint = false;
 
     MapScreen(RightPaneLayout rightPaneLayout, boolean mobile, GameOptions gameOptions) {
         Rectangle closeArea = mobile ? MainGameScreen.btn(0, MainGameScreen.HELPER_ROW_1, true) : rightPaneLayout.buttonRect(1);
@@ -55,7 +59,7 @@ public class MapScreen extends SolUiBaseScreen {
         zoomOutControl.setDisplayName("Zoom Out");
         controls.add(zoomOutControl);
         Rectangle addWaypointArea = mobile ? MainGameScreen.btn(0, row0 - MainGameScreen.CELL_SZ, false) : rightPaneLayout.buttonRect(4);
-        addWaypointControl = new SolUiControl(addWaypointArea, true, null);
+        addWaypointControl = new SolUiControl(addWaypointArea, true, gameOptions.getKeyShoot2());
         addWaypointControl.setDisplayName("New Waypoint");
         controls.add(addWaypointControl);
     }
@@ -90,11 +94,31 @@ public class MapScreen extends SolUiBaseScreen {
                 zoomInControl.maybeFlashPressed(gameOptions.getKeyZoomIn());
             }
         }
-        boolean newWaypoint = addWaypointControl.isJustOff();
-        if(newWaypoint) {
-            Waypoint waypoint = new Waypoint(new Vector2().set(solApplication.getGame().getHero().getPosition()), new Color(0,0,0), "", mapDrawer.getWaypointTexture());
-            solApplication.getGame().getHero().addWaypoint(waypoint);
-            solApplication.getGame().getObjectManager().addObjDelayed(waypoint);
+
+        if(addWaypointControl.isJustOff() && !isCreatingWaypoint) {
+            System.out.println("Waypoint pick-a-spot");
+            System.out.println(inputPointers.length);
+            isCreatingWaypoint = true;
+        } else if (isCreatingWaypoint) {
+            if(inputPointers[0].isJustUnPressed()) {
+                float ratio = (float)Gdx.graphics.getWidth()/(float)Gdx.graphics.getHeight();
+                Vector2 clickPosition = new Vector2(inputPointers[0].x, inputPointers[0].y);
+                clickPosition.scl(5);
+                clickPosition.scl(mapZoom);
+
+                Vector2 finalPosition = new Vector2(game.getCam().getPosition());
+                finalPosition.add(clickPosition);
+
+                finalPosition.x -= (ratio * mapZoom)/(2.f/5);
+                finalPosition.y -= (mapZoom)/(2.f/5);
+
+                game.getScreens().waypointCreationScreen.setWaypointPos(finalPosition);
+
+                solApplication.getInputManager().setScreen(solApplication, game.getScreens().mapScreen);
+                solApplication.getInputManager().addScreen(solApplication, game.getScreens().waypointCreationScreen);
+
+                isCreatingWaypoint = false;
+            }
         }
     }
 }
