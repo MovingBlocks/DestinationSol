@@ -24,7 +24,6 @@ import org.destinationsol.assets.audio.OggSound;
 import org.destinationsol.assets.emitters.Emitter;
 import org.destinationsol.assets.json.Json;
 import org.destinationsol.assets.textures.DSTexture;
-import org.destinationsol.game.DebugOptions;
 import org.destinationsol.game.SaveManager;
 import org.reflections.Reflections;
 import org.reflections.scanners.SubTypesScanner;
@@ -53,7 +52,6 @@ import java.io.InputStreamReader;
 import java.io.Reader;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.ReflectPermission;
-import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.security.Policy;
 import java.util.Set;
@@ -183,14 +181,9 @@ public class ModuleManager {
             engineModule = moduleFactory.createModule(engineMetadata, file);
 
             registry = new TableModuleRegistry();
-            Path modulesRoot;
-            if (DebugOptions.DEV_ROOT_PATH != null) {
-                modulesRoot = Paths.get(".").resolve("modules");
-            } else {
-                modulesRoot = Paths.get(".").resolve("modules");
-            }
+            File modulesRoot = Paths.get(".").resolve("modules").toFile();
             ModulePathScanner scanner = new ModulePathScanner(moduleFactory);
-            scanner.scan(registry, modulesRoot.toFile());
+            scanner.scan(registry, modulesRoot);
 
             Set<Module> requiredModules = Sets.newHashSet();
             registry.add(engineModule);

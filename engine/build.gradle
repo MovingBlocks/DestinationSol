@@ -2,10 +2,11 @@ apply from: '../config/gradle/common.gradle'
 
 [compileJava, compileTestJava]*.options*.encoding = 'UTF-8'
 
-import org.reflections.Reflections;
-import org.reflections.scanners.SubTypesScanner;
-import org.reflections.scanners.TypeAnnotationsScanner;
-import org.reflections.util.ConfigurationBuilder;
+import org.reflections.Reflections
+import org.reflections.scanners.ResourcesScanner
+import org.reflections.scanners.SubTypesScanner
+import org.reflections.scanners.TypeAnnotationsScanner
+import org.reflections.serializers.JsonSerializer
 
 // Dependencies needed for what our Gradle scripts themselves use. It cannot be included via an external Gradle file :-(
 buildscript {
@@ -19,6 +20,7 @@ buildscript {
         // Needed for caching reflected data during builds
         classpath 'org.reflections:reflections:0.9.10'
         classpath 'dom4j:dom4j:1.6.1'
+        classpath 'com.google.code.gson:gson:2.8.5'
     }
 }
 
@@ -27,10 +29,10 @@ dependencies {
     compile "com.badlogicgames.gdx:gdx-box2d:$gdxVersion"
     compile "com.badlogicgames.gdx:gdx-controllers:$gdxVersion"
 
-    compile(group: 'org.terasology.gestalt', name: 'gestalt-asset-core', version: '7.0.5')
-    compile(group: 'org.terasology.gestalt', name: 'gestalt-entity-system', version: '7.0.5')
-    compile(group: 'org.terasology.gestalt', name: 'gestalt-module', version: '7.0.5')
-    compile(group: 'org.terasology.gestalt', name: 'gestalt-util', version: '7.0.5')
+    compile(group: 'org.terasology.gestalt', name: 'gestalt-asset-core', version: '7.0.4-SNAPSHOT')
+    compile(group: 'org.terasology.gestalt', name: 'gestalt-entity-system', version: '7.0.4-SNAPSHOT')
+    compile(group: 'org.terasology.gestalt', name: 'gestalt-module', version: '7.0.4-SNAPSHOT')
+    compile(group: 'org.terasology.gestalt', name: 'gestalt-util', version: '7.0.4-SNAPSHOT')
 
 
     compile "com.github.everit-org.json-schema:org.everit.json.schema:1.11.1"
@@ -51,35 +53,25 @@ dependencies {
     testCompile group: 'org.assertj', name: 'assertj-core', version: '3.9.0'
 }
 
-task cacheReflections {
-    description = 'Caches reflection output to make regular startup faster. May go stale and need cleanup at times.'
-    // TODO: The extra "org" qualifier excludes test classes otherwise sucked up in Jenkins, causing issues. Redo later
-    File dirToReflect = new File(sourceSets.main.output.classesDir, "org")
-    inputs.files dirToReflect
-    outputs.file file(sourceSets.main.output.classesDir.toString() + "/reflections.cache")
-    dependsOn classes
-    doFirst {
-        // Without the .mkdirs() we might hit a scenario where the classes dir doesn't exist yet
-        dirToReflect.mkdirs()
-        Reflections reflections = new Reflections(new ConfigurationBuilder()
-                .addUrls(dirToReflect.toURI().toURL())
-                .setScanners(new TypeAnnotationsScanner(), new SubTypesScanner()))
-        reflections.save(sourceSets.main.output.classesDir.toString() + "/reflections.cache")
+compileJava.doLast {
+    // https://github.com/MovingBlocks/gestalt/blob/a46bbaf52d2df39c57e31e58430612b70b8e2255/testpack/moduleA/build.gradle
+    def resourcesPath = sourceSets.find { it.name == 'main' }.resources.srcDirs
+    def classPath = files { compileJava.destinationDir }
+    URL[] scanUrls = classPath.collect { it.toURI().toURL() } + resourcesPath.collect {
+        it.toURI().toURL()
     }
-}
+    URL[] classLoaderUrls = scanUrls + compileJava.classpath.collect { it.toURI().toURL() }
 
-jar {
-    // This prevents the assets from being scanned as code files
-    dependsOn cacheReflections
+    ClassLoader classLoader = new URLClassLoader(classLoaderUrls, getClass().getClassLoader())
+    org.reflections.Configuration config = new org.reflections.util.ConfigurationBuilder()
+    config.addClassLoader(classLoader)
+    config.setUrls(scanUrls)
 
-    archiveName = "sol.jar"
-
-    doFirst {
-        copy {
-            from 'src/SolAppListener.gwt.xml'
-            into 'build/classes/main'
-        }
-    }
+    config.addScanners(new ResourcesScanner(), new SubTypesScanner(false), new TypeAnnotationsScanner().filterResultsBy())
+    Reflections reflections = new Reflections(config)
+    JsonSerializer serializer = new JsonSerializer()
+    def outPath = compileJava.destinationDir.toString() + "/manifest.json"
+    serializer.save(reflections, outPath)
 }
 
 eclipse.project {
