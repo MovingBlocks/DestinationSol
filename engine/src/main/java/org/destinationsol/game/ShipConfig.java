@@ -16,7 +16,9 @@
 package org.destinationsol.game;
 
 import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.utils.Array;
 import org.destinationsol.assets.json.Validator;
+import org.destinationsol.ui.Waypoint;
 import org.json.JSONArray;
 import org.json.JSONObject;
 import com.badlogic.gdx.utils.SerializationException;
@@ -38,18 +40,20 @@ public class ShipConfig {
     public final ShipConfig guard;
     public final float dps;
     public Vector2 spawnPos;
+    public final ArrayList<Waypoint> waypoints;
 
-    public ShipConfig(HullConfig hull, String items, int money, float density, ShipConfig guard, ItemManager itemManager) {
+    public ShipConfig(HullConfig hull, String items, int money, float density, ShipConfig guard, ItemManager itemManager, ArrayList<Waypoint> waypoints) {
         this.hull = hull;
         this.items = items;
         this.money = money;
         this.density = density;
         this.guard = guard;
+        this.waypoints = waypoints;
         dps = HardnessCalc.getShipConfDps(this, itemManager);
     }
 
-    public ShipConfig(HullConfig hull, String items, int money, float density, ShipConfig guard, ItemManager itemManager, Vector2 spawnPos) {
-        this(hull, items, money, density, guard, itemManager);
+    public ShipConfig(HullConfig hull, String items, int money, float density, ShipConfig guard, ItemManager itemManager, Vector2 spawnPos, ArrayList<Waypoint> waypoints) {
+        this(hull, items, money, density, guard, itemManager, waypoints);
         this.spawnPos = spawnPos;
     }
 
@@ -67,6 +71,10 @@ public class ShipConfig {
 
     public String getItems(){
         return items;
+    }
+
+    public ArrayList<Waypoint> getWaypoints() {
+        return waypoints;
     }
 
     public static ArrayList<ShipConfig> loadList(JSONArray shipListJson, HullConfigManager hullConfigs, ItemManager itemManager) {
@@ -121,6 +129,6 @@ public class ShipConfig {
         int money = rootNode.optInt("money", 0);
         float density = (float) rootNode.optDouble("density", -1);
 
-        return new ShipConfig(hull, items, money, density, guard, itemManager);
+        return new ShipConfig(hull, items, money, density, guard, itemManager, null);
     }
 }
