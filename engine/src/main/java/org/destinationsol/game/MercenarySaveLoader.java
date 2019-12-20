@@ -21,6 +21,7 @@ import org.destinationsol.files.HullConfigManager;
 import org.destinationsol.game.item.ItemManager;
 import org.destinationsol.game.item.MercItem;
 import org.destinationsol.game.ship.hulls.HullConfig;
+import org.destinationsol.ui.Waypoint;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -93,6 +94,6 @@ class MercenarySaveLoader {
     }
 
     private ShipConfig createShipConfig(HullConfig hullConfig, String items, int money, ItemManager itemManager) {
-        return new ShipConfig(hullConfig, items, money, MERCENARY_SHIP_DENSITY, null, itemManager);
+        return new ShipConfig(hullConfig, items, money, MERCENARY_SHIP_DENSITY, null, itemManager, new ArrayList<Waypoint>());
     }
 }
