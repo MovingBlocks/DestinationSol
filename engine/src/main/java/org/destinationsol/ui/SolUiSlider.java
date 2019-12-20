@@ -23,39 +23,64 @@ import org.destinationsol.assets.Assets;
 import org.destinationsol.common.SolColor;
 
 public class SolUiSlider {
+    private static final float HANDLE_SCALE = 0.0125f;
+
     private static final TextureAtlas.AtlasRegion sliderTexture = Assets.getAtlasRegion("engine:ui/slider");
     private static final TextureAtlas.AtlasRegion sliderMarkerTexture = Assets.getAtlasRegion("engine:ui/sliderMarker");
 
     private final Rectangle rectangle;
     private float value;
-    public SolUiSlider(Rectangle sliderRectangle, float startingValue) {
+    private String text;
+    private final int trimAt;
+
+    public SolUiSlider(Rectangle sliderRectangle, String text, float startingValue, int trimAt) {
         rectangle = sliderRectangle;
-        value = startingValue;
+        this.text = text;
+        if (startingValue > 1.0f) {
+            value = 1.0f;
+        }
+        else if (startingValue < 0.0f) {
+            value = 0.0f;
+        } else {
+            value = startingValue;
+        }
+        this.trimAt = trimAt;
     }
 
     public void draw(UiDrawer uiDrawer) {
         uiDrawer.draw(rectangle, SolColor.UI_INACTIVE);
-        uiDrawer.draw(sliderTexture, rectangle.width, rectangle.height, 0, 0, rectangle.x, rectangle.y, 0, Color.WHITE);
+        uiDrawer.draw(sliderTexture, rectangle.width, rectangle.height, 0, 0, rectangle.x, rectangle.y, 0, SolColor.WHITE);
 
         uiDrawer.setTextMode(true);
-        uiDrawer.drawString("Red: " + value, rectangle.x + rectangle.width/2, rectangle.y + rectangle.height/2, 1, true, Color.WHITE);
+        String trimmedValue = Float.toString(value);
+        int lenght = trimmedValue.substring(trimmedValue.indexOf('.')).length();
+        System.out.println(value);
+        if(lenght > trimAt) {
+            String leftSubstring = trimmedValue.substring(0, trimmedValue.indexOf('.'));
+            String rightSubstring = trimmedValue.substring(trimmedValue.indexOf('.'), leftSubstring.length() + 1 + trimAt);
+            trimmedValue = leftSubstring + rightSubstring;
+        }
+
+        uiDrawer.drawString(text + trimmedValue, rectangle.x + rectangle.width * 0.5f, rectangle.y + rectangle.height * 0.5f, 1, true, SolColor.WHITE);
         uiDrawer.setTextMode(false);
-        uiDrawer.draw(sliderMarkerTexture, rectangle.width/80, rectangle.height, 0, 0, rectangle.x + value * rectangle.width, rectangle.y, 0, Color.WHITE );
+        uiDrawer.draw(sliderMarkerTexture, rectangle.width * HANDLE_SCALE, rectangle.height, rectangle.width * HANDLE_SCALE * 0.5f, 0, rectangle.x + value * rectangle.width, rectangle.y, 0, SolColor.WHITE);
     }
 
-    public void click(Vector2 clickPosition) {
+    public boolean click(Vector2 clickPosition) {
         if(clickPosition.x > rectangle.x && clickPosition.x < rectangle.x + rectangle.width &&
             clickPosition.y > rectangle.y && clickPosition.y < rectangle.y + rectangle.height) {
             float relativePos = clickPosition.x - rectangle.x;
-            value = relativePos/rectangle.width;
+            setValue((relativePos/rectangle.width));
+            return true;
         }
+        return false;
     }
 
     public void setValue(float val) {
-        if(val < 0) {
+        if(val < 0f) {
             value = 0;
             return;
-        } else if (val > 1.0f) {
+        } else if (val > 1f) {
             value = 1.0f;
             return;
         }

@@ -50,6 +50,7 @@ public class Hero {
     private boolean isDead;
     private boolean isInvincible;
     private ArrayList<Waypoint> waypoints;
+    private ArrayList<Waypoint> waypointsToRemove;
 
     public Hero(SolShip shipHero, SolGame solGame) {
         if (shipHero == null) {
@@ -74,6 +75,7 @@ public class Hero {
 
     public void setSolShip(SolShip hero, SolGame solGame) {
         waypoints = new ArrayList<>();
+        waypointsToRemove = new ArrayList<>();
         isDead = false;
         if (hero != shipHero && !isTranscendent) {
             mercs = new ItemContainer();
@@ -169,7 +171,7 @@ public class Hero {
         return waypoints;
     }
 
-    public void removeWaypoint(Vector2 waypoint) {
+    public void removeWaypoint(Waypoint waypoint) {
         if(waypoints.contains(waypoint))
             waypoints.remove(waypoint);
     }

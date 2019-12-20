@@ -37,7 +37,7 @@ public class GameScreens {
         menuScreen = new MenuScreen(layouts.menuLayout, cmp.getOptions());
         inventoryScreen = new InventoryScreen(cmp.getOptions());
         talkScreen = new TalkScreen(layouts.menuLayout, cmp.getOptions());
-        waypointCreationScreen = new WaypointCreationScreen(layouts.menuLayout, cmp.getOptions());
+        waypointCreationScreen = new WaypointCreationScreen(layouts.menuLayout, cmp.getOptions(), mapScreen);
         console = Console.getInstance();
     }
 

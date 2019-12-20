@@ -35,6 +35,7 @@ import org.destinationsol.game.planet.SurfaceDirection;
 import org.destinationsol.game.planet.SystemBelt;
 import org.destinationsol.game.planet.Tile;
 import org.destinationsol.game.planet.TileObject;
+import org.destinationsol.game.screens.MapScreen;
 import org.destinationsol.game.ship.FarShip;
 import org.destinationsol.game.ship.SolShip;
 import org.destinationsol.ui.DisplayDimensions;
@@ -138,7 +139,7 @@ public class MapDrawer implements UpdateAwareSystem{
         drawPlanets(drawer, game, viewDist, np, camPos, heroDmgCap, camAngle);
         drawMazes(drawer, game, viewDist, np, camPos, heroDmgCap, camAngle);
         drawStarNodes(drawer, game, viewDist, camPos, starNodeW);
-        drawWaypoints(drawer, game, iconSz, viewDist, camPos);
+        drawWaypoints(drawer, game, iconSz, viewDist);
         // using ui textures
         drawIcons(drawer, game, iconSz, viewDist, factionManager, hero, camPos, heroDmgCap);
     }
@@ -248,7 +249,7 @@ public class MapDrawer implements UpdateAwareSystem{
         drawer.draw(skullBigTexture, rad * 2, rad * 2, rad, rad, position.x, position.y, angle, areaWarningColor);
     }
 
-    private void drawWaypoints(GameDrawer drawer, SolGame game, float iconSize, float viewDist, Vector2 camPos) {
+    private void drawWaypoints(GameDrawer drawer, SolGame game, float iconSize, float viewDist) {
         ArrayList<Waypoint> waypoints = game.getHero().getWaypoints();
         for(Waypoint waypoint : waypoints) {
             if(waypoint.position.dst(game.getHero().getPosition()) > viewDist) {
