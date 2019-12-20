@@ -15,25 +15,18 @@
  */
 package org.destinationsol.game.screens;
 
-import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
-import com.sun.xml.internal.fastinfoset.tools.FI_DOM_Or_XML_DOM_SAX_SAXEvent;
 import org.destinationsol.GameOptions;
 import org.destinationsol.SolApplication;
 import org.destinationsol.game.MapDrawer;
 import org.destinationsol.game.SolGame;
-import org.destinationsol.game.drawables.Drawable;
-import org.destinationsol.game.drawables.DrawableLevel;
-import org.destinationsol.game.drawables.RectSprite;
 import org.destinationsol.ui.SolInputManager;
 import org.destinationsol.ui.SolUiBaseScreen;
 import org.destinationsol.ui.SolUiControl;
 import org.destinationsol.ui.Waypoint;
 
-import java.awt.*;
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 
 public class MapScreen extends SolUiBaseScreen {
@@ -41,7 +34,15 @@ public class MapScreen extends SolUiBaseScreen {
     public final SolUiControl closeControl;
     public final SolUiControl zoomInControl;
     public final SolUiControl addWaypointControl;
-    private boolean isCreatingWaypoint = false;
+    public final SolUiControl removeWaypointControl;
+
+    private final String NEW_WAYPOINT_TEXT = "Marker+";
+    private final String REMOVE_WAYPOINT_TEXT = "Marker-";
+    private final String CANCEL_TEXT = "Cancel";
+    private final int MIN_WAYPOINT_DIST = 5;
+
+    private boolean isPickingWaypointSpot = false;
+    private boolean isPickingWaypointToRemove = false;
 
     MapScreen(RightPaneLayout rightPaneLayout, boolean mobile, GameOptions gameOptions) {
         Rectangle closeArea = mobile ? MainGameScreen.btn(0, MainGameScreen.HELPER_ROW_1, true) : rightPaneLayout.buttonRect(1);
@@ -60,8 +61,12 @@ public class MapScreen extends SolUiBaseScreen {
         controls.add(zoomOutControl);
         Rectangle addWaypointArea = mobile ? MainGameScreen.btn(0, row0 - MainGameScreen.CELL_SZ, false) : rightPaneLayout.buttonRect(4);
         addWaypointControl = new SolUiControl(addWaypointArea, true, gameOptions.getKeyShoot2());
-        addWaypointControl.setDisplayName("New Waypoint");
+        addWaypointControl.setDisplayName(NEW_WAYPOINT_TEXT);
         controls.add(addWaypointControl);
+        Rectangle removeWaypointArea = mobile ? MainGameScreen.btn(0, row0 - MainGameScreen.CELL_SZ * 2, false) : rightPaneLayout.buttonRect(5);
+        removeWaypointControl = new SolUiControl(removeWaypointArea, true, gameOptions.getKeyShoot2());
+        removeWaypointControl.setDisplayName(REMOVE_WAYPOINT_TEXT);
+        controls.add(removeWaypointControl);
     }
 
     @Override
@@ -73,6 +78,8 @@ public class MapScreen extends SolUiBaseScreen {
         mapDrawer.setToggled(!justClosed);
         SolInputManager im = solApplication.getInputManager();
         if (justClosed) {
+            isPickingWaypointSpot = false;
+            addWaypointControl.setDisplayName(NEW_WAYPOINT_TEXT);
             im.setScreen(solApplication, game.getScreens().mainGameScreen);
         }
         boolean zoomIn = zoomInControl.isJustOff();
@@ -95,30 +102,93 @@ public class MapScreen extends SolUiBaseScreen {
             }
         }
 
-        if(addWaypointControl.isJustOff() && !isCreatingWaypoint) {
-            System.out.println("Waypoint pick-a-spot");
-            System.out.println(inputPointers.length);
-            isCreatingWaypoint = true;
-        } else if (isCreatingWaypoint) {
-            if(inputPointers[0].isJustUnPressed()) {
-                float ratio = (float)Gdx.graphics.getWidth()/(float)Gdx.graphics.getHeight();
+        if (addWaypointControl.isJustOff() && !isPickingWaypointSpot) {
+            isPickingWaypointSpot = true;
+            addWaypointControl.setDisplayName(CANCEL_TEXT);
+            removeWaypointControl.setEnabled(false);
+        } else if (addWaypointControl.isJustOff() && isPickingWaypointSpot) {
+            isPickingWaypointSpot = false;
+            addWaypointControl.setDisplayName(NEW_WAYPOINT_TEXT);
+            removeWaypointControl.setEnabled(true);
+        } else if (isPickingWaypointSpot) {
+            if (inputPointers[0].isJustUnPressed()) {
                 Vector2 clickPosition = new Vector2(inputPointers[0].x, inputPointers[0].y);
-                clickPosition.scl(5);
-                clickPosition.scl(mapZoom);
 
-                Vector2 finalPosition = new Vector2(game.getCam().getPosition());
-                finalPosition.add(clickPosition);
+                Vector2 worldPosition = screenPositionToWorld(clickPosition, game.getCam().getPosition(), mapZoom);
 
-                finalPosition.x -= (ratio * mapZoom)/(2.f/5);
-                finalPosition.y -= (mapZoom)/(2.f/5);
+                ArrayList<Waypoint> waypoints = game.getHero().getWaypoints();
+                boolean canCreate = true;
+                for (int w = 0; w < waypoints.size(); w++) {
+                    Waypoint waypoint = waypoints.get(w);
+                    if (worldPosition.x > waypoint.position.x-MIN_WAYPOINT_DIST && worldPosition.x < waypoint.position.x+MIN_WAYPOINT_DIST &&
+                        worldPosition.y > waypoint.position.y-MIN_WAYPOINT_DIST && worldPosition.y < waypoint.position.y+MIN_WAYPOINT_DIST) {
+                        canCreate = false;
+                        break;
+                    }
+                }
 
-                game.getScreens().waypointCreationScreen.setWaypointPos(finalPosition);
+                if (canCreate) {
+                    disableWaypointButtons(true);
+                    WaypointCreationScreen waypointCreationScreen = game.getScreens().waypointCreationScreen;
+                    waypointCreationScreen.setWaypointPos(worldPosition);
 
-                solApplication.getInputManager().setScreen(solApplication, game.getScreens().mapScreen);
-                solApplication.getInputManager().addScreen(solApplication, game.getScreens().waypointCreationScreen);
-
-                isCreatingWaypoint = false;
+                    solApplication.getInputManager().setScreen(solApplication, game.getScreens().mapScreen);
+                    solApplication.getInputManager().addScreen(solApplication, waypointCreationScreen);
+                }
+                addWaypointControl.setDisplayName(NEW_WAYPOINT_TEXT);
+                isPickingWaypointSpot = false;
             }
+        }
+
+        if (removeWaypointControl.isJustOff() && !isPickingWaypointToRemove) {
+            isPickingWaypointToRemove = true;
+            removeWaypointControl.setDisplayName(CANCEL_TEXT);
+            addWaypointControl.setEnabled(false);
+        } else if (removeWaypointControl.isJustOff() && isPickingWaypointToRemove) {
+            removeWaypointControl.setDisplayName(REMOVE_WAYPOINT_TEXT);
+            addWaypointControl.setEnabled(true);
+            isPickingWaypointToRemove = false;
+        }
+        else if (isPickingWaypointToRemove) {
+            if (inputPointers[0].isJustUnPressed()) {
+                Vector2 clickPosition = new Vector2(inputPointers[0].x, inputPointers[0].y);
+                Vector2 realPosition = screenPositionToWorld(clickPosition, game.getCam().getPosition(), mapZoom);
+
+                ArrayList<Waypoint> waypoints = game.getHero().getWaypoints();
+                for (int w = 0; w < waypoints.size(); w++) {
+                    Waypoint waypoint = waypoints.get(w);
+                    if (waypoint.position.x > realPosition.x-MIN_WAYPOINT_DIST && waypoint.position.x < realPosition.x+MIN_WAYPOINT_DIST &&
+                        waypoint.position.y > realPosition.y-MIN_WAYPOINT_DIST && waypoint.position.y < realPosition.y+MIN_WAYPOINT_DIST) {
+                        game.getHero().removeWaypoint(waypoint);
+                        game.getObjectManager().removeObjDelayed(waypoint);
+                    }
+                }
+                isPickingWaypointToRemove = false;
+                addWaypointControl.setEnabled(true);
+            }
+        }
+    }
+
+    public Vector2 screenPositionToWorld(Vector2 screenPos, Vector2 camPos, float mapZoom) {
+        float ratio = (float)Gdx.graphics.getWidth()/(float)Gdx.graphics.getHeight();
+        screenPos.scl(5);
+        screenPos.scl(mapZoom);
+
+        Vector2 finalPosition = new Vector2(camPos);
+        finalPosition.add(screenPos);
+
+        finalPosition.x -= (ratio * mapZoom)/(2.f/5);
+        finalPosition.y -= (mapZoom)/(2.f/5);
+        return finalPosition;
+    }
+
+    public void disableWaypointButtons(boolean value) {
+        if (value) {
+            removeWaypointControl.setEnabled(false);
+            addWaypointControl.setEnabled(false);
+        } else {
+            removeWaypointControl.setEnabled(true);
+            addWaypointControl.setEnabled(true);
         }
     }
 }

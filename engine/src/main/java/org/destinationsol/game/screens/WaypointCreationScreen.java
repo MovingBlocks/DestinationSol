@@ -29,6 +29,8 @@ public class WaypointCreationScreen extends SolUiBaseScreen {
     private final SolUiControl cancelControl;
     private final SolUiControl doneControl;
 
+    private final MapScreen mapScreen;
+
     private Vector2 waypointPos;
 
     private final Rectangle previewRect;
@@ -39,7 +41,8 @@ public class WaypointCreationScreen extends SolUiBaseScreen {
 
     private Color outcomeColor;
 
-    public WaypointCreationScreen(MenuLayout menuLayout, GameOptions gameOptions) {
+    public WaypointCreationScreen(MenuLayout menuLayout, GameOptions gameOptions, MapScreen mapScreen) {
+        this.mapScreen = mapScreen;
         doneControl = new SolUiControl(menuLayout.buttonRect(-1, 3), true, gameOptions.getKeyShoot());
         doneControl.setDisplayName("Done");
         controls.add(doneControl);
@@ -50,11 +53,18 @@ public class WaypointCreationScreen extends SolUiBaseScreen {
         previewRect = menuLayout.buttonRect(-1, -1);
         outcomeColor = Color.BLACK.cpy();
 
-        sliderRed = new SolUiSlider(menuLayout.buttonRect(-1, 0), 1);
-        sliderGreen = new SolUiSlider(menuLayout.buttonRect(-1, 1), 1);
-        sliderBlue = new SolUiSlider(menuLayout.buttonRect(-1, 2), 1);
+        sliderRed = new SolUiSlider(menuLayout.buttonRect(-1, 0), "Red: ", 1, 2);
+        sliderGreen = new SolUiSlider(menuLayout.buttonRect(-1, 1), "Green: ", 1, 2);
+        sliderBlue = new SolUiSlider(menuLayout.buttonRect(-1, 2), "Blue:", 1, 2);
 
         background = menuLayout.background(-1, -1, 6);
+    }
+
+    @Override
+    public void onAdd(SolApplication solApplication) {
+        sliderRed.setValue(1f);
+        sliderGreen.setValue(1f);
+        sliderBlue.setValue(1f);
     }
 
     @Override
@@ -73,14 +83,16 @@ public class WaypointCreationScreen extends SolUiBaseScreen {
     @Override
     public void updateCustom(SolApplication solApplication, SolInputManager.InputPointer[] inputPointers, boolean clickedOutside) {
         if(doneControl.isJustOff()) {
-            Waypoint waypoint = new Waypoint(waypointPos, outcomeColor, "", solApplication.getGame().getMapDrawer().getWaypointTexture());
+            Waypoint waypoint = new Waypoint(waypointPos, outcomeColor, solApplication.getGame().getMapDrawer().getWaypointTexture());
             solApplication.getGame().getHero().addWaypoint(waypoint);
             solApplication.getGame().getObjectManager().addObjDelayed(waypoint);
             solApplication.getInputManager().setScreen(solApplication, solApplication.getGame().getScreens().mapScreen);
+            mapScreen.disableWaypointButtons(false);
         }
         
         if(cancelControl.isJustOff()) {
             solApplication.getInputManager().setScreen(solApplication, solApplication.getGame().getScreens().mapScreen);
+            mapScreen.disableWaypointButtons(false);
         }
 
         if(inputPointers[0].pressed) {
@@ -96,6 +108,8 @@ public class WaypointCreationScreen extends SolUiBaseScreen {
     }
 
     public void setWaypointPos(Vector2 position) {
+        outcomeColor = new Color();
+        outcomeColor.a = 1.0f;
         waypointPos = position;
     }
 

@@ -44,7 +44,7 @@ public class SolCam implements UpdateAwareSystem {
     public static boolean DIRECT_CAM_CONTROL = false;
     private final CamRotStrategy myCamRotStrategy;
     private final OrthographicCamera myCam;
-    public final ScreenViewport viewport;
+    private final ScreenViewport viewport;
     private final Vector3 myTmpVec;
 
     private float myPrevHeroLife;
