@@ -170,7 +170,7 @@ public class BorderDrawer {
             return;
         }
         float camAngle = cam.getAngle();
-            SolMath.toRel(position, myTmpVec, camAngle, camPos);
+        SolMath.toRel(position, myTmpVec, camAngle, camPos);
         float len = myTmpVec.len();
         float newLen = len - .25f * objSize;
         myTmpVec.scl(newLen / len);
