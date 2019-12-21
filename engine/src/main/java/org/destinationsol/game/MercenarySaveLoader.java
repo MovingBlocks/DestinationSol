@@ -94,6 +94,6 @@ class MercenarySaveLoader {
     }
 
     private ShipConfig createShipConfig(HullConfig hullConfig, String items, int money, ItemManager itemManager) {
-        return new ShipConfig(hullConfig, items, money, MERCENARY_SHIP_DENSITY, null, itemManager, new ArrayList<Waypoint>());
+        return new ShipConfig(hullConfig, items, money, MERCENARY_SHIP_DENSITY, null, itemManager, "");
     }
 }
