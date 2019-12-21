@@ -27,6 +27,7 @@ import org.destinationsol.common.SolRandom;
 import org.destinationsol.game.AbilityCommonConfig;
 import org.destinationsol.game.DmgType;
 import org.destinationsol.game.FactionInfo;
+import org.destinationsol.game.Hero;
 import org.destinationsol.game.RemoveController;
 import org.destinationsol.game.SolGame;
 import org.destinationsol.game.SolObject;
@@ -417,7 +418,8 @@ public class SolShip implements SolObject {
 
     @Override
     public void receiveDmg(float dmg, SolGame game, Vector2 position, DmgType dmgType) {
-        if (dmg <= 0) {
+        Hero hero = game.getHero();
+        if (dmg <= 0 || (hero.isInvincible() && hero.getShip() == this)) {
             return;
         }
         if (myShield != null && myShield.canAbsorb(dmgType)) {
@@ -670,7 +672,7 @@ public class SolShip implements SolObject {
 
     /**
      * Sets the mercItem and declares the ship to be a mercenary.
-     *
+     * <p>
      * Optional @param mercItem The {@link MercItem} of the SolShip.
      */
     public void setMerc(MercItem mercItem) {
@@ -682,7 +684,9 @@ public class SolShip implements SolObject {
         return this.mercItem;
     }
 
-    public boolean isMerc() { return this.isMerc; }
+    public boolean isMerc() {
+        return this.isMerc;
+    }
 
     public String getFactionName() {
         return factionName;
