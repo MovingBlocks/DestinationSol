@@ -15,6 +15,7 @@
  */
 package org.destinationsol.game;
 
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.math.Vector2;
 import org.destinationsol.Const;
 import org.destinationsol.game.input.AiPilot;
@@ -27,6 +28,9 @@ import org.destinationsol.game.item.SolItem;
 import org.destinationsol.game.item.TradeConfig;
 import org.destinationsol.game.ship.FarShip;
 import org.destinationsol.game.ship.hulls.HullConfig;
+import org.destinationsol.ui.Waypoint;
+
+import java.util.ArrayList;
 
 class PlayerCreator {
 
@@ -46,6 +50,22 @@ class PlayerCreator {
         Hero hero = configureAndCreateHero(shipConfig, respawnState, game, isMouseControl, isNewShip, position);
         game.getObjectManager().addObjDelayed(hero.getShip());
         game.getObjectManager().resetDelays();
+
+        String[] waypointStrings = shipConfig.getWaypoints().split(" ");
+
+        for(String string : waypointStrings) {
+            String[] values = string.split("_");
+            if(values[0] == "") {
+                continue;
+            }
+            Vector2 waypointPosition = new Vector2().fromString(values[0]);
+            String[] colors = values[1].split(",");
+            Color color = new Color(Float.valueOf(colors[0]),Float.valueOf(colors[1]),Float.valueOf(colors[2]),1.0f);
+            Waypoint waypoint = new Waypoint(waypointPosition, color, game.getMapDrawer().getWaypointTexture());
+            hero.addWaypoint(waypoint);
+            game.getObjectManager().addObjDelayed(waypoint);
+        }
+
         return hero;
     }
 

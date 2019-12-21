@@ -17,6 +17,7 @@ package org.destinationsol.game;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.files.FileHandle;
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.math.Vector2;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
@@ -24,6 +25,7 @@ import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import com.google.gson.stream.JsonReader;
 import org.destinationsol.IniReader;
+import org.destinationsol.SolApplication;
 import org.destinationsol.common.SolRandom;
 import org.destinationsol.files.HullConfigManager;
 import org.destinationsol.game.item.Gun;
@@ -31,6 +33,7 @@ import org.destinationsol.game.item.ItemContainer;
 import org.destinationsol.game.item.ItemManager;
 import org.destinationsol.game.item.MercItem;
 import org.destinationsol.game.item.SolItem;
+import org.destinationsol.game.screens.MapScreen;
 import org.destinationsol.game.ship.SolShip;
 import org.destinationsol.game.ship.hulls.HullConfig;
 import org.destinationsol.ui.Waypoint;
@@ -74,7 +77,7 @@ public class SaveManager {
 
         for(Waypoint waypoint : waypoints) {
             sb.append(waypoint.position.toString());
-            sb.append('-');
+            sb.append('_');
             sb.append(waypoint.color.r);
             sb.append(',');
             sb.append(waypoint.color.g);
@@ -218,18 +221,9 @@ public class SaveManager {
         float y = ir.getFloat("y", 0);
         Vector2 spawnPos = new Vector2(x, y);
 
-        String waypointsString = ir.getString("waypoints", "");
-        String waypointStrings[] = waypointsString.split("-");
+        String waypoints = ir.getString("waypoints", "");
 
-        ArrayList<Waypoint> waypoints = new ArrayList<>();
-        System.out.println(waypointStrings[0].toString());
-        System.out.println(waypointStrings[1].toString());
-        for(String string : waypointStrings) {
-
-            //Waypoint waypoint = new Waypoint();
-        }
-
-        return new ShipConfig(hull, itemsStr, money, 1, null, itemManager, spawnPos, null);
+        return new ShipConfig(hull, itemsStr, money, 1, null, itemManager, spawnPos, waypoints);
     }
 
     /**

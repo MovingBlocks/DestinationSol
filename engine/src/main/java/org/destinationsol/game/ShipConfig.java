@@ -40,9 +40,9 @@ public class ShipConfig {
     public final ShipConfig guard;
     public final float dps;
     public Vector2 spawnPos;
-    public final ArrayList<Waypoint> waypoints;
+    private final String waypoints;
 
-    public ShipConfig(HullConfig hull, String items, int money, float density, ShipConfig guard, ItemManager itemManager, ArrayList<Waypoint> waypoints) {
+    public ShipConfig(HullConfig hull, String items, int money, float density, ShipConfig guard, ItemManager itemManager, String waypoints) {
         this.hull = hull;
         this.items = items;
         this.money = money;
@@ -52,7 +52,7 @@ public class ShipConfig {
         dps = HardnessCalc.getShipConfDps(this, itemManager);
     }
 
-    public ShipConfig(HullConfig hull, String items, int money, float density, ShipConfig guard, ItemManager itemManager, Vector2 spawnPos, ArrayList<Waypoint> waypoints) {
+    public ShipConfig(HullConfig hull, String items, int money, float density, ShipConfig guard, ItemManager itemManager, Vector2 spawnPos, String waypoints) {
         this(hull, items, money, density, guard, itemManager, waypoints);
         this.spawnPos = spawnPos;
     }
@@ -73,7 +73,7 @@ public class ShipConfig {
         return items;
     }
 
-    public ArrayList<Waypoint> getWaypoints() {
+    public String getWaypoints() {
         return waypoints;
     }
 
@@ -129,6 +129,6 @@ public class ShipConfig {
         int money = rootNode.optInt("money", 0);
         float density = (float) rootNode.optDouble("density", -1);
 
-        return new ShipConfig(hull, items, money, density, guard, itemManager, null);
+        return new ShipConfig(hull, items, money, density, guard, itemManager, "");
     }
 }
