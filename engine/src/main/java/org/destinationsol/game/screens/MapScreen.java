@@ -156,8 +156,8 @@ public class MapScreen extends SolUiBaseScreen {
                 ArrayList<Waypoint> waypoints = game.getHero().getWaypoints();
                 for (int w = 0; w < waypoints.size(); w++) {
                     Waypoint waypoint = waypoints.get(w);
-                    if (waypoint.position.x > realPosition.x-MIN_WAYPOINT_DIST && waypoint.position.x < realPosition.x+MIN_WAYPOINT_DIST &&
-                        waypoint.position.y > realPosition.y-MIN_WAYPOINT_DIST && waypoint.position.y < realPosition.y+MIN_WAYPOINT_DIST) {
+                    if (waypoint.position.x > realPosition.x - MIN_WAYPOINT_DIST && waypoint.position.x < realPosition.x+MIN_WAYPOINT_DIST &&
+                        waypoint.position.y > realPosition.y - MIN_WAYPOINT_DIST && waypoint.position.y < realPosition.y+MIN_WAYPOINT_DIST) {
                         game.getHero().removeWaypoint(waypoint);
                         game.getObjectManager().removeObjDelayed(waypoint);
                     }
@@ -169,15 +169,15 @@ public class MapScreen extends SolUiBaseScreen {
     }
 
     public Vector2 screenPositionToWorld(Vector2 screenPos, Vector2 camPos, float mapZoom) {
-        float ratio = (float)Gdx.graphics.getWidth()/(float)Gdx.graphics.getHeight();
+        float ratio = (float)Gdx.graphics.getWidth() / (float)Gdx.graphics.getHeight();
         screenPos.scl(5);
         screenPos.scl(mapZoom);
 
         Vector2 finalPosition = new Vector2(camPos);
         finalPosition.add(screenPos);
 
-        finalPosition.x -= (ratio * mapZoom)/(2.f/5);
-        finalPosition.y -= (mapZoom)/(2.f/5);
+        finalPosition.x -= (ratio * mapZoom) / (2.f / 5);
+        finalPosition.y -= (mapZoom) / (2.f / 5);
         return finalPosition;
     }
 
