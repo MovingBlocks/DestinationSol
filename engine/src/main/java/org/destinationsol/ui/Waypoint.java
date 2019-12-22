@@ -18,7 +18,10 @@ package org.destinationsol.ui;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.math.Vector2;
-import org.destinationsol.game.*;
+import org.destinationsol.game.DmgType;
+import org.destinationsol.game.FarObject;
+import org.destinationsol.game.SolGame;
+import org.destinationsol.game.SolObject;
 import org.destinationsol.game.drawables.Drawable;
 import org.destinationsol.game.drawables.DrawableLevel;
 import org.destinationsol.game.drawables.RectSprite;
@@ -83,10 +86,10 @@ public class Waypoint implements SolObject {
 
             @Override
             public SolObject toObject(SolGame game) {
-                for(Waypoint waypoint : game.getHero().getWaypoints())
-                    if(waypoint.position.x == position.x && waypoint.position.y == position.y)
+                for (Waypoint waypoint : game.getHero().getWaypoints())
+                    if (waypoint.position.x == position.x && waypoint.position.y == position.y) {
                         return waypoint;
-                    System.out.println("RETURNDED NUL L");
+                    }
                     return null;
             }
 

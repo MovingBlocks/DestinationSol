@@ -128,7 +128,7 @@ public class MapScreen extends SolUiBaseScreen {
                 }
 
                 if (canCreate) {
-                    disableWaypointButtons(true);
+                    setWaypointButtonsEnabled(false);
                     WaypointCreationScreen waypointCreationScreen = game.getScreens().waypointCreationScreen;
                     waypointCreationScreen.setWaypointPos(worldPosition);
 
@@ -148,8 +148,7 @@ public class MapScreen extends SolUiBaseScreen {
             removeWaypointControl.setDisplayName(REMOVE_WAYPOINT_TEXT);
             addWaypointControl.setEnabled(true);
             isPickingWaypointToRemove = false;
-        }
-        else if (isPickingWaypointToRemove) {
+        } else if (isPickingWaypointToRemove) {
             if (inputPointers[0].isJustUnPressed()) {
                 Vector2 clickPosition = new Vector2(inputPointers[0].x, inputPointers[0].y);
                 Vector2 realPosition = screenPositionToWorld(clickPosition, game.getCam().getPosition(), mapZoom);
@@ -182,13 +181,8 @@ public class MapScreen extends SolUiBaseScreen {
         return finalPosition;
     }
 
-    public void disableWaypointButtons(boolean value) {
-        if (value) {
-            removeWaypointControl.setEnabled(false);
-            addWaypointControl.setEnabled(false);
-        } else {
-            removeWaypointControl.setEnabled(true);
-            addWaypointControl.setEnabled(true);
-        }
+    public void setWaypointButtonsEnabled(boolean value) {
+        removeWaypointControl.setEnabled(value);
+        addWaypointControl.setEnabled(value);
     }
 }

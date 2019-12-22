@@ -25,12 +25,9 @@ import org.destinationsol.game.input.UiControlledPilot;
 import org.destinationsol.game.item.Gun;
 import org.destinationsol.game.item.ItemContainer;
 import org.destinationsol.game.item.SolItem;
-import org.destinationsol.game.item.TradeConfig;
 import org.destinationsol.game.ship.FarShip;
 import org.destinationsol.game.ship.hulls.HullConfig;
 import org.destinationsol.ui.Waypoint;
-
-import java.util.ArrayList;
 
 class PlayerCreator {
 
@@ -53,9 +50,9 @@ class PlayerCreator {
 
         String[] waypointStrings = shipConfig.getWaypoints().split(" ");
 
-        for(String string : waypointStrings) {
+        for (String string : waypointStrings) {
             String[] values = string.split("_");
-            if(values[0] == "") {
+            if (values[0] == "") {
                 continue;
             }
             Vector2 waypointPosition = new Vector2().fromString(values[0]);

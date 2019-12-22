@@ -21,7 +21,6 @@ import org.destinationsol.files.HullConfigManager;
 import org.destinationsol.game.item.ItemManager;
 import org.destinationsol.game.item.MercItem;
 import org.destinationsol.game.ship.hulls.HullConfig;
-import org.destinationsol.ui.Waypoint;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

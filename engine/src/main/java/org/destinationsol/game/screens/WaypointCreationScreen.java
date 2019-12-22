@@ -22,7 +22,12 @@ import org.destinationsol.GameOptions;
 import org.destinationsol.SolApplication;
 import org.destinationsol.common.SolColor;
 import org.destinationsol.menu.MenuLayout;
-import org.destinationsol.ui.*;
+import org.destinationsol.ui.SolInputManager;
+import org.destinationsol.ui.SolUiBaseScreen;
+import org.destinationsol.ui.SolUiControl;
+import org.destinationsol.ui.SolUiSlider;
+import org.destinationsol.ui.UiDrawer;
+import org.destinationsol.ui.Waypoint;
 
 public class WaypointCreationScreen extends SolUiBaseScreen {
 
@@ -87,12 +92,12 @@ public class WaypointCreationScreen extends SolUiBaseScreen {
             solApplication.getGame().getHero().addWaypoint(waypoint);
             solApplication.getGame().getObjectManager().addObjDelayed(waypoint);
             solApplication.getInputManager().setScreen(solApplication, solApplication.getGame().getScreens().mapScreen);
-            mapScreen.disableWaypointButtons(false);
+            mapScreen.setWaypointButtonsEnabled(true);
         }
         
         if(cancelControl.isJustOff()) {
             solApplication.getInputManager().setScreen(solApplication, solApplication.getGame().getScreens().mapScreen);
-            mapScreen.disableWaypointButtons(false);
+            mapScreen.setWaypointButtonsEnabled(true);
         }
 
         if(inputPointers[0].pressed) {
