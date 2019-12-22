@@ -15,12 +15,12 @@
  */
 package org.destinationsol.ui;
 
-import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import org.destinationsol.assets.Assets;
 import org.destinationsol.common.SolColor;
+import org.destinationsol.common.SolMath;
 
 public class SolUiSlider {
     private static final float HANDLE_SCALE = 0.0125f;
@@ -35,15 +35,8 @@ public class SolUiSlider {
 
     public SolUiSlider(Rectangle sliderRectangle, String text, float startingValue, int trimAt) {
         rectangle = sliderRectangle;
+        value = SolMath.clamp(value);
         this.text = text;
-        if (startingValue > 1.0f) {
-            value = 1.0f;
-        }
-        else if (startingValue < 0.0f) {
-            value = 0.0f;
-        } else {
-            value = startingValue;
-        }
         this.trimAt = trimAt;
     }
 
@@ -53,9 +46,8 @@ public class SolUiSlider {
 
         uiDrawer.setTextMode(true);
         String trimmedValue = Float.toString(value);
-        int lenght = trimmedValue.substring(trimmedValue.indexOf('.')).length();
-        System.out.println(value);
-        if(lenght > trimAt) {
+        int length = trimmedValue.substring(trimmedValue.indexOf('.')).length();
+        if(length > trimAt) {
             String leftSubstring = trimmedValue.substring(0, trimmedValue.indexOf('.'));
             String rightSubstring = trimmedValue.substring(trimmedValue.indexOf('.'), leftSubstring.length() + 1 + trimAt);
             trimmedValue = leftSubstring + rightSubstring;
@@ -70,21 +62,14 @@ public class SolUiSlider {
         if(clickPosition.x > rectangle.x && clickPosition.x < rectangle.x + rectangle.width &&
             clickPosition.y > rectangle.y && clickPosition.y < rectangle.y + rectangle.height) {
             float relativePos = clickPosition.x - rectangle.x;
-            setValue((relativePos/rectangle.width));
+            setValue(relativePos / rectangle.width);
             return true;
         }
         return false;
     }
 
     public void setValue(float val) {
-        if(val < 0f) {
-            value = 0;
-            return;
-        } else if (val > 1f) {
-            value = 1.0f;
-            return;
-        }
-        value = val;
+        value = SolMath.clamp(val);
     }
 
     public float getValue() {

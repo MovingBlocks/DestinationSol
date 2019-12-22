@@ -16,12 +16,9 @@
 package org.destinationsol.game;
 
 import com.badlogic.gdx.math.Vector2;
-import com.badlogic.gdx.utils.Array;
 import org.destinationsol.assets.json.Validator;
-import org.destinationsol.ui.Waypoint;
 import org.json.JSONArray;
 import org.json.JSONObject;
-import com.badlogic.gdx.utils.SerializationException;
 import org.destinationsol.assets.Assets;
 import org.destinationsol.assets.json.Json;
 import org.destinationsol.files.HullConfigManager;

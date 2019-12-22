@@ -140,7 +140,6 @@ public class BorderDrawer {
             Vector2 position = new Vector2();
             SolMath.toRel(waypoint.position, position, cam.getAngle(), camPos);
 
-
             float len = position.len();
             float newLen = len - .25f * .3f;
 
@@ -187,6 +186,7 @@ public class BorderDrawer {
         float mul = SolMath.abs(prefXAxis ? (prefX / myTmpVec.x) : (prefY / myTmpVec.y));
         myTmpVec.scl(mul);
         myTmpVec.add(displayDimensions.getRatio() / 2, .5f);
+
         mapDrawer.drawObjIcon(size, myTmpVec, objAngle - camAngle, factionManager, hero, objFac, heroDmgCap, shipHack, icon, drawer);
     }
 

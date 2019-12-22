@@ -17,7 +17,6 @@ package org.destinationsol.game;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.files.FileHandle;
-import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.math.Vector2;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
@@ -25,7 +24,6 @@ import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import com.google.gson.stream.JsonReader;
 import org.destinationsol.IniReader;
-import org.destinationsol.SolApplication;
 import org.destinationsol.common.SolRandom;
 import org.destinationsol.files.HullConfigManager;
 import org.destinationsol.game.item.Gun;
@@ -33,7 +31,6 @@ import org.destinationsol.game.item.ItemContainer;
 import org.destinationsol.game.item.ItemManager;
 import org.destinationsol.game.item.MercItem;
 import org.destinationsol.game.item.SolItem;
-import org.destinationsol.game.screens.MapScreen;
 import org.destinationsol.game.ship.SolShip;
 import org.destinationsol.game.ship.hulls.HullConfig;
 import org.destinationsol.ui.Waypoint;
@@ -95,7 +92,6 @@ public class SaveManager {
      * @param items A list of SolItems to be encoded as a string
      * @return A string of items suitable for saving
      */
-
     private static String itemsToString(List<SolItem> items) {
         StringBuilder sb = new StringBuilder();
 
@@ -204,6 +200,7 @@ public class SaveManager {
      */
     public static ShipConfig readShip(HullConfigManager hullConfigs, ItemManager itemManager) {
         IniReader ir = new IniReader(SAVE_FILE_NAME, null);
+
         String hullName = ir.getString("hull", null);
         if (hullName == null) {
             return null;
