@@ -47,8 +47,40 @@ class PlayerCreator {
         Hero hero = configureAndCreateHero(shipConfig, respawnState, game, isMouseControl, isNewShip, position);
         game.getObjectManager().addObjDelayed(hero.getShip());
         game.getObjectManager().resetDelays();
+        return hero;
+    }
 
-        String[] waypointStrings = shipConfig.getWaypoints().split(" ");
+    private Hero configureAndCreateHero(ShipConfig shipConfig, RespawnState respawnState, SolGame game, boolean isMouseControl, boolean isNewShip, Vector2 position) {
+        Pilot pilot = createPilot(game, isMouseControl);
+        float money = grantPlayerMoney(shipConfig, respawnState, game);
+        HullConfig hull = findHullConfig(shipConfig, respawnState);
+        String items = findItems(shipConfig, respawnState);
+        String waypoints = findWaypoints(shipConfig, respawnState);
+        boolean giveAmmo = shouldGiveAmmo(respawnState, isNewShip);
+        Hero hero = createHero(position, pilot, money, hull, items, giveAmmo, game);
+        addAndEquipItems(hero, respawnState, game);
+        addWaypoints(hero, waypoints, respawnState, game);
+        return hero;
+    }
+
+    private void addAndEquipItems(Hero hero, RespawnState respawnState, SolGame game) {
+        ItemContainer itemContainer = hero.getItemContainer();
+        if (!respawnState.getRespawnItems().isEmpty()) {
+            addAndEquipRespawnItems(hero, respawnState, itemContainer, game);
+        } else if (game.isTutorial()) {
+            addRandomTutorialItems(game, itemContainer);
+        }
+        itemContainer.markAllAsSeen();
+    }
+
+    private void addWaypoints(Hero hero, String waypoints, RespawnState respawnState, SolGame game) {
+        if(waypoints == "") {
+            for (Waypoint waypoint : respawnState.getRespawnWaypoints()) {
+                hero.getWaypoints().add(waypoint);
+            }
+            return;
+        }
+        String[] waypointStrings = waypoints.split(" ");
 
         for (String string : waypointStrings) {
             String[] values = string.split("_");
@@ -62,29 +94,6 @@ class PlayerCreator {
             hero.addWaypoint(waypoint);
             game.getObjectManager().addObjDelayed(waypoint);
         }
-
-        return hero;
-    }
-
-    private Hero configureAndCreateHero(ShipConfig shipConfig, RespawnState respawnState, SolGame game, boolean isMouseControl, boolean isNewShip, Vector2 position) {
-        Pilot pilot = createPilot(game, isMouseControl);
-        float money = grantPlayerMoney(shipConfig, respawnState, game);
-        HullConfig hull = findHullConfig(shipConfig, respawnState);
-        String items = findItems(shipConfig, respawnState);
-        boolean giveAmmo = shouldGiveAmmo(respawnState, isNewShip);
-        Hero hero = createHero(position, pilot, money, hull, items, giveAmmo, game);
-        addAndEquipItems(hero, respawnState, game);
-        return hero;
-    }
-
-    private void addAndEquipItems(Hero hero, RespawnState respawnState, SolGame game) {
-        ItemContainer itemContainer = hero.getItemContainer();
-        if (!respawnState.getRespawnItems().isEmpty()) {
-            addAndEquipRespawnItems(hero, respawnState, itemContainer, game);
-        } else if (game.isTutorial()) {
-            addRandomTutorialItems(game, itemContainer);
-        }
-        itemContainer.markAllAsSeen();
     }
 
     private void addRandomTutorialItems(SolGame game, ItemContainer itemContainer) {
@@ -146,6 +155,13 @@ class PlayerCreator {
             return "";
         }
         return shipConfig.getItems();
+    }
+
+    private String findWaypoints(ShipConfig shipConfig, RespawnState respawnState) {
+        if (!respawnState.getRespawnWaypoints().isEmpty()) {
+            return "";
+        }
+        return shipConfig.getWaypoints();
     }
 
     private HullConfig findHullConfig(ShipConfig shipConfig, RespawnState respawnState) {

@@ -58,6 +58,7 @@ import org.destinationsol.modules.ModuleManager;
 import org.destinationsol.ui.DebugCollector;
 import org.destinationsol.ui.TutorialManager;
 import org.destinationsol.ui.UiDrawer;
+import org.destinationsol.ui.Waypoint;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -523,6 +524,7 @@ public class SolGame {
         hero.setMoney(respawnState.getRespawnMoney()); // to update the display while the camera waits for respawn if the player died
         respawnState.setRespawnHull(hero.isNonTranscendent() ? hero.getHull().getHullConfig() : hero.getTranscendentHero().getShip().getHullConfig());
         respawnState.getRespawnItems().clear();
+        respawnState.getRespawnWaypoints().clear();
         respawnState.setPlayerRespawned(true);
         for (List<SolItem> group : hero.getItemContainer()) {
             for (SolItem item : group) {
@@ -531,6 +533,9 @@ public class SolGame {
                     respawnState.getRespawnItems().add(item);
                 }
             }
+        }
+        for (Waypoint waypoint : hero.getWaypoints()) {
+            respawnState.getRespawnWaypoints().add(waypoint);
         }
     }
 
