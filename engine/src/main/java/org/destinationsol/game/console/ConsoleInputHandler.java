@@ -28,4 +28,6 @@ public interface ConsoleInputHandler {
      * @param console Console from where the input originates
      */
     void handle(String input, Console console);
+
+    void printHelp(Console console);
 }

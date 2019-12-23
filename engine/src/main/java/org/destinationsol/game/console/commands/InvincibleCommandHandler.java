@@ -48,4 +48,10 @@ public class InvincibleCommandHandler implements ConsoleInputHandler {
             hero.setInvincible(false);
         }
     }
+
+    @Override
+    public void printHelp(Console console) {
+        console.info("Makes your ship invincible or not invincible if it is already.");
+        console.info("Usage: godMode");
+    }
 }

@@ -128,6 +128,12 @@ public class PositionCommandHandler implements ConsoleInputHandler {
         return outputFormat;
     }
 
+    @Override
+    public void printHelp(Console console) {
+        console.info("Outputs the position of the hero.");
+        console.info("Usage: position <terse/verbose/bold/internal>");
+    }
+
     private void printFormatHelp(String requested, Console console) {
         console.warn("Invalid position format: \"" + requested + "\"!");
         console.warn("Currently available formats: ");

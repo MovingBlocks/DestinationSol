@@ -35,9 +35,18 @@ public class ShellInputHandler implements ConsoleInputHandler {
 
     public ShellInputHandler() {
         commands = new HashMap<>();
-        registerCommand("echo", (input, console) -> {
-            if (input.contains(" ")) {
-                console.println(input.split(" ", 2)[1]);
+        registerCommand("echo", new ConsoleInputHandler() {
+            @Override
+            public void handle(String input, Console console) {
+                if (input.contains(" ")) {
+                    console.println(input.split(" ", 2)[1]);
+                }
+            }
+
+            @Override
+            public void printHelp(Console console) {
+                console.info("Echoes your message to the console.");
+                console.info("Usage: echo <message>");
             }
         });
     }
@@ -91,6 +100,13 @@ public class ShellInputHandler implements ConsoleInputHandler {
         return commands.get(cmdName);
     }
 
+    /**
+     * Gets the input handlers for all registered commands
+     */
+    public Map<String, ConsoleInputHandler> getRegisteredCommands() {
+        return commands;
+    }
+
     @Override
     public void handle(String input, Console console) {
         for (Map.Entry<String, ConsoleInputHandler> command : commands.entrySet()) {
@@ -101,5 +117,9 @@ public class ShellInputHandler implements ConsoleInputHandler {
                 break;
             }
         }
+    }
+
+    @Override
+    public void printHelp(Console console) {
     }
 }

@@ -41,4 +41,10 @@ public class RespawnCommandHandler implements ConsoleInputHandler {
         }
         game.respawn();
     }
+
+    @Override
+    public void printHelp(Console console) {
+        console.info("Respawns your ship. You need to be already dead for it to do anything.");
+        console.info("Usage: respawn");
+    }
 }

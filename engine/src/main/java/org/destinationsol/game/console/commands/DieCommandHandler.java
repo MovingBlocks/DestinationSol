@@ -46,4 +46,10 @@ public class DieCommandHandler implements ConsoleInputHandler {
         }
         hero.getShip().receivePiercingDmg(hero.getHull().getHullConfig().getMaxLife() + 1f, game, hero.getPosition(), DmgType.CRASH);
     }
+
+    @Override
+    public void printHelp(Console console) {
+        console.info("Instantly destroys your ship.");
+        console.info("Usage: die");
+    }
 }

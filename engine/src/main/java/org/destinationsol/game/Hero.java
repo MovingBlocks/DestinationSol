@@ -19,8 +19,10 @@ import com.badlogic.gdx.math.Vector2;
 import org.destinationsol.GameOptions;
 import org.destinationsol.assets.audio.OggMusicManager;
 import org.destinationsol.common.SolException;
+import org.destinationsol.game.console.ShellInputHandler;
 import org.destinationsol.game.console.commands.ChangeShipCommandHandler;
 import org.destinationsol.game.console.commands.DieCommandHandler;
+import org.destinationsol.game.console.commands.HelpCommandHandler;
 import org.destinationsol.game.console.commands.InvincibleCommandHandler;
 import org.destinationsol.game.console.commands.PositionCommandHandler;
 import org.destinationsol.game.console.commands.RespawnCommandHandler;
@@ -54,11 +56,14 @@ public class Hero {
     }
 
     public void initialise(SolGame game) {
-        Console.getInstance().getDefaultInputHandler().registerOrReplaceCommand("position", new PositionCommandHandler(this));
-        Console.getInstance().getDefaultInputHandler().registerOrReplaceCommand("die", new DieCommandHandler(this, game));
-        Console.getInstance().getDefaultInputHandler().registerOrReplaceCommand("respawn", new RespawnCommandHandler(this, game));
-        Console.getInstance().getDefaultInputHandler().registerOrReplaceCommand("changeShip", new ChangeShipCommandHandler(this, game));
-        Console.getInstance().getDefaultInputHandler().registerOrReplaceCommand("godMode", new InvincibleCommandHandler(this));
+        ShellInputHandler defaultInputHandler = Console.getInstance().getDefaultInputHandler();
+
+        defaultInputHandler.registerOrReplaceCommand("position", new PositionCommandHandler(this));
+        defaultInputHandler.registerOrReplaceCommand("die", new DieCommandHandler(this, game));
+        defaultInputHandler.registerOrReplaceCommand("respawn", new RespawnCommandHandler(this, game));
+        defaultInputHandler.registerOrReplaceCommand("changeShip", new ChangeShipCommandHandler(this, game));
+        defaultInputHandler.registerOrReplaceCommand("godMode", new InvincibleCommandHandler(this));
+        defaultInputHandler.registerOrReplaceCommand("help", new HelpCommandHandler(defaultInputHandler));
     }
 
     public void setTranscendent(StarPort.Transcendent transcendentHero) {

@@ -17,20 +17,16 @@ package org.destinationsol.game.console.commands;
 
 import org.destinationsol.assets.Assets;
 import org.destinationsol.assets.json.Json;
-import org.destinationsol.assets.json.Validator;
-import org.destinationsol.files.HullConfigManager;
 import org.destinationsol.game.Console;
 import org.destinationsol.game.Hero;
 import org.destinationsol.game.SolGame;
 import org.destinationsol.game.console.ConsoleInputHandler;
-import org.destinationsol.game.screens.ChangeShipScreen;
 import org.destinationsol.game.ship.ShipRepairer;
 import org.destinationsol.game.ship.SolShip;
 import org.destinationsol.game.ship.hulls.HullConfig;
 import org.terasology.gestalt.assets.ResourceUrn;
 
 import java.util.Optional;
-import java.util.logging.Logger;
 
 /**
  * A command used to change current ship on the fly.
@@ -51,13 +47,13 @@ public class ChangeShipCommandHandler implements ConsoleInputHandler {
         String[] args = input.split(" ", 2);
 
         if (args.length != 2) {
-            printHelp(console);
+            printFormatHelp(console);
             return;
         }
 
         Optional<SolShip> newShip = cloneAndModifyShip(hero.getShip(), args[1]);
         if (!newShip.isPresent()) {
-            printHelp(console);
+            printFormatHelp(console);
             return;
         }
 
@@ -66,7 +62,7 @@ public class ChangeShipCommandHandler implements ConsoleInputHandler {
         hero.setSolShip(newShip.get(), game);
     }
 
-    private void printHelp(Console console) {
+    private void printFormatHelp(Console console) {
         console.warn("Invalid or Unknown ship ID.");
         console.warn("Usage: \"changeShip module:shipName\"");
     }
@@ -75,12 +71,12 @@ public class ChangeShipCommandHandler implements ConsoleInputHandler {
         boolean isARealShip = false;
 
         for (ResourceUrn urn : Assets.getAssetHelper().list(Json.class)) {
-            if((urn.getModuleName() + ":" + urn.getResourceName()).equals(newShipID)) {
+            if ((urn.getModuleName() + ":" + urn.getResourceName()).equals(newShipID)) {
                 isARealShip = true;
                 break;
             }
         }
-        if(!isARealShip) {
+        if (!isARealShip) {
             return Optional.empty();
         }
 
@@ -91,5 +87,11 @@ public class ChangeShipCommandHandler implements ConsoleInputHandler {
                 newHullConfig.getMaxLife(), originalShip.getHull().getGun(false), originalShip.getHull().getGun(true), null,
                 newHullConfig.getEngineConfig().exampleEngine.copy(), new ShipRepairer(), originalShip.getMoney(), null, originalShip.getShield(), originalShip.getArmor());
         return Optional.of(newShip);
+    }
+
+    @Override
+    public void printHelp(Console console) {
+        console.info("Changes your ship.");
+        console.info("Usage: changeShip [ShipID]");
     }
 }
