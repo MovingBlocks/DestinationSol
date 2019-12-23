@@ -120,8 +120,8 @@ public class MapScreen extends SolUiBaseScreen {
                 boolean canCreate = true;
                 for (int w = 0; w < waypoints.size(); w++) {
                     Waypoint waypoint = waypoints.get(w);
-                    if (worldPosition.x > waypoint.position.x - MIN_WAYPOINT_DIST && worldPosition.x < waypoint.position.x+MIN_WAYPOINT_DIST &&
-                        worldPosition.y > waypoint.position.y - MIN_WAYPOINT_DIST && worldPosition.y < waypoint.position.y+MIN_WAYPOINT_DIST) {
+                    if (worldPosition.x > waypoint.position.x - MIN_WAYPOINT_DIST && worldPosition.x < waypoint.position.x + MIN_WAYPOINT_DIST &&
+                        worldPosition.y > waypoint.position.y - MIN_WAYPOINT_DIST && worldPosition.y < waypoint.position.y + MIN_WAYPOINT_DIST) {
                         canCreate = false;
                         break;
                     }
@@ -156,8 +156,8 @@ public class MapScreen extends SolUiBaseScreen {
                 ArrayList<Waypoint> waypoints = game.getHero().getWaypoints();
                 for (int w = 0; w < waypoints.size(); w++) {
                     Waypoint waypoint = waypoints.get(w);
-                    if (waypoint.position.x > realPosition.x - MIN_WAYPOINT_DIST && waypoint.position.x < realPosition.x+MIN_WAYPOINT_DIST &&
-                        waypoint.position.y > realPosition.y - MIN_WAYPOINT_DIST && waypoint.position.y < realPosition.y+MIN_WAYPOINT_DIST) {
+                    if (waypoint.position.x > realPosition.x - MIN_WAYPOINT_DIST && waypoint.position.x < realPosition.x + MIN_WAYPOINT_DIST &&
+                        waypoint.position.y > realPosition.y - MIN_WAYPOINT_DIST && waypoint.position.y < realPosition.y + MIN_WAYPOINT_DIST) {
                         game.getHero().removeWaypoint(waypoint);
                         game.getObjectManager().removeObjDelayed(waypoint);
                     }
