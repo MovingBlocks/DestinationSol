@@ -24,6 +24,7 @@ import org.destinationsol.game.console.commands.DieCommandHandler;
 import org.destinationsol.game.console.commands.InvincibleCommandHandler;
 import org.destinationsol.game.console.commands.PositionCommandHandler;
 import org.destinationsol.game.console.commands.RespawnCommandHandler;
+import org.destinationsol.game.console.commands.SetHealthCommandHandler;
 import org.destinationsol.game.input.Pilot;
 import org.destinationsol.game.item.Armor;
 import org.destinationsol.game.item.ItemContainer;
@@ -59,6 +60,7 @@ public class Hero {
         Console.getInstance().getDefaultInputHandler().registerOrReplaceCommand("respawn", new RespawnCommandHandler(this, game));
         Console.getInstance().getDefaultInputHandler().registerOrReplaceCommand("changeShip", new ChangeShipCommandHandler(this, game));
         Console.getInstance().getDefaultInputHandler().registerOrReplaceCommand("godMode", new InvincibleCommandHandler(this));
+        Console.getInstance().getDefaultInputHandler().registerOrReplaceCommand("setHealth", new SetHealthCommandHandler(this));
     }
 
     public void setTranscendent(StarPort.Transcendent transcendentHero) {

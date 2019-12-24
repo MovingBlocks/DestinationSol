@@ -505,6 +505,10 @@ public class SolShip implements SolObject {
         return myHull.life;
     }
 
+    public void setLife(float life) {
+        myHull.life = life;
+    }
+
     public Pilot getPilot() {
         return myPilot;
     }
