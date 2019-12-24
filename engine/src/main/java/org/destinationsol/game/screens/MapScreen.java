@@ -169,7 +169,7 @@ public class MapScreen extends SolUiBaseScreen {
     }
 
     public Vector2 screenPositionToWorld(Vector2 screenPos, Vector2 camPos, float mapZoom) {
-        float ratio = (float)Gdx.graphics.getWidth() / (float)Gdx.graphics.getHeight();
+        float ratio = (float) Gdx.graphics.getWidth() / (float) Gdx.graphics.getHeight();
         screenPos.scl(5);
         screenPos.scl(mapZoom);
 

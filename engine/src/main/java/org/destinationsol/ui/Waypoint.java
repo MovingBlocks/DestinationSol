@@ -87,7 +87,7 @@ public class Waypoint implements SolObject {
             @Override
             public SolObject toObject(SolGame game) {
                 for (Waypoint waypoint : game.getHero().getWaypoints())
-                    if (waypoint.position.x == position.x && waypoint.position.y == position.y) {
+                    if (waypoint.position.equals(position)) {
                         return waypoint;
                     }
                     return null;

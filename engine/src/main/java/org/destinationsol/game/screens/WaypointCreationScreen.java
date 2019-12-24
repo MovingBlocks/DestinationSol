@@ -87,7 +87,7 @@ public class WaypointCreationScreen extends SolUiBaseScreen {
 
     @Override
     public void updateCustom(SolApplication solApplication, SolInputManager.InputPointer[] inputPointers, boolean clickedOutside) {
-        if(doneControl.isJustOff()) {
+        if (doneControl.isJustOff()) {
             Waypoint waypoint = new Waypoint(waypointPos, outcomeColor, solApplication.getGame().getMapDrawer().getWaypointTexture());
             solApplication.getGame().getHero().addWaypoint(waypoint);
             solApplication.getGame().getObjectManager().addObjDelayed(waypoint);
@@ -95,12 +95,12 @@ public class WaypointCreationScreen extends SolUiBaseScreen {
             mapScreen.setWaypointButtonsEnabled(true);
         }
         
-        if(cancelControl.isJustOff()) {
+        if (cancelControl.isJustOff()) {
             solApplication.getInputManager().setScreen(solApplication, solApplication.getGame().getScreens().mapScreen);
             mapScreen.setWaypointButtonsEnabled(true);
         }
 
-        if(inputPointers[0].pressed) {
+        if (inputPointers[0].pressed) {
             Vector2 clickPos = new Vector2(inputPointers[0].x, inputPointers[0].y);
             sliderRed.click(clickPos);
             sliderGreen.click(clickPos);
