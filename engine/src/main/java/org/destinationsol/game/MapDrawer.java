@@ -423,15 +423,15 @@ public class MapDrawer implements UpdateAwareSystem{
         }
     }
 
-    public void drawWaypointIcon(float iconSz, Vector2 position, TextureAtlas.AtlasRegion icon, Object drawerHack, Color color) {
+    public void drawWaypointIcon(float iconSz, Vector2 position, TextureAtlas.AtlasRegion icon, Object drawer, Color color) {
         float innerIconSz = iconSz * INNER_ICON_PERC;
-
-        if (drawerHack instanceof UiDrawer) {
-            UiDrawer uiDrawer = (UiDrawer) drawerHack;
+        //allow usage of UiDrawer or GameDrawer
+        if (drawer instanceof UiDrawer) {
+            UiDrawer uiDrawer = (UiDrawer) drawer;
             uiDrawer.draw(iconBackground, iconSz, iconSz, iconSz / 2, iconSz / 2, position.x, position.y, 0, SolColor.UI_LIGHT);
             uiDrawer.draw(icon, innerIconSz, innerIconSz, innerIconSz / 2, innerIconSz / 2, position.x, position.y, 0, color);
         } else {
-            GameDrawer gameDrawer = (GameDrawer) drawerHack;
+            GameDrawer gameDrawer = (GameDrawer) drawer;
             gameDrawer.draw(iconBackground, iconSz, iconSz, iconSz / 2, iconSz / 2, position.x, position.y, 0, SolColor.UI_LIGHT);
             gameDrawer.draw(icon, innerIconSz, innerIconSz, innerIconSz / 2, innerIconSz / 2, position.x, position.y, 0, color);
         }

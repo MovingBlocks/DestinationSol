@@ -47,7 +47,7 @@ public class SolUiSlider {
         uiDrawer.setTextMode(true);
         String trimmedValue = Float.toString(value);
         int length = trimmedValue.substring(trimmedValue.indexOf('.')).length();
-        if(length > trimAt) {
+        if (length > trimAt) {
             String leftSubstring = trimmedValue.substring(0, trimmedValue.indexOf('.'));
             String rightSubstring = trimmedValue.substring(trimmedValue.indexOf('.'), leftSubstring.length() + 1 + trimAt);
             trimmedValue = leftSubstring + rightSubstring;
@@ -59,7 +59,7 @@ public class SolUiSlider {
     }
 
     public boolean click(Vector2 clickPosition) {
-        if(clickPosition.x > rectangle.x && clickPosition.x < rectangle.x + rectangle.width &&
+        if (clickPosition.x > rectangle.x && clickPosition.x < rectangle.x + rectangle.width &&
             clickPosition.y > rectangle.y && clickPosition.y < rectangle.y + rectangle.height) {
             float relativePos = clickPosition.x - rectangle.x;
             setValue(relativePos / rectangle.width);

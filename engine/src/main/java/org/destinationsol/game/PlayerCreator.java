@@ -74,7 +74,7 @@ class PlayerCreator {
     }
 
     private void addWaypoints(Hero hero, String waypoints, RespawnState respawnState, SolGame game) {
-        if(waypoints == "") {
+        if (waypoints == "") {
             for (Waypoint waypoint : respawnState.getRespawnWaypoints()) {
                 hero.getWaypoints().add(waypoint);
             }
