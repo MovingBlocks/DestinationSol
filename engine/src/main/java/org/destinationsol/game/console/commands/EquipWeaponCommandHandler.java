@@ -22,6 +22,7 @@ import org.destinationsol.game.console.ConsoleInputHandler;
 import org.destinationsol.game.item.Gun;
 import org.destinationsol.game.item.ItemContainer;
 import org.destinationsol.game.item.SolItem;
+import org.destinationsol.game.ship.SolShip;
 
 import java.util.List;
 
@@ -58,12 +59,13 @@ public class EquipWeaponCommandHandler implements ConsoleInputHandler {
             return;
         }
 
-        boolean canEquip = hero.getShip().maybeEquip(game, gunItem, slot == 2 ? true : false, false);
+        SolShip ship = hero.getShip();
+        boolean canEquip = ship.maybeEquip(game, gunItem, slot == 2 ? true : false, false);
         if (!canEquip) {
             console.warn("Cannot equip this weapon in that slot!");
             return;
         }
-        ItemContainer itemContainer = hero.getShip().getItemContainer();
+        ItemContainer itemContainer = ship.getItemContainer();
         boolean alreadyExists = false;
         for (List<SolItem> group : itemContainer) {
             if (group.get(0).getCode().equals(gunItem.getCode())) {
@@ -73,12 +75,12 @@ public class EquipWeaponCommandHandler implements ConsoleInputHandler {
             }
         }
         if (!alreadyExists) {
-            hero.getShip().getItemContainer().add(gunItem);
+            ship.getItemContainer().add(gunItem);
         }
 
         Gun gun = (Gun) gunItem;
         gun.ammo = gun.config.clipConf.size;
-        hero.getShip().maybeEquip(game, gunItem, slot == 2 ? true : false, true);
+        ship.maybeEquip(game, gunItem, slot == 2 ? true : false, true);
     }
 
     public SolItem getGun(String gunID) {
