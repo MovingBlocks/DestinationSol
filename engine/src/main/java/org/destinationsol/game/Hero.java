@@ -17,7 +17,9 @@ package org.destinationsol.game;
 
 import com.badlogic.gdx.math.Vector2;
 import org.destinationsol.GameOptions;
+import org.destinationsol.assets.Assets;
 import org.destinationsol.assets.audio.OggMusicManager;
+import org.destinationsol.assets.json.Json;
 import org.destinationsol.common.SolException;
 import org.destinationsol.game.console.commands.ChangeShipCommandHandler;
 import org.destinationsol.game.console.commands.DieCommandHandler;
@@ -31,8 +33,14 @@ import org.destinationsol.game.item.Shield;
 import org.destinationsol.game.item.SolItem;
 import org.destinationsol.game.ship.FarShip;
 import org.destinationsol.game.ship.ShipAbility;
+import org.destinationsol.game.ship.ShipRepairer;
 import org.destinationsol.game.ship.SolShip;
 import org.destinationsol.game.ship.hulls.Hull;
+import org.destinationsol.game.ship.hulls.HullConfig;
+import org.terasology.gestalt.assets.ResourceUrn;
+
+import java.util.Optional;
+import java.util.concurrent.atomic.AtomicInteger;
 
 /**
  * A wrapper class for the Hero, that handles the normal and transcendent ships transparently.
@@ -82,6 +90,50 @@ public class Hero {
         if (hero.getHull() != null)
             solGame.getSolApplication().getMusicManager().registerModuleMusic(hero.getHull().getHullConfig().getInternalName().split(":")[0], options);
         solGame.getSolApplication().getMusicManager().playMusic(OggMusicManager.GAME_MUSIC_SET, options);
+    }
+
+    public void changeShip(Hero hero, String newShipID, SolGame game, Console console) {
+        SolShip originalShip = hero.getShip();
+        Optional<SolShip> newShip = Optional.empty();
+
+        boolean isARealShip = false;
+
+        for (ResourceUrn urn : Assets.getAssetHelper().list(Json.class)) {
+            if ((urn.getModuleName() + ":" + urn.getResourceName()).equals(newShipID)) {
+                isARealShip = true;
+                break;
+            }
+        }
+        if (!isARealShip) {
+            if (console != null) {
+                console.warn("Invalid or Unknown ship ID.");
+            }
+            return;
+        }
+
+        HullConfig newHullConfig = game.getHullConfigManager().getConfig(newShipID);
+
+        AtomicInteger objectCount = new AtomicInteger(0);
+        game.getObjectManager().doToAllCloserThan(newHullConfig.getSize(), originalShip.getPosition(), (SolObject obj) ->
+                objectCount.addAndGet(1)
+        );
+        //If an object other than the ship itself is present inside the ship's drawable radius
+        if (objectCount.get() > 1) {
+            if (console != null) {
+                console.warn("Not enough space available to spawn this ship!");
+            }
+            return;
+        }
+
+        newShip = Optional.of(game.getShipBuilder().build(game, originalShip.getPosition(), originalShip.getVelocity(), originalShip.getAngle(),
+                originalShip.getRotationSpeed(), originalShip.getPilot(), originalShip.getItemContainer(), newHullConfig,
+                newHullConfig.getMaxLife(), originalShip.getHull().getGun(false), originalShip.getHull().getGun(true), null,
+                newHullConfig.getEngineConfig() != null ? newHullConfig.getEngineConfig().exampleEngine.copy() : null, new ShipRepairer(),
+                originalShip.getMoney(), null, originalShip.getShield(), originalShip.getArmor()));
+
+        game.getObjectManager().removeObjDelayed(hero.getShip());
+        game.getObjectManager().addObjDelayed(newShip.get());
+        hero.setSolShip(newShip.get(), game);
     }
 
     public boolean isTranscendent() {

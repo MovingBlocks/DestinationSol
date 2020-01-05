@@ -290,9 +290,9 @@ public class ObjectManager implements UpdateAwareSystem {
      * @param fromObject The point of reference. This is <b>not</b> exempt from the {@code action}.
      * @param action The action to commit to {@code fromObject}.
      */
-    public void doToAllCloserThan(float squaredDistance, SolObject fromObject, Consumer<SolObject> action) {
+    public void doToAllCloserThan(float squaredDistance, Vector2 position, Consumer<SolObject> action) {
         for(SolObject obj : myObjs) {
-            if(fromObject.getPosition().dst2(obj.getPosition()) < squaredDistance) {
+            if(position.dst2(obj.getPosition()) < squaredDistance) {
                 action.accept(obj);
             }
         }
