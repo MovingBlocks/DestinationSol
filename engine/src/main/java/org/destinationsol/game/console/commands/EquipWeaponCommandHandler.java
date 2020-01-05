@@ -1,5 +1,5 @@
 /*
- * Copyright 2019 MovingBlocks
+ * Copyright 2018 MovingBlocks
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -15,6 +15,7 @@
  */
 package org.destinationsol.game.console.commands;
 
+import org.destinationsol.common.SolMath;
 import org.destinationsol.game.Console;
 import org.destinationsol.game.Hero;
 import org.destinationsol.game.SolGame;
@@ -25,7 +26,11 @@ import org.destinationsol.game.item.SolItem;
 import org.destinationsol.game.ship.SolShip;
 
 import java.util.List;
+import java.util.Optional;
 
+/**
+ * Allows you to equip weapons from different modules onto your current ship
+ */
 public class EquipWeaponCommandHandler implements ConsoleInputHandler {
 
     private Hero hero;
@@ -39,28 +44,26 @@ public class EquipWeaponCommandHandler implements ConsoleInputHandler {
     @Override
     public void handle(String input, Console console) {
         String[] args = input.split(" ");
+        SolShip ship = hero.getShip();
+
         if (args.length != 3) {
             console.warn("Usage: equipWeapon moduleName:gunName slotNumber");
+            console.warn("Available slots: " + (ship.getHull().getGunMount(false) != null ? "1" : "") + (ship.getHull().getGunMount(true) != null ? ", 2" : ""));
             return;
         }
-        if (!isInt(args[2])) {
+        if (!SolMath.isInt(args[2])) {
             console.warn("slotNumber must be a valid number!");
             return;
         }
 
         int slot = Integer.parseInt(args[2]);
-        SolItem gunItem = getGun(args[1]);
-        if (slot < 1 || slot > 2) {
-            console.warn("Available slots: 1, 2");
-            return;
-        }
-        if (gunItem == null) {
+        Optional<SolItem> gunItem = Optional.ofNullable(game.getItemMan().getExample(args[1]));
+        if (!gunItem.isPresent()) {
             console.warn("Could not find " + args[1]);
             return;
         }
 
-        SolShip ship = hero.getShip();
-        boolean canEquip = ship.maybeEquip(game, gunItem, slot == 2 ? true : false, false);
+        boolean canEquip = ship.maybeEquip(game, gunItem.get(), slot == 2, false);
         if (!canEquip) {
             console.warn("Cannot equip this weapon in that slot!");
             return;
@@ -68,31 +71,18 @@ public class EquipWeaponCommandHandler implements ConsoleInputHandler {
         ItemContainer itemContainer = ship.getItemContainer();
         boolean alreadyExists = false;
         for (List<SolItem> group : itemContainer) {
-            if (group.get(0).getCode().equals(gunItem.getCode())) {
-                gunItem = group.get(0);
+            if (group.get(0).getCode().equals(gunItem.get().getCode())) {
+                gunItem = Optional.of(group.get(0));
                 alreadyExists = true;
                 break;
             }
         }
         if (!alreadyExists) {
-            ship.getItemContainer().add(gunItem);
+            ship.getItemContainer().add(gunItem.get());
         }
 
-        Gun gun = (Gun) gunItem;
+        Gun gun = (Gun) gunItem.get();
         gun.ammo = gun.config.clipConf.size;
-        ship.maybeEquip(game, gunItem, slot == 2 ? true : false, true);
-    }
-
-    public SolItem getGun(String gunID) {
-        return game.getItemMan().getExample(gunID);
-    }
-
-    public boolean isInt(String input) {
-        try {
-            Integer.parseInt(input);
-        } catch (Exception e) {
-            return false;
-        }
-        return true;
+        ship.maybeEquip(game, gunItem.get(), slot == 2 ? true : false, true);
     }
 }

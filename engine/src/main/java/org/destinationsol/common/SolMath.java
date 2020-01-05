@@ -17,10 +17,10 @@ package org.destinationsol.common;
 
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
-import org.json.JSONArray;
-import org.json.JSONObject;
 import com.badlogic.gdx.utils.Pool;
 import org.destinationsol.Const;
+import org.json.JSONArray;
+import org.json.JSONObject;
 
 import java.util.ArrayList;
 
@@ -504,7 +504,7 @@ public class SolMath {
         // (you cannot override the dependency either, as it is a system library).
         for (int index = 0; index < listNode.length(); index++) {
             Object val = listNode.get(index);
-            if(val instanceof String) {
+            if (val instanceof String) {
                 Vector2 vec = readV2((String) val);
                 res.add(vec);
             }
@@ -514,7 +514,7 @@ public class SolMath {
 
     /**
      * Returns whether object can accelerate in direction, based on its current velocity.
-     *
+     * <p>
      * Object can accelerate until reaching {@link Const#MAX_MOVE_SPD maximal movement speed}, and afterwards, if it
      * attempts to accelerate in direction that would not bring its speed further over the maximum speed.
      *
@@ -540,5 +540,20 @@ public class SolMath {
             dec = -dec;
         }
         return whole + "." + dec;
+    }
+
+    /**
+     * Checks whether a string is a valid Integer
+     *
+     * @param s String to check
+     * @return True if it is an Integer, false otherwise
+     */
+    public static boolean isInt(String s) {
+        try {
+            Integer.parseInt(s);
+        } catch (NumberFormatException e) {
+            return false;
+        }
+        return true;
     }
 }
