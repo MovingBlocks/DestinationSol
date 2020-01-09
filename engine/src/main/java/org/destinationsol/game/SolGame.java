@@ -32,6 +32,7 @@ import org.destinationsol.files.HullConfigManager;
 import org.destinationsol.game.asteroid.AsteroidBuilder;
 import org.destinationsol.game.attributes.RegisterUpdateSystem;
 import org.destinationsol.game.chunk.ChunkManager;
+import org.destinationsol.game.console.adapter.ParameterAdapterManager;
 import org.destinationsol.game.context.Context;
 import org.destinationsol.game.context.internal.ContextImpl;
 import org.destinationsol.game.drawables.DrawableDebugger;
@@ -95,6 +96,7 @@ public class SolGame {
     private final MountDetectDrawer mountDetectDrawer;
     private final TutorialManager tutorialManager;
     private final GalaxyFiller galaxyFiller;
+    private ParameterAdapterManager parameterAdapterManager;
     private Hero hero;
     private float timeStep;
     private float time;
@@ -115,7 +117,7 @@ public class SolGame {
         specialSounds = new SpecialSounds(soundManager);
         drawableManager = new DrawableManager(drawer);
         camera = new SolCam();
-        gameScreens = new GameScreens(solApplication, context);
+        gameScreens = new GameScreens(this, solApplication, context);
         if (isTutorial) {
             tutorialManager = new TutorialManager(gameScreens, solApplication.isMobile(), solApplication.getOptions(), this);
             context.put(TutorialManager.class, tutorialManager);
@@ -146,6 +148,7 @@ public class SolGame {
         drawableDebugger = new DrawableDebugger();
         mountDetectDrawer = new MountDetectDrawer();
         beaconHandler = new BeaconHandler();
+        parameterAdapterManager = ParameterAdapterManager.createCore();
         timeFactor = 1;
 
         // the ordering of update aware systems is very important, switching them up can cause bugs!
@@ -544,5 +547,12 @@ public class SolGame {
 
     public HullConfigManager getHullConfigManager() {
         return hullConfigManager;
+    }
+
+    public ParameterAdapterManager getParameterAdapterManager() {
+        if (parameterAdapterManager == null) {
+            parameterAdapterManager = ParameterAdapterManager.createCore();
+        }
+        return parameterAdapterManager;
     }
 }
