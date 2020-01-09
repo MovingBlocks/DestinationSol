@@ -294,7 +294,7 @@ public class MainGameScreen extends SolUiBaseScreen {
         }
 
         if (consoleControlGrave.isJustOff() || consoleControlF1.isJustOff()) {
-            inputMan.setScreen(solApplication, screens.console);
+            inputMan.setScreen(solApplication, screens.consoleScreen);
         }
 
         for (SolUiScreen screen : gameOverlayScreens) {
