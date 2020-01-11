@@ -17,7 +17,7 @@ package org.destinationsol.game.console;
 
 import com.google.common.base.Preconditions;
 import com.google.common.primitives.Primitives;
-import org.destinationsol.game.SolGame;
+import org.destinationsol.SolApplication;
 import org.destinationsol.game.console.adapter.ParameterAdapterManager;
 import org.destinationsol.game.console.exceptions.CommandParameterParseException;
 import org.destinationsol.game.console.exceptions.SuggesterInstantiationException;
@@ -29,8 +29,6 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 import java.util.Set;
-
-import static javafx.application.Platform.exit;
 
 public final class CommandParameter<T> implements Parameter {
     private final String name;
@@ -76,25 +74,24 @@ public final class CommandParameter<T> implements Parameter {
 
     public static <T> CommandParameter single(String name, Class<T> type, boolean required,
                                               CommandParameterSuggester<T> suggester,
-                                              SolGame game, Context context) {
+                                              Context context) {
         if (type.isArray()) {
             throw new IllegalArgumentException("The type of a simple CommandParameterDefinition must not be an array!");
         }
-        ParameterAdapterManager parameterAdapterManager = game.getParameterAdapterManager();
+        ParameterAdapterManager parameterAdapterManager = ParameterAdapterManager.createCore(context.get(SolApplication.class));
         return new CommandParameter(name, type, required, suggester, parameterAdapterManager, context);
     }
 
     public static <T> CommandParameter single(String name, Class<T> type, boolean required,
                                               Class<? extends CommandParameterSuggester<T>> suggesterClass,
-                                              SolGame game, Context context)
+                                              Context context)
             throws SuggesterInstantiationException {
-        CommandParameterSuggester<T> suggester = optionallyCreateSuggestor(suggesterClass, game, context);
-        return single(name, type, required, suggester, game, context);
+        CommandParameterSuggester<T> suggester = optionallyCreateSuggestor(suggesterClass, context);
+        return single(name, type, required, suggester, context);
     }
 
     private static <T> CommandParameterSuggester<T> optionallyCreateSuggestor(
-            Class<? extends CommandParameterSuggester<T>> suggestorClass,
-            SolGame game, Context context) {
+            Class<? extends CommandParameterSuggester<T>> suggestorClass, Context context) {
         if (suggestorClass == null) {
             return null;
         }
@@ -103,75 +100,75 @@ public final class CommandParameter<T> implements Parameter {
 
     @SuppressWarnings("unchecked")
     public static CommandParameter single(String name, Class<?> type, boolean required,
-                                          SolGame game, Context context) {
-        return single(name, type, required, (CommandParameterSuggester) null, game, context);
+                                          Context context) {
+        return single(name, type, required, (CommandParameterSuggester) null, context);
     }
 
     public static <T> CommandParameter array(String name, Class<T> childType, Character arrayDelimiter,
                                              boolean required, CommandParameterSuggester<T> suggester,
-                                             SolGame game, Context context) {
+                                             Context context) {
         if (childType.isArray()) {
             throw new IllegalArgumentException("The child type of an array CommandParameterDefinition must not be an array!");
         }
 
         Class<?> type = getArrayClass(childType);
-        ParameterAdapterManager parameterAdapterManager = game.getParameterAdapterManager();
+        ParameterAdapterManager parameterAdapterManager = ParameterAdapterManager.createCore(context.get(SolApplication.class));
         return new CommandParameter(name, type, required, suggester, parameterAdapterManager, context);
     }
 
     public static <T> CommandParameter array(String name, Class<T> childType, Character arrayDelimiter,
                                              boolean required,
                                              Class<? extends CommandParameterSuggester<T>> suggesterClass,
-                                             SolGame game, Context context)
+                                             Context context)
             throws SuggesterInstantiationException {
-        CommandParameterSuggester<T> suggester = optionallyCreateSuggestor(suggesterClass, game, context);
-        return array(name, childType, arrayDelimiter, required, suggester, game, context);
+        CommandParameterSuggester<T> suggester = optionallyCreateSuggestor(suggesterClass, context);
+        return array(name, childType, arrayDelimiter, required, suggester, context);
     }
 
     @SuppressWarnings("unchecked")
     public static CommandParameter array(String name, Class<?> childType, Character arrayDelimiter,
-                                         boolean required, SolGame game, Context context) {
+                                         boolean required, Context context) {
         return array(name, childType, arrayDelimiter, required, (CommandParameterSuggester) null,
-                game, context);
+                context);
     }
 
     public static <T> CommandParameter array(String name, Class<T> childType, boolean required,
                                              CommandParameterSuggester<T> suggester,
-                                             SolGame game, Context context) {
-        return array(name, childType, null, required, suggester, game, context);
+                                             Context context) {
+        return array(name, childType, null, required, suggester, context);
     }
 
     public static <T> CommandParameter array(String name, Class<T> childType, boolean required,
                                              Class<? extends CommandParameterSuggester<T>> suggesterClass,
-                                             SolGame game, Context context)
+                                             Context context)
             throws SuggesterInstantiationException {
-        CommandParameterSuggester<T> suggester = optionallyCreateSuggestor(suggesterClass, game, context);
-        return array(name, childType, required, suggester, game, context);
+        CommandParameterSuggester<T> suggester = optionallyCreateSuggestor(suggesterClass, context);
+        return array(name, childType, required, suggester, context);
     }
 
     @SuppressWarnings("unchecked")
     public static CommandParameter array(String name, Class<?> childType, boolean required,
-                                         SolGame game, Context context) {
-        return array(name, childType, required, (CommandParameterSuggester) null, game, context);
+                                         Context context) {
+        return array(name, childType, required, (CommandParameterSuggester) null, context);
     }
 
     public static <T> CommandParameter varargs(String name, Class<T> childType, boolean required,
                                                CommandParameterSuggester<T> suggester,
-                                               SolGame game, Context context) {
-        return array(name, childType, required, suggester, game, context);
+                                               Context context) {
+        return array(name, childType, required, suggester, context);
     }
 
     public static <T> CommandParameter varargs(String name, Class<T> childType, boolean required,
                                                Class<? extends CommandParameterSuggester<T>> suggesterClass,
-                                               SolGame game, Context context)
+                                               Context context)
             throws SuggesterInstantiationException {
-        return varargs(name, childType, required, optionallyCreateSuggestor(suggesterClass, game, context), game, context);
+        return varargs(name, childType, required, optionallyCreateSuggestor(suggesterClass, context), context);
     }
 
     @SuppressWarnings("unchecked")
     public static CommandParameter varargs(String name, Class<?> childType, boolean required,
-                                           SolGame game, Context context) {
-        return varargs(name, childType, required, (CommandParameterSuggester) null, game, context);
+                                           Context context) {
+        return varargs(name, childType, required, (CommandParameterSuggester) null, context);
     }
 
     /**
@@ -201,7 +198,6 @@ public final class CommandParameter<T> implements Parameter {
 
     private Object parse(String string) throws CommandParameterParseException {
         Class<?> childType = getTypeNotPrimitive();
-        System.out.println(parameterAdapterManager);
         if (parameterAdapterManager.isAdapterRegistered(childType)) {
             try {
                 return parameterAdapterManager.parse(childType, string);

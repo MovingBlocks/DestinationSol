@@ -40,7 +40,8 @@ public interface ConsoleCommand extends Comparable<ConsoleCommand> {
             }
 
             return o2.getRequiredParameterCount() - o1.getRequiredParameterCount();
-        };
+        }
+
     };
 
     /**

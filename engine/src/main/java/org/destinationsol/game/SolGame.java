@@ -118,7 +118,7 @@ public class SolGame {
         specialSounds = new SpecialSounds(soundManager);
         drawableManager = new DrawableManager(drawer);
         camera = new SolCam();
-        gameScreens = new GameScreens(this, solApplication, context);
+        gameScreens = new GameScreens(solApplication, context);
         if (isTutorial) {
             tutorialManager = new TutorialManager(gameScreens, solApplication.isMobile(), solApplication.getOptions(), this);
             context.put(TutorialManager.class, tutorialManager);
@@ -149,7 +149,6 @@ public class SolGame {
         drawableDebugger = new DrawableDebugger();
         mountDetectDrawer = new MountDetectDrawer();
         beaconHandler = new BeaconHandler();
-        parameterAdapterManager = ParameterAdapterManager.createCore();
         timeFactor = 1;
 
         // the ordering of update aware systems is very important, switching them up can cause bugs!
@@ -213,6 +212,7 @@ public class SolGame {
                 }
             }
         }, 0, 30);
+        gameScreens.consoleScreen.init(this);
     }
 
     private void createGame(String shipName, boolean shouldSpawnOnGalaxySpawnPosition) {
@@ -249,6 +249,9 @@ public class SolGame {
         }
     }
 
+    public void createParameterAdapter() {
+        parameterAdapterManager = ParameterAdapterManager.createCore(this.solApplication);
+    }
     public void onGameEnd(Context context) {
         // If the hero tries to exit while dead, respawn them first, then save
         if (hero.isDead()) {
@@ -556,7 +559,7 @@ public class SolGame {
 
     public ParameterAdapterManager getParameterAdapterManager() {
         if (parameterAdapterManager == null) {
-            parameterAdapterManager = ParameterAdapterManager.createCore();
+            parameterAdapterManager = ParameterAdapterManager.createCore(this.solApplication);
         }
         return parameterAdapterManager;
     }

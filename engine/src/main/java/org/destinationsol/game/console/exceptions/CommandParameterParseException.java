@@ -16,6 +16,7 @@
 package org.destinationsol.game.console.exceptions;
 
 /**
+ *
  */
 public class CommandParameterParseException extends Exception {
     private static final long serialVersionUID = 4519046979318192019L;

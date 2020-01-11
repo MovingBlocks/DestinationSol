@@ -18,6 +18,7 @@ package org.destinationsol.game.console;
 import com.badlogic.gdx.graphics.Color;
 
 /**
+ *
  */
 public enum CoreMessageType implements MessageType {
     WARN(ConsoleColors.WARN),

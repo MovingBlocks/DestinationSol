@@ -17,7 +17,6 @@ package org.destinationsol.game.console.exceptions;
 
 /**
  * Thrown when a suggester fails instantiating via the newInstance command
- *
  */
 public class SuggesterInstantiationException extends RuntimeException {
     private static final long serialVersionUID = 3151467068962337565L;

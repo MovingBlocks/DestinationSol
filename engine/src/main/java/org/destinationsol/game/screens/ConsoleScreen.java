@@ -23,17 +23,13 @@ import com.badlogic.gdx.math.Vector2;
 import org.destinationsol.SolApplication;
 import org.destinationsol.assets.Assets;
 import org.destinationsol.common.SolColor;
-import org.destinationsol.game.ConsoleLine;
 import org.destinationsol.game.SolGame;
 import org.destinationsol.game.console.Console;
-import org.destinationsol.game.console.ConsoleColors;
 import org.destinationsol.game.console.ConsoleImpl;
-import org.destinationsol.game.console.ConsoleInputHandler;
 import org.destinationsol.game.console.ConsoleSubscriber;
 import org.destinationsol.game.console.CoreMessageType;
 import org.destinationsol.game.console.CyclingTabCompletionEngine;
 import org.destinationsol.game.console.Message;
-import org.destinationsol.game.console.ShellInputHandler;
 import org.destinationsol.game.console.TabCompletionEngine;
 import org.destinationsol.game.context.Context;
 import org.destinationsol.modules.ModuleManager;
@@ -45,7 +41,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Optional;
@@ -62,26 +57,19 @@ public class ConsoleScreen implements SolUiScreen, ConsoleSubscriber {
      * fits into the console nicely. Be sure to uncomment the block of code in {@link #drawBackground(UiDrawer, SolApplication)}
      * to clearly see the expected width of the text.
      */
-    private static final int MAX_WIDTH_OF_LINE = 1040;
 
     /**
      * Position of top left corner of the outermost frame of the console.
-     * <p>
-     * See also {@link #MAX_WIDTH_OF_LINE}.
      */
     private static final Vector2 TOP_LEFT = new Vector2(0.03f, 0.03f);
 
     /**
      * Position of bottom right corner of the outermost frame of the console.
-     * <p>
-     * See also {@link #MAX_WIDTH_OF_LINE}.
      */
     private static final Vector2 BOTTOM_RIGHT = new Vector2(0.8f, 0.5f);
 
     /**
      * Width of the gap between outer, inner and text area frames.
-     * <p>
-     * See also {@link #MAX_WIDTH_OF_LINE}
      */
     private static final float FRAME_WIDTH = 0.02f;
 
@@ -94,49 +82,50 @@ public class ConsoleScreen implements SolUiScreen, ConsoleSubscriber {
      * "Line number" of the input line separator.
      */
     private static final float INPUT_LINE_SEPARATOR_Y = 20.333f;
-    private static final int MAX_WIDTH_OF_LINE_IN_CHARS = 71;
 
     private Console console;
 
     private static ConsoleScreen instance;
 
-    private SolGame game;
-
     private boolean welcomePrinted;
 
     private boolean isActive;
 
-    private final BitmapFont font;
+    public final BitmapFont font;
     private final SolUiControl exitControl;
+    private final SolUiControl commandHistoryUpControl;
+    private final SolUiControl commandHistoryDownControl;
     private final List<SolUiControl> controls;
-    private final ShellInputHandler defaultInputHandler;
+
+    private int commandHistoryIndex;
 
     private TabCompletionEngine completionEngine;
     private StringBuilder inputLine;
 
-    public ConsoleScreen(SolGame game, Context context) {
-        this.game = game;
-        this.console = new ConsoleImpl(game, context);
+    public ConsoleScreen(Context context) {
         font = Assets.getFont("engine:main").getBitmapFont();
+
+        this.console = new ConsoleImpl(font, context);
+
         exitControl = new SolUiControl(null, true, Input.Keys.ESCAPE);
-        controls = Collections.singletonList(exitControl);
+        commandHistoryUpControl = new SolUiControl(null, true, Input.Keys.UP);
+        commandHistoryDownControl = new SolUiControl(null, true, Input.Keys.DOWN);
+        controls = new ArrayList<>();
+        controls.add(exitControl);
+        controls.add(commandHistoryUpControl);
+        controls.add(commandHistoryDownControl);
         inputLine = new StringBuilder();
         console.addMessage("Welcome to the world of Destination Sol! Your journey begins!");
-        defaultInputHandler = new ShellInputHandler();
         instance = this;
-
         completionEngine = new CyclingTabCompletionEngine(console);
 
-        for (Class commandHandler : ModuleManager.getEnvironment().getSubtypesOf(ConsoleInputHandler.class)) {
-            String commandName = commandHandler.getSimpleName().replace("Command", "");
-            try {
-                defaultInputHandler.registerCommand(commandName, (ConsoleInputHandler) commandHandler.newInstance());
-            } catch (Exception e) {
-                logger.error("Error creating instance of command {}", commandHandler.getName());
-            }
-        }
+        commandHistoryIndex = console.getPreviousCommands().size();
 
         welcomePrinted = false;
+    }
+
+    public void init(SolGame game) {
+        console.init(game);
     }
 
     public static Optional<ConsoleScreen> getInstance() {
@@ -173,6 +162,23 @@ public class ConsoleScreen implements SolUiScreen, ConsoleSubscriber {
     public void updateCustom(SolApplication solApplication, SolInputManager.InputPointer[] inputPointers, boolean clickedOutside) {
         if (exitControl.isJustOff()) {
             solApplication.getInputManager().setScreen(solApplication, solApplication.getGame().getScreens().mainGameScreen);
+        }
+        if (commandHistoryUpControl.isJustOff()) {
+            if (commandHistoryIndex > 0) {
+                commandHistoryIndex--;
+                this.inputLine = new StringBuilder();
+                this.inputLine.append(console.getPreviousCommands().get(commandHistoryIndex));
+            }
+        } else if (commandHistoryDownControl.isJustOff()) {
+            if (commandHistoryIndex < console.getPreviousCommands().size()) {
+                commandHistoryIndex++;
+                if (commandHistoryIndex == console.getPreviousCommands().size()) {
+                    this.inputLine = new StringBuilder();
+                } else {
+                    this.inputLine = new StringBuilder();
+                    this.inputLine.append(console.getPreviousCommands().get(commandHistoryIndex));
+                }
+            }
         }
     }
 
@@ -211,26 +217,14 @@ public class ConsoleScreen implements SolUiScreen, ConsoleSubscriber {
         final float textX = TOP_LEFT.x + 2 * FRAME_WIDTH; // X position of all text
 
         Iterator<Message> iterator = console.getMessages().iterator();
-        int line = 0;
-        while (iterator.hasNext()) {
+
+        int lineNumber = 0;
+        while (iterator.hasNext() && lineNumber < ConsoleImpl.MAX_MESSAGE_HISTORY) {
             Message message = iterator.next();
-            String textToDraw = message.getMessage();
-            if(message.getMessage().length() > MAX_WIDTH_OF_LINE_IN_CHARS) {
-                textToDraw = message.getMessage().substring(0, MAX_WIDTH_OF_LINE_IN_CHARS);
-            }
-
-            uiDrawer.drawString(textToDraw, textX, getLineY(line), 0.5f,
+            uiDrawer.drawString(message.getMessage(), textX, getLineY(lineNumber), 0.5f,
                     UiDrawer.TextAlignment.LEFT, false, message.getType().getColor());
-            line++;
+            lineNumber++;
         }
-
-        /*for (int line = 0; line < 20; line++) { // Magic constant. Change if Console is resized.
-            if (linesOfOutput.size() + line > 19) { // to prevent IndexOutOfBoundsException
-                ConsoleLine currentLine = linesOfOutput.get(linesOfOutput.size() - 20 + line);
-                uiDrawer.drawString(currentLine.getMessage(), textX, getLineY(line), 0.5f,
-                        UiDrawer.TextAlignment.LEFT, false, currentLine.getColor());
-            }
-        }*/
         drawInputLine(uiDrawer, textX);
     }
 
@@ -243,8 +237,8 @@ public class ConsoleScreen implements SolUiScreen, ConsoleSubscriber {
         for (char c : inputLine.reverse().toString().toCharArray()) {
             final BitmapFont.Glyph glyph = font.getData().getGlyph(c);
             if (glyph != null) {
-                width += (c == ' ' ? 3 : 1) * glyph.width;
-                if (width > MAX_WIDTH_OF_LINE) {
+                width += glyph.width < 10 ? 10 : glyph.width;
+                if (width > ConsoleImpl.MAX_WIDTH_OF_LINE) {
                     break;
                 }
                 stringBuilder.append(c);
@@ -265,6 +259,7 @@ public class ConsoleScreen implements SolUiScreen, ConsoleSubscriber {
 
     public void onCharEntered (char character) {
         if (isActive) {
+            logger.info(character + " CHAR");
             if (character == '\t' && this.inputLine.length() > 0) {
                 this.inputLine = new StringBuilder(this.completionEngine.complete(inputLine.toString()));
             } else if (character != '\t') {
@@ -274,6 +269,7 @@ public class ConsoleScreen implements SolUiScreen, ConsoleSubscriber {
                 console.addMessage("> " + inputLine.toString(), CoreMessageType.WARN);
                 console.execute(inputLine.toString());
                 inputLine = new StringBuilder();
+                commandHistoryIndex = console.getPreviousCommands().size();
                 return;
             }
             if (character == '\b') {

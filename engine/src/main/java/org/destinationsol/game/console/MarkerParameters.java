@@ -15,13 +15,16 @@
  */
 package org.destinationsol.game.console;
 
+import org.destinationsol.game.SolGame;
+
 import java.util.Optional;
 
 public enum MarkerParameters implements Parameter {
     /**
      * Marks a parameter which is invalid - there is no information on how it should be provided.
      */
-    INVALID(Optional.<Class<?>>empty());
+    INVALID(Optional.empty()),
+    GAME(Optional.of(SolGame.class));
 
     private Optional<? extends Class<?>> providedType;
 

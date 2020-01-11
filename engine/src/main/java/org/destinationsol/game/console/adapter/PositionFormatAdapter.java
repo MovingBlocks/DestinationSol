@@ -13,18 +13,18 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.destinationsol.game.console.exceptions;
+package org.destinationsol.game.console.adapter;
 
-/**
- *
- */
-public class CommandInitializationException extends IllegalArgumentException {
-    private static final long serialVersionUID = 5345663512766407880L;
+import org.destinationsol.game.console.commands.PositionCommandHandler;
 
-    public CommandInitializationException() {
+public class PositionFormatAdapter implements ParameterAdapter<PositionCommandHandler.PositionFormat> {
+    @Override
+    public PositionCommandHandler.PositionFormat parse(String raw) {
+        return PositionCommandHandler.PositionFormat.valueOf(raw.toUpperCase());
     }
 
-    public CommandInitializationException(String s) {
-        super(s);
+    @Override
+    public String convertToString(PositionCommandHandler.PositionFormat value) {
+        return value.toString();
     }
 }
