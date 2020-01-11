@@ -280,6 +280,7 @@ public class ConsoleImpl implements Console {
 
     @Override
     public boolean execute(String rawCommand) {
+        rawCommand = rawCommand.toLowerCase();
         String commandName = processCommandName(rawCommand);
         List<String> processedParameters = processParameters(rawCommand);
 
