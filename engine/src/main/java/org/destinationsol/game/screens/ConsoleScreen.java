@@ -115,7 +115,6 @@ public class ConsoleScreen implements SolUiScreen, ConsoleSubscriber {
         controls.add(commandHistoryUpControl);
         controls.add(commandHistoryDownControl);
         inputLine = new StringBuilder();
-        console.addMessage("Welcome to the world of Destination Sol! Your journey begins!");
         instance = this;
         completionEngine = new CyclingTabCompletionEngine(console);
 
@@ -145,8 +144,7 @@ public class ConsoleScreen implements SolUiScreen, ConsoleSubscriber {
     public void onAdd(SolApplication solApplication) {
         isActive = true;
         if (!welcomePrinted) {
-            console.addMessage("Welcome to the wonderful world of Terasology!" + Console.NEW_LINE +
-                    Console.NEW_LINE +
+            console.addMessage("Welcome to the world of Destination Sol! Your journey begins!" + Console.NEW_LINE +
                     "Type 'help' to see a list with available commands or 'help <commandName>' for command details." + Console.NEW_LINE +
                     "Text parameters do not need quotes, unless containing spaces. No commas between parameters." + Console.NEW_LINE +
                     "You can use auto-completion by typing a partial command then hitting [tab] - examples:" + Console.NEW_LINE + Console.NEW_LINE +
