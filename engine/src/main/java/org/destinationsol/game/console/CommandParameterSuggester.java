@@ -19,7 +19,6 @@ import java.util.Set;
 
 /**
  * A class used for suggesting command parameter values
- *
  */
 @FunctionalInterface
 public interface CommandParameterSuggester<T> {

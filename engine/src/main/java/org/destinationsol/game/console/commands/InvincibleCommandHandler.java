@@ -15,37 +15,33 @@
  */
 package org.destinationsol.game.console.commands;
 
-import org.destinationsol.game.Console;
 import org.destinationsol.game.Hero;
-import org.destinationsol.game.console.ConsoleInputHandler;
+import org.destinationsol.game.SolGame;
+import org.destinationsol.game.console.annotations.Command;
+import org.destinationsol.game.console.annotations.Game;
+import org.destinationsol.game.console.annotations.RegisterCommands;
 
 /**
  * A command used to make player invincible
  */
-public class InvincibleCommandHandler implements ConsoleInputHandler {
+@RegisterCommands
+public class InvincibleCommandHandler {
 
-    private Hero hero;
-
-    public InvincibleCommandHandler(Hero hero) {
-        this.hero = hero;
-    }
-
-    @Override
-    public void handle(String input, Console console) {
+    @Command(shortDescription = "Makes the hero invincible")
+    public String godMode(@Game SolGame game) {
+        Hero hero = game.getHero();
         if (hero.isDead()) {
-            console.warn("Cannot make invincible when dead");
-            return;
+            return "Cannot make invincible when dead";
         }
         if (hero.isTranscendent()) {
-            console.warn("Cannot make invincible when transdencent");
-            return;
+            return "Cannot make invincible when transdencent";
         }
         if (!hero.isInvincible()) {
-            console.info("Set player as invincible");
             hero.setInvincible(true);
-        } else if (hero.isInvincible()) {
-            console.info("Set player as non invincible");
+            return "Set player as invincible";
+        } else {
             hero.setInvincible(false);
+            return "Set player as non invincible";
         }
     }
 }

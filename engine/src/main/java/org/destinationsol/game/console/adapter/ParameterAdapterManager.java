@@ -15,9 +15,11 @@
  */
 package org.destinationsol.game.console.adapter;
 
-import com.badlogic.gdx.graphics.Color;
 import com.google.common.base.Preconditions;
 import com.google.common.collect.Maps;
+import org.destinationsol.SolApplication;
+import org.destinationsol.game.console.commands.PositionCommandHandler;
+import org.destinationsol.game.ship.hulls.HullConfig;
 
 import java.util.Map;
 
@@ -41,13 +43,11 @@ public class ParameterAdapterManager {
     /**
      * @return A manager with basic adapters and following classes:
      */
-    public static ParameterAdapterManager createCore() {
+    public static ParameterAdapterManager createCore(SolApplication application) {
         ParameterAdapterManager manager = createBasic();
 
-        manager.registerAdapter(Color.class, new ColorAdapter());
-        //manager.registerAdapter(Name.class, new NameAdapter());
-        //manager.registerAdapter(Prefab.class, new PrefabAdapter());
-        //manager.registerAdapter(BlockFamily.class, new BlockFamilyAdapter());
+        manager.registerAdapter(PositionCommandHandler.PositionFormat.class, new PositionFormatAdapter());
+        manager.registerAdapter(HullConfig.class, new HullConfigAdapter(application));
 
         return manager;
     }
@@ -65,7 +65,7 @@ public class ParameterAdapterManager {
 
     /**
      * @param clazz The type of the returned object
-     * @param raw The string from which to parse
+     * @param raw   The string from which to parse
      * @return The parsed object
      * @throws ClassCastException If the {@link ParameterAdapter} is linked with an incorrect {@link java.lang.Class}.
      */

@@ -54,11 +54,6 @@ public class Hero {
     }
 
     public void initialise(SolGame game) {
-        Console.getInstance().getDefaultInputHandler().registerOrReplaceCommand("position", new PositionCommandHandler(this));
-        Console.getInstance().getDefaultInputHandler().registerOrReplaceCommand("die", new DieCommandHandler(this, game));
-        Console.getInstance().getDefaultInputHandler().registerOrReplaceCommand("respawn", new RespawnCommandHandler(this, game));
-        Console.getInstance().getDefaultInputHandler().registerOrReplaceCommand("changeShip", new ChangeShipCommandHandler(this, game));
-        Console.getInstance().getDefaultInputHandler().registerOrReplaceCommand("godMode", new InvincibleCommandHandler(this));
     }
 
     public void setTranscendent(StarPort.Transcendent transcendentHero) {

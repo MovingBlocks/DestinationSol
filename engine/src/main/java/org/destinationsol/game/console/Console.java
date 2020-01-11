@@ -15,6 +15,8 @@
  */
 package org.destinationsol.game.console;
 
+import org.destinationsol.game.SolGame;
+
 import java.util.Collection;
 import java.util.List;
 
@@ -24,46 +26,49 @@ public interface Console {
 
     void registerCommand(ConsoleCommand command);
 
+    void init(SolGame game);
+
     void dispose();
 
     /**
      * Adds a message to the console (as a CoreMessageType.CONSOLE message)
      *
-     * @param message   The message to be added, as a string.
+     * @param message The message to be added, as a string.
      */
     void addMessage(String message);
 
     /**
      * Adds a message to the console
      *
-     * @param message   The message to be added, as a string.
-     * @param type      The type of the message
+     * @param message The message to be added, as a string.
+     * @param type    The type of the message
      */
     void addMessage(String message, MessageType type);
 
     /**
      * Adds a message to the console
      *
-     * @param message   The message to be added
+     * @param message The message to be added
      */
     void addMessage(Message message);
 
     /**
      * Adds a message to the console (as a CoreMessageType.CONSOLE message)
      *
-     * @param message    The message to be added, as a string.
-     * @param newLine    A boolean: True causes a newline character to be appended at the end of the message. False doesn't.
+     * @param message The message to be added, as a string.
+     * @param newLine A boolean: True causes a newline character to be appended at the end of the message. False doesn't.
      */
     void addMessage(String message, boolean newLine);
 
     /**
      * Adds a message to the console (as a CoreMessageType.CONSOLE message)
      *
-     * @param message    The message to be added, as a string.
-     * @param type       The type of the message
-     * @param newLine    A boolean: True causes a newline character to be appended at the end of the message. False doesn't.
+     * @param message The message to be added, as a string.
+     * @param type    The type of the message
+     * @param newLine A boolean: True causes a newline character to be appended at the end of the message. False doesn't.
      */
     void addMessage(String message, MessageType type, boolean newLine);
+
     /**
      * @return An iterator over all messages in the console
      */
@@ -103,7 +108,7 @@ public interface Console {
      * Execute a command
      *
      * @param commandName the command name
-     * @param params a list of parameters (no quotes!)
+     * @param params      a list of parameters (no quotes!)
      * @return true if successful
      */
     boolean execute(String commandName, List<String> params);
@@ -137,6 +142,7 @@ public interface Console {
 
     /**
      * If <code>oldMsg</code> does not exist, the method does nothing.
+     *
      * @param oldMsg the old message
      * @param newMsg the new message
      */
@@ -144,6 +150,7 @@ public interface Console {
 
     /**
      * If the message does not exist, the method does nothing.
+     *
      * @param message the message to remove
      */
     void removeMessage(Message message);

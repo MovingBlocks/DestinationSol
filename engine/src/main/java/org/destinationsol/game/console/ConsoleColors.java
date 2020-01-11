@@ -22,7 +22,7 @@ import com.badlogic.gdx.graphics.Color;
  * Defines a set of often-used color constants for the console
  */
 public final class ConsoleColors {
-    
+
     /**
      * Warning color
      */

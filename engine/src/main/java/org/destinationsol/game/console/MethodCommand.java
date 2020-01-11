@@ -22,6 +22,7 @@ import com.google.common.collect.Lists;
 import org.destinationsol.game.SolGame;
 import org.destinationsol.game.console.annotations.Command;
 import org.destinationsol.game.console.annotations.CommandParam;
+import org.destinationsol.game.console.annotations.Game;
 import org.destinationsol.game.context.Context;
 import org.destinationsol.util.InjectionHelper;
 import org.destinationsol.util.SpecificAccessibleObject;
@@ -37,7 +38,6 @@ import java.util.Set;
 
 public final class MethodCommand extends AbstractCommand {
     private static final Logger logger = LoggerFactory.getLogger(MethodCommand.class);
-    private static final String ENTITY_REF_NAME = "org.terasology.entitySystem.entity.EntityRef";
 
     private MethodCommand(String name, String description, String helpText,
                           SpecificAccessibleObject<Method> executionMethod, SolGame game, Context context) {
@@ -51,8 +51,7 @@ public final class MethodCommand extends AbstractCommand {
      * @param specificMethod The method to reference to
      * @return The command reference object created
      */
-    public static MethodCommand referringTo(SpecificAccessibleObject<Method> specificMethod,
-                                            SolGame game, Context context) {
+    public static MethodCommand referringTo(SpecificAccessibleObject<Method> specificMethod, SolGame game, Context context) {
         Method method = specificMethod.getAccessibleObject();
         Command commandAnnotation = method.getAnnotation(Command.class);
 
@@ -78,7 +77,7 @@ public final class MethodCommand extends AbstractCommand {
      * Registers all available command methods annotated with {@link
      */
     public static void registerAvailable(Object provider, Console console, SolGame game, Context context) {
-        Predicate<? super Method> predicate = Predicates.<Method>and(ReflectionUtils.withModifier(Modifier.PUBLIC), ReflectionUtils.withAnnotation(Command.class));
+        Predicate<? super Method> predicate = Predicates.and(ReflectionUtils.withModifier(Modifier.PUBLIC), ReflectionUtils.withAnnotation(Command.class));
         Set<Method> commandMethods = ReflectionUtils.getAllMethods(provider.getClass(), predicate);
         for (Method method : commandMethods) {
             if (!hasSenderAnnotation(method)) {
@@ -100,25 +99,8 @@ public final class MethodCommand extends AbstractCommand {
         return true;
     }
 
-    @Override
-    protected List<Parameter> constructParameters(SolGame game, Context context) {
-        SpecificAccessibleObject<Method> specificExecutionMethod = getExecutionMethod();
-        Method executionMethod = specificExecutionMethod.getAccessibleObject();
-        Class<?>[] methodParameters = executionMethod.getParameterTypes();
-        Annotation[][] methodParameterAnnotations = executionMethod.getParameterAnnotations();
-        List<Parameter> parameters = Lists.newArrayListWithExpectedSize(methodParameters.length);
-        System.out.println("AAAAAAAAAAAAAABBBBBBBBBBBBBBBABAAA +" + methodParameters.length);
-
-        for (int i = 0; i < methodParameters.length; i++) {
-            parameters.add(getParameterTypeFor(methodParameters[i], methodParameterAnnotations[i],
-                    game, context));
-        }
-
-        return parameters;
-    }
-
     private static Parameter getParameterTypeFor(Class<?> type, Annotation[] annotations,
-                                                 SolGame game, Context context) {
+                                                 Context context) {
         for (Annotation annotation : annotations) {
             if (annotation instanceof CommandParam) {
                 CommandParam parameterAnnotation
@@ -126,19 +108,37 @@ public final class MethodCommand extends AbstractCommand {
                 String name = parameterAnnotation.value();
                 Class<? extends CommandParameterSuggester> suggesterClass = parameterAnnotation.suggester();
                 boolean required = parameterAnnotation.required();
-                CommandParameterSuggester  suggester = InjectionHelper.createWithConstructorInjection(suggesterClass,
+                CommandParameterSuggester suggester = InjectionHelper.createWithConstructorInjection(suggesterClass,
                         context);
 
                 if (type.isArray()) {
                     Class<?> childType = type.getComponentType();
 
-                    return CommandParameter.array(name, childType, required, suggester, game, context);
+                    return CommandParameter.array(name, childType, required, suggester, context);
                 } else {
-                    return CommandParameter.single(name, type, required, suggester, game, context);
+                    return CommandParameter.single(name, type, required, suggester, context);
                 }
+            } else if (annotation instanceof Game) {
+                return MarkerParameters.GAME;
             }
         }
 
         return MarkerParameters.INVALID;
+    }
+
+    @Override
+    protected List<Parameter> constructParameters(Context context) {
+        SpecificAccessibleObject<Method> specificExecutionMethod = getExecutionMethod();
+        Method executionMethod = specificExecutionMethod.getAccessibleObject();
+        Class<?>[] methodParameters = executionMethod.getParameterTypes();
+        Annotation[][] methodParameterAnnotations = executionMethod.getParameterAnnotations();
+        List<Parameter> parameters = Lists.newArrayListWithExpectedSize(methodParameters.length);
+
+        for (int i = 0; i < methodParameters.length; i++) {
+            parameters.add(getParameterTypeFor(methodParameters[i], methodParameterAnnotations[i],
+                    context));
+        }
+
+        return parameters;
     }
 }
