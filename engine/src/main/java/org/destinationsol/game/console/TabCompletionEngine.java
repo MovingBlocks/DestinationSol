@@ -16,6 +16,7 @@
 package org.destinationsol.game.console;
 
 /**
+ *
  */
 public interface TabCompletionEngine {
 

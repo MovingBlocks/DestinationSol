@@ -24,8 +24,6 @@ import java.lang.annotation.Target;
  * Marks a method to be available as a command in the console, if it is in a ComponentSystem.
  * <br><br>
  * Command names are case-insensitive.
- * Command methods can have an {@link org.terasology.entitySystem.entity.EntityRef} parameter at the end,
- * which will be populated with the entity of the client calling the command.
  * Parameters should be annotated by the {@link CommandParam} annotation.
  * <br><br>
  * It is possible (and encouraged) to use other parameter types instead of {@link String}.
@@ -45,7 +43,6 @@ import java.lang.annotation.Target;
  *     return "You: " + user + ": " + Joiner.on(' ').join(messageArray);
  * }
  * </pre>
- *
  */
 @Retention(RetentionPolicy.RUNTIME)
 @Target(ElementType.METHOD)

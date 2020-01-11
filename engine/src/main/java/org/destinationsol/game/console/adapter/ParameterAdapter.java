@@ -17,5 +17,6 @@ package org.destinationsol.game.console.adapter;
 
 public interface ParameterAdapter<T> {
     T parse(String raw);
+
     String convertToString(T value);
 }

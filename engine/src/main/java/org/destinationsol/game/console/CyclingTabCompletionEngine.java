@@ -15,7 +15,6 @@
  */
 package org.destinationsol.game.console;
 
-import com.badlogic.gdx.graphics.Color;
 import com.google.common.collect.Collections2;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Sets;
@@ -29,7 +28,6 @@ import java.util.Set;
 
 /**
  * A text completion engine with cycle-through functionality
- *
  */
 public class CyclingTabCompletionEngine implements TabCompletionEngine {
     private final Console console;
@@ -50,7 +48,7 @@ public class CyclingTabCompletionEngine implements TabCompletionEngine {
             return false;
         }
 
-        commandNames = Collections2.transform(commands, input -> input.getName().toString());
+        commandNames = Collections2.transform(commands, input -> input.getName());
         return true;
     }
 
@@ -106,7 +104,7 @@ public class CyclingTabCompletionEngine implements TabCompletionEngine {
         }
 
         String commandNameRaw = console.processCommandName(query);
-        String commandName = new String(commandNameRaw);
+        String commandName = commandNameRaw;
         List<String> commandParameters = console.processParameters(query);
         ConsoleCommand command = console.getCommand(commandName);
         int suggestedIndex = commandParameters.size() + (query.charAt(query.length() - 1) == ' ' ? 1 : 0);

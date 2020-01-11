@@ -50,6 +50,7 @@ public abstract class AbstractCommand implements ConsoleCommand {
     private ImmutableList<Parameter> executionMethodParameters;
     private int requiredParameterCount;
     private String usage;
+    private SolGame game;
 
     public AbstractCommand(String name, String description, String helpText,
                            SpecificAccessibleObject<Method> executionMethod, SolGame game, Context context) {
@@ -61,20 +62,25 @@ public abstract class AbstractCommand implements ConsoleCommand {
         this.description = description;
         this.helpText = helpText;
         this.executionMethod = executionMethod;
+        this.game = game;
 
-        constructParametersNotNull(game, context);
+        constructParametersNotNull(context);
         registerParameters();
         validateExecutionMethod();
         initUsage();
     }
 
+    private static Set<String> convertToString(Set<Object> collection, CommandParameter parameter) {
+        return collection.stream().map(parameter::convertToString).collect(Collectors.toCollection(HashSet::new));
+    }
+
     /**
      * @return A list of parameter types provided to the execution method.
      */
-    protected abstract List<Parameter> constructParameters(SolGame game, Context context);
+    protected abstract List<Parameter> constructParameters(Context context);
 
-    private void constructParametersNotNull(SolGame game, Context context) {
-        List<Parameter> constructedParameters = constructParameters(game, context);
+    private void constructParametersNotNull(Context context) {
+        List<Parameter> constructedParameters = constructParameters(context);
 
         if (constructedParameters == null || constructedParameters.size() <= 0) {
             commandParameters = ImmutableList.of();
@@ -168,7 +174,7 @@ public abstract class AbstractCommand implements ConsoleCommand {
     }
 
     private void initUsage() {
-        StringBuilder builder = new StringBuilder(name.toString());
+        StringBuilder builder = new StringBuilder(name);
 
         for (CommandParameter param : commandParameters) {
             builder.append(' ').append(param.getUsage());
@@ -188,7 +194,7 @@ public abstract class AbstractCommand implements ConsoleCommand {
                 CommandParameter parameter = (CommandParameter) parameterType;
                 if (parameterStrings.isEmpty()) {
                     if (parameter.isArray()) {
-                        processedParameters[i] = parameter.getArrayValue(Collections.<String>emptyList());
+                        processedParameters[i] = parameter.getArrayValue(Collections.emptyList());
                     } else {
                         processedParameters[i] = null;
                     }
@@ -198,6 +204,8 @@ public abstract class AbstractCommand implements ConsoleCommand {
                 } else {
                     processedParameters[i] = parameter.getValue(parameterStrings.poll());
                 }
+            } else if (parameterType == MarkerParameters.GAME) {
+                processedParameters[i] = game;
             }
         }
 
@@ -259,6 +267,9 @@ public abstract class AbstractCommand implements ConsoleCommand {
         Iterator<CommandParameter> paramIter = commandParameters.iterator();
 
         for (Object processedParameter : processedParameters) {
+            if (game.equals(processedParameter)) {
+                continue;
+            }
             if (processedParameter == null) {
                 suggestedParameter = paramIter.next();
                 break;
@@ -298,10 +309,6 @@ public abstract class AbstractCommand implements ConsoleCommand {
         //Only return results starting with currentValue
         return Sets.filter(stringSuggestions, input ->
                 input != null && (currentValue == null || input.startsWith(currentValue)));
-    }
-
-    private static Set<String> convertToString(Set<Object> collection, CommandParameter parameter) {
-        return collection.stream().map(parameter::convertToString).collect(Collectors.toCollection(HashSet::new));
     }
 
     @Override

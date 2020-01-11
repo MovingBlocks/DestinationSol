@@ -13,19 +13,14 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.destinationsol.game.console;
+package org.destinationsol.game.console.annotations;
 
-import org.destinationsol.game.Console;
+import java.lang.annotation.ElementType;
+import java.lang.annotation.Retention;
+import java.lang.annotation.RetentionPolicy;
+import java.lang.annotation.Target;
 
-/**
- * This functional interface provides a handler for user input for {@link Console}.
- */
-public interface ConsoleInputHandler {
-    /**
-     * Handles user input from console.
-     *
-     * @param input   User input from console
-     * @param console Console from where the input originates
-     */
-    void handle(String input, Console console);
+@Retention(RetentionPolicy.RUNTIME)
+@Target(ElementType.PARAMETER)
+public @interface Game {
 }

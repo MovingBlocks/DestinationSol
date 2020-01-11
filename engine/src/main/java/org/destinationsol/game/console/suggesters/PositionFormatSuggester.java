@@ -15,33 +15,20 @@
  */
 package org.destinationsol.game.console.suggesters;
 
-import com.google.common.collect.Sets;
 import org.destinationsol.game.console.CommandParameterSuggester;
-import org.destinationsol.game.console.Console;
-import org.destinationsol.game.console.ConsoleCommand;
+import org.destinationsol.game.console.commands.PositionCommandHandler;
 
-import java.util.Collection;
+import java.util.HashSet;
 import java.util.Set;
 
-/**
- *
- */
-public final class CommandNameSuggester implements CommandParameterSuggester<String> {
-    private final Console console;
-
-    public CommandNameSuggester(Console console) {
-        this.console = console;
-    }
-
+public class PositionFormatSuggester implements CommandParameterSuggester<PositionCommandHandler.PositionFormat> {
     @Override
-    public Set<String> suggest(Object... resolvedParameters) {
-        Collection<ConsoleCommand> commands = console.getCommands();
-        Set<String> suggestions = Sets.newHashSetWithExpectedSize(commands.size());
-
-        for (ConsoleCommand command : commands) {
-            suggestions.add(command.getName());
-        }
-
+    public Set<PositionCommandHandler.PositionFormat> suggest(Object... resolvedParameters) {
+        Set<PositionCommandHandler.PositionFormat> suggestions = new HashSet<>();
+        suggestions.add(PositionCommandHandler.PositionFormat.TERSE);
+        suggestions.add(PositionCommandHandler.PositionFormat.VERBOSE);
+        suggestions.add(PositionCommandHandler.PositionFormat.INTERNAL);
+        suggestions.add(PositionCommandHandler.PositionFormat.BOLD);
         return suggestions;
     }
 }

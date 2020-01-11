@@ -250,6 +250,7 @@ public class SolApplication implements ApplicationListener {
 
         FactionInfo factionInfo = new FactionInfo();
         solGame = new SolGame(shipName, tut, isNewGame, commonDrawer, context, worldConfig);
+        solGame.createParameterAdapter();
         factionDisplay = new FactionDisplay(solGame, factionInfo);
         inputManager.setScreen(this, solGame.getScreens().mainGameScreen);
     }
