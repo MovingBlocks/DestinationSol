@@ -33,7 +33,7 @@ import org.destinationsol.game.ship.hulls.HullConfig;
 public class ChangeShipCommandHandler {
 
     @Command
-    public String changeShip(@Game SolGame game, @CommandParam(value = "newShip") HullConfig hullConfig) {
+    public String changeship(@Game SolGame game, @CommandParam(value = "newShip") HullConfig hullConfig) {
 
         if (hullConfig == null) {
             return "Could not find such ship";
