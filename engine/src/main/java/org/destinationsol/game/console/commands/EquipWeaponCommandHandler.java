@@ -1,5 +1,5 @@
 /*
- * Copyright 2018 MovingBlocks
+ * Copyright 2020 MovingBlocks
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -48,7 +48,7 @@ public class EquipWeaponCommandHandler implements ConsoleInputHandler {
 
         if (args.length != 3) {
             console.warn("Usage: equipWeapon moduleName:gunName slotNumber");
-            console.warn("Available slots: " + (ship.getHull().getGunMount(false) != null ? "1" : "") + (ship.getHull().getGunMount(true) != null ? ", 2" : ""));
+            console.warn("Available slots: " + (ship.getHull().getGunMount(false) != null ? "1" : "") + (ship.getHull().getGunMount(true) != null ? ", 2" : "<none>"));
             return;
         }
         if (!SolMath.isInt(args[2])) {
@@ -83,6 +83,6 @@ public class EquipWeaponCommandHandler implements ConsoleInputHandler {
 
         Gun gun = (Gun) gunItem.get();
         gun.ammo = gun.config.clipConf.size;
-        ship.maybeEquip(game, gunItem.get(), slot == 2 ? true : false, true);
+        ship.maybeEquip(game, gun, slot == 2, true);
     }
 }
