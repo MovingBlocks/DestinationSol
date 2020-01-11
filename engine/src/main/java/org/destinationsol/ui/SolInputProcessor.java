@@ -16,10 +16,6 @@
 package org.destinationsol.ui;
 
 import com.badlogic.gdx.InputProcessor;
-import org.destinationsol.SolApplication;
-import org.destinationsol.game.Console;
-import org.destinationsol.game.SolGame;
-import org.destinationsol.game.console.ConsoleImpl;
 import org.destinationsol.game.screens.ConsoleScreen;
 
 import java.util.Optional;
