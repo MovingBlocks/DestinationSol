@@ -48,7 +48,7 @@ public class EquipWeaponCommandHandler implements ConsoleInputHandler {
 
         if (args.length != 3) {
             console.warn("Usage: equipWeapon moduleName:gunName slotNumber");
-            console.warn("Available slots: " + (ship.getHull().getGunMount(false) != null ? "1" : "") + (ship.getHull().getGunMount(true) != null ? ", 2" : "<none>"));
+            console.warn("Available slots: " + (ship.getHull().getGunMount(false) != null ? "1" : "<none>") + (ship.getHull().getGunMount(true) != null ? ", 2" : ", <none>"));
             return;
         }
         if (!SolMath.isInt(args[2])) {
