@@ -16,6 +16,7 @@
 package org.destinationsol.game.console.annotations;
 
 import com.google.common.collect.Sets;
+import org.destinationsol.game.SolGame;
 import org.destinationsol.game.console.CommandParameterSuggester;
 
 import java.lang.annotation.ElementType;
@@ -47,7 +48,7 @@ public @interface CommandParam {
      */
     final class EmptyCommandParameterSuggester implements CommandParameterSuggester {
         @Override
-        public Set<Object> suggest(Object[] resolvedParameters) {
+        public Set<Object> suggest(SolGame game, Object[] resolvedParameters) {
             return Sets.newHashSet();
         }
     }

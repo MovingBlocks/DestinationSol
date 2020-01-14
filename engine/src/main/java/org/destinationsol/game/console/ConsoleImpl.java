@@ -107,7 +107,7 @@ public class ConsoleImpl implements Console {
      */
     @Override
     public void registerCommand(ConsoleCommand command) {
-        String commandName = command.getName();
+        String commandName = command.getName().toLowerCase();
 
         if (commandRegistry.containsKey(commandName)) {
             logger.warn("Command with name '{}' already registered by class '{}', skipping '{}'",
@@ -280,8 +280,8 @@ public class ConsoleImpl implements Console {
 
     @Override
     public boolean execute(String rawCommand) {
-        rawCommand = rawCommand.toLowerCase();
         String commandName = processCommandName(rawCommand);
+        commandName = commandName.toLowerCase();
         List<String> processedParameters = processParameters(rawCommand);
 
         if (!rawCommand.isEmpty() && (localCommandHistory.isEmpty() || !localCommandHistory.getLast().equals(rawCommand))) {
@@ -362,7 +362,7 @@ public class ConsoleImpl implements Console {
      */
     @Override
     public ConsoleCommand getCommand(String name) {
-        return commandRegistry.get(name);
+        return commandRegistry.get(name.toLowerCase());
     }
 
     /**

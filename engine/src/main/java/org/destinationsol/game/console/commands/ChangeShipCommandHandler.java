@@ -21,6 +21,7 @@ import org.destinationsol.game.console.annotations.Command;
 import org.destinationsol.game.console.annotations.CommandParam;
 import org.destinationsol.game.console.annotations.Game;
 import org.destinationsol.game.console.annotations.RegisterCommands;
+import org.destinationsol.game.console.suggesters.HullConfigSuggester;
 import org.destinationsol.game.ship.ShipRepairer;
 import org.destinationsol.game.ship.SolShip;
 import org.destinationsol.game.ship.hulls.HullConfig;
@@ -33,7 +34,7 @@ import org.destinationsol.game.ship.hulls.HullConfig;
 public class ChangeShipCommandHandler {
 
     @Command
-    public String changeship(@Game SolGame game, @CommandParam(value = "newShip") HullConfig hullConfig) {
+    public String changeShip(@Game SolGame game, @CommandParam(value = "newShip", suggester = HullConfigSuggester.class) HullConfig hullConfig) {
 
         if (hullConfig == null) {
             return "Could not find such ship";
