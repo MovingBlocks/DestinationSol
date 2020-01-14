@@ -15,6 +15,7 @@
  */
 package org.destinationsol.game.console.suggesters;
 
+import org.destinationsol.game.SolGame;
 import org.destinationsol.game.console.CommandParameterSuggester;
 import org.destinationsol.game.console.commands.PositionCommandHandler;
 
@@ -23,7 +24,7 @@ import java.util.Set;
 
 public class PositionFormatSuggester implements CommandParameterSuggester<PositionCommandHandler.PositionFormat> {
     @Override
-    public Set<PositionCommandHandler.PositionFormat> suggest(Object... resolvedParameters) {
+    public Set<PositionCommandHandler.PositionFormat> suggest(SolGame game, Object... resolvedParameters) {
         Set<PositionCommandHandler.PositionFormat> suggestions = new HashSet<>();
         suggestions.add(PositionCommandHandler.PositionFormat.TERSE);
         suggestions.add(PositionCommandHandler.PositionFormat.VERBOSE);
