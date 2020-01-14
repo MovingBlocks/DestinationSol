@@ -137,10 +137,18 @@ public class MapDrawer implements UpdateAwareSystem{
         drawPlanets(drawer, game, viewDist, np, camPos, heroDmgCap, camAngle);
         drawMazes(drawer, game, viewDist, np, camPos, heroDmgCap, camAngle);
         drawStarNodes(drawer, game, viewDist, camPos, starNodeW);
-
         drawWaypoints(drawer, game, iconSz, viewDist);
+
         // using ui textures
         drawIcons(drawer, game, iconSz, viewDist, factionManager, hero, camPos, heroDmgCap);
+
+        if (game.getScreens().mapScreen.isPickingWaypointSpot()) {
+            drawer.drawString("Click a spot for the new waypoint", hero.getPosition().x, hero.getPosition().y + (zoom* 1.5f), 0.125f * zoom, true, Color.RED);
+        }
+
+        if (game.getScreens().mapScreen.isPickingWaypointToRemove()) {
+            drawer.drawString("Click a waypoint to remove", hero.getPosition().x, hero.getPosition().y + (zoom* 1.5f), 0.125f * zoom, true, Color.RED);
+        }
     }
 
     public float getIconRadius(SolCam cam) {
