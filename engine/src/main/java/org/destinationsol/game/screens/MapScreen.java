@@ -33,8 +33,8 @@ public class MapScreen extends SolUiBaseScreen {
     private final SolUiControl zoomOutControl;
     public final SolUiControl closeControl;
     public final SolUiControl zoomInControl;
-    public final SolUiControl addWaypointControl;
-    public final SolUiControl removeWaypointControl;
+    private final SolUiControl addWaypointControl;
+    private final SolUiControl removeWaypointControl;
 
     private final String NEW_WAYPOINT_TEXT = "Marker+";
     private final String REMOVE_WAYPOINT_TEXT = "Marker-";
@@ -102,26 +102,18 @@ public class MapScreen extends SolUiBaseScreen {
             }
         }
 
-        if (addWaypointControl.isJustOff() && !isPickingWaypointSpot) {
-            isPickingWaypointSpot = true;
-            addWaypointControl.setDisplayName(CANCEL_TEXT);
-            removeWaypointControl.setEnabled(false);
-        } else if (addWaypointControl.isJustOff() && isPickingWaypointSpot) {
-            isPickingWaypointSpot = false;
-            addWaypointControl.setDisplayName(NEW_WAYPOINT_TEXT);
-            removeWaypointControl.setEnabled(true);
-        } else if (isPickingWaypointSpot) {
-            if (inputPointers[0].isJustUnPressed()) {
+        if (isPickingWaypointSpot) {
+            if (inputPointers[0].isJustUnPressed() && !addWaypointControl.isJustOff()) {
                 Vector2 clickPosition = new Vector2(inputPointers[0].x, inputPointers[0].y);
-
                 Vector2 worldPosition = screenPositionToWorld(clickPosition, game.getCam().getPosition(), mapZoom);
-
                 ArrayList<Waypoint> waypoints = game.getHero().getWaypoints();
+
+                //make sure waypoints aren't too close to each other
                 boolean canCreate = true;
                 for (int w = 0; w < waypoints.size(); w++) {
                     Waypoint waypoint = waypoints.get(w);
                     if (worldPosition.x > waypoint.position.x - MIN_WAYPOINT_DIST && worldPosition.x < waypoint.position.x + MIN_WAYPOINT_DIST &&
-                        worldPosition.y > waypoint.position.y - MIN_WAYPOINT_DIST && worldPosition.y < waypoint.position.y + MIN_WAYPOINT_DIST) {
+                            worldPosition.y > waypoint.position.y - MIN_WAYPOINT_DIST && worldPosition.y < waypoint.position.y + MIN_WAYPOINT_DIST) {
                         canCreate = false;
                         break;
                     }
@@ -140,16 +132,8 @@ public class MapScreen extends SolUiBaseScreen {
             }
         }
 
-        if (removeWaypointControl.isJustOff() && !isPickingWaypointToRemove) {
-            isPickingWaypointToRemove = true;
-            removeWaypointControl.setDisplayName(CANCEL_TEXT);
-            addWaypointControl.setEnabled(false);
-        } else if (removeWaypointControl.isJustOff() && isPickingWaypointToRemove) {
-            removeWaypointControl.setDisplayName(REMOVE_WAYPOINT_TEXT);
-            addWaypointControl.setEnabled(true);
-            isPickingWaypointToRemove = false;
-        } else if (isPickingWaypointToRemove) {
-            if (inputPointers[0].isJustUnPressed()) {
+        if (isPickingWaypointToRemove) {
+            if (inputPointers[0].isJustUnPressed() && !removeWaypointControl.isJustOff()) {
                 Vector2 clickPosition = new Vector2(inputPointers[0].x, inputPointers[0].y);
                 Vector2 realPosition = screenPositionToWorld(clickPosition, game.getCam().getPosition(), mapZoom);
 
@@ -157,13 +141,38 @@ public class MapScreen extends SolUiBaseScreen {
                 for (int w = 0; w < waypoints.size(); w++) {
                     Waypoint waypoint = waypoints.get(w);
                     if (waypoint.position.x > realPosition.x - MIN_WAYPOINT_DIST && waypoint.position.x < realPosition.x + MIN_WAYPOINT_DIST &&
-                        waypoint.position.y > realPosition.y - MIN_WAYPOINT_DIST && waypoint.position.y < realPosition.y + MIN_WAYPOINT_DIST) {
+                            waypoint.position.y > realPosition.y - MIN_WAYPOINT_DIST && waypoint.position.y < realPosition.y + MIN_WAYPOINT_DIST) {
                         game.getHero().removeWaypoint(waypoint);
                         game.getObjectManager().removeObjDelayed(waypoint);
                     }
                 }
-                isPickingWaypointToRemove = false;
                 addWaypointControl.setEnabled(true);
+                removeWaypointControl.setDisplayName(REMOVE_WAYPOINT_TEXT);
+                isPickingWaypointToRemove = false;
+            }
+        }
+
+        if (addWaypointControl.isJustOff()) {
+            if (isPickingWaypointSpot) {
+                isPickingWaypointSpot = false;
+                addWaypointControl.setDisplayName(NEW_WAYPOINT_TEXT);
+                removeWaypointControl.setEnabled(true);
+            } else {
+                isPickingWaypointSpot = true;
+                addWaypointControl.setDisplayName(CANCEL_TEXT);
+                removeWaypointControl.setEnabled(false);
+            }
+        }
+
+        if (removeWaypointControl.isJustOff()) {
+            if (isPickingWaypointToRemove) {
+                isPickingWaypointToRemove = false;
+                removeWaypointControl.setDisplayName(REMOVE_WAYPOINT_TEXT);
+                addWaypointControl.setEnabled(true);
+            } else {
+                isPickingWaypointToRemove = true;
+                removeWaypointControl.setDisplayName(CANCEL_TEXT);
+                addWaypointControl.setEnabled(false);
             }
         }
     }
@@ -184,5 +193,13 @@ public class MapScreen extends SolUiBaseScreen {
     public void setWaypointButtonsEnabled(boolean value) {
         removeWaypointControl.setEnabled(value);
         addWaypointControl.setEnabled(value);
+    }
+
+    public boolean isPickingWaypointSpot() {
+        return isPickingWaypointSpot;
+    }
+
+    public boolean isPickingWaypointToRemove() {
+        return isPickingWaypointToRemove;
     }
 }
