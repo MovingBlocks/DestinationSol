@@ -214,7 +214,7 @@ public final class CommandParameter<T> implements Parameter {
     }
 
     public Set<T> suggest(Object... parameters) {
-        return suggester.suggest(parameters);
+        return suggester.suggest(context.get(SolApplication.class).getGame(), parameters);
     }
 
     public String getUsage() {

@@ -33,7 +33,10 @@ public class HullConfigAdapter implements ParameterAdapter<HullConfig> {
     public HullConfig parse(String raw) {
         for (ResourceUrn urn : Assets.getAssetHelper().list(Json.class)) {
             if ((urn.getModuleName() + ":" + urn.getResourceName()).equals(raw)) {
-                return application.getGame().getHullConfigManager().getConfig(raw);
+                HullConfig config = application.getGame().getHullConfigManager().getConfig(raw);
+                if (config.getType() != HullConfig.Type.STATION) {
+                    return config;
+                }
             }
         }
         return null;

@@ -15,6 +15,9 @@
  */
 package org.destinationsol.game.console;
 
+import org.destinationsol.game.SolGame;
+import org.destinationsol.game.ship.SolShip;
+
 import java.util.Set;
 
 /**
@@ -26,5 +29,5 @@ public interface CommandParameterSuggester<T> {
      * @param resolvedParameters Currently entered values of the types declared in the command method
      * @return A collection of suggested matches.
      */
-    Set<T> suggest(Object... resolvedParameters);
+    Set<T> suggest(SolGame game, Object... resolvedParameters);
 }

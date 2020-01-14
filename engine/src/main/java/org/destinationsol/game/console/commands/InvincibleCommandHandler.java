@@ -28,7 +28,7 @@ import org.destinationsol.game.console.annotations.RegisterCommands;
 public class InvincibleCommandHandler {
 
     @Command(shortDescription = "Makes the hero invincible")
-    public String godmode(@Game SolGame game) {
+    public String godMode(@Game SolGame game) {
         Hero hero = game.getHero();
         if (hero.isDead()) {
             return "Cannot make invincible when dead";
