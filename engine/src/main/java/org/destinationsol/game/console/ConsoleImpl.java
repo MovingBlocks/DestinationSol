@@ -319,7 +319,6 @@ public class ConsoleImpl implements Console {
             e.printStackTrace();
         }
 
-        //execute(commandName, params);
         return true;
     }
 
