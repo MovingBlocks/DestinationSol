@@ -28,15 +28,10 @@ import java.util.Set;
  *
  */
 public final class CommandNameSuggester implements CommandParameterSuggester<String> {
-    private final Console console;
-
-    public CommandNameSuggester(Console console) {
-        this.console = console;
-    }
 
     @Override
     public Set<String> suggest(SolGame game, Object... resolvedParameters) {
-        Collection<ConsoleCommand> commands = console.getCommands();
+        Collection<ConsoleCommand> commands = game.getScreens().consoleScreen.getConsole().getCommands();
         Set<String> suggestions = Sets.newHashSetWithExpectedSize(commands.size());
 
         for (ConsoleCommand command : commands) {

@@ -33,7 +33,7 @@ import org.destinationsol.game.ship.hulls.HullConfig;
 @RegisterCommands
 public class ChangeShipCommandHandler {
 
-    @Command
+    @Command(shortDescription = "changes hero ship")
     public String changeShip(@Game SolGame game, @CommandParam(value = "newShip", suggester = HullConfigSuggester.class) HullConfig hullConfig) {
 
         if (hullConfig == null) {
