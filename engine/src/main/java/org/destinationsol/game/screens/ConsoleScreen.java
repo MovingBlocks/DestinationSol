@@ -148,10 +148,10 @@ public class ConsoleScreen implements SolUiScreen, ConsoleSubscriber {
                     "Type 'help' to see a list with available commands or 'help <commandName>' for command details." + Console.NEW_LINE +
                     "Text parameters do not need quotes, unless containing spaces. No commas between parameters." + Console.NEW_LINE +
                     "You can use auto-completion by typing a partial command then hitting [tab] - examples:" + Console.NEW_LINE + Console.NEW_LINE +
-                    "gh + [tab] => 'ghost'" + Console.NEW_LINE +
-                    "help gh + [tab] => 'help ghost' (can auto complete commands fed to help)" + Console.NEW_LINE +
-                    "giv + [tab] => 'give givePermission' (use [tab] again to cycle between choices)" + Console.NEW_LINE +
-                    "lS + [tab] => 'listShapes' (camel casing abbreviated commands)" + Console.NEW_LINE);
+                    "go + [tab] => 'godMode'" + Console.NEW_LINE +
+                    "help gh + [tab] => 'help godMode' (can auto complete commands fed to help)" + Console.NEW_LINE +
+                    "(use [tab] again to cycle between choices)" + Console.NEW_LINE +
+                    "gM + [tab] => 'godMode' (camel casing abbreviated commands)" + Console.NEW_LINE);
             welcomePrinted = true;
         }
     }
