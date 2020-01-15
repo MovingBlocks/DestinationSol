@@ -257,7 +257,6 @@ public class ConsoleScreen implements SolUiScreen, ConsoleSubscriber {
 
     public void onCharEntered (char character) {
         if (isActive) {
-            logger.info(character + " CHAR");
             if (character == '\t' && this.inputLine.length() > 0) {
                 this.inputLine = new StringBuilder(this.completionEngine.complete(inputLine.toString()));
             } else if (character != '\t') {
@@ -282,5 +281,9 @@ public class ConsoleScreen implements SolUiScreen, ConsoleSubscriber {
 
     private float getLineY(float line) {
         return TOP_LEFT.y + 2 * FRAME_WIDTH + line * UiDrawer.FONT_SIZE * 0.5f * 1.8f;
+    }
+
+    public Console getConsole() {
+        return console;
     }
 }
