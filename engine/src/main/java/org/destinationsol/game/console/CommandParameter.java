@@ -78,7 +78,7 @@ public final class CommandParameter<T> implements Parameter {
         if (type.isArray()) {
             throw new IllegalArgumentException("The type of a simple CommandParameterDefinition must not be an array!");
         }
-        ParameterAdapterManager parameterAdapterManager = ParameterAdapterManager.createCore(context.get(SolApplication.class));
+        ParameterAdapterManager parameterAdapterManager = context.get(SolApplication.class).getParameterAdapterManager();
         return new CommandParameter(name, type, required, suggester, parameterAdapterManager, context);
     }
 
@@ -112,7 +112,7 @@ public final class CommandParameter<T> implements Parameter {
         }
 
         Class<?> type = getArrayClass(childType);
-        ParameterAdapterManager parameterAdapterManager = ParameterAdapterManager.createCore(context.get(SolApplication.class));
+        ParameterAdapterManager parameterAdapterManager = context.get(SolApplication.class).getParameterAdapterManager();
         return new CommandParameter(name, type, required, suggester, parameterAdapterManager, context);
     }
 

@@ -32,9 +32,7 @@ import org.destinationsol.files.HullConfigManager;
 import org.destinationsol.game.asteroid.AsteroidBuilder;
 import org.destinationsol.game.attributes.RegisterUpdateSystem;
 import org.destinationsol.game.chunk.ChunkManager;
-import org.destinationsol.game.console.adapter.ParameterAdapterManager;
 import org.destinationsol.game.context.Context;
-import org.destinationsol.game.context.internal.ContextImpl;
 import org.destinationsol.game.drawables.DrawableDebugger;
 import org.destinationsol.game.drawables.DrawableManager;
 import org.destinationsol.game.farBg.FarBackgroundManagerOld;
@@ -97,7 +95,6 @@ public class SolGame {
     private final MountDetectDrawer mountDetectDrawer;
     private final TutorialManager tutorialManager;
     private final GalaxyFiller galaxyFiller;
-    private ParameterAdapterManager parameterAdapterManager;
     private Hero hero;
     private float timeStep;
     private float time;
@@ -249,9 +246,6 @@ public class SolGame {
         }
     }
 
-    public void createParameterAdapter() {
-        parameterAdapterManager = ParameterAdapterManager.createCore(this.solApplication);
-    }
     public void onGameEnd(Context context) {
         // If the hero tries to exit while dead, respawn them first, then save
         if (hero.isDead()) {
@@ -557,10 +551,4 @@ public class SolGame {
         return hullConfigManager;
     }
 
-    public ParameterAdapterManager getParameterAdapterManager() {
-        if (parameterAdapterManager == null) {
-            parameterAdapterManager = ParameterAdapterManager.createCore(this.solApplication);
-        }
-        return parameterAdapterManager;
-    }
 }
