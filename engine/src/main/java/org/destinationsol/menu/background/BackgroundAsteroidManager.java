@@ -72,8 +72,8 @@ public class BackgroundAsteroidManager {
     }
 
     public void draw(UiDrawer uiDrawer) {
-        for (BackgroundAsteroid BackgroundAsteroid : BackgroundAsteroids) {
-            BackgroundAsteroid.draw(uiDrawer);
+        for (BackgroundAsteroid backgroundAsteroid : BackgroundAsteroids) {
+            backgroundAsteroid.draw(uiDrawer);
         }
     }
 
@@ -82,12 +82,12 @@ public class BackgroundAsteroidManager {
         TextureAtlas.AtlasRegion texture = Assets.getAtlasRegion(SolRandom.test(0.5f) ? "engine:asteroid_0" : "engine:asteroid_1");
 
         boolean small = SolRandom.test(.8f);
-        float scale = (small ? .1f : .4f) * SolRandom.randomFloat(.5f, 1);
+        float size = (small ? .2f : .4f) * SolRandom.randomFloat(.5f, 1);
         Color tint = new Color();
         SolColorUtil.fromHSB(SolRandom.randomFloat(0, 1), .25f, 1, .7f, tint);
 
-        float radiusX = (float) (texture.originalHeight) / displayDimensions.getWidth() * scale / 2;
-        float radiusY = (float) (texture.originalHeight) / displayDimensions.getHeight() * scale / 2;
+        float radiusX = (float) (texture.originalHeight) / displayDimensions.getWidth() * size / 2;
+        float radiusY = (float) (texture.originalHeight) / displayDimensions.getHeight() * size / 2;
 
         float r = displayDimensions.getRatio();
         Vector2 velocity, position;
@@ -95,23 +95,24 @@ public class BackgroundAsteroidManager {
             // Spawn to the left or right of screen
             boolean toLeft = SolRandom.test(1f);
             velocity = new Vector2((float) Math.pow(SolRandom.randomFloat(toLeft ? 0.025f : -0.1f, toLeft ? 0.1f : 0.025f), 2), (float) Math.pow(SolRandom.randomFloat(0.095f), 2));
-            position = new Vector2(r / 2 + (toLeft ? -1 : 1) * (r / 2 + radiusX) - radiusX, 1f + SolRandom.randomFloat(1f + radiusY) - radiusY);
+            position = new Vector2(r / 2 + (toLeft ? -1 : 1) * (r / 2 + radiusX) - radiusX, 0.5f + SolRandom.randomFloat(0.5f + radiusY) - radiusY);
         } else {
             // Spawn at the top or bottom of screen
             boolean atTop = SolRandom.test(1f);
             velocity = new Vector2((float) Math.pow(SolRandom.randomFloat(0.095f), 3), (float) Math.pow(SolRandom.randomFloat(atTop ? -0.025f : 0.025f, atTop ? -0.1f : 0.1f), 2));
-            position = new Vector2(r / 2 + SolRandom.randomFloat(r / 2 + radiusX) - radiusX, 0.5f + (atTop ? -1 : 1) * (1f + radiusY) - radiusY);
+            position = new Vector2(r / 2 + SolRandom.randomFloat(r / 2 + radiusX) - radiusX, 0.5f + (atTop ? -1 : 1) * (0.5f + radiusY) - radiusY);
         }
 
+        //Give random rotation to asteroid
         float angle = SolRandom.randomFloat((float) Math.PI);
         float angularVelocity = SolRandom.randomFloat(1.5f);
         velocity.scl(50);
 
-        Body body = asteroidMeshLoader.getBodyAndSprite(world, texture, scale, BodyDef.BodyType.DynamicBody, position, angle, new ArrayList<>(), 10f, DrawableLevel.BODIES);
-        body.setGravityScale(0);
+        //Build the final asteroid body
+        Body body = asteroidMeshLoader.getBodyAndSprite(world, texture, size, BodyDef.BodyType.DynamicBody, position, angle, new ArrayList<>(), 10f, DrawableLevel.BODIES);
         body.setLinearVelocity(velocity);
         body.setAngularVelocity(angularVelocity);
-        BackgroundAsteroid asteroid = new BackgroundAsteroid(texture, scale, tint, position, asteroidMeshLoader.getOrigin(texture.name, scale),velocity, angle, body);
+        BackgroundAsteroid asteroid = new BackgroundAsteroid(texture, size, tint, position, velocity, new Vector2(size/2, size/2), angle, body);
         body.setUserData(asteroid);
 
         return asteroid;
