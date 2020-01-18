@@ -109,10 +109,10 @@ public class BackgroundAsteroidManager {
         velocity.scl(50);
 
         //Build the final asteroid body
-        Body body = asteroidMeshLoader.getBodyAndSprite(world, texture, size, BodyDef.BodyType.DynamicBody, position, angle, new ArrayList<>(), 10f, DrawableLevel.BODIES);
+        Body body = asteroidMeshLoader.getBodyAndSprite(world, texture, size*0.95f, BodyDef.BodyType.DynamicBody, position, angle, new ArrayList<>(), 10f, DrawableLevel.BODIES);
         body.setLinearVelocity(velocity);
         body.setAngularVelocity(angularVelocity);
-        BackgroundAsteroid asteroid = new BackgroundAsteroid(texture, size, tint, position, velocity, new Vector2(size/2, size/2), angle, body);
+        BackgroundAsteroid asteroid = new BackgroundAsteroid(texture, size, tint, position, velocity, asteroidMeshLoader.getOrigin(texture.name, size).cpy(), angle, body);
         body.setUserData(asteroid);
 
         return asteroid;
