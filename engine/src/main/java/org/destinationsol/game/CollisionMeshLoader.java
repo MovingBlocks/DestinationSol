@@ -174,7 +174,7 @@ public class CollisionMeshLoader {
         readRigidBody(rbNode, shipName);
     }
 
-    private void readRigidBody(JSONObject rbNode, String shipName) {
+    public void readRigidBody(JSONObject rbNode, String shipName) {
         RigidBodyModel rbModel = new RigidBodyModel();
         rbModel.name = shipName;
 

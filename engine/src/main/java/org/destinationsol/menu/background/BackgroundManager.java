@@ -24,29 +24,26 @@ import org.destinationsol.ui.UiDrawer;
 public class BackgroundManager {
     private World world;
 
-    private DisplayDimensions displayDimensions;
     private BackgroundAsteroidManager asteroidManager;
-    //private BackgroundShipManager shipManager;
+    private BackgroundShipManager shipManager;
 
     public BackgroundManager(DisplayDimensions displayDimensions) {
         world = new World(new Vector2(0, 0), true);
         MenuContactListener contactListener = new MenuContactListener();
         world.setContactListener(contactListener);
-        this.displayDimensions = displayDimensions;
 
         asteroidManager = new BackgroundAsteroidManager(displayDimensions, world);
-        //shipManager = new BackgroundShipManager(displayDimensions, world);
+        shipManager = new BackgroundShipManager(displayDimensions, world);
     }
 
     public void update() {
         asteroidManager.update();
-        //shipManager.update();
+        shipManager.update();
         world.step(Const.REAL_TIME_STEP, 6, 2);
     }
 
     public void draw(UiDrawer uiDrawer) {
         asteroidManager.draw(uiDrawer);
-       //shipManager.draw(uiDrawer);
+        shipManager.draw(uiDrawer);
     }
-
 }

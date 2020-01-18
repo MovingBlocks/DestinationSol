@@ -36,10 +36,11 @@ public class BackgroundAsteroidManager {
     private final DisplayDimensions displayDimensions;
     private final CollisionMeshLoader asteroidMeshLoader;
 
-    private List<BackgroundAsteroid> BackgroundAsteroids = new ArrayList<>();
-    private List<BackgroundAsteroid> retainedBackgroundAsteroids = new ArrayList<>();
+    private List<TextureAtlas.AtlasRegion> availableAsteroidTextures;
+    private List<BackgroundObject> backgroundAsteroids;
+    private List<BackgroundObject> retainedBackgroundAsteroids;
 
-    World world;
+    private World world;
 
     public BackgroundAsteroidManager(DisplayDimensions displayDimensions, World world) {
         this.displayDimensions = displayDimensions;
@@ -47,8 +48,12 @@ public class BackgroundAsteroidManager {
 
         asteroidMeshLoader = new CollisionMeshLoader("engine:asteroids");
 
+        availableAsteroidTextures = Assets.listTexturesMatching("engine:asteroid_.*");
+        backgroundAsteroids = new ArrayList<>();
+        retainedBackgroundAsteroids = new ArrayList<>();
+
         for (int i = 0; i < 10; i++) {
-            BackgroundAsteroids.add(buildAsteroid());
+            backgroundAsteroids.add(buildAsteroid());
         }
     }
 
@@ -57,29 +62,28 @@ public class BackgroundAsteroidManager {
         retainedBackgroundAsteroids.clear();
 
         float radius = (float) Math.sqrt(0.25 + Math.pow(displayDimensions.getRatio() / 2, 2));
-        for (BackgroundAsteroid BackgroundAsteroid : BackgroundAsteroids) {
-            BackgroundAsteroid.update();
+        for (BackgroundObject backgroundObject : backgroundAsteroids) {
+            backgroundObject.update();
 
-            float distance = (float) Math.sqrt(Math.pow(BackgroundAsteroid.getPosition().x - displayDimensions.getRatio() / 2, 2) + Math.pow(BackgroundAsteroid.getPosition().y - 0.5f, 2));
+            float distance = (float) Math.sqrt(Math.pow(backgroundObject.getPosition().x - displayDimensions.getRatio() / 2, 2) + Math.pow(backgroundObject.getPosition().y - 0.5f, 2));
             if (distance < radius) {
-                retainedBackgroundAsteroids.add(BackgroundAsteroid);
+                retainedBackgroundAsteroids.add(backgroundObject);
             } else {
                 retainedBackgroundAsteroids.add(buildAsteroid());
             }
         }
-        BackgroundAsteroids.clear();
-        BackgroundAsteroids.addAll(retainedBackgroundAsteroids);
+        backgroundAsteroids.clear();
+        backgroundAsteroids.addAll(retainedBackgroundAsteroids);
     }
 
     public void draw(UiDrawer uiDrawer) {
-        for (BackgroundAsteroid backgroundAsteroid : BackgroundAsteroids) {
-            backgroundAsteroid.draw(uiDrawer);
+        for (BackgroundObject backgroundObject : backgroundAsteroids) {
+            backgroundObject.draw(uiDrawer);
         }
     }
 
-    public BackgroundAsteroid buildAsteroid() {
-
-        TextureAtlas.AtlasRegion texture = Assets.getAtlasRegion(SolRandom.test(0.5f) ? "engine:asteroid_0" : "engine:asteroid_1");
+    public BackgroundObject buildAsteroid() {
+        TextureAtlas.AtlasRegion texture = SolRandom.randomElement(availableAsteroidTextures);
 
         boolean small = SolRandom.test(.8f);
         float size = (small ? .2f : .4f) * SolRandom.randomFloat(.5f, 1);
@@ -109,10 +113,10 @@ public class BackgroundAsteroidManager {
         velocity.scl(50);
 
         //Build the final asteroid body
-        Body body = asteroidMeshLoader.getBodyAndSprite(world, texture, size*0.95f, BodyDef.BodyType.DynamicBody, position, angle, new ArrayList<>(), 10f, DrawableLevel.BODIES);
+        Body body = asteroidMeshLoader.getBodyAndSprite(world, texture, size * 0.95f, BodyDef.BodyType.DynamicBody, position, angle, new ArrayList<>(), 10f, DrawableLevel.BODIES);
         body.setLinearVelocity(velocity);
         body.setAngularVelocity(angularVelocity);
-        BackgroundAsteroid asteroid = new BackgroundAsteroid(texture, size, tint, position, velocity, asteroidMeshLoader.getOrigin(texture.name, size).cpy(), angle, body);
+        BackgroundObject asteroid = new BackgroundObject(texture, size, tint, position, velocity, asteroidMeshLoader.getOrigin(texture.name, size).cpy(), angle, body);
         body.setUserData(asteroid);
 
         return asteroid;

@@ -37,7 +37,7 @@ public class BackgroundObject {
 
     Body body;
 
-    public void buildObject(TextureAtlas.AtlasRegion texture, float scale, Color tint, Vector2 position, Vector2 velocity, Vector2 origin, float angle, Body body) {
+    public BackgroundObject(TextureAtlas.AtlasRegion texture, float scale, Color tint, Vector2 position, Vector2 velocity, Vector2 origin, float angle, Body body) {
         this.texture = texture;
         this.scale = scale;
         this.tint = tint;
