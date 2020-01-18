@@ -29,8 +29,6 @@ public class BackgroundManager {
 
     public BackgroundManager(DisplayDimensions displayDimensions) {
         world = new World(new Vector2(0, 0), true);
-        MenuContactListener contactListener = new MenuContactListener();
-        world.setContactListener(contactListener);
 
         asteroidManager = new BackgroundAsteroidManager(displayDimensions, world);
         shipManager = new BackgroundShipManager(displayDimensions, world);
