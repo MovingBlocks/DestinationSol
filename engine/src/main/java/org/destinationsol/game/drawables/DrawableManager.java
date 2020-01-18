@@ -179,7 +179,7 @@ public class DrawableManager {
             for (OrderedMap<Texture, List<Drawable>> map : drawables) {
                 for (List<Drawable> drawables : map.values()) {
                     for (Drawable drawable : drawables) {
-                        drawDebug(drawer, game, drawable);
+                        drawDebug(drawer, game.getCam(), drawable);
                     }
                 }
             }
@@ -189,8 +189,7 @@ public class DrawableManager {
         drawer.maybeChangeAdditive(false);
     }
 
-    private void drawDebug(GameDrawer drawer, SolGame game, Drawable drawable) {
-        SolCam cam = game.getCam();
+    private void drawDebug(GameDrawer drawer, SolCam cam, Drawable drawable) {
         float lineWidth = cam.getRealLineWidth();
         Color col = visibleDrawables.contains(drawable) ? DebugCol.DRA : DebugCol.DRA_OUT;
         Vector2 position = drawable.getPosition();

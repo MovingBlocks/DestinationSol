@@ -23,18 +23,17 @@ import com.badlogic.gdx.physics.box2d.BodyDef;
 import com.badlogic.gdx.physics.box2d.CircleShape;
 import com.badlogic.gdx.physics.box2d.FixtureDef;
 import com.badlogic.gdx.physics.box2d.PolygonShape;
-import org.destinationsol.assets.json.Validator;
-import org.json.JSONArray;
-import org.json.JSONObject;
+import com.badlogic.gdx.physics.box2d.World;
 import org.destinationsol.Const;
-import org.destinationsol.assets.Assets;
-import org.destinationsol.assets.json.Json;
+import org.destinationsol.assets.json.Validator;
 import org.destinationsol.common.SolColor;
 import org.destinationsol.game.drawables.Drawable;
 import org.destinationsol.game.drawables.DrawableLevel;
 import org.destinationsol.game.drawables.RectSprite;
 import org.destinationsol.game.drawables.SpriteManager;
 import org.destinationsol.game.ship.hulls.HullConfig;
+import org.json.JSONArray;
+import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -49,11 +48,12 @@ public class CollisionMeshLoader {
 
     // Reusable stuff
     private final List<Vector2> vectorPool = new ArrayList<>();
-    private final PolygonShape polygonShape  = new PolygonShape();
+    private final PolygonShape polygonShape = new PolygonShape();
     private final CircleShape circleShape = new CircleShape();
     private final Vector2 vec = new Vector2();
 
-    public CollisionMeshLoader() { }
+    public CollisionMeshLoader() {
+    }
 
     /**
      * Creates a Model from the given Hull (Collision Mesh), which can be created using Box2D.
@@ -295,7 +295,7 @@ public class CollisionMeshLoader {
      *
      * @param drawables a atlas will be added here
      */
-    public Body getBodyAndSprite(SolGame game, TextureAtlas.AtlasRegion tex, float scale, BodyDef.BodyType type,
+    public Body getBodyAndSprite(World world, TextureAtlas.AtlasRegion tex, float scale, BodyDef.BodyType type,
                                  Vector2 position, float angle, List<Drawable> drawables, float density, DrawableLevel level) {
         BodyDef bd = new BodyDef();
         bd.type = type;
@@ -303,7 +303,7 @@ public class CollisionMeshLoader {
         bd.angularDamping = 0;
         bd.position.set(position);
         bd.linearDamping = 0;
-        Body body = game.getObjectManager().getWorld().createBody(bd);
+        Body body = world.createBody(bd);
         FixtureDef fd = new FixtureDef();
         fd.density = density;
         fd.friction = Const.FRICTION;
