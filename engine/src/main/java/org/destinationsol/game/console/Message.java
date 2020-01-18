@@ -19,30 +19,15 @@ public class Message {
 
     private final MessageType type;
     private final String message;
-    private final boolean newLine;
 
     public Message(String message) {
         this.message = message;
         this.type = CoreMessageType.INFO;
-        this.newLine = true;
     }
 
     public Message(String message, MessageType type) {
         this.message = message;
         this.type = type;
-        this.newLine = true;
-    }
-
-    public Message(String message, MessageType type, boolean newLine) {
-        this.message = message;
-        this.type = type;
-        this.newLine = newLine;
-    }
-
-    public Message(String message, boolean newLine) {
-        this.message = message;
-        this.type = CoreMessageType.INFO;
-        this.newLine = newLine;
     }
 
     public String getMessage() {
@@ -53,12 +38,20 @@ public class Message {
         return type;
     }
 
-    public boolean hasNewLine() {
-        return newLine;
-    }
-
     @Override
     public String toString() {
         return String.format("[%s] '%s'", type, message);
+    }
+
+    public static Message SUCCESS(String status) {
+        return new Message(status, CoreMessageType.INFO);
+    }
+
+    public static Message FAILURE(String status) {
+        return new Message(status, CoreMessageType.ERROR);
+    }
+
+    public static Message WARN(String status) {
+        return new Message(status, CoreMessageType.WARN);
     }
 }

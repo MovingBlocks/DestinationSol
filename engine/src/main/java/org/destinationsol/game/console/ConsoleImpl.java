@@ -22,6 +22,7 @@ import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import com.google.common.collect.Sets;
 import org.destinationsol.game.SolGame;
+import org.destinationsol.game.console.annotations.Command;
 import org.destinationsol.game.console.annotations.RegisterCommands;
 import org.destinationsol.game.console.exceptions.CommandExecutionException;
 import org.destinationsol.game.context.Context;
@@ -155,24 +156,7 @@ public class ConsoleImpl implements Console {
      * Adds a message to the console
      *
      * @param message The message to be added, as a string.
-     * @param newLine A boolean: True causes a newline character to be appended at the end of the message. False doesn't.
      */
-    @Override
-    public void addMessage(String message, boolean newLine) {
-        addMessage(new Message(message, newLine));
-    }
-
-    /**
-     * Adds a message to the console
-     *
-     * @param message The message to be added, as a string.
-     * @param type    The type of the message
-     * @param newLine A boolean: True causes a newline character to be appended at the end of the message. False doesn't.
-     */
-    @Override
-    public void addMessage(String message, MessageType type, boolean newLine) {
-        addMessage(new Message(message, type, newLine));
-    }
 
     /**
      * Adds a message to the console
@@ -189,7 +173,7 @@ public class ConsoleImpl implements Console {
         //check for newlines and split into submessages
         if (message.getMessage().indexOf(NEW_LINE) > 0) {
             for (String line : message.getMessage().split(NEW_LINE)) {
-                newlinedMessages.add(new Message(line, message.getType(), false));
+                newlinedMessages.add(new Message(line, message.getType()));
             }
         } else {
             newlinedMessages.add(message);
@@ -206,13 +190,13 @@ public class ConsoleImpl implements Console {
                 messageWidth += charWidth;
                 fittingMessageText.append(c);
                 if (messageWidth > MAX_WIDTH_OF_LINE) {
-                    Message newMessage = new Message(fittingMessageText.toString(), message.getType(), message.hasNewLine());
+                    Message newMessage = new Message(fittingMessageText.toString(), message.getType());
                     messageHistory.add(newMessage);
                     fittingMessageText = new StringBuilder();
                     messageWidth = 0;
                 }
             }
-            Message newMessage = new Message(fittingMessageText.toString(), message.getType(), message.hasNewLine());
+            Message newMessage = new Message(fittingMessageText.toString(), message.getType());
             messageHistory.add(newMessage);
         }
 
@@ -313,8 +297,16 @@ public class ConsoleImpl implements Console {
         }
 
         try {
-            String result = cmd.execute(params);
-            this.addMessage(result);
+            Object result = cmd.execute(params);
+            if (result == null) {
+                return true;
+            }
+            if (result instanceof Message) {
+                Message message = (Message)result;
+                this.addMessage(message.getMessage(), message.getType());
+            } else if (result instanceof String) {
+                this.addMessage(result.toString());
+            }
         } catch (CommandExecutionException e) {
             e.printStackTrace();
         }
