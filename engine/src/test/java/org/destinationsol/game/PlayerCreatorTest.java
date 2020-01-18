@@ -74,6 +74,7 @@ public class PlayerCreatorTest {
         shipConfigSpawnPosition = new Vector2(11, 12);
         when(solGame.getGalaxyFiller().getPlayerSpawnPos(any())).thenReturn(galaxySpawnPosition);
         when(shipConfig.getSpawnPos()).thenReturn(shipConfigSpawnPosition);
+        when(shipConfig.getWaypoints()).thenReturn("");
         mockShipBuilding();
         when(solGame.isTutorial()).thenReturn(false);
     }

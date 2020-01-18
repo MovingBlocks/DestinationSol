@@ -25,6 +25,7 @@ public class GameScreens {
     public final MenuScreen menuScreen;
     public final InventoryScreen inventoryScreen;
     public final TalkScreen talkScreen;
+    public final WaypointCreationScreen waypointCreationScreen;
     public final ConsoleScreen consoleScreen;
 
     public GameScreens(SolApplication cmp, Context context) {
@@ -35,6 +36,7 @@ public class GameScreens {
         menuScreen = new MenuScreen(layouts.menuLayout, cmp.getOptions());
         inventoryScreen = new InventoryScreen(cmp.getOptions());
         talkScreen = new TalkScreen(layouts.menuLayout, cmp.getOptions());
+        waypointCreationScreen = new WaypointCreationScreen(layouts.menuLayout, cmp.getOptions(), mapScreen);
         consoleScreen = new ConsoleScreen(context);
     }
 
