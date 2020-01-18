@@ -18,6 +18,7 @@ package org.destinationsol.game.console.commands;
 import org.destinationsol.game.DmgType;
 import org.destinationsol.game.Hero;
 import org.destinationsol.game.SolGame;
+import org.destinationsol.game.console.Message;
 import org.destinationsol.game.console.annotations.Command;
 import org.destinationsol.game.console.annotations.Game;
 import org.destinationsol.game.console.annotations.RegisterCommands;
@@ -29,15 +30,15 @@ import org.destinationsol.game.console.annotations.RegisterCommands;
 public class DieCommandHandler {
 
     @Command(shortDescription = "Kills the hero")
-    public String die(@Game SolGame game) {
+    public Message die(@Game SolGame game) {
         Hero hero = game.getHero();
         if (hero.isTranscendent()) {
-            return "Cannot kill hero when transcendent!";
+            return Message.FAILURE("Cannot kill hero when transcendent!");
         }
         if (!hero.isAlive()) {
-            return "Hero is already dead!";
+            return Message.FAILURE("Hero is already dead!");
         }
         hero.getShip().receivePiercingDmg(hero.getHull().getHullConfig().getMaxLife() + 1f, game, hero.getPosition(), DmgType.CRASH);
-        return "Hero killed!";
+        return Message.SUCCESS("Hero killed!");
     }
 }

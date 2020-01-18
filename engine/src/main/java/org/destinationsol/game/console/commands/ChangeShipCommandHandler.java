@@ -17,6 +17,7 @@ package org.destinationsol.game.console.commands;
 
 import org.destinationsol.game.Hero;
 import org.destinationsol.game.SolGame;
+import org.destinationsol.game.console.Message;
 import org.destinationsol.game.console.annotations.Command;
 import org.destinationsol.game.console.annotations.CommandParam;
 import org.destinationsol.game.console.annotations.Game;
@@ -34,10 +35,10 @@ import org.destinationsol.game.ship.hulls.HullConfig;
 public class ChangeShipCommandHandler {
 
     @Command(shortDescription = "changes hero ship")
-    public String changeShip(@Game SolGame game, @CommandParam(value = "newShip", suggester = HullConfigSuggester.class) HullConfig hullConfig) {
+    public Message changeShip(@Game SolGame game, @CommandParam(value = "newShip", suggester = HullConfigSuggester.class) HullConfig hullConfig) {
 
         if (hullConfig == null) {
-            return "Could not find such ship";
+            return Message.FAILURE("Could not find such ship");
         }
 
         Hero hero = game.getHero();
@@ -47,7 +48,7 @@ public class ChangeShipCommandHandler {
         game.getObjectManager().removeObjDelayed(hero.getShip());
         game.getObjectManager().addObjDelayed(newShip);
         hero.setSolShip(newShip, game);
-        return "Ship changed";
+        return Message.SUCCESS("Ship changed");
     }
 
 
