@@ -23,6 +23,7 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.OrderedMap;
 import org.destinationsol.common.DebugCol;
+import org.destinationsol.common.SolColor;
 import org.destinationsol.game.DebugOptions;
 import org.destinationsol.game.GameDrawer;
 import org.destinationsol.game.MapDrawer;
@@ -179,7 +180,7 @@ public class DrawableManager {
             for (OrderedMap<Texture, List<Drawable>> map : drawables) {
                 for (List<Drawable> drawables : map.values()) {
                     for (Drawable drawable : drawables) {
-                        drawDebug(drawer, game.getCam(), drawable);
+                        drawDebug(drawer, game, drawable);
                     }
                 }
             }
@@ -189,7 +190,8 @@ public class DrawableManager {
         drawer.maybeChangeAdditive(false);
     }
 
-    private void drawDebug(GameDrawer drawer, SolCam cam, Drawable drawable) {
+    private void drawDebug(GameDrawer drawer, SolGame game, Drawable drawable) {
+        SolCam cam = game.getCam();
         float lineWidth = cam.getRealLineWidth();
         Color col = visibleDrawables.contains(drawable) ? DebugCol.DRA : DebugCol.DRA_OUT;
         Vector2 position = drawable.getPosition();
