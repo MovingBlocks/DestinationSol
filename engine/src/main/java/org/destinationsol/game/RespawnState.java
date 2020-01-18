@@ -17,6 +17,7 @@ package org.destinationsol.game;
 
 import org.destinationsol.game.item.SolItem;
 import org.destinationsol.game.ship.hulls.HullConfig;
+import org.destinationsol.ui.Waypoint;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -27,6 +28,7 @@ public class RespawnState {
     private final List<SolItem> respawnItems = new ArrayList<>();
     private HullConfig respawnHull;
     private float respawnMoney;
+    private List<Waypoint> respawnWaypoints = new ArrayList<>();
 
     public boolean isPlayerRespawned() {
         return isPlayerRespawned;
@@ -54,5 +56,9 @@ public class RespawnState {
 
     public void setRespawnMoney(float respawnMoney) {
         this.respawnMoney = respawnMoney;
+    }
+
+    public List<Waypoint> getRespawnWaypoints() {
+        return respawnWaypoints;
     }
 }
