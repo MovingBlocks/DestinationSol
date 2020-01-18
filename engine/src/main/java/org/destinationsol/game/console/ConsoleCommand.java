@@ -95,7 +95,7 @@ public interface ConsoleCommand extends Comparable<ConsoleCommand> {
      * @param parameters Parameters in an Object[] array as defined in {@link AbstractCommand#getCommandParameters()}.
      * @return A reply to the sender. TODO
      */
-    String execute(List<String> parameters) throws CommandExecutionException;
+    Object execute(List<String> parameters) throws CommandExecutionException;
 
     /**
      * Suggests valid parameters.

@@ -17,6 +17,7 @@ package org.destinationsol.game.console.commands;
 
 import org.destinationsol.game.Hero;
 import org.destinationsol.game.SolGame;
+import org.destinationsol.game.console.Message;
 import org.destinationsol.game.console.annotations.Command;
 import org.destinationsol.game.console.annotations.Game;
 import org.destinationsol.game.console.annotations.RegisterCommands;
@@ -28,20 +29,20 @@ import org.destinationsol.game.console.annotations.RegisterCommands;
 public class InvincibleCommandHandler {
 
     @Command(shortDescription = "Makes the hero invincible")
-    public String godMode(@Game SolGame game) {
+    public Message godMode(@Game SolGame game) {
         Hero hero = game.getHero();
         if (hero.isDead()) {
-            return "Cannot make invincible when dead";
+            return Message.FAILURE("Cannot make invincible when dead");
         }
         if (hero.isTranscendent()) {
-            return "Cannot make invincible when transdencent";
+            return Message.FAILURE("Cannot make invincible when transdencent");
         }
         if (!hero.isInvincible()) {
             hero.setInvincible(true);
-            return "Set player as invincible";
+            return Message.SUCCESS("Set player as invincible");
         } else {
             hero.setInvincible(false);
-            return "Set player as non invincible";
+            return Message.SUCCESS("Set player as non invincible");
         }
     }
 }

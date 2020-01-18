@@ -17,6 +17,7 @@ package org.destinationsol.game.console.commands;
 
 import org.destinationsol.game.Hero;
 import org.destinationsol.game.SolGame;
+import org.destinationsol.game.console.Message;
 import org.destinationsol.game.console.annotations.Command;
 import org.destinationsol.game.console.annotations.Game;
 import org.destinationsol.game.console.annotations.RegisterCommands;
@@ -28,12 +29,12 @@ import org.destinationsol.game.console.annotations.RegisterCommands;
 public class RespawnCommandHandler {
 
     @Command(shortDescription = "Respawns player if dead")
-    public String respawn(@Game SolGame game) {
+    public Message respawn(@Game SolGame game) {
         Hero hero = game.getHero();
         if (hero.isAlive()) {
-            return "Cannot respawn hero when not dead!";
+            return Message.FAILURE("Cannot respawn hero when not dead!");
         }
         game.respawn();
-        return "Hero respawned!";
+        return Message.SUCCESS("Hero respawned!");
     }
 }

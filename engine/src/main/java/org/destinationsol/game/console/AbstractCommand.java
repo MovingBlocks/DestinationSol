@@ -213,7 +213,7 @@ public abstract class AbstractCommand implements ConsoleCommand {
     }
 
     @Override
-    public final String execute(List<String> rawParameters) throws CommandExecutionException {
+    public final Object execute(List<String> rawParameters) throws CommandExecutionException {
         Object[] processedParameters;
 
         try {
@@ -226,13 +226,13 @@ public abstract class AbstractCommand implements ConsoleCommand {
                 warning += ": " + message;
             }
 
-            return warning;
+            return Message.WARN(warning);
         }
 
         try {
             Object result = executionMethod.getAccessibleObject().invoke(executionMethod.getTarget(), processedParameters);
 
-            return result != null ? String.valueOf(result) : null;
+            return result != null ? result : null;
         } catch (InvocationTargetException t) {
             if (t.getCause() != null) {
                 throw new CommandExecutionException(t.getCause()); //Skip InvocationTargetException
