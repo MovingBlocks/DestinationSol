@@ -33,6 +33,7 @@ import org.destinationsol.game.item.MercItem;
 import org.destinationsol.game.item.SolItem;
 import org.destinationsol.game.ship.SolShip;
 import org.destinationsol.game.ship.hulls.HullConfig;
+import org.destinationsol.ui.Waypoint;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -63,7 +64,26 @@ public class SaveManager {
 
         Vector2 pos = hero.getPosition();
 
-        IniReader.write(SAVE_FILE_NAME, "hull", hullName, "money", (int) money, "items", items, "x", pos.x, "y", pos.y);
+        String waypoints = waypointsToString(hero.getWaypoints());
+
+        IniReader.write(SAVE_FILE_NAME, "hull", hullName, "money", (int) money, "items", items, "x", pos.x, "y", pos.y, "waypoints", waypoints);
+    }
+
+    private static String waypointsToString(ArrayList<Waypoint> waypoints) {
+        StringBuilder sb = new StringBuilder();
+
+        for(Waypoint waypoint : waypoints) {
+            sb.append(waypoint.position.toString());
+            sb.append('_');
+            sb.append(waypoint.color.r);
+            sb.append(',');
+            sb.append(waypoint.color.g);
+            sb.append(',');
+            sb.append(waypoint.color.b);
+            sb.append(' ');
+        }
+
+        return sb.toString();
     }
 
     /**
@@ -198,7 +218,9 @@ public class SaveManager {
         float y = ir.getFloat("y", 0);
         Vector2 spawnPos = new Vector2(x, y);
 
-        return new ShipConfig(hull, itemsStr, money, 1, null, itemManager, spawnPos);
+        String waypoints = ir.getString("waypoints", "");
+
+        return new ShipConfig(hull, itemsStr, money, 1, null, itemManager, spawnPos, waypoints);
     }
 
     /**

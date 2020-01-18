@@ -33,6 +33,9 @@ import org.destinationsol.game.ship.FarShip;
 import org.destinationsol.game.ship.ShipAbility;
 import org.destinationsol.game.ship.SolShip;
 import org.destinationsol.game.ship.hulls.Hull;
+import org.destinationsol.ui.Waypoint;
+
+import java.util.ArrayList;
 
 /**
  * A wrapper class for the Hero, that handles the normal and transcendent ships transparently.
@@ -45,6 +48,7 @@ public class Hero {
     private boolean isTranscendent;
     private boolean isDead;
     private boolean isInvincible;
+    private ArrayList<Waypoint> waypoints;
 
     public Hero(SolShip shipHero, SolGame solGame) {
         if (shipHero == null) {
@@ -68,6 +72,7 @@ public class Hero {
     }
 
     public void setSolShip(SolShip hero, SolGame solGame) {
+        waypoints = new ArrayList<>();
         isDead = false;
         if (hero != shipHero && !isTranscendent) {
             mercs = new ItemContainer();
@@ -152,6 +157,20 @@ public class Hero {
 
     public Vector2 getPosition() {
         return isTranscendent ? transcendentHero.getPosition() : shipHero.getPosition();
+    }
+
+    public void addWaypoint(Waypoint waypoint) {
+        waypoints.add(waypoint);
+    }
+
+    public ArrayList<Waypoint> getWaypoints() {
+        return waypoints;
+    }
+
+    public void removeWaypoint(Waypoint waypoint) {
+        if (waypoints.contains(waypoint)) {
+            waypoints.remove(waypoint);
+        }
     }
 
     public Hull getHull() {
