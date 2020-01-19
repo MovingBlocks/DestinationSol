@@ -16,6 +16,7 @@
 package org.destinationsol.game.console;
 
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
+import com.google.common.base.Strings;
 import com.google.common.collect.Collections2;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Lists;
@@ -297,21 +298,30 @@ public class ConsoleImpl implements Console {
         }
 
         try {
-            Object result = cmd.execute(params);
-            if (result == null) {
-                return true;
+            String result = cmd.execute(params);
+            if (result != null) {
+                this.addMessage(result);
             }
-            if (result instanceof Message) {
-                Message message = (Message)result;
-                this.addMessage(message.getMessage(), message.getType());
-            } else if (result instanceof String) {
-                this.addMessage(result.toString());
-            }
+            return true;
         } catch (CommandExecutionException e) {
-            e.printStackTrace();
-        }
+            Throwable cause = e.getCause();
+            String causeMessage;
+            if (cause != null) {
+                causeMessage = cause.getLocalizedMessage();
+                if (Strings.isNullOrEmpty(causeMessage)) {
+                    causeMessage = cause.toString();
+                }
+            } else {
+                causeMessage = e.getLocalizedMessage();
+            }
 
-        return true;
+            logger.error("An error occurred while executing a command '" + cmd.getName() + "' : " + e.getMessage(), CoreMessageType.ERROR);
+
+            if (!Strings.isNullOrEmpty(causeMessage)) {
+                this.addMessage(new Message("Error: " + causeMessage));
+            }
+            return false;
+        }
     }
 
     @Override

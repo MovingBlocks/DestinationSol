@@ -18,7 +18,6 @@ package org.destinationsol.game.console.commands;
 import com.google.common.collect.Ordering;
 import org.destinationsol.game.SolGame;
 import org.destinationsol.game.console.Console;
-import org.destinationsol.game.console.ConsoleColors;
 import org.destinationsol.game.console.ConsoleCommand;
 import org.destinationsol.game.console.annotations.Command;
 import org.destinationsol.game.console.annotations.CommandParam;
