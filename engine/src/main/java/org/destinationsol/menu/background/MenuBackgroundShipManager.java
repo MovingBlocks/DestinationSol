@@ -20,6 +20,7 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.BodyDef;
 import com.badlogic.gdx.physics.box2d.World;
+import org.destinationsol.CommonDrawer;
 import org.destinationsol.assets.Assets;
 import org.destinationsol.assets.json.Json;
 import org.destinationsol.assets.json.Validator;
@@ -28,7 +29,6 @@ import org.destinationsol.common.SolRandom;
 import org.destinationsol.game.CollisionMeshLoader;
 import org.destinationsol.game.drawables.DrawableLevel;
 import org.destinationsol.ui.DisplayDimensions;
-import org.destinationsol.ui.UiDrawer;
 import org.json.JSONArray;
 import org.json.JSONObject;
 import org.terasology.gestalt.assets.ResourceUrn;
@@ -72,12 +72,12 @@ public class MenuBackgroundShipManager {
 
         JSONObject rigidBodyNode = rootNode.getJSONObject("rigidBody");
         shipMeshLoader.readRigidBody(rigidBodyNode, urnString);
-        float scale = 0.15f;
+        float scale = 1f;
         float angle = 105f;
-        Vector2 position = new Vector2(displayDimensions.getRatio() - displayDimensions.getRatio() / 8, -0.2f);
-        Vector2 velocity = new Vector2(0.1f, 0);
+        Vector2 position = new Vector2(4f, -4f);
+        Vector2 velocity = new Vector2(.5f, 0);
         velocity.rotate(angle);
-        Body body = shipMeshLoader.getBodyAndSprite(world, texture, scale * 0.9f, BodyDef.BodyType.DynamicBody, position, angle, new ArrayList<>(), Float.MAX_VALUE, DrawableLevel.BODIES);
+        Body body = shipMeshLoader.getBodyAndSprite(world, texture, scale, BodyDef.BodyType.DynamicBody, position, angle, new ArrayList<>(), Float.MAX_VALUE, DrawableLevel.BODIES);
         body.setLinearVelocity(velocity);
         Vector2 origin = shipMeshLoader.getOrigin(texture.name, scale);
         MenuBackgroundObject ship = new MenuBackgroundObject(texture, scale, SolColor.WHITE, position, velocity, origin.cpy(), angle, body);
@@ -86,7 +86,7 @@ public class MenuBackgroundShipManager {
 
     public void update() {
         backgroundShips.forEach(ship -> ship.update());
-        backgroundShips.removeIf(ship -> ship.getPosition().y >= 1.2);
+        backgroundShips.removeIf(ship -> ship.getPosition().y >= 3f);
         if (backgroundShips.isEmpty()) {
             //Spawn a random ship
             String nextShipUrn = SolRandom.randomElement(availableShips);
@@ -94,7 +94,7 @@ public class MenuBackgroundShipManager {
         }
     }
 
-    public void draw(UiDrawer uiDrawer) {
+    public void draw(CommonDrawer uiDrawer) {
         backgroundShips.forEach(ship -> ship.draw(uiDrawer));
     }
 }

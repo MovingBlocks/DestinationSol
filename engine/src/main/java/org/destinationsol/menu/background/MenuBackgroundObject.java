@@ -20,7 +20,7 @@ import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
-import org.destinationsol.ui.UiDrawer;
+import org.destinationsol.CommonDrawer;
 
 public class MenuBackgroundObject {
     TextureAtlas.AtlasRegion texture;
@@ -58,7 +58,7 @@ public class MenuBackgroundObject {
         setParamsFromBody();
     }
 
-    public void draw(UiDrawer drawer) {
+    public void draw(CommonDrawer drawer) {
         drawer.draw(texture, scale, scale, origin.x, origin.y, position.x, position.y, angle, tint);
     }
 

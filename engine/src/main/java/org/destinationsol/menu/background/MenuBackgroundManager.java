@@ -15,23 +15,30 @@
  */
 package org.destinationsol.menu.background;
 
+import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.World;
+import org.destinationsol.CommonDrawer;
 import org.destinationsol.Const;
 import org.destinationsol.ui.DisplayDimensions;
-import org.destinationsol.ui.UiDrawer;
 
 public class MenuBackgroundManager {
+    public static final float VIEWPORT_HEIGHT = 5f;
+
     private World world;
 
     private MenuBackgroundAsteroidManager asteroidManager;
     private MenuBackgroundShipManager shipManager;
+
+    OrthographicCamera backgroundCamera;
 
     public MenuBackgroundManager(DisplayDimensions displayDimensions) {
         world = new World(new Vector2(0, 0), true);
 
         asteroidManager = new MenuBackgroundAsteroidManager(displayDimensions, world);
         shipManager = new MenuBackgroundShipManager(displayDimensions, world);
+
+        backgroundCamera = new OrthographicCamera(VIEWPORT_HEIGHT * displayDimensions.getRatio(), -VIEWPORT_HEIGHT);
     }
 
     public void update() {
@@ -40,8 +47,10 @@ public class MenuBackgroundManager {
         world.step(Const.REAL_TIME_STEP, 6, 2);
     }
 
-    public void draw(UiDrawer uiDrawer) {
-        asteroidManager.draw(uiDrawer);
-        shipManager.draw(uiDrawer);
+    public void draw(CommonDrawer drawer) {
+        drawer.setMatrix(backgroundCamera.combined);
+        asteroidManager.draw(drawer);
+        shipManager.draw(drawer);
     }
+
 }

@@ -33,6 +33,7 @@ import org.destinationsol.game.WorldConfig;
 import org.destinationsol.game.context.Context;
 import org.destinationsol.game.context.internal.ContextImpl;
 import org.destinationsol.menu.MenuScreens;
+import org.destinationsol.menu.background.MenuBackgroundManager;
 import org.destinationsol.modules.ModuleManager;
 import org.destinationsol.ui.DebugCollector;
 import org.destinationsol.ui.DisplayDimensions;
@@ -63,6 +64,7 @@ public class SolApplication implements ApplicationListener {
     private OggMusicManager musicManager;
     private OggSoundManager soundManager;
     private SolInputManager inputManager;
+    private MenuBackgroundManager menuBackgroundManager;
 
     private UiDrawer uiDrawer;
 
@@ -111,6 +113,7 @@ public class SolApplication implements ApplicationListener {
         musicManager = new OggMusicManager(options);
         soundManager = new OggSoundManager(context);
         inputManager = new SolInputManager(soundManager, context);
+        ;
 
         musicManager.playMusic(OggMusicManager.MENU_MUSIC_SET, options);
 
@@ -119,6 +122,8 @@ public class SolApplication implements ApplicationListener {
         uiDrawer = new UiDrawer(commonDrawer);
         layouts = new SolLayouts();
         menuScreens = new MenuScreens(layouts, isMobile(), options);
+
+        menuBackgroundManager = new MenuBackgroundManager(displayDimensions);
 
         inputManager.setScreen(this, menuScreens.main);
     }
@@ -196,7 +201,9 @@ public class SolApplication implements ApplicationListener {
 
         inputManager.update(this);
 
-        if (solGame != null) {
+        if (solGame == null) {
+            menuBackgroundManager.update();
+        } else {
             solGame.update();
         }
 
@@ -211,6 +218,7 @@ public class SolApplication implements ApplicationListener {
         }
         uiDrawer.updateMtx();
         inputManager.draw(uiDrawer, this);
+
         if (solGame != null) {
             solGame.drawDebugUi(uiDrawer);
             factionDisplay.drawFactionNames(solGame, uiDrawer, inputManager, solGame.getObjectManager());
@@ -223,6 +231,7 @@ public class SolApplication implements ApplicationListener {
         DebugCollector.draw(uiDrawer);
         if (solGame == null) {
             uiDrawer.drawString("v" + Const.VERSION, 0.01f, .974f, FontSize.DEBUG, UiDrawer.TextAlignment.LEFT, false, SolColor.WHITE);
+            menuBackgroundManager.draw(commonDrawer);
         }
         commonDrawer.end();
     }
