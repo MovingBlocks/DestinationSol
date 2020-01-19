@@ -18,10 +18,10 @@ package org.destinationsol.game.console.commands;
 import org.destinationsol.game.DmgType;
 import org.destinationsol.game.Hero;
 import org.destinationsol.game.SolGame;
-import org.destinationsol.game.console.Message;
 import org.destinationsol.game.console.annotations.Command;
 import org.destinationsol.game.console.annotations.Game;
 import org.destinationsol.game.console.annotations.RegisterCommands;
+import org.destinationsol.game.console.exceptions.CommandExecutionException;
 
 /**
  * A command used to instantly destroy the hero's ship, mostly for debugging purposes.
@@ -30,15 +30,15 @@ import org.destinationsol.game.console.annotations.RegisterCommands;
 public class DieCommandHandler {
 
     @Command(shortDescription = "Kills the hero")
-    public Message die(@Game SolGame game) {
+    public String die(@Game SolGame game) throws CommandExecutionException {
         Hero hero = game.getHero();
         if (hero.isTranscendent()) {
-            return Message.FAILURE("Cannot kill hero when transcendent!");
+            throw new CommandExecutionException("Cannot kill hero when transcendent!");
         }
         if (!hero.isAlive()) {
-            return Message.FAILURE("Hero is already dead!");
+            throw new CommandExecutionException("Hero is already dead!");
         }
         hero.getShip().receivePiercingDmg(hero.getHull().getHullConfig().getMaxLife() + 1f, game, hero.getPosition(), DmgType.CRASH);
-        return Message.SUCCESS("Hero killed!");
+        return "Hero killed!";
     }
 }

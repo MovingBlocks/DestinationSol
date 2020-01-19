@@ -17,11 +17,11 @@ package org.destinationsol.game.console.commands;
 
 import org.destinationsol.game.Hero;
 import org.destinationsol.game.SolGame;
-import org.destinationsol.game.console.Message;
 import org.destinationsol.game.console.annotations.Command;
 import org.destinationsol.game.console.annotations.CommandParam;
 import org.destinationsol.game.console.annotations.Game;
 import org.destinationsol.game.console.annotations.RegisterCommands;
+import org.destinationsol.game.console.exceptions.CommandExecutionException;
 import org.destinationsol.game.console.suggesters.HullConfigSuggester;
 import org.destinationsol.game.ship.ShipRepairer;
 import org.destinationsol.game.ship.SolShip;
@@ -35,10 +35,10 @@ import org.destinationsol.game.ship.hulls.HullConfig;
 public class ChangeShipCommandHandler {
 
     @Command(shortDescription = "changes hero ship")
-    public Message changeShip(@Game SolGame game, @CommandParam(value = "newShip", suggester = HullConfigSuggester.class) HullConfig hullConfig) {
+    public String changeShip(@Game SolGame game, @CommandParam(value = "newShip", suggester = HullConfigSuggester.class) HullConfig hullConfig) throws CommandExecutionException {
 
         if (hullConfig == null) {
-            return Message.FAILURE("Could not find such ship");
+            throw new CommandExecutionException("Could not find such ship");
         }
 
         Hero hero = game.getHero();
@@ -48,7 +48,7 @@ public class ChangeShipCommandHandler {
         game.getObjectManager().removeObjDelayed(hero.getShip());
         game.getObjectManager().addObjDelayed(newShip);
         hero.setSolShip(newShip, game);
-        return Message.SUCCESS("Ship changed");
+        return "Ship changed";
     }
 
 
