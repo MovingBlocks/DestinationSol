@@ -26,7 +26,7 @@ import org.destinationsol.assets.Assets;
 import org.destinationsol.assets.audio.OggMusicManager;
 import org.destinationsol.common.SolColor;
 import org.destinationsol.game.DebugOptions;
-import org.destinationsol.menu.background.BackgroundManager;
+import org.destinationsol.menu.background.MenuBackgroundManager;
 import org.destinationsol.ui.DisplayDimensions;
 import org.destinationsol.ui.SolInputManager;
 import org.destinationsol.ui.SolUiBaseScreen;
@@ -51,7 +51,7 @@ public class MainMenuScreen extends SolUiBaseScreen {
     private final int buttonHeight = 75;
     private final int buttonPadding = 10;
 
-    private BackgroundManager backgroundManager;
+    private MenuBackgroundManager menuBackgroundManager;
 
     MainMenuScreen(boolean isMobile, GameOptions gameOptions) {
         this.isMobile = isMobile;
@@ -84,7 +84,7 @@ public class MainMenuScreen extends SolUiBaseScreen {
         backgroundTexture = Assets.getAtlasRegion("engine:mainMenuBg", Texture.TextureFilter.Linear);
         logoTexture = Assets.getAtlasRegion("engine:mainMenuLogo", Texture.TextureFilter.Linear);
 
-        backgroundManager = new BackgroundManager(displayDimensions);
+        menuBackgroundManager = new MenuBackgroundManager(displayDimensions);
     }
 
     @Override
@@ -122,7 +122,7 @@ public class MainMenuScreen extends SolUiBaseScreen {
             inputManager.setScreen(solApplication, screens.credits);
         }
 
-        backgroundManager.update();
+        menuBackgroundManager.update();
     }
 
     @Override
@@ -146,7 +146,7 @@ public class MainMenuScreen extends SolUiBaseScreen {
             uiDrawer.draw(logoTexture, sx, sy, sx / 2, sy / 2, displayDimensions.getRatio() / 2, 0.1f + sy / 2, 0, SolColor.WHITE);
         }
 
-        backgroundManager.draw(uiDrawer);
+        menuBackgroundManager.draw(uiDrawer);
     }
 
     /**

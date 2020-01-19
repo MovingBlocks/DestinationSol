@@ -1,0 +1,10 @@
+{
+  "Menu Ships": [
+    "imperialTiny",
+    "imperialSmall",
+    "minerSmall",
+    "minerBoss",
+    "desertSmall",
+    "desertOrbiter"
+  ]
+}
