@@ -96,15 +96,15 @@ public class BackgroundAsteroidManager {
         float r = displayDimensions.getRatio();
         Vector2 velocity, position;
         if (SolRandom.test(0.5f)) {
-            // Spawn to the left or right of screen
-            boolean toLeft = SolRandom.test(1f);
-            velocity = new Vector2((float) Math.pow(SolRandom.randomFloat(toLeft ? 0.025f : -0.1f, toLeft ? 0.1f : 0.025f), 2), (float) Math.pow(SolRandom.randomFloat(0.095f), 2));
-            position = new Vector2(r / 2 + (toLeft ? -1 : 1) * (r / 2 + radiusX) - radiusX, 0.5f + SolRandom.randomFloat(0.5f + radiusY) - radiusY);
+            // Spawn from the left or right of screen
+            boolean fromLeft = SolRandom.test(0.5f);
+            velocity = new Vector2((fromLeft ? 1 : -1) * (float) Math.pow(SolRandom.randomFloat(0.025f, 0.1f), 2), (float) Math.pow(SolRandom.randomFloat(0.095f), 2));
+            position = new Vector2(r / 2 + (fromLeft ? -1 : 1) * (r / 2 + radiusX) - radiusX, 0.5f + SolRandom.randomFloat(0.5f + radiusY) - radiusY);
         } else {
-            // Spawn at the top or bottom of screen
-            boolean atTop = SolRandom.test(1f);
-            velocity = new Vector2((float) Math.pow(SolRandom.randomFloat(0.095f), 3), (float) Math.pow(SolRandom.randomFloat(atTop ? -0.025f : 0.025f, atTop ? -0.1f : 0.1f), 2));
-            position = new Vector2(r / 2 + SolRandom.randomFloat(r / 2 + radiusX) - radiusX, 0.5f + (atTop ? -1 : 1) * (0.5f + radiusY) - radiusY);
+            // Spawn from the top or bottom of screen
+            boolean fromTop = SolRandom.test(0.5f);
+            velocity = new Vector2((float) Math.pow(SolRandom.randomFloat(0.095f), 3), (fromTop ? 1 : -1) * (float) Math.pow(SolRandom.randomFloat(-0.025f, -0.1f), 2));
+            position = new Vector2(r / 2 + SolRandom.randomFloat(r / 2 + radiusX) - radiusX, (fromTop ? -1 : 1) * (0.5f + (0.5f + radiusY) - radiusY));
         }
 
         //Give random rotation to asteroid
