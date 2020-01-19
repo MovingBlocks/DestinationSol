@@ -20,6 +20,7 @@ import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.BodyDef;
+import com.badlogic.gdx.physics.box2d.Contact;
 import com.badlogic.gdx.physics.box2d.World;
 import org.destinationsol.assets.Assets;
 import org.destinationsol.common.SolColorUtil;
@@ -42,6 +43,8 @@ public class MenuBackgroundAsteroidManager {
 
     private World world;
 
+    private final int NUMBER_OF_ASTEROIDS = 10;
+
     public MenuBackgroundAsteroidManager(DisplayDimensions displayDimensions, World world) {
         this.displayDimensions = displayDimensions;
         this.world = world;
@@ -52,13 +55,12 @@ public class MenuBackgroundAsteroidManager {
         backgroundAsteroids = new ArrayList<>();
         retainedBackgroundAsteroids = new ArrayList<>();
 
-        for (int i = 0; i < 10; i++) {
+        for (int i = 0; i < NUMBER_OF_ASTEROIDS; i++) {
             backgroundAsteroids.add(buildAsteroid());
         }
     }
 
     public void update() {
-
         retainedBackgroundAsteroids.clear();
 
         float radius = (float) Math.sqrt(0.25 + Math.pow(displayDimensions.getRatio() / 2, 2));
@@ -104,7 +106,7 @@ public class MenuBackgroundAsteroidManager {
             // Spawn from the top or bottom of screen
             boolean fromTop = SolRandom.test(0.5f);
             velocity = new Vector2((float) Math.pow(SolRandom.randomFloat(0.095f), 3), (fromTop ? 1 : -1) * (float) Math.pow(SolRandom.randomFloat(-0.025f, -0.1f), 2));
-            position = new Vector2(r / 2 + SolRandom.randomFloat(r / 2 + radiusX) - radiusX, (fromTop ? -1 : 1) * (0.5f + (0.5f + radiusY) - radiusY));
+            position = new Vector2(r / 2 + SolRandom.randomFloat(r / 2 + radiusX) - radiusX, 0.5f + (fromTop ? -1 : 1) * (0.5f + radiusY) - radiusY);
         }
 
         //Give random rotation to asteroid
