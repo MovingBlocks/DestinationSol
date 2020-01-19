@@ -21,45 +21,48 @@ import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.BodyDef;
 import com.badlogic.gdx.physics.box2d.World;
 import org.destinationsol.assets.Assets;
+import org.destinationsol.assets.json.Json;
 import org.destinationsol.assets.json.Validator;
 import org.destinationsol.common.SolColor;
+import org.destinationsol.common.SolRandom;
 import org.destinationsol.game.CollisionMeshLoader;
 import org.destinationsol.game.drawables.DrawableLevel;
 import org.destinationsol.ui.DisplayDimensions;
 import org.destinationsol.ui.UiDrawer;
+import org.json.JSONArray;
 import org.json.JSONObject;
+import org.terasology.gestalt.assets.ResourceUrn;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 
-public class BackgroundShipManager {
+public class MenuBackgroundShipManager {
     private DisplayDimensions displayDimensions;
     private CollisionMeshLoader shipMeshLoader;
 
-    private List<String> nextShips;
-    private List<BackgroundObject> backgroundShips;
+    private List<String> availableShips;
+    private List<MenuBackgroundObject> backgroundShips;
 
     private World world;
 
-    public BackgroundShipManager(DisplayDimensions displayDimensions, World world) {
+    public MenuBackgroundShipManager(DisplayDimensions displayDimensions, World world) {
 
         this.displayDimensions = displayDimensions;
         this.world = world;
 
         shipMeshLoader = new CollisionMeshLoader();
 
-        nextShips = new ArrayList<String>() {
-            //Add ships in the order they are supposed to be displayed
-            {
-                add("core:imperialTiny");
-                add("core:imperialSmall");
-                add("core:minerSmall");
-                add("core:minerBoss");
-                add("core:desertSmall");
-                add("core:desertOrbiter");
-            }
-        };
+        availableShips = new ArrayList<>();
         backgroundShips = new ArrayList<>();
+
+        Set<ResourceUrn> configUrnList = Assets.getAssetHelper().list(Json.class, "[a-zA-Z]*:menuBackgroundShipConfig");
+        for (ResourceUrn configUrn : configUrnList) {
+            String moduleName = configUrn.toString().split(":")[0];
+            JSONObject rootNode = Assets.getJson(configUrn.toString()).getJsonValue();
+            JSONArray ships = rootNode.getJSONArray("Menu Ships");
+            ships.forEach(ship -> availableShips.add(moduleName + ":" + ship));
+        }
     }
 
 
@@ -77,7 +80,7 @@ public class BackgroundShipManager {
         Body body = shipMeshLoader.getBodyAndSprite(world, texture, scale * 0.9f, BodyDef.BodyType.DynamicBody, position, angle, new ArrayList<>(), Float.MAX_VALUE, DrawableLevel.BODIES);
         body.setLinearVelocity(velocity);
         Vector2 origin = shipMeshLoader.getOrigin(texture.name, scale);
-        BackgroundObject ship = new BackgroundObject(texture, scale, SolColor.WHITE, position, velocity, origin.cpy(), angle, body);
+        MenuBackgroundObject ship = new MenuBackgroundObject(texture, scale, SolColor.WHITE, position, velocity, origin.cpy(), angle, body);
         backgroundShips.add(ship);
     }
 
@@ -85,11 +88,8 @@ public class BackgroundShipManager {
         backgroundShips.forEach(ship -> ship.update());
         backgroundShips.removeIf(ship -> ship.getPosition().y >= 1.2);
         if (backgroundShips.isEmpty()) {
-            //Spawn the next ship and put it at the last in the order
-            String nextShipUrn = nextShips.get(0);
-            nextShips.remove(0);
-            nextShips.add(nextShipUrn);
-
+            //Spawn a random ship
+            String nextShipUrn = SolRandom.randomElement(availableShips);
             addShip(nextShipUrn);
         }
     }

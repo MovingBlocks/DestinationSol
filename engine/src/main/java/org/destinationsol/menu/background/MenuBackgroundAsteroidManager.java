@@ -32,17 +32,17 @@ import org.destinationsol.ui.UiDrawer;
 import java.util.ArrayList;
 import java.util.List;
 
-public class BackgroundAsteroidManager {
+public class MenuBackgroundAsteroidManager {
     private final DisplayDimensions displayDimensions;
     private final CollisionMeshLoader asteroidMeshLoader;
 
     private List<TextureAtlas.AtlasRegion> availableAsteroidTextures;
-    private List<BackgroundObject> backgroundAsteroids;
-    private List<BackgroundObject> retainedBackgroundAsteroids;
+    private List<MenuBackgroundObject> backgroundAsteroids;
+    private List<MenuBackgroundObject> retainedBackgroundAsteroids;
 
     private World world;
 
-    public BackgroundAsteroidManager(DisplayDimensions displayDimensions, World world) {
+    public MenuBackgroundAsteroidManager(DisplayDimensions displayDimensions, World world) {
         this.displayDimensions = displayDimensions;
         this.world = world;
 
@@ -62,7 +62,7 @@ public class BackgroundAsteroidManager {
         retainedBackgroundAsteroids.clear();
 
         float radius = (float) Math.sqrt(0.25 + Math.pow(displayDimensions.getRatio() / 2, 2));
-        for (BackgroundObject backgroundObject : backgroundAsteroids) {
+        for (MenuBackgroundObject backgroundObject : backgroundAsteroids) {
             backgroundObject.update();
 
             float distance = (float) Math.sqrt(Math.pow(backgroundObject.getPosition().x - displayDimensions.getRatio() / 2, 2) + Math.pow(backgroundObject.getPosition().y - 0.5f, 2));
@@ -77,12 +77,12 @@ public class BackgroundAsteroidManager {
     }
 
     public void draw(UiDrawer uiDrawer) {
-        for (BackgroundObject backgroundObject : backgroundAsteroids) {
+        for (MenuBackgroundObject backgroundObject : backgroundAsteroids) {
             backgroundObject.draw(uiDrawer);
         }
     }
 
-    public BackgroundObject buildAsteroid() {
+    public MenuBackgroundObject buildAsteroid() {
         TextureAtlas.AtlasRegion texture = SolRandom.randomElement(availableAsteroidTextures);
 
         boolean small = SolRandom.test(.8f);
@@ -116,7 +116,7 @@ public class BackgroundAsteroidManager {
         Body body = asteroidMeshLoader.getBodyAndSprite(world, texture, size * 0.95f, BodyDef.BodyType.DynamicBody, position, angle, new ArrayList<>(), 10f, DrawableLevel.BODIES);
         body.setLinearVelocity(velocity);
         body.setAngularVelocity(angularVelocity);
-        BackgroundObject asteroid = new BackgroundObject(texture, size, tint, position, velocity, asteroidMeshLoader.getOrigin(texture.name, size).cpy(), angle, body);
+        MenuBackgroundObject asteroid = new MenuBackgroundObject(texture, size, tint, position, velocity, asteroidMeshLoader.getOrigin(texture.name, size).cpy(), angle, body);
         body.setUserData(asteroid);
 
         return asteroid;

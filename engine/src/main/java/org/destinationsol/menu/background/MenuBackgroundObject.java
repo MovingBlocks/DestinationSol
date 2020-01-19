@@ -22,7 +22,7 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
 import org.destinationsol.ui.UiDrawer;
 
-public class BackgroundObject {
+public class MenuBackgroundObject {
     TextureAtlas.AtlasRegion texture;
 
     float scale;
@@ -37,7 +37,7 @@ public class BackgroundObject {
 
     Body body;
 
-    public BackgroundObject(TextureAtlas.AtlasRegion texture, float scale, Color tint, Vector2 position, Vector2 velocity, Vector2 origin, float angle, Body body) {
+    public MenuBackgroundObject(TextureAtlas.AtlasRegion texture, float scale, Color tint, Vector2 position, Vector2 velocity, Vector2 origin, float angle, Body body) {
         this.texture = texture;
         this.scale = scale;
         this.tint = tint;

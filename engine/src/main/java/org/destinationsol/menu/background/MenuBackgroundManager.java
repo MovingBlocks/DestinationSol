@@ -21,17 +21,17 @@ import org.destinationsol.Const;
 import org.destinationsol.ui.DisplayDimensions;
 import org.destinationsol.ui.UiDrawer;
 
-public class BackgroundManager {
+public class MenuBackgroundManager {
     private World world;
 
-    private BackgroundAsteroidManager asteroidManager;
-    private BackgroundShipManager shipManager;
+    private MenuBackgroundAsteroidManager asteroidManager;
+    private MenuBackgroundShipManager shipManager;
 
-    public BackgroundManager(DisplayDimensions displayDimensions) {
+    public MenuBackgroundManager(DisplayDimensions displayDimensions) {
         world = new World(new Vector2(0, 0), true);
 
-        asteroidManager = new BackgroundAsteroidManager(displayDimensions, world);
-        shipManager = new BackgroundShipManager(displayDimensions, world);
+        asteroidManager = new MenuBackgroundAsteroidManager(displayDimensions, world);
+        shipManager = new MenuBackgroundShipManager(displayDimensions, world);
     }
 
     public void update() {
