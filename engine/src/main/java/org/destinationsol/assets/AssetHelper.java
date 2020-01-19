@@ -69,7 +69,7 @@ public class AssetHelper {
         dataProducer.addAssetFormat(new JsonFileFormat());
         dataProducer.addDeltaFormat(new JsonDeltaFileFormat());
 
-        assetTypeManager.createAssetType(DSTexture.class, DSTexture::new, "textures", "ships", "items", "grounds", "mazes", "asteroids");
+        assetTypeManager.createAssetType(DSTexture.class, DSTexture::new, "textures", "ships", "items", "grounds", "mazes", "asteroids", "fonts");
         ((AssetFileDataProducer)assetTypeManager.getAssetType(DSTexture.class).get().getProducers().get(0)).addAssetFormat(new DSTextureFileFormat());
 
         assetTypeManager.switchEnvironment(environment);

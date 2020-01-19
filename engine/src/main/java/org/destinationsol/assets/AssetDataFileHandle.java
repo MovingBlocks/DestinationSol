@@ -69,6 +69,16 @@ public class AssetDataFileHandle extends FileHandle {
     }
 
     @Override
+    public FileHandle parent() {
+        return this;
+    }
+
+    @Override
+    public FileHandle child(String name) {
+        return new FileHandle(path() + "/" + name);
+    }
+
+    @Override
     public String pathWithoutExtension() {
         String path = path();
         return path.substring(0, path.indexOf(extension()));
