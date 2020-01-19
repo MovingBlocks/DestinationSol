@@ -17,10 +17,10 @@ package org.destinationsol.game.console.commands;
 
 import org.destinationsol.game.Hero;
 import org.destinationsol.game.SolGame;
-import org.destinationsol.game.console.Message;
 import org.destinationsol.game.console.annotations.Command;
 import org.destinationsol.game.console.annotations.Game;
 import org.destinationsol.game.console.annotations.RegisterCommands;
+import org.destinationsol.game.console.exceptions.CommandExecutionException;
 
 /**
  * A command used to respawn player's ship
@@ -29,12 +29,12 @@ import org.destinationsol.game.console.annotations.RegisterCommands;
 public class RespawnCommandHandler {
 
     @Command(shortDescription = "Respawns player if dead")
-    public Message respawn(@Game SolGame game) {
+    public String respawn(@Game SolGame game) throws CommandExecutionException {
         Hero hero = game.getHero();
         if (hero.isAlive()) {
-            return Message.FAILURE("Cannot respawn hero when not dead!");
+            throw new CommandExecutionException("Cannot respawn hero when not dead!");
         }
         game.respawn();
-        return Message.SUCCESS("Hero respawned!");
+        return "Hero respawned!";
     }
 }
