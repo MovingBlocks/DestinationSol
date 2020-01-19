@@ -15,10 +15,9 @@
  */
 package org.destinationsol.assets.fonts;
 
-import com.badlogic.gdx.Files;
-import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import org.destinationsol.assets.AssetDataFileHandle;
 import org.destinationsol.assets.Assets;
 import org.terasology.gestalt.assets.ResourceUrn;
 import org.terasology.gestalt.assets.format.AbstractAssetFileFormat;
@@ -36,11 +35,15 @@ public class FontFileFormat extends AbstractAssetFileFormat<FontData> {
 
     @Override
     public FontData load(ResourceUrn urn, List<AssetDataFile> inputs) throws IOException {
-        String path = Assets.getAssetHelper().resolveToPath(inputs);
+        AssetDataFileHandle fontDataHandle = new AssetDataFileHandle(inputs.get(0));
+        BitmapFont.BitmapFontData fontData = new BitmapFont.BitmapFontData(fontDataHandle, true);
 
-        //NOTE: The BitmapFont class relies on direct filesystem access, so jar modules will not be able to define new fonts.
-        FileHandle handle = Gdx.files.getFileHandle(path, Files.FileType.Internal);
-        BitmapFont bitmapFont = new BitmapFont(handle, true);
+        String[] fontTexturePath = fontData.imagePaths[0].split("/");
+        String fontTextureName = fontTexturePath[fontTexturePath.length - 1];
+        fontTextureName = fontTextureName.substring(0, fontTextureName.lastIndexOf('.'));
+        TextureRegion fontTexture = new TextureRegion(Assets.getDSTexture(urn.getModuleName() + ":" + fontTextureName).getTexture());
+
+        BitmapFont bitmapFont = new BitmapFont(fontData, fontTexture, false);
         bitmapFont.setUseIntegerPositions(false);
         return new FontData(bitmapFont);
     }
