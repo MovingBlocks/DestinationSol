@@ -24,6 +24,7 @@ import org.destinationsol.assets.emitters.EmitterFileFormat;
 import org.destinationsol.assets.fonts.Font;
 import org.destinationsol.assets.fonts.FontFileFormat;
 import org.destinationsol.assets.json.Json;
+import org.destinationsol.assets.json.JsonDeltaFileFormat;
 import org.destinationsol.assets.json.JsonFileFormat;
 import org.destinationsol.assets.textures.DSTexture;
 import org.destinationsol.assets.textures.DSTextureFileFormat;
@@ -64,7 +65,9 @@ public class AssetHelper {
         ((AssetFileDataProducer)assetTypeManager.getAssetType(Emitter.class).get().getProducers().get(0)).addAssetFormat(new EmitterFileFormat());
 
         assetTypeManager.createAssetType(Json.class, Json::new, "collisionMeshes", "ships", "items", "configs", "grounds", "mazes", "asteroids", "schemas");
-        ((AssetFileDataProducer)assetTypeManager.getAssetType(Json.class).get().getProducers().get(0)).addAssetFormat(new JsonFileFormat());
+        AssetFileDataProducer dataProducer = (AssetFileDataProducer) assetTypeManager.getAssetType(Json.class).get().getProducers().get(0);
+        dataProducer.addAssetFormat(new JsonFileFormat());
+        dataProducer.addDeltaFormat(new JsonDeltaFileFormat());
 
         assetTypeManager.createAssetType(DSTexture.class, DSTexture::new, "textures", "ships", "items", "grounds", "mazes", "asteroids");
         ((AssetFileDataProducer)assetTypeManager.getAssetType(DSTexture.class).get().getProducers().get(0)).addAssetFormat(new DSTextureFileFormat());
