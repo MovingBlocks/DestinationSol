@@ -17,10 +17,10 @@ package org.destinationsol.game.console.commands;
 
 import org.destinationsol.game.Hero;
 import org.destinationsol.game.SolGame;
-import org.destinationsol.game.console.Message;
 import org.destinationsol.game.console.annotations.Command;
 import org.destinationsol.game.console.annotations.Game;
 import org.destinationsol.game.console.annotations.RegisterCommands;
+import org.destinationsol.game.console.exceptions.CommandExecutionException;
 
 /**
  * A command used to make player invincible
@@ -29,20 +29,20 @@ import org.destinationsol.game.console.annotations.RegisterCommands;
 public class InvincibleCommandHandler {
 
     @Command(shortDescription = "Makes the hero invincible")
-    public Message godMode(@Game SolGame game) {
+    public String godMode(@Game SolGame game) throws CommandExecutionException {
         Hero hero = game.getHero();
         if (hero.isDead()) {
-            return Message.FAILURE("Cannot make invincible when dead");
+            throw new IllegalArgumentException("Cannot make invincible when dead");
         }
         if (hero.isTranscendent()) {
-            return Message.FAILURE("Cannot make invincible when transdencent");
+            throw new IllegalArgumentException("Cannot make invincible when transdencent");
         }
         if (!hero.isInvincible()) {
             hero.setInvincible(true);
-            return Message.SUCCESS("Set player as invincible");
+            return "Set player as invincible";
         } else {
             hero.setInvincible(false);
-            return Message.SUCCESS("Set player as non invincible");
+            return "Set player as non invincible";
         }
     }
 }
