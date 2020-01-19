@@ -51,8 +51,6 @@ public class MainMenuScreen extends SolUiBaseScreen {
     private final int buttonHeight = 75;
     private final int buttonPadding = 10;
 
-    private MenuBackgroundManager menuBackgroundManager;
-
     MainMenuScreen(boolean isMobile, GameOptions gameOptions) {
         this.isMobile = isMobile;
         this.gameOptions = gameOptions;
@@ -83,8 +81,6 @@ public class MainMenuScreen extends SolUiBaseScreen {
 
         backgroundTexture = Assets.getAtlasRegion("engine:mainMenuBg", Texture.TextureFilter.Linear);
         logoTexture = Assets.getAtlasRegion("engine:mainMenuLogo", Texture.TextureFilter.Linear);
-
-        menuBackgroundManager = new MenuBackgroundManager(displayDimensions);
     }
 
     @Override
@@ -121,8 +117,6 @@ public class MainMenuScreen extends SolUiBaseScreen {
         if (creditsControl.isJustOff()) {
             inputManager.setScreen(solApplication, screens.credits);
         }
-
-        menuBackgroundManager.update();
     }
 
     @Override
@@ -145,8 +139,6 @@ public class MainMenuScreen extends SolUiBaseScreen {
         if (!DebugOptions.PRINT_BALANCE) {
             uiDrawer.draw(logoTexture, sx, sy, sx / 2, sy / 2, displayDimensions.getRatio() / 2, 0.1f + sy / 2, 0, SolColor.WHITE);
         }
-
-        menuBackgroundManager.draw(uiDrawer);
     }
 
     /**
