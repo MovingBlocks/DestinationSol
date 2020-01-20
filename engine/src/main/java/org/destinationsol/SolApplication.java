@@ -113,7 +113,6 @@ public class SolApplication implements ApplicationListener {
         musicManager = new OggMusicManager(options);
         soundManager = new OggSoundManager(context);
         inputManager = new SolInputManager(soundManager, context);
-        ;
 
         musicManager.playMusic(OggMusicManager.MENU_MUSIC_SET, options);
 

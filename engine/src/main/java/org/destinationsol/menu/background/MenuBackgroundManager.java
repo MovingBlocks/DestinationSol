@@ -1,5 +1,5 @@
 /*
- * Copyright 2019 MovingBlocks
+ * Copyright 2020 MovingBlocks
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -22,6 +22,10 @@ import org.destinationsol.Const;
 import org.destinationsol.ui.DisplayDimensions;
 import org.destinationsol.ui.UiDrawer;
 
+/**
+ * <h1>General Menu background manager</h1>
+ * Manages menu viewport, world, and the menu world's objects.
+ */
 public class MenuBackgroundManager {
     public static final float VIEWPORT_HEIGHT = 5f;
 
