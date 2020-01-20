@@ -200,9 +200,7 @@ public class SolApplication implements ApplicationListener {
 
         inputManager.update(this);
 
-        if (solGame == null) {
-            //menuBackgroundManager.update();
-        } else {
+        if (solGame != null) {
             solGame.update();
         }
 
@@ -230,7 +228,6 @@ public class SolApplication implements ApplicationListener {
         DebugCollector.draw(uiDrawer);
         if (solGame == null) {
             uiDrawer.drawString("v" + Const.VERSION, 0.01f, .974f, FontSize.DEBUG, UiDrawer.TextAlignment.LEFT, false, SolColor.WHITE);
-            //menuBackgroundManager.draw(commonDrawer);
         }
         commonDrawer.end();
     }
@@ -308,7 +305,6 @@ public class SolApplication implements ApplicationListener {
     public MenuBackgroundManager getMenuBackgroundManager() {
         return menuBackgroundManager;
     }
-
 
     /**
      * This method is called when the "New Game" button gets pressed. It sets the seed for random generation, and the number of systems
