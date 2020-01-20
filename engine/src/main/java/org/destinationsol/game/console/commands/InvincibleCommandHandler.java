@@ -32,10 +32,10 @@ public class InvincibleCommandHandler {
     public String godMode(@Game SolGame game) throws CommandExecutionException {
         Hero hero = game.getHero();
         if (hero.isDead()) {
-            throw new IllegalArgumentException("Cannot make invincible when dead");
+            throw new CommandExecutionException("Cannot make invincible when dead");
         }
         if (hero.isTranscendent()) {
-            throw new IllegalArgumentException("Cannot make invincible when transdencent");
+            throw new CommandExecutionException("Cannot make invincible when transdencent");
         }
         if (!hero.isInvincible()) {
             hero.setInvincible(true);
