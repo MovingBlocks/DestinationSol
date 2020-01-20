@@ -59,10 +59,13 @@ public class MenuBackgroundShipManager {
 
         Set<ResourceUrn> configUrnList = Assets.getAssetHelper().list(Json.class, "[a-zA-Z]*:menuBackgroundShipConfig");
         for (ResourceUrn configUrn : configUrnList) {
-            String moduleName = configUrn.toString().split(":")[0];
             JSONObject rootNode = Assets.getJson(configUrn.toString()).getJsonValue();
             JSONArray ships = rootNode.getJSONArray("Menu Ships");
-            ships.forEach(ship -> availableShips.add(moduleName + ":" + ship));
+            ships.forEach(shipUrn -> {
+                if(!availableShips.contains(shipUrn.toString())) {
+                    availableShips.add(shipUrn.toString());
+                }
+            });
         }
     }
 
