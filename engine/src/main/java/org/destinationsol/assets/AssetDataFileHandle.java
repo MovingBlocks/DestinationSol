@@ -20,6 +20,7 @@ import org.terasology.gestalt.assets.format.AssetDataFile;
 
 import java.io.BufferedInputStream;
 import java.io.InputStream;
+import java.util.List;
 
 /**
  * AssetDataFileHandle is an instance of FileHandle that provides access to an AssetDataFile, rather than an actual file.
@@ -65,7 +66,17 @@ public class AssetDataFileHandle extends FileHandle {
 
     @Override
     public String path() {
-        return String.join("/", dataFile.getPath());
+        List<String> path = dataFile.getPath();
+
+        StringBuilder builder = new StringBuilder();
+        for (int segmentNo = 0; segmentNo < path.size(); segmentNo++) {
+            builder.append(path.get(segmentNo));
+            if (segmentNo != path.size() - 1) {
+                builder.append('/');
+            }
+        }
+
+        return builder.toString();
     }
 
     @Override
