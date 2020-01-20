@@ -1,5 +1,5 @@
 /*
- * Copyright 2019 MovingBlocks
+ * Copyright 2020 MovingBlocks
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -20,7 +20,6 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.BodyDef;
 import com.badlogic.gdx.physics.box2d.World;
-import org.destinationsol.CommonDrawer;
 import org.destinationsol.assets.Assets;
 import org.destinationsol.assets.json.Json;
 import org.destinationsol.assets.json.Validator;
@@ -38,8 +37,13 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
+/**
+ * <h1>Manages background ships for the menu</h1>
+ * Spawns and keeps track of Ships (non-controllable) in the form of {@link org.destinationsol.menu.background.MenuBackgroundObject},
+ * which are spawned at the top right corner of the screen and move down gradually to the bottom left corner.
+ * These ships can be added by modules by using a 'menuBackgroundShipConfig.json' config file
+ */
 public class MenuBackgroundShipManager {
-    private DisplayDimensions displayDimensions;
     private CollisionMeshLoader shipMeshLoader;
 
     private List<String> availableShips;
@@ -48,8 +52,6 @@ public class MenuBackgroundShipManager {
     private World world;
 
     public MenuBackgroundShipManager(DisplayDimensions displayDimensions, World world) {
-
-        this.displayDimensions = displayDimensions;
         this.world = world;
 
         shipMeshLoader = new CollisionMeshLoader();
@@ -62,7 +64,7 @@ public class MenuBackgroundShipManager {
             JSONObject rootNode = Assets.getJson(configUrn.toString()).getJsonValue();
             JSONArray ships = rootNode.getJSONArray("Menu Ships");
             ships.forEach(shipUrn -> {
-                if(!availableShips.contains(shipUrn.toString())) {
+                if (!availableShips.contains(shipUrn.toString())) {
                     availableShips.add(shipUrn.toString());
                 }
             });

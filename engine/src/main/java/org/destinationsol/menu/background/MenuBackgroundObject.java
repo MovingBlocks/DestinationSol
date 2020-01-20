@@ -1,5 +1,5 @@
 /*
- * Copyright 2019 MovingBlocks
+ * Copyright 2020 MovingBlocks
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -22,6 +22,10 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
 import org.destinationsol.ui.UiDrawer;
 
+/**
+ * <h1>Base class for all Menu Background Objects</h1>
+ * Contains common data holders required for all background objects.
+ */
 public class MenuBackgroundObject {
     TextureAtlas.AtlasRegion texture;
 

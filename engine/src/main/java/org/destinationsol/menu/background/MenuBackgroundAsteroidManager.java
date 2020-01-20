@@ -1,5 +1,5 @@
 /*
- * Copyright 2019 MovingBlocks
+ * Copyright 2020 MovingBlocks
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -21,7 +21,6 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.BodyDef;
 import com.badlogic.gdx.physics.box2d.World;
-import org.destinationsol.CommonDrawer;
 import org.destinationsol.assets.Assets;
 import org.destinationsol.common.SolColorUtil;
 import org.destinationsol.common.SolRandom;
@@ -33,6 +32,11 @@ import org.destinationsol.ui.UiDrawer;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * <h1>Manages background asteroids for the menu</h1>
+ * Spawns and keeps track of Asteroids in the form of {@link org.destinationsol.menu.background.MenuBackgroundObject},
+ * with appropriate removal when they've moved offscreen.
+ */
 public class MenuBackgroundAsteroidManager {
     private final DisplayDimensions displayDimensions;
     private final CollisionMeshLoader asteroidMeshLoader;
@@ -84,6 +88,10 @@ public class MenuBackgroundAsteroidManager {
         }
     }
 
+    /**
+     * Draws an asteroid texture and attaches a body and collision mesh to it using {@link org.destinationsol.game.CollisionMeshLoader}
+     * Also randomizes their spawn position, which is a bit off-screen, and their velocity, which gradually moves them on-screen and then off-screen again.
+     */
     public MenuBackgroundObject buildAsteroid() {
         TextureAtlas.AtlasRegion texture = SolRandom.randomElement(availableAsteroidTextures);
 
