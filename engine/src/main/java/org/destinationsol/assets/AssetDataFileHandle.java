@@ -70,11 +70,13 @@ public class AssetDataFileHandle extends FileHandle {
 
     @Override
     public FileHandle parent() {
+        // HACK: LibGDX's BitmapFontData uses this method to obtain a file in the same directory
         return this;
     }
 
     @Override
     public FileHandle child(String name) {
+        // HACK: LibGDX's BitmapFontData uses this method to obtain a file in the same directory
         return new FileHandle(path() + "/" + name);
     }
 
