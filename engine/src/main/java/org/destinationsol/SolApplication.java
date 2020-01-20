@@ -306,7 +306,9 @@ public class SolApplication implements ApplicationListener {
         return soundManager;
     }
 
-    public MenuBackgroundManager getMenuBackgroundManager() { return menuBackgroundManager;}
+    public MenuBackgroundManager getMenuBackgroundManager() {
+        return menuBackgroundManager;
+    }
 
 
     /**

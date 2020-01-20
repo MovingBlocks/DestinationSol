@@ -1,10 +1,10 @@
 {
   "Menu Ships": [
-    "imperialTiny",
-    "imperialSmall",
-    "minerSmall",
-    "minerBoss",
-    "desertSmall",
-    "desertOrbiter"
+    "core:imperialTiny",
+    "core:imperialSmall",
+    "core:minerSmall",
+    "core:minerBoss",
+    "core:desertSmall",
+    "core:desertOrbiter"
   ]
 }
