@@ -18,12 +18,11 @@ package org.destinationsol.menu;
 
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
-import org.destinationsol.assets.json.Validator;
-import org.json.JSONObject;
 import org.destinationsol.GameOptions;
 import org.destinationsol.SolApplication;
 import org.destinationsol.assets.Assets;
 import org.destinationsol.assets.json.Json;
+import org.destinationsol.assets.json.Validator;
 import org.destinationsol.common.SolColor;
 import org.destinationsol.game.planet.SystemsBuilder;
 import org.destinationsol.ui.DisplayDimensions;
@@ -32,6 +31,7 @@ import org.destinationsol.ui.SolInputManager;
 import org.destinationsol.ui.SolUiBaseScreen;
 import org.destinationsol.ui.SolUiControl;
 import org.destinationsol.ui.UiDrawer;
+import org.json.JSONObject;
 import org.terasology.gestalt.assets.ResourceUrn;
 
 import java.util.ArrayList;
@@ -101,6 +101,8 @@ public class NewShipScreen extends SolUiBaseScreen {
             playerSpawnConfigIndex = (playerSpawnConfigIndex + 1) % playerSpawnConfigNames.size();
             playerSpawnConfigControl.setDisplayName("Starting Ship: " + playerSpawnConfigNames.get(playerSpawnConfigIndex));
         }
+
+        solApplication.getMenuBackgroundManager().update();
     }
 
     @Override
@@ -111,6 +113,7 @@ public class NewShipScreen extends SolUiBaseScreen {
     @Override
     public void drawBackground(UiDrawer uiDrawer, SolApplication solApplication) {
         uiDrawer.draw(backgroundTexture, displayDimensions.getRatio(), 1, displayDimensions.getRatio() / 2, 0.5f, displayDimensions.getRatio() / 2, 0.5f, 0, SolColor.WHITE);
+        solApplication.getMenuBackgroundManager().draw(uiDrawer);
     }
 
     private void loadPlayerSpawnConfigs() {

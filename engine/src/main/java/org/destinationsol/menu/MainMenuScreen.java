@@ -26,7 +26,6 @@ import org.destinationsol.assets.Assets;
 import org.destinationsol.assets.audio.OggMusicManager;
 import org.destinationsol.common.SolColor;
 import org.destinationsol.game.DebugOptions;
-import org.destinationsol.menu.background.MenuBackgroundManager;
 import org.destinationsol.ui.DisplayDimensions;
 import org.destinationsol.ui.SolInputManager;
 import org.destinationsol.ui.SolUiBaseScreen;
@@ -117,6 +116,8 @@ public class MainMenuScreen extends SolUiBaseScreen {
         if (creditsControl.isJustOff()) {
             inputManager.setScreen(solApplication, screens.credits);
         }
+
+        solApplication.getMenuBackgroundManager().update();
     }
 
     @Override
@@ -130,6 +131,7 @@ public class MainMenuScreen extends SolUiBaseScreen {
     @Override
     public void drawBackground(UiDrawer uiDrawer, SolApplication solApplication) {
         uiDrawer.draw(backgroundTexture, displayDimensions.getRatio(), 1, displayDimensions.getRatio() / 2, 0.5f, displayDimensions.getRatio() / 2, 0.5f, 0, SolColor.WHITE);
+        solApplication.getMenuBackgroundManager().draw(uiDrawer);
     }
 
     @Override

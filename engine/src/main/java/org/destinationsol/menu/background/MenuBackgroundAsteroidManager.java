@@ -28,6 +28,7 @@ import org.destinationsol.common.SolRandom;
 import org.destinationsol.game.CollisionMeshLoader;
 import org.destinationsol.game.drawables.DrawableLevel;
 import org.destinationsol.ui.DisplayDimensions;
+import org.destinationsol.ui.UiDrawer;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -77,7 +78,7 @@ public class MenuBackgroundAsteroidManager {
         backgroundAsteroids.addAll(retainedBackgroundAsteroids);
     }
 
-    public void draw(CommonDrawer uiDrawer) {
+    public void draw(UiDrawer uiDrawer) {
         for (MenuBackgroundObject backgroundObject : backgroundAsteroids) {
             backgroundObject.draw(uiDrawer);
         }

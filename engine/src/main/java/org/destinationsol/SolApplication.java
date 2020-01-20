@@ -121,9 +121,9 @@ public class SolApplication implements ApplicationListener {
         commonDrawer = new CommonDrawer();
         uiDrawer = new UiDrawer(commonDrawer);
         layouts = new SolLayouts();
-        menuScreens = new MenuScreens(layouts, isMobile(), options);
 
         menuBackgroundManager = new MenuBackgroundManager(displayDimensions);
+        menuScreens = new MenuScreens(layouts, isMobile(), options);
 
         inputManager.setScreen(this, menuScreens.main);
     }
@@ -202,7 +202,7 @@ public class SolApplication implements ApplicationListener {
         inputManager.update(this);
 
         if (solGame == null) {
-            menuBackgroundManager.update();
+            //menuBackgroundManager.update();
         } else {
             solGame.update();
         }
@@ -231,7 +231,7 @@ public class SolApplication implements ApplicationListener {
         DebugCollector.draw(uiDrawer);
         if (solGame == null) {
             uiDrawer.drawString("v" + Const.VERSION, 0.01f, .974f, FontSize.DEBUG, UiDrawer.TextAlignment.LEFT, false, SolColor.WHITE);
-            menuBackgroundManager.draw(commonDrawer);
+            //menuBackgroundManager.draw(commonDrawer);
         }
         commonDrawer.end();
     }
@@ -305,6 +305,8 @@ public class SolApplication implements ApplicationListener {
     public OggSoundManager getSoundManager() {
         return soundManager;
     }
+
+    public MenuBackgroundManager getMenuBackgroundManager() { return menuBackgroundManager;}
 
 
     /**
