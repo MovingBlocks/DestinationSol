@@ -18,9 +18,9 @@ package org.destinationsol.menu.background;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.World;
-import org.destinationsol.CommonDrawer;
 import org.destinationsol.Const;
 import org.destinationsol.ui.DisplayDimensions;
+import org.destinationsol.ui.UiDrawer;
 
 public class MenuBackgroundManager {
     public static final float VIEWPORT_HEIGHT = 5f;
@@ -47,10 +47,11 @@ public class MenuBackgroundManager {
         world.step(Const.REAL_TIME_STEP, 6, 2);
     }
 
-    public void draw(CommonDrawer drawer) {
+    public void draw(UiDrawer drawer) {
         drawer.setMatrix(backgroundCamera.combined);
         asteroidManager.draw(drawer);
         shipManager.draw(drawer);
+        drawer.updateMtx();
     }
 
 }

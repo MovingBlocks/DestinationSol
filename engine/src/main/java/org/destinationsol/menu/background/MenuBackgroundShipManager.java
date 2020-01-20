@@ -29,6 +29,7 @@ import org.destinationsol.common.SolRandom;
 import org.destinationsol.game.CollisionMeshLoader;
 import org.destinationsol.game.drawables.DrawableLevel;
 import org.destinationsol.ui.DisplayDimensions;
+import org.destinationsol.ui.UiDrawer;
 import org.json.JSONArray;
 import org.json.JSONObject;
 import org.terasology.gestalt.assets.ResourceUrn;
@@ -94,7 +95,7 @@ public class MenuBackgroundShipManager {
         }
     }
 
-    public void draw(CommonDrawer uiDrawer) {
+    public void draw(UiDrawer uiDrawer) {
         backgroundShips.forEach(ship -> ship.draw(uiDrawer));
     }
 }

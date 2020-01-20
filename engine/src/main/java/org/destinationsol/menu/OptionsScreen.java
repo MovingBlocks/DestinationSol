@@ -113,10 +113,13 @@ public class OptionsScreen extends SolUiBaseScreen {
             options.advanceMusicVolMul();
             solApplication.getMusicManager().changeVolume(options);
         }
+
+        solApplication.getMenuBackgroundManager().update();
     }
 
     @Override
     public void drawBackground(UiDrawer uiDrawer, SolApplication solApplication) {
         uiDrawer.draw(backgroundTexture, displayDimensions.getRatio(), 1, displayDimensions.getRatio() / 2, 0.5f, displayDimensions.getRatio() / 2, 0.5f, 0, SolColor.WHITE);
+        solApplication.getMenuBackgroundManager().draw(uiDrawer);
     }
 }
