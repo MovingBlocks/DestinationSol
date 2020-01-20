@@ -48,6 +48,17 @@ public class JsonDeltaFileFormat extends AbstractAssetAlterationFileFormat<JsonD
         mergeObjects(jsonValue, deltaJsonValue);
     }
 
+    /**
+     * This method merges the JSONObject input with its delta by recursively checking for differing values.
+     *
+     * If a value does not exist in the delta, then the original input value is preserved. Otherwise, if the value is
+     * a primitive type (excluding array), then the delta value will override the input value. For JSONObject values,
+     * this method is called recursively to merge the sub-objects together. In the case of arrays, all of the values
+     * in the delta array are appended to the input array.
+     *
+     * @param input the JSONObject to merge into
+     * @param delta the JSONObject to merge with
+     */
     private void mergeObjects(JSONObject input, JSONObject delta) {
         for (String key : input.keySet()) {
             Object subObject = input.get(key);
