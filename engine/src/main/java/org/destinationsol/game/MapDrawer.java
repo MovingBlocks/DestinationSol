@@ -39,6 +39,7 @@ import org.destinationsol.game.ship.FarShip;
 import org.destinationsol.game.ship.SolShip;
 import org.destinationsol.ui.DisplayDimensions;
 import org.destinationsol.ui.UiDrawer;
+import org.destinationsol.ui.Waypoint;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -71,6 +72,7 @@ public class MapDrawer implements UpdateAwareSystem{
     private final TextureAtlas.AtlasRegion warnAreaBackground;
     private final TextureAtlas.AtlasRegion whiteTexture;
     private final TextureAtlas.AtlasRegion lineTexture;
+    private final TextureAtlas.AtlasRegion waypointTexture;
 
     private final Color areaWarningColor;
     private final Color areaWarningBackgroundColor;
@@ -103,6 +105,7 @@ public class MapDrawer implements UpdateAwareSystem{
         beaconFollowTexture = Assets.getAtlasRegion("engine:mapObjects/beaconFollow");
         whiteTexture = Assets.getAtlasRegion("engine:mapObjects/whiteTex");
         lineTexture = Assets.getAtlasRegion("engine:mapObjects/gridLine");
+        waypointTexture = Assets.getAtlasRegion("engine:mapObjects/waypoint");
 
         iconBackground = Assets.getAtlasRegion("engine:mapObjects/hullBg");
         skullTexture = Assets.getAtlasRegion("engine:mapObjects/hullSkull");
@@ -134,9 +137,18 @@ public class MapDrawer implements UpdateAwareSystem{
         drawPlanets(drawer, game, viewDist, np, camPos, heroDmgCap, camAngle);
         drawMazes(drawer, game, viewDist, np, camPos, heroDmgCap, camAngle);
         drawStarNodes(drawer, game, viewDist, camPos, starNodeW);
+        drawWaypoints(drawer, game, iconSz, viewDist);
 
         // using ui textures
         drawIcons(drawer, game, iconSz, viewDist, factionManager, hero, camPos, heroDmgCap);
+
+        if (game.getScreens().mapScreen.isPickingWaypointSpot()) {
+            drawer.drawString("Click a spot for the new waypoint", hero.getPosition().x, hero.getPosition().y + (zoom* 1.5f), 0.125f * zoom, true, Color.RED);
+        }
+
+        if (game.getScreens().mapScreen.isPickingWaypointToRemove()) {
+            drawer.drawString("Click a waypoint to remove", hero.getPosition().x, hero.getPosition().y + (zoom* 1.5f), 0.125f * zoom, true, Color.RED);
+        }
     }
 
     public float getIconRadius(SolCam cam) {
@@ -242,6 +254,16 @@ public class MapDrawer implements UpdateAwareSystem{
         drawer.draw(warnAreaBackground, rad * 2, rad * 2, rad, rad, position.x, position.y, 0, areaWarningBackgroundColor);
         rad *= INNER_AREA_ICON_PERC;
         drawer.draw(skullBigTexture, rad * 2, rad * 2, rad, rad, position.x, position.y, angle, areaWarningColor);
+    }
+
+    private void drawWaypoints(GameDrawer drawer, SolGame game, float iconSize, float viewDist) {
+        ArrayList<Waypoint> waypoints = game.getHero().getWaypoints();
+        for (Waypoint waypoint : waypoints) {
+            if (waypoint.position.dst(game.getHero().getPosition()) > viewDist) {
+                continue;
+            }
+            drawWaypointIcon(iconSize, waypoint.position, waypointTexture, drawer, waypoint.color);
+        }
     }
 
     private void drawIcons(GameDrawer drawer, SolGame game, float iconSz, float viewDist, FactionManager factionManager,
@@ -409,6 +431,20 @@ public class MapDrawer implements UpdateAwareSystem{
         }
     }
 
+    public void drawWaypointIcon(float iconSz, Vector2 position, TextureAtlas.AtlasRegion icon, Object drawer, Color color) {
+        float innerIconSz = iconSz * INNER_ICON_PERC;
+        //drawer can be either UiDrawer or GameDrawer because it is also called from BorderDrawer, which uses UiDrawer, not GameDrawer.
+        if (drawer instanceof UiDrawer) {
+            UiDrawer uiDrawer = (UiDrawer) drawer;
+            uiDrawer.draw(iconBackground, iconSz, iconSz, iconSz / 2, iconSz / 2, position.x, position.y, 0, SolColor.UI_LIGHT);
+            uiDrawer.draw(icon, innerIconSz, innerIconSz, innerIconSz / 2, innerIconSz / 2, position.x, position.y, 0, color);
+        } else {
+            GameDrawer gameDrawer = (GameDrawer) drawer;
+            gameDrawer.draw(iconBackground, iconSz, iconSz, iconSz / 2, iconSz / 2, position.x, position.y, 0, SolColor.UI_LIGHT);
+            gameDrawer.draw(icon, innerIconSz, innerIconSz, innerIconSz / 2, innerIconSz / 2, position.x, position.y, 0, color);
+        }
+    }
+
     public void changeZoom(boolean zoomIn) {
         if (zoomIn) {
             zoom /= MUL_FACTOR;
@@ -455,4 +491,7 @@ public class MapDrawer implements UpdateAwareSystem{
         return starPortTexture;
     }
 
+    public TextureAtlas.AtlasRegion getWaypointTexture() {
+        return waypointTexture;
+    }
 }

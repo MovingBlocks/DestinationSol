@@ -15,6 +15,7 @@
  */
 package org.destinationsol.game;
 
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.math.Vector2;
 import org.destinationsol.Const;
 import org.destinationsol.game.input.AiPilot;
@@ -24,9 +25,9 @@ import org.destinationsol.game.input.UiControlledPilot;
 import org.destinationsol.game.item.Gun;
 import org.destinationsol.game.item.ItemContainer;
 import org.destinationsol.game.item.SolItem;
-import org.destinationsol.game.item.TradeConfig;
 import org.destinationsol.game.ship.FarShip;
 import org.destinationsol.game.ship.hulls.HullConfig;
+import org.destinationsol.ui.Waypoint;
 
 class PlayerCreator {
 
@@ -54,9 +55,11 @@ class PlayerCreator {
         float money = grantPlayerMoney(shipConfig, respawnState, game);
         HullConfig hull = findHullConfig(shipConfig, respawnState);
         String items = findItems(shipConfig, respawnState);
+        String waypoints = findWaypoints(shipConfig, respawnState);
         boolean giveAmmo = shouldGiveAmmo(respawnState, isNewShip);
         Hero hero = createHero(position, pilot, money, hull, items, giveAmmo, game);
         addAndEquipItems(hero, respawnState, game);
+        addWaypoints(hero, waypoints, respawnState, game);
         return hero;
     }
 
@@ -68,6 +71,29 @@ class PlayerCreator {
             addRandomTutorialItems(game, itemContainer);
         }
         itemContainer.markAllAsSeen();
+    }
+
+    private void addWaypoints(Hero hero, String waypoints, RespawnState respawnState, SolGame game) {
+        if (waypoints == "") {
+            for (Waypoint waypoint : respawnState.getRespawnWaypoints()) {
+                hero.getWaypoints().add(waypoint);
+            }
+            return;
+        }
+        String[] waypointStrings = waypoints.split(" ");
+
+        for (String string : waypointStrings) {
+            String[] values = string.split("_");
+            if (values[0] == "") {
+                continue;
+            }
+            Vector2 waypointPosition = new Vector2().fromString(values[0]);
+            String[] colors = values[1].split(",");
+            Color color = new Color(Float.valueOf(colors[0]),Float.valueOf(colors[1]),Float.valueOf(colors[2]),1.0f);
+            Waypoint waypoint = new Waypoint(waypointPosition, color, game.getMapDrawer().getWaypointTexture());
+            hero.addWaypoint(waypoint);
+            game.getObjectManager().addObjDelayed(waypoint);
+        }
     }
 
     private void addRandomTutorialItems(SolGame game, ItemContainer itemContainer) {
@@ -129,6 +155,13 @@ class PlayerCreator {
             return "";
         }
         return shipConfig.getItems();
+    }
+
+    private String findWaypoints(ShipConfig shipConfig, RespawnState respawnState) {
+        if (!respawnState.getRespawnWaypoints().isEmpty()) {
+            return "";
+        }
+        return shipConfig.getWaypoints();
     }
 
     private HullConfig findHullConfig(ShipConfig shipConfig, RespawnState respawnState) {
