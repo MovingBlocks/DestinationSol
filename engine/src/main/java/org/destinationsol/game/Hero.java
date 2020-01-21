@@ -94,7 +94,7 @@ public class Hero {
 
     public void changeShip(Hero hero, String newShipID, SolGame game, Console console) {
         SolShip originalShip = hero.getShip();
-        Optional<SolShip> newShip = Optional.empty();
+        Optional<SolShip> newShip;
 
         boolean isARealShip = false;
 
@@ -125,10 +125,18 @@ public class Hero {
             return;
         }
 
+        //Don't spawn the ship if it doesn't have an engine attached (like a turret)
+        if (newHullConfig.getEngineConfig() == null) {
+            if (console != null) {
+                console.warn("Cannot spawn a ship which has no engine configuration!");
+            }
+            return;
+        }
+
         newShip = Optional.of(game.getShipBuilder().build(game, originalShip.getPosition(), originalShip.getVelocity(), originalShip.getAngle(),
                 originalShip.getRotationSpeed(), originalShip.getPilot(), originalShip.getItemContainer(), newHullConfig,
                 newHullConfig.getMaxLife(), originalShip.getHull().getGun(false), originalShip.getHull().getGun(true), null,
-                newHullConfig.getEngineConfig() != null ? newHullConfig.getEngineConfig().exampleEngine.copy() : null, new ShipRepairer(),
+                newHullConfig.getEngineConfig().exampleEngine.copy(), new ShipRepairer(),
                 originalShip.getMoney(), null, originalShip.getShield(), originalShip.getArmor()));
 
         game.getObjectManager().removeObjDelayed(hero.getShip());
