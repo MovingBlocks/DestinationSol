@@ -16,10 +16,12 @@
 package org.destinationsol.game;
 
 import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.math.Vector3;
 import org.destinationsol.Const;
 import org.destinationsol.SolApplication;
 import org.destinationsol.assets.Assets;
@@ -82,6 +84,8 @@ public class MapDrawer implements UpdateAwareSystem{
     private float skullTime;
     private float areaSkullTime;
 
+    private final Vector3 mapDrawPosAdditive = new Vector3();
+
     MapDrawer() {
         DisplayDimensions displayDimensions = SolApplication.displayDimensions;
 
@@ -132,7 +136,12 @@ public class MapDrawer implements UpdateAwareSystem{
         float camAngle = cam.getAngle();
         float heroDmgCap = hero.isTranscendent() ? Float.MAX_VALUE : HardnessCalc.getShipDmgCap(hero.getShip());
 
+        //Update drawing camera's position in-case the map is panned around
+        OrthographicCamera drawCamera = cam.getCamera();
+        drawCamera.position.add(mapDrawPosAdditive);
+        drawCamera.update();
         drawer.updateMatrix(game);
+
         game.getGridDrawer().draw(drawer, game, GRID_SZ, lineTexture);
         drawPlanets(drawer, game, viewDist, np, camPos, heroDmgCap, camAngle);
         drawMazes(drawer, game, viewDist, np, camPos, heroDmgCap, camAngle);
@@ -149,6 +158,10 @@ public class MapDrawer implements UpdateAwareSystem{
         if (game.getScreens().mapScreen.isPickingWaypointToRemove()) {
             drawer.drawString("Click a waypoint to remove", hero.getPosition().x, hero.getPosition().y + (zoom* 1.5f), 0.125f * zoom, true, Color.RED);
         }
+
+        //Reset the camera's position for use in any other class
+        drawCamera.position.set(new Vector3(camPos.x, camPos.y,0));
+        drawCamera.update();
     }
 
     public float getIconRadius(SolCam cam) {
@@ -493,5 +506,9 @@ public class MapDrawer implements UpdateAwareSystem{
 
     public TextureAtlas.AtlasRegion getWaypointTexture() {
         return waypointTexture;
+    }
+
+    public Vector3 getMapDrawPosAdditive() {
+        return mapDrawPosAdditive;
     }
 }
