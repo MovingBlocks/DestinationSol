@@ -86,7 +86,7 @@ public class MapScreen extends SolUiBaseScreen {
         SolInputManager im = solApplication.getInputManager();
 
         if (justClosed) {
-            mapDrawer.getMapDrawPosAdditive().set(0,0, 0);
+            mapDrawer.getMapDrawPosAdditive().set(0,0);
             isPickingWaypointSpot = false;
             addWaypointControl.setDisplayName(NEW_WAYPOINT_TEXT);
             im.setScreen(solApplication, game.getScreens().mainGameScreen);
@@ -117,13 +117,14 @@ public class MapScreen extends SolUiBaseScreen {
         if(im.touchDragged) {
             //Scroll factor negates the drag and adjusts it to map's zoom
             float scrollFactor = -mapDrawer.getZoom()/ Gdx.graphics.getHeight() * SCROLL_SPEED;
-            mapDrawer.getMapDrawPosAdditive().add(new Vector3(im.getDrag().scl(scrollFactor), 0));
+            mapDrawer.getMapDrawPosAdditive().add(im.getDrag().scl(scrollFactor));
         }
 
         if (isPickingWaypointSpot) {
             if (inputPointers[0].isJustUnPressed() && !addWaypointControl.isJustOff()) {
+                Vector2 mapCamPos = game.getCam().getPosition().add(mapDrawer.getMapDrawPosAdditive());
                 Vector2 clickPosition = new Vector2(inputPointers[0].x, inputPointers[0].y);
-                Vector2 worldPosition = screenPositionToWorld(clickPosition, game.getCam().getPosition(), mapZoom);
+                Vector2 worldPosition = screenPositionToWorld(clickPosition, mapCamPos, mapZoom);
                 ArrayList<Waypoint> waypoints = game.getHero().getWaypoints();
 
                 //make sure waypoints aren't too close to each other

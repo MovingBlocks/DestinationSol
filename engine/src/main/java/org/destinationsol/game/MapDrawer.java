@@ -84,7 +84,7 @@ public class MapDrawer implements UpdateAwareSystem{
     private float skullTime;
     private float areaSkullTime;
 
-    private final Vector3 mapDrawPosAdditive = new Vector3();
+    private final Vector2 mapDrawPosAdditive = new Vector2();
 
     MapDrawer() {
         DisplayDimensions displayDimensions = SolApplication.displayDimensions;
@@ -138,7 +138,7 @@ public class MapDrawer implements UpdateAwareSystem{
 
         //Update drawing camera's position in-case the map is panned around
         OrthographicCamera drawCamera = cam.getCamera();
-        drawCamera.position.add(mapDrawPosAdditive);
+        drawCamera.position.add(new Vector3(mapDrawPosAdditive, 0));
         drawCamera.update();
         drawer.updateMatrix(game);
 
@@ -152,11 +152,11 @@ public class MapDrawer implements UpdateAwareSystem{
         drawIcons(drawer, game, iconSz, viewDist, factionManager, hero, camPos, heroDmgCap);
 
         if (game.getScreens().mapScreen.isPickingWaypointSpot()) {
-            drawer.drawString("Click a spot for the new waypoint", hero.getPosition().x, hero.getPosition().y + (zoom* 1.5f), 0.125f * zoom, true, Color.RED);
+            drawer.drawString("Click a spot for the new waypoint", drawCamera.position.x, drawCamera.position.y + (zoom* 1.5f), 0.125f * zoom, true, Color.RED);
         }
 
         if (game.getScreens().mapScreen.isPickingWaypointToRemove()) {
-            drawer.drawString("Click a waypoint to remove", hero.getPosition().x, hero.getPosition().y + (zoom* 1.5f), 0.125f * zoom, true, Color.RED);
+            drawer.drawString("Click a waypoint to remove", drawCamera.position.x, drawCamera.position.y + (zoom* 1.5f), 0.125f * zoom, true, Color.RED);
         }
 
         //Reset the camera's position for use in any other class
@@ -508,7 +508,7 @@ public class MapDrawer implements UpdateAwareSystem{
         return waypointTexture;
     }
 
-    public Vector3 getMapDrawPosAdditive() {
+    public Vector2 getMapDrawPosAdditive() {
         return mapDrawPosAdditive;
     }
 }
