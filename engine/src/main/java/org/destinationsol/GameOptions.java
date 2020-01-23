@@ -17,6 +17,8 @@ package org.destinationsol;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
+import com.badlogic.gdx.math.MathUtils;
+import org.destinationsol.common.SolMath;
 import org.destinationsol.menu.Resolution;
 import org.destinationsol.menu.ResolutionProvider;
 
@@ -125,6 +127,7 @@ public class GameOptions {
     public static final int DEFAULT_BUTTON_DOWN = -1;
     public static final int DEFAULT_BUTTON_LEFT = -1;
     public static final int DEFAULT_BUTTON_RIGHT = -1;
+    public static final int DEFAULT_MAP_SCOLL_SPEED = 5;
 
     public int x;
     public int y;
@@ -168,6 +171,7 @@ public class GameOptions {
     private int controllerButtonRight;
     private int controllerButtonUp;
     private int controllerButtonDown;
+    private int mapScrollSpeed;
 
     private ResolutionProvider resolutionProvider;
 
@@ -215,6 +219,7 @@ public class GameOptions {
         controllerButtonUp = reader.getInt("controllerButtonUp", DEFAULT_BUTTON_UP);
         controllerButtonDown = reader.getInt("controllerButtonDown", DEFAULT_BUTTON_DOWN);
         canSellEquippedItems = reader.getBoolean("canSellEquippedItems", false);
+        mapScrollSpeed = reader.getInt("mapScrollSpeed", DEFAULT_MAP_SCOLL_SPEED);
     }
 
     public void advanceResolution() {
@@ -250,6 +255,13 @@ public class GameOptions {
         save();
     }
 
+    public void advanceMapScrollSpeed() {
+        mapScrollSpeed++;
+        if(mapScrollSpeed > 10) {
+            mapScrollSpeed = 1;
+        }
+    }
+
     /**
      * Save the configuration settings to file.
      */
@@ -267,7 +279,8 @@ public class GameOptions {
                 "isControllerAxisUpDownInverted", isControllerAxisUpDownInverted(), "controllerButtonShoot", getControllerButtonShoot(),
                 "controllerButtonShoot2", getControllerButtonShoot2(), "controllerButtonAbility", getControllerButtonAbility(),
                 "controllerButtonLeft", getControllerButtonLeft(), "controllerButtonRight", getControllerButtonRight(),
-                "controllerButtonUp", getControllerButtonUp(), "controllerButtonDown", getControllerButtonDown());
+                "controllerButtonUp", getControllerButtonUp(), "controllerButtonDown", getControllerButtonDown(),
+                "mapScrollSpeed", getMapScrollSpeed());
     }
 
     /**
@@ -977,5 +990,13 @@ public class GameOptions {
 
     public void setControllerButtonDown(int controllerButtonDown) {
         this.controllerButtonDown = controllerButtonDown;
+    }
+
+    public int getMapScrollSpeed() {
+        return mapScrollSpeed;
+    }
+
+    public void setMapScrollSpeed(int mapScrollSpeed) {
+        this.mapScrollSpeed = mapScrollSpeed;
     }
 }

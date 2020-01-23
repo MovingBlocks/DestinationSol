@@ -41,7 +41,6 @@ public class MapScreen extends SolUiBaseScreen {
     private final String REMOVE_WAYPOINT_TEXT = "Marker-";
     private final String CANCEL_TEXT = "Cancel";
     private final int MIN_WAYPOINT_DIST = 5;
-    private final int SCROLL_SPEED = 5;
 
     private boolean isPickingWaypointSpot = false;
     private boolean isPickingWaypointToRemove = false;
@@ -116,7 +115,7 @@ public class MapScreen extends SolUiBaseScreen {
 
         if(im.touchDragged) {
             //Scroll factor negates the drag and adjusts it to map's zoom
-            float scrollFactor = -mapDrawer.getZoom()/ Gdx.graphics.getHeight() * SCROLL_SPEED;
+            float scrollFactor = -mapDrawer.getZoom()/ Gdx.graphics.getHeight() * gameOptions.getMapScrollSpeed();
             float rotateAngle = game.getCam().getAngle();
             mapDrawer.getMapDrawPosAdditive().add(im.getDrag().scl(scrollFactor).rotate(rotateAngle));
         }
