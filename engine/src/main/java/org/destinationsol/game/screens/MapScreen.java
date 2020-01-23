@@ -117,7 +117,8 @@ public class MapScreen extends SolUiBaseScreen {
         if(im.touchDragged) {
             //Scroll factor negates the drag and adjusts it to map's zoom
             float scrollFactor = -mapDrawer.getZoom()/ Gdx.graphics.getHeight() * SCROLL_SPEED;
-            mapDrawer.getMapDrawPosAdditive().add(im.getDrag().scl(scrollFactor));
+            float rotateAngle = game.getCam().getAngle();
+            mapDrawer.getMapDrawPosAdditive().add(im.getDrag().scl(scrollFactor).rotate(rotateAngle));
         }
 
         if (isPickingWaypointSpot) {
