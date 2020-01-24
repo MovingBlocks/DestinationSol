@@ -15,6 +15,7 @@
  */
 package org.destinationsol.game.console.commands;
 
+import org.destinationsol.assets.Assets;
 import org.destinationsol.common.SolMath;
 import org.destinationsol.game.Console;
 import org.destinationsol.game.Hero;
@@ -24,6 +25,7 @@ import org.destinationsol.game.item.Gun;
 import org.destinationsol.game.item.ItemContainer;
 import org.destinationsol.game.item.SolItem;
 import org.destinationsol.game.ship.SolShip;
+import org.omg.SendingContext.RunTime;
 
 import java.util.List;
 import java.util.Optional;
@@ -57,7 +59,7 @@ public class EquipWeaponCommandHandler implements ConsoleInputHandler {
         }
 
         int slot = Integer.parseInt(args[2]);
-        Optional<SolItem> gunItem = Optional.ofNullable(game.getItemMan().getExample(args[1]));
+        Optional<SolItem> gunItem = Optional.ofNullable(getGun(args[1]));
         if (!gunItem.isPresent()) {
             console.warn("Could not find " + args[1]);
             return;
@@ -84,5 +86,19 @@ public class EquipWeaponCommandHandler implements ConsoleInputHandler {
         Gun gun = (Gun) gunItem.get();
         gun.ammo = gun.config.clipConf.size;
         ship.maybeEquip(game, gun, slot == 2, true);
+    }
+
+    public SolItem getGun(String gunUrn) {
+        SolItem solItem = game.getItemMan().getExample(gunUrn);
+        if (solItem != null) {
+            return solItem;
+        }
+        try {
+            Assets.getJson(gunUrn);
+        } catch (RuntimeException e) {
+            return null;
+        }
+        Gun.Config.load(gunUrn, game.getItemMan(), game.getSoundManager(), game.getItemMan().getSolItemTypes());
+        return getGun(gunUrn);
     }
 }

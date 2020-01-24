@@ -216,6 +216,10 @@ public class ItemManager {
         return myRepairExample;
     }
 
+    public SolItemTypes getSolItemTypes() {
+        return myTypes;
+    }
+
     public void addAllGuns(ItemContainer ic) {
         for (SolItem i : myM.values()) {
             if (i instanceof Clip && !((Clip) i).getConfig().infinite) {
