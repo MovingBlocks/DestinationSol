@@ -116,6 +116,8 @@ public class MainMenuScreen extends SolUiBaseScreen {
         if (creditsControl.isJustOff()) {
             inputManager.setScreen(solApplication, screens.credits);
         }
+
+        solApplication.getMenuBackgroundManager().update();
     }
 
     @Override
@@ -129,6 +131,7 @@ public class MainMenuScreen extends SolUiBaseScreen {
     @Override
     public void drawBackground(UiDrawer uiDrawer, SolApplication solApplication) {
         uiDrawer.draw(backgroundTexture, displayDimensions.getRatio(), 1, displayDimensions.getRatio() / 2, 0.5f, displayDimensions.getRatio() / 2, 0.5f, 0, SolColor.WHITE);
+        solApplication.getMenuBackgroundManager().draw(uiDrawer);
     }
 
     @Override
