@@ -30,6 +30,7 @@ import org.destinationsol.game.FactionInfo;
 import org.destinationsol.game.SaveManager;
 import org.destinationsol.game.SolGame;
 import org.destinationsol.game.WorldConfig;
+import org.destinationsol.game.console.adapter.ParameterAdapterManager;
 import org.destinationsol.game.context.Context;
 import org.destinationsol.game.context.internal.ContextImpl;
 import org.destinationsol.menu.MenuScreens;
@@ -74,6 +75,7 @@ public class SolApplication implements ApplicationListener {
     private String fatalErrorMsg;
     private String fatalErrorTrace;
     private SolGame solGame;
+    private ParameterAdapterManager parameterAdapterManager;
     private Context context;
 
     private WorldConfig worldConfig;
@@ -121,6 +123,7 @@ public class SolApplication implements ApplicationListener {
         menuScreens = new MenuScreens(layouts, isMobile(), options);
 
         inputManager.setScreen(this, menuScreens.main);
+        parameterAdapterManager = ParameterAdapterManager.createCore(this);
     }
 
     @Override
@@ -269,6 +272,10 @@ public class SolApplication implements ApplicationListener {
 
     public SolGame getGame() {
         return solGame;
+    }
+
+    public ParameterAdapterManager getParameterAdapterManager() {
+        return parameterAdapterManager;
     }
 
     public SolLayouts getLayouts() {

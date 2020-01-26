@@ -33,7 +33,6 @@ import org.destinationsol.game.asteroid.AsteroidBuilder;
 import org.destinationsol.game.attributes.RegisterUpdateSystem;
 import org.destinationsol.game.chunk.ChunkManager;
 import org.destinationsol.game.context.Context;
-import org.destinationsol.game.context.internal.ContextImpl;
 import org.destinationsol.game.drawables.DrawableDebugger;
 import org.destinationsol.game.drawables.DrawableManager;
 import org.destinationsol.game.farBg.FarBackgroundManagerOld;
@@ -210,6 +209,7 @@ public class SolGame {
                 }
             }
         }, 0, 30);
+        gameScreens.consoleScreen.init(this);
     }
 
     private void createGame(String shipName, boolean shouldSpawnOnGalaxySpawnPosition) {
@@ -550,4 +550,5 @@ public class SolGame {
     public HullConfigManager getHullConfigManager() {
         return hullConfigManager;
     }
+
 }

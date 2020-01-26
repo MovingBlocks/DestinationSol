@@ -16,7 +16,9 @@
 package org.destinationsol.ui;
 
 import com.badlogic.gdx.InputProcessor;
-import org.destinationsol.game.Console;
+import org.destinationsol.game.screens.ConsoleScreen;
+
+import java.util.Optional;
 
 public class SolInputProcessor implements InputProcessor {
 
@@ -39,7 +41,10 @@ public class SolInputProcessor implements InputProcessor {
 
     @Override
     public boolean keyTyped(char character) {
-        Console.getInstance().registerCharEntered(character);
+        Optional<ConsoleScreen> optionalScreen = ConsoleScreen.getInstance();
+        if(optionalScreen.isPresent()) {
+            optionalScreen.get().onCharEntered(character);
+        }
         return false;
     }
 

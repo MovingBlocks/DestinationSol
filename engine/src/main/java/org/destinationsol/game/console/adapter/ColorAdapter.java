@@ -13,19 +13,18 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.destinationsol.game.console;
+package org.destinationsol.game.console.adapter;
 
-import org.destinationsol.game.Console;
+import com.badlogic.gdx.graphics.Color;
 
-/**
- * This functional interface provides a handler for user input for {@link Console}.
- */
-public interface ConsoleInputHandler {
-    /**
-     * Handles user input from console.
-     *
-     * @param input   User input from console
-     * @param console Console from where the input originates
-     */
-    void handle(String input, Console console);
+public class ColorAdapter implements ParameterAdapter<Color> {
+    @Override
+    public Color parse(String raw) {
+        return Color.valueOf(raw);
+    }
+
+    @Override
+    public String convertToString(Color value) {
+        return value.toString();
+    }
 }

@@ -1,5 +1,5 @@
 /*
- * Copyright 2019 MovingBlocks
+ * Copyright 2020 The Terasology Foundation
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -13,18 +13,23 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.destinationsol.game.console.commands;
+package org.destinationsol.game.console;
 
-import org.destinationsol.game.Console;
 import org.destinationsol.game.Hero;
 import org.destinationsol.game.SolGame;
+import org.destinationsol.game.console.commands.RespawnCommandHandler;
+import org.destinationsol.game.console.exceptions.CommandExecutionException;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mock;
 import org.mockito.junit.MockitoJUnitRunner;
 
+import static org.junit.Assert.fail;
 import static org.mockito.Mockito.*;
+
+
+import static org.mockito.Mockito.when;
 
 @RunWith(MockitoJUnitRunner.class)
 public class RespawnCommandHandlerTest {
@@ -37,26 +42,40 @@ public class RespawnCommandHandlerTest {
     @Mock
     private Hero hero;
 
-    @Mock
-    private Console console;
-
     @Before
     public void init() {
-        commandHandler = new RespawnCommandHandler(hero, game);
+        commandHandler = new RespawnCommandHandler();
     }
 
     @Test
     public void shouldRespawnWhenDead() {
         when(hero.isAlive()).thenReturn(false);
-        commandHandler.handle("respawn", console);
+        when(game.getHero()).thenReturn(hero);
+
+        try {
+            commandHandler.respawn(game);
+        } catch (CommandExecutionException e) {
+            fail();
+        }
+
         verify(game, times(1)).respawn();
     }
 
     @Test
     public void shouldNotRespawnWhenAlive() {
         when(hero.isAlive()).thenReturn(true);
-        commandHandler.handle("respawn", console);
-        verify(console, times(1)).warn(anyString());
+        when(game.getHero()).thenReturn(hero);
+        boolean threwException = false;
+        try {
+            commandHandler.respawn(game);
+        } catch (CommandExecutionException e) {
+            threwException = true;
+        }
+
+        if (!threwException) {
+            fail();
+        }
+
         verify(game, never()).respawn();
     }
 }

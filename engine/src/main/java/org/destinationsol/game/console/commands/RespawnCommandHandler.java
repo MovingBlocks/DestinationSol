@@ -15,30 +15,26 @@
  */
 package org.destinationsol.game.console.commands;
 
-import org.destinationsol.game.Console;
 import org.destinationsol.game.Hero;
 import org.destinationsol.game.SolGame;
-import org.destinationsol.game.console.ConsoleInputHandler;
+import org.destinationsol.game.console.annotations.Command;
+import org.destinationsol.game.console.annotations.Game;
+import org.destinationsol.game.console.annotations.RegisterCommands;
+import org.destinationsol.game.console.exceptions.CommandExecutionException;
 
 /**
  * A command used to respawn player's ship
  */
-public class RespawnCommandHandler implements ConsoleInputHandler {
+@RegisterCommands
+public class RespawnCommandHandler {
 
-    private Hero hero;
-    private SolGame game;
-
-    public RespawnCommandHandler(Hero hero, SolGame game) {
-        this.hero = hero;
-        this.game = game;
-    }
-
-    @Override
-    public void handle(String input, Console console) {
+    @Command(shortDescription = "Respawns player if dead")
+    public String respawn(@Game SolGame game) throws CommandExecutionException {
+        Hero hero = game.getHero();
         if (hero.isAlive()) {
-            console.warn("Cannot respawn hero when not dead!");
-            return;
+            throw new CommandExecutionException("Cannot respawn hero when not dead!");
         }
         game.respawn();
+        return "Hero respawned!";
     }
 }

@@ -16,7 +16,6 @@
 package org.destinationsol.game.screens;
 
 import org.destinationsol.SolApplication;
-import org.destinationsol.game.Console;
 import org.destinationsol.game.context.Context;
 import org.destinationsol.ui.SolLayouts;
 
@@ -27,7 +26,7 @@ public class GameScreens {
     public final InventoryScreen inventoryScreen;
     public final TalkScreen talkScreen;
     public final WaypointCreationScreen waypointCreationScreen;
-    public final Console console;
+    public final ConsoleScreen consoleScreen;
 
     public GameScreens(SolApplication cmp, Context context) {
         SolLayouts layouts = cmp.getLayouts();
@@ -38,7 +37,7 @@ public class GameScreens {
         inventoryScreen = new InventoryScreen(cmp.getOptions());
         talkScreen = new TalkScreen(layouts.menuLayout, cmp.getOptions());
         waypointCreationScreen = new WaypointCreationScreen(layouts.menuLayout, cmp.getOptions(), mapScreen);
-        console = Console.getInstance();
+        consoleScreen = new ConsoleScreen(context);
     }
 
 }
