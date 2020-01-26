@@ -240,7 +240,7 @@ public class StarPort implements SolObject {
             // Adjust position so that StarPorts are not overlapping
             position = adjustDesiredPos(game, null, position);
             ArrayList<Drawable> drawables = new ArrayList<>();
-            Body body = myLoader.getBodyAndSprite(game, Assets.getAtlasRegion("engine:starPort"), SIZE,
+            Body body = myLoader.getBodyAndSprite(game.getObjectManager().getWorld(), Assets.getAtlasRegion("engine:starPort"), SIZE,
                     BodyDef.BodyType.KinematicBody, new Vector2(position), angle, drawables, 10f, DrawableLevel.BIG_BODIES);
             SolMath.free(position);
             ArrayList<LightSource> lights = new ArrayList<>();

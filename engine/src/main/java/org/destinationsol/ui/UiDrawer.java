@@ -74,7 +74,11 @@ public class UiDrawer implements ResizeSubscriber {
     }
 
     public void updateMtx() {
-        drawer.setMatrix(straightMtx);
+        setMatrix(straightMtx);
+    }
+
+    public void setMatrix(Matrix4 matrix) {
+        drawer.setMatrix(matrix);
     }
 
     public void drawString(String s, float x, float y, float scale, boolean centered, Color tint) {
