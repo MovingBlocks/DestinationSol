@@ -16,6 +16,7 @@
 package org.destinationsol.game.console.commands;
 
 import org.destinationsol.assets.Assets;
+import org.destinationsol.assets.json.Validator;
 import org.destinationsol.common.SolMath;
 import org.destinationsol.game.Console;
 import org.destinationsol.game.Hero;
@@ -61,7 +62,7 @@ public class EquipWeaponCommandHandler implements ConsoleInputHandler {
         int slot = Integer.parseInt(args[2]);
         Optional<SolItem> gunItem = Optional.ofNullable(getGun(args[1]));
         if (!gunItem.isPresent()) {
-            console.warn("Could not find " + args[1]);
+            console.warn("Could not find gun " + args[1]);
             return;
         }
 
@@ -95,6 +96,7 @@ public class EquipWeaponCommandHandler implements ConsoleInputHandler {
         }
         try {
             Assets.getJson(gunUrn);
+            Validator.getValidatedJSON(gunUrn, "engine:schemaGun");
         } catch (RuntimeException e) {
             return null;
         }
