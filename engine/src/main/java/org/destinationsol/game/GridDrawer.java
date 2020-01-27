@@ -24,7 +24,7 @@ public class GridDrawer {
     public void draw(GameDrawer drawer, SolGame game, float gridSz, TextureAtlas.AtlasRegion tex) {
         SolCam cam = game.getCam();
         float lw = 4 * cam.getRealLineWidth();
-        Vector2 camPos = cam.getPosition().cpy().add(game.getMapDrawer().getMapDrawPosAdditive());
+        Vector2 camPos = cam.getPosition().cpy().add(game.getMapDrawer().getMapDrawPositionAdditive());
         float viewDist = cam.getViewDistance(cam.getRealZoom());
         float x = (int) ((camPos.x - viewDist) / gridSz) * gridSz;
         float y = (int) ((camPos.y - viewDist) / gridSz) * gridSz;

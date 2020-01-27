@@ -84,7 +84,7 @@ public class MapDrawer implements UpdateAwareSystem{
     private float skullTime;
     private float areaSkullTime;
 
-    private final Vector2 mapDrawPosAdditive = new Vector2();
+    private final Vector2 mapDrawPositionAdditive = new Vector2();
 
     MapDrawer() {
         DisplayDimensions displayDimensions = SolApplication.displayDimensions;
@@ -125,31 +125,31 @@ public class MapDrawer implements UpdateAwareSystem{
     }
 
     public void draw(GameDrawer drawer, SolGame game) {
-        SolCam cam = game.getCam();
-        float iconSz = getIconRadius(cam) * 2;
-        float starNodeW = cam.getViewHeight(zoom) * STAR_NODE_SZ;
-        float viewDist = cam.getViewDistance(zoom);
+        SolCam camera = game.getCam();
+        float iconSz = getIconRadius(camera) * 2;
+        float starNodeW = camera.getViewHeight(zoom) * STAR_NODE_SZ;
+        float viewDist = camera.getViewDistance(zoom);
         FactionManager factionManager = game.getFactionMan();
         Hero hero = game.getHero();
         Planet np = game.getPlanetManager().getNearestPlanet();
-        Vector2 camPos = cam.getPosition();
-        float camAngle = cam.getAngle();
+        Vector2 cameraPosition = camera.getPosition();
+        float camAngle = camera.getAngle();
         float heroDmgCap = hero.isTranscendent() ? Float.MAX_VALUE : HardnessCalc.getShipDmgCap(hero.getShip());
 
         //Update drawing camera's position in-case the map is panned around
-        OrthographicCamera drawCamera = cam.getCamera();
-        drawCamera.position.add(new Vector3(mapDrawPosAdditive, 0));
+        OrthographicCamera drawCamera = camera.getCamera();
+        drawCamera.position.add(new Vector3(mapDrawPositionAdditive, 0));
         drawCamera.update();
         drawer.updateMatrix(game);
 
         game.getGridDrawer().draw(drawer, game, GRID_SZ, lineTexture);
-        drawPlanets(drawer, game, viewDist, np, camPos, heroDmgCap, camAngle);
-        drawMazes(drawer, game, viewDist, np, camPos, heroDmgCap, camAngle);
-        drawStarNodes(drawer, game, viewDist, camPos, starNodeW);
+        drawPlanets(drawer, game, viewDist, np, cameraPosition, heroDmgCap, camAngle);
+        drawMazes(drawer, game, viewDist, np, cameraPosition, heroDmgCap, camAngle);
+        drawStarNodes(drawer, game, viewDist, cameraPosition, starNodeW);
         drawWaypoints(drawer, game, iconSz, viewDist);
 
         // using ui textures
-        drawIcons(drawer, game, iconSz, viewDist, factionManager, hero, camPos, heroDmgCap);
+        drawIcons(drawer, game, iconSz, viewDist, factionManager, hero, cameraPosition, heroDmgCap);
 
         if (game.getScreens().mapScreen.isPickingWaypointSpot()) {
             drawer.drawString("Click a spot for the new waypoint", drawCamera.position.x, drawCamera.position.y + (zoom* 1.5f), 0.125f * zoom, true, Color.RED);
@@ -160,7 +160,7 @@ public class MapDrawer implements UpdateAwareSystem{
         }
 
         //Reset the camera's position for use in any other class
-        drawCamera.position.set(new Vector3(camPos.x, camPos.y,0));
+        drawCamera.position.set(new Vector3(cameraPosition.x, cameraPosition.y,0));
         drawCamera.update();
     }
 
@@ -508,7 +508,7 @@ public class MapDrawer implements UpdateAwareSystem{
         return waypointTexture;
     }
 
-    public Vector2 getMapDrawPosAdditive() {
-        return mapDrawPosAdditive;
+    public Vector2 getMapDrawPositionAdditive() {
+        return mapDrawPositionAdditive;
     }
 }
