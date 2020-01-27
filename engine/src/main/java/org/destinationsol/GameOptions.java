@@ -17,8 +17,6 @@ package org.destinationsol;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
-import com.badlogic.gdx.math.MathUtils;
-import org.destinationsol.common.SolMath;
 import org.destinationsol.menu.Resolution;
 import org.destinationsol.menu.ResolutionProvider;
 
@@ -127,7 +125,8 @@ public class GameOptions {
     public static final int DEFAULT_BUTTON_DOWN = -1;
     public static final int DEFAULT_BUTTON_LEFT = -1;
     public static final int DEFAULT_BUTTON_RIGHT = -1;
-    public static final int DEFAULT_MAP_SCOLL_SPEED = 5;
+    public static final int DEFAULT_MAP_SCROLL_SPEED = 10;
+    public static final int DEFAULT_MOBILE_MAP_SCROLL_SPEED = 5;
 
     public int x;
     public int y;
@@ -176,6 +175,7 @@ public class GameOptions {
     private ResolutionProvider resolutionProvider;
 
     public GameOptions(boolean mobile, SolFileReader solFileReader) {
+
         IniReader reader = new IniReader(FILE_NAME, solFileReader);
         x = reader.getInt("x", 1366);
         y = reader.getInt("y", 768);
@@ -219,7 +219,7 @@ public class GameOptions {
         controllerButtonUp = reader.getInt("controllerButtonUp", DEFAULT_BUTTON_UP);
         controllerButtonDown = reader.getInt("controllerButtonDown", DEFAULT_BUTTON_DOWN);
         canSellEquippedItems = reader.getBoolean("canSellEquippedItems", false);
-        mapScrollSpeed = reader.getInt("mapScrollSpeed", DEFAULT_MAP_SCOLL_SPEED);
+        mapScrollSpeed = reader.getInt("mapScrollSpeed", mobile ? DEFAULT_MOBILE_MAP_SCROLL_SPEED : DEFAULT_MAP_SCROLL_SPEED);
     }
 
     public void advanceResolution() {
@@ -257,7 +257,7 @@ public class GameOptions {
 
     public void advanceMapScrollSpeed() {
         mapScrollSpeed++;
-        if(mapScrollSpeed > 10) {
+        if(mapScrollSpeed > 15) {
             mapScrollSpeed = 1;
         }
     }
