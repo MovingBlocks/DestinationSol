@@ -120,7 +120,7 @@ public class OptionsScreen extends SolUiBaseScreen {
         }
 
         mapScrollSpeedControl.setDisplayName("Map Pan Speed: " + options.getMapScrollSpeed());
-        if(mapScrollSpeedControl.isJustOff()) {
+        if (mapScrollSpeedControl.isJustOff()) {
             options.advanceMapScrollSpeed();
         }
     }

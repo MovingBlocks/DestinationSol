@@ -54,7 +54,7 @@ public class SolInputManager {
     private final InputPointer flashInputPointer;
     private final Vector2 mousePos;
     private final Vector2 mousePrevPos;
-    private final Vector2 lastTouchDragPos;
+    private final Vector2 lastTouchDragPosition;
     private final Vector2 drag;
     private final PlayableSound hoverSound;
     private final TextureAtlas.AtlasRegion uiCursor;
@@ -81,7 +81,7 @@ public class SolInputManager {
         flashInputPointer = new InputPointer();
         mousePos = new Vector2();
         mousePrevPos = new Vector2();
-        lastTouchDragPos = new Vector2();
+        lastTouchDragPosition = new Vector2();
         drag = new Vector2();
 
         // Create an empty 1x1 pixmap to use as hidden cursor
@@ -130,7 +130,7 @@ public class SolInputManager {
     }
 
     void maybeFlashPressed(int x, int y) {
-        lastTouchDragPos.set(x, y);
+        lastTouchDragPosition.set(x, y);
         setPointerPosition(flashInputPointer, x, y);
         for (SolUiScreen screen : screens) {
             List<SolUiControl> controls = screen.getControls();
@@ -146,10 +146,10 @@ public class SolInputManager {
     }
 
     void maybeTouchDragged(int x, int y) {
-        Vector2 newPos = new Vector2(x, y);
-        drag.set(newPos.sub(lastTouchDragPos));
-        touchDragged = lastTouchDragPos.x != x || lastTouchDragPos.y != y;
-        lastTouchDragPos.set(x, y);
+        Vector2 newPosition = new Vector2(x, y);
+        drag.set(newPosition.sub(lastTouchDragPosition));
+        touchDragged = lastTouchDragPosition.x != x || lastTouchDragPosition.y != y;
+        lastTouchDragPosition.set(x, y);
     }
 
     public void setScreen(SolApplication solApplication, SolUiScreen screen) {
