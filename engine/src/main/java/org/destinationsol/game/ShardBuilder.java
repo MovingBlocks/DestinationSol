@@ -60,7 +60,7 @@ public class ShardBuilder {
         Vector2 position = new Vector2();
         SolMath.fromAl(position, velocityAngle, SolRandom.randomFloat(size));
         position.add(basePos);
-        Body body = myCollisionMeshLoader.getBodyAndSprite(game, tex, scale, BodyDef.BodyType.DynamicBody, position, SolRandom.randomFloat(180), drawables, ShipBuilder.SHIP_DENSITY, DrawableLevel.PROJECTILES);
+        Body body = myCollisionMeshLoader.getBodyAndSprite(game.getObjectManager().getWorld(), tex, scale, BodyDef.BodyType.DynamicBody, position, SolRandom.randomFloat(180), drawables, ShipBuilder.SHIP_DENSITY, DrawableLevel.PROJECTILES);
 
         body.setAngularVelocity(SolRandom.randomFloat(MAX_ROT_SPD));
         Vector2 velocity = SolMath.fromAl(velocityAngle, SolRandom.randomFloat(MAX_SPD));

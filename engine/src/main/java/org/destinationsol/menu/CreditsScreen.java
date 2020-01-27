@@ -145,11 +145,14 @@ public class CreditsScreen extends SolUiBaseScreen {
         }
         a *= 3;
         myColor.a = SolMath.clamp(a);
+
+        solApplication.getMenuBackgroundManager().update();
     }
 
     @Override
     public void drawBackground(UiDrawer uiDrawer, SolApplication solApplication) {
         uiDrawer.draw(backgroundTexture, displayDimensions.getRatio(), 1, displayDimensions.getRatio() / 2, 0.5f, displayDimensions.getRatio() / 2, 0.5f, 0, SolColor.WHITE);
+        solApplication.getMenuBackgroundManager().draw(uiDrawer);
     }
 
     @Override
