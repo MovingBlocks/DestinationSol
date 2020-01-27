@@ -79,11 +79,16 @@ public class GameOptions {
 
         public Volume advance() {
             switch (this) {
-                case OFF: return LOW;
-                case LOW: return MEDIUM;
-                case MEDIUM: return HIGH;
-                case HIGH: return MAX;
-                case MAX: return OFF;
+                case OFF:
+                    return LOW;
+                case LOW:
+                    return MEDIUM;
+                case MEDIUM:
+                    return HIGH;
+                case HIGH:
+                    return MAX;
+                case MAX:
+                    return OFF;
             }
             return MAX;
         }
@@ -125,6 +130,8 @@ public class GameOptions {
     public static final int DEFAULT_BUTTON_DOWN = -1;
     public static final int DEFAULT_BUTTON_LEFT = -1;
     public static final int DEFAULT_BUTTON_RIGHT = -1;
+    public static final int DEFAULT_MAP_SCROLL_SPEED = 10;
+    public static final int DEFAULT_MOBILE_MAP_SCROLL_SPEED = 5;
 
     public int x;
     public int y;
@@ -168,10 +175,12 @@ public class GameOptions {
     private int controllerButtonRight;
     private int controllerButtonUp;
     private int controllerButtonDown;
+    private int mapScrollSpeed;
 
     private ResolutionProvider resolutionProvider;
 
     public GameOptions(boolean mobile, SolFileReader solFileReader) {
+
         IniReader reader = new IniReader(FILE_NAME, solFileReader);
         x = reader.getInt("x", 1366);
         y = reader.getInt("y", 768);
@@ -215,11 +224,12 @@ public class GameOptions {
         controllerButtonUp = reader.getInt("controllerButtonUp", DEFAULT_BUTTON_UP);
         controllerButtonDown = reader.getInt("controllerButtonDown", DEFAULT_BUTTON_DOWN);
         canSellEquippedItems = reader.getBoolean("canSellEquippedItems", false);
+        mapScrollSpeed = reader.getInt("mapScrollSpeed", mobile ? DEFAULT_MOBILE_MAP_SCROLL_SPEED : DEFAULT_MAP_SCROLL_SPEED);
     }
 
     public void advanceResolution() {
         //lazy initialize provider because graphics is not available at the constructor
-        if(resolutionProvider == null){
+        if (resolutionProvider == null) {
             resolutionProvider = new ResolutionProvider(asList(Gdx.graphics.getDisplayModes()));
         }
         Resolution nextResolution = resolutionProvider.increase();
@@ -250,6 +260,13 @@ public class GameOptions {
         save();
     }
 
+    public void advanceMapScrollSpeed() {
+        mapScrollSpeed++;
+        if (mapScrollSpeed > 15) {
+            mapScrollSpeed = 1;
+        }
+    }
+
     /**
      * Save the configuration settings to file.
      */
@@ -267,7 +284,8 @@ public class GameOptions {
                 "isControllerAxisUpDownInverted", isControllerAxisUpDownInverted(), "controllerButtonShoot", getControllerButtonShoot(),
                 "controllerButtonShoot2", getControllerButtonShoot2(), "controllerButtonAbility", getControllerButtonAbility(),
                 "controllerButtonLeft", getControllerButtonLeft(), "controllerButtonRight", getControllerButtonRight(),
-                "controllerButtonUp", getControllerButtonUp(), "controllerButtonDown", getControllerButtonDown());
+                "controllerButtonUp", getControllerButtonUp(), "controllerButtonDown", getControllerButtonDown(),
+                "mapScrollSpeed", getMapScrollSpeed());
     }
 
     /**
@@ -977,5 +995,13 @@ public class GameOptions {
 
     public void setControllerButtonDown(int controllerButtonDown) {
         this.controllerButtonDown = controllerButtonDown;
+    }
+
+    public int getMapScrollSpeed() {
+        return mapScrollSpeed;
+    }
+
+    public void setMapScrollSpeed(int mapScrollSpeed) {
+        this.mapScrollSpeed = mapScrollSpeed;
     }
 }

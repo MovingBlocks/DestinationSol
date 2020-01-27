@@ -169,8 +169,9 @@ public class SolCam implements UpdateAwareSystem {
         myCam.zoom = myZoom;
     }
 
-    private void applyPos(float posX, float posY) {
+    public void applyPos(float posX, float posY) {
         myCam.position.set(posX, posY, 0);
+        myCam.update();
     }
 
     private void applyInput(SolGame game) {
@@ -277,6 +278,10 @@ public class SolCam implements UpdateAwareSystem {
 
     public float getRealZoom() {
         return myCam.zoom;
+    }
+
+    public OrthographicCamera getCamera() {
+        return myCam;
     }
 
     public boolean isVisible(Vector2 position) {
