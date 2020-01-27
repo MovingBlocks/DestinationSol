@@ -20,6 +20,7 @@ import org.destinationsol.GameOptions;
 import org.destinationsol.assets.Assets;
 import org.destinationsol.assets.audio.OggMusicManager;
 import org.destinationsol.assets.json.Json;
+import org.destinationsol.assets.json.Validator;
 import org.destinationsol.common.SolException;
 import org.destinationsol.game.console.commands.ChangeShipCommandHandler;
 import org.destinationsol.game.console.commands.DieCommandHandler;
@@ -105,13 +106,18 @@ public class Hero {
 
         for (ResourceUrn urn : Assets.getAssetHelper().list(Json.class)) {
             if ((urn.getModuleName() + ":" + urn.getResourceName()).equals(newShipID)) {
+                try {
+                    Validator.getValidatedJSON(newShipID, "engine:schemaHullConfig");
+                } catch (RuntimeException e) {
+                    break;
+                }
                 isARealShip = true;
                 break;
             }
         }
         if (!isARealShip) {
             if (console != null) {
-                console.warn("Invalid or Unknown ship ID.");
+                console.warn("Could not find ship " + newShipID);
             }
             return;
         }
