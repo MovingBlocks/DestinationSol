@@ -86,7 +86,7 @@ public class AsteroidBuilder {
         ArrayList<Drawable> drawables = new ArrayList<>();
         Body body;
         if (MAX_BALL_SZ < size) {
-            body = collisionMeshLoader.getBodyAndSprite(game, texture, size, BodyDef.BodyType.DynamicBody, position, angle, drawables, DENSITY, DrawableLevel.BODIES);
+            body = collisionMeshLoader.getBodyAndSprite(game.getObjectManager().getWorld(), texture, size, BodyDef.BodyType.DynamicBody, position, angle, drawables, DENSITY, DrawableLevel.BODIES);
         } else {
             body = buildBall(game, position, angle, size / 2, DENSITY, false);
             RectSprite s = SpriteManager.createSprite(texture.name, size, 0, 0, new Vector2(), DrawableLevel.BODIES, 0, 0, SolColor.WHITE, false);

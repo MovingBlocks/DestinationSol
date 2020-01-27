@@ -33,6 +33,7 @@ import org.destinationsol.game.WorldConfig;
 import org.destinationsol.game.context.Context;
 import org.destinationsol.game.context.internal.ContextImpl;
 import org.destinationsol.menu.MenuScreens;
+import org.destinationsol.menu.background.MenuBackgroundManager;
 import org.destinationsol.modules.ModuleManager;
 import org.destinationsol.ui.DebugCollector;
 import org.destinationsol.ui.DisplayDimensions;
@@ -63,6 +64,7 @@ public class SolApplication implements ApplicationListener {
     private OggMusicManager musicManager;
     private OggSoundManager soundManager;
     private SolInputManager inputManager;
+    private MenuBackgroundManager menuBackgroundManager;
 
     private UiDrawer uiDrawer;
 
@@ -118,6 +120,8 @@ public class SolApplication implements ApplicationListener {
         commonDrawer = new CommonDrawer();
         uiDrawer = new UiDrawer(commonDrawer);
         layouts = new SolLayouts();
+
+        menuBackgroundManager = new MenuBackgroundManager(displayDimensions);
         menuScreens = new MenuScreens(layouts, isMobile(), options);
 
         inputManager.setScreen(this, menuScreens.main);
@@ -211,6 +215,7 @@ public class SolApplication implements ApplicationListener {
         }
         uiDrawer.updateMtx();
         inputManager.draw(uiDrawer, this);
+
         if (solGame != null) {
             solGame.drawDebugUi(uiDrawer);
             factionDisplay.drawFactionNames(solGame, uiDrawer, inputManager, solGame.getObjectManager());
@@ -297,6 +302,9 @@ public class SolApplication implements ApplicationListener {
         return soundManager;
     }
 
+    public MenuBackgroundManager getMenuBackgroundManager() {
+        return menuBackgroundManager;
+    }
 
     /**
      * This method is called when the "New Game" button gets pressed. It sets the seed for random generation, and the number of systems
