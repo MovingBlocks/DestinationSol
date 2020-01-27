@@ -49,20 +49,25 @@ public class MapScreen extends SolUiBaseScreen {
         closeControl = new SolUiControl(closeArea, true, gameOptions.getKeyMap(), gameOptions.getKeyClose());
         closeControl.setDisplayName("Close");
         controls.add(closeControl);
+
         float row0 = 1 - MainGameScreen.CELL_SZ;
         float row1 = row0 - MainGameScreen.CELL_SZ;
+
         Rectangle zoomInArea = mobile ? MainGameScreen.btn(0, row1, false) : rightPaneLayout.buttonRect(2);
         zoomInControl = new SolUiControl(zoomInArea, true, gameOptions.getKeyZoomIn());
         zoomInControl.setDisplayName("Zoom In");
         controls.add(zoomInControl);
+
         Rectangle zoomOutArea = mobile ? MainGameScreen.btn(0, row0, false) : rightPaneLayout.buttonRect(3);
         zoomOutControl = new SolUiControl(zoomOutArea, true, gameOptions.getKeyZoomOut());
         zoomOutControl.setDisplayName("Zoom Out");
         controls.add(zoomOutControl);
+
         Rectangle addWaypointArea = mobile ? MainGameScreen.btn(0, row0 - MainGameScreen.CELL_SZ, false) : rightPaneLayout.buttonRect(4);
         addWaypointControl = new SolUiControl(addWaypointArea, true, gameOptions.getKeyShoot2());
         addWaypointControl.setDisplayName(NEW_WAYPOINT_TEXT);
         controls.add(addWaypointControl);
+
         Rectangle removeWaypointArea = mobile ? MainGameScreen.btn(0, row0 - MainGameScreen.CELL_SZ * 2, false) : rightPaneLayout.buttonRect(5);
         removeWaypointControl = new SolUiControl(removeWaypointArea, true, gameOptions.getKeyShoot2());
         removeWaypointControl.setDisplayName(REMOVE_WAYPOINT_TEXT);
@@ -77,15 +82,19 @@ public class MapScreen extends SolUiBaseScreen {
         MapDrawer mapDrawer = game.getMapDrawer();
         mapDrawer.setToggled(!justClosed);
         SolInputManager im = solApplication.getInputManager();
+
         if (justClosed) {
+            mapDrawer.getMapDrawPositionAdditive().set(0, 0);
             isPickingWaypointSpot = false;
             addWaypointControl.setDisplayName(NEW_WAYPOINT_TEXT);
             im.setScreen(solApplication, game.getScreens().mainGameScreen);
         }
+
         boolean zoomIn = zoomInControl.isJustOff();
         if (zoomIn || zoomOutControl.isJustOff()) {
             mapDrawer.changeZoom(zoomIn);
         }
+
         float mapZoom = mapDrawer.getZoom();
         zoomInControl.setEnabled(mapZoom != MapDrawer.MIN_ZOOM);
         zoomOutControl.setEnabled(mapZoom != MapDrawer.MAX_ZOOM);
@@ -93,6 +102,7 @@ public class MapScreen extends SolUiBaseScreen {
         if (shipControl instanceof ShipMouseControl) {
             shipControl.update(solApplication, true);
         }
+
         Boolean scrolledUp = im.getScrolledUp();
         if (scrolledUp != null) {
             if (scrolledUp) {
@@ -102,10 +112,18 @@ public class MapScreen extends SolUiBaseScreen {
             }
         }
 
+        if (im.touchDragged) {
+            //Scroll factor negates the drag and adjusts it to map's zoom
+            float scrollFactor = -mapDrawer.getZoom() / Gdx.graphics.getHeight() * gameOptions.getMapScrollSpeed();
+            float rotateAngle = game.getCam().getAngle();
+            mapDrawer.getMapDrawPositionAdditive().add(im.getDrag().scl(scrollFactor).rotate(rotateAngle));
+        }
+
         if (isPickingWaypointSpot) {
             if (inputPointers[0].isJustUnPressed() && !addWaypointControl.isJustOff()) {
+                Vector2 mapCamPos = game.getCam().getPosition().add(mapDrawer.getMapDrawPositionAdditive());
                 Vector2 clickPosition = new Vector2(inputPointers[0].x, inputPointers[0].y);
-                Vector2 worldPosition = screenPositionToWorld(clickPosition, game.getCam().getPosition(), mapZoom);
+                Vector2 worldPosition = screenPositionToWorld(clickPosition, mapCamPos, mapZoom);
                 ArrayList<Waypoint> waypoints = game.getHero().getWaypoints();
 
                 //make sure waypoints aren't too close to each other

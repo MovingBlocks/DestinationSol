@@ -56,6 +56,7 @@ public class SolInputProcessor implements InputProcessor {
 
     @Override
     public boolean touchDragged(int screenX, int screenY, int pointer) {
+        inputManager.maybeTouchDragged(screenX, screenY);
         return false;
     }
 

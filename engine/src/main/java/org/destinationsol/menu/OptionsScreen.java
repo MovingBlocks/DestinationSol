@@ -39,13 +39,26 @@ public class OptionsScreen extends SolUiBaseScreen {
     private final SolUiControl inputMapControl;
     private final SolUiControl soundVolumeControl;
     private final SolUiControl musicVolumeControl;
+    private final SolUiControl mapScrollSpeedControl;
 
     OptionsScreen(MenuLayout menuLayout, GameOptions gameOptions) {
         displayDimensions = SolApplication.displayDimensions;
 
-        resolutionControl = new SolUiControl(menuLayout.buttonRect(-1, 1), true);
+        musicVolumeControl = new SolUiControl(menuLayout.buttonRect(-1, -2), true);
+        musicVolumeControl.setDisplayName("Music Volume");
+        controls.add(musicVolumeControl);
+
+        soundVolumeControl = new SolUiControl(menuLayout.buttonRect(-1, -1), true);
+        soundVolumeControl.setDisplayName("Sound Volume");
+        controls.add(soundVolumeControl);
+
+        resolutionControl = new SolUiControl(menuLayout.buttonRect(-1, 0), true);
         resolutionControl.setDisplayName("Resolution");
         controls.add(resolutionControl);
+
+        mapScrollSpeedControl = new SolUiControl(menuLayout.buttonRect(-1, 1), true);
+        mapScrollSpeedControl.setDisplayName("Map Pan Speed");
+        controls.add(mapScrollSpeedControl);
 
         inputTypeControl = new SolUiControl(menuLayout.buttonRect(-1, 2), true, Input.Keys.C);
         inputTypeControl.setDisplayName("Control Type");
@@ -58,14 +71,6 @@ public class OptionsScreen extends SolUiBaseScreen {
         backControl = new SolUiControl(menuLayout.buttonRect(-1, 4), true, gameOptions.getKeyEscape());
         backControl.setDisplayName("Back");
         controls.add(backControl);
-
-        soundVolumeControl = new SolUiControl(menuLayout.buttonRect(-1, 0), true);
-        soundVolumeControl.setDisplayName("Sound Volume");
-        controls.add(soundVolumeControl);
-
-        musicVolumeControl = new SolUiControl(menuLayout.buttonRect(-1, -1), true);
-        musicVolumeControl.setDisplayName("Music Volume");
-        controls.add(musicVolumeControl);
 
         backgroundTexture = Assets.getAtlasRegion("engine:mainMenuBg", Texture.TextureFilter.Linear);
     }
@@ -112,6 +117,11 @@ public class OptionsScreen extends SolUiBaseScreen {
         if (musicVolumeControl.isJustOff()) {
             options.advanceMusicVolMul();
             solApplication.getMusicManager().changeVolume(options);
+        }
+
+        mapScrollSpeedControl.setDisplayName("Map Pan Speed: " + options.getMapScrollSpeed());
+        if (mapScrollSpeedControl.isJustOff()) {
+            options.advanceMapScrollSpeed();
         }
 
         solApplication.getMenuBackgroundManager().update();

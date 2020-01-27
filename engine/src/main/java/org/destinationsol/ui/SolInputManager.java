@@ -54,6 +54,8 @@ public class SolInputManager {
     private final InputPointer flashInputPointer;
     private final Vector2 mousePos;
     private final Vector2 mousePrevPos;
+    private final Vector2 lastTouchDragPosition;
+    private final Vector2 drag;
     private final PlayableSound hoverSound;
     private final TextureAtlas.AtlasRegion uiCursor;
     private final Color warnColor;
@@ -66,6 +68,7 @@ public class SolInputManager {
     private float warnPercentage;
     private boolean warnPercGrows;
     private Boolean scrolledUp;
+    public boolean touchDragged;
 
     public SolInputManager(OggSoundManager soundManager, Context context) {
         this.context = context;
@@ -78,6 +81,8 @@ public class SolInputManager {
         flashInputPointer = new InputPointer();
         mousePos = new Vector2();
         mousePrevPos = new Vector2();
+        lastTouchDragPosition = new Vector2();
+        drag = new Vector2();
 
         // Create an empty 1x1 pixmap to use as hidden cursor
         Pixmap pixmap = new Pixmap(1, 1, RGBA8888);
@@ -125,6 +130,7 @@ public class SolInputManager {
     }
 
     void maybeFlashPressed(int x, int y) {
+        lastTouchDragPosition.set(x, y);
         setPointerPosition(flashInputPointer, x, y);
         for (SolUiScreen screen : screens) {
             List<SolUiControl> controls = screen.getControls();
@@ -137,7 +143,13 @@ public class SolInputManager {
                 return;
             }
         }
+    }
 
+    void maybeTouchDragged(int x, int y) {
+        Vector2 newPosition = new Vector2(x, y);
+        drag.set(newPosition.sub(lastTouchDragPosition));
+        touchDragged = lastTouchDragPosition.x != x || lastTouchDragPosition.y != y;
+        lastTouchDragPosition.set(x, y);
     }
 
     public void setScreen(SolApplication solApplication, SolUiScreen screen) {
@@ -235,6 +247,7 @@ public class SolInputManager {
         addRemoveScreens();
         updateWarnPerc();
         scrolledUp = null;
+        touchDragged = false;
     }
 
     private void updateWarnPerc() {
@@ -376,6 +389,10 @@ public class SolInputManager {
 
     public Boolean getScrolledUp() {
         return scrolledUp;
+    }
+
+    public Vector2 getDrag() {
+        return drag;
     }
 
     public void dispose() {
