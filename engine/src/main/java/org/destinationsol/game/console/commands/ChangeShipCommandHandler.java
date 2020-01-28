@@ -23,8 +23,6 @@ import org.destinationsol.game.console.annotations.Game;
 import org.destinationsol.game.console.annotations.RegisterCommands;
 import org.destinationsol.game.console.exceptions.CommandExecutionException;
 import org.destinationsol.game.console.suggesters.HullConfigSuggester;
-import org.destinationsol.game.ship.ShipRepairer;
-import org.destinationsol.game.ship.SolShip;
 import org.destinationsol.game.ship.hulls.HullConfig;
 
 /**
@@ -35,28 +33,15 @@ import org.destinationsol.game.ship.hulls.HullConfig;
 public class ChangeShipCommandHandler {
 
     @Command(shortDescription = "changes hero ship")
-    public String changeShip(@Game SolGame game, @CommandParam(value = "newShip", suggester = HullConfigSuggester.class) HullConfig hullConfig) throws CommandExecutionException {
+    public String changeShip(@Game SolGame game, @CommandParam(value = "newShip", suggester = HullConfigSuggester.class) HullConfig newHullConfig) throws CommandExecutionException {
 
-        if (hullConfig == null) {
+        if (newHullConfig == null) {
             throw new CommandExecutionException("Could not find such ship");
         }
 
         Hero hero = game.getHero();
 
-        SolShip newShip = cloneAndModifyShip(hero.getShip(), game, hullConfig);
-
-        game.getObjectManager().removeObjDelayed(hero.getShip());
-        game.getObjectManager().addObjDelayed(newShip);
-        hero.setSolShip(newShip, game);
-        return "Ship changed";
+        return hero.changeShip(hero, newHullConfig, game);
     }
 
-
-    private SolShip cloneAndModifyShip(SolShip originalShip, SolGame game, HullConfig newHullConfig) {
-        SolShip newShip = game.getShipBuilder().build(game, originalShip.getPosition(), originalShip.getVelocity(), originalShip.getAngle(),
-                originalShip.getRotationSpeed(), originalShip.getPilot(), originalShip.getItemContainer(), newHullConfig,
-                newHullConfig.getMaxLife(), originalShip.getHull().getGun(false), originalShip.getHull().getGun(true), null,
-                newHullConfig.getEngineConfig().exampleEngine.copy(), new ShipRepairer(), originalShip.getMoney(), null, originalShip.getShield(), originalShip.getArmor());
-        return newShip;
-    }
 }

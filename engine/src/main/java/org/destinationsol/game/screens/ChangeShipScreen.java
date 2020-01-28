@@ -83,7 +83,7 @@ public class ChangeShipScreen extends InventoryOperationsScreen {
         }
         if (changeControl.isJustOff()) {
             hero.setMoney(hero.getMoney() - selItem.getPrice());
-            changeShip(game, hero, (ShipItem) selItem);
+            hero.changeShip(hero, ((ShipItem) selItem).getConfig(), game);
         }
     }
 
@@ -100,19 +100,5 @@ public class ChangeShipScreen extends InventoryOperationsScreen {
         } else {
             throw new IllegalArgumentException("ChangeShipScreen:isSameShip received " + shipToBuy.getClass() + " argument instead of ShipItem!");
         }
-    }
-
-    private void changeShip(SolGame game, Hero hero, ShipItem selected) {
-        HullConfig newConfig = selected.getConfig();
-        Hull hull = hero.getHull();
-        Engine.Config ec = newConfig.getEngineConfig();
-        Engine ei = ec == null ? null : ec.exampleEngine.copy();
-        Gun g2 = hull.getGun(true);
-        SolShip newHero = game.getShipBuilder().build(game, hero.getPosition(), new Vector2(), hero.getAngle(), 0, hero.getPilot(),
-                hero.getItemContainer(), newConfig, newConfig.getMaxLife(), hull.getGun(false), g2, null,
-                ei, new ShipRepairer(), hero.getMoney(), null, hero.getShield(), hero.getArmor());
-        game.getObjectManager().removeObjDelayed(hero.getShip());
-        game.getObjectManager().addObjDelayed(newHero);
-        game.getHero().setSolShip(newHero, game);
     }
 }
