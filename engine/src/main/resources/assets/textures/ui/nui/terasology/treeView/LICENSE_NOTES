@@ -1,0 +1,43 @@
+The icons in this folder are not under the same license like the source code. See /docs/Credits.md for more information.
+
+---Image info from Terasology's docs/Credits.md---
+Icons:
+Some NUI editor icons belong to "Fugue Icons" by Yusuke Kamiyamane, licensed under the Creative Commons Attribution 3.0 License:
+    editor_array.png
+    editor_attribute.png
+    editor_object.png
+    editor_uibox.png
+    editor_uibutton.png
+    editor_uicheckbox.png
+    editor_uidoubleslider.png
+    editor_uidropdown.png
+    editor_uidropdownscrollable.png
+    editor_uiimage.png
+    editor_uilabel.png
+    editor_uilist.png
+    editor_uiloadbar.png
+    editor_uiscrollbar.png
+    editor_uislider.png
+    editor_uitext.png
+    editor_uitextentry.png
+    editor_uitooltip.png
+    editor_uitreeview.png
+    editor_zoomablelayout.png
+
+Some icons have been made by Florian Köberle and are licensed under the Creative Commons Attribution 4.0 License:
+    editor_cardLayout.png
+    editor_columnlayout.png
+    editor_flowlayout.png
+    editor_miglayout.png
+    editor_relativelayout.png
+    editor_rowlayout.png
+    editor_uispace.png
+    contract.png
+    contractOver.png
+    expand.png
+    expandOver.png
+
+Icons prepared by kartikey0303 (also CC BY 4.0)
+    checkboxChecked.png
+    checkboxCheckedDisabled.png
+    checkboxCheckedHover.png

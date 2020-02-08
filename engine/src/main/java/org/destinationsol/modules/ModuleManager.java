@@ -41,6 +41,7 @@ import org.terasology.gestalt.module.sandbox.APIScanner;
 import org.terasology.gestalt.module.sandbox.ModuleSecurityManager;
 import org.terasology.gestalt.module.sandbox.ModuleSecurityPolicy;
 import org.terasology.gestalt.module.sandbox.StandardPermissionProviderFactory;
+import org.terasology.nui.UIWidget;
 
 import java.io.File;
 import java.lang.reflect.InvocationTargetException;
