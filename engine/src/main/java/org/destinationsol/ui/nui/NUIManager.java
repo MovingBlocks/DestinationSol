@@ -37,6 +37,7 @@ import org.terasology.nui.asset.UIElement;
 import org.terasology.nui.backends.libgdx.LibGDXCanvasRenderer;
 import org.terasology.nui.backends.libgdx.LibGDXKeyboardDevice;
 import org.terasology.nui.backends.libgdx.LibGDXMouseDevice;
+import org.terasology.nui.backends.libgdx.NUIInputProcessor;
 import org.terasology.nui.canvas.CanvasImpl;
 import org.terasology.nui.events.NUIKeyEvent;
 import org.terasology.nui.events.NUIMouseButtonEvent;
@@ -67,6 +68,8 @@ public class NUIManager {
     private static final float BUTTON_CLICK_PITCH = 0.9f;
 
     public NUIManager(SolApplication solApplication, CommonDrawer commonDrawer) {
+        NUIInputProcessor.CONSUME_INPUT = true;
+
         mouse = new LibGDXMouseDevice();
         keyboard = new LibGDXKeyboardDevice();
         canvasRenderer = new LibGDXCanvasRenderer(Gdx.graphics.getWidth(), Gdx.graphics.getHeight(),
@@ -121,10 +124,17 @@ public class NUIManager {
         }
 
         for (NUIScreenLayer uiScreen : uiScreens) {
-            UIWidget element = uiScreen.contents;
-            element.update(Gdx.graphics.getDeltaTime());
+            uiScreen.update(Gdx.graphics.getDeltaTime());
 
             if (uiScreen.isBlockingInput()) {
+                break;
+            }
+        }
+
+        for (NUIScreenLayer overlay : uiOverlays) {
+            overlay.update(Gdx.graphics.getDeltaTime());
+
+            if (overlay.isBlockingInput()) {
                 break;
             }
         }
@@ -140,7 +150,15 @@ public class NUIManager {
         while (screenIterator.hasNext()) {
             NUIScreenLayer screenLayer = screenIterator.next();
             canvas.setSkin(screenLayer.getSkin());
-            canvas.drawWidget(screenLayer.contents);
+            canvas.drawWidget(screenLayer);
+        }
+
+        // NOTE: Need to render in the inverse to how they are updated, so the top screen is drawn last
+        Iterator<NUIScreenLayer> overlayIterator = uiOverlays.descendingIterator();
+        while (overlayIterator.hasNext()) {
+            NUIScreenLayer screenLayer = overlayIterator.next();
+            canvas.setSkin(screenLayer.getSkin());
+            canvas.drawWidget(screenLayer);
         }
 
         canvas.postRender();
@@ -153,7 +171,16 @@ public class NUIManager {
     }
 
     public void pushScreen(NUIScreenLayer layer) {
-        uiScreens.push(layer);
+        pushScreen(layer, false);
+    }
+
+    public void pushScreen(NUIScreenLayer layer, boolean isOverlay) {
+        if (!isOverlay) {
+            uiScreens.push(layer);
+        } else {
+            uiOverlays.push(layer);
+        }
+        layer.setFocusManager(focusManager);
         layer.initialise();
     }
 
@@ -165,12 +192,12 @@ public class NUIManager {
         uiScreens.remove(screen);
     }
 
-    public Deque<NUIScreenLayer> getScreens() {
-        return uiScreens;
+    public boolean hasScreen(NUIScreenLayer screen) {
+        return uiScreens.contains(screen);
     }
 
-    public void pushOverlay(NUIScreenLayer overlay) {
-        uiOverlays.push(overlay);
+    public Deque<NUIScreenLayer> getScreens() {
+        return uiScreens;
     }
 
     public NUIScreenLayer popOverlay() {
@@ -189,8 +216,10 @@ public class NUIManager {
         return uiOverlays.contains(overlay);
     }
 
-    public boolean hasOverlayOfType(Class<? extends NUIScreenLayer> type) {
-        for (NUIScreenLayer layer : uiOverlays) {
+    public boolean hasScreenOfType(Class<? extends NUIScreenLayer> type, boolean isOverlay) {
+        Deque<NUIScreenLayer> screens = (isOverlay ? uiOverlays : uiScreens);
+
+        for (NUIScreenLayer layer : screens) {
             if (layer.getClass().isAssignableFrom(type)) {
                 return true;
             }

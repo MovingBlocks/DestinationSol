@@ -20,6 +20,7 @@ import org.terasology.input.InputType;
 import org.terasology.math.geom.Vector2i;
 import org.terasology.nui.AbstractWidget;
 import org.terasology.nui.Canvas;
+import org.terasology.nui.FocusManager;
 import org.terasology.nui.LayoutConfig;
 import org.terasology.nui.UIWidget;
 
@@ -30,10 +31,17 @@ import java.util.Iterator;
 public abstract class NUIScreenLayer extends AbstractWidget {
     @LayoutConfig
     protected UIWidget contents;
+    protected FocusManager focusManager;
 
     @Override
     public void onDraw(Canvas canvas) {
         canvas.drawWidget(contents);
+    }
+
+    @Override
+    public void update(float delta) {
+        super.update(delta);
+        contents.update(delta);
     }
 
     @Override
@@ -76,5 +84,13 @@ public abstract class NUIScreenLayer extends AbstractWidget {
 
     public boolean isBlockingInput() {
         return false;
+    }
+
+    void setFocusManager(FocusManager focusManager) {
+        this.focusManager = focusManager;
+    }
+
+    protected FocusManager getFocusManager() {
+        return focusManager;
     }
 }
