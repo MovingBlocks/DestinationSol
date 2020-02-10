@@ -87,9 +87,6 @@ public class NUIManager {
         UIButton.DEFAULT_CLICK_SOUND = sound;
         UIText.DEFAULT_CURSOR_TEXTURE = whiteTexture;
 
-        //pushScreen((NUIScreenLayer) Assets.getAssetHelper().get(new ResourceUrn("engine:migTestScreen"), UIElement.class).get().getRootWidget());
-        //pushScreen((NUIScreenLayer) Assets.getAssetHelper().get(new ResourceUrn("engine:console"), UIElement.class).get().getRootWidget());
-
         // NOTE: SolApplication::addResizeSubscriber is not intended to be static, so use the instance form for compatibility
         solApplication.addResizeSubscriber(() -> canvasRenderer.resize(Gdx.graphics.getWidth(), Gdx.graphics.getHeight()));
     }
