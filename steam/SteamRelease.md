@@ -13,7 +13,7 @@ Here is a quick run down of the steam build process and instructions on how to m
 2. Get the build you want to use. This is most likely the latest build from Jenkins: http://jenkins.movingblocks.net/job/DestinationSol/
 3. Unzip the file and copy the DestinationSol folder into the steam-sdk directory at: steam-sdk/tools/ContentBuilder/content
 4. Edit the script file app_build_342980.vdf and add a message to the "desc" field. This helps identify the build that you are uploading.
-In most cases you can comment out depots 342982, 342983 and 342984 as these are the JRE for the different operating systems and only need to be included if they have been modified. If you are updating the JRE it should be kept in sync with Terasology by using the [TerasologyJRE](https://github.com/MovingBlocks/TerasologyJRE) tools.
+In most cases you can comment out depots 342982, 342983 and 342984 as these are the JRE for the different operating systems and only need to be included if they have been modified. If you are updating the JRE it should ideally be kept in sync with same version that Terasology uses.
 5. From a terminal/command prompt at the ContentBuilder directory, run the following command. Replace username and password with your steam username and password. Change the steamcmd path so it's appropriate for your OS:
 bash ./builder_osx/steamcmd.sh +login username password +run_app_build ../scripts/app_build_342980.vdf +quit
 6. This will upload the files and this will show as a new build in Steamworks under the Builds tab.
