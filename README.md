@@ -93,6 +93,9 @@ LibGDX supports an HTML based facade based on the Google Web Toolkit. Its use is
 
 * Add in the code like with Android: `gradlew fetchGwt` then rerun Gradle
 
+[Steam Release Process](steam/SteamRelease.md)
+------------
+
 Contributors
 ------------
 [GitHub contribution stats](https://github.com/MovingBlocks/DestinationSol/graphs/contributors)
