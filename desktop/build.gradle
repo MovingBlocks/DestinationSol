@@ -76,6 +76,42 @@ task distZip(type: Zip) {
     archiveName = "DestinationSol.zip"
 }
 
+task copyLaunchers (type: Copy) {
+    description = "Copy launchers into the distribution folder."
+
+    from("$rootDir/launcher")
+    include("*.sh", "*.exe")
+    into("$distsDir/app")
+}
+
+task libsDist(type: Copy) {
+    description = "Copy libs directory into the distribution folder."
+
+    dependsOn jar
+
+    from jar
+    from configurations.runtime
+    into("$distsDir/app/libs")
+}
+
+task distUnbundledJRE() {
+    description = "Creates an application package without any bundled JRE."
+
+    dependsOn clean
+    dependsOn jar
+    dependsOn copyLaunchers
+}
+distUnbundledJRE.finalizedBy libsDist
+distUnbundledJRE.finalizedBy moduleDist
+
+task distUnbundledJREZip(type: Zip) {
+    description = "Creates an application package and zip archive without any bundled JRE."
+
+    dependsOn distUnbundledJRE
+    from "$distsDir/app"
+    archiveName = "DestinationSol.zip"
+}
+
 // TODO: LibGDX Generated config for Eclipse. Needs adjustment for assets not being in the Android facade
 eclipse {
     project {
