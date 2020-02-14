@@ -1,0 +1,54 @@
+{
+    "inherit": "engine:default",
+    "elements": {
+        "UILabel": {
+            "text-align-horizontal": "LEFT",
+            "text-align-vertical": "top",
+            "text-shadowed": false
+        },
+        "ScrollableArea": {
+            "background": "engine:buttonDown",
+            "background-border": {
+                "top": 4,
+                "bottom": 4,
+                "left": 4,
+                "right": 4
+            },
+            "margin": {
+                "top": 4,
+                "bottom": 4,
+                "left": 4,
+                "right": 4
+            }
+        }
+    },
+    "families": {
+        "history": {
+            "elements": {
+                "UIText": {
+                    "background": "",
+                    "text-shadowed": false,
+                    "background-border": {
+                        "top": 0,
+                        "bottom": 0,
+                        "left": 0,
+                        "right": 0
+                    },
+                    "margin": {
+                        "top": 0,
+                        "bottom": 0,
+                        "left": 0,
+                        "right": 0
+                    }
+                }
+            }
+        },
+        "commandInput": {
+            "elements": {
+                "UICommandEntry": {
+                    "background": "engine:boxLight"
+                }
+            }
+        }
+    }
+}
