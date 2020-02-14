@@ -117,8 +117,7 @@ task libsDist(type: Copy) {
 
 task distUnbundledJRE() {
     description = "Creates an application package without any bundled JRE."
-
-    dependsOn clean
+    
     dependsOn jar
     dependsOn copyLaunchers
 }
