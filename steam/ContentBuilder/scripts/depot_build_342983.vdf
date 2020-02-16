@@ -10,21 +10,6 @@
 	// the location of this script file, which probably isn't what you want
 	"ContentRoot"	""
 
-	// include all files recursivley
-  "FileMapping"
-  {
-  	// This can be a full path, or a path relative to ContentRoot
-    "LocalPath" "lwjreLinux\*"
-
-    // This is a path relative to the install folder of your game
-    "DepotPath" "lwjreLinux\"
-
-    // If LocalPath contains wildcards, setting this means that all
-    // matching files within subdirectories of LocalPath will also
-    // be included.
-    "recursive" "1"
-  }
-
   "FileMapping"
   {
   	// This can be a full path, or a path relative to ContentRoot
@@ -54,19 +39,6 @@
     "recursive" "1"
   }
 
-  "FileMapping"
-  {
-  	// This can be a full path, or a path relative to ContentRoot
-    "LocalPath" "sol64.sh"
-
-    // This is a path relative to the install folder of your game
-    "DepotPath" "."
-
-    // If LocalPath contains wildcards, setting this means that all
-    // matching files within subdirectories of LocalPath will also
-    // be included.
-    "recursive" "0"
-  }
 
 	// but exclude all symbol files
 	// This can be a full path, or a path relative to ContentRoot
