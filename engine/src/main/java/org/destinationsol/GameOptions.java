@@ -17,6 +17,7 @@ package org.destinationsol;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
+import com.google.common.base.Enums;
 import org.destinationsol.menu.Resolution;
 import org.destinationsol.menu.ResolutionProvider;
 
@@ -185,7 +186,7 @@ public class GameOptions {
         x = reader.getInt("x", 1366);
         y = reader.getInt("y", 768);
         fullscreen = reader.getBoolean("fullscreen", false);
-        controlType = mobile ? ControlType.KEYBOARD : ControlType.valueOf(reader.getString("controlType", "MIXED"));
+        controlType = mobile ? ControlType.KEYBOARD : Enums.getIfPresent(ControlType.class,  reader.getString("controlType", "MIXED")).or(ControlType.MIXED);
         sfxVolume = Volume.valueOf(reader.getString("sfxVolume", "MAX"));
         musicVolume = Volume.valueOf(reader.getString("musicVolume", "MAX"));
         keyUpMouseName = reader.getString("keyUpMouse", DEFAULT_MOUSE_UP);
