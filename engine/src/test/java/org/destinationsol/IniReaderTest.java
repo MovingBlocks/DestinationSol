@@ -15,6 +15,7 @@
  */
 package org.destinationsol;
 
+import com.google.common.base.Enums;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -48,37 +49,42 @@ public class IniReaderTest {
                         "intKey = 5\n" +
                         "invalidIntKey = 3.4\n" +
                         "anotherInvalidIntKey = two\n" +
+                        "blankIntKey = \n" +
                         "floatKey = 6\n" +
                         "anotherFloatKey = 7.3f\n" +
                         "invalidFloatKey = 8,6\n" +
                         "anotherInvalidFloatKey = hi\n" +
+                        "enumInvalid = 1\n" +
+                        "enumEmpty =\n" +
+                        "enumValid = KEYBOARD\n" +
                         "UnicodeKey çáč🧝 = unicodevalue áśǵj́ḱĺóí⋄«»⋄⋄ǫő";
         iniReader = new IniReader(new BufferedReader(new StringReader(iniFileContents)));
     }
 
     @Test
     public void testInputHandling() {
-        assertEquals(iniReader.getString("missingKey", "correctValue"), "correctValue");
-        assertEquals(iniReader.getString("terrible key name", "wrongValue"), "terrible key value");
-        assertEquals(iniReader.getString("partLineCommentKey", "wrongValue"), "correctValue1");
-        assertEquals(iniReader.getString("doubleRequestedKey", "wrongValue"), "validValue2");
-        assertEquals(iniReader.getString("doubleRequestedKey", "wrongValue"), "validValue2");
-        assertEquals(iniReader.getString("this shouldn't throw exception", "correctValue"), "correctValue");
-        assertEquals(iniReader.getString("UnicodeKey çáč🧝", "wrongValue"), "unicodevalue áśǵj́ḱĺóí⋄«»⋄⋄ǫő");
+        assertEquals("correctValue", iniReader.getString("missingKey", "correctValue"));
+        assertEquals("terrible key value", iniReader.getString("terrible key name", "wrongValue"));
+        assertEquals("correctValue1", iniReader.getString("partLineCommentKey", "wrongValue"));
+        assertEquals("validValue2", iniReader.getString("doubleRequestedKey", "wrongValue"));
+        assertEquals("validValue2", iniReader.getString("doubleRequestedKey", "wrongValue"));
+        assertEquals("correctValue", iniReader.getString("this shouldn't throw exception", "correctValue"));
+        assertEquals("unicodevalue áśǵj́ḱĺóí⋄«»⋄⋄ǫő", iniReader.getString("UnicodeKey çáč🧝", "wrongValue"));
     }
 
     @Test
     public void testGetString() {
-        assertEquals(iniReader.getString("asdfghjk", "correctValue"), "correctValue");
-        assertEquals(iniReader.getString("validStringKey", "wrongValue"), "validString");
+        assertEquals("correctValue", iniReader.getString("asdfghjk", "correctValue"));
+        assertEquals("validString", iniReader.getString("validStringKey", "wrongValue"));
     }
 
     @Test
     public void testGetInt() {
-        assertEquals(iniReader.getInt("asdfghjk", 55), 55);
-        assertEquals(iniReader.getInt("intKey", 0), 5);
-        assertEquals(iniReader.getInt("invalidIntKey", 56), 56);
-        assertEquals(iniReader.getInt("anotherInvalidIntKey", 57), 57);
+        assertEquals(55, iniReader.getInt("asdfghjk", 55));
+        assertEquals(5, iniReader.getInt("intKey", 0));
+        assertEquals(56, iniReader.getInt("invalidIntKey", 56));
+        assertEquals(57, iniReader.getInt("anotherInvalidIntKey", 57));
+        assertEquals(58, iniReader.getInt("blankIntKey", 58));
     }
 
     @Test
@@ -102,5 +108,19 @@ public class IniReaderTest {
         assertTrue(Float.compare(iniReader.getFloat("anotherInvalidFloatKey", 7.8f), 7.8f) == 0);
     }
 
-    //TODO ADD MOAR TESTS
+    @Test
+    public void testEnums() {
+        // When no value exists in the file, use the defaultValue in getString.
+        assertEquals(GameOptions.ControlType.MIXED, Enums.getIfPresent(GameOptions.ControlType.class,  iniReader.getString("enumDefault", "MIXED")).or(GameOptions.ControlType.KEYBOARD));
+        assertEquals(GameOptions.ControlType.MIXED, Enums.getIfPresent(GameOptions.ControlType.class,  iniReader.getString("enumDefault", "MIXED")).or(GameOptions.ControlType.MIXED));
+        assertEquals(GameOptions.ControlType.KEYBOARD, Enums.getIfPresent(GameOptions.ControlType.class,  iniReader.getString("enumEmpty", "KEYBOARD")).or(GameOptions.ControlType.MIXED));
+
+        // When the value in the file isn't a valid enum, use the default value in getIfPresent
+        assertEquals(GameOptions.ControlType.MIXED, Enums.getIfPresent(GameOptions.ControlType.class,  iniReader.getString("enumInvalid", "KEYBOARD")).or(GameOptions.ControlType.MIXED));
+        assertEquals(GameOptions.ControlType.MIXED, Enums.getIfPresent(GameOptions.ControlType.class,  iniReader.getString("enumInvalid", "MIXED")).or(GameOptions.ControlType.MIXED));
+
+        // When the value is in the file, use that value regardless of the default values.
+        assertEquals(GameOptions.ControlType.KEYBOARD, Enums.getIfPresent(GameOptions.ControlType.class,  iniReader.getString("enumValid", "MIXED")).or(GameOptions.ControlType.MIXED));
+    }
+
 }
