@@ -1,1 +1,1 @@
-lwjreLinux/bin/java -jar libs/solDesktop.jar
+lwjreLinux64/bin/java -jar libs/solDesktop.jar

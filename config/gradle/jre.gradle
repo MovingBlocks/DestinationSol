@@ -19,7 +19,6 @@ def jreVersion = '8u212'
 def jreUrlBase = "https://download.bell-sw.com/java/$jreVersion/bellsoft-jre$jreVersion"
 def jreUrlFilenames = [
         lwjreLinux64 : 'linux-amd64.tar.gz',
-        lwjreLinux   : 'linux-i586.tar.gz',
         lwjre        : 'windows-i586.zip',
         lwjreOSX     : 'macos-amd64.zip'
 ]
