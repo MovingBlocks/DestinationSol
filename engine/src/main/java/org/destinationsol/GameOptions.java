@@ -187,8 +187,8 @@ public class GameOptions {
         y = reader.getInt("y", 768);
         fullscreen = reader.getBoolean("fullscreen", false);
         controlType = mobile ? ControlType.KEYBOARD : Enums.getIfPresent(ControlType.class,  reader.getString("controlType", "MIXED")).or(ControlType.MIXED);
-        sfxVolume = Volume.valueOf(reader.getString("sfxVolume", "MAX"));
-        musicVolume = Volume.valueOf(reader.getString("musicVolume", "MAX"));
+        sfxVolume = Enums.getIfPresent(Volume.class, reader.getString("sfxVolume", "MAX")).or(Volume.MAX);
+        musicVolume = Enums.getIfPresent(Volume.class, reader.getString("musicVolume", "MAX")).or(Volume.MAX);
         keyUpMouseName = reader.getString("keyUpMouse", DEFAULT_MOUSE_UP);
         keyDownMouseName = reader.getString("keyDownMouse", DEFAULT_MOUSE_DOWN);
         keyUpName = reader.getString("keyUp", DEFAULT_UP);

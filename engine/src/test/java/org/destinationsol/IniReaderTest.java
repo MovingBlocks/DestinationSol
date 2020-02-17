@@ -49,11 +49,13 @@ public class IniReaderTest {
                         "intKey = 5\n" +
                         "invalidIntKey = 3.4\n" +
                         "anotherInvalidIntKey = two\n" +
+                        "blankIntKey = \n" +
                         "floatKey = 6\n" +
                         "anotherFloatKey = 7.3f\n" +
                         "invalidFloatKey = 8,6\n" +
                         "anotherInvalidFloatKey = hi\n" +
                         "enumInvalid = 1\n" +
+                        "enumEmpty =\n" +
                         "enumValid = KEYBOARD\n" +
                         "UnicodeKey çáč🧝 = unicodevalue áśǵj́ḱĺóí⋄«»⋄⋄ǫő";
         iniReader = new IniReader(new BufferedReader(new StringReader(iniFileContents)));
@@ -82,6 +84,7 @@ public class IniReaderTest {
         assertEquals(iniReader.getInt("intKey", 0), 5);
         assertEquals(iniReader.getInt("invalidIntKey", 56), 56);
         assertEquals(iniReader.getInt("anotherInvalidIntKey", 57), 57);
+        assertEquals(iniReader.getInt("blankIntKey", 58), 58);
     }
 
     @Test
@@ -108,16 +111,16 @@ public class IniReaderTest {
     @Test
     public void testEnums() {
         // When no value exists in the file, use the defaultValue in getString.
-        assertEquals(Enums.getIfPresent(GameOptions.ControlType.class,  iniReader.getString("enumDefault", "MIXED")).or(GameOptions.ControlType.KEYBOARD), GameOptions.ControlType.MIXED);
-        assertEquals(Enums.getIfPresent(GameOptions.ControlType.class,  iniReader.getString("enumDefault", "MIXED")).or(GameOptions.ControlType.MIXED), GameOptions.ControlType.MIXED);
+        assertEquals(GameOptions.ControlType.MIXED, Enums.getIfPresent(GameOptions.ControlType.class,  iniReader.getString("enumDefault", "MIXED")).or(GameOptions.ControlType.KEYBOARD));
+        assertEquals(GameOptions.ControlType.MIXED, Enums.getIfPresent(GameOptions.ControlType.class,  iniReader.getString("enumDefault", "MIXED")).or(GameOptions.ControlType.MIXED));
+        assertEquals(GameOptions.ControlType.KEYBOARD, Enums.getIfPresent(GameOptions.ControlType.class,  iniReader.getString("enumEmpty", "KEYBOARD")).or(GameOptions.ControlType.MIXED));
 
         // When the value in the file isn't a valid enum, use the default value in getIfPresent
-        assertEquals(Enums.getIfPresent(GameOptions.ControlType.class,  iniReader.getString("enumInvalid", "KEYBOARD")).or(GameOptions.ControlType.MIXED), GameOptions.ControlType.MIXED);
-        assertEquals(Enums.getIfPresent(GameOptions.ControlType.class,  iniReader.getString("enumInvalid", "MIXED")).or(GameOptions.ControlType.MIXED), GameOptions.ControlType.MIXED);
+        assertEquals(GameOptions.ControlType.MIXED, Enums.getIfPresent(GameOptions.ControlType.class,  iniReader.getString("enumInvalid", "KEYBOARD")).or(GameOptions.ControlType.MIXED));
+        assertEquals(GameOptions.ControlType.MIXED, Enums.getIfPresent(GameOptions.ControlType.class,  iniReader.getString("enumInvalid", "MIXED")).or(GameOptions.ControlType.MIXED));
 
         // When the value is in the file, use that value regardless of the default values.
-        assertEquals(Enums.getIfPresent(GameOptions.ControlType.class,  iniReader.getString("enumValid", "MIXED")).or(GameOptions.ControlType.MIXED), GameOptions.ControlType.KEYBOARD);
+        assertEquals(GameOptions.ControlType.KEYBOARD, Enums.getIfPresent(GameOptions.ControlType.class,  iniReader.getString("enumValid", "MIXED")).or(GameOptions.ControlType.MIXED));
     }
 
-    //TODO ADD MOAR TESTS
 }
