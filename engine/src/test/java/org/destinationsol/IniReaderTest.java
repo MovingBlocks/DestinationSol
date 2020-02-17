@@ -15,6 +15,7 @@
  */
 package org.destinationsol;
 
+import com.google.common.base.Enums;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -52,6 +53,8 @@ public class IniReaderTest {
                         "anotherFloatKey = 7.3f\n" +
                         "invalidFloatKey = 8,6\n" +
                         "anotherInvalidFloatKey = hi\n" +
+                        "enumInvalid = 1\n" +
+                        "enumValid = KEYBOARD\n" +
                         "UnicodeKey çáč🧝 = unicodevalue áśǵj́ḱĺóí⋄«»⋄⋄ǫő";
         iniReader = new IniReader(new BufferedReader(new StringReader(iniFileContents)));
     }
@@ -100,6 +103,20 @@ public class IniReaderTest {
         assertTrue(Float.compare(iniReader.getFloat("anotherFloatKey", 7.8f), 7.3f) == 0);
         assertTrue(Float.compare(iniReader.getFloat("invalidFloatKey", 7.8f), 7.8f) == 0);
         assertTrue(Float.compare(iniReader.getFloat("anotherInvalidFloatKey", 7.8f), 7.8f) == 0);
+    }
+
+    @Test
+    public void testEnums() {
+        // When no value exists in the file, use the defaultValue in getString.
+        assertEquals(Enums.getIfPresent(GameOptions.ControlType.class,  iniReader.getString("enumDefault", "MIXED")).or(GameOptions.ControlType.KEYBOARD), GameOptions.ControlType.MIXED);
+        assertEquals(Enums.getIfPresent(GameOptions.ControlType.class,  iniReader.getString("enumDefault", "MIXED")).or(GameOptions.ControlType.MIXED), GameOptions.ControlType.MIXED);
+
+        // When the value in the file isn't a valid enum, use the default value in getIfPresent
+        assertEquals(Enums.getIfPresent(GameOptions.ControlType.class,  iniReader.getString("enumInvalid", "KEYBOARD")).or(GameOptions.ControlType.MIXED), GameOptions.ControlType.MIXED);
+        assertEquals(Enums.getIfPresent(GameOptions.ControlType.class,  iniReader.getString("enumInvalid", "MIXED")).or(GameOptions.ControlType.MIXED), GameOptions.ControlType.MIXED);
+
+        // When the value is in the file, use that value regardless of the default values.
+        assertEquals(Enums.getIfPresent(GameOptions.ControlType.class,  iniReader.getString("enumValid", "MIXED")).or(GameOptions.ControlType.MIXED), GameOptions.ControlType.KEYBOARD);
     }
 
     //TODO ADD MOAR TESTS
