@@ -63,28 +63,28 @@ public class IniReaderTest {
 
     @Test
     public void testInputHandling() {
-        assertEquals(iniReader.getString("missingKey", "correctValue"), "correctValue");
-        assertEquals(iniReader.getString("terrible key name", "wrongValue"), "terrible key value");
-        assertEquals(iniReader.getString("partLineCommentKey", "wrongValue"), "correctValue1");
-        assertEquals(iniReader.getString("doubleRequestedKey", "wrongValue"), "validValue2");
-        assertEquals(iniReader.getString("doubleRequestedKey", "wrongValue"), "validValue2");
-        assertEquals(iniReader.getString("this shouldn't throw exception", "correctValue"), "correctValue");
-        assertEquals(iniReader.getString("UnicodeKey çáč🧝", "wrongValue"), "unicodevalue áśǵj́ḱĺóí⋄«»⋄⋄ǫő");
+        assertEquals("correctValue", iniReader.getString("missingKey", "correctValue"));
+        assertEquals("terrible key value", iniReader.getString("terrible key name", "wrongValue"));
+        assertEquals("correctValue1", iniReader.getString("partLineCommentKey", "wrongValue"));
+        assertEquals("validValue2", iniReader.getString("doubleRequestedKey", "wrongValue"));
+        assertEquals("validValue2", iniReader.getString("doubleRequestedKey", "wrongValue"));
+        assertEquals("correctValue", iniReader.getString("this shouldn't throw exception", "correctValue"));
+        assertEquals("unicodevalue áśǵj́ḱĺóí⋄«»⋄⋄ǫő", iniReader.getString("UnicodeKey çáč🧝", "wrongValue"));
     }
 
     @Test
     public void testGetString() {
-        assertEquals(iniReader.getString("asdfghjk", "correctValue"), "correctValue");
-        assertEquals(iniReader.getString("validStringKey", "wrongValue"), "validString");
+        assertEquals("correctValue", iniReader.getString("asdfghjk", "correctValue"));
+        assertEquals("validString", iniReader.getString("validStringKey", "wrongValue"));
     }
 
     @Test
     public void testGetInt() {
-        assertEquals(iniReader.getInt("asdfghjk", 55), 55);
-        assertEquals(iniReader.getInt("intKey", 0), 5);
-        assertEquals(iniReader.getInt("invalidIntKey", 56), 56);
-        assertEquals(iniReader.getInt("anotherInvalidIntKey", 57), 57);
-        assertEquals(iniReader.getInt("blankIntKey", 58), 58);
+        assertEquals(55, iniReader.getInt("asdfghjk", 55));
+        assertEquals(5, iniReader.getInt("intKey", 0));
+        assertEquals(56, iniReader.getInt("invalidIntKey", 56));
+        assertEquals(57, iniReader.getInt("anotherInvalidIntKey", 57));
+        assertEquals(58, iniReader.getInt("blankIntKey", 58));
     }
 
     @Test
