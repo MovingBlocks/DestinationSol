@@ -63,11 +63,14 @@ public class MenuBackgroundShipManager {
         for (ResourceUrn configUrn : configUrnList) {
             JSONObject rootNode = Assets.getJson(configUrn.toString()).getJsonValue();
             JSONArray ships = rootNode.getJSONArray("Menu Ships");
-            ships.forEach(shipUrn -> {
+            // JSONArray.iterator must not be used (foreach uses it internally), as Android does not support it
+            // (you cannot override the dependency either, as it is a system library).
+            for (int index = 0; index < ships.length(); index++) {
+                Object shipUrn = ships.get(index);
                 if (!availableShips.contains(shipUrn.toString())) {
                     availableShips.add(shipUrn.toString());
                 }
-            });
+            }
         }
     }
 
