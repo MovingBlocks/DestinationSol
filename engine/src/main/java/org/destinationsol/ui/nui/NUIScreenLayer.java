@@ -15,14 +15,15 @@
  */
 package org.destinationsol.ui.nui;
 
-import org.terasology.input.Input;
-import org.terasology.input.InputType;
+import org.terasology.input.ButtonState;
+import org.terasology.input.Keyboard;
 import org.terasology.math.geom.Vector2i;
 import org.terasology.nui.AbstractWidget;
 import org.terasology.nui.Canvas;
 import org.terasology.nui.FocusManager;
 import org.terasology.nui.LayoutConfig;
 import org.terasology.nui.UIWidget;
+import org.terasology.nui.events.NUIKeyEvent;
 
 import java.util.Arrays;
 import java.util.Collections;
@@ -32,6 +33,7 @@ public abstract class NUIScreenLayer extends AbstractWidget {
     @LayoutConfig
     protected UIWidget contents;
     protected FocusManager focusManager;
+    protected NUIManager nuiManager;
 
     @Override
     public void onDraw(Canvas canvas) {
@@ -79,11 +81,28 @@ public abstract class NUIScreenLayer extends AbstractWidget {
         return Arrays.asList(contents).iterator();
     }
 
+    @Override
+    public boolean onKeyEvent(NUIKeyEvent event) {
+        if (escapeCloses() && event.getState() == ButtonState.UP && event.getKey() == Keyboard.Key.ESCAPE) {
+            nuiManager.removeScreen(this);
+            return true;
+        }
+
+        return super.onKeyEvent(event);
+    }
+
     public void initialise() {
+    }
+
+    public void onRemoved() {
     }
 
     public boolean isBlockingInput() {
         return false;
+    }
+
+    protected boolean escapeCloses() {
+        return true;
     }
 
     void setFocusManager(FocusManager focusManager) {
@@ -92,5 +111,13 @@ public abstract class NUIScreenLayer extends AbstractWidget {
 
     protected FocusManager getFocusManager() {
         return focusManager;
+    }
+
+    void setNuiManager(NUIManager nuiManager) {
+        this.nuiManager = nuiManager;
+    }
+
+    protected NUIManager getNuiManager() {
+        return nuiManager;
     }
 }

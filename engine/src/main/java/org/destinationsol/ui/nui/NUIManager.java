@@ -32,8 +32,6 @@ import org.terasology.nui.FocusManager;
 import org.terasology.nui.FocusManagerImpl;
 import org.terasology.nui.TabbingManager;
 import org.terasology.nui.UITextureRegion;
-import org.terasology.nui.UIWidget;
-import org.terasology.nui.asset.UIElement;
 import org.terasology.nui.backends.libgdx.LibGDXCanvasRenderer;
 import org.terasology.nui.backends.libgdx.LibGDXKeyboardDevice;
 import org.terasology.nui.backends.libgdx.LibGDXMouseDevice;
@@ -60,7 +58,6 @@ public class NUIManager {
     private UISkin skin;
 
     private Deque<NUIScreenLayer> uiScreens = new LinkedList<>();
-    private Deque<NUIScreenLayer> uiOverlays = new LinkedList<>();
 
     private static final String WHITE_TEXTURE_URN = "engine:uiWhiteTex";
     private static final String DEFAULT_SKIN_URN = "engine:default";
@@ -96,8 +93,16 @@ public class NUIManager {
         canvas.setGameTime(System.currentTimeMillis());
 
         for (KeyboardAction action : keyboard.getInputQueue()) {
+            NUIKeyEvent event = new NUIKeyEvent(mouse, keyboard, action.getInput(), action.getInputChar(), action.getState());
+
             if (focusManager.getFocus() != null) {
-                focusManager.getFocus().onKeyEvent(new NUIKeyEvent(mouse, keyboard, action.getInput(), action.getInputChar(), action.getState()));
+                focusManager.getFocus().onKeyEvent(event);
+            }
+
+            for (NUIScreenLayer uiScreen : uiScreens) {
+                if (uiScreen.onKeyEvent(event) || uiScreen.isBlockingInput() || event.isConsumed()) {
+                    break;
+                }
             }
         }
 
@@ -109,31 +114,38 @@ public class NUIManager {
                     canvas.processMouseRelease((MouseInput) action.getInput(), action.getMousePosition());
                 }
 
+                NUIMouseButtonEvent event = new NUIMouseButtonEvent((MouseInput) action.getInput(), action.getState(), action.getMousePosition());
+
                 if (focusManager.getFocus() != null) {
-                    focusManager.getFocus().onMouseButtonEvent(new NUIMouseButtonEvent((MouseInput) action.getInput(), action.getState(), action.getMousePosition()));
+                    focusManager.getFocus().onMouseButtonEvent(event);
+                }
+
+                for (NUIScreenLayer uiScreen : uiScreens) {
+                    uiScreen.onMouseButtonEvent(event);
+                    if (event.isConsumed()) {
+                        break;
+                    }
                 }
             } else if (action.getInput().getType() == InputType.MOUSE_WHEEL) {
                 canvas.processMouseWheel(action.getTurns(), action.getMousePosition());
+
+                NUIMouseWheelEvent event = new NUIMouseWheelEvent(mouse, keyboard, action.getMousePosition(), action.getTurns());
+
                 if (focusManager.getFocus() != null) {
-                    focusManager.getFocus().onMouseWheelEvent(new NUIMouseWheelEvent(mouse, keyboard, action.getMousePosition(), action.getTurns()));
+                    focusManager.getFocus().onMouseWheelEvent(event);
+                }
+
+                for (NUIScreenLayer uiScreen : uiScreens) {
+                    uiScreen.onMouseWheelEvent(event);
+                    if (event.isConsumed()) {
+                        break;
+                    }
                 }
             }
         }
 
         for (NUIScreenLayer uiScreen : uiScreens) {
             uiScreen.update(Gdx.graphics.getDeltaTime());
-
-            if (uiScreen.isBlockingInput()) {
-                break;
-            }
-        }
-
-        for (NUIScreenLayer overlay : uiOverlays) {
-            overlay.update(Gdx.graphics.getDeltaTime());
-
-            if (overlay.isBlockingInput()) {
-                break;
-            }
         }
     }
 
@@ -150,14 +162,6 @@ public class NUIManager {
             canvas.drawWidget(screenLayer);
         }
 
-        // NOTE: Need to render in the inverse to how they are updated, so the top screen is drawn last
-        Iterator<NUIScreenLayer> overlayIterator = uiOverlays.descendingIterator();
-        while (overlayIterator.hasNext()) {
-            NUIScreenLayer screenLayer = overlayIterator.next();
-            canvas.setSkin(screenLayer.getSkin());
-            canvas.drawWidget(screenLayer);
-        }
-
         canvas.postRender();
 
         gameDrawer.getSpriteBatch().flush();
@@ -168,24 +172,22 @@ public class NUIManager {
     }
 
     public void pushScreen(NUIScreenLayer layer) {
-        pushScreen(layer, false);
-    }
+        uiScreens.push(layer);
 
-    public void pushScreen(NUIScreenLayer layer, boolean isOverlay) {
-        if (!isOverlay) {
-            uiScreens.push(layer);
-        } else {
-            uiOverlays.push(layer);
-        }
         layer.setFocusManager(focusManager);
+        layer.setNuiManager(this);
         layer.initialise();
     }
 
     public NUIScreenLayer popScreen() {
+        if (!uiScreens.isEmpty()) {
+            uiScreens.peek().onRemoved();
+        }
         return uiScreens.pop();
     }
 
     public void removeScreen(NUIScreenLayer screen) {
+        screen.onRemoved();
         uiScreens.remove(screen);
     }
 
@@ -193,36 +195,18 @@ public class NUIManager {
         return uiScreens.contains(screen);
     }
 
-    public Deque<NUIScreenLayer> getScreens() {
-        return uiScreens;
-    }
-
-    public NUIScreenLayer popOverlay() {
-        return uiOverlays.pop();
-    }
-
-    public void removeOverlay(NUIScreenLayer overlay) {
-        uiOverlays.remove(overlay);
-    }
-
-    public Deque<NUIScreenLayer> getOverlays() {
-        return uiOverlays;
-    }
-
-    public boolean hasOverlay(NUIScreenLayer overlay) {
-        return uiOverlays.contains(overlay);
-    }
-
-    public boolean hasScreenOfType(Class<? extends NUIScreenLayer> type, boolean isOverlay) {
-        Deque<NUIScreenLayer> screens = (isOverlay ? uiOverlays : uiScreens);
-
-        for (NUIScreenLayer layer : screens) {
-            if (layer.getClass().isAssignableFrom(type)) {
+    public boolean hasScreenOfType(Class<? extends NUIScreenLayer> type) {
+        for (NUIScreenLayer screenLayer : uiScreens) {
+            if (screenLayer.getClass().isAssignableFrom(type)) {
                 return true;
             }
         }
 
         return false;
+    }
+
+    public Deque<NUIScreenLayer> getScreens() {
+        return uiScreens;
     }
 
     public UISkin getDefaultSkin() {

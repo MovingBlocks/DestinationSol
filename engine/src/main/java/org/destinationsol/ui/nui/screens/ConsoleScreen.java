@@ -34,10 +34,9 @@ import java.util.List;
 
 public class ConsoleScreen extends NUIScreenLayer {
     private Console console;
-
     private UICommandEntry commandLine;
-
     private boolean welcomePrinted;
+    private boolean screenClosed;
 
     private InteractionListener screenListener = new BaseInteractionListener() {
         @Override
@@ -51,6 +50,8 @@ public class ConsoleScreen extends NUIScreenLayer {
 
     @Override
     public void initialise() {
+        screenClosed = false;
+
         if (!welcomePrinted) {
             console = ConsoleImpl.instance;
 
@@ -107,6 +108,11 @@ public class ConsoleScreen extends NUIScreenLayer {
     }
 
     @Override
+    public void onRemoved() {
+        screenClosed = true;
+    }
+
+    @Override
     public void onDraw(Canvas canvas) {
         super.onDraw(canvas);
         canvas.addInteractionRegion(screenListener, canvas.getRegion());
@@ -115,5 +121,14 @@ public class ConsoleScreen extends NUIScreenLayer {
     @Override
     public boolean isBlockingInput() {
         return true;
+    }
+
+    public boolean isConsoleJustClosed() {
+        if (screenClosed) {
+            screenClosed = false;
+            return true;
+        }
+
+        return false;
     }
 }

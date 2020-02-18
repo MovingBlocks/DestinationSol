@@ -294,7 +294,7 @@ public class MainGameScreen extends SolUiBaseScreen {
 
         updateTalk(game);
 
-        if (solApplication.getNuiManager().hasScreenOfType(ConsoleScreen.class, true)) {
+        if (solApplication.getNuiManager().hasScreen(consoleScreen)) {
             controls.forEach(x -> x.setEnabled(false));
             consoleControlGrave.setEnabled(true);
             consoleControlF1.setEnabled(true);
@@ -304,15 +304,21 @@ public class MainGameScreen extends SolUiBaseScreen {
             game.setPaused(!game.isPaused());
         }
 
+        if (consoleScreen.isConsoleJustClosed()) {
+            game.setPaused(false);
+            controls.forEach(x -> x.setEnabled(true));
+            consoleControlGrave.setEnabled(true);
+            consoleControlF1.setEnabled(true);
+
+            menuControl.update(inputPointers, false, false, inputMan, solApplication);
+            menuControl.update(inputPointers, false, false, inputMan, solApplication);
+        }
+
         if (consoleControlGrave.isJustOff() || consoleControlF1.isJustOff()) {
-            if (solApplication.getNuiManager().hasScreenOfType(ConsoleScreen.class, true)) {
-                solApplication.getNuiManager().removeOverlay(consoleScreen);
-                game.setPaused(false);
-                controls.forEach(x -> x.setEnabled(true));
-                consoleControlGrave.setEnabled(true);
-                consoleControlF1.setEnabled(true);
+            if (solApplication.getNuiManager().hasScreen(consoleScreen)) {
+                solApplication.getNuiManager().removeScreen(consoleScreen);
             } else {
-                solApplication.getNuiManager().pushScreen(consoleScreen, true);
+                solApplication.getNuiManager().pushScreen(consoleScreen);
                 game.setPaused(true);
             }
         }
