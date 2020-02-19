@@ -1,5 +1,5 @@
 /*
- * Copyright 2018 MovingBlocks
+ * Copyright 2020 MovingBlocks
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -24,8 +24,6 @@ import org.destinationsol.assets.audio.OggSound;
 import org.destinationsol.assets.emitters.Emitter;
 import org.destinationsol.assets.json.Json;
 import org.destinationsol.assets.textures.DSTexture;
-import org.destinationsol.game.DebugOptions;
-import org.destinationsol.game.SaveManager;
 import org.reflections.Reflections;
 import org.reflections.scanners.SubTypesScanner;
 import org.reflections.scanners.TypeAnnotationsScanner;
@@ -36,6 +34,7 @@ import org.slf4j.LoggerFactory;
 import org.terasology.gestalt.assets.ResourceUrn;
 import org.terasology.gestalt.module.Module;
 import org.terasology.gestalt.module.ModuleEnvironment;
+import org.terasology.gestalt.module.ModuleFactory;
 import org.terasology.gestalt.module.ModuleMetadata;
 import org.terasology.gestalt.module.ModuleMetadataJsonAdapter;
 import org.terasology.gestalt.module.ModulePathScanner;
@@ -46,12 +45,11 @@ import org.terasology.gestalt.module.sandbox.ModuleSecurityManager;
 import org.terasology.gestalt.module.sandbox.ModuleSecurityPolicy;
 import org.terasology.gestalt.module.sandbox.StandardPermissionProviderFactory;
 
-import java.io.FilePermission;
+import java.io.File;
 import java.io.InputStreamReader;
 import java.io.Reader;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.ReflectPermission;
-import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.security.Policy;
 import java.util.Set;
@@ -173,21 +171,19 @@ public class ModuleManager {
 
     public void init() throws Exception {
         try {
+            // set up the engine as a Gestalt module
             Reader engineModuleReader = new InputStreamReader(getClass().getResourceAsStream("/module.json"), Charsets.UTF_8);
             ModuleMetadata engineMetadata = new ModuleMetadataJsonAdapter().read(engineModuleReader);
             engineModuleReader.close();
-            DestinationSolModuleFactory moduleFactory = new DestinationSolModuleFactory();
-            engineModule = moduleFactory.createClasspathModule(engineMetadata, false, getClass());
+            ModuleFactory moduleFactory = new ModuleFactory();
+            File file = new File(Paths.get(getClass().getProtectionDomain().getCodeSource().getLocation().toURI()).toUri());
+            engineModule = moduleFactory.createModule(engineMetadata, file);
 
+            // scan for all standard modules
             registry = new TableModuleRegistry();
-            Path modulesRoot;
-            if (DebugOptions.DEV_ROOT_PATH != null) {
-                modulesRoot = Paths.get(".").resolve("modules");
-            } else {
-                modulesRoot = Paths.get(".").resolve("modules");
-            }
+            File modulesRoot = Paths.get(".").resolve("modules").toFile();
             ModulePathScanner scanner = new ModulePathScanner(moduleFactory);
-            scanner.scan(registry, modulesRoot.toFile());
+            scanner.scan(registry, modulesRoot);
 
             Set<Module> requiredModules = Sets.newHashSet();
             registry.add(engineModule);
@@ -215,14 +211,6 @@ public class ModuleManager {
         permissionFactory.getBasePermissionSet().grantPermission("com.google.gson.internal", ReflectPermission.class);
         permissionFactory.getBasePermissionSet().grantPermission("com.google.gson", RuntimePermission.class);
         permissionFactory.getBasePermissionSet().grantPermission("com.google.gson.internal", RuntimePermission.class);
-
-        permissionFactory.getBasePermissionSet().grantPermission(SaveManager.class, FilePermission.class);
-        permissionFactory.getBasePermissionSet().grantPermission("org.destinationsol.assets", FilePermission.class);
-        permissionFactory.getBasePermissionSet().grantPermission("org.destinationsol.assets.audio", FilePermission.class);
-        permissionFactory.getBasePermissionSet().grantPermission("org.destinationsol.assets.emitters", FilePermission.class);
-        permissionFactory.getBasePermissionSet().grantPermission("org.destinationsol.assets.fonts", FilePermission.class);
-        permissionFactory.getBasePermissionSet().grantPermission("org.destinationsol.assets.json", FilePermission.class);
-        permissionFactory.getBasePermissionSet().grantPermission("org.destinationsol.assets.textures", FilePermission.class);
 
         ConfigurationBuilder config = new ConfigurationBuilder()
                 .addClassLoader(ClasspathHelper.contextClassLoader())
