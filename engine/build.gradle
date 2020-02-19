@@ -27,10 +27,10 @@ dependencies {
     compile "com.badlogicgames.gdx:gdx-box2d:$gdxVersion"
     compile "com.badlogicgames.gdx:gdx-controllers:$gdxVersion"
 
-    compile(group: 'org.terasology.gestalt', name: 'gestalt-asset-core', version: '7.0.4-SNAPSHOT')
-    compile(group: 'org.terasology.gestalt', name: 'gestalt-entity-system', version: '7.0.4-SNAPSHOT')
-    compile(group: 'org.terasology.gestalt', name: 'gestalt-module', version: '7.0.4-SNAPSHOT')
-    compile(group: 'org.terasology.gestalt', name: 'gestalt-util', version: '7.0.4-SNAPSHOT')
+    compile(group: 'org.terasology.gestalt', name: 'gestalt-asset-core', version: '7.0.5')
+    compile(group: 'org.terasology.gestalt', name: 'gestalt-entity-system', version: '7.0.5')
+    compile(group: 'org.terasology.gestalt', name: 'gestalt-module', version: '7.0.5')
+    compile(group: 'org.terasology.gestalt', name: 'gestalt-util', version: '7.0.5')
 
 
     compile "com.github.everit-org.json-schema:org.everit.json.schema:1.11.1"
