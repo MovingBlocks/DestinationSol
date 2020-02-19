@@ -15,9 +15,8 @@
  */
 package org.destinationsol.game.projectile;
 
-import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.math.Vector2;
-import org.destinationsol.assets.audio.PlayableSound;
+import org.destinationsol.assets.sound.PlayableSound;
 import org.destinationsol.game.DmgType;
 import org.destinationsol.game.drawables.SpriteInfo;
 import org.destinationsol.game.particle.EffectConfig;

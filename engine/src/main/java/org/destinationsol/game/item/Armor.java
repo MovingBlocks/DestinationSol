@@ -17,9 +17,9 @@ package org.destinationsol.game.item;
 
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import org.destinationsol.assets.Assets;
-import org.destinationsol.assets.audio.OggSoundManager;
-import org.destinationsol.assets.audio.OggSoundSet;
-import org.destinationsol.assets.audio.PlayableSound;
+import org.destinationsol.assets.sound.OggSoundManager;
+import org.destinationsol.assets.sound.OggSoundSet;
+import org.destinationsol.assets.sound.PlayableSound;
 import org.destinationsol.assets.json.Validator;
 import org.destinationsol.game.DmgType;
 import org.destinationsol.game.SolGame;

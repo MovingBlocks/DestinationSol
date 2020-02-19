@@ -17,7 +17,7 @@ package org.destinationsol.game.sound;
 
 import com.badlogic.gdx.math.Vector2;
 import org.destinationsol.Const;
-import org.destinationsol.assets.audio.PlayableSound;
+import org.destinationsol.assets.sound.PlayableSound;
 import org.destinationsol.game.DmgType;
 import org.destinationsol.game.SolGame;
 import org.destinationsol.game.SolObject;

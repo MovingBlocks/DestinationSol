@@ -23,7 +23,7 @@ import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.math.collision.BoundingBox;
 import com.badlogic.gdx.utils.Array;
 import com.google.common.base.Preconditions;
-import org.destinationsol.assets.audio.OggSoundSet;
+import org.destinationsol.assets.sound.OggSoundSet;
 import org.destinationsol.common.NotNull;
 import org.destinationsol.common.SolMath;
 import org.destinationsol.common.SolRandom;

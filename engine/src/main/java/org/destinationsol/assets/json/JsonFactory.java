@@ -1,5 +1,5 @@
 /*
- * Copyright 2018 MovingBlocks
+ * Copyright 2020 The Terasology Foundation
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -13,24 +13,16 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.destinationsol.assets.audio;
+package org.destinationsol.assets.json;
 
-/**
- * A class that stores an OggSound or a set of OggSounds.
- */
-public interface PlayableSound {
+import org.terasology.gestalt.assets.AssetFactory;
+import org.terasology.gestalt.assets.AssetType;
+import org.terasology.gestalt.assets.ResourceUrn;
 
-    /**
-     * Returns an OggSound selected from the sound set.
-     *
-     * @return
-     */
-    OggSound getOggSound();
+public class JsonFactory implements AssetFactory<Json, JsonData> {
 
-    /**
-     * Returns the common pitch value for all the stored OggSound.
-     *
-     * @return
-     */
-    float getBasePitch();
+    @Override
+    public Json build(ResourceUrn urn, AssetType<Json, JsonData> type, JsonData data) {
+        return new Json(urn, type, data);
+    }
 }

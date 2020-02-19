@@ -16,7 +16,7 @@
 package org.destinationsol.game;
 
 import org.destinationsol.assets.Assets;
-import org.destinationsol.assets.audio.OggSoundManager;
+import org.destinationsol.assets.sound.OggSoundManager;
 import org.destinationsol.assets.json.Json;
 import org.destinationsol.assets.json.Validator;
 import org.destinationsol.game.particle.EffectTypes;

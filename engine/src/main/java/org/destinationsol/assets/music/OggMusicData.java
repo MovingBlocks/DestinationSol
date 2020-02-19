@@ -1,5 +1,5 @@
 /*
- * Copyright 2018 MovingBlocks
+ * Copyright 2020 The Terasology Foundation
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -13,23 +13,19 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.destinationsol.game.item;
+package org.destinationsol.assets.music;
 
-import com.badlogic.gdx.graphics.Color;
-import org.destinationsol.assets.sound.PlayableSound;
+import com.badlogic.gdx.audio.Music;
+import org.terasology.gestalt.assets.AssetData;
 
-public class SolItemType {
-    public final Color color;
-    public final PlayableSound pickUpSound;
-    public final Color uiColor;
-    public final float sz;
+public class OggMusicData implements AssetData {
+    private Music music;
 
-    public SolItemType(Color color, PlayableSound pickUpSound, float sz) {
-        this.color = color;
-        this.sz = sz;
-        uiColor = new Color(color);
-        uiColor.a = .3f;
-        this.pickUpSound = pickUpSound;
+    public OggMusicData(Music music) {
+        this.music = music;
     }
 
+    public Music getMusic() {
+        return music;
+    }
 }

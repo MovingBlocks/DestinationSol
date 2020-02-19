@@ -1,5 +1,5 @@
 /*
- * Copyright 2018 MovingBlocks
+ * Copyright 2020 The Terasology Foundation
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -13,29 +13,29 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.destinationsol.assets.textures;
+package org.destinationsol.assets.music;
 
-import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.audio.Music;
 import org.terasology.gestalt.assets.Asset;
 import org.terasology.gestalt.assets.AssetType;
 import org.terasology.gestalt.assets.ResourceUrn;
 import org.terasology.gestalt.assets.module.annotations.RegisterAssetType;
 
-@RegisterAssetType(folderName = {"textures", "ships", "items", "grounds", "mazes", "asteroids", "fonts"}, factoryClass = DSTextureFactory.class)
-public class DSTexture extends Asset<DSTextureData> {
-    private DSTextureData dsTextureData;
+@RegisterAssetType(folderName = "music", factoryClass = OggMusicFactory.class)
+public class OggMusic extends Asset<OggMusicData> {
+    private OggMusicData musicData;
 
-    public DSTexture(ResourceUrn urn, AssetType<?, DSTextureData> assetType, DSTextureData data) {
+    public OggMusic(ResourceUrn urn, AssetType<?, OggMusicData> assetType, OggMusicData data) {
         super(urn, assetType);
         reload(data);
     }
 
     @Override
-    protected void doReload(DSTextureData data) {
-        this.dsTextureData = data;
+    protected void doReload(OggMusicData data) {
+        this.musicData = data;
     }
 
-    public Texture getTexture() {
-        return dsTextureData.getTexture();
+    public Music getMusic() {
+        return musicData.getMusic();
     }
 }

@@ -1,5 +1,5 @@
 /*
- * Copyright 2018 MovingBlocks
+ * Copyright 2020 The Terasology Foundation
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -15,27 +15,14 @@
  */
 package org.destinationsol.assets.emitters;
 
-import com.badlogic.gdx.graphics.g2d.ParticleEmitter;
-import org.terasology.gestalt.assets.Asset;
+import org.terasology.gestalt.assets.AssetFactory;
 import org.terasology.gestalt.assets.AssetType;
 import org.terasology.gestalt.assets.ResourceUrn;
-import org.terasology.gestalt.assets.module.annotations.RegisterAssetType;
 
-@RegisterAssetType(folderName = "emitters", factoryClass = EmitterFactory.class)
-public class Emitter extends Asset<EmitterData> {
-    private EmitterData emitterData;
-
-    public Emitter(ResourceUrn urn, AssetType<?, EmitterData> assetType, EmitterData data) {
-        super(urn, assetType);
-        reload(data);
-    }
+public class EmitterFactory implements AssetFactory<Emitter, EmitterData> {
 
     @Override
-    protected void doReload(EmitterData data) {
-        this.emitterData = data;
-    }
-
-    public ParticleEmitter getParticleEmitter() {
-        return emitterData.getParticleEmitter();
+    public Emitter build(ResourceUrn urn, AssetType<Emitter, EmitterData> type, EmitterData data) {
+        return new Emitter(urn, type, data);
     }
 }

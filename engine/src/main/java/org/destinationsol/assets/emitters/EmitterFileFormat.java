@@ -37,7 +37,6 @@ public class EmitterFileFormat extends AbstractAssetFileFormat<EmitterData> {
 
     @Override
     public EmitterData load(ResourceUrn urn, List<AssetDataFile> inputs) throws IOException {
-        String path = Assets.getAssetHelper().resolveToPath(inputs);
 
         FileHandle handle = new AssetDataFileHandle(inputs.get(0));
         BufferedReader reader = new BufferedReader(new InputStreamReader(handle.read()), 512);

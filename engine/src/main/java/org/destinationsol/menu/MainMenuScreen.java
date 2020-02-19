@@ -23,7 +23,7 @@ import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import org.destinationsol.GameOptions;
 import org.destinationsol.SolApplication;
 import org.destinationsol.assets.Assets;
-import org.destinationsol.assets.audio.OggMusicManager;
+import org.destinationsol.assets.music.OggMusicManager;
 import org.destinationsol.common.SolColor;
 import org.destinationsol.game.DebugOptions;
 import org.destinationsol.ui.DisplayDimensions;

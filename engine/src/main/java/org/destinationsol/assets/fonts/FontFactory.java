@@ -1,5 +1,5 @@
 /*
- * Copyright 2018 MovingBlocks
+ * Copyright 2020 The Terasology Foundation
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -15,27 +15,14 @@
  */
 package org.destinationsol.assets.fonts;
 
-import com.badlogic.gdx.graphics.g2d.BitmapFont;
-import org.terasology.gestalt.assets.Asset;
+import org.terasology.gestalt.assets.AssetFactory;
 import org.terasology.gestalt.assets.AssetType;
 import org.terasology.gestalt.assets.ResourceUrn;
-import org.terasology.gestalt.assets.module.annotations.RegisterAssetType;
 
-@RegisterAssetType(folderName = "fonts", factoryClass = FontFactory.class)
-public class Font extends Asset<FontData> {
-    private FontData fontData;
-
-    public Font(ResourceUrn urn, AssetType<?, FontData> assetType, FontData data) {
-        super(urn, assetType);
-        reload(data);
-    }
+public class FontFactory implements AssetFactory<Font, FontData> {
 
     @Override
-    protected void doReload(FontData data) {
-        this.fontData = data;
-    }
-
-    public BitmapFont getBitmapFont() {
-        return fontData.getBitmapFont();
+    public Font build(ResourceUrn urn, AssetType<Font, FontData> type, FontData data) {
+        return new Font(urn, type, data);
     }
 }

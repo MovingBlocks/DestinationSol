@@ -18,7 +18,7 @@ package org.destinationsol.game.item;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.utils.SerializationException;
 import org.destinationsol.assets.Assets;
-import org.destinationsol.assets.audio.OggSoundManager;
+import org.destinationsol.assets.sound.OggSoundManager;
 import org.destinationsol.common.SolRandom;
 import org.destinationsol.game.GameColors;
 import org.destinationsol.game.particle.EffectTypes;

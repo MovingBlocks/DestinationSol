@@ -1,5 +1,5 @@
 /*
- * Copyright 2018 MovingBlocks
+ * Copyright 2020 The Terasology Foundation
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -13,19 +13,16 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.destinationsol.assets.audio;
+package org.destinationsol.assets.sound;
 
-import com.badlogic.gdx.audio.Music;
-import org.terasology.gestalt.assets.AssetData;
+import org.terasology.gestalt.assets.AssetFactory;
+import org.terasology.gestalt.assets.AssetType;
+import org.terasology.gestalt.assets.ResourceUrn;
 
-public class OggMusicData implements AssetData {
-    private Music music;
+public class OggSoundFactory implements AssetFactory<OggSound, OggSoundData> {
 
-    public OggMusicData(Music music) {
-        this.music = music;
-    }
-
-    public Music getMusic() {
-        return music;
+    @Override
+    public OggSound build(ResourceUrn urn, AssetType<OggSound, OggSoundData> type, OggSoundData data) {
+        return new OggSound(urn, type, data);
     }
 }
