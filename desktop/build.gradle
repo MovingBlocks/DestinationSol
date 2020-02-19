@@ -50,7 +50,7 @@ task run(type: JavaExec) {
     classpath = sourceSets.main.runtimeClasspath
     standardInput = System.in
     workingDir = rootProject.projectDir
-    ignoreExitValue = true
+    ignoreExitValue true
 }
 
 jar {
@@ -75,28 +75,6 @@ task moduleDist(type: Sync) {
     }
 }
 
-task dist(type: Sync) {
-    description = "Creates an application package for distribution"
-    dependsOn jar
-
-    into("$distsDir/app")
-
-    from("$rootDir/launcher")
-
-    into('libs') {
-        from configurations.runtime
-        from jar
-    }
-}
-
-dist.finalizedBy moduleDist
-
-task distZip(type: Zip) {
-    dependsOn dist
-    from "$distsDir/app"
-    archiveName = "DestinationSol.zip"
-}
-
 task copyLaunchers (type: Copy) {
     description = "Copy launchers into the distribution folder."
 
@@ -117,7 +95,8 @@ task libsDist(type: Copy) {
 
 task distUnbundledJRE() {
     description = "Creates an application package without any bundled JRE."
-    
+    group 'Distribution'
+
     dependsOn jar
     dependsOn copyLaunchers
 }
@@ -126,6 +105,7 @@ distUnbundledJRE.finalizedBy moduleDist
 
 task distZipUnbundledJRE(type: Zip) {
     description = "Creates an application package and zip archive without any bundled JRE."
+    group 'Distribution'
 
     dependsOn distUnbundledJRE
     from "$distsDir/app"
@@ -134,6 +114,7 @@ task distZipUnbundledJRE(type: Zip) {
 
 task distBundleJREs {
     description = "Creates an application package with a bundled JRE."
+    group 'Distribution'
 
     dependsOn distUnbundledJRE
     dependsOn downloadJreAll
@@ -141,6 +122,7 @@ task distBundleJREs {
 
 task distZipBundleJREs (type: Zip) {
     description = "Creates an application package and zip archive with a bundled JRE."
+    group 'Distribution'
 
     dependsOn distBundleJREs
     from "$distsDir/app"
