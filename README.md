@@ -72,7 +72,7 @@ Run any commands in the project root directory (where you cloned / extracted the
 * Download / clone the [source from GitHub](https://github.com/MovingBlocks/DestinationSol)
 * To run from the command line: `gradlew run` (on Linux you might need to use `./gradlew run`)
 * To prepare for IntelliJ run: `gradlew idea` then load the generated project via `DestinationSol.ipr`
-* To create a game package for distribution (Windows, Linux, Mac): `gradlew distZip`
+* Distributions (Windows, Linux, Mac) should be obtained from the [Jenkins build server](http://jenkins.terasology.org/view/DestSol/job/DestinationSol/), but you can also create a distribution locally by running: `gradlew distZipBundleJREs`
 
 For Android a little extra setup is needed
 
