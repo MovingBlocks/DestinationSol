@@ -34,8 +34,6 @@ public class DSTextureFileFormat extends AbstractAssetFileFormat<DSTextureData> 
 
     @Override
     public DSTextureData load(ResourceUrn urn, List<AssetDataFile> inputs) {
-        String path = Assets.getAssetHelper().resolveToPath(inputs);
-
         FileHandle handle = new AssetDataFileHandle(inputs.get(0));
         Texture texture = new Texture(handle);
         return new DSTextureData(texture);

@@ -32,7 +32,6 @@ import org.slf4j.LoggerFactory;
 import org.terasology.gestalt.assets.ResourceUrn;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 import java.util.Set;
@@ -73,11 +72,6 @@ public abstract class Assets {
         String file = strings[1];
 
         strings = file.split("/");
-        if (strings.length > 1) {
-            assetHelper.setFolders(Arrays.copyOfRange(strings, 0, strings.length - 1));
-        } else {
-            assetHelper.setFolders();
-        }
 
         return new ResourceUrn(module + ":" + strings[strings.length - 1]);
     }
