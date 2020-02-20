@@ -33,7 +33,7 @@ public class AbilityCommonConfigs {
     public AbilityCommonConfigs(EffectTypes effectTypes, GameColors cols, OggSoundManager soundManager) {
         abilityConfigs = new HashMap<>();
 
-        for (ResourceUrn resource : Assets.getAssetHelper().list(Json.class, "[a-zA-Z0-9]*:abilitiesConfig")) {
+        for (ResourceUrn resource : Assets.getAssetHelper().listAssets(Json.class, "abilitiesConfig")) {
             JSONObject rootNode = Validator.getValidatedJSON(resource.toString(), "engine:schemaAbilitiesConfig");
 
             for (String abilityName : rootNode.keySet()) {

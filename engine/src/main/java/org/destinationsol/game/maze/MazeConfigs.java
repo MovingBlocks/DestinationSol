@@ -32,7 +32,7 @@ public class MazeConfigs {
 
     public MazeConfigs(HullConfigManager hullConfigs, ItemManager itemManager) {
         configs = new ArrayList<>();
-        final Set<ResourceUrn> configUrns = Assets.getAssetHelper().list(Json.class, "[a-zA-Z0-9]*:mazesConfig");
+        final Set<ResourceUrn> configUrns = Assets.getAssetHelper().listAssets(Json.class, "mazesConfig");
         for (ResourceUrn configUrn : configUrns) {
             JSONObject rootNode = Validator.getValidatedJSON(configUrn.toString(), "engine:schemaMazesConfig");
 

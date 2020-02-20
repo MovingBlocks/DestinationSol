@@ -33,12 +33,12 @@ public class SolNames {
         planets = new HashMap<String, ArrayList<String>>();
         systems = new ArrayList<String>();
 
-        final Set<ResourceUrn> planetNameConfigs = Assets.getAssetHelper().list(Json.class, "[a-zA-Z0-9]*:planetNamesConfig");
+        final Set<ResourceUrn> planetNameConfigs = Assets.getAssetHelper().listAssets(Json.class, "planetNamesConfig");
         for (ResourceUrn planetNameConfig : planetNameConfigs) {
             planets.put(planetNameConfig.getModuleName().toString(), readList(planetNameConfig.toString()));
         }
 
-        final Set<ResourceUrn> systemNameConfigs = Assets.getAssetHelper().list(Json.class, "[a-zA-Z0-9]*:systemNamesConfig");
+        final Set<ResourceUrn> systemNameConfigs = Assets.getAssetHelper().listAssets(Json.class, "systemNamesConfig");
         for (ResourceUrn systemNameConfig : systemNameConfigs) {
             systems.addAll(readList(systemNameConfig.toString()));
         }

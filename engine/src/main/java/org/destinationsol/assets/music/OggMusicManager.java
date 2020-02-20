@@ -168,7 +168,7 @@ public class OggMusicManager {
             }
         }
 
-        if (Assets.getAssetHelper().list(Json.class, moduleName + ":musicConfig").isEmpty()) {
+        if (!Assets.getAssetHelper().get(new ResourceUrn(moduleName + ":musicConfig"), Json.class).isPresent()) {
             return;
         } else {
             logger.info("Music Config found for module " + moduleName);
@@ -195,7 +195,7 @@ public class OggMusicManager {
      * Registers all module menu music
      */
     public void registerAllMenuMusic(GameOptions options) {
-        Set<ResourceUrn> configUrnList = Assets.getAssetHelper().list(Json.class, "[a-zA-Z]*:musicConfig");
+        Set<ResourceUrn> configUrnList = Assets.getAssetHelper().listAssets(Json.class, "musicConfig");
 
         for (ResourceUrn configUrn : configUrnList) {
             String urnString = configUrn.toString();

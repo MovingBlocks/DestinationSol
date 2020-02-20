@@ -88,7 +88,7 @@ public class ShipConfig {
     }
 
     public static ShipConfig load(HullConfigManager hullConfigs, String shipName, ItemManager itemManager) {
-        Set<ResourceUrn> configUrnList = Assets.getAssetHelper().list(Json.class, "[a-zA-Z]*:playerSpawnConfig");
+        Set<ResourceUrn> configUrnList = Assets.getAssetHelper().listAssets(Json.class, "playerSpawnConfig");
 
         ShipConfig shipConfig = null;
 

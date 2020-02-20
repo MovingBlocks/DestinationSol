@@ -21,8 +21,8 @@ import org.terasology.gestalt.assets.ResourceUrn;
 import org.terasology.gestalt.assets.module.ModuleAwareAssetTypeManager;
 import org.terasology.gestalt.assets.module.ModuleAwareAssetTypeManagerImpl;
 import org.terasology.gestalt.module.ModuleEnvironment;
+import org.terasology.gestalt.naming.Name;
 
-import java.util.HashSet;
 import java.util.Optional;
 import java.util.Set;
 
@@ -45,16 +45,20 @@ public class AssetHelper {
         return assetTypeManager.getAssetManager().getAvailableAssets(type);
     }
 
-    public Set<ResourceUrn> list(Class<? extends Asset<?>> type, String regex) {
-        Set<ResourceUrn> finalList = new HashSet<>();
+    public Set<ResourceUrn> listAssets(Class<? extends Asset<?>> type, String asset) {
+        return assetTypeManager.getAssetManager().resolve(asset, type);
+    }
 
-        Set<ResourceUrn> resourceList = assetTypeManager.getAssetManager().getAvailableAssets(type);
-        for (ResourceUrn resourceUrn : resourceList) {
-            if (resourceUrn.toString().matches(regex)) {
-                finalList.add(resourceUrn);
+    public Set<ResourceUrn> listAssets(Class<? extends Asset<?>> type, String asset, Name... excluding) {
+        Set<ResourceUrn> list = listAssets(type, asset);
+        list.removeIf(urn -> {
+            for (Name module : excluding) {
+                if (urn.getModuleName().equals(module)) {
+                    return true;
+                }
             }
-        }
-
-        return finalList;
+            return false;
+        });
+        return list;
     }
 }

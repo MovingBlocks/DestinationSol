@@ -43,7 +43,7 @@ public class ProjectileConfigs {
     public ProjectileConfigs(OggSoundManager soundManager, EffectTypes effectTypes, GameColors cols) {
         configs = new HashMap<>();
 
-        Set<ResourceUrn> projectileConfigurationFiles = Assets.getAssetHelper().list(Json.class, "[a-zA-Z]*:projectilesConfig");
+        Set<ResourceUrn> projectileConfigurationFiles = Assets.getAssetHelper().listAssets(Json.class, "projectilesConfig");
 
         for (ResourceUrn configUrn : projectileConfigurationFiles) {
             JSONObject rootNode = Validator.getValidatedJSON(configUrn.toString(), "engine:schemaProjectileConfig");
