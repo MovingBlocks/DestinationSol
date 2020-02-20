@@ -40,18 +40,23 @@ import org.terasology.gestalt.module.ModuleMetadataJsonAdapter;
 import org.terasology.gestalt.module.ModulePathScanner;
 import org.terasology.gestalt.module.ModuleRegistry;
 import org.terasology.gestalt.module.TableModuleRegistry;
+import org.terasology.gestalt.module.resources.ArchiveFileSource;
+import org.terasology.gestalt.module.resources.DirectoryFileSource;
+import org.terasology.gestalt.module.resources.ModuleFileSource;
 import org.terasology.gestalt.module.sandbox.APIScanner;
 import org.terasology.gestalt.module.sandbox.ModuleSecurityManager;
 import org.terasology.gestalt.module.sandbox.ModuleSecurityPolicy;
 import org.terasology.gestalt.module.sandbox.StandardPermissionProviderFactory;
 
 import java.io.File;
+import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.Reader;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.ReflectPermission;
 import java.nio.file.Paths;
 import java.security.Policy;
+import java.util.Collections;
 import java.util.Set;
 
 /**
@@ -177,7 +182,24 @@ public class ModuleManager {
             engineModuleReader.close();
             ModuleFactory moduleFactory = new ModuleFactory();
             File file = new File(Paths.get(getClass().getProtectionDomain().getCodeSource().getLocation().toURI()).toUri());
-            engineModule = moduleFactory.createModule(engineMetadata, file);
+
+            ModuleFileSource fileSource;
+            if (file.isDirectory()) {
+                fileSource = new DirectoryFileSource(file);
+            } else {
+                fileSource = new ArchiveFileSource(file);
+            }
+
+            Reflections engineReflections;
+            InputStream engineReflectionsStream = getClass().getResourceAsStream("/reflections.cache");
+            if (engineReflectionsStream != null) {
+                engineReflections = new ConfigurationBuilder().getSerializer().read(engineReflectionsStream);
+            } else {
+                logger.warn("Reflections cache not found for engine. Generating new cache.");
+                engineReflections = new Reflections();
+            }
+
+            engineModule = new Module(engineMetadata, fileSource, Collections.EMPTY_LIST, engineReflections, x -> true);
 
             // scan for all standard modules
             registry = new TableModuleRegistry();
