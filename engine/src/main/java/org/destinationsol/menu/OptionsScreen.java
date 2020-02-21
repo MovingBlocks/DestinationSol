@@ -1,5 +1,5 @@
 /*
- * Copyright 2018 MovingBlocks
+ * Copyright 2020 MovingBlocks
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -41,34 +41,40 @@ public class OptionsScreen extends SolUiBaseScreen {
     private final SolUiControl musicVolumeControl;
     private final SolUiControl mapScrollSpeedControl;
 
-    OptionsScreen(MenuLayout menuLayout, GameOptions gameOptions) {
+    OptionsScreen(boolean mobile, MenuLayout menuLayout, GameOptions gameOptions) {
         displayDimensions = SolApplication.displayDimensions;
-
-        musicVolumeControl = new SolUiControl(menuLayout.buttonRect(-1, -2), true);
+        int rowNo = mobile ? 0 : -3;
+        musicVolumeControl = new SolUiControl(menuLayout.buttonRect(-1, rowNo++), true);
         musicVolumeControl.setDisplayName("Music Volume");
         controls.add(musicVolumeControl);
 
-        soundVolumeControl = new SolUiControl(menuLayout.buttonRect(-1, -1), true);
+        soundVolumeControl = new SolUiControl(menuLayout.buttonRect(-1, rowNo++), true);
         soundVolumeControl.setDisplayName("Sound Volume");
         controls.add(soundVolumeControl);
 
-        resolutionControl = new SolUiControl(menuLayout.buttonRect(-1, 0), true);
+        // Mobile platforms always run in fullscreen, so the resolution cannot be changed
+        resolutionControl = new SolUiControl(mobile ? null : menuLayout.buttonRect(-1, rowNo++), true);
         resolutionControl.setDisplayName("Resolution");
         controls.add(resolutionControl);
 
-        mapScrollSpeedControl = new SolUiControl(menuLayout.buttonRect(-1, 1), true);
+        mapScrollSpeedControl = new SolUiControl(menuLayout.buttonRect(-1, rowNo++), true);
         mapScrollSpeedControl.setDisplayName("Map Pan Speed");
         controls.add(mapScrollSpeedControl);
 
-        inputTypeControl = new SolUiControl(menuLayout.buttonRect(-1, 2), true, Input.Keys.C);
+        // Mobile platforms always use the same input method: touchscreen controls
+        // TODO: Would portable keyboards be supported
+        inputTypeControl = new SolUiControl(mobile ? null : menuLayout.buttonRect(-1, rowNo++), true, Input.Keys.C);
         inputTypeControl.setDisplayName("Control Type");
         controls.add(inputTypeControl);
 
-        inputMapControl = new SolUiControl(menuLayout.buttonRect(-1, 3), true, Input.Keys.M);
+        // The controls are not currently re-mappable on mobile platforms
+        inputMapControl = new SolUiControl(mobile ? null : menuLayout.buttonRect(-1, rowNo++), true, Input.Keys.M);
         inputMapControl.setDisplayName("Controls");
         controls.add(inputMapControl);
 
-        backControl = new SolUiControl(menuLayout.buttonRect(-1, 4), true, gameOptions.getKeyEscape());
+        // Insert a space between the options and the back button
+        rowNo++;
+        backControl = new SolUiControl(menuLayout.buttonRect(-1, rowNo++), true, gameOptions.getKeyEscape());
         backControl.setDisplayName("Back");
         controls.add(backControl);
 

@@ -1,5 +1,5 @@
 /*
- * Copyright 2018 MovingBlocks
+ * Copyright 2020 MovingBlocks
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -31,7 +31,7 @@ public class MenuScreens {
     public MenuScreens(SolLayouts layouts, boolean mobile, GameOptions gameOptions) {
         MenuLayout menuLayout = layouts.menuLayout;
         main = new MainMenuScreen(mobile, gameOptions);
-        options = new OptionsScreen(menuLayout, gameOptions);
+        options = new OptionsScreen(mobile, menuLayout, gameOptions);
         inputMapScreen = new InputMapScreen(gameOptions);
         resolutionScreen = new ResolutionScreen(menuLayout, gameOptions);
         credits = new CreditsScreen(gameOptions);
