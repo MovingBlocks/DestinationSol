@@ -171,13 +171,8 @@ public class ModuleManager {
 
     public void init() throws Exception {
         try {
-            // set up the engine as a Gestalt module
-            Reader engineModuleReader = new InputStreamReader(getClass().getResourceAsStream("/module.json"), Charsets.UTF_8);
-            ModuleMetadata engineMetadata = new ModuleMetadataJsonAdapter().read(engineModuleReader);
-            engineModuleReader.close();
             ModuleFactory moduleFactory = new ModuleFactory();
-            File file = new File(Paths.get(getClass().getProtectionDomain().getCodeSource().getLocation().toURI()).toUri());
-            engineModule = moduleFactory.createModule(engineMetadata, file);
+            engineModule = moduleFactory.createPackageModule("org.destinationsol");
 
             // scan for all standard modules
             registry = new TableModuleRegistry();

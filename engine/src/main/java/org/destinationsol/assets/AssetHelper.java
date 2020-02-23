@@ -119,8 +119,8 @@ public class AssetHelper {
 
             StringBuilder path = new StringBuilder();
 
-            if (folders.get(0).equals("assets")) {
-                path.append("assets/");
+            if (folders.get(0).equals("org/destinationsol/assets")) {
+                path.append("org/destinationsol/assets/");
             } else {
                 path.append("modules/").append(folders.get(0)).append("/");
             }
