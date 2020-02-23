@@ -63,12 +63,12 @@ public class MapScreen extends SolUiBaseScreen {
         zoomOutControl.setDisplayName("Zoom Out");
         controls.add(zoomOutControl);
 
-        Rectangle addWaypointArea = mobile ? MainGameScreen.btn(0, row0 - MainGameScreen.CELL_SZ, false) : rightPaneLayout.buttonRect(4);
+        Rectangle addWaypointArea = mobile ? MainGameScreen.btn(0, 0, false) : rightPaneLayout.buttonRect(4);
         addWaypointControl = new SolUiControl(addWaypointArea, true, gameOptions.getKeyShoot2());
         addWaypointControl.setDisplayName(NEW_WAYPOINT_TEXT);
         controls.add(addWaypointControl);
 
-        Rectangle removeWaypointArea = mobile ? MainGameScreen.btn(0, row0 - MainGameScreen.CELL_SZ * 2, false) : rightPaneLayout.buttonRect(5);
+        Rectangle removeWaypointArea = mobile ? MainGameScreen.btn(0, MainGameScreen.CELL_SZ, false) : rightPaneLayout.buttonRect(5);
         removeWaypointControl = new SolUiControl(removeWaypointArea, true, gameOptions.getKeyShoot2());
         removeWaypointControl.setDisplayName(REMOVE_WAYPOINT_TEXT);
         controls.add(removeWaypointControl);
