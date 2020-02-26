@@ -23,12 +23,12 @@ import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import com.google.common.collect.Sets;
 import org.destinationsol.game.SolGame;
-import org.destinationsol.game.console.annotations.Command;
 import org.destinationsol.game.console.annotations.RegisterCommands;
 import org.destinationsol.game.console.exceptions.CommandExecutionException;
 import org.destinationsol.game.context.Context;
+import org.destinationsol.modules.ModuleManager;
 import org.destinationsol.util.CircularBuffer;
-import org.reflections.Reflections;
+import org.destinationsol.util.InjectionHelper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -88,15 +88,13 @@ public class ConsoleImpl implements Console {
     }
 
     public void init(SolGame game) {
-        Reflections commandReflections = new Reflections("org.destinationsol.game.console.commands");
-        Set<Class<?>> classess = commandReflections.getTypesAnnotatedWith(RegisterCommands.class);
 
-        for (Class commands : commandReflections.getTypesAnnotatedWith(RegisterCommands.class)) {
+        for (Class commands : context.get(ModuleManager.class).getEnvironment().getTypesAnnotatedWith(RegisterCommands.class)) {
             try {
-                MethodCommand.registerAvailable(commands.newInstance(), this, game, context);
-            } catch (InstantiationException e) {
-                e.printStackTrace();
-            } catch (IllegalAccessException e) {
+                Object commandsObject = commands.newInstance();
+                InjectionHelper.inject(commandsObject, context);
+                MethodCommand.registerAvailable(commandsObject, this, game, context);
+            } catch (InstantiationException | IllegalAccessException e) {
                 e.printStackTrace();
             }
         }

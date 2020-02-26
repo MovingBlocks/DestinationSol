@@ -181,6 +181,7 @@ task createSkeleton() {
     mkdir('assets/configs')
     mkdir('assets/asteroids')
     mkdir('assets/schemas')
+    mkdir('assets/prefabs')
     mkdir('overrides')
     mkdir('deltas')
     mkdir('src/main/java')

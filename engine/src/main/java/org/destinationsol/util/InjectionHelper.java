@@ -15,7 +15,7 @@
  */
 package org.destinationsol.util;
 
-import org.destinationsol.game.SolGame;
+import org.destinationsol.common.In;
 import org.destinationsol.game.context.Context;
 import org.reflections.ReflectionUtils;
 import org.slf4j.Logger;
@@ -23,11 +23,9 @@ import org.slf4j.LoggerFactory;
 import org.terasology.gestalt.util.reflection.ParameterProvider;
 import org.terasology.gestalt.util.reflection.SimpleClassFactory;
 
-import java.lang.annotation.Annotation;
 import java.lang.reflect.Field;
 import java.security.AccessController;
 import java.security.PrivilegedAction;
-import java.util.Map;
 import java.util.NoSuchElementException;
 import java.util.Optional;
 
@@ -35,6 +33,25 @@ public final class InjectionHelper {
     private static final Logger logger = LoggerFactory.getLogger(InjectionHelper.class);
 
     private InjectionHelper() {
+    }
+
+    public static void inject(final Object object, Context context) {
+        AccessController.doPrivileged((PrivilegedAction<Object>) () -> {
+            for (Field field : ReflectionUtils.getAllFields(object.getClass(),
+                    ReflectionUtils.withAnnotation(In.class))) {
+                Object value = context.get(field.getType());
+                if (value != null) {
+                    try {
+                        field.setAccessible(true);
+                        field.set(object, value);
+                    } catch (IllegalAccessException e) {
+                        logger.error("Failed to inject value {} into field {} of {}", value, field, object, e);
+                    }
+                }
+            }
+
+            return null;
+        });
     }
     /**
      * Creates a new instance for a class using constructor injection.
