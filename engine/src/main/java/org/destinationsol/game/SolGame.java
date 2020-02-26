@@ -109,6 +109,7 @@ public class SolGame {
                    WorldConfig worldConfig) {
         this.isTutorial = isTutorial;
         solApplication = context.get(SolApplication.class);
+        ModuleManager moduleManager = context.get(ModuleManager.class);
         GameDrawer drawer = new GameDrawer(commonDrawer);
         gameColors = new GameColors();
         soundManager = solApplication.getSoundManager();
@@ -164,7 +165,7 @@ public class SolGame {
         onPausedUpdateSystems.put(0, defaultPausedSystems);
 
         try {
-            for (Class<?> updateSystemClass : ModuleManager.getEnvironment().getSubtypesOf(UpdateAwareSystem.class)) {
+            for (Class<?> updateSystemClass : moduleManager.getEnvironment().getSubtypesOf(UpdateAwareSystem.class)) {
                 if (!updateSystemClass.isAnnotationPresent(RegisterUpdateSystem.class)) {
                     continue;
                 }

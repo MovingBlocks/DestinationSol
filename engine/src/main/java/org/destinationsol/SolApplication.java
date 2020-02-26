@@ -25,6 +25,7 @@ import org.destinationsol.assets.sound.OggSoundManager;
 import org.destinationsol.common.SolColor;
 import org.destinationsol.common.SolMath;
 import org.destinationsol.common.SolRandom;
+import org.destinationsol.entitysystem.EntitySystemManager;
 import org.destinationsol.game.DebugOptions;
 import org.destinationsol.game.FactionInfo;
 import org.destinationsol.game.SaveManager;
@@ -61,6 +62,7 @@ public class SolApplication implements ApplicationListener {
 
     @SuppressWarnings("FieldCanBeLocal")
     private ModuleManager moduleManager;
+    private EntitySystemManager entitySystemManager;
 
     private OggMusicManager musicManager;
     private OggSoundManager soundManager;
@@ -90,10 +92,11 @@ public class SolApplication implements ApplicationListener {
     // TODO: Make this non-static.
     private static Set<ResizeSubscriber> resizeSubscribers;
 
-    public SolApplication(ModuleManager moduleManager, float targetFPS) {
+    public SolApplication(ModuleManager moduleManager, EntitySystemManager entitySystemManager, float targetFPS) {
         // Initiate Box2D to make sure natives are loaded early enough
         Box2D.init();
         this.moduleManager = moduleManager;
+        this.entitySystemManager = entitySystemManager;
         this.targetFPS = targetFPS;
         resizeSubscribers = new HashSet<>();
     }
@@ -102,6 +105,8 @@ public class SolApplication implements ApplicationListener {
     public void create() {
         context = new ContextImpl();
         context.put(SolApplication.class, this);
+        context.put(ModuleManager.class, moduleManager);
+        context.put(EntitySystemManager.class, entitySystemManager);
         worldConfig = new WorldConfig();
         isMobile = Gdx.app.getType() == Application.ApplicationType.Android || Gdx.app.getType() == Application.ApplicationType.iOS;
         if (isMobile) {

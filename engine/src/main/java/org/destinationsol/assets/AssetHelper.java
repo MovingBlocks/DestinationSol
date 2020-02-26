@@ -20,6 +20,12 @@ import org.terasology.gestalt.assets.AssetData;
 import org.terasology.gestalt.assets.ResourceUrn;
 import org.terasology.gestalt.assets.module.ModuleAwareAssetTypeManager;
 import org.terasology.gestalt.assets.module.ModuleAwareAssetTypeManagerImpl;
+import org.terasology.gestalt.assets.module.ModuleDependencyResolutionStrategy;
+import org.terasology.gestalt.assets.module.ModuleEnvironmentDependencyProvider;
+import org.terasology.gestalt.entitysystem.component.management.ComponentManager;
+import org.terasology.gestalt.entitysystem.component.management.ComponentTypeIndex;
+import org.terasology.gestalt.entitysystem.prefab.Prefab;
+import org.terasology.gestalt.entitysystem.prefab.PrefabJsonFormat;
 import org.terasology.gestalt.module.ModuleEnvironment;
 import org.terasology.gestalt.naming.Name;
 
@@ -32,8 +38,16 @@ public class AssetHelper {
     public AssetHelper() {
     }
 
-    public void init(ModuleEnvironment environment) {
+    public void init(ModuleEnvironment environment, ComponentManager componentManager) {
         assetTypeManager = new ModuleAwareAssetTypeManagerImpl();
+
+        assetTypeManager.getAssetFileDataProducer(
+                assetTypeManager.createAssetType(Prefab.class, Prefab::new, "prefabs"))
+                .addAssetFormat(new PrefabJsonFormat.Builder(
+                        new ComponentTypeIndex(environment, new ModuleDependencyResolutionStrategy(
+                                new ModuleEnvironmentDependencyProvider(environment))),
+                componentManager, assetTypeManager.getAssetManager()).create());
+
         assetTypeManager.switchEnvironment(environment);
     }
 
