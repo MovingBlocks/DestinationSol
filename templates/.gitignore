@@ -4,6 +4,7 @@ hs_err_pid*
 .gradle
 config/metrics
 *log
+build.gradle
 
 ## Ignored sub-projects with nested Git roots
 android

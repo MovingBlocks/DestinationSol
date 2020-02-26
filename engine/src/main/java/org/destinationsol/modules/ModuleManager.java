@@ -41,7 +41,6 @@ import org.terasology.gestalt.module.sandbox.APIScanner;
 import org.terasology.gestalt.module.sandbox.ModuleSecurityManager;
 import org.terasology.gestalt.module.sandbox.ModuleSecurityPolicy;
 import org.terasology.gestalt.module.sandbox.StandardPermissionProviderFactory;
-import org.terasology.gestalt.module.sandbox.WarnOnlyProviderFactory;
 
 import java.io.File;
 import java.lang.reflect.InvocationTargetException;
@@ -155,7 +154,14 @@ public class ModuleManager {
             java.io.ByteArrayOutputStream.class,
             java.io.DataOutputStream.class,
             java.io.FilterOutputStream.class,
-            java.io.PipedOutputStream.class
+            java.io.PipedOutputStream.class,
+            /* Gestalt classes */
+            org.terasology.gestalt.entitysystem.component.Component.class,
+            org.terasology.gestalt.entitysystem.event.Event.class,
+            org.terasology.gestalt.entitysystem.entity.EntityRef.class,
+            org.terasology.gestalt.entitysystem.entity.EntityIterator.class,
+            org.terasology.gestalt.entitysystem.event.EventResult.class,
+            org.terasology.gestalt.entitysystem.event.ReceiveEvent.class
     };
 
     protected static ModuleEnvironment environment;
@@ -213,7 +219,7 @@ public class ModuleManager {
         scanner.scan(reflections);
         Policy.setPolicy(new ModuleSecurityPolicy());
         System.setSecurityManager(new ModuleSecurityManager());
-        environment = new ModuleEnvironment(modules, new WarnOnlyProviderFactory((permissionFactory)));
+        environment = new ModuleEnvironment(modules,permissionFactory);
     }
 
     public ModuleEnvironment getEnvironment() {
