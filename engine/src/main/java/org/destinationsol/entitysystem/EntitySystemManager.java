@@ -53,9 +53,9 @@ public class EntitySystemManager {
 
         entityManager = new CoreEntityManager(stores);
 
-        for (Class<? extends EventReceiver> eventReceiver : environment.getSubtypesOf(EventReceiver.class)) {
+        for (Class<?> eventReceivers : environment.getTypesAnnotatedWith(RegisterEventReceivers.class)) {
             try {
-                eventReceiverMethodSupport.register(eventReceiver.newInstance(), eventSystem);
+                eventReceiverMethodSupport.register(eventReceivers.newInstance(), eventSystem);
             } catch (Exception e) {
                 e.printStackTrace();
             }
