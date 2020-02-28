@@ -27,7 +27,6 @@ import org.terasology.gestalt.entitysystem.entity.EntityManager;
 import org.terasology.gestalt.entitysystem.entity.manager.CoreEntityManager;
 import org.terasology.gestalt.entitysystem.event.Event;
 import org.terasology.gestalt.entitysystem.event.EventSystem;
-import org.terasology.gestalt.entitysystem.event.MethodHandleEventHandle;
 import org.terasology.gestalt.entitysystem.event.impl.EventReceiverMethodSupport;
 import org.terasology.gestalt.entitysystem.event.impl.EventSystemImpl;
 import org.terasology.gestalt.entitysystem.prefab.GeneratedFromRecipeComponent;
@@ -40,8 +39,7 @@ public class EntitySystemManager {
 
     private static EntityManager entityManager;
     private static EventSystem eventSystem = new EventSystemImpl();
-    private static EventReceiverMethodSupport eventReceiverMethodSupport =
-            new EventReceiverMethodSupport(MethodHandleEventHandle::new);
+    private static EventReceiverMethodSupport eventReceiverMethodSupport = new EventReceiverMethodSupport();
 
     public EntitySystemManager(ModuleEnvironment environment, ComponentManager componentManager){
 

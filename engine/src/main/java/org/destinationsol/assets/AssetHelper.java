@@ -15,8 +15,15 @@
  */
 package org.destinationsol.assets;
 
+import org.destinationsol.assets.music.AndroidOggMusicFileFormat;
+import org.destinationsol.assets.music.OggMusic;
+import org.destinationsol.assets.music.OggMusicData;
+import org.destinationsol.assets.sound.AndroidOggSoundFileFormat;
+import org.destinationsol.assets.sound.OggSound;
+import org.destinationsol.assets.sound.OggSoundData;
 import org.terasology.gestalt.assets.Asset;
 import org.terasology.gestalt.assets.AssetData;
+import org.terasology.gestalt.assets.AssetType;
 import org.terasology.gestalt.assets.ResourceUrn;
 import org.terasology.gestalt.assets.module.ModuleAwareAssetTypeManager;
 import org.terasology.gestalt.assets.module.ModuleAwareAssetTypeManagerImpl;
@@ -33,13 +40,21 @@ import java.util.Optional;
 import java.util.Set;
 
 public class AssetHelper {
-    protected ModuleAwareAssetTypeManager assetTypeManager;
+    private ModuleAwareAssetTypeManager assetTypeManager;
 
     public AssetHelper() {
     }
 
-    public void init(ModuleEnvironment environment, ComponentManager componentManager) {
+    public void init(ModuleEnvironment environment, ComponentManager componentManager, boolean isMobile) {
         assetTypeManager = new ModuleAwareAssetTypeManagerImpl();
+
+        if (isMobile) {
+            AssetType<OggSound, OggSoundData> soundType = assetTypeManager.createAssetType(OggSound.class, OggSound::new, "sounds");
+            AssetType<OggMusic, OggMusicData> musicType = assetTypeManager.createAssetType(OggMusic.class, OggMusic::new, "music");
+
+            assetTypeManager.getAssetFileDataProducer(soundType).addAssetFormat(new AndroidOggSoundFileFormat());
+            assetTypeManager.getAssetFileDataProducer(musicType).addAssetFormat(new AndroidOggMusicFileFormat());
+        }
 
         assetTypeManager.getAssetFileDataProducer(
                 assetTypeManager.createAssetType(Prefab.class, Prefab::new, "prefabs"))

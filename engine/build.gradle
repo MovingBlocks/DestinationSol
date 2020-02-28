@@ -29,7 +29,6 @@ dependencies {
 
     compile(group: 'org.terasology.gestalt', name: 'gestalt-asset-core', version: '7.0.5')
     compile(group: 'org.terasology.gestalt', name: 'gestalt-entity-system', version: '7.0.5')
-    compile(group: 'org.terasology.gestalt', name: 'gestalt-es-perf', version: '7.0.5')
     compile(group: 'org.terasology.gestalt', name: 'gestalt-module', version: '7.0.5')
     compile(group: 'org.terasology.gestalt', name: 'gestalt-util', version: '7.0.5')
 
