@@ -20,6 +20,8 @@ import com.badlogic.gdx.ApplicationListener;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.physics.box2d.Box2D;
+import org.destinationsol.assets.AssetHelper;
+import org.destinationsol.assets.Assets;
 import org.destinationsol.assets.music.OggMusicManager;
 import org.destinationsol.assets.sound.OggSoundManager;
 import org.destinationsol.common.SolColor;
@@ -47,6 +49,7 @@ import org.destinationsol.ui.UiDrawer;
 import org.destinationsol.util.FramerateLimiter;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.terasology.gestalt.entitysystem.component.management.ComponentManager;
 import org.terasology.gestalt.module.sandbox.API;
 
 import java.io.PrintWriter;
@@ -92,11 +95,10 @@ public class SolApplication implements ApplicationListener {
     // TODO: Make this non-static.
     private static Set<ResizeSubscriber> resizeSubscribers;
 
-    public SolApplication(ModuleManager moduleManager, EntitySystemManager entitySystemManager, float targetFPS) {
+    public SolApplication(ModuleManager moduleManager, float targetFPS) {
         // Initiate Box2D to make sure natives are loaded early enough
         Box2D.init();
         this.moduleManager = moduleManager;
-        this.entitySystemManager = entitySystemManager;
         this.targetFPS = targetFPS;
         resizeSubscribers = new HashSet<>();
     }
@@ -106,13 +108,19 @@ public class SolApplication implements ApplicationListener {
         context = new ContextImpl();
         context.put(SolApplication.class, this);
         context.put(ModuleManager.class, moduleManager);
-        context.put(EntitySystemManager.class, entitySystemManager);
         worldConfig = new WorldConfig();
         isMobile = Gdx.app.getType() == Application.ApplicationType.Android || Gdx.app.getType() == Application.ApplicationType.iOS;
         if (isMobile) {
             DebugOptions.read(null);
         }
         options = new GameOptions(isMobile(), null);
+
+        ComponentManager componentManager = new ComponentManager();
+        AssetHelper helper = new AssetHelper();
+        helper.init(moduleManager.getEnvironment(), componentManager, isMobile);
+        Assets.initialize(helper);
+        entitySystemManager = new EntitySystemManager(moduleManager.getEnvironment(), componentManager);
+        context.put(EntitySystemManager.class, entitySystemManager);
 
         logger.info("\n\n ------------------------------------------------------------ \n");
         moduleManager.printAvailableModules();

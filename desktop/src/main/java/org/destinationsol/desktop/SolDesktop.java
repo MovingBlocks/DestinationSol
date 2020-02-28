@@ -21,10 +21,7 @@ import com.badlogic.gdx.Graphics;
 import com.badlogic.gdx.backends.lwjgl3.Lwjgl3Application;
 import com.badlogic.gdx.backends.lwjgl3.Lwjgl3ApplicationConfiguration;
 import com.badlogic.gdx.backends.lwjgl3.Lwjgl3Graphics;
-import org.destinationsol.entitysystem.EntitySystemManager;
 import org.destinationsol.GameOptions;
-import org.destinationsol.assets.AssetHelper;
-import org.destinationsol.assets.Assets;
 import org.destinationsol.modules.ModuleManager;
 import org.destinationsol.SolApplication;
 import org.destinationsol.SolFileReader;
@@ -33,8 +30,6 @@ import org.destinationsol.ui.ResizeSubscriber;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.terasology.crashreporter.CrashReporter;
-import org.terasology.gestalt.entitysystem.component.management.ComponentManager;
-import org.terasology.gestalt.entitysystem.component.management.MethodHandleComponentTypeFactory;
 
 import java.awt.Graphics2D;
 import java.awt.Color;
@@ -64,7 +59,6 @@ public final class SolDesktop {
     private static Logger logger = LoggerFactory.getLogger(SolDesktop.class);
     private static boolean initFinished;
     private static ModuleManager moduleManager;
-    private static EntitySystemManager entitySystemManager;
 
     /**
      * Specifies the commandline option to pass to the application for it to generate no crash reports.
@@ -131,11 +125,6 @@ public final class SolDesktop {
                 try {
                     moduleManager = new ModuleManager();
                     moduleManager.init();
-                    ComponentManager componentManager = new ComponentManager(new MethodHandleComponentTypeFactory());
-                    AssetHelper helper = new AssetHelper();
-                    helper.init(moduleManager.getEnvironment(), componentManager);
-                    Assets.initialize(helper);
-                    entitySystemManager = new EntitySystemManager(moduleManager.getEnvironment(), componentManager);
                 } catch (Exception ignore) {
                 }
                 initFinished = true;
@@ -154,7 +143,7 @@ public final class SolDesktop {
             splash.close();
         }
         // Everything is set up correctly, launch the application
-        SolApplication application = new SolApplication(moduleManager, entitySystemManager, 100);
+        SolApplication application = new SolApplication(moduleManager, 100);
         SolApplication.addResizeSubscriber(new SolDesktop.FullScreenWindowPositionAdjustment(!options.fullscreen));
         // Everything is set up correctly, launch the application
         new Lwjgl3Application(application, applicationConfig);
