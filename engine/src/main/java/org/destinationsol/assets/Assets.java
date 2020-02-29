@@ -30,6 +30,7 @@ import org.json.JSONObject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.terasology.gestalt.assets.ResourceUrn;
+import org.terasology.gestalt.entitysystem.prefab.Prefab;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -59,6 +60,21 @@ public abstract class Assets {
 
     public static AssetHelper getAssetHelper() {
         return assetHelper;
+    }
+
+    /**
+     * Loads an Prefab (.prefab) from the current environment. Throws an exception if the asset is not found.
+     * @param path A String specifying the desired asset.
+     * @return The loaded Prefab.
+     */
+    public static Prefab getPrefab(String path) {
+        Optional<Prefab> prefabOptional = assetHelper.get(new ResourceUrn(path), Prefab.class);
+
+        if (prefabOptional.isPresent()) {
+            return prefabOptional.get();
+        }
+
+        throw new RuntimeException("Prefab " + path + " not found!");
     }
 
     /**

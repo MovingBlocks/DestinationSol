@@ -27,6 +27,7 @@ import org.destinationsol.assets.sound.OggSoundManager;
 import org.destinationsol.common.SolColor;
 import org.destinationsol.common.SolMath;
 import org.destinationsol.common.SolRandom;
+import org.destinationsol.entitysystem.ComponentSystemManager;
 import org.destinationsol.entitysystem.EntitySystemManager;
 import org.destinationsol.game.DebugOptions;
 import org.destinationsol.game.FactionInfo;
@@ -121,6 +122,8 @@ public class SolApplication implements ApplicationListener {
         Assets.initialize(helper);
         entitySystemManager = new EntitySystemManager(moduleManager.getEnvironment(), componentManager);
         context.put(EntitySystemManager.class, entitySystemManager);
+
+        context.put(ComponentSystemManager.class, new ComponentSystemManager(moduleManager.getEnvironment(), context));
 
         logger.info("\n\n ------------------------------------------------------------ \n");
         moduleManager.printAvailableModules();
@@ -258,6 +261,8 @@ public class SolApplication implements ApplicationListener {
     }
 
     public void play(boolean tut, String shipName, boolean isNewGame) {
+        context.get(ComponentSystemManager.class).preBegin();
+
         if (isNewGame) {
             beforeNewGame();
         } else {
