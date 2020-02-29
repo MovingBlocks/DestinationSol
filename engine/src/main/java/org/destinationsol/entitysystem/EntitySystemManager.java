@@ -16,7 +16,6 @@
 package org.destinationsol.entitysystem;
 
 import com.google.common.collect.Lists;
-import org.destinationsol.assets.Assets;
 import org.terasology.gestalt.entitysystem.component.Component;
 import org.terasology.gestalt.entitysystem.component.management.ComponentManager;
 import org.terasology.gestalt.entitysystem.component.store.ArrayComponentStore;
@@ -30,7 +29,6 @@ import org.terasology.gestalt.entitysystem.event.EventSystem;
 import org.terasology.gestalt.entitysystem.event.impl.EventReceiverMethodSupport;
 import org.terasology.gestalt.entitysystem.event.impl.EventSystemImpl;
 import org.terasology.gestalt.entitysystem.prefab.GeneratedFromRecipeComponent;
-import org.terasology.gestalt.entitysystem.prefab.Prefab;
 import org.terasology.gestalt.module.ModuleEnvironment;
 
 import java.util.List;
@@ -60,23 +58,17 @@ public class EntitySystemManager {
                 e.printStackTrace();
             }
         }
-
-        Assets.getAssetHelper().list(Prefab.class).forEach(urn -> {
-            Assets.getAssetHelper().get(urn, Prefab.class).ifPresent(prefab -> {
-                entityManager.createEntity(prefab);
-            });
-        });
-    }
-
-    public EntityIterator getEntities(Component... components) {
-        return entityManager.iterate(components);
     }
 
     public void sendEvent(Event event, Component... components) {
-        EntityIterator iterator = getEntities(components);
+        EntityIterator iterator = entityManager.iterate(components);
         while (iterator.next()) {
             eventSystem.send(event, iterator.getEntity());
         }
         eventSystem.processEvents();
+    }
+
+    public EntityManager getEntityManager() {
+        return entityManager;
     }
 }

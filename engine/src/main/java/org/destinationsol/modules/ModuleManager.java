@@ -160,6 +160,7 @@ public class ModuleManager {
             org.terasology.gestalt.entitysystem.event.Event.class,
             org.terasology.gestalt.entitysystem.entity.EntityRef.class,
             org.terasology.gestalt.entitysystem.entity.EntityIterator.class,
+            org.terasology.gestalt.entitysystem.entity.EntityManager.class,
             org.terasology.gestalt.entitysystem.event.EventResult.class,
             org.terasology.gestalt.entitysystem.event.ReceiveEvent.class
     };
