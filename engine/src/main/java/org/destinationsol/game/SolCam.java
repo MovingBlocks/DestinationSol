@@ -323,4 +323,15 @@ public class SolCam implements UpdateAwareSystem {
         distanceDifference.y = .5f - distanceDifference.y;
         return distanceDifference;
     }
+
+    /** @return true if the camera matrix does not have Nan or infinite values */
+    public boolean isMatrixValid() {
+        for(float i : myCam.combined.val) {
+            if(!Float.isFinite(i)) {
+                return false;
+            }
+        }
+
+        return true;
+    }
 }
