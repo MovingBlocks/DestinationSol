@@ -32,6 +32,7 @@ dependencies {
     compile(group: 'org.terasology.gestalt', name: 'gestalt-module', version: '7.0.5')
     compile(group: 'org.terasology.gestalt', name: 'gestalt-util', version: '7.0.5')
 
+    compile group: 'com.google.protobuf', name: 'protobuf-java', version: '3.4.0'
 
     compile "com.github.everit-org.json-schema:org.everit.json.schema:1.11.1"
     compile "com.github.marschall:zipfilesystem-standalone:1.0.1"
