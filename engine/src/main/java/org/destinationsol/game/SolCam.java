@@ -326,8 +326,8 @@ public class SolCam implements UpdateAwareSystem {
 
     /** @return true if the camera matrix does not have Nan or infinite values */
     public boolean isMatrixValid() {
-        for(float i : myCam.combined.val) {
-            if(!Float.isFinite(i)) {
+        for (float i : myCam.combined.val) {
+            if (!Float.isFinite(i)) {
                 return false;
             }
         }
