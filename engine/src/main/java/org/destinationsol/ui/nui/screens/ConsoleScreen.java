@@ -20,6 +20,7 @@ import org.destinationsol.game.console.ConsoleImpl;
 import org.destinationsol.game.console.CyclingTabCompletionEngine;
 import org.destinationsol.game.console.Message;
 import org.destinationsol.ui.nui.NUIScreenLayer;
+import org.destinationsol.ui.nui.widgets.UICommandEntry;
 import org.terasology.input.MouseInput;
 import org.terasology.nui.BaseInteractionListener;
 import org.terasology.nui.Canvas;
