@@ -28,6 +28,8 @@ import org.destinationsol.common.DebugCol;
 import org.destinationsol.common.SolException;
 import org.destinationsol.common.SolMath;
 import org.destinationsol.common.SolRandom;
+import org.destinationsol.entitysystem.EntitySystemManager;
+import org.destinationsol.entitysystem.gestaltPracticeECS.EventSendingSystem;
 import org.destinationsol.files.HullConfigManager;
 import org.destinationsol.game.asteroid.AsteroidBuilder;
 import org.destinationsol.game.attributes.RegisterUpdateSystem;
@@ -58,6 +60,7 @@ import org.destinationsol.ui.DebugCollector;
 import org.destinationsol.ui.TutorialManager;
 import org.destinationsol.ui.UiDrawer;
 import org.destinationsol.ui.Waypoint;
+import org.destinationsol.util.InjectionHelper;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -149,10 +152,13 @@ public class SolGame {
         beaconHandler = new BeaconHandler();
         timeFactor = 1;
 
+        EventSendingSystem eventSendingSystem = new EventSendingSystem();
+        InjectionHelper.inject(eventSendingSystem, context);
+
         // the ordering of update aware systems is very important, switching them up can cause bugs!
         updateSystems = new TreeMap<Integer, List<UpdateAwareSystem>>();
         List<UpdateAwareSystem> defaultSystems = new ArrayList<UpdateAwareSystem>();
-        defaultSystems.addAll(Arrays.asList(planetManager, camera, chunkManager, mountDetectDrawer, objectManager, mapDrawer, soundManager, beaconHandler, drawableDebugger));
+        defaultSystems.addAll(Arrays.asList(planetManager, camera, chunkManager, mountDetectDrawer, objectManager, mapDrawer, soundManager, beaconHandler, drawableDebugger, eventSendingSystem));
         if (tutorialManager != null) {
             defaultSystems.add(tutorialManager);
         }

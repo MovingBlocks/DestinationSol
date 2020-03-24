@@ -28,14 +28,12 @@ import org.terasology.gestalt.entitysystem.entity.EntityIterator;
 
 
 @RegisterUpdateSystem
-@RegisterCommands
-public class EventSendingSystem extends ComponentSystem  implements UpdateAwareSystem {
+public class EventSendingSystem implements UpdateAwareSystem {
 
     @In
     private EntitySystemManager entitySystemManager;
 
     @Override
-    @Command
     public void update(SolGame game, float timeStep) {
         EntityIterator iterator = entitySystemManager.getEntityManager().iterate(new LocationComponent());
         while (iterator.next()) {
