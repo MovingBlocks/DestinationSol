@@ -23,7 +23,10 @@ import com.google.gson.GsonBuilder;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import com.google.gson.stream.JsonReader;
+import org.destinationsol.Const;
 import org.destinationsol.IniReader;
+import org.destinationsol.assets.Assets;
+import org.destinationsol.assets.json.Json;
 import org.destinationsol.common.SolRandom;
 import org.destinationsol.files.HullConfigManager;
 import org.destinationsol.game.item.Gun;
@@ -36,6 +39,7 @@ import org.destinationsol.game.ship.hulls.HullConfig;
 import org.destinationsol.ui.Waypoint;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.terasology.gestalt.assets.ResourceUrn;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -45,6 +49,7 @@ import java.io.PrintWriter;
 import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 
 public class SaveManager {
     protected static final String SAVE_FILE_NAME = "prevShip.ini";
@@ -202,8 +207,13 @@ public class SaveManager {
         IniReader ir = new IniReader(SAVE_FILE_NAME, null);
 
         String hullName = ir.getString("hull", null);
-        if (hullName == null) {
-            return null;
+        if (!hullName.contains(":")) {
+            Set<ResourceUrn> urns = Assets.getAssetHelper().list(Json.class, "[a-zA-Z1-9]*:" + hullName);
+            if (urns.isEmpty()) {
+                return null;
+            } else {
+                hullName = urns.iterator().next().toString();
+            }
         }
 
         HullConfig hull = hullConfigs.getConfig(hullName);
@@ -214,7 +224,7 @@ public class SaveManager {
         int money = ir.getInt("money", 0);
         String itemsStr = ir.getString("items", "");
 
-        float x = ir.getFloat("x", 0);
+        float x = ir.getFloat("x", Const.SUN_RADIUS * 4f);
         float y = ir.getFloat("y", 0);
         Vector2 spawnPos = new Vector2(x, y);
 

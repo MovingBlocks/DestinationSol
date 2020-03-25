@@ -19,14 +19,17 @@ import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.utils.SerializationException;
 import org.destinationsol.assets.Assets;
 import org.destinationsol.assets.audio.OggSoundManager;
+import org.destinationsol.assets.json.Json;
 import org.destinationsol.common.SolRandom;
 import org.destinationsol.game.GameColors;
 import org.destinationsol.game.particle.EffectTypes;
 import org.destinationsol.game.projectile.ProjectileConfigs;
+import org.terasology.gestalt.assets.ResourceUrn;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Set;
 
 public class ItemManager {
     public final ProjectileConfigs projConfigs;
@@ -130,6 +133,15 @@ public class ItemManager {
                 } else if (itemName.endsWith("-2")) {
                     wasEquipped = 2;
                     itemName = itemName.substring(0, itemName.length() - 2); // Remove equipped number
+                }
+
+                if (!itemName.contains(":") && !itemName.equals("rep")) {
+                    Set<ResourceUrn> urns = Assets.getAssetHelper().list(Json.class, "[a-zA-Z1-9]*:" + itemName);
+                    if (!urns.isEmpty()) {
+                        itemName = urns.iterator().next().toString();
+                    } else {
+                        throw new RuntimeException("Can't find resource `" + itemName + "`");
+                    }
                 }
 
                 SolItem example = getExample(itemName);
