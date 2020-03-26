@@ -135,6 +135,34 @@ public class ItemManager {
                     itemName = itemName.substring(0, itemName.length() - 2); // Remove equipped number
                 }
 
+                // handle pre v2 save file
+                switch (itemName) {
+                case "a1":
+                    itemName = "lightArmor";
+                    break;
+                case "a2":
+                    itemName = "mediumArmor";
+                    break;
+                case "a3":
+                    itemName = "heavyArmor";
+                    break;
+                case "a4":
+                    itemName = "advancedArmor";
+                    break;
+                case "s1":
+                    itemName = "smallShield";
+                    break;
+                case "s2":
+                    itemName = "shield";
+                    break;
+                case "s3":
+                    itemName = "bigShield";
+                    break;
+                case "s4":
+                    itemName = "advancedShield";
+                    break;
+                }
+
                 if (!itemName.contains(":") && !itemName.equals("rep")) {
                     Set<ResourceUrn> urns = Assets.getAssetHelper().list(Json.class, "[a-zA-Z1-9]*:" + itemName);
                     if (!urns.isEmpty()) {
