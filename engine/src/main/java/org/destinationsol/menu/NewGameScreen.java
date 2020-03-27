@@ -18,7 +18,9 @@ package org.destinationsol.menu;
 
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
+import org.destinationsol.Const;
 import org.destinationsol.GameOptions;
+import org.destinationsol.IniReader;
 import org.destinationsol.SolApplication;
 import org.destinationsol.assets.Assets;
 import org.destinationsol.common.SolColor;
@@ -58,7 +60,10 @@ public class NewGameScreen extends SolUiBaseScreen {
 
     @Override
     public void onAdd(SolApplication solApplication) {
-        continueControl.setEnabled(SaveManager.hasPrevShip("prevShip.ini"));
+        IniReader reader = new IniReader(Const.SAVE_FILE_NAME, null);
+        String saveMajorVersion = reader.getString("version", "").split("\\.")[0];
+        String gameMajorVersion = Const.VERSION.split("\\.")[0];
+        continueControl.setEnabled(SaveManager.hasPrevShip("prevShip.ini") && saveMajorVersion.equals(gameMajorVersion));
     }
 
     @Override
