@@ -188,10 +188,16 @@ public class SaveManager {
     }
 
     /**
-     * Tests is the game has a previous ship (a game to continue)
+     * Tests if the game has a compatible previous ship (a game to continue)
      */
-    public static boolean hasPrevShip(String fileName) {
-        return resourceExists(fileName);
+    public static boolean hasPreviousCompatibleShip() {
+        if (!resourceExists(Const.SAVE_FILE_NAME)) {
+            return false;
+        }
+        IniReader reader = new IniReader(Const.SAVE_FILE_NAME, null);
+        String saveMajorVersion = reader.getString("version", "").split("\\.")[0];
+        String gameMajorVersion = Const.VERSION.split("\\.")[0];
+        return saveMajorVersion.equals(gameMajorVersion);
     }
 
     /**
