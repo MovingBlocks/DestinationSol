@@ -33,7 +33,7 @@ dependencies {
     compile(group: 'org.terasology.gestalt', name: 'gestalt-util', version: '7.0.3')
 
 
-    compile "com.github.everit-org.json-schema:org.everit.json.schema:1.11.1"
+    compile "com.github.everit-org.json-schema:org.everit.json.schema:1.12.1"
     compile "com.github.marschall:zipfilesystem-standalone:1.0.1"
     compile 'dom4j:dom4j:1.6.1'
 
