@@ -58,7 +58,7 @@ public class NewGameScreen extends SolUiBaseScreen {
 
     @Override
     public void onAdd(SolApplication solApplication) {
-        continueControl.setEnabled(SaveManager.hasPrevShip("prevShip.ini"));
+        continueControl.setEnabled(SaveManager.hasPreviousCompatibleShip());
     }
 
     @Override

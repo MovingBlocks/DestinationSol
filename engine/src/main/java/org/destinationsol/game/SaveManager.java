@@ -23,6 +23,7 @@ import com.google.gson.GsonBuilder;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import com.google.gson.stream.JsonReader;
+import org.destinationsol.Const;
 import org.destinationsol.IniReader;
 import org.destinationsol.common.SolRandom;
 import org.destinationsol.files.HullConfigManager;
@@ -47,9 +48,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class SaveManager {
-    protected static final String SAVE_FILE_NAME = "prevShip.ini";
-    protected static final String MERC_SAVE_FILE = "mercenaries.json";
-    protected static final String WORLD_SAVE_FILE_NAME = "world.json";
 
     private static Logger logger = LoggerFactory.getLogger(SaveManager.class);
 
@@ -66,7 +64,8 @@ public class SaveManager {
 
         String waypoints = waypointsToString(hero.getWaypoints());
 
-        IniReader.write(SAVE_FILE_NAME, "hull", hullName, "money", (int) money, "items", items, "x", pos.x, "y", pos.y, "waypoints", waypoints);
+        IniReader.write(Const.SAVE_FILE_NAME, "hull", hullName, "money", (int) money, "items", items,
+                "x", pos.x, "y", pos.y, "waypoints", waypoints, "version", Const.VERSION);
     }
 
     private static String waypointsToString(ArrayList<Waypoint> waypoints) {
@@ -156,7 +155,7 @@ public class SaveManager {
         // Using PrintWriter because it truncates the file if it exists or creates a new one if it doesn't
         // And truncation is good because we don't want dead mercs respawning
         try {
-            writer = new PrintWriter(getResourcePath(MERC_SAVE_FILE), "UTF-8");
+            writer = new PrintWriter(getResourcePath(Const.MERC_SAVE_FILE), "UTF-8");
             writer.write(stringToWrite);
             writer.close();
         } catch (FileNotFoundException | UnsupportedEncodingException e) {
@@ -189,17 +188,23 @@ public class SaveManager {
     }
 
     /**
-     * Tests is the game has a previous ship (a game to continue)
+     * Tests if the game has a compatible previous ship (a game to continue)
      */
-    public static boolean hasPrevShip(String fileName) {
-        return resourceExists(fileName);
+    public static boolean hasPreviousCompatibleShip() {
+        if (!resourceExists(Const.SAVE_FILE_NAME)) {
+            return false;
+        }
+        IniReader reader = new IniReader(Const.SAVE_FILE_NAME, null);
+        String saveMajorVersion = reader.getString("version", "").split("\\.")[0];
+        String gameMajorVersion = Const.VERSION.split("\\.")[0];
+        return saveMajorVersion.equals(gameMajorVersion);
     }
 
     /**
      * Load last saved ship from file
      */
     public static ShipConfig readShip(HullConfigManager hullConfigs, ItemManager itemManager) {
-        IniReader ir = new IniReader(SAVE_FILE_NAME, null);
+        IniReader ir = new IniReader(Const.SAVE_FILE_NAME, null);
 
         String hullName = ir.getString("hull", null);
         if (hullName == null) {
@@ -229,7 +234,7 @@ public class SaveManager {
      */
     public static void saveWorld(int numberOfSystems) {
         Long seed = SolRandom.getSeed();
-        String fileName = SaveManager.getResourcePath(WORLD_SAVE_FILE_NAME);
+        String fileName = SaveManager.getResourcePath(Const.WORLD_SAVE_FILE_NAME);
 
         JsonObject world = new JsonObject();
         world.addProperty("seed", seed);
@@ -257,11 +262,11 @@ public class SaveManager {
      * Load the last saved world from file, or returns null if there is no file
      */
     public static WorldConfig loadWorld() {
-        if (SaveManager.resourceExists(WORLD_SAVE_FILE_NAME)) {
+        if (SaveManager.resourceExists(Const.WORLD_SAVE_FILE_NAME)) {
             WorldConfig config = new WorldConfig();
             JsonReader reader = null;
             try {
-                reader = new com.google.gson.stream.JsonReader(new FileReader(SaveManager.getResourcePath(WORLD_SAVE_FILE_NAME)));
+                reader = new com.google.gson.stream.JsonReader(new FileReader(SaveManager.getResourcePath(Const.WORLD_SAVE_FILE_NAME)));
                 reader.setLenient(true); // without this it will fail with strange errors
                 JsonObject world = new JsonParser().parse(reader).getAsJsonObject();
 

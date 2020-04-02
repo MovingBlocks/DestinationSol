@@ -37,4 +37,8 @@ public class Const {
     public static final float CAM_VIEW_DIST_JOURNEY = 8.6f;
     public static final float DEFAULT_AI_SPD = 4f;
     public static final float BIG_AI_SPD = 2f;
+
+    public static final String SAVE_FILE_NAME = "prevShip.ini";
+    public static final String MERC_SAVE_FILE = "mercenaries.json";
+    public static final String WORLD_SAVE_FILE_NAME = "world.json";
 }
