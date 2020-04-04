@@ -24,11 +24,14 @@ import org.destinationsol.SolApplication;
 import org.destinationsol.assets.Assets;
 import org.destinationsol.common.SolMath;
 import org.destinationsol.game.Hero;
+import org.destinationsol.game.SolCam;
 import org.destinationsol.game.SolGame;
 import org.destinationsol.game.input.Mover;
 import org.destinationsol.game.input.Shooter;
 import org.destinationsol.ui.SolInputManager;
 import org.destinationsol.ui.SolUiControl;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.util.List;
 
@@ -38,15 +41,16 @@ public class ShipMixedControl implements ShipUiControl {
     public final SolUiControl shoot2Ctrl;
     public final SolUiControl abilityCtrl;
     private final SolUiControl myDownCtrl;
-    private final Vector2 myMouseWorldPos;
+    private final Vector2 mouseScreenPos;
     private final TextureAtlas.AtlasRegion myCursor;
-    private boolean myRight;
-    private boolean myLeft;
+    private boolean turnRight;
+    private boolean turnLeft;
+    private Logger logger = LoggerFactory.getLogger(ShipMixedControl.class);
 
     ShipMixedControl(SolApplication solApplication, List<SolUiControl> controls) {
         GameOptions gameOptions = solApplication.getOptions();
         myCursor = Assets.getAtlasRegion("engine:uiCursorTarget");
-        myMouseWorldPos = new Vector2();
+        mouseScreenPos = new Vector2();
         upCtrl = new SolUiControl(null, false, gameOptions.getKeyUpMouse());
         controls.add(upCtrl);
         myDownCtrl = new SolUiControl(null, false, gameOptions.getKeyDownMouse());
@@ -63,22 +67,25 @@ public class ShipMixedControl implements ShipUiControl {
     public void update(SolApplication solApplication, boolean enabled) {
         GameOptions gameOptions = solApplication.getOptions();
         blur();
-        if (!enabled) {
+        SolGame game = solApplication.getGame();
+        if (!enabled || problemWithProjections(game.getCam())) {
             return;
         }
         SolInputManager im = solApplication.getInputManager();
-        SolGame game = solApplication.getGame();
         Hero hero = game.getHero();
         if (hero.isNonTranscendent()) {
-            myMouseWorldPos.set(Gdx.input.getX(), Gdx.input.getY());
-            game.getCam().screenToWorld(myMouseWorldPos);
-            float desiredAngle = SolMath.angle(hero.getPosition(), myMouseWorldPos);
-            Boolean ntt = Mover.needsToTurn(hero.getAngle(), desiredAngle, hero.getRotationSpeed(), hero.getRotationAcceleration(), Shooter.MIN_SHOOT_AAD);
-            if (ntt != null) {
-                if (ntt) {
-                    myRight = true;
+            mouseScreenPos.set(Gdx.input.getX(), Gdx.input.getY());
+            // project mouse coordinates [0;width] and [0;height] to screen coordinates [0,1], [0,1] by scaling down
+            mouseScreenPos.scl(1.0f / Gdx.graphics.getWidth(), 1.0f / Gdx.graphics.getHeight());
+            Vector2 shipOnScreen = game.getCam().worldToScreen(hero.getShip()); // unproject hero to screen coordinates
+            assertHeroAndMouseCoords(mouseScreenPos, shipOnScreen);
+            float desiredAngle = SolMath.angle(shipOnScreen, mouseScreenPos);
+            Boolean needsToTurn = Mover.needsToTurn(hero.getAngle(), desiredAngle, hero.getRotationSpeed(), hero.getRotationAcceleration(), Shooter.MIN_SHOOT_AAD);
+            if (needsToTurn != null) {
+                if (needsToTurn) {
+                    turnRight = true;
                 } else {
-                    myLeft = true;
+                    turnLeft = true;
                 }
             }
             if (!im.isMouseOnUi()) {
@@ -95,14 +102,39 @@ public class ShipMixedControl implements ShipUiControl {
         }
     }
 
+    /**
+     * When alt+tabbing in full screen mode, the client area can become 0 with/height, and when alt+tabbing back,
+     * the camera matrix can contain NaN values for the first frame
+     * @return true if projections should not be done this update
+     */
+    private boolean problemWithProjections(SolCam camera) {
+        return Gdx.graphics.getWidth() == 0 || Gdx.graphics.getHeight() == 0 ||
+                camera.getViewWidth() <= 0.f || camera.getViewHeight() <= 0.f || !camera.isMatrixValid();
+    }
+
+    /**
+     * Assert that the following vectors do not contain NaN or infinite values
+     * @param mouseCoords mouse coordinates in [0;1] screen space
+     * @param heroCoords hero coordinates projected to [0;1] screen space
+     */
+    private void assertHeroAndMouseCoords(Vector2 mouseCoords, Vector2 heroCoords) {
+        if (Double.isNaN(mouseCoords.x) || Double.isNaN(mouseCoords.y)) {
+            throw new RuntimeException("Mouse coordinates are not valid: " + mouseCoords.x + " " + mouseCoords.y);
+        }
+
+        if (Double.isNaN(heroCoords.x) || Double.isNaN(heroCoords.y)) {
+            throw new RuntimeException("Hero coordinates are not valid: " + heroCoords.x + " " + heroCoords.y);
+        }
+    }
+
     @Override
     public boolean isLeft() {
-        return myLeft;
+        return turnLeft;
     }
 
     @Override
     public boolean isRight() {
-        return myRight;
+        return turnRight;
     }
 
     @Override
@@ -137,7 +169,7 @@ public class ShipMixedControl implements ShipUiControl {
 
     @Override
     public void blur() {
-        myLeft = false;
-        myRight = false;
+        turnLeft = false;
+        turnRight = false;
     }
 }
