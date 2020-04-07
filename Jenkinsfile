@@ -21,4 +21,9 @@ node ("default-java") {
         recordIssues tool: pmdParser(pattern: '**/build/reports/pmd/*.xml')
         recordIssues tool: taskScanner(includePattern: '**/*.java,**/*.groovy,**/*.gradle', lowTags: 'WIBNIF', normalTags: 'TODO', highTags: 'ASAP')
     }
+    post {
+        always {
+            discordSend link: env.BUILD_URL, result: currentBuild.currentResult, webhookURL: credentials('destsolDiscordWebhook')
+        }
+    }
 }
