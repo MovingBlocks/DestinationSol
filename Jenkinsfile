@@ -6,7 +6,7 @@ node ("default-java") {
     }
     stage('Build') {
         // Jenkins sometimes doesn't run Gradle automatically in plain console mode, so make it explicit
-        sh './gradlew --console=plain clean downloadJreAll distZipBundleJres'
+        sh './gradlew --console=plain distZipBundleJres'
         archiveArtifacts 'desktop/build/distributions/DestinationSol.zip'
     }
     stage('Analytics') {
