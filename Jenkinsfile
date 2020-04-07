@@ -22,8 +22,8 @@ node ("default-java") {
         recordIssues tool: taskScanner(includePattern: '**/*.java,**/*.groovy,**/*.gradle', lowTags: 'WIBNIF', normalTags: 'TODO', highTags: 'ASAP')
     }
     stage('Notify') {
-        withCredentials([string(credentialsId: 'destsolDiscordWebhook', variable: 'webhook')]) {
-            discordSend link: env.BUILD_URL, result: currentBuild.currentResult, webhookURL: ${webhook}
+        withCredentials([string(credentialsId: 'destsolDiscordWebhook', variable: 'WEBHOOK')]) {
+            discordSend title: env.BRANCH_NAME, link: env.BUILD_URL, result: currentBuild.currentResult, webhookURL: env.WEBHOOK
         }
     }
 }
