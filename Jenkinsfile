@@ -6,7 +6,7 @@ node ("default-java") {
     }
     stage('Build') {
         // Jenkins sometimes doesn't run Gradle automatically in plain console mode, so make it explicit
-        sh './gradlew --console=plain distZipBundleJres'
+        sh './gradlew --console=plain clean distZipBundleJres'
         archiveArtifacts 'desktop/build/distributions/DestinationSol.zip'
     }
     stage('Analytics') {
@@ -20,5 +20,10 @@ node ("default-java") {
         recordIssues tool: findBugs(pattern: '**/build/reports/findbugs/*.xml', useRankAsPriority: true)
         recordIssues tool: pmdParser(pattern: '**/build/reports/pmd/*.xml')
         recordIssues tool: taskScanner(includePattern: '**/*.java,**/*.groovy,**/*.gradle', lowTags: 'WIBNIF', normalTags: 'TODO', highTags: 'ASAP')
+    }
+    stage('Notify') {
+        withCredentials([string(credentialsId: 'destsolDiscordWebhook', variable: 'WEBHOOK')]) {
+            discordSend title: env.BRANCH_NAME, link: env.BUILD_URL, result: currentBuild.currentResult, webhookURL: env.WEBHOOK
+        }
     }
 }
