@@ -108,6 +108,10 @@ public final class SerialisationManager {
 
     public void deserialise() throws IOException, ClassNotFoundException, InstantiationException,
             IllegalAccessException, NoSuchFieldException {
+        if (classLoader == null) {
+            logger.warn("Trying to deserialise with Null classloader. Aborting");
+            return;
+        }
 
         FileInputStream input = new FileInputStream(file);
         EntityData.EntityStore store = EntityData.EntityStore.parseFrom(input);
