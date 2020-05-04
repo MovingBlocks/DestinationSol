@@ -309,6 +309,18 @@ public class SolMath {
     }
 
     /**
+     * Assert that no vector contains NaN or infinite values
+     * @param vectors to check
+     */
+    public static void assetReal(Vector2 ... vectors) {
+        for (Vector2 vector : vectors) {
+            if (Double.isNaN(vector.x) || Double.isNaN(vector.y)) {
+                throw new AssertionError("Vector is not valid: " + vector.x + " " + vector.y);
+            }
+        }
+    }
+
+    /**
      * Computes a square root of number.
      *
      * @param v Number square root of which to calculate
@@ -460,7 +472,7 @@ public class SolMath {
         if (x2 < 0) {
             return x1;
         }
-        return x1 < x2 ? x1 : x2;
+        return Math.min(x1, x2);
     }
 
     /**
