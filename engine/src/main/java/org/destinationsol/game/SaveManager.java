@@ -46,10 +46,11 @@ import java.io.PrintWriter;
 import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 public class SaveManager {
 
-    private static Logger logger = LoggerFactory.getLogger(SaveManager.class);
+    private static final Logger logger = LoggerFactory.getLogger(SaveManager.class);
 
     protected SaveManager() { }
 
@@ -243,30 +244,21 @@ public class SaveManager {
         Gson gson = new GsonBuilder().setPrettyPrinting().create();
         String stringToWrite = gson.toJson(world);
 
-        PrintWriter writer = null;
-        try {
-            writer = new PrintWriter(fileName, "UTF-8");
+        try (PrintWriter writer = new PrintWriter(fileName, "UTF-8")) {
             writer.write(stringToWrite);
             logger.debug("Successfully saved the world file");
         } catch (FileNotFoundException | UnsupportedEncodingException e) {
             logger.error("Could not save world file", e);
-            return;
-        } finally {
-            if (writer != null) {
-                writer.close();
-            }
         }
     }
 
     /**
-     * Load the last saved world from file, or returns null if there is no file
+     * Load the last saved world from file, or returns empty optional if there is no file
      */
-    public static WorldConfig loadWorld() {
+    public static Optional<WorldConfig> loadWorld() {
         if (SaveManager.resourceExists(Const.WORLD_SAVE_FILE_NAME)) {
             WorldConfig config = new WorldConfig();
-            JsonReader reader = null;
-            try {
-                reader = new com.google.gson.stream.JsonReader(new FileReader(SaveManager.getResourcePath(Const.WORLD_SAVE_FILE_NAME)));
+            try (JsonReader reader = new JsonReader(new FileReader(SaveManager.getResourcePath(Const.WORLD_SAVE_FILE_NAME)))) {
                 reader.setLenient(true); // without this it will fail with strange errors
                 JsonObject world = new JsonParser().parse(reader).getAsJsonObject();
 
@@ -279,20 +271,15 @@ public class SaveManager {
                 }
 
                 logger.debug("Successfully loaded the world file");
-                return config;
+                return Optional.of(config);
             } catch (FileNotFoundException e) {
                 logger.error("Cannot find world file", e);
-            } finally {
-                if (reader != null) {
-                    try {
-                        reader.close();
-                    } catch (IOException e) {
-                        // ignore exception
-                    }
-                }
+            } catch (IOException e) {
+                // TODO: Don't ignore exception
+                // ignore exception
             }
         }
 
-        return null;
+        return Optional.empty();
     }
 }

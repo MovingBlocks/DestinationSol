@@ -51,6 +51,7 @@ import org.terasology.gestalt.module.sandbox.API;
 import java.io.PrintWriter;
 import java.io.StringWriter;
 import java.util.HashSet;
+import java.util.Optional;
 import java.util.Set;
 
 @API
@@ -79,8 +80,6 @@ public class SolApplication implements ApplicationListener {
     private SolGame solGame;
     private ParameterAdapterManager parameterAdapterManager;
     private Context context;
-
-    private WorldConfig worldConfig;
     // TODO: Make this non-static.
     public static DisplayDimensions displayDimensions;
 
@@ -102,7 +101,6 @@ public class SolApplication implements ApplicationListener {
     public void create() {
         context = new ContextImpl();
         context.put(SolApplication.class, this);
-        worldConfig = new WorldConfig();
         isMobile = Gdx.app.getType() == Application.ApplicationType.Android || Gdx.app.getType() == Application.ApplicationType.iOS;
         if (isMobile) {
             DebugOptions.read(null);
@@ -235,26 +233,24 @@ public class SolApplication implements ApplicationListener {
         commonDrawer.end();
     }
 
-    public void loadGame(boolean tut, String shipName, boolean isNewGame) {
-        if (solGame != null) {
-            throw new AssertionError("Starting a new game with unfinished current one");
-        }
-
-        inputManager.setScreen(this, menuScreens.loading);
-        menuScreens.loading.setMode(tut, shipName, isNewGame);
-    }
-
     public void play(boolean tut, String shipName, boolean isNewGame) {
-        if (isNewGame) {
-            beforeNewGame();
-        } else {
-            beforeLoadGame();
-        }
+        // TODO: make this non-static
+        FactionInfo staticIgnore = new FactionInfo();
 
-        FactionInfo factionInfo = new FactionInfo();
+        WorldConfig worldConfig = new WorldConfig();
+        if (isNewGame) {
+            worldConfig.setNumberOfSystems(getMenuScreens().newShip.getNumberOfSystems());
+        } else {
+            Optional<WorldConfig> previousWorldConfiguration = SaveManager.loadWorld();
+            if (previousWorldConfiguration.isPresent()) {
+                worldConfig = previousWorldConfiguration.get();
+            }
+        }
+        SolRandom.setSeed(worldConfig.getSeed());
+
         solGame = new SolGame(shipName, tut, isNewGame, commonDrawer, context, worldConfig);
-        factionDisplay = new FactionDisplay(solGame, factionInfo);
-        inputManager.setScreen(this, solGame.getScreens().mainGameScreen);
+        factionDisplay = new FactionDisplay(solGame.getCam());
+        getInputManager().setScreen(this, solGame.getScreens().mainGameScreen);
     }
 
     public SolInputManager getInputManager() {
@@ -311,29 +307,6 @@ public class SolApplication implements ApplicationListener {
 
     public MenuBackgroundManager getMenuBackgroundManager() {
         return menuBackgroundManager;
-    }
-
-    /**
-     * This method is called when the "New Game" button gets pressed. It sets the seed for random generation, and the number of systems
-     */
-    private void beforeNewGame() {
-        // Reset the seed so this galaxy isn't the same as the last
-        worldConfig.setSeed(System.currentTimeMillis());
-        SolRandom.setSeed(worldConfig.getSeed());
-        FactionInfo.clearValues();
-
-        worldConfig.setNumberOfSystems(getMenuScreens().newShip.getNumberOfSystems());
-    }
-
-    /**
-     * This method is called when the "Continue" button gets pressed. It loads the world file to get the seed used for the world generation, and the number of systems
-     */
-    private void beforeLoadGame() {
-        WorldConfig config = SaveManager.loadWorld();
-        if (config != null) {
-            worldConfig = config;
-            SolRandom.setSeed(worldConfig.getSeed());
-        }
     }
 
     // TODO: Make this non-static.
