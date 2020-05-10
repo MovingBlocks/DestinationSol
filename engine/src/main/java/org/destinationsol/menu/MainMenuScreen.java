@@ -87,7 +87,8 @@ public class MainMenuScreen extends SolUiBaseScreen {
         tutorialControl.setEnabled(solApplication.getOptions().controlType != GameOptions.ControlType.CONTROLLER);
 
         if (tutorialControl.isJustOff()) {
-            solApplication.play(true, "Imperial Small", true);
+            solApplication.getInputManager().setScreen(solApplication, solApplication.getMenuScreens().loading);
+            solApplication.getMenuScreens().loading.setMode(true, "Imperial Small", true);
             return;
         }
 

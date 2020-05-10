@@ -273,6 +273,7 @@ public class SolGame {
         } else {
             context.remove(TutorialManager.class, tutorialManager);
         }
+        FactionInfo.clearValues();
         objectManager.dispose();
     }
 

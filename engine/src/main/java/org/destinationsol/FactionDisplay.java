@@ -32,13 +32,11 @@ import org.destinationsol.ui.UiDrawer;
  * Acquires faction information fromm all the ships and draws it above them.
  */
 public class FactionDisplay {
-    private SolCam cam;
-    private FactionInfo info;
+    private SolCam camera;
     private boolean isPressed = false;
 
-    public FactionDisplay(SolGame game, FactionInfo factionInfo) {
-        cam = game.getCam();
-        info = factionInfo;
+    public FactionDisplay(SolCam camera) {
+        this.camera = camera;
     }
 
     public void drawFactionNames(SolGame game, UiDrawer uiDrawer, SolInputManager inputManager, ObjectManager objManager) {
@@ -46,13 +44,13 @@ public class FactionDisplay {
             isPressed = !isPressed;
         }
         // angle must be zero as the camera angles on planets mess up the text display
-        if (isPressed && cam.getAngle() == 0 && !inputManager.isScreenOn(game.getScreens().mapScreen)) {
+        if (isPressed && camera.getAngle() == 0 && !inputManager.isScreenOn(game.getScreens().mapScreen)) {
             for (SolObject obj : objManager.getObjects()) {
                 if (obj instanceof SolShip) {
                     SolShip ship = (SolShip) obj;
-                    Vector2 drawPosition = cam.worldToScreen(ship);
+                    Vector2 drawPosition = camera.worldToScreen(ship);
                     uiDrawer.drawString(ship.getFactionName(), drawPosition.x * SolApplication.displayDimensions.getRatio(),
-                            drawPosition.y - .1f, 1, false, Color.valueOf(info.getFactionColors().get(ship.getFactionID()).toString()));
+                            drawPosition.y - .1f, 1, false, Color.valueOf(FactionInfo.getFactionColors().get(ship.getFactionID()).toString()));
                 }
             }
         }

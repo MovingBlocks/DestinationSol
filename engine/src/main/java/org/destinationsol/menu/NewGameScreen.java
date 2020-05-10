@@ -70,7 +70,8 @@ public class NewGameScreen extends SolUiBaseScreen {
             return;
         }
         if (continueControl.isJustOff()) {
-            solApplication.loadGame(false, null, false);
+            solApplication.getInputManager().setScreen(solApplication, solApplication.getMenuScreens().loading);
+            solApplication.getMenuScreens().loading.setMode(false, null, false);
             return;
         }
         if (newControl.isJustOff()) {
