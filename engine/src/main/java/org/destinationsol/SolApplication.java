@@ -26,12 +26,10 @@ import org.destinationsol.assets.music.OggMusicManager;
 import org.destinationsol.assets.sound.OggSoundManager;
 import org.destinationsol.common.SolColor;
 import org.destinationsol.common.SolMath;
-import org.destinationsol.common.SolRandom;
 import org.destinationsol.entitysystem.ComponentSystemManager;
 import org.destinationsol.entitysystem.EntitySystemManager;
 import org.destinationsol.entitysystem.SerialisationManager;
 import org.destinationsol.game.DebugOptions;
-import org.destinationsol.game.FactionInfo;
 import org.destinationsol.game.SaveManager;
 import org.destinationsol.game.SolGame;
 import org.destinationsol.game.WorldConfig;
@@ -59,7 +57,6 @@ import java.io.PrintWriter;
 import java.io.StringWriter;
 import java.util.HashSet;
 import java.util.Iterator;
-import java.util.Optional;
 import java.util.Set;
 
 @API
@@ -261,30 +258,18 @@ public class SolApplication implements ApplicationListener {
         commonDrawer.end();
     }
 
-    public void play(boolean tut, String shipName, boolean isNewGame) {
-        // TODO: make this non-static
-        FactionInfo staticIgnore = new FactionInfo();
-
-        WorldConfig worldConfig = new WorldConfig();
-        if (isNewGame) {
-            worldConfig.setNumberOfSystems(getMenuScreens().newShip.getNumberOfSystems());
-        } else {
+    public void play(boolean tut, String shipName, boolean isNewGame, WorldConfig worldConfig) {
+        if (!isNewGame) {
             try {
                 context.get(SerialisationManager.class).deserialise();
             } catch (Exception e) {
                 e.printStackTrace();
             }
-            Optional<WorldConfig> previousWorldConfiguration = SaveManager.loadWorld();
-            if (previousWorldConfiguration.isPresent()) {
-                worldConfig = previousWorldConfiguration.get();
-            }
         }
-        SolRandom.setSeed(worldConfig.getSeed());
-
         context.get(ComponentSystemManager.class).preBegin();
         solGame = new SolGame(shipName, tut, isNewGame, commonDrawer, context, worldConfig);
         factionDisplay = new FactionDisplay(solGame.getCam());
-        getInputManager().setScreen(this, solGame.getScreens().mainGameScreen);
+        inputManager.setScreen(this, solGame.getScreens().mainGameScreen);
     }
 
     public SolInputManager getInputManager() {

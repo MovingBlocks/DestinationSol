@@ -26,6 +26,7 @@ import org.destinationsol.assets.Assets;
 import org.destinationsol.assets.music.OggMusicManager;
 import org.destinationsol.common.SolColor;
 import org.destinationsol.game.DebugOptions;
+import org.destinationsol.game.WorldConfig;
 import org.destinationsol.ui.DisplayDimensions;
 import org.destinationsol.ui.SolInputManager;
 import org.destinationsol.ui.SolUiBaseScreen;
@@ -86,14 +87,14 @@ public class MainMenuScreen extends SolUiBaseScreen {
     public void updateCustom(SolApplication solApplication, SolInputManager.InputPointer[] inputPointers, boolean clickedOutside) {
         tutorialControl.setEnabled(solApplication.getOptions().controlType != GameOptions.ControlType.CONTROLLER);
 
-        if (tutorialControl.isJustOff()) {
-            solApplication.getInputManager().setScreen(solApplication, solApplication.getMenuScreens().loading);
-            solApplication.getMenuScreens().loading.setMode(true, "Imperial Small", true);
-            return;
-        }
-
         SolInputManager inputManager = solApplication.getInputManager();
         MenuScreens screens = solApplication.getMenuScreens();
+
+        if (tutorialControl.isJustOff()) {
+            inputManager.setScreen(solApplication, screens.loading);
+            screens.loading.setMode(true, "Imperial Small", true, new WorldConfig());
+            return;
+        }
 
         if (newGameControl.isJustOff()) {
             inputManager.setScreen(solApplication, screens.newGame);

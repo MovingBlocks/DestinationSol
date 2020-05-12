@@ -23,6 +23,7 @@ import org.destinationsol.SolApplication;
 import org.destinationsol.assets.Assets;
 import org.destinationsol.common.SolColor;
 import org.destinationsol.game.SaveManager;
+import org.destinationsol.game.WorldConfig;
 import org.destinationsol.ui.DisplayDimensions;
 import org.destinationsol.ui.SolInputManager;
 import org.destinationsol.ui.SolUiBaseScreen;
@@ -64,18 +65,19 @@ public class NewGameScreen extends SolUiBaseScreen {
     @Override
     public void updateCustom(SolApplication solApplication, SolInputManager.InputPointer[] inputPointers, boolean clickedOutside) {
         MenuScreens screens = solApplication.getMenuScreens();
-        SolInputManager im = solApplication.getInputManager();
+        SolInputManager inputManager = solApplication.getInputManager();
+
         if (backControl.isJustOff()) {
-            im.setScreen(solApplication, screens.main);
+            inputManager.setScreen(solApplication, screens.main);
             return;
         }
         if (continueControl.isJustOff()) {
-            solApplication.getInputManager().setScreen(solApplication, solApplication.getMenuScreens().loading);
-            solApplication.getMenuScreens().loading.setMode(false, null, false);
+            inputManager.setScreen(solApplication, screens.loading);
+            screens.loading.setMode(false, null, false, SaveManager.loadWorld().orElseGet(WorldConfig::new));
             return;
         }
         if (newControl.isJustOff()) {
-            im.setScreen(solApplication, screens.newShip);
+            inputManager.setScreen(solApplication, screens.newShip);
         }
 
         solApplication.getMenuBackgroundManager().update();
