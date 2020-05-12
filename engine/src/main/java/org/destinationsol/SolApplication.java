@@ -24,10 +24,7 @@ import org.destinationsol.assets.audio.OggMusicManager;
 import org.destinationsol.assets.audio.OggSoundManager;
 import org.destinationsol.common.SolColor;
 import org.destinationsol.common.SolMath;
-import org.destinationsol.common.SolRandom;
 import org.destinationsol.game.DebugOptions;
-import org.destinationsol.game.FactionInfo;
-import org.destinationsol.game.SaveManager;
 import org.destinationsol.game.SolGame;
 import org.destinationsol.game.WorldConfig;
 import org.destinationsol.game.console.adapter.ParameterAdapterManager;
@@ -51,7 +48,6 @@ import org.terasology.gestalt.module.sandbox.API;
 import java.io.PrintWriter;
 import java.io.StringWriter;
 import java.util.HashSet;
-import java.util.Optional;
 import java.util.Set;
 
 @API
@@ -233,24 +229,10 @@ public class SolApplication implements ApplicationListener {
         commonDrawer.end();
     }
 
-    public void play(boolean tut, String shipName, boolean isNewGame) {
-        // TODO: make this non-static
-        FactionInfo staticIgnore = new FactionInfo();
-
-        WorldConfig worldConfig = new WorldConfig();
-        if (isNewGame) {
-            worldConfig.setNumberOfSystems(getMenuScreens().newShip.getNumberOfSystems());
-        } else {
-            Optional<WorldConfig> previousWorldConfiguration = SaveManager.loadWorld();
-            if (previousWorldConfiguration.isPresent()) {
-                worldConfig = previousWorldConfiguration.get();
-            }
-        }
-        SolRandom.setSeed(worldConfig.getSeed());
-
+    public void play(boolean tut, String shipName, boolean isNewGame, WorldConfig worldConfig) {
         solGame = new SolGame(shipName, tut, isNewGame, commonDrawer, context, worldConfig);
         factionDisplay = new FactionDisplay(solGame.getCam());
-        getInputManager().setScreen(this, solGame.getScreens().mainGameScreen);
+        inputManager.setScreen(this, solGame.getScreens().mainGameScreen);
     }
 
     public SolInputManager getInputManager() {

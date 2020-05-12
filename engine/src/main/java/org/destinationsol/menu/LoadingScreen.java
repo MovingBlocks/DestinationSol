@@ -21,6 +21,7 @@ import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import org.destinationsol.SolApplication;
 import org.destinationsol.assets.Assets;
 import org.destinationsol.common.SolColor;
+import org.destinationsol.game.WorldConfig;
 import org.destinationsol.ui.DisplayDimensions;
 import org.destinationsol.ui.FontSize;
 import org.destinationsol.ui.SolInputManager;
@@ -35,6 +36,7 @@ public class LoadingScreen extends SolUiBaseScreen {
     private boolean loadTutorial;
     private boolean isNewGame;
     private String shipName;
+    private WorldConfig worldConfig;
 
     LoadingScreen() {
         displayDimensions = SolApplication.displayDimensions;
@@ -44,7 +46,7 @@ public class LoadingScreen extends SolUiBaseScreen {
 
     @Override
     public void updateCustom(SolApplication solApplication, SolInputManager.InputPointer[] inputPointers, boolean clickedOutside) {
-        solApplication.play(loadTutorial, shipName, isNewGame);
+        solApplication.play(loadTutorial, shipName, isNewGame, worldConfig);
     }
 
     @Override
@@ -52,15 +54,15 @@ public class LoadingScreen extends SolUiBaseScreen {
         uiDrawer.drawString("Loading...", displayDimensions.getRatio() / 2, .5f, FontSize.MENU, true, SolColor.WHITE);
     }
 
-    public void setMode(boolean loadTutorial, String shipName, boolean isNewGame) {
+    public void setMode(boolean loadTutorial, String shipName, boolean isNewGame, WorldConfig worldConfig) {
         this.loadTutorial = loadTutorial;
         this.shipName = shipName;
         this.isNewGame = isNewGame;
+        this.worldConfig = worldConfig;
     }
 
     @Override
     public void drawBackground(UiDrawer uiDrawer, SolApplication solApplication) {
         uiDrawer.draw(backgroundTexture, displayDimensions.getRatio(), 1, displayDimensions.getRatio() / 2, 0.5f, displayDimensions.getRatio() / 2, 0.5f, 0, SolColor.WHITE);
     }
-
 }

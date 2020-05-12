@@ -107,6 +107,9 @@ public class SolGame {
 
     public SolGame(String shipName, boolean isTutorial, boolean isNewGame, CommonDrawer commonDrawer, Context context,
                    WorldConfig worldConfig) {
+        // TODO: make this non-static
+        FactionInfo staticIgnore = new FactionInfo();
+
         this.isTutorial = isTutorial;
         solApplication = context.get(SolApplication.class);
         GameDrawer drawer = new GameDrawer(commonDrawer);
@@ -194,6 +197,7 @@ public class SolGame {
 
         // from this point we're ready!
         respawnState = new RespawnState();
+        SolRandom.setSeed(worldConfig.getSeed());
         planetManager.fill(solNames, worldConfig.getNumberOfSystems());
         createGame(shipName, isNewGame);
         if (!isNewGame) {

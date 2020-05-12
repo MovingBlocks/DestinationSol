@@ -24,6 +24,7 @@ import org.destinationsol.assets.Assets;
 import org.destinationsol.assets.json.Json;
 import org.destinationsol.assets.json.Validator;
 import org.destinationsol.common.SolColor;
+import org.destinationsol.game.WorldConfig;
 import org.destinationsol.game.planet.SystemsBuilder;
 import org.destinationsol.ui.DisplayDimensions;
 import org.destinationsol.ui.FontSize;
@@ -31,30 +32,29 @@ import org.destinationsol.ui.SolInputManager;
 import org.destinationsol.ui.SolUiBaseScreen;
 import org.destinationsol.ui.SolUiControl;
 import org.destinationsol.ui.UiDrawer;
-import org.json.JSONObject;
-import org.terasology.gestalt.assets.ResourceUrn;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Set;
 
 public class NewShipScreen extends SolUiBaseScreen {
-    private DisplayDimensions displayDimensions;
+    private final DisplayDimensions displayDimensions;
 
     private final TextureAtlas.AtlasRegion backgroundTexture;
 
-    private SolUiControl okControl;
-    private SolUiControl cancelControl;
-    private SolUiControl systemCountControl;
-    private SolUiControl playerSpawnConfigControl;
+    private final SolUiControl okControl;
+    private final SolUiControl cancelControl;
+    private final SolUiControl systemCountControl;
+    private final SolUiControl playerSpawnConfigControl;
     private int playerSpawnConfigIndex = 0;
-    private List<String> playerSpawnConfigNames = new ArrayList<>();
+    private final List<String> playerSpawnConfigNames = new ArrayList<>();
     private int numberOfSystems = SystemsBuilder.DEFAULT_SYSTEM_COUNT;
 
     NewShipScreen(MenuLayout menuLayout, GameOptions gameOptions) {
         displayDimensions = SolApplication.displayDimensions;
 
-        loadPlayerSpawnConfigs();
+        // load player spawn configs
+        Assets.getAssetHelper().list(Json.class, "[a-zA-Z]*:playerSpawnConfig").forEach(configUrn ->
+                playerSpawnConfigNames.addAll(Validator.getValidatedJSON(configUrn.toString(), "engine:schemaPlayerSpawnConfig").keySet()));
 
         int row = 1;
         systemCountControl = new SolUiControl(menuLayout.buttonRect(-1, row++), true);
@@ -78,14 +78,20 @@ public class NewShipScreen extends SolUiBaseScreen {
 
     @Override
     public void updateCustom(SolApplication solApplication, SolInputManager.InputPointer[] inputPointers, boolean clickedOutside) {
+        MenuScreens screens = solApplication.getMenuScreens();
+        SolInputManager inputManager = solApplication.getInputManager();
+
         if (okControl.isJustOff()) {
-            solApplication.getInputManager().setScreen(solApplication, solApplication.getMenuScreens().loading);
-            solApplication.getMenuScreens().loading.setMode(false, playerSpawnConfigNames.get(playerSpawnConfigIndex), true);
+            WorldConfig worldConfig = new WorldConfig();
+            worldConfig.setNumberOfSystems(numberOfSystems);
+
+            inputManager.setScreen(solApplication, screens.loading);
+            screens.loading.setMode(false, playerSpawnConfigNames.get(playerSpawnConfigIndex), true, worldConfig);
             return;
         }
 
         if (cancelControl.isJustOff()) {
-            solApplication.getInputManager().setScreen(solApplication, solApplication.getMenuScreens().newGame);
+            inputManager.setScreen(solApplication, screens.newGame);
             return;
         }
 
@@ -115,22 +121,5 @@ public class NewShipScreen extends SolUiBaseScreen {
     public void drawBackground(UiDrawer uiDrawer, SolApplication solApplication) {
         uiDrawer.draw(backgroundTexture, displayDimensions.getRatio(), 1, displayDimensions.getRatio() / 2, 0.5f, displayDimensions.getRatio() / 2, 0.5f, 0, SolColor.WHITE);
         solApplication.getMenuBackgroundManager().draw(uiDrawer);
-    }
-
-    private void loadPlayerSpawnConfigs() {
-        Set<ResourceUrn> configUrnList = Assets.getAssetHelper().list(Json.class, "[a-zA-Z]*:playerSpawnConfig");
-
-        for (ResourceUrn configUrn : configUrnList) {
-            JSONObject rootNode = Validator.getValidatedJSON(configUrn.toString(), "engine:schemaPlayerSpawnConfig");
-
-            for (String s : rootNode.keySet()) {
-                playerSpawnConfigNames.add(s);
-            }
-
-        }
-    }
-
-    public int getNumberOfSystems() {
-        return numberOfSystems;
     }
 }
