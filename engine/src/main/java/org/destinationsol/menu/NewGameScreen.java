@@ -38,6 +38,7 @@ public class NewGameScreen extends SolUiBaseScreen {
     private final SolUiControl backControl;
     private final SolUiControl continueControl;
     private final SolUiControl newControl;
+    private final SolUiControl connectControl;
 
     NewGameScreen(MenuLayout menuLayout, GameOptions gameOptions) {
         displayDimensions = SolApplication.displayDimensions;
@@ -49,6 +50,10 @@ public class NewGameScreen extends SolUiBaseScreen {
         newControl = new SolUiControl(menuLayout.buttonRect(-1, 2), true);
         newControl.setDisplayName("New game");
         controls.add(newControl);
+
+        connectControl = new SolUiControl(menuLayout.buttonRect(-1, 3), true);
+        connectControl.setDisplayName("Connect to localhost");
+        controls.add(connectControl);
 
         backControl = new SolUiControl(menuLayout.buttonRect(-1, 4), true, gameOptions.getKeyEscape());
         backControl.setDisplayName("Cancel");
@@ -78,6 +83,11 @@ public class NewGameScreen extends SolUiBaseScreen {
         }
         if (newControl.isJustOff()) {
             inputManager.setScreen(solApplication, screens.newShip);
+            return;
+        }
+        if (connectControl.isJustOff()) {
+            inputManager.setScreen(solApplication, screens.connecting);
+            return;
         }
 
         solApplication.getMenuBackgroundManager().update();

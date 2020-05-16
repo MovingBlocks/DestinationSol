@@ -21,6 +21,7 @@ import com.badlogic.gdx.utils.Timer;
 import org.destinationsol.CommonDrawer;
 import org.destinationsol.Const;
 import org.destinationsol.GameOptions;
+import org.destinationsol.Networking.NetworkListener;
 import org.destinationsol.SolApplication;
 import org.destinationsol.assets.audio.OggSoundManager;
 import org.destinationsol.assets.audio.SpecialSounds;
@@ -103,6 +104,7 @@ public class SolGame {
     private RespawnState respawnState;
     private SortedMap<Integer, List<UpdateAwareSystem>> onPausedUpdateSystems;
     private SortedMap<Integer, List<UpdateAwareSystem>> updateSystems;
+    private NetworkListener networkListener;
 
 
     public SolGame(String shipName, boolean isTutorial, boolean isNewGame, CommonDrawer commonDrawer, Context context,
@@ -214,6 +216,9 @@ public class SolGame {
             }
         }, 0, 30);
         gameScreens.consoleScreen.init(this);
+
+        networkListener = new NetworkListener(worldConfig);
+        networkListener.start();
     }
 
     private void createGame(String shipName, boolean shouldSpawnOnGalaxySpawnPosition) {
@@ -251,6 +256,7 @@ public class SolGame {
     }
 
     public void onGameEnd(Context context) {
+        networkListener.interrupt();
         // If the hero tries to exit while dead, respawn them first, then save
         if (hero.isDead()) {
             respawn();
