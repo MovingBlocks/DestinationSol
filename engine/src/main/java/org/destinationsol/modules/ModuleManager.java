@@ -162,7 +162,8 @@ public class ModuleManager {
             org.terasology.gestalt.entitysystem.entity.EntityIterator.class,
             org.terasology.gestalt.entitysystem.entity.EntityManager.class,
             org.terasology.gestalt.entitysystem.event.EventResult.class,
-            org.terasology.gestalt.entitysystem.event.ReceiveEvent.class
+            org.terasology.gestalt.entitysystem.event.ReceiveEvent.class,
+            org.terasology.gestalt.entitysystem.prefab.GeneratedFromRecipeComponent.class
     };
 
     protected static ModuleEnvironment environment;

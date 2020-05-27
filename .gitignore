@@ -74,6 +74,7 @@ engine/src/main/resources/settings.ini
 engine/src/main/resources/mercenaries.json
 engine/src/main/resources/world.ini
 engine/src/main/resources/world.json
+engine/src/main/resources/entity_store.dat
 
 # Ignore donwloaded JREs
 jre/**
