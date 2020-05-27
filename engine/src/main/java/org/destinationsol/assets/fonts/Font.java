@@ -19,7 +19,9 @@ import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import org.terasology.gestalt.assets.Asset;
 import org.terasology.gestalt.assets.AssetType;
 import org.terasology.gestalt.assets.ResourceUrn;
+import org.terasology.gestalt.assets.module.annotations.RegisterAssetType;
 
+@RegisterAssetType(folderName = "fonts", factoryClass = FontFactory.class)
 public class Font extends Asset<FontData> {
     private FontData fontData;
 

@@ -1,5 +1,5 @@
 /*
- * Copyright 2018 MovingBlocks
+ * Copyright 2020 The Terasology Foundation
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.destinationsol.assets.audio;
+package org.destinationsol.assets.music;
 
 import com.badlogic.gdx.audio.Music;
 import org.destinationsol.GameOptions;
@@ -168,7 +168,7 @@ public class OggMusicManager {
             }
         }
 
-        if (Assets.getAssetHelper().list(Json.class, moduleName + ":musicConfig").isEmpty()) {
+        if (!Assets.getAssetHelper().get(new ResourceUrn(moduleName + ":musicConfig"), Json.class).isPresent()) {
             return;
         } else {
             logger.info("Music Config found for module " + moduleName);
@@ -195,7 +195,7 @@ public class OggMusicManager {
      * Registers all module menu music
      */
     public void registerAllMenuMusic(GameOptions options) {
-        Set<ResourceUrn> configUrnList = Assets.getAssetHelper().list(Json.class, "[a-zA-Z]*:musicConfig");
+        Set<ResourceUrn> configUrnList = Assets.getAssetHelper().listAssets(Json.class, "musicConfig");
 
         for (ResourceUrn configUrn : configUrnList) {
             String urnString = configUrn.toString();

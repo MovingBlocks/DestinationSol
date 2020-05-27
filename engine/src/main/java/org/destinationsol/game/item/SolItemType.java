@@ -16,7 +16,7 @@
 package org.destinationsol.game.item;
 
 import com.badlogic.gdx.graphics.Color;
-import org.destinationsol.assets.audio.PlayableSound;
+import org.destinationsol.assets.sound.PlayableSound;
 
 public class SolItemType {
     public final Color color;

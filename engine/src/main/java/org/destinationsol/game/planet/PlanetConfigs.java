@@ -43,7 +43,7 @@ public class PlanetConfigs {
         medium = new ArrayList<>();
         hard = new ArrayList<>();
 
-        Set<ResourceUrn> planetJsonConfigs = Assets.getAssetHelper().list(Json.class, "[a-zA-Z0-9]*:planetsConfig");
+        Set<ResourceUrn> planetJsonConfigs = Assets.getAssetHelper().listAssets(Json.class, "planetsConfig");
 
         for (ResourceUrn planetConfigJson : planetJsonConfigs) {
             String moduleName = planetConfigJson.getModuleName().toString();

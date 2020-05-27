@@ -15,8 +15,8 @@
  */
 package org.destinationsol.game.sound;
 
-import org.destinationsol.assets.audio.OggSound;
-import org.destinationsol.assets.audio.PlayableSound;
+import org.destinationsol.assets.sound.OggSound;
+import org.destinationsol.assets.sound.PlayableSound;
 import org.destinationsol.common.SolRandom;
 
 import java.util.List;

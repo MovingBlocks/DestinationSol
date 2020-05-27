@@ -1,5 +1,5 @@
 /*
- * Copyright 2018 MovingBlocks
+ * Copyright 2020 MovingBlocks
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -15,17 +15,14 @@
  */
 package org.destinationsol.modules;
 
-import com.google.common.base.Charsets;
 import com.google.common.collect.Sets;
 import org.destinationsol.assets.AssetHelper;
 import org.destinationsol.assets.Assets;
-import org.destinationsol.assets.audio.OggMusic;
-import org.destinationsol.assets.audio.OggSound;
+import org.destinationsol.assets.music.OggMusic;
+import org.destinationsol.assets.sound.OggSound;
 import org.destinationsol.assets.emitters.Emitter;
 import org.destinationsol.assets.json.Json;
 import org.destinationsol.assets.textures.DSTexture;
-import org.destinationsol.game.DebugOptions;
-import org.destinationsol.game.SaveManager;
 import org.reflections.Reflections;
 import org.reflections.scanners.SubTypesScanner;
 import org.reflections.scanners.TypeAnnotationsScanner;
@@ -36,8 +33,7 @@ import org.slf4j.LoggerFactory;
 import org.terasology.gestalt.assets.ResourceUrn;
 import org.terasology.gestalt.module.Module;
 import org.terasology.gestalt.module.ModuleEnvironment;
-import org.terasology.gestalt.module.ModuleMetadata;
-import org.terasology.gestalt.module.ModuleMetadataJsonAdapter;
+import org.terasology.gestalt.module.ModuleFactory;
 import org.terasology.gestalt.module.ModulePathScanner;
 import org.terasology.gestalt.module.ModuleRegistry;
 import org.terasology.gestalt.module.TableModuleRegistry;
@@ -46,12 +42,9 @@ import org.terasology.gestalt.module.sandbox.ModuleSecurityManager;
 import org.terasology.gestalt.module.sandbox.ModuleSecurityPolicy;
 import org.terasology.gestalt.module.sandbox.StandardPermissionProviderFactory;
 
-import java.io.FilePermission;
-import java.io.InputStreamReader;
-import java.io.Reader;
+import java.io.File;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.ReflectPermission;
-import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.security.Policy;
 import java.util.Set;
@@ -161,7 +154,16 @@ public class ModuleManager {
             java.io.ByteArrayOutputStream.class,
             java.io.DataOutputStream.class,
             java.io.FilterOutputStream.class,
-            java.io.PipedOutputStream.class
+            java.io.PipedOutputStream.class,
+            /* Gestalt classes */
+            org.terasology.gestalt.entitysystem.component.Component.class,
+            org.terasology.gestalt.entitysystem.event.Event.class,
+            org.terasology.gestalt.entitysystem.entity.EntityRef.class,
+            org.terasology.gestalt.entitysystem.entity.EntityIterator.class,
+            org.terasology.gestalt.entitysystem.entity.EntityManager.class,
+            org.terasology.gestalt.entitysystem.event.EventResult.class,
+            org.terasology.gestalt.entitysystem.event.ReceiveEvent.class,
+            org.terasology.gestalt.entitysystem.prefab.GeneratedFromRecipeComponent.class
     };
 
     protected static ModuleEnvironment environment;
@@ -173,21 +175,14 @@ public class ModuleManager {
 
     public void init() throws Exception {
         try {
-            Reader engineModuleReader = new InputStreamReader(getClass().getResourceAsStream("/module.json"), Charsets.UTF_8);
-            ModuleMetadata engineMetadata = new ModuleMetadataJsonAdapter().read(engineModuleReader);
-            engineModuleReader.close();
-            DestinationSolModuleFactory moduleFactory = new DestinationSolModuleFactory();
-            engineModule = moduleFactory.createClasspathModule(engineMetadata, false, getClass());
+            ModuleFactory moduleFactory = new ModuleFactory();
+            engineModule = moduleFactory.createPackageModule("org.destinationsol");
 
+            // scan for all standard modules
             registry = new TableModuleRegistry();
-            Path modulesRoot;
-            if (DebugOptions.DEV_ROOT_PATH != null) {
-                modulesRoot = Paths.get(".").resolve("modules");
-            } else {
-                modulesRoot = Paths.get(".").resolve("modules");
-            }
+            File modulesRoot = Paths.get(".").resolve("modules").toFile();
             ModulePathScanner scanner = new ModulePathScanner(moduleFactory);
-            scanner.scan(registry, modulesRoot.toFile());
+            scanner.scan(registry, modulesRoot);
 
             Set<Module> requiredModules = Sets.newHashSet();
             registry.add(engineModule);
@@ -216,14 +211,6 @@ public class ModuleManager {
         permissionFactory.getBasePermissionSet().grantPermission("com.google.gson", RuntimePermission.class);
         permissionFactory.getBasePermissionSet().grantPermission("com.google.gson.internal", RuntimePermission.class);
 
-        permissionFactory.getBasePermissionSet().grantPermission(SaveManager.class, FilePermission.class);
-        permissionFactory.getBasePermissionSet().grantPermission("org.destinationsol.assets", FilePermission.class);
-        permissionFactory.getBasePermissionSet().grantPermission("org.destinationsol.assets.audio", FilePermission.class);
-        permissionFactory.getBasePermissionSet().grantPermission("org.destinationsol.assets.emitters", FilePermission.class);
-        permissionFactory.getBasePermissionSet().grantPermission("org.destinationsol.assets.fonts", FilePermission.class);
-        permissionFactory.getBasePermissionSet().grantPermission("org.destinationsol.assets.json", FilePermission.class);
-        permissionFactory.getBasePermissionSet().grantPermission("org.destinationsol.assets.textures", FilePermission.class);
-
         ConfigurationBuilder config = new ConfigurationBuilder()
                 .addClassLoader(ClasspathHelper.contextClassLoader())
                 .addUrls(ClasspathHelper.forClassLoader())
@@ -234,13 +221,15 @@ public class ModuleManager {
         scanner.scan(reflections);
         Policy.setPolicy(new ModuleSecurityPolicy());
         System.setSecurityManager(new ModuleSecurityManager());
-        environment = new ModuleEnvironment(modules, permissionFactory);
-        AssetHelper helper = new AssetHelper();
-        helper.init(environment);
-        Assets.initialize(helper);
+        environment = new ModuleEnvironment(modules,permissionFactory);
     }
 
-    public static ModuleEnvironment getEnvironment() {
+    public ModuleEnvironment getEnvironment() {
+        return environment;
+    }
+
+    //TODO: REMOVE THIS
+    public static ModuleEnvironment getEnvironmentStatic() {
         return environment;
     }
 

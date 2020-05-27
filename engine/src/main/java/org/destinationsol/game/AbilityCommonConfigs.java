@@ -16,7 +16,7 @@
 package org.destinationsol.game;
 
 import org.destinationsol.assets.Assets;
-import org.destinationsol.assets.audio.OggSoundManager;
+import org.destinationsol.assets.sound.OggSoundManager;
 import org.destinationsol.assets.json.Json;
 import org.destinationsol.assets.json.Validator;
 import org.destinationsol.game.particle.EffectTypes;
@@ -33,7 +33,7 @@ public class AbilityCommonConfigs {
     public AbilityCommonConfigs(EffectTypes effectTypes, GameColors cols, OggSoundManager soundManager) {
         abilityConfigs = new HashMap<>();
 
-        for (ResourceUrn resource : Assets.getAssetHelper().list(Json.class, "[a-zA-Z0-9]*:abilitiesConfig")) {
+        for (ResourceUrn resource : Assets.getAssetHelper().listAssets(Json.class, "abilitiesConfig")) {
             JSONObject rootNode = Validator.getValidatedJSON(resource.toString(), "engine:schemaAbilitiesConfig");
 
             for (String abilityName : rootNode.keySet()) {

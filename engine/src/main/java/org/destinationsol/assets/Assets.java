@@ -18,8 +18,8 @@ package org.destinationsol.assets;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
-import org.destinationsol.assets.audio.OggMusic;
-import org.destinationsol.assets.audio.OggSound;
+import org.destinationsol.assets.music.OggMusic;
+import org.destinationsol.assets.sound.OggSound;
 import org.destinationsol.assets.emitters.Emitter;
 import org.destinationsol.assets.fonts.Font;
 import org.destinationsol.assets.json.Json;
@@ -30,9 +30,9 @@ import org.json.JSONObject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.terasology.gestalt.assets.ResourceUrn;
+import org.terasology.gestalt.entitysystem.prefab.Prefab;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 import java.util.Set;
@@ -62,24 +62,19 @@ public abstract class Assets {
         return assetHelper;
     }
 
-    private static ResourceUrn parsePath(String path) {
-        String[] strings = path.split(":");
+    /**
+     * Loads an Prefab (.prefab) from the current environment. Throws an exception if the asset is not found.
+     * @param path A String specifying the desired asset.
+     * @return The loaded Prefab.
+     */
+    public static Prefab getPrefab(String path) {
+        Optional<Prefab> prefabOptional = assetHelper.get(new ResourceUrn(path), Prefab.class);
 
-        if (strings.length < 2) {
-            throw new RuntimeException("Invalid resource name (missing namespace?) `" + path + "`");
+        if (prefabOptional.isPresent()) {
+            return prefabOptional.get();
         }
 
-        String module = strings[0];
-        String file = strings[1];
-
-        strings = file.split("/");
-        if (strings.length > 1) {
-            assetHelper.setFolders(Arrays.copyOfRange(strings, 0, strings.length - 1));
-        } else {
-            assetHelper.setFolders();
-        }
-
-        return new ResourceUrn(module + ":" + strings[strings.length - 1]);
+        throw new RuntimeException("Prefab " + path + " not found!");
     }
 
     /**
@@ -88,7 +83,7 @@ public abstract class Assets {
      * @return The loaded OggSound.
      */
     public static OggSound getSound(String path) {
-        Optional<OggSound> oggSoundOptional = assetHelper.get(parsePath(path), OggSound.class);
+        Optional<OggSound> oggSoundOptional = assetHelper.get(new ResourceUrn(path), OggSound.class);
 
         if (oggSoundOptional.isPresent()) {
             return oggSoundOptional.get();
@@ -105,7 +100,7 @@ public abstract class Assets {
      * @return The loaded OggMusic.
      */
     public static OggMusic getMusic(String path) {
-        Optional<OggMusic> oggMusicOptional = assetHelper.get(parsePath(path), OggMusic.class);
+        Optional<OggMusic> oggMusicOptional = assetHelper.get(new ResourceUrn(path), OggMusic.class);
 
         if (oggMusicOptional.isPresent()) {
             return oggMusicOptional.get();
@@ -121,7 +116,7 @@ public abstract class Assets {
      * @return The loaded Font.
      */
     public static Font getFont(String path) {
-        Optional<Font> fontOptional = assetHelper.get(parsePath(path), Font.class);
+        Optional<Font> fontOptional = assetHelper.get(new ResourceUrn(path), Font.class);
 
         if (fontOptional.isPresent()) {
             return fontOptional.get();
@@ -137,7 +132,7 @@ public abstract class Assets {
      * @return The loaded Emitter.
      */
     public static Emitter getEmitter(String path) {
-        Optional<Emitter> emitterOptional = assetHelper.get(parsePath(path), Emitter.class);
+        Optional<Emitter> emitterOptional = assetHelper.get(new ResourceUrn(path), Emitter.class);
 
         if (emitterOptional.isPresent()) {
             return emitterOptional.get();
@@ -153,7 +148,7 @@ public abstract class Assets {
      * @return The loaded Json.
      */
     public static Json getJson(String path) {
-        Optional<Json> jsonOptional = assetHelper.get(parsePath(path), Json.class);
+        Optional<Json> jsonOptional = assetHelper.get(new ResourceUrn(path), Json.class);
 
         if (jsonOptional.isPresent()) {
             return jsonOptional.get();
@@ -169,7 +164,7 @@ public abstract class Assets {
      * @return The loaded Texture.
      */
     public static DSTexture getDSTexture(String path) {
-        Optional<DSTexture> dsTextureOptional = assetHelper.get(parsePath(path), DSTexture.class);
+        Optional<DSTexture> dsTextureOptional = assetHelper.get(new ResourceUrn(path), DSTexture.class);
 
         if (dsTextureOptional.isPresent()) {
             return dsTextureOptional.get();
@@ -186,7 +181,12 @@ public abstract class Assets {
      * @return An AtlasRegion representing the loaded Texture.
      */
     public static TextureAtlas.AtlasRegion getAtlasRegion(String path, Texture.TextureFilter textureFilter) {
-        Texture texture = getDSTexture(path).getTexture();
+        // TODO: Remove this sanitisation when no gestalt resource urns contain slashes.
+        String sanitisedPath = path;
+        if (path.contains("/")) {
+            sanitisedPath = path.replace(path.substring(path.indexOf(':')+1, path.lastIndexOf('/')+1), "");
+        }
+        Texture texture = getDSTexture(sanitisedPath).getTexture();
         texture.setFilter(textureFilter, textureFilter);
         TextureAtlas.AtlasRegion atlasRegion = new TextureAtlas.AtlasRegion(texture, 0, 0, texture.getWidth(), texture.getHeight());
         atlasRegion.flip(false, true);
@@ -206,13 +206,13 @@ public abstract class Assets {
     }
 
     public static Animation<TextureAtlas.AtlasRegion> getAnimation(String texturePath) {
-        if (assetHelper.list(DSTexture.class, texturePath).size() == 0) {
+        if (!assetHelper.get(new ResourceUrn(texturePath), DSTexture.class).isPresent()) {
             return null;
         }
 
         String animationPath = texturePath + "Animation";
-        if (assetHelper.list(Json.class, animationPath).size() == 0) {
-            return new Animation<TextureAtlas.AtlasRegion>(Float.MAX_VALUE, getAtlasRegion(texturePath));
+        if (!assetHelper.get(new ResourceUrn(animationPath), DSTexture.class).isPresent()) {
+            return new Animation<>(Float.MAX_VALUE, getAtlasRegion(texturePath));
         }
 
         Texture originalTexture = getDSTexture(texturePath).getTexture();

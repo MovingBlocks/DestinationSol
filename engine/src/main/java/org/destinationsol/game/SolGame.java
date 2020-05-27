@@ -22,12 +22,14 @@ import org.destinationsol.CommonDrawer;
 import org.destinationsol.Const;
 import org.destinationsol.GameOptions;
 import org.destinationsol.SolApplication;
-import org.destinationsol.assets.audio.OggSoundManager;
-import org.destinationsol.assets.audio.SpecialSounds;
+import org.destinationsol.assets.sound.OggSoundManager;
+import org.destinationsol.assets.sound.SpecialSounds;
 import org.destinationsol.common.DebugCol;
 import org.destinationsol.common.SolException;
 import org.destinationsol.common.SolMath;
 import org.destinationsol.common.SolRandom;
+import org.destinationsol.entitysystem.EntitySystemManager;
+import org.destinationsol.entitysystem.SerialisationManager;
 import org.destinationsol.files.HullConfigManager;
 import org.destinationsol.game.asteroid.AsteroidBuilder;
 import org.destinationsol.game.attributes.RegisterUpdateSystem;
@@ -58,6 +60,7 @@ import org.destinationsol.ui.DebugCollector;
 import org.destinationsol.ui.TutorialManager;
 import org.destinationsol.ui.UiDrawer;
 import org.destinationsol.ui.Waypoint;
+import org.terasology.gestalt.entitysystem.entity.EntityRef;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -109,6 +112,7 @@ public class SolGame {
                    WorldConfig worldConfig) {
         this.isTutorial = isTutorial;
         solApplication = context.get(SolApplication.class);
+        ModuleManager moduleManager = context.get(ModuleManager.class);
         GameDrawer drawer = new GameDrawer(commonDrawer);
         gameColors = new GameColors();
         soundManager = solApplication.getSoundManager();
@@ -164,7 +168,7 @@ public class SolGame {
         onPausedUpdateSystems.put(0, defaultPausedSystems);
 
         try {
-            for (Class<?> updateSystemClass : ModuleManager.getEnvironment().getSubtypesOf(UpdateAwareSystem.class)) {
+            for (Class<?> updateSystemClass : moduleManager.getEnvironment().getSubtypesOf(UpdateAwareSystem.class)) {
                 if (!updateSystemClass.isAnnotationPresent(RegisterUpdateSystem.class)) {
                     continue;
                 }
@@ -257,6 +261,15 @@ public class SolGame {
                 saveShip();
             }
             SaveManager.saveWorld(getPlanetManager().getSystems().size());
+
+            try {
+                context.get(SerialisationManager.class).serialise();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+
+            // TODO: Remove this when context is reset after each game
+            context.get(EntitySystemManager.class).getEntityManager().allEntities().forEach(EntityRef::delete);
         } else {
             context.remove(TutorialManager.class, tutorialManager);
         }

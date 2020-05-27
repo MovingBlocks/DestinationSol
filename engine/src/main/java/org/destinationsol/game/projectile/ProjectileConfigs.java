@@ -19,8 +19,8 @@ import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.math.Vector2;
 import org.destinationsol.assets.Assets;
-import org.destinationsol.assets.audio.OggSound;
-import org.destinationsol.assets.audio.OggSoundManager;
+import org.destinationsol.assets.sound.OggSound;
+import org.destinationsol.assets.sound.OggSoundManager;
 import org.destinationsol.assets.json.Json;
 import org.destinationsol.assets.json.Validator;
 import org.destinationsol.common.SolMath;
@@ -43,7 +43,7 @@ public class ProjectileConfigs {
     public ProjectileConfigs(OggSoundManager soundManager, EffectTypes effectTypes, GameColors cols) {
         configs = new HashMap<>();
 
-        Set<ResourceUrn> projectileConfigurationFiles = Assets.getAssetHelper().list(Json.class, "[a-zA-Z]*:projectilesConfig");
+        Set<ResourceUrn> projectileConfigurationFiles = Assets.getAssetHelper().listAssets(Json.class, "projectilesConfig");
 
         for (ResourceUrn configUrn : projectileConfigurationFiles) {
             JSONObject rootNode = Validator.getValidatedJSON(configUrn.toString(), "engine:schemaProjectileConfig");

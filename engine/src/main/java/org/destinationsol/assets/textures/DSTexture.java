@@ -19,7 +19,9 @@ import com.badlogic.gdx.graphics.Texture;
 import org.terasology.gestalt.assets.Asset;
 import org.terasology.gestalt.assets.AssetType;
 import org.terasology.gestalt.assets.ResourceUrn;
+import org.terasology.gestalt.assets.module.annotations.RegisterAssetType;
 
+@RegisterAssetType(folderName = {"textures", "ships", "items", "grounds", "mazes", "asteroids", "fonts"}, factoryClass = DSTextureFactory.class)
 public class DSTexture extends Asset<DSTextureData> {
     private DSTextureData dsTextureData;
 

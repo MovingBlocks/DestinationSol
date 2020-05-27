@@ -16,8 +16,8 @@
 package org.destinationsol.game.item;
 
 import com.badlogic.gdx.graphics.Color;
-import org.destinationsol.assets.audio.OggSound;
-import org.destinationsol.assets.audio.OggSoundManager;
+import org.destinationsol.assets.sound.OggSound;
+import org.destinationsol.assets.sound.OggSoundManager;
 import org.destinationsol.assets.json.Validator;
 import org.destinationsol.game.GameColors;
 import org.json.JSONObject;

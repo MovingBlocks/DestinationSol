@@ -15,62 +15,53 @@
  */
 package org.destinationsol.assets;
 
-import org.destinationsol.assets.audio.OggMusic;
-import org.destinationsol.assets.audio.OggMusicFileFormat;
-import org.destinationsol.assets.audio.OggSound;
-import org.destinationsol.assets.audio.OggSoundFileFormat;
-import org.destinationsol.assets.emitters.Emitter;
-import org.destinationsol.assets.emitters.EmitterFileFormat;
-import org.destinationsol.assets.fonts.Font;
-import org.destinationsol.assets.fonts.FontFileFormat;
-import org.destinationsol.assets.json.Json;
-import org.destinationsol.assets.json.JsonDeltaFileFormat;
-import org.destinationsol.assets.json.JsonFileFormat;
-import org.destinationsol.assets.textures.DSTexture;
-import org.destinationsol.assets.textures.DSTextureFileFormat;
+import org.destinationsol.assets.music.AndroidOggMusicFileFormat;
+import org.destinationsol.assets.music.OggMusic;
+import org.destinationsol.assets.music.OggMusicData;
+import org.destinationsol.assets.sound.AndroidOggSoundFileFormat;
+import org.destinationsol.assets.sound.OggSound;
+import org.destinationsol.assets.sound.OggSoundData;
 import org.terasology.gestalt.assets.Asset;
 import org.terasology.gestalt.assets.AssetData;
+import org.terasology.gestalt.assets.AssetType;
 import org.terasology.gestalt.assets.ResourceUrn;
-import org.terasology.gestalt.assets.format.AssetDataFile;
-import org.terasology.gestalt.assets.format.producer.AssetFileDataProducer;
 import org.terasology.gestalt.assets.module.ModuleAwareAssetTypeManager;
 import org.terasology.gestalt.assets.module.ModuleAwareAssetTypeManagerImpl;
+import org.terasology.gestalt.assets.module.ModuleDependencyResolutionStrategy;
+import org.terasology.gestalt.assets.module.ModuleEnvironmentDependencyProvider;
+import org.terasology.gestalt.entitysystem.component.management.ComponentManager;
+import org.terasology.gestalt.entitysystem.component.management.ComponentTypeIndex;
+import org.terasology.gestalt.entitysystem.prefab.Prefab;
+import org.terasology.gestalt.entitysystem.prefab.PrefabJsonFormat;
 import org.terasology.gestalt.module.ModuleEnvironment;
+import org.terasology.gestalt.naming.Name;
 
-import java.util.HashSet;
-import java.util.List;
 import java.util.Optional;
 import java.util.Set;
 
 public class AssetHelper {
-    protected ModuleAwareAssetTypeManager assetTypeManager;
-    protected static String[] folders_;
+    private ModuleAwareAssetTypeManager assetTypeManager;
 
     public AssetHelper() {
     }
 
-    public void init(ModuleEnvironment environment) {
+    public void init(ModuleEnvironment environment, ComponentManager componentManager, boolean isMobile) {
         assetTypeManager = new ModuleAwareAssetTypeManagerImpl();
 
-        assetTypeManager.createAssetType(OggSound.class, OggSound::new, "sounds");
-        ((AssetFileDataProducer) assetTypeManager.getAssetType(OggSound.class).get().getProducers().get(0)).addAssetFormat(new OggSoundFileFormat());
+        if (isMobile) {
+            AssetType<OggSound, OggSoundData> soundType = assetTypeManager.createAssetType(OggSound.class, OggSound::new, "sounds");
+            AssetType<OggMusic, OggMusicData> musicType = assetTypeManager.createAssetType(OggMusic.class, OggMusic::new, "music");
 
-        assetTypeManager.createAssetType(OggMusic.class, OggMusic::new, "music");
-        ((AssetFileDataProducer) assetTypeManager.getAssetType(OggMusic.class).get().getProducers().get(0)).addAssetFormat(new OggMusicFileFormat());
+            assetTypeManager.getAssetFileDataProducer(soundType).addAssetFormat(new AndroidOggSoundFileFormat());
+            assetTypeManager.getAssetFileDataProducer(musicType).addAssetFormat(new AndroidOggMusicFileFormat());
+        }
 
-        assetTypeManager.createAssetType(Font.class, Font::new, "fonts");
-        ((AssetFileDataProducer) assetTypeManager.getAssetType(Font.class).get().getProducers().get(0)).addAssetFormat(new FontFileFormat());
-
-        assetTypeManager.createAssetType(Emitter.class, Emitter::new, "emitters");
-        ((AssetFileDataProducer) assetTypeManager.getAssetType(Emitter.class).get().getProducers().get(0)).addAssetFormat(new EmitterFileFormat());
-
-        assetTypeManager.createAssetType(Json.class, Json::new, "collisionMeshes", "ships", "items", "configs", "grounds", "mazes", "asteroids", "schemas");
-        AssetFileDataProducer dataProducer = (AssetFileDataProducer) assetTypeManager.getAssetType(Json.class).get().getProducers().get(0);
-        dataProducer.addAssetFormat(new JsonFileFormat());
-        dataProducer.addDeltaFormat(new JsonDeltaFileFormat());
-
-        assetTypeManager.createAssetType(DSTexture.class, DSTexture::new, "textures", "ships", "items", "grounds", "mazes", "asteroids", "fonts");
-        ((AssetFileDataProducer) assetTypeManager.getAssetType(DSTexture.class).get().getProducers().get(0)).addAssetFormat(new DSTextureFileFormat());
+        assetTypeManager.getAssetFileDataProducer(
+                assetTypeManager.createAssetType(Prefab.class, Prefab::new, "prefabs"))
+                .addAssetFormat(new PrefabJsonFormat.Builder(
+                        new ComponentTypeIndex(environment, new ModuleDependencyResolutionStrategy(
+                                new ModuleEnvironmentDependencyProvider(environment))),
+                componentManager, assetTypeManager.getAssetManager()).create());
 
         assetTypeManager.switchEnvironment(environment);
     }
@@ -83,57 +74,20 @@ public class AssetHelper {
         return assetTypeManager.getAssetManager().getAvailableAssets(type);
     }
 
-    public Set<ResourceUrn> list(Class<? extends Asset<?>> type, String regex) {
-        Set<ResourceUrn> finalList = new HashSet<>();
-
-        Set<ResourceUrn> resourceList = assetTypeManager.getAssetManager().getAvailableAssets(type);
-        for (ResourceUrn resourceUrn : resourceList) {
-            if (resourceUrn.toString().matches(regex)) {
-                finalList.add(resourceUrn);
-            }
-        }
-
-        return finalList;
+    public Set<ResourceUrn> listAssets(Class<? extends Asset<?>> type, String asset) {
+        return assetTypeManager.getAssetManager().resolve(asset, type);
     }
 
-    public void setFolders(String... folders) {
-        folders_ = folders;
-    }
-
-    public String resolveToPath(List<AssetDataFile> assetDataFiles) {
-        for (AssetDataFile assetDataFile : assetDataFiles) {
-            List<String> folders = assetDataFile.getPath();
-
-            boolean validPath = true;
-            if (folders_ != null) {
-                for (int i = 0; i < folders_.length; i++) {
-                    if (!folders_[i].equals(folders.get(folders.size() - i - 1))) {
-                        validPath = false;
-                        break;
-                    }
+    public Set<ResourceUrn> listAssets(Class<? extends Asset<?>> type, String asset, Name... excluding) {
+        Set<ResourceUrn> list = listAssets(type, asset);
+        list.removeIf(urn -> {
+            for (Name module : excluding) {
+                if (urn.getModuleName().equals(module)) {
+                    return true;
                 }
             }
-            if (!validPath) {
-                continue;
-            }
-
-            StringBuilder path = new StringBuilder();
-
-            if (folders.get(0).equals("assets")) {
-                path.append("assets/");
-            } else {
-                path.append("modules/").append(folders.get(0)).append("/");
-            }
-
-            for (int i = 1; i < folders.size(); i++) {
-                path.append(folders.get(i)).append("/");
-            }
-
-            path.append(assetDataFile.getFilename());
-
-            return path.toString();
-        }
-
-        throw new RuntimeException("Could not resolve path!");
+            return false;
+        });
+        return list;
     }
 }

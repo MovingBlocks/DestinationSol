@@ -1,5 +1,5 @@
 /*
- * Copyright 2018 MovingBlocks
+ * Copyright 2020 The Terasology Foundation
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -13,24 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.destinationsol.assets.audio;
+package org.destinationsol.entitysystem;
 
-/**
- * A class that stores an OggSound or a set of OggSounds.
- */
-public interface PlayableSound {
-
-    /**
-     * Returns an OggSound selected from the sound set.
-     *
-     * @return
-     */
-    OggSound getOggSound();
-
-    /**
-     * Returns the common pitch value for all the stored OggSound.
-     *
-     * @return
-     */
-    float getBasePitch();
+public @interface RegisterEventReceivers {
 }

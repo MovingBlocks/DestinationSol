@@ -19,7 +19,9 @@ import com.badlogic.gdx.graphics.g2d.ParticleEmitter;
 import org.terasology.gestalt.assets.Asset;
 import org.terasology.gestalt.assets.AssetType;
 import org.terasology.gestalt.assets.ResourceUrn;
+import org.terasology.gestalt.assets.module.annotations.RegisterAssetType;
 
+@RegisterAssetType(folderName = "emitters", factoryClass = EmitterFactory.class)
 public class Emitter extends Asset<EmitterData> {
     private EmitterData emitterData;
 

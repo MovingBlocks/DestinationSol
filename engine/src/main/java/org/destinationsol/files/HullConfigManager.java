@@ -48,7 +48,7 @@ public final class HullConfigManager {
 
     static {
         abilityClasses = new HashMap<String, Class<AbilityConfig>>();
-        for (Class abilityClass : ModuleManager.getEnvironment().getSubtypesOf(AbilityConfig.class)) {
+        for (Class abilityClass : ModuleManager.getEnvironmentStatic().getSubtypesOf(AbilityConfig.class)) {
             try {
                 abilityClasses.put(abilityClass.getSimpleName().replace("Config", "").toLowerCase(Locale.ENGLISH), abilityClass);
             } catch (Exception e) {

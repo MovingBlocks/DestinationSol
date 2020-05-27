@@ -37,6 +37,7 @@ import org.destinationsol.game.ship.hulls.HullConfig;
 import org.destinationsol.ui.Waypoint;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.terasology.gestalt.module.sandbox.API;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -47,6 +48,7 @@ import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 import java.util.List;
 
+@API
 public class SaveManager {
 
     private static Logger logger = LoggerFactory.getLogger(SaveManager.class);

@@ -53,7 +53,7 @@ public class FactionInfo {
 
     private static Set<String> getModuleSet() {
         Set<String> moduleSet = new HashSet<String>();
-        Set<ResourceUrn> moduleUrn = Assets.getAssetHelper().list(Json.class, "[a-zA-Z0-9]*:factions");
+        Set<ResourceUrn> moduleUrn = Assets.getAssetHelper().listAssets(Json.class, "factions");
         for (ResourceUrn module : moduleUrn) {
             moduleSet.add(module.toString());
         }

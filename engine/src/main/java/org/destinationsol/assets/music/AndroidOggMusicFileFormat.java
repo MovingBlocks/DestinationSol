@@ -1,5 +1,5 @@
 /*
- * Copyright 2018 MovingBlocks
+ * Copyright 2020 The Terasology Foundation
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -13,31 +13,35 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.destinationsol.assets.audio;
+package org.destinationsol.assets.music;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.files.FileHandle;
-import org.destinationsol.assets.AssetDataFileHandle;
-import org.destinationsol.assets.Assets;
 import org.terasology.gestalt.assets.ResourceUrn;
 import org.terasology.gestalt.assets.format.AbstractAssetFileFormat;
 import org.terasology.gestalt.assets.format.AssetDataFile;
-import org.terasology.gestalt.assets.module.annotations.RegisterAssetFileFormat;
 
 import java.io.IOException;
+import java.io.InputStream;
 import java.util.List;
 
-@RegisterAssetFileFormat
-public class OggMusicFileFormat extends AbstractAssetFileFormat<OggMusicData> {
-    public OggMusicFileFormat() {
+public class AndroidOggMusicFileFormat extends AbstractAssetFileFormat<OggMusicData> {
+    public AndroidOggMusicFileFormat() {
         super("ogg");
     }
 
     @Override
     public OggMusicData load(ResourceUrn urn, List<AssetDataFile> inputs) throws IOException {
-        String path = Assets.getAssetHelper().resolveToPath(inputs);
+        // HACK: LibGDX will only accept an AndroidFileHandle (it casts to one internally). The class has a private
+        //       constructor, so we cannot use the same workaround as with AssetDataFileHandle. The only plausible way
+        //        to do this appears to be to save the data out to a file and point LibGDX at that.
+        AssetDataFile asset = inputs.get(0);
+        FileHandle outFile = Gdx.files.local("music/" + urn.toString().replace(":", "_") + "." + inputs.get(0).getFileExtension());
+        if (!outFile.exists()) {
+            InputStream fileStream = asset.openStream();
+            outFile.write(fileStream, false);
+        }
 
-        FileHandle handle = new AssetDataFileHandle(inputs.get(0));
-        return new OggMusicData(Gdx.audio.newMusic(handle));
+        return new OggMusicData(Gdx.audio.newMusic(outFile));
     }
 }

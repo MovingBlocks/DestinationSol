@@ -26,6 +26,7 @@ import org.destinationsol.game.item.ItemManager;
 import org.destinationsol.game.item.TradeConfig;
 import org.json.JSONObject;
 import org.terasology.gestalt.assets.ResourceUrn;
+import org.terasology.gestalt.naming.Name;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -67,7 +68,7 @@ public class SysConfigs {
             configs.put(name, config);
         }
 
-        Set<ResourceUrn> configUrnList = Assets.getAssetHelper().list(Json.class, "[a-z]*(?<!^engine):" + configName);
+        Set<ResourceUrn> configUrnList = Assets.getAssetHelper().listAssets(Json.class, configName, new Name("engine"));
 
         for (ResourceUrn configUrn : configUrnList) {
             rootNode = Validator.getValidatedJSON(configUrn.toString(), "engine:schemaSystemsConfig");

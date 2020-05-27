@@ -20,11 +20,16 @@ import com.badlogic.gdx.ApplicationListener;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.physics.box2d.Box2D;
-import org.destinationsol.assets.audio.OggMusicManager;
-import org.destinationsol.assets.audio.OggSoundManager;
+import org.destinationsol.assets.AssetHelper;
+import org.destinationsol.assets.Assets;
+import org.destinationsol.assets.music.OggMusicManager;
+import org.destinationsol.assets.sound.OggSoundManager;
 import org.destinationsol.common.SolColor;
 import org.destinationsol.common.SolMath;
 import org.destinationsol.common.SolRandom;
+import org.destinationsol.entitysystem.ComponentSystemManager;
+import org.destinationsol.entitysystem.EntitySystemManager;
+import org.destinationsol.entitysystem.SerialisationManager;
 import org.destinationsol.game.DebugOptions;
 import org.destinationsol.game.FactionInfo;
 import org.destinationsol.game.SaveManager;
@@ -46,11 +51,14 @@ import org.destinationsol.ui.UiDrawer;
 import org.destinationsol.util.FramerateLimiter;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.terasology.gestalt.entitysystem.component.Component;
+import org.terasology.gestalt.entitysystem.component.management.ComponentManager;
 import org.terasology.gestalt.module.sandbox.API;
 
 import java.io.PrintWriter;
 import java.io.StringWriter;
 import java.util.HashSet;
+import java.util.Iterator;
 import java.util.Set;
 
 @API
@@ -61,6 +69,7 @@ public class SolApplication implements ApplicationListener {
 
     @SuppressWarnings("FieldCanBeLocal")
     private ModuleManager moduleManager;
+    private EntitySystemManager entitySystemManager;
 
     private OggMusicManager musicManager;
     private OggSoundManager soundManager;
@@ -102,12 +111,31 @@ public class SolApplication implements ApplicationListener {
     public void create() {
         context = new ContextImpl();
         context.put(SolApplication.class, this);
+        context.put(ModuleManager.class, moduleManager);
         worldConfig = new WorldConfig();
         isMobile = Gdx.app.getType() == Application.ApplicationType.Android || Gdx.app.getType() == Application.ApplicationType.iOS;
         if (isMobile) {
             DebugOptions.read(null);
         }
         options = new GameOptions(isMobile(), null);
+
+        ComponentManager componentManager = new ComponentManager();
+        AssetHelper helper = new AssetHelper();
+        helper.init(moduleManager.getEnvironment(), componentManager, isMobile);
+        Assets.initialize(helper);
+        entitySystemManager = new EntitySystemManager(moduleManager.getEnvironment(), componentManager);
+        context.put(EntitySystemManager.class, entitySystemManager);
+
+        context.put(ComponentSystemManager.class, new ComponentSystemManager(moduleManager.getEnvironment(), context));
+
+        // Big, fat, ugly HACK to get a working classloader
+        // Serialisation and thus a classloader is not needed when there are no components
+        Iterator<Class<? extends Component>> componentClasses =
+                moduleManager.getEnvironment().getSubtypesOf(Component.class).iterator();
+        SerialisationManager serialisationManager = new SerialisationManager(
+                SaveManager.getResourcePath("entity_store.dat"), entitySystemManager.getEntityManager(),
+                componentClasses.hasNext() ? componentClasses.next().getClassLoader() : null);
+        context.put(SerialisationManager.class, serialisationManager);
 
         logger.info("\n\n ------------------------------------------------------------ \n");
         moduleManager.printAvailableModules();
@@ -251,6 +279,7 @@ public class SolApplication implements ApplicationListener {
             beforeLoadGame();
         }
 
+        context.get(ComponentSystemManager.class).preBegin();
         FactionInfo factionInfo = new FactionInfo();
         solGame = new SolGame(shipName, tut, isNewGame, commonDrawer, context, worldConfig);
         factionDisplay = new FactionDisplay(solGame, factionInfo);
@@ -329,6 +358,12 @@ public class SolApplication implements ApplicationListener {
      * This method is called when the "Continue" button gets pressed. It loads the world file to get the seed used for the world generation, and the number of systems
      */
     private void beforeLoadGame() {
+        try {
+            context.get(SerialisationManager.class).deserialise();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
         WorldConfig config = SaveManager.loadWorld();
         if (config != null) {
             worldConfig = config;

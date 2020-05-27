@@ -1,0 +1,25 @@
+syntax = "proto2";
+
+option java_package = "org.destinationsol.protobuf";
+option java_outer_classname = "EntityData";
+option optimize_for = SPEED;
+
+message Field {
+    optional string name = 1;
+    optional string type = 2;
+    optional bytes value = 3;
+}
+
+message Component {
+    optional string type_name = 1;
+    repeated Field field = 2;
+}
+
+message Entity {
+    optional int32 id = 1;
+    repeated Component component = 2;
+}
+
+message EntityStore {
+    repeated Entity entity = 1;
+}

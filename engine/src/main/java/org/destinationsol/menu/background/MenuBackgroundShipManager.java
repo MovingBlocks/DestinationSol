@@ -59,7 +59,7 @@ public class MenuBackgroundShipManager {
         availableShips = new ArrayList<>();
         backgroundShips = new ArrayList<>();
 
-        Set<ResourceUrn> configUrnList = Assets.getAssetHelper().list(Json.class, "[a-zA-Z]*:menuBackgroundShipConfig");
+        Set<ResourceUrn> configUrnList = Assets.getAssetHelper().listAssets(Json.class, "menuBackgroundShipConfig");
         for (ResourceUrn configUrn : configUrnList) {
             JSONObject rootNode = Assets.getJson(configUrn.toString()).getJsonValue();
             JSONArray ships = rootNode.getJSONArray("Menu Ships");
