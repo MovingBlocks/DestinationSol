@@ -111,7 +111,7 @@ public class SolGame {
     public SolGame(String shipName, boolean isTutorial, boolean isNewGame, CommonDrawer commonDrawer, Context context,
                    WorldConfig worldConfig) {
         // TODO: make this non-static
-        FactionInfo staticIgnore = new FactionInfo();
+        FactionInfo.init();
 
         this.isTutorial = isTutorial;
         solApplication = context.get(SolApplication.class);
