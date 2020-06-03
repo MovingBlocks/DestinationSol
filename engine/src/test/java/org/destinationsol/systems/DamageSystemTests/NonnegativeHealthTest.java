@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.destinationsol.systems;
+package org.destinationsol.systems.DamageSystemTests;
 
 import org.destinationsol.components.HealthComponent;
 import org.destinationsol.entitysystem.EntitySystemManager;
@@ -22,13 +22,11 @@ import org.destinationsol.modules.ModuleManager;
 import org.junit.Before;
 import org.junit.Test;
 import org.terasology.gestalt.entitysystem.component.management.ComponentManager;
-import org.terasology.gestalt.entitysystem.entity.EntityIterator;
 import org.terasology.gestalt.entitysystem.entity.EntityRef;
 
 import static org.junit.Assert.assertEquals;
 
-public class DamageSystemTest {
-
+public class NonnegativeHealthTest {
     private ModuleManager moduleManager;
     private EntitySystemManager entitySystemManager;
 
@@ -37,23 +35,6 @@ public class DamageSystemTest {
         moduleManager = new ModuleManager();
         moduleManager.init();
         entitySystemManager = new EntitySystemManager(moduleManager.getEnvironment(), new ComponentManager());
-    }
-
-    @Test
-    public void testOnDamage() {
-        EntityRef entity = entitySystemManager.getEntityManager().createEntity(new HealthComponent());
-        if (entity.getComponent(HealthComponent.class).isPresent()) {
-            HealthComponent component = entity.getComponent(HealthComponent.class).get();
-            component.setMaxHealth(50);
-            component.setCurrentHealth(50);
-            entity.setComponent(component);
-        }
-        DamageEvent event = new DamageEvent(30);
-
-        entitySystemManager.sendEvent(event, new HealthComponent());
-
-        assertEquals(20, entity.getComponent(HealthComponent.class).get().getCurrentHealth());
-
     }
 
     @Test
@@ -72,19 +53,4 @@ public class DamageSystemTest {
         assertEquals(0, entity.getComponent(HealthComponent.class).get().getCurrentHealth());
     }
 
-    @Test
-    public void testNegativeDamageHasNoEffect() {
-        EntityRef entity = entitySystemManager.getEntityManager().createEntity(new HealthComponent());
-        if (entity.getComponent(HealthComponent.class).isPresent()) {
-            HealthComponent component = entity.getComponent(HealthComponent.class).get();
-            component.setMaxHealth(50);
-            component.setCurrentHealth(50);
-            entity.setComponent(component);
-        }
-        DamageEvent event = new DamageEvent(-30);
-
-        entitySystemManager.sendEvent(event, new HealthComponent());
-
-        assertEquals(50, entity.getComponent(HealthComponent.class).get().getCurrentHealth());
-    }
 }
