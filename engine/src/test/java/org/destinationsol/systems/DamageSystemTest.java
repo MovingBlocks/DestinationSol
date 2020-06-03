@@ -40,7 +40,7 @@ public class DamageSystemTest {
     }
 
     @Test
-    public void onDamage() {
+    public void testOnDamage() {
         EntityRef entity = entitySystemManager.getEntityManager().createEntity(new HealthComponent());
         if (entity.getComponent(HealthComponent.class).isPresent()) {
             HealthComponent component = entity.getComponent(HealthComponent.class).get();
@@ -53,5 +53,34 @@ public class DamageSystemTest {
         entitySystemManager.sendEvent(event, new HealthComponent());
 
         assertEquals(20, entity.getComponent(HealthComponent.class).get().getCurrentHealth());
+
+
+        entity = entitySystemManager.getEntityManager().createEntity(new HealthComponent());
+        if (entity.getComponent(HealthComponent.class).isPresent()) {
+            HealthComponent component = entity.getComponent(HealthComponent.class).get();
+            component.setMaxHealth(50);
+            component.setCurrentHealth(50);
+            entity.setComponent(component);
+        }
+        event = new DamageEvent(60);
+
+        entitySystemManager.sendEvent(event, new HealthComponent());
+
+        assertEquals(0, entity.getComponent(HealthComponent.class).get().getCurrentHealth());
+
+
+        entity = entitySystemManager.getEntityManager().createEntity(new HealthComponent());
+        if (entity.getComponent(HealthComponent.class).isPresent()) {
+            HealthComponent component = entity.getComponent(HealthComponent.class).get();
+            component.setMaxHealth(50);
+            component.setCurrentHealth(50);
+            entity.setComponent(component);
+        }
+        event = new DamageEvent(-30);
+
+        entitySystemManager.sendEvent(event, new HealthComponent());
+
+        assertEquals(50, entity.getComponent(HealthComponent.class).get().getCurrentHealth());
     }
+
 }

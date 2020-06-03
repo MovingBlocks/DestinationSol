@@ -27,12 +27,16 @@ public class DamageSystem {
 
     @ReceiveEvent(components = HealthComponent.class)
     public EventResult onDamage(DamageEvent event, EntityRef entity) {
+        if (event.getDamage() <= 0){
+            return EventResult.CONTINUE;
+        }
         entity.getComponent(HealthComponent.class).ifPresent(health -> {
             int newHealthAmount = health.getCurrentHealth() - event.getDamage();
             if (newHealthAmount < 0) {
                 newHealthAmount = 0;
             }
             health.setCurrentHealth(newHealthAmount);
+            entity.setComponent(health);
         });
         return EventResult.CONTINUE;
     }
