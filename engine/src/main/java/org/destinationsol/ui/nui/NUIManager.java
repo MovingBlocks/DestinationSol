@@ -20,7 +20,7 @@ import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import org.destinationsol.CommonDrawer;
 import org.destinationsol.SolApplication;
 import org.destinationsol.assets.Assets;
-import org.destinationsol.assets.audio.OggSound;
+import org.destinationsol.assets.sound.OggSound;
 import org.terasology.gestalt.assets.ResourceUrn;
 import org.terasology.input.InputType;
 import org.terasology.input.MouseInput;

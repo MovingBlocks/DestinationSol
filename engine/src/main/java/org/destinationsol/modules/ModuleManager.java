@@ -16,6 +16,7 @@
 package org.destinationsol.modules;
 
 import com.google.common.collect.Sets;
+import com.google.common.reflect.Reflection;
 import org.destinationsol.assets.AssetHelper;
 import org.destinationsol.assets.Assets;
 import org.destinationsol.assets.music.OggMusic;
@@ -34,13 +35,17 @@ import org.terasology.gestalt.assets.ResourceUrn;
 import org.terasology.gestalt.module.Module;
 import org.terasology.gestalt.module.ModuleEnvironment;
 import org.terasology.gestalt.module.ModuleFactory;
+import org.terasology.gestalt.module.ModuleMetadata;
 import org.terasology.gestalt.module.ModulePathScanner;
 import org.terasology.gestalt.module.ModuleRegistry;
 import org.terasology.gestalt.module.TableModuleRegistry;
+import org.terasology.gestalt.module.resources.EmptyFileSource;
 import org.terasology.gestalt.module.sandbox.APIScanner;
 import org.terasology.gestalt.module.sandbox.ModuleSecurityManager;
 import org.terasology.gestalt.module.sandbox.ModuleSecurityPolicy;
 import org.terasology.gestalt.module.sandbox.StandardPermissionProviderFactory;
+import org.terasology.gestalt.naming.Name;
+import org.terasology.gestalt.naming.Version;
 import org.terasology.nui.UIWidget;
 
 import java.io.File;
@@ -48,6 +53,7 @@ import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.ReflectPermission;
 import java.nio.file.Paths;
 import java.security.Policy;
+import java.util.Collections;
 import java.util.Set;
 
 /**
@@ -178,6 +184,12 @@ public class ModuleManager {
         try {
             ModuleFactory moduleFactory = new ModuleFactory();
             engineModule = moduleFactory.createPackageModule("org.destinationsol");
+            // TODO: Find a better way to do this!
+            Module nuiModule = new Module(new ModuleMetadata(new Name("nui"), new Version("0.2.0")), new EmptyFileSource(),
+                    Collections.emptyList(), new Reflections("org.terasology.nui"), x -> {
+                String classPackageName = Reflection.getPackageName(x);
+                return "org.terasology.nui".equals(classPackageName) || classPackageName.startsWith("org.terasology.nui.");
+            });
 
             // scan for all standard modules
             registry = new TableModuleRegistry();
@@ -187,6 +199,7 @@ public class ModuleManager {
 
             Set<Module> requiredModules = Sets.newHashSet();
             registry.add(engineModule);
+            registry.add(nuiModule);
             requiredModules.addAll(registry);
 
             loadEnvironment(requiredModules);
