@@ -1,9 +1,5 @@
 package org.destinationsol.assets.ui;
 
-import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.graphics.g2d.BitmapFont;
-import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.google.common.base.Charsets;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
@@ -41,6 +37,7 @@ import java.util.Map;
 import java.util.Optional;
 
 /**
+ * NOTE: Taken from Terasology for compatibility with NUI JSON files.
  */
 @RegisterAssetFileFormat
 public class UISkinFormat extends AbstractAssetFileFormat<UISkinData> {

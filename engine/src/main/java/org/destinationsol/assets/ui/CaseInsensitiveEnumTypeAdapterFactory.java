@@ -30,7 +30,7 @@ import java.util.Map;
 
 /**
  * A Gson Adapter factory for supporting enums in a case-insensitive manner
- *
+ * NOTE: Taken from Terasology for compatibility with NUI JSON files.
  */
 public class CaseInsensitiveEnumTypeAdapterFactory implements TypeAdapterFactory {
 

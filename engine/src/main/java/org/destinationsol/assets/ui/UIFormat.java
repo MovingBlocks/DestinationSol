@@ -63,6 +63,7 @@ import java.util.Set;
 
 /**
  * Handles loading UI widgets from json format files.
+ * NOTE: Taken from Terasology for compatibility with NUI JSON files.
  */
 @RegisterAssetFileFormat
 public class UIFormat extends AbstractAssetFileFormat<UIData> {
