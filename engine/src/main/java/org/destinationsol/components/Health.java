@@ -17,29 +17,16 @@ package org.destinationsol.components;
 
 import org.terasology.gestalt.entitysystem.component.Component;
 
-public final class HealthComponent implements Component<HealthComponent> {
+/**
+ * Contains information about the health of an entity.
+ */
+public final class Health implements Component<Health> {
 
-    private int maxHealth = 30;
-    private int currentHealth = 30;
-
-    public int getCurrentHealth() {
-        return currentHealth;
-    }
-
-    public void setCurrentHealth(int health) {
-        this.currentHealth = health;
-    }
-
-    public int getMaxHealth() {
-        return maxHealth;
-    }
-
-    public void setMaxHealth(int maxHealth) {
-        this.maxHealth = maxHealth;
-    }
+    public int maxHealth = 30;
+    public int currentHealth = 30;
 
     @Override
-    public void copy(HealthComponent other) {
+    public void copy(Health other) {
         this.maxHealth = other.maxHealth;
         this.currentHealth = other.currentHealth;
     }

@@ -15,7 +15,7 @@
  */
 package org.destinationsol.systems.DamageSystemTests;
 
-import org.destinationsol.components.HealthComponent;
+import org.destinationsol.components.Health;
 import org.destinationsol.entitysystem.EntitySystemManager;
 import org.destinationsol.events.DamageEvent;
 import org.destinationsol.modules.ModuleManager;
@@ -26,7 +26,10 @@ import org.terasology.gestalt.entitysystem.entity.EntityRef;
 
 import static org.junit.Assert.assertEquals;
 
-public class NonnegativeDamageTest {
+/**
+ * Test to ensure that a damage event with a negative amount doesn't add health.
+ */
+public class NonNegativeDamageTest {
 
     private ModuleManager moduleManager;
     private EntitySystemManager entitySystemManager;
@@ -40,17 +43,17 @@ public class NonnegativeDamageTest {
 
     @Test
     public void testNegativeDamageHasNoEffect() {
-        EntityRef entity = entitySystemManager.getEntityManager().createEntity(new HealthComponent());
-        if (entity.getComponent(HealthComponent.class).isPresent()) {
-            HealthComponent component = entity.getComponent(HealthComponent.class).get();
-            component.setMaxHealth(50);
-            component.setCurrentHealth(50);
-            entity.setComponent(component);
+        EntityRef entity = entitySystemManager.getEntityManager().createEntity(new Health());
+        if (entity.getComponent(Health.class).isPresent()) {
+            Health health = entity.getComponent(Health.class).get();
+            health.maxHealth = 50;
+            health.currentHealth = 50;
+            entity.setComponent(health);
         }
         DamageEvent event = new DamageEvent(-30);
 
-        entitySystemManager.sendEvent(event, new HealthComponent());
+        entitySystemManager.sendEvent(event, new Health());
 
-        assertEquals(50, entity.getComponent(HealthComponent.class).get().getCurrentHealth());
+        assertEquals(50, entity.getComponent(Health.class).get().currentHealth);
     }
 }

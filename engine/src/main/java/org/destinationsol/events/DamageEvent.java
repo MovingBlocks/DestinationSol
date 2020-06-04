@@ -17,6 +17,9 @@ package org.destinationsol.events;
 
 import org.terasology.gestalt.entitysystem.event.Event;
 
+/**
+ * Event that contains information about the damage an entity receives.
+ */
 public class DamageEvent implements Event {
 
     private int damage;

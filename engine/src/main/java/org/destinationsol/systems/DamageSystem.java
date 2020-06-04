@@ -15,29 +15,43 @@
  */
 package org.destinationsol.systems;
 
-import org.destinationsol.components.HealthComponent;
+import org.destinationsol.components.Health;
+import org.destinationsol.entitysystem.ComponentSystem;
 import org.destinationsol.entitysystem.RegisterEventReceivers;
 import org.destinationsol.events.DamageEvent;
 import org.terasology.gestalt.entitysystem.entity.EntityRef;
 import org.terasology.gestalt.entitysystem.event.EventResult;
 import org.terasology.gestalt.entitysystem.event.ReceiveEvent;
 
+/**
+ * When a damage event happens to an entity with a health component, this system reads the damage from that event and
+ * lowers its health by that amount. If it would lower the health to less than zero, it's reduced to zero instead. If
+ * the damage is a negative amount, nothing happens.
+ */
 @RegisterEventReceivers
-public class DamageSystem {
+public class DamageSystem extends ComponentSystem {
 
-    @ReceiveEvent(components = HealthComponent.class)
+    /**
+     * Handles a damage event done to an entity with a Health component.
+     *
+     * @param event  the damage event that is occurring
+     * @param entity the entity that the damage is happening to
+     * @return the event should be processed by other systems, if there are
+     */
+    @ReceiveEvent(components = Health.class)
     public EventResult onDamage(DamageEvent event, EntityRef entity) {
-        if (event.getDamage() <= 0){
+        if (event.getDamage() <= 0) {
             return EventResult.CONTINUE;
         }
-        entity.getComponent(HealthComponent.class).ifPresent(health -> {
-            int newHealthAmount = health.getCurrentHealth() - event.getDamage();
+        if (entity.getComponent(Health.class).isPresent()) {
+            Health health = entity.getComponent(Health.class).get();
+            int newHealthAmount = health.currentHealth - event.getDamage();
             if (newHealthAmount < 0) {
                 newHealthAmount = 0;
             }
-            health.setCurrentHealth(newHealthAmount);
+            health.currentHealth = newHealthAmount;
             entity.setComponent(health);
-        });
+        }
         return EventResult.CONTINUE;
     }
 }
