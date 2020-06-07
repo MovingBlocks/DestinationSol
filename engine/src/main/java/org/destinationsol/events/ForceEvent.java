@@ -19,7 +19,9 @@ import com.badlogic.gdx.math.Vector2;
 import org.terasology.gestalt.entitysystem.event.Event;
 
 /**
- * Event that represents the force applied to an entity.
+ * Event that represents a prolonged force applied to an entity, such as the impact of a collision. This does NOT
+ *  * represent anything that is a sudden, short force, such as a collision. That type of occurrence is handled by
+ *  * {@link ImpulseEvent}.
  */
 public class ForceEvent implements Event {
 

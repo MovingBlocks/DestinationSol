@@ -17,19 +17,13 @@ package org.destinationsol.events;
 
 import com.badlogic.gdx.math.Vector2;
 import org.terasology.gestalt.entitysystem.entity.EntityRef;
-import org.terasology.gestalt.entitysystem.event.Event;
 
 /**
- * Event that represents the contact between two entities. This event can be used to create an {@link ImpulseEvent}
- * if an impulse should be applied because of the contact. Long-term forces, such as gravity, should be handled by a
+ * Event that represents a sudden, short force applied to an entity, such as the impact of a collision. This does NOT
+ * represent anything that is a prolonged force, such as gravity. That type of occurrence is handled by
  * {@link ForceEvent}.
  */
-public class ContactEvent implements Event {
-
-    /**
-     * The entity causing the contact event.
-     */
-    private EntityRef triggeringEntity;
+public class ImpulseEvent {
 
     /**
      * The position where the contact happened.
@@ -37,18 +31,13 @@ public class ContactEvent implements Event {
     private Vector2 contactPosition;
 
     /**
-     * The impulse applied to the other entity.
+     * The impulse applied to the entity.
      */
     private float impulse;
 
-    public ContactEvent(EntityRef triggeringEntity, Vector2 contactPosition, float impulse) {
-        this.triggeringEntity = triggeringEntity;
+    public ImpulseEvent(Vector2 contactPosition, float impulse) {
         this.contactPosition = contactPosition;
         this.impulse = impulse;
-    }
-
-    public EntityRef getTriggeringEntity() {
-        return triggeringEntity;
     }
 
     public Vector2 getContactPosition() {
@@ -58,4 +47,5 @@ public class ContactEvent implements Event {
     public float getImpulse() {
         return impulse;
     }
+
 }
