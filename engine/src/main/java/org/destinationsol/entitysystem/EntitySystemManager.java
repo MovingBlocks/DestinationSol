@@ -36,7 +36,7 @@ import java.util.List;
 public class EntitySystemManager {
 
     private static EntityManager entityManager;
-    private static EventSystem eventSystem = new EventSystemImpl();
+    private EventSystem eventSystem = new EventSystemImpl();
     private static EventReceiverMethodSupport eventReceiverMethodSupport = new EventReceiverMethodSupport();
 
     public EntitySystemManager(ModuleEnvironment environment, ComponentManager componentManager){
