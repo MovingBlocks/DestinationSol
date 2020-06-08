@@ -27,7 +27,7 @@ import org.terasology.gestalt.entitysystem.entity.EntityRef;
 import static org.junit.Assert.assertEquals;
 
 /**
- * Test to ensure that a damage event to an entity lowers its health by that amount.
+ * Test to ensure that a damage event to an entity lowers that entity's health by that amount.
  */
 public class OnDamageTest {
 

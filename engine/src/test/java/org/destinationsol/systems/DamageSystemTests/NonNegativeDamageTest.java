@@ -27,7 +27,7 @@ import org.terasology.gestalt.entitysystem.entity.EntityRef;
 import static org.junit.Assert.assertEquals;
 
 /**
- * Test to ensure that a damage event with a negative amount doesn't add health.
+ * Test to ensure that a damage event with a negative amount of damage doesn't add health.
  */
 public class NonNegativeDamageTest {
 
