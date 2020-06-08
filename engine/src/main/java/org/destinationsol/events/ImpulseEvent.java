@@ -20,7 +20,7 @@ import org.terasology.gestalt.entitysystem.entity.EntityRef;
 
 /**
  * Event that represents a sudden, short force applied to an entity, such as the impact of a collision. This does NOT
- * represent anything that is a prolonged force, such as gravity. That type of occurrence is handled by
+ * represent anything that is an application of continuous force, like gravity. That type of occurrence is handled by
  * {@link ForceEvent}.
  */
 public class ImpulseEvent {
