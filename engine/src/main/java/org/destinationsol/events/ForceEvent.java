@@ -19,19 +19,12 @@ import com.badlogic.gdx.math.Vector2;
 import org.terasology.gestalt.entitysystem.event.Event;
 
 /**
- * Event that represents a prolonged force applied to an entity, such as gravity. This does NOT represent anything
- * that is a sudden, short force, such as a collision. That type of occurrence is handled by {@link ImpulseEvent}.
+ * Event that represents a continuous force applied to an entity, like gravity. This does NOT represent anything
+ * that is a sudden, instantaneous force, like a collision. That type of occurrence is handled by {@link ImpulseEvent}.
  */
 public class ForceEvent implements Event {
 
-    /**
-     * The force applied to the entity.
-     */
     private Vector2 force;
-
-    /**
-     * Whether the force applied causes acceleration.
-     */
     private boolean causesAcceleration;
 
     public ForceEvent(Vector2 force, boolean causesAcceleration) {
@@ -39,10 +32,16 @@ public class ForceEvent implements Event {
         this.causesAcceleration = causesAcceleration;
     }
 
+    /**
+     * The force applied to the entity.
+     */
     public Vector2 getForce() {
         return force;
     }
 
+    /**
+     * Whether the force applied causes acceleration.
+     */
     public boolean causesAcceleration() {
         return causesAcceleration;
     }

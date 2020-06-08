@@ -26,36 +26,34 @@ import org.terasology.gestalt.entitysystem.event.Event;
  */
 public class ContactEvent implements Event {
 
+    private EntityRef triggeringEntity;
+    private Vector2 contactPosition;
+    private float absoluteImpulse;
+
+    public ContactEvent(EntityRef triggeringEntity, Vector2 contactPosition, float absoluteImpulse) {
+        this.triggeringEntity = triggeringEntity;
+        this.contactPosition = contactPosition;
+        this.absoluteImpulse = absoluteImpulse;
+    }
+
     /**
      * The entity causing the contact event.
      */
-    private EntityRef triggeringEntity;
-
-    /**
-     * The position where the contact happened.
-     */
-    private Vector2 contactPosition;
-
-    /**
-     * The impulse applied to the other entity.
-     */
-    private float impulse;
-
-    public ContactEvent(EntityRef triggeringEntity, Vector2 contactPosition, float impulse) {
-        this.triggeringEntity = triggeringEntity;
-        this.contactPosition = contactPosition;
-        this.impulse = impulse;
-    }
-
     public EntityRef getTriggeringEntity() {
         return triggeringEntity;
     }
 
+    /**
+     * The position where the contact happened.
+     */
     public Vector2 getContactPosition() {
         return contactPosition;
     }
 
-    public float getImpulse() {
-        return impulse;
+    /**
+     * The impulse applied to both entities.
+     */
+    public float getAbsoluteImpulse() {
+        return absoluteImpulse;
     }
 }

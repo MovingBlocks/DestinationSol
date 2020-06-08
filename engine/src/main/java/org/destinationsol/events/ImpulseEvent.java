@@ -16,36 +16,34 @@
 package org.destinationsol.events;
 
 import com.badlogic.gdx.math.Vector2;
-import org.terasology.gestalt.entitysystem.entity.EntityRef;
 
 /**
- * Event that represents a sudden, short force applied to an entity, such as the impact of a collision. This does NOT
+ * Event that represents a sudden, instantaneous force applied to an entity, like the impact of a collision. This does NOT
  * represent anything that is an application of continuous force, like gravity. That type of occurrence is handled by
  * {@link ForceEvent}.
  */
 public class ImpulseEvent {
 
+    private Vector2 contactPosition;
+    private float absoluteImpulse;
+
+    public ImpulseEvent(Vector2 contactPosition, float absoluteImpulse) {
+        this.contactPosition = contactPosition;
+        this.absoluteImpulse = absoluteImpulse;
+    }
+
     /**
      * The position where the contact happened.
      */
-    private Vector2 contactPosition;
-
-    /**
-     * The impulse applied to the entity.
-     */
-    private float impulse;
-
-    public ImpulseEvent(Vector2 contactPosition, float impulse) {
-        this.contactPosition = contactPosition;
-        this.impulse = impulse;
-    }
-
     public Vector2 getContactPosition() {
         return contactPosition;
     }
 
-    public float getImpulse() {
-        return impulse;
+    /**
+     * The impulse applied to the entity.
+     */
+    public float getAbsoluteImpulse() {
+        return absoluteImpulse;
     }
 
 }
