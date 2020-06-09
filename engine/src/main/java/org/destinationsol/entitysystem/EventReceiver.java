@@ -15,5 +15,5 @@
  */
 package org.destinationsol.entitysystem;
 
-public @interface RegisterEventReceivers {
+public interface EventReceiver {
 }

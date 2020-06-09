@@ -17,7 +17,7 @@ package org.destinationsol.systems;
 
 import org.destinationsol.components.Health;
 import org.destinationsol.entitysystem.ComponentSystem;
-import org.destinationsol.entitysystem.RegisterEventReceivers;
+import org.destinationsol.entitysystem.EventReceiver;
 import org.destinationsol.events.DamageEvent;
 import org.terasology.gestalt.entitysystem.entity.EntityRef;
 import org.terasology.gestalt.entitysystem.event.EventResult;
@@ -28,8 +28,7 @@ import org.terasology.gestalt.entitysystem.event.ReceiveEvent;
  * lowers its health by that amount. If it would lower the health to less than zero, it's reduced to zero instead. If
  * the damage is a negative amount, nothing happens.
  */
-@RegisterEventReceivers
-public class DamageSystem extends ComponentSystem {
+public class DamageSystem implements EventReceiver {
 
     /**
      * Handles a damage event done to an entity with a Health component.
