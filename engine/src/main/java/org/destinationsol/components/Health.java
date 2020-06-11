@@ -13,7 +13,21 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.destinationsol.entitysystem;
+package org.destinationsol.components;
 
-public @interface RegisterEventReceivers {
+import org.terasology.gestalt.entitysystem.component.Component;
+
+/**
+ * Contains information about the health of an entity.
+ */
+public final class Health implements Component<Health> {
+
+    public int maxHealth = 30;
+    public int currentHealth = 30;
+
+    @Override
+    public void copy(Health other) {
+        this.maxHealth = other.maxHealth;
+        this.currentHealth = other.currentHealth;
+    }
 }

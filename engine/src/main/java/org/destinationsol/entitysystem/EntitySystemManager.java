@@ -36,10 +36,10 @@ import java.util.List;
 public class EntitySystemManager {
 
     private static EntityManager entityManager;
-    private static EventSystem eventSystem = new EventSystemImpl();
+    private EventSystem eventSystem = new EventSystemImpl();
     private static EventReceiverMethodSupport eventReceiverMethodSupport = new EventReceiverMethodSupport();
 
-    public EntitySystemManager(ModuleEnvironment environment, ComponentManager componentManager){
+    public EntitySystemManager(ModuleEnvironment environment, ComponentManager componentManager) {
 
         List<ComponentStore<?>> stores = Lists.newArrayList();
         for (Class<? extends Component> componentType : environment.getSubtypesOf(Component.class)) {
@@ -51,9 +51,9 @@ public class EntitySystemManager {
 
         entityManager = new CoreEntityManager(stores);
 
-        for (Class<?> eventReceivers : environment.getTypesAnnotatedWith(RegisterEventReceivers.class)) {
+        for (Class<? extends EventReceiver> eventReceiver : environment.getSubtypesOf(EventReceiver.class)) {
             try {
-                eventReceiverMethodSupport.register(eventReceivers.newInstance(), eventSystem);
+                eventReceiverMethodSupport.register(eventReceiver.newInstance(), eventSystem);
             } catch (Exception e) {
                 e.printStackTrace();
             }
