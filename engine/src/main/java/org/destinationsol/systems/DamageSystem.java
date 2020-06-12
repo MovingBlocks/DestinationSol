@@ -56,7 +56,7 @@ public class DamageSystem implements EventReceiver {
             health.currentHealth = newHealthAmount;
             entity.setComponent(health);
 
-            if (health.currentHealth < 0) {
+            if (health.currentHealth <= 0) {
                 entitySystemManager.sendEvent(new DestroyEvent(), entity);
             }
         }
