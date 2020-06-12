@@ -72,6 +72,7 @@ public class EntitySystemManager {
 
     public void sendEvent(Event event, EntityRef entity){
         eventSystem.send(event, entity);
+        eventSystem.processEvents();
     }
 
     public EntityManager getEntityManager() {
