@@ -15,10 +15,12 @@
  */
 package org.destinationsol.systems;
 
+import org.destinationsol.common.In;
 import org.destinationsol.components.Health;
-import org.destinationsol.entitysystem.ComponentSystem;
+import org.destinationsol.entitysystem.EntitySystemManager;
 import org.destinationsol.entitysystem.EventReceiver;
 import org.destinationsol.events.DamageEvent;
+import org.destinationsol.events.DestroyEvent;
 import org.terasology.gestalt.entitysystem.entity.EntityRef;
 import org.terasology.gestalt.entitysystem.event.EventResult;
 import org.terasology.gestalt.entitysystem.event.ReceiveEvent;
@@ -29,6 +31,9 @@ import org.terasology.gestalt.entitysystem.event.ReceiveEvent;
  * the damage is a negative amount, nothing happens.
  */
 public class DamageSystem implements EventReceiver {
+
+    @In
+    private EntitySystemManager entitySystemManager;
 
     /**
      * Handles a damage event done to an entity with a Health component.
@@ -50,6 +55,10 @@ public class DamageSystem implements EventReceiver {
             }
             health.currentHealth = newHealthAmount;
             entity.setComponent(health);
+
+            if (health.currentHealth < 0) {
+                entitySystemManager.sendEvent(new DestroyEvent(), entity);
+            }
         }
         return EventResult.CONTINUE;
     }

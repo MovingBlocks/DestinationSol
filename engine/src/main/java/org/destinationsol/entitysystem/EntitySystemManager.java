@@ -16,6 +16,7 @@
 package org.destinationsol.entitysystem;
 
 import com.google.common.collect.Lists;
+import org.destinationsol.protobuf.EntityData;
 import org.terasology.gestalt.entitysystem.component.Component;
 import org.terasology.gestalt.entitysystem.component.management.ComponentManager;
 import org.terasology.gestalt.entitysystem.component.store.ArrayComponentStore;
@@ -23,6 +24,7 @@ import org.terasology.gestalt.entitysystem.component.store.ComponentStore;
 import org.terasology.gestalt.entitysystem.component.store.ConcurrentComponentStore;
 import org.terasology.gestalt.entitysystem.entity.EntityIterator;
 import org.terasology.gestalt.entitysystem.entity.EntityManager;
+import org.terasology.gestalt.entitysystem.entity.EntityRef;
 import org.terasology.gestalt.entitysystem.entity.manager.CoreEntityManager;
 import org.terasology.gestalt.entitysystem.event.Event;
 import org.terasology.gestalt.entitysystem.event.EventSystem;
@@ -66,6 +68,10 @@ public class EntitySystemManager {
             eventSystem.send(event, iterator.getEntity());
         }
         eventSystem.processEvents();
+    }
+
+    public void sendEvent(Event event, EntityRef entity){
+        eventSystem.send(event, entity);
     }
 
     public EntityManager getEntityManager() {
