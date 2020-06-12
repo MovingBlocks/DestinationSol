@@ -16,31 +16,36 @@
 package org.destinationsol.events;
 
 import com.badlogic.gdx.math.Vector2;
+import org.destinationsol.game.item.Loot;
+import org.destinationsol.game.ship.SolShip;
 import org.terasology.gestalt.entitysystem.entity.EntityRef;
 import org.terasology.gestalt.entitysystem.event.Event;
 
 /**
- * Event that represents the contact between two entities. This event can be used to create an {@link ImpulseEvent}
- * if an impulse should be applied because of the contact. Long-term forces, such as gravity, should be handled by a
- * {@link ForceEvent}.
+ * Event that represents the contact between two entities. Both entities involved in the contact will be sent separate
+ * contact events. If an entity should be moved by the contact, its contact handling system should create an
+ * {@link ImpulseEvent}. In some cases, the contact should handled without generating an impulse event, such as a
+ * {@link SolShip} coming in contact with {@link Loot}.
+ * <p>
+ * Long-term forces, such as gravity, should be handled by a {@link ForceEvent}.
  */
 public class ContactEvent implements Event {
 
-    private EntityRef triggeringEntity;
+    private EntityRef otherEntity;
     private Vector2 contactPosition;
     private float absoluteImpulse;
 
-    public ContactEvent(EntityRef triggeringEntity, Vector2 contactPosition, float absoluteImpulse) {
-        this.triggeringEntity = triggeringEntity;
+    public ContactEvent(EntityRef otherEntity, Vector2 contactPosition, float absoluteImpulse) {
+        this.otherEntity = otherEntity;
         this.contactPosition = contactPosition;
         this.absoluteImpulse = absoluteImpulse;
     }
 
     /**
-     * The entity causing the contact event.
+     * The other entity involved in the contact.
      */
-    public EntityRef getTriggeringEntity() {
-        return triggeringEntity;
+    public EntityRef getOtherEntity() {
+        return otherEntity;
     }
 
     /**
@@ -51,7 +56,7 @@ public class ContactEvent implements Event {
     }
 
     /**
-     * The impulse applied to both entities.
+     * The impulse applied to the entity.
      */
     public float getAbsoluteImpulse() {
         return absoluteImpulse;
