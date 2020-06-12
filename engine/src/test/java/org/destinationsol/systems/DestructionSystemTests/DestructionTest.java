@@ -26,6 +26,9 @@ import org.terasology.gestalt.entitysystem.entity.NullEntityRef;
 
 import static org.junit.Assert.*;
 
+/**
+ * Test to ensure that a {@link DestroyEvent} on an entity will cause that entity to be removed.
+ */
 public class DestructionTest {
 
     private ModuleManager moduleManager;

@@ -27,6 +27,9 @@ import org.terasology.gestalt.entitysystem.entity.EntityRef;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 
+/**
+ * Test to ensure that a {@link RemovalForOptimizationEvent} on an entity will remove that entity.
+ */
 public class RemovalForOptimizationTest {
 
     private ModuleManager moduleManager;
