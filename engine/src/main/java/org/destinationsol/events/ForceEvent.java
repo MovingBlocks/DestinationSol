@@ -21,15 +21,14 @@ import org.terasology.gestalt.entitysystem.event.Event;
 /**
  * Event that represents a continuous force applied to an entity, like gravity. This does NOT represent anything
  * that is a sudden, instantaneous force, like a collision. That type of occurrence is handled by {@link ImpulseEvent}.
+ * This event is repeatedly sent as long as the force still affects the entity.
  */
 public class ForceEvent implements Event {
 
     private Vector2 force;
-    private boolean causesAcceleration;
 
-    public ForceEvent(Vector2 force, boolean causesAcceleration) {
+    public ForceEvent(Vector2 force) {
         this.force = force;
-        this.causesAcceleration = causesAcceleration;
     }
 
     /**
@@ -37,12 +36,5 @@ public class ForceEvent implements Event {
      */
     public Vector2 getForce() {
         return force;
-    }
-
-    /**
-     * Whether the force applied causes acceleration.
-     */
-    public boolean causesAcceleration() {
-        return causesAcceleration;
     }
 }
