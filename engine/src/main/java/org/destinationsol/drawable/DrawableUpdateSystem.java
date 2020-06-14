@@ -13,17 +13,13 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.destinationsol.systems;
+package org.destinationsol.drawable;
 
-import com.badlogic.gdx.math.Vector2;
 import org.destinationsol.common.In;
-import org.destinationsol.components.DrawableComponent;
 import org.destinationsol.entitysystem.EntitySystemManager;
-import org.destinationsol.events.DrawableUpdateEvent;
 import org.destinationsol.game.SolGame;
 import org.destinationsol.game.UpdateAwareSystem;
 import org.destinationsol.game.attributes.RegisterUpdateSystem;
-import org.terasology.gestalt.entitysystem.entity.EntityIterator;
 
 /**
  * Sends a {@link DrawableUpdateEvent} every tick to each entity with a {@link DrawableComponent}.
