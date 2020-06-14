@@ -17,14 +17,14 @@ package org.destinationsol.systems.DestructionSystemTests;
 
 import org.destinationsol.entitysystem.EntitySystemManager;
 import org.destinationsol.events.DestroyEvent;
+import org.destinationsol.game.context.internal.ContextImpl;
 import org.destinationsol.modules.ModuleManager;
 import org.junit.Before;
 import org.junit.Test;
 import org.terasology.gestalt.entitysystem.component.management.ComponentManager;
 import org.terasology.gestalt.entitysystem.entity.EntityRef;
-import org.terasology.gestalt.entitysystem.entity.NullEntityRef;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertFalse;
 
 /**
  * Test to ensure that a {@link DestroyEvent} on an entity will cause that entity to be removed.
@@ -38,7 +38,7 @@ public class DestructionTest {
     public void setUp() throws Exception {
         moduleManager = new ModuleManager();
         moduleManager.init();
-        entitySystemManager = new EntitySystemManager(moduleManager.getEnvironment(), new ComponentManager());
+        entitySystemManager = new EntitySystemManager(moduleManager.getEnvironment(), new ComponentManager(), new ContextImpl());
     }
 
     @Test

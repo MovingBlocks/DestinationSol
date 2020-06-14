@@ -16,7 +16,8 @@
 package org.destinationsol.entitysystem;
 
 import com.google.common.collect.Lists;
-import org.destinationsol.protobuf.EntityData;
+import org.destinationsol.game.context.Context;
+import org.destinationsol.util.InjectionHelper;
 import org.terasology.gestalt.entitysystem.component.Component;
 import org.terasology.gestalt.entitysystem.component.management.ComponentManager;
 import org.terasology.gestalt.entitysystem.component.store.ArrayComponentStore;
@@ -38,10 +39,12 @@ import java.util.List;
 public class EntitySystemManager {
 
     private static EntityManager entityManager;
-    private EventSystem eventSystem = new EventSystemImpl();
-    private static EventReceiverMethodSupport eventReceiverMethodSupport = new EventReceiverMethodSupport();
+    private final EventSystem eventSystem = new EventSystemImpl();
+    private static final EventReceiverMethodSupport eventReceiverMethodSupport = new EventReceiverMethodSupport();
 
-    public EntitySystemManager(ModuleEnvironment environment, ComponentManager componentManager) {
+    public EntitySystemManager(ModuleEnvironment environment, ComponentManager componentManager, Context context) {
+
+        context.put(EntitySystemManager.class, this);
 
         List<ComponentStore<?>> stores = Lists.newArrayList();
         for (Class<? extends Component> componentType : environment.getSubtypesOf(Component.class)) {
@@ -55,7 +58,9 @@ public class EntitySystemManager {
 
         for (Class<? extends EventReceiver> eventReceiver : environment.getSubtypesOf(EventReceiver.class)) {
             try {
-                eventReceiverMethodSupport.register(eventReceiver.newInstance(), eventSystem);
+                EventReceiver receiver = eventReceiver.newInstance();
+                InjectionHelper.inject(receiver, context);
+                eventReceiverMethodSupport.register(receiver, eventSystem);
             } catch (Exception e) {
                 e.printStackTrace();
             }

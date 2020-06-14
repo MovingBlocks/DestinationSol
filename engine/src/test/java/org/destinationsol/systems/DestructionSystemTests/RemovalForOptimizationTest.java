@@ -18,13 +18,13 @@ package org.destinationsol.systems.DestructionSystemTests;
 import org.destinationsol.components.Health;
 import org.destinationsol.entitysystem.EntitySystemManager;
 import org.destinationsol.events.RemovalForOptimizationEvent;
+import org.destinationsol.game.context.internal.ContextImpl;
 import org.destinationsol.modules.ModuleManager;
 import org.junit.Before;
 import org.junit.Test;
 import org.terasology.gestalt.entitysystem.component.management.ComponentManager;
 import org.terasology.gestalt.entitysystem.entity.EntityRef;
 
-import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 
 /**
@@ -39,7 +39,7 @@ public class RemovalForOptimizationTest {
     public void setUp() throws Exception {
         moduleManager = new ModuleManager();
         moduleManager.init();
-        entitySystemManager = new EntitySystemManager(moduleManager.getEnvironment(), new ComponentManager());
+        entitySystemManager = new EntitySystemManager(moduleManager.getEnvironment(), new ComponentManager(), new ContextImpl());
     }
 
     @Test
