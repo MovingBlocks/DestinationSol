@@ -17,8 +17,9 @@ package org.destinationsol.drawable;
 
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import org.destinationsol.game.drawables.DrawableLevel;
+import org.terasology.gestalt.entitysystem.component.Component;
 
-public class DrawableData {
+public class DrawableData implements Component<DrawableData> {
 
     /**
      * Returns the texture that this drawable represents.
@@ -30,5 +31,10 @@ public class DrawableData {
      */
     public DrawableLevel drawableLevel;
 
+    @Override
+    public void copy(DrawableData other) {
+        this.texture = other.texture;
+        this.drawableLevel = other.drawableLevel;
+    }
 }
 
