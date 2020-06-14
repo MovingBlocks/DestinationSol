@@ -15,26 +15,20 @@
  */
 package org.destinationsol.drawable;
 
-//TODO: Rename this class "Drawable" once the currently existing Drawable interface is no longer needed
+import com.badlogic.gdx.graphics.g2d.TextureAtlas;
+import org.destinationsol.game.drawables.DrawableLevel;
 
-import org.terasology.gestalt.entitysystem.component.Component;
+public class DrawableData {
 
-import java.util.ArrayList;
+    /**
+     * Returns the texture that this drawable represents.
+     */
+    public TextureAtlas.AtlasRegion texture;
 
-/**
- * Contains a reference to an entity's texture and drawable level.
- */
-public final class DrawableComponent implements Component<DrawableComponent> {
-
-    public ArrayList<DrawableData> drawables = new ArrayList<>();
-
-    @Override
-    public void copy(DrawableComponent other) {
-        drawables.clear();
-        for (DrawableData drawable: other.drawables) {
-            drawables.add(drawable);
-        }
-    }
-
+    /**
+     * Represents the depth at which this drawable renders, as well as its logical grouping.
+     */
+    public DrawableLevel drawableLevel;
 
 }
+
