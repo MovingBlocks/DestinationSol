@@ -32,8 +32,10 @@ public final class DrawableComponent implements Component<DrawableComponent> {
     @Override
     public void copy(DrawableComponent other) {
         drawables.clear();
-        for (EntityRef drawable: other.drawables) {
-            drawables.add(drawable);
+        for (EntityRef drawable : other.drawables) {
+            if (drawable.hasComponent(DrawableData.class)) {
+                drawables.add(drawable);
+            }
         }
     }
 
