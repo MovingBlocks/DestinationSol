@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.destinationsol.components;
+package org.destinationsol.drawable;
 
 //TODO: Rename this class "Drawable" once the currently existing Drawable interface is no longer needed
 
@@ -21,6 +21,7 @@ import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import org.destinationsol.game.drawables.DrawableLevel;
 import org.terasology.gestalt.entitysystem.component.Component;
 
+//TODO make this a list of drawables rather than just one
 /**
  * Contains a reference to an entity's texture and drawable level.
  */
