@@ -22,6 +22,8 @@ import org.terasology.gestalt.entitysystem.event.Event;
  * Event that represents a continuous force applied to an entity, like gravity. This does NOT represent anything
  * that is a sudden, instantaneous force, like a collision. That type of occurrence is handled by {@link ImpulseEvent}.
  * This event is repeatedly sent as long as the force still affects the entity.
+ * <p>
+ * This event is sent every timestep for as long as the entity is being affected by the force.
  */
 public class ForceEvent implements Event {
 
