@@ -16,20 +16,24 @@
 package org.destinationsol.events;
 
 import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.physics.box2d.Contact;
 
 /**
- * Event that represents a sudden, instantaneous force applied to an entity, like the impact of a collision. This does NOT
- * represent anything that is an application of continuous force, like gravity. That type of occurrence is handled by
- * {@link ForceEvent}.
+ * Event that represents the magnitude of a sudden, instantaneous force applied to an entity, like the impact of a
+ * collision. This is only used for calculating damage. This does NOT handle the movement caused - that is handled
+ * internally by libGDX, and can be modified by a system altering the {@link Contact} in a {@link ContactEvent}.
+ * <p>
+ * This does not represent anything that is an application of continuous force, like gravity. That type of occurrence
+ * is handled by {@link ForceEvent}.
  */
 public class ImpulseEvent {
 
     private Vector2 contactPosition;
-    private float absoluteImpulse;
+    private float magnitude;
 
-    public ImpulseEvent(Vector2 contactPosition, float absoluteImpulse) {
+    public ImpulseEvent(Vector2 contactPosition, float magnitude) {
         this.contactPosition = contactPosition;
-        this.absoluteImpulse = absoluteImpulse;
+        this.magnitude = magnitude;
     }
 
     /**
@@ -40,10 +44,10 @@ public class ImpulseEvent {
     }
 
     /**
-     * The impulse applied to the entity.
+     * The magnitude of the impulse that was applied to the entity (used for calculating damage).
      */
-    public float getAbsoluteImpulse() {
-        return absoluteImpulse;
+    public float getMagnitude() {
+        return magnitude;
     }
 
 }

@@ -16,6 +16,7 @@
 package org.destinationsol.events;
 
 import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.physics.box2d.Contact;
 import org.destinationsol.game.item.Loot;
 import org.destinationsol.game.ship.SolShip;
 import org.terasology.gestalt.entitysystem.entity.EntityRef;
@@ -23,22 +24,19 @@ import org.terasology.gestalt.entitysystem.event.Event;
 
 /**
  * Event that represents the contact between two entities. Both entities involved in the contact will be sent separate
- * contact events. If an entity should be moved by the contact, its contact handling system should create an
- * {@link ImpulseEvent}. In some cases, the contact should handled without generating an impulse event, such as a
- * {@link SolShip} coming in contact with {@link Loot}.
+ * contact events. If the contact should be modified in any way, the {@link Contact} should be changed. For example, if
+ * a {@link SolShip} comes in contact with {@link Loot}, the contact should handled without generating an impulse.
  * <p>
  * Long-term forces, such as gravity, should be handled by a {@link ForceEvent}.
  */
 public class ContactEvent implements Event {
 
     private EntityRef otherEntity;
-    private Vector2 contactPosition;
-    private float absoluteImpulse;
+    private Contact contact;
 
-    public ContactEvent(EntityRef otherEntity, Vector2 contactPosition, float absoluteImpulse) {
+    public ContactEvent(EntityRef otherEntity, Contact contact) {
         this.otherEntity = otherEntity;
-        this.contactPosition = contactPosition;
-        this.absoluteImpulse = absoluteImpulse;
+        this.contact = contact;
     }
 
     /**
@@ -49,16 +47,10 @@ public class ContactEvent implements Event {
     }
 
     /**
-     * The position where the contact happened.
+     * Returns the {@link Contact} from the physics engine, which contains the information about the contact. This
+     * should be modified if any aspect of the contact should be changed before it is processed by the physics engine.
      */
-    public Vector2 getContactPosition() {
-        return contactPosition;
-    }
-
-    /**
-     * The impulse applied to the entity.
-     */
-    public float getAbsoluteImpulse() {
-        return absoluteImpulse;
+    public Contact getContact() {
+        return contact;
     }
 }
