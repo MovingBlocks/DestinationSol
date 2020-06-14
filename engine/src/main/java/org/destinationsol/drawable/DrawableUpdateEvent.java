@@ -13,17 +13,13 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.destinationsol.components;
+package org.destinationsol.drawable;
 
-import org.destinationsol.game.GameDrawer;
-import org.terasology.gestalt.entitysystem.component.Component;
+import org.destinationsol.game.drawables.DrawableManager;
+import org.terasology.gestalt.entitysystem.event.Event;
 
 /**
- * Denotes that the object should not be drawn by the {@link GameDrawer}.
+ * Event that tells the {@link DrawableManager} to update the drawings of each entity with a {@link DrawableComponent}.
  */
-public class Invisible implements Component<Invisible> {
-    @Override
-    public void copy(Invisible other) {
-
-    }
+public class DrawableUpdateEvent implements Event {
 }
