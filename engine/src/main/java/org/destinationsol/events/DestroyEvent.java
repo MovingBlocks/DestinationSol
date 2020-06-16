@@ -24,7 +24,5 @@ import org.terasology.gestalt.entitysystem.event.Event;
  * when it reaches its target. This event should not be used for entities being removed for optimization purposes when
  * they get too far away. Removal for optimization purposes is handled by a {@link RemovalForOptimizationEvent}.
  */
-
 public class DestroyEvent implements Event {
-
 }

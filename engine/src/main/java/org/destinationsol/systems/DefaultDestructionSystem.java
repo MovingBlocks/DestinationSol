@@ -41,7 +41,6 @@ public class DefaultDestructionSystem implements EventReceiver {
      */
     @ReceiveEvent
     public EventResult onRemovalForOptimization(RemovalForOptimizationEvent event, EntityRef entity) {
-        System.out.println("called!");
         entity.delete();
         return EventResult.COMPLETE;
     }
