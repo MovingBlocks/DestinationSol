@@ -13,26 +13,21 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.destinationsol.systems.DamageSystemTests;
+package org.destinationsol.systems.DestroyOnZeroHealthSystemTests;
 
-import org.destinationsol.components.Health;
 import org.destinationsol.components.SurvivesWithZeroHealth;
 import org.destinationsol.entitysystem.EntitySystemManager;
-import org.destinationsol.events.DamageEvent;
+import org.destinationsol.events.ZeroHealthEvent;
 import org.destinationsol.game.context.internal.ContextImpl;
 import org.destinationsol.modules.ModuleManager;
 import org.junit.Before;
-import org.junit.Ignore;
 import org.junit.Test;
 import org.terasology.gestalt.entitysystem.component.management.ComponentManager;
 import org.terasology.gestalt.entitysystem.entity.EntityRef;
 
-import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 
-/**
- * Test to ensure that a damage event that would make the health become negative reduces it to zero instead.
- */
-public class NonNegativeHealthTest {
+public class SurvivesWithZeroHealthTest {
     private ModuleManager moduleManager;
     private EntitySystemManager entitySystemManager;
 
@@ -44,19 +39,12 @@ public class NonNegativeHealthTest {
     }
 
     @Test
-    public void testDamageDoesntMakeHealthBecomeNegative() {
-        Health health;
-        EntityRef entity = entitySystemManager.getEntityManager().createEntity(new Health(), new SurvivesWithZeroHealth());
-        health = entity.getComponent(Health.class).get();
-        health.maxHealth = 50;
-        health.currentHealth = 50;
-        entity.setComponent(health);
+    public void testZeroHealthDoesntDestroyEntityWithSurvivalComponent() {
+        EntityRef entity = entitySystemManager.getEntityManager().createEntity(new SurvivesWithZeroHealth());
 
-        DamageEvent event = new DamageEvent(60);
+        entitySystemManager.sendEvent(new ZeroHealthEvent(), entity);
 
-        entitySystemManager.sendEvent(event, new Health());
-
-        assertEquals(0, health.currentHealth);
+        assertTrue(entity.exists());
     }
 
 }
