@@ -20,7 +20,7 @@ import org.destinationsol.components.Health;
 import org.destinationsol.entitysystem.EntitySystemManager;
 import org.destinationsol.entitysystem.EventReceiver;
 import org.destinationsol.events.DamageEvent;
-import org.destinationsol.events.DestroyEvent;
+import org.destinationsol.events.ZeroHealthEvent;
 import org.terasology.gestalt.entitysystem.entity.EntityRef;
 import org.terasology.gestalt.entitysystem.event.EventResult;
 import org.terasology.gestalt.entitysystem.event.ReceiveEvent;
@@ -49,15 +49,13 @@ public class DamageSystem implements EventReceiver {
         }
         if (entity.getComponent(Health.class).isPresent()) {
             Health health = entity.getComponent(Health.class).get();
-            int newHealthAmount = health.currentHealth - event.getDamage();
-            if (newHealthAmount < 0) {
-                newHealthAmount = 0;
-            }
-            health.currentHealth = newHealthAmount;
-            entity.setComponent(health);
-
+            health.currentHealth -= event.getDamage();
             if (health.currentHealth <= 0) {
-                entitySystemManager.sendEvent(new DestroyEvent(), entity);
+                health.currentHealth = 0;
+                entity.setComponent(health);
+                entitySystemManager.sendEvent(new ZeroHealthEvent(), entity);
+            } else {
+                entity.setComponent(health);
             }
         }
         return EventResult.CONTINUE;
