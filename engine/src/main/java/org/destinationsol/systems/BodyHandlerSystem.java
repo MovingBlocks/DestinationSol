@@ -85,7 +85,7 @@ public class BodyHandlerSystem implements EventReceiver, UpdateAwareSystem {
      * @param entity the entity that should have a body associated with it
      */
     private void createBodyIfNonexistent(EntityRef entity) {
-        if (!map.containsKey(entity)) {
+        if (!map.containsKey(entity) && entity.hasComponent(BodyLinked.class)) {
             entitySystemManager.sendEvent(new GenerateBodyEvent(), entity);
         }
     }
