@@ -22,6 +22,7 @@ import org.destinationsol.components.ImmuneToForce;
 import org.destinationsol.components.Location;
 import org.destinationsol.entitysystem.EntitySystemManager;
 import org.destinationsol.entitysystem.EventReceiver;
+import org.destinationsol.events.BodyCreatedEvent;
 import org.destinationsol.events.ForceEvent;
 import org.destinationsol.events.GenerateBodyEvent;
 import org.destinationsol.events.LocationUpdateEvent;
@@ -30,6 +31,7 @@ import org.destinationsol.game.UpdateAwareSystem;
 import org.destinationsol.game.attributes.RegisterUpdateSystem;
 import org.terasology.gestalt.entitysystem.entity.EntityIterator;
 import org.terasology.gestalt.entitysystem.entity.EntityRef;
+import org.terasology.gestalt.entitysystem.event.EventResult;
 import org.terasology.gestalt.entitysystem.event.ReceiveEvent;
 
 import java.util.HashMap;
@@ -69,11 +71,12 @@ public class BodyHandlerSystem implements EventReceiver, UpdateAwareSystem {
      * This passes the force applied by a {@link ForceEvent} to the Body associated with the entity.
      */
     @ReceiveEvent(components = {BodyLinked.class, Location.class})
-    public void onForce(ForceEvent event, EntityRef entity) {
+    public EventResult onForce(ForceEvent event, EntityRef entity) {
         if (!entity.hasComponent(ImmuneToForce.class)) {
             createBodyIfNonexistent(entity);
             map.get(entity).applyForceToCenter(event.getForce(), true);
         }
+        return EventResult.CONTINUE;
     }
 
     /**
@@ -87,4 +90,9 @@ public class BodyHandlerSystem implements EventReceiver, UpdateAwareSystem {
         }
     }
 
+    @ReceiveEvent(components = BodyLinked.class)
+    public EventResult onBodyCreated(BodyCreatedEvent event, EntityRef entity) {
+        map.put(entity, event.getBody());
+        return EventResult.CONTINUE;
+    }
 }
