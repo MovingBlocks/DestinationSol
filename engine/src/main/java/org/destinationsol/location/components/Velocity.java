@@ -24,10 +24,11 @@ public class Velocity implements Component<Velocity> {
     /**
      * The velocity of the entity. This is changed every tick by a {@link VelocityUpdateEvent}.
      */
-    public Vector2 velocity;
+    public Vector2 velocity = new Vector2();
 
     @Override
     public void copy(Velocity other) {
-        this.velocity = other.velocity;
+        this.velocity.x = other.velocity.x;
+        this.velocity.y = other.velocity.y;
     }
 }

@@ -24,10 +24,11 @@ public class Position implements Component<Position> {
     /**
      * The position of the entity. This is changed every tick by a {@link PositionUpdateEvent}.
      */
-    public Vector2 position;
+    public Vector2 position = new Vector2();
 
     @Override
     public void copy(Position other) {
-        this.position = other.position;
+        this.position.x = other.position.x;
+        this.position.y = other.position.y;
     }
 }
