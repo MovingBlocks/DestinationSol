@@ -13,21 +13,17 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.destinationsol.systems;
+package org.destinationsol.removal;
 
 import org.destinationsol.common.In;
 import org.destinationsol.components.Health;
-import org.destinationsol.components.SurvivesWithZeroHealth;
 import org.destinationsol.entitysystem.EntitySystemManager;
 import org.destinationsol.entitysystem.EventReceiver;
-import org.destinationsol.events.DestroyEvent;
-import org.destinationsol.events.ZeroHealthEvent;
 import org.terasology.gestalt.entitysystem.entity.EntityRef;
 import org.terasology.gestalt.entitysystem.event.ReceiveEvent;
 
 /**
- * When an entity's {@link Health} drops to zero, this system destroys that entity unless that entity has a
- * {@link SurvivesWithZeroHealth} component.
+ * When an entity's {@link Health} drops to zero, this system destroys that entity.
  */
 public class DestroyOnZeroHealthSystem implements EventReceiver {
 
@@ -36,8 +32,6 @@ public class DestroyOnZeroHealthSystem implements EventReceiver {
 
     @ReceiveEvent()
     public void onZeroHealth(ZeroHealthEvent event, EntityRef entity) {
-        if (!entity.hasComponent(SurvivesWithZeroHealth.class)) {
-            entitySystemManager.sendEvent(new DestroyEvent(), entity);
-        }
+        entitySystemManager.sendEvent(new DestroyEvent(), entity);
     }
 }

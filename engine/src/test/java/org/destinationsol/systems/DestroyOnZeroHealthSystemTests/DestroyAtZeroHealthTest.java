@@ -15,19 +15,18 @@
  */
 package org.destinationsol.systems.DestroyOnZeroHealthSystemTests;
 
-import org.destinationsol.components.SurvivesWithZeroHealth;
 import org.destinationsol.entitysystem.EntitySystemManager;
-import org.destinationsol.events.ZeroHealthEvent;
 import org.destinationsol.game.context.internal.ContextImpl;
 import org.destinationsol.modules.ModuleManager;
+import org.destinationsol.removal.ZeroHealthEvent;
 import org.junit.Before;
 import org.junit.Test;
 import org.terasology.gestalt.entitysystem.component.management.ComponentManager;
 import org.terasology.gestalt.entitysystem.entity.EntityRef;
 
-import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.assertFalse;
 
-public class SurvivesWithZeroHealthTest {
+public class DestroyAtZeroHealthTest {
     private ModuleManager moduleManager;
     private EntitySystemManager entitySystemManager;
 
@@ -39,12 +38,12 @@ public class SurvivesWithZeroHealthTest {
     }
 
     @Test
-    public void testZeroHealthDoesntDestroyEntityWithSurvivalComponent() {
-        EntityRef entity = entitySystemManager.getEntityManager().createEntity(new SurvivesWithZeroHealth());
+    public void testZeroHealthCausesDestruction() {
+        EntityRef entity = entitySystemManager.getEntityManager().createEntity();
 
         entitySystemManager.sendEvent(new ZeroHealthEvent(), entity);
 
-        assertTrue(entity.exists());
+        assertFalse(entity.exists());
     }
 
 }
