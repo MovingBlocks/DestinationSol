@@ -15,34 +15,24 @@
  */
 package org.destinationsol.location.events;
 
-import com.badlogic.gdx.math.Vector2;
-import org.destinationsol.location.components.Location;
+import org.destinationsol.location.components.Angle;
 import org.terasology.gestalt.entitysystem.event.Event;
 
 /**
- * Updates the {@link Location} of an entity.
+ * Updates the {@link Angle} component of an entity.
  */
-public class LocationUpdateEvent implements Event {
+public class AngleUpdateEvent implements Event {
 
-    private Vector2 position;
     private float angle;
-    private Vector2 velocity;
 
-    public LocationUpdateEvent(Vector2 position, float angle, Vector2 velocity) {
-        this.position = position;
+    public AngleUpdateEvent(float angle) {
         this.angle = angle;
-        this.velocity = velocity;
     }
 
-    public Vector2 getPosition() {
-        return position;
-    }
-
+    /**
+     * The new value for the angle of the entity.
+     */
     public float getAngle() {
         return angle;
-    }
-
-    public Vector2 getVelocity() {
-        return velocity;
     }
 }

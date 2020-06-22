@@ -15,10 +15,9 @@
  */
 package org.destinationsol.systems.LocationSystemTests;
 
-import com.badlogic.gdx.math.Vector2;
-import org.destinationsol.location.components.Location;
 import org.destinationsol.entitysystem.EntitySystemManager;
-import org.destinationsol.location.events.LocationUpdateEvent;
+import org.destinationsol.location.components.Angle;
+import org.destinationsol.location.events.AngleUpdateEvent;
 import org.destinationsol.modules.ModuleManager;
 import org.junit.Before;
 import org.junit.Test;
@@ -27,8 +26,7 @@ import org.terasology.gestalt.entitysystem.entity.EntityRef;
 
 import static junit.framework.TestCase.assertEquals;
 
-
-public class LocationUpdateTest {
+public class AngleUpdateTest {
 
     private ModuleManager moduleManager;
     private EntitySystemManager entitySystemManager;
@@ -42,16 +40,12 @@ public class LocationUpdateTest {
 
     @Test
     public void testOnLocationUpdate() {
-        EntityRef entity = entitySystemManager.getEntityManager().createEntity(new Location());
-        LocationUpdateEvent event = new LocationUpdateEvent(new Vector2(1f, 2f), 3f, new Vector2(4f, 5f));
+        EntityRef entity = entitySystemManager.getEntityManager().createEntity(new Angle());
+        AngleUpdateEvent event = new AngleUpdateEvent(1f);
 
         entitySystemManager.sendEvent(event, entity);
 
-        Location location = entity.getComponent(Location.class).get();
-        assertEquals(1f, location.position.x);
-        assertEquals(2f, location.position.y);
-        assertEquals (3f, location.angle);
-        assertEquals(4f, location.velocity.x);
-        assertEquals(5f, location.velocity.y);
+        Angle angle = entity.getComponent(Angle.class).get();
+        assertEquals(1f, angle.angle);
     }
 }

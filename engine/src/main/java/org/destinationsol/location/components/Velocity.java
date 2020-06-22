@@ -16,30 +16,18 @@
 package org.destinationsol.location.components;
 
 import com.badlogic.gdx.math.Vector2;
-import org.destinationsol.location.events.LocationUpdateEvent;
+import org.destinationsol.location.events.VelocityUpdateEvent;
 import org.terasology.gestalt.entitysystem.component.Component;
 
-public class Location implements Component<Location> {
+public class Velocity implements Component<Velocity> {
 
     /**
-     * The position of the entity. This is changed every tick by a {@link LocationUpdateEvent}.
-     */
-    public Vector2 position;
-
-    /**
-     * The angle, in degrees, of the entity. This is changed every tick by the {@link LocationUpdateEvent}.
-     */
-    public float angle;
-
-    /**
-     * The velocity of the entity. This is changed every tick by the {@link LocationUpdateEvent}.
+     * The velocity of the entity. This is changed every tick by a {@link VelocityUpdateEvent}.
      */
     public Vector2 velocity;
 
     @Override
-    public void copy(Location other) {
-        this.position = other.position;
-        this.angle = other.angle;
+    public void copy(Velocity other) {
         this.velocity = other.velocity;
     }
 }

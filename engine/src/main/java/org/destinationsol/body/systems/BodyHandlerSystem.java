@@ -19,16 +19,20 @@ import com.badlogic.gdx.physics.box2d.Body;
 import org.destinationsol.common.In;
 import org.destinationsol.body.components.BodyLinked;
 import org.destinationsol.force.components.ImmuneToForce;
-import org.destinationsol.location.components.Location;
+import org.destinationsol.location.components.Angle;
+import org.destinationsol.location.components.Position;
 import org.destinationsol.entitysystem.EntitySystemManager;
 import org.destinationsol.entitysystem.EventReceiver;
 import org.destinationsol.body.events.BodyCreatedEvent;
 import org.destinationsol.force.events.ForceEvent;
 import org.destinationsol.body.events.GenerateBodyEvent;
-import org.destinationsol.location.events.LocationUpdateEvent;
+import org.destinationsol.location.components.Velocity;
+import org.destinationsol.location.events.AngleUpdateEvent;
+import org.destinationsol.location.events.PositionUpdateEvent;
 import org.destinationsol.game.SolGame;
 import org.destinationsol.game.UpdateAwareSystem;
 import org.destinationsol.game.attributes.RegisterUpdateSystem;
+import org.destinationsol.location.events.VelocityUpdateEvent;
 import org.terasology.gestalt.entitysystem.entity.EntityIterator;
 import org.terasology.gestalt.entitysystem.entity.EntityRef;
 import org.terasology.gestalt.entitysystem.event.EventResult;
@@ -50,27 +54,34 @@ public class BodyHandlerSystem implements EventReceiver, UpdateAwareSystem {
     private HashMap<EntityRef, Body> map = new HashMap<>();
 
     /**
-     * Sends a {@link LocationUpdateEvent} every tick to each entity with a {@link BodyLinked} component and a
-     * {@link Location} component.
+     * Sends a {@link PositionUpdateEvent} every tick to each entity with a {@link BodyLinked} component and a
+     * {@link Position} component.
      */
     @Override
     public void update(SolGame game, float timeStep) {
-        EntityIterator iterator = entitySystemManager.getEntityManager().iterate(new BodyLinked(), new Location());
+        EntityIterator iterator = entitySystemManager.getEntityManager().iterate(new BodyLinked(), new Position());
         while (iterator.next()) {
             EntityRef entity = iterator.getEntity();
 
             createBodyIfNonexistent(entity);
             Body body = map.get(entity);
 
-            LocationUpdateEvent event = new LocationUpdateEvent(body.getPosition(), body.getAngle(), body.getLinearVelocity());
-            entitySystemManager.sendEvent(event, entity);
+            if (entity.hasComponent(Position.class)) {
+                entitySystemManager.sendEvent(new PositionUpdateEvent(body.getPosition()), entity);
+            }
+            if (entity.hasComponent(Angle.class)) {
+                entitySystemManager.sendEvent(new AngleUpdateEvent(body.getAngle()), entity);
+            }
+            if (entity.hasComponent(Velocity.class)) {
+                entitySystemManager.sendEvent(new VelocityUpdateEvent(body.getLinearVelocity()), entity);
+            }
         }
     }
 
     /**
      * This passes the force applied by a {@link ForceEvent} to the Body associated with the entity.
      */
-    @ReceiveEvent(components = {BodyLinked.class, Location.class})
+    @ReceiveEvent(components = {BodyLinked.class, Position.class})
     public EventResult onForce(ForceEvent event, EntityRef entity) {
         if (!entity.hasComponent(ImmuneToForce.class)) {
             createBodyIfNonexistent(entity);

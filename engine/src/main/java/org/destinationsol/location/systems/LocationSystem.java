@@ -16,26 +16,48 @@
 package org.destinationsol.location.systems;
 
 import org.destinationsol.entitysystem.EventReceiver;
-import org.destinationsol.location.components.Location;
-import org.destinationsol.location.events.LocationUpdateEvent;
+import org.destinationsol.location.components.Angle;
+import org.destinationsol.location.components.Position;
+import org.destinationsol.location.components.Velocity;
+import org.destinationsol.location.events.AngleUpdateEvent;
+import org.destinationsol.location.events.PositionUpdateEvent;
+import org.destinationsol.location.events.VelocityUpdateEvent;
 import org.terasology.gestalt.entitysystem.entity.EntityRef;
 import org.terasology.gestalt.entitysystem.event.EventResult;
 import org.terasology.gestalt.entitysystem.event.ReceiveEvent;
 
 /**
- * This system updates the location of an entity with a {@link Location} component when it receives a
- * {@link LocationUpdateEvent}.
+ * This system updates the location of an entity with a {@link Position}, {@link Angle}, or {@link Velocity} component
+ * when it receives a {@link PositionUpdateEvent}, {@link AngleUpdateEvent}, or {@link VelocityUpdateEvent}, respectively.
  */
 public class LocationSystem implements EventReceiver {
 
-    @ReceiveEvent(components = Location.class)
-    public EventResult onLocationUpdate(LocationUpdateEvent event, EntityRef entity) {
-        if (entity.hasComponent(Location.class)) {
-            Location location = entity.getComponent(Location.class).get();
-            location.position = event.getPosition();
-            location.angle = event.getAngle();
-            location.velocity = event.getVelocity();
-            entity.setComponent(location);
+    @ReceiveEvent(components = Position.class)
+    public EventResult onPositionUpdate(PositionUpdateEvent event, EntityRef entity) {
+        if (entity.hasComponent(Position.class)) {
+            Position position = entity.getComponent(Position.class).get();
+            position.position = event.getPosition();
+            entity.setComponent(position);
+        }
+        return EventResult.CONTINUE;
+    }
+
+    @ReceiveEvent(components = Angle.class)
+    public EventResult onAngleUpdate(AngleUpdateEvent event, EntityRef entity) {
+        if (entity.hasComponent(Angle.class)) {
+            Angle angle = entity.getComponent(Angle.class).get();
+            angle.angle = event.getAngle();
+            entity.setComponent(angle);
+        }
+        return EventResult.CONTINUE;
+    }
+
+    @ReceiveEvent(components = Velocity.class)
+    public EventResult onVelocityUpdate(VelocityUpdateEvent event, EntityRef entity) {
+        if (entity.hasComponent(Velocity.class)) {
+            Velocity velocity = entity.getComponent(Velocity.class).get();
+            velocity.velocity = event.getVelocity();
+            entity.setComponent(velocity);
         }
         return EventResult.CONTINUE;
     }
