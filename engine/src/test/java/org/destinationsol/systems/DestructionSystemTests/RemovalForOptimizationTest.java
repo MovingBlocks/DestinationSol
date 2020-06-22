@@ -17,7 +17,7 @@ package org.destinationsol.systems.DestructionSystemTests;
 
 import org.destinationsol.components.Health;
 import org.destinationsol.entitysystem.EntitySystemManager;
-import org.destinationsol.events.RemovalForOptimizationEvent;
+import org.destinationsol.removal.RemovalForOptimizationEvent;
 import org.destinationsol.game.context.internal.ContextImpl;
 import org.destinationsol.modules.ModuleManager;
 import org.junit.Before;

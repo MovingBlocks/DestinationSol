@@ -13,13 +13,12 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.destinationsol.events;
+package org.destinationsol.removal;
 
-import org.destinationsol.components.Health;
 import org.terasology.gestalt.entitysystem.event.Event;
 
 /**
- * Event that indicates that an entity with a {@link Health} component reached zero health.
+ * Event that indicates that an entity no longer needs to exist and thus can be removed.
  */
-public class ZeroHealthEvent implements Event {
+public class RemovalForOptimizationEvent implements Event {
 }

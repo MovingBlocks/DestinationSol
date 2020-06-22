@@ -13,11 +13,9 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.destinationsol.systems;
+package org.destinationsol.removal;
 
 import org.destinationsol.entitysystem.EventReceiver;
-import org.destinationsol.events.DestroyEvent;
-import org.destinationsol.events.RemovalForOptimizationEvent;
 import org.terasology.gestalt.entitysystem.entity.EntityRef;
 import org.terasology.gestalt.entitysystem.event.EventResult;
 import org.terasology.gestalt.entitysystem.event.ReceiveEvent;
