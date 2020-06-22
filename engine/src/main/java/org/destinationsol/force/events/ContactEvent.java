@@ -13,9 +13,8 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.destinationsol.events;
+package org.destinationsol.force.events;
 
-import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Contact;
 import org.destinationsol.game.item.Loot;
 import org.destinationsol.game.ship.SolShip;

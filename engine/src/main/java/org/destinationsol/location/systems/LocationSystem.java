@@ -13,11 +13,11 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.destinationsol.systems;
+package org.destinationsol.location.systems;
 
-import org.destinationsol.components.Location;
 import org.destinationsol.entitysystem.EventReceiver;
-import org.destinationsol.events.LocationUpdateEvent;
+import org.destinationsol.location.components.Location;
+import org.destinationsol.location.events.LocationUpdateEvent;
 import org.terasology.gestalt.entitysystem.entity.EntityRef;
 import org.terasology.gestalt.entitysystem.event.EventResult;
 import org.terasology.gestalt.entitysystem.event.ReceiveEvent;

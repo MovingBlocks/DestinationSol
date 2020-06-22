@@ -13,19 +13,19 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.destinationsol.systems;
+package org.destinationsol.body.systems;
 
 import com.badlogic.gdx.physics.box2d.Body;
 import org.destinationsol.common.In;
-import org.destinationsol.components.BodyLinked;
-import org.destinationsol.components.ImmuneToForce;
-import org.destinationsol.components.Location;
+import org.destinationsol.body.components.BodyLinked;
+import org.destinationsol.force.components.ImmuneToForce;
+import org.destinationsol.location.components.Location;
 import org.destinationsol.entitysystem.EntitySystemManager;
 import org.destinationsol.entitysystem.EventReceiver;
-import org.destinationsol.events.BodyCreatedEvent;
-import org.destinationsol.events.ForceEvent;
-import org.destinationsol.events.GenerateBodyEvent;
-import org.destinationsol.events.LocationUpdateEvent;
+import org.destinationsol.body.events.BodyCreatedEvent;
+import org.destinationsol.force.events.ForceEvent;
+import org.destinationsol.body.events.GenerateBodyEvent;
+import org.destinationsol.location.events.LocationUpdateEvent;
 import org.destinationsol.game.SolGame;
 import org.destinationsol.game.UpdateAwareSystem;
 import org.destinationsol.game.attributes.RegisterUpdateSystem;

@@ -13,36 +13,22 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.destinationsol.events;
+package org.destinationsol.health.events;
 
-import com.badlogic.gdx.math.Vector2;
-import org.destinationsol.components.Location;
 import org.terasology.gestalt.entitysystem.event.Event;
 
 /**
- * Updates the {@link Location} of an entity.
+ * Event that contains information about the damage an entity receives.
  */
-public class LocationUpdateEvent implements Event {
+public class DamageEvent implements Event {
 
-    private Vector2 position;
-    private float angle;
-    private Vector2 velocity;
+    private int damage;
 
-    public LocationUpdateEvent(Vector2 position, float angle, Vector2 velocity) {
-        this.position = position;
-        this.angle = angle;
-        this.velocity = velocity;
+    public DamageEvent(int damage) {
+        this.damage = damage;
     }
 
-    public Vector2 getPosition() {
-        return position;
-    }
-
-    public float getAngle() {
-        return angle;
-    }
-
-    public Vector2 getVelocity() {
-        return velocity;
+    public int getDamage() {
+        return damage;
     }
 }

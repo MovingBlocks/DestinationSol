@@ -13,12 +13,11 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.destinationsol.systems;
+package org.destinationsol.health.systems;
 
-import org.destinationsol.components.Health;
-import org.destinationsol.entitysystem.ComponentSystem;
+import org.destinationsol.health.components.Health;
 import org.destinationsol.entitysystem.EventReceiver;
-import org.destinationsol.events.DamageEvent;
+import org.destinationsol.health.events.DamageEvent;
 import org.terasology.gestalt.entitysystem.entity.EntityRef;
 import org.terasology.gestalt.entitysystem.event.EventResult;
 import org.terasology.gestalt.entitysystem.event.ReceiveEvent;

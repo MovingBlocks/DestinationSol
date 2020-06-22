@@ -13,21 +13,17 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.destinationsol.components;
+package org.destinationsol.force.components;
 
+import org.destinationsol.game.ship.KnockBack;
 import org.terasology.gestalt.entitysystem.component.Component;
 
 /**
- * Contains information about the health of an entity.
+ * Denotes that an entity should not be affected by forces such as gravity or the {@link KnockBack} ship ability.
  */
-public final class Health implements Component<Health> {
-
-    public int maxHealth = 30;
-    public int currentHealth = 30;
-
+public class ImmuneToForce implements Component<ImmuneToForce> {
     @Override
-    public void copy(Health other) {
-        this.maxHealth = other.maxHealth;
-        this.currentHealth = other.currentHealth;
+    public void copy(ImmuneToForce other) {
+
     }
 }

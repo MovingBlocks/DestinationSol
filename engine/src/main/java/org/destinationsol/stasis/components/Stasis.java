@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.destinationsol.components;
+package org.destinationsol.stasis.components;
 
 import org.terasology.gestalt.entitysystem.component.Component;
 

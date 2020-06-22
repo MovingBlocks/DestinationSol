@@ -13,23 +13,15 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.destinationsol.events;
+package org.destinationsol.body.events;
 
 import com.badlogic.gdx.physics.box2d.Body;
+import org.destinationsol.body.events.BodyCreatedEvent;
 import org.terasology.gestalt.entitysystem.event.Event;
 
 /**
- * Event that contains the newly made {@link Body} for the entity that this event is sent against.
+ * Indicates that a {@link Body} should be created for the entity that this event is sent against. Once a body has been
+ * created for that entity, a reference to that Body should be sent in a {@link BodyCreatedEvent};
  */
-public class BodyCreatedEvent implements Event {
-
-    private Body body;
-
-    public BodyCreatedEvent(Body body) {
-        this.body = body;
-    }
-
-    public Body getBody() {
-        return body;
-    }
+public class GenerateBodyEvent implements Event {
 }

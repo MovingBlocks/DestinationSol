@@ -13,17 +13,21 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.destinationsol.components;
+package org.destinationsol.health.components;
 
-import com.badlogic.gdx.physics.box2d.Body;
 import org.terasology.gestalt.entitysystem.component.Component;
 
 /**
- * Indicates that there is a {@link Body} associated with the entity.
+ * Contains information about the health of an entity.
  */
-public class BodyLinked implements Component<BodyLinked> {
-    @Override
-    public void copy(BodyLinked other) {
+public final class Health implements Component<Health> {
 
+    public int maxHealth = 30;
+    public int currentHealth = 30;
+
+    @Override
+    public void copy(Health other) {
+        this.maxHealth = other.maxHealth;
+        this.currentHealth = other.currentHealth;
     }
 }

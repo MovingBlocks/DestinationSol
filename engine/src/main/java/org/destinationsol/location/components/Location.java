@@ -13,10 +13,10 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.destinationsol.components;
+package org.destinationsol.location.components;
 
 import com.badlogic.gdx.math.Vector2;
-import org.destinationsol.events.LocationUpdateEvent;
+import org.destinationsol.location.events.LocationUpdateEvent;
 import org.terasology.gestalt.entitysystem.component.Component;
 
 public class Location implements Component<Location> {

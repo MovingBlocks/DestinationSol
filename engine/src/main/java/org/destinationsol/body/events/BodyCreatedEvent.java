@@ -13,17 +13,23 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.destinationsol.components;
+package org.destinationsol.body.events;
 
-import org.destinationsol.game.ship.KnockBack;
-import org.terasology.gestalt.entitysystem.component.Component;
+import com.badlogic.gdx.physics.box2d.Body;
+import org.terasology.gestalt.entitysystem.event.Event;
 
 /**
- * Denotes that an entity should not be affected by forces such as gravity or the {@link KnockBack} ship ability.
+ * Event that contains the newly made {@link Body} for the entity that this event is sent against.
  */
-public class ImmuneToForce implements Component<ImmuneToForce> {
-    @Override
-    public void copy(ImmuneToForce other) {
+public class BodyCreatedEvent implements Event {
 
+    private Body body;
+
+    public BodyCreatedEvent(Body body) {
+        this.body = body;
+    }
+
+    public Body getBody() {
+        return body;
     }
 }

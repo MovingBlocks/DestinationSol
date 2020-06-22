@@ -16,9 +16,9 @@
 package org.destinationsol.systems.LocationSystemTests;
 
 import com.badlogic.gdx.math.Vector2;
-import org.destinationsol.components.Location;
+import org.destinationsol.location.components.Location;
 import org.destinationsol.entitysystem.EntitySystemManager;
-import org.destinationsol.events.LocationUpdateEvent;
+import org.destinationsol.location.events.LocationUpdateEvent;
 import org.destinationsol.modules.ModuleManager;
 import org.junit.Before;
 import org.junit.Test;
