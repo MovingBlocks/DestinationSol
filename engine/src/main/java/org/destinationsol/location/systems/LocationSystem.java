@@ -46,7 +46,7 @@ public class LocationSystem implements EventReceiver {
     public EventResult onAngleUpdate(AngleUpdateEvent event, EntityRef entity) {
         if (entity.hasComponent(Angle.class)) {
             Angle angle = entity.getComponent(Angle.class).get();
-            angle.angle = event.getAngle();
+            angle.setAngle(event.getAngle());
             entity.setComponent(angle);
         }
         return EventResult.CONTINUE;

@@ -41,7 +41,7 @@ public class Angle implements Component<Angle> {
         while (angle >= 360) {
             angle -= 360;
         }
-        
+
         this.angle = angle;
     }
 }

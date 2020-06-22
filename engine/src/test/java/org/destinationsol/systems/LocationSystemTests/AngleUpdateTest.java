@@ -46,6 +46,6 @@ public class AngleUpdateTest {
         entitySystemManager.sendEvent(event, entity);
 
         Angle angle = entity.getComponent(Angle.class).get();
-        assertEquals(1f, angle.angle);
+        assertEquals(1f, angle.getAngle());
     }
 }
