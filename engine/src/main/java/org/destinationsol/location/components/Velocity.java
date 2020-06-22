@@ -28,7 +28,6 @@ public class Velocity implements Component<Velocity> {
 
     @Override
     public void copy(Velocity other) {
-        this.velocity.x = other.velocity.x;
-        this.velocity.y = other.velocity.y;
+        velocity = other.velocity.cpy();
     }
 }
