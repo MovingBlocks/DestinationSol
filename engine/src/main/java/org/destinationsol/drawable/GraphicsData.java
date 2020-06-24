@@ -16,13 +16,14 @@
 package org.destinationsol.drawable;
 
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
+import com.badlogic.gdx.math.Vector2;
 import org.destinationsol.game.drawables.DrawableLevel;
 import org.terasology.gestalt.entitysystem.component.Component;
 
-public class DrawableData implements Component<DrawableData> {
+public class GraphicsData implements Component<GraphicsData> {
 
     /**
-     * Returns the texture that this drawable represents.
+     * Represents the texture (graphics) of this drawable.
      */
     public TextureAtlas.AtlasRegion texture;
 
@@ -31,10 +32,16 @@ public class DrawableData implements Component<DrawableData> {
      */
     public DrawableLevel drawableLevel;
 
+    /**
+     * Represents the offset of this graphical entity from the object that it represents.
+     */
+    public Vector2 relativePosition;
+
     @Override
-    public void copy(DrawableData other) {
+    public void copy(GraphicsData other) {
         this.texture = other.texture;
         this.drawableLevel = other.drawableLevel;
+        this.relativePosition = other.relativePosition;
     }
 }
 
