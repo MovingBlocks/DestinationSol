@@ -15,27 +15,23 @@
  */
 package org.destinationsol.drawable;
 
-//TODO: Rename this class "Drawable" once the currently existing Drawable interface is no longer needed
-
 import org.terasology.gestalt.entitysystem.component.Component;
-import org.terasology.gestalt.entitysystem.entity.EntityRef;
 
 import java.util.ArrayList;
 
 /**
- * Contains a reference to an entity's texture and drawable level.
+ *
  */
-public final class DrawableComponent implements Component<DrawableComponent> {
+public final class Graphics implements Component<Graphics> {
 
-    public ArrayList<EntityRef> drawables = new ArrayList<>();
+    public ArrayList<GraphicsData> drawables = new ArrayList<>();
 
     @Override
-    public void copy(DrawableComponent other) {
+    public void copy(Graphics other) {
         drawables.clear();
-        for (EntityRef drawable : other.drawables) {
-            if (drawable.hasComponent(DrawableData.class)) {
-                drawables.add(drawable);
-            }
+        for (GraphicsData data : other.drawables) {
+                drawables.add(data);
+
         }
     }
 
