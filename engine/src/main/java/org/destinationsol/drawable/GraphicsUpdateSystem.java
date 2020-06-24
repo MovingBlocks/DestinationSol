@@ -15,11 +15,23 @@
  */
 package org.destinationsol.drawable;
 
-import org.destinationsol.game.drawables.DrawableManager;
-import org.terasology.gestalt.entitysystem.event.Event;
+import org.destinationsol.common.In;
+import org.destinationsol.entitysystem.EntitySystemManager;
+import org.destinationsol.game.SolGame;
+import org.destinationsol.game.UpdateAwareSystem;
+import org.destinationsol.game.attributes.RegisterUpdateSystem;
 
 /**
- * Event that tells the {@link DrawableManager} to update the drawings of each entity with a {@link DrawableComponent}.
+ * Sends a {@link GraphicsUpdateEvent} every tick to each entity with a {@link Graphics} component.
  */
-public class DrawableUpdateEvent implements Event {
+@RegisterUpdateSystem
+public class GraphicsUpdateSystem implements UpdateAwareSystem {
+
+    @In
+    private EntitySystemManager entitySystemManager;
+
+    @Override
+    public void update(SolGame game, float timeStep) {
+        entitySystemManager.sendEvent(new GraphicsUpdateEvent(), new Graphics());
+    }
 }

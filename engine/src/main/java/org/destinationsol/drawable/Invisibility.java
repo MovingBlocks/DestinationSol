@@ -15,23 +15,15 @@
  */
 package org.destinationsol.drawable;
 
-import org.destinationsol.common.In;
-import org.destinationsol.entitysystem.EntitySystemManager;
-import org.destinationsol.game.SolGame;
-import org.destinationsol.game.UpdateAwareSystem;
-import org.destinationsol.game.attributes.RegisterUpdateSystem;
+import org.destinationsol.game.GameDrawer;
+import org.terasology.gestalt.entitysystem.component.Component;
 
 /**
- * Sends a {@link DrawableUpdateEvent} every tick to each entity with a {@link DrawableComponent}.
+ * Denotes that the object should not be drawn by the {@link GameDrawer}.
  */
-@RegisterUpdateSystem
-public class DrawableUpdateSystem implements UpdateAwareSystem {
-
-    @In
-    private EntitySystemManager entitySystemManager;
-
+public class Invisibility implements Component<Invisibility> {
     @Override
-    public void update(SolGame game, float timeStep) {
-        entitySystemManager.sendEvent(new DrawableUpdateEvent(), new DrawableComponent());
+    public void copy(Invisibility other) {
+
     }
 }
