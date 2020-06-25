@@ -30,7 +30,7 @@ public class DestroyOnZeroHealthSystem implements EventReceiver {
     @In
     private EntitySystemManager entitySystemManager;
 
-    @ReceiveEvent()
+    @ReceiveEvent
     public void onZeroHealth(ZeroHealthEvent event, EntityRef entity) {
         entitySystemManager.sendEvent(new DestroyEvent(), entity);
     }
