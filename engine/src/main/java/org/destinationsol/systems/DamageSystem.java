@@ -52,6 +52,8 @@ public class DamageSystem implements EventReceiver {
             health.currentHealth -= event.getDamage();
             if (health.currentHealth <= 0) {
                 health.currentHealth = 0;
+
+                //The health must be updated before the ZeroHealthEvent can be sent, so this has to be in the if block
                 entity.setComponent(health);
                 entitySystemManager.sendEvent(new ZeroHealthEvent(), entity);
             } else {
