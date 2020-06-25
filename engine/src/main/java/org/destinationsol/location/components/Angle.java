@@ -15,6 +15,7 @@
  */
 package org.destinationsol.location.components;
 
+import org.destinationsol.common.SolMath;
 import org.destinationsol.location.events.AngleUpdateEvent;
 import org.terasology.gestalt.entitysystem.component.Component;
 
@@ -35,13 +36,7 @@ public class Angle implements Component<Angle> {
     }
 
     public void setAngle(float angle) {
-        while (angle < 0) {
-            angle += 360;
-        }
-        while (angle >= 360) {
-            angle -= 360;
-        }
-
+        SolMath.norm(angle);
         this.angle = angle;
     }
 }
