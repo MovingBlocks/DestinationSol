@@ -13,13 +13,17 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.destinationsol.drawable;
+package org.destinationsol.drawable.systems;
 
 import org.destinationsol.common.In;
+import org.destinationsol.drawable.components.Graphics;
+import org.destinationsol.drawable.events.GraphicsUpdateEvent;
 import org.destinationsol.entitysystem.EntitySystemManager;
 import org.destinationsol.game.SolGame;
 import org.destinationsol.game.UpdateAwareSystem;
 import org.destinationsol.game.attributes.RegisterUpdateSystem;
+
+//TODO: make use of this instead of the current implementation in GameDrawer
 
 /**
  * Sends a {@link GraphicsUpdateEvent} every tick to each entity with a {@link Graphics} component.
