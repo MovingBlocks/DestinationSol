@@ -33,12 +33,12 @@ public class GraphicsElement implements Component<GraphicsElement> {
     public DrawableLevel drawableLevel;
 
     /**
-     * Represents the spatial offset of this graphical entity from the entity that it is associated with.
+     * Represents the spatial offset of this graphics element from the entity that it is associated with.
      */
     public Vector2 relativePosition;
 
     /**
-     * Represents the rotational offset of this graphical entity from the entity that it is associated with.
+     * Represents the rotational offset of this graphics element from the entity that it is associated with.
      */
     public float relativeAngle;
 
