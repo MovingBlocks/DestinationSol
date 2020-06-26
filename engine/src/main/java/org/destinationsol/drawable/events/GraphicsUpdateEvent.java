@@ -13,10 +13,13 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.destinationsol.drawable;
+package org.destinationsol.drawable.events;
 
+import org.destinationsol.drawable.components.Graphics;
 import org.destinationsol.game.drawables.DrawableManager;
 import org.terasology.gestalt.entitysystem.event.Event;
+
+//TODO: make use of this instead of GameDrawer.draw()
 
 /**
  * Event that tells the {@link DrawableManager} to update the drawings of each entity with a {@link Graphics}.
