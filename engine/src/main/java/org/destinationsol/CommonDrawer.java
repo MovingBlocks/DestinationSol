@@ -118,6 +118,10 @@ public class CommonDrawer implements ResizeSubscriber {
         spriteBatch.setColor(tint);
     }
 
+    public void draw(TextureRegion texture, float x, float y) {
+        spriteBatch.draw(texture, x, y);
+    }
+
     public void draw(TextureRegion tex, Rectangle rect, Color tint) {
         draw(tex, rect.width, rect.height, (float) 0, (float) 0, rect.x, rect.y, (float) 0, tint);
     }
