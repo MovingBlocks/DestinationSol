@@ -24,12 +24,12 @@ import java.util.ArrayList;
  */
 public final class Graphics implements Component<Graphics> {
 
-    public ArrayList<GraphicsData> drawables = new ArrayList<>();
+    public ArrayList<GraphicsElement> drawables = new ArrayList<>();
 
     @Override
     public void copy(Graphics other) {
         drawables.clear();
-        for (GraphicsData data : other.drawables) {
+        for (GraphicsElement data : other.drawables) {
                 drawables.add(data);
 
         }
