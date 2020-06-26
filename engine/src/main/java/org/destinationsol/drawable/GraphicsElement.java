@@ -20,10 +20,10 @@ import com.badlogic.gdx.math.Vector2;
 import org.destinationsol.game.drawables.DrawableLevel;
 import org.terasology.gestalt.entitysystem.component.Component;
 
-public class GraphicsData implements Component<GraphicsData> {
+public class GraphicsElement implements Component<GraphicsElement> {
 
     /**
-     * Represents the texture (graphics) of this drawable.
+     * Represents the texture of this graphics element.
      */
     public TextureAtlas.AtlasRegion texture;
 
@@ -33,15 +33,21 @@ public class GraphicsData implements Component<GraphicsData> {
     public DrawableLevel drawableLevel;
 
     /**
-     * Represents the offset of this graphical entity from the object that it represents.
+     * Represents the spatial offset of this graphical entity from the entity that it is associated with.
      */
     public Vector2 relativePosition;
 
+    /**
+     * Represents the rotational offset of this graphical entity from the entity that it is associated with.
+     */
+    public float relativeAngle;
+
     @Override
-    public void copy(GraphicsData other) {
+    public void copy(GraphicsElement other) {
         this.texture = other.texture;
         this.drawableLevel = other.drawableLevel;
         this.relativePosition = other.relativePosition;
+        this.relativeAngle = other.relativeAngle;
     }
 }
 
