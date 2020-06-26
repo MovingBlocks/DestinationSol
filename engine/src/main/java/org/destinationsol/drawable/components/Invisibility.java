@@ -13,27 +13,17 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.destinationsol.drawable;
+package org.destinationsol.drawable.components;
 
+import org.destinationsol.game.GameDrawer;
 import org.terasology.gestalt.entitysystem.component.Component;
 
-import java.util.ArrayList;
-
 /**
- *
+ * Denotes that the object should not be drawn by the {@link GameDrawer}.
  */
-public final class Graphics implements Component<Graphics> {
-
-    public ArrayList<GraphicsElement> drawables = new ArrayList<>();
-
+public class Invisibility implements Component<Invisibility> {
     @Override
-    public void copy(Graphics other) {
-        drawables.clear();
-        for (GraphicsElement data : other.drawables) {
-                drawables.add(data);
+    public void copy(Invisibility other) {
 
-        }
     }
-
-
 }

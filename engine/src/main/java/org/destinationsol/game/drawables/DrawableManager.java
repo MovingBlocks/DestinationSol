@@ -25,9 +25,9 @@ import com.badlogic.gdx.utils.OrderedMap;
 import org.destinationsol.common.DebugCol;
 import org.destinationsol.common.In;
 import org.destinationsol.common.SolMath;
-import org.destinationsol.drawable.Graphics;
+import org.destinationsol.drawable.components.Graphics;
 import org.destinationsol.drawable.GraphicsElement;
-import org.destinationsol.drawable.Invisibility;
+import org.destinationsol.drawable.components.Invisibility;
 import org.destinationsol.entitysystem.EntitySystemManager;
 import org.destinationsol.game.DebugOptions;
 import org.destinationsol.game.GameDrawer;
@@ -218,7 +218,7 @@ public class DrawableManager {
                 Vector2 basePosition = entity.getComponent(Position.class).get().position;
                 float baseAngle = entity.getComponent(Angle.class).get().getAngle();
 
-                for (GraphicsElement graphicsElement : graphics.drawables) {
+                for (GraphicsElement graphicsElement : graphics.elements) {
                     Vector2 graphicsPosition = new Vector2();
                     SolMath.toWorld(graphicsPosition, graphicsElement.relativePosition, baseAngle, basePosition);
                     float angle = graphicsElement.relativeAngle + baseAngle;
