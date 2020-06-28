@@ -148,6 +148,12 @@ Contributors
 * [arpitkamboj](https://github.com/arpitkamboj)
 * [manas96](https://github.com/manas96)
 * [IsaacLic](https://github.com/IsaacLic)
+* [Mpcs](https://github.com/Mpcs)
+* [ZPendi](https://github.com/ZPendi)
+* [nailorcngci](https://github.com/nailorcngci)
+* [FearlessTobi](https://github.com/FearlessTobi)
+* [ujjman](https://github.com/ujjman)
+* [ThisIsPIRI](https://github.com/ThisIsPIRI)
 
 ... and your name here? :-) More coming!
 
