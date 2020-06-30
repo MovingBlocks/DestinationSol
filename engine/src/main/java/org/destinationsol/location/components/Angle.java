@@ -36,7 +36,6 @@ public class Angle implements Component<Angle> {
     }
 
     public void setAngle(float angle) {
-        SolMath.norm(angle);
-        this.angle = angle;
+        this.angle = SolMath.norm(angle);
     }
 }

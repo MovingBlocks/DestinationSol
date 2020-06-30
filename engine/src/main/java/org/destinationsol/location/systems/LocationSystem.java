@@ -35,9 +35,9 @@ public class LocationSystem implements EventReceiver {
     @ReceiveEvent(components = Position.class)
     public EventResult onPositionUpdate(PositionUpdateEvent event, EntityRef entity) {
         if (entity.hasComponent(Position.class)) {
-            Position position = entity.getComponent(Position.class).get();
-            position.position = event.getPosition();
-            entity.setComponent(position);
+            Position positionComponent = entity.getComponent(Position.class).get();
+            positionComponent.position = event.getPosition();
+            entity.setComponent(positionComponent);
         }
         return EventResult.CONTINUE;
     }
@@ -45,9 +45,9 @@ public class LocationSystem implements EventReceiver {
     @ReceiveEvent(components = Angle.class)
     public EventResult onAngleUpdate(AngleUpdateEvent event, EntityRef entity) {
         if (entity.hasComponent(Angle.class)) {
-            Angle angle = entity.getComponent(Angle.class).get();
-            angle.setAngle(event.getAngle());
-            entity.setComponent(angle);
+            Angle angleComponent = entity.getComponent(Angle.class).get();
+            angleComponent.setAngle(event.getAngle());
+            entity.setComponent(angleComponent);
         }
         return EventResult.CONTINUE;
     }
@@ -55,9 +55,9 @@ public class LocationSystem implements EventReceiver {
     @ReceiveEvent(components = Velocity.class)
     public EventResult onVelocityUpdate(VelocityUpdateEvent event, EntityRef entity) {
         if (entity.hasComponent(Velocity.class)) {
-            Velocity velocity = entity.getComponent(Velocity.class).get();
-            velocity.velocity = event.getVelocity();
-            entity.setComponent(velocity);
+            Velocity velocityComponent = entity.getComponent(Velocity.class).get();
+            velocityComponent.velocity = event.getVelocity();
+            entity.setComponent(velocityComponent);
         }
         return EventResult.CONTINUE;
     }
