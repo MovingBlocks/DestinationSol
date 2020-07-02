@@ -83,7 +83,17 @@ public class CreditsScreen extends SolUiBaseScreen {
                         "LadySerenaKitty, askneller",
                         "JGelfand, AvaLanCS, scirelli",
                         "Sigma-One, vampcat, malanius",
-                        "AonoZan"
+                        "AonoZan, ererbe, SurajDutta",
+                        "jasyohuang, Steampunkery",
+                        "Graviton48, Adrijaned, MaxBorsch",
+                        "sohil123, FieryPheonix909",
+                        "digitalripperynr, NicholasBatesNZ",
+                        "Pendi, Torpedo99, AndyTechGuy",
+                        "BenjaminAmos, dannykelemen",
+                        "msteiger, oniatus, arpitkamboj",
+                        "manas96, IsaacLic, Mpcs, ZPendi",
+                        "nailorcngci, FearlessTobi, ujjman",
+                        "ThisIsPIRI"
                 },
                 {
                         "Soundtrack by NeonInsect"
