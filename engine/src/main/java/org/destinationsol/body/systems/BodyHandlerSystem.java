@@ -34,6 +34,7 @@ import org.destinationsol.location.events.VelocityUpdateEvent;
 import org.terasology.gestalt.entitysystem.entity.EntityRef;
 import org.terasology.gestalt.entitysystem.event.EventResult;
 import org.terasology.gestalt.entitysystem.event.ReceiveEvent;
+import org.terasology.gestalt.entitysystem.event.lifecycle.OnRemoved;
 
 import java.util.HashMap;
 
@@ -42,7 +43,7 @@ import java.util.HashMap;
  * component but no actual Body object associated with it, this will send a {@link GenerateBodyEvent} so that one will
  * be created.
  */
-public class BodyHandlerSystem implements EventReceiver{
+public class BodyHandlerSystem implements EventReceiver {
 
     @In
     private EntitySystemManager entitySystemManager;
@@ -100,5 +101,9 @@ public class BodyHandlerSystem implements EventReceiver{
     public EventResult onBodyCreated(BodyCreatedEvent event, EntityRef entity) {
         referenceToBodyObjects.put(entity, event.getBody());
         return EventResult.CONTINUE;
+    }
+
+    public void removeBody(EntityRef entity) {
+        referenceToBodyObjects.remove(entity);
     }
 }
