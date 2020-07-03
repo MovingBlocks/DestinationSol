@@ -17,9 +17,12 @@ package org.destinationsol.systems.DamageSystemTests;
 
 import org.destinationsol.health.components.Health;
 import org.destinationsol.entitysystem.EntitySystemManager;
-import org.destinationsol.health.events.DamageEvent;
+import org.destinationsol.events.DamageEvent;
+import org.destinationsol.game.context.internal.ContextImpl;
 import org.destinationsol.modules.ModuleManager;
+import org.destinationsol.removal.DestroyOnZeroHealthSystem;
 import org.junit.Before;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.terasology.gestalt.entitysystem.component.management.ComponentManager;
 import org.terasology.gestalt.entitysystem.entity.EntityRef;
@@ -37,23 +40,29 @@ public class NonNegativeHealthTest {
     public void setUp() throws Exception {
         moduleManager = new ModuleManager();
         moduleManager.init();
-        entitySystemManager = new EntitySystemManager(moduleManager.getEnvironment(), new ComponentManager());
+        entitySystemManager = new EntitySystemManager(moduleManager.getEnvironment(), new ComponentManager(), new ContextImpl());
     }
 
+    /**
+     * Once there are systems that prevent an entity with zero health from being destroyed, this test should be
+     * refactored to make use of that. As of now, the entity should be destroyed by the {@link DestroyOnZeroHealthSystem},
+     * so the behavior of its components is effectively unspecified.
+     */
     @Test
+    @Ignore
     public void testDamageDoesntMakeHealthBecomeNegative() {
+        Health health;
         EntityRef entity = entitySystemManager.getEntityManager().createEntity(new Health());
-        if (entity.getComponent(Health.class).isPresent()) {
-            Health health = entity.getComponent(Health.class).get();
-            health.maxHealth = 50;
-            health.currentHealth = 50;
-            entity.setComponent(health);
-        }
+        health = entity.getComponent(Health.class).get();
+        health.maxHealth = 50;
+        health.currentHealth = 50;
+        entity.setComponent(health);
+
         DamageEvent event = new DamageEvent(60);
 
         entitySystemManager.sendEvent(event, new Health());
 
-        assertEquals(0, entity.getComponent(Health.class).get().currentHealth);
+        assertEquals(0, health.currentHealth);
     }
 
 }

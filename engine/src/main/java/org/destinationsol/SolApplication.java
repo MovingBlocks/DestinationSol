@@ -68,7 +68,7 @@ public class SolApplication implements ApplicationListener {
     private final float targetFPS;
 
     @SuppressWarnings("FieldCanBeLocal")
-    private ModuleManager moduleManager;
+    private final ModuleManager moduleManager;
     private EntitySystemManager entitySystemManager;
 
     private OggMusicManager musicManager;
@@ -123,8 +123,7 @@ public class SolApplication implements ApplicationListener {
         AssetHelper helper = new AssetHelper();
         helper.init(moduleManager.getEnvironment(), componentManager, isMobile);
         Assets.initialize(helper);
-        entitySystemManager = new EntitySystemManager(moduleManager.getEnvironment(), componentManager);
-        context.put(EntitySystemManager.class, entitySystemManager);
+        entitySystemManager = new EntitySystemManager(moduleManager.getEnvironment(), componentManager, context);
 
         context.put(ComponentSystemManager.class, new ComponentSystemManager(moduleManager.getEnvironment(), context));
 
