@@ -15,7 +15,7 @@
  */
 package org.destinationsol.removal;
 
-import org.destinationsol.components.Health;
+import org.destinationsol.health.components.Health;
 import org.terasology.gestalt.entitysystem.event.Event;
 
 /**

@@ -16,6 +16,7 @@
 package org.destinationsol.systems.LocationSystemTests;
 
 import org.destinationsol.entitysystem.EntitySystemManager;
+import org.destinationsol.game.context.internal.ContextImpl;
 import org.destinationsol.location.components.Angle;
 import org.destinationsol.location.events.AngleUpdateEvent;
 import org.destinationsol.modules.ModuleManager;
@@ -35,7 +36,7 @@ public class AngleUpdateTest {
     public void setUp() throws Exception {
         moduleManager = new ModuleManager();
         moduleManager.init();
-        entitySystemManager = new EntitySystemManager(moduleManager.getEnvironment(), new ComponentManager());
+        entitySystemManager = new EntitySystemManager(moduleManager.getEnvironment(), new ComponentManager(), new ContextImpl());
     }
 
     @Test

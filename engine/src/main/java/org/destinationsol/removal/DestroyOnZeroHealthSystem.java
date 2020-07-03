@@ -16,9 +16,9 @@
 package org.destinationsol.removal;
 
 import org.destinationsol.common.In;
-import org.destinationsol.components.Health;
 import org.destinationsol.entitysystem.EntitySystemManager;
 import org.destinationsol.entitysystem.EventReceiver;
+import org.destinationsol.health.components.Health;
 import org.terasology.gestalt.entitysystem.entity.EntityRef;
 import org.terasology.gestalt.entitysystem.event.ReceiveEvent;
 

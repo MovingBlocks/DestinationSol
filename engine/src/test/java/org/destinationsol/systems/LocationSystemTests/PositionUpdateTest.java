@@ -16,6 +16,7 @@
 package org.destinationsol.systems.LocationSystemTests;
 
 import com.badlogic.gdx.math.Vector2;
+import org.destinationsol.game.context.internal.ContextImpl;
 import org.destinationsol.location.components.Position;
 import org.destinationsol.entitysystem.EntitySystemManager;
 import org.destinationsol.location.events.PositionUpdateEvent;
@@ -37,7 +38,7 @@ public class PositionUpdateTest {
     public void setUp() throws Exception {
         moduleManager = new ModuleManager();
         moduleManager.init();
-        entitySystemManager = new EntitySystemManager(moduleManager.getEnvironment(), new ComponentManager());
+        entitySystemManager = new EntitySystemManager(moduleManager.getEnvironment(), new ComponentManager(), new ContextImpl());
     }
 
     @Test

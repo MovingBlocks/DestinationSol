@@ -15,10 +15,10 @@
  */
 package org.destinationsol.systems.DamageSystemTests;
 
-import org.destinationsol.health.components.Health;
 import org.destinationsol.entitysystem.EntitySystemManager;
-import org.destinationsol.events.DamageEvent;
 import org.destinationsol.game.context.internal.ContextImpl;
+import org.destinationsol.health.components.Health;
+import org.destinationsol.health.events.DamageEvent;
 import org.destinationsol.modules.ModuleManager;
 import org.junit.Before;
 import org.junit.Test;

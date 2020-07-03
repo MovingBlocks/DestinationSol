@@ -15,11 +15,11 @@
  */
 package org.destinationsol.systems.DestructionSystemTests;
 
-import org.destinationsol.components.Health;
 import org.destinationsol.entitysystem.EntitySystemManager;
-import org.destinationsol.removal.RemovalForOptimizationEvent;
 import org.destinationsol.game.context.internal.ContextImpl;
+import org.destinationsol.health.components.Health;
 import org.destinationsol.modules.ModuleManager;
+import org.destinationsol.removal.RemovalForOptimizationEvent;
 import org.junit.Before;
 import org.junit.Test;
 import org.terasology.gestalt.entitysystem.component.management.ComponentManager;
