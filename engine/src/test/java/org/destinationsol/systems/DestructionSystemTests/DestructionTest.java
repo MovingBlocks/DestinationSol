@@ -13,24 +13,23 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.destinationsol.systems.DamageSystemTests;
+package org.destinationsol.systems.DestructionSystemTests;
 
 import org.destinationsol.entitysystem.EntitySystemManager;
+import org.destinationsol.removal.DestroyEvent;
 import org.destinationsol.game.context.internal.ContextImpl;
-import org.destinationsol.health.components.Health;
-import org.destinationsol.health.events.DamageEvent;
 import org.destinationsol.modules.ModuleManager;
 import org.junit.Before;
 import org.junit.Test;
 import org.terasology.gestalt.entitysystem.component.management.ComponentManager;
 import org.terasology.gestalt.entitysystem.entity.EntityRef;
 
-import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
 
 /**
- * Test to ensure that a damage event with a negative amount of damage doesn't add health.
+ * Test to ensure that a {@link DestroyEvent} on an entity will cause that entity to be removed.
  */
-public class NonNegativeDamageTest {
+public class DestructionTest {
 
     private ModuleManager moduleManager;
     private EntitySystemManager entitySystemManager;
@@ -43,18 +42,12 @@ public class NonNegativeDamageTest {
     }
 
     @Test
-    public void testNegativeDamageHasNoEffect() {
-        EntityRef entity = entitySystemManager.getEntityManager().createEntity(new Health());
-        if (entity.getComponent(Health.class).isPresent()) {
-            Health health = entity.getComponent(Health.class).get();
-            health.maxHealth = 50;
-            health.currentHealth = 50;
-            entity.setComponent(health);
-        }
-        DamageEvent event = new DamageEvent(-30);
+    public void testOnDestroy(){
+        EntityRef entity = entitySystemManager.getEntityManager().createEntity();
 
-        entitySystemManager.sendEvent(event, new Health());
+        entitySystemManager.sendEvent(new DestroyEvent(), entity);
 
-        assertEquals(50, entity.getComponent(Health.class).get().currentHealth);
+        assertFalse(entity.exists());
     }
+
 }

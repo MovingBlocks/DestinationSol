@@ -13,21 +13,15 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.destinationsol.components;
+package org.destinationsol.body.events;
 
-import org.terasology.gestalt.entitysystem.component.Component;
+import com.badlogic.gdx.physics.box2d.Body;
+import org.destinationsol.body.events.BodyCreatedEvent;
+import org.terasology.gestalt.entitysystem.event.Event;
 
 /**
- * Contains information about the health of an entity.
+ * Indicates that a {@link Body} should be created for the entity that this event is sent against. Once a body has been
+ * created for that entity, a reference to that Body should be sent in a {@link BodyCreatedEvent};
  */
-public final class Health implements Component<Health> {
-
-    public int maxHealth = 30;
-    public int currentHealth = 30;
-
-    @Override
-    public void copy(Health other) {
-        this.maxHealth = other.maxHealth;
-        this.currentHealth = other.currentHealth;
-    }
+public class GenerateBodyEvent implements Event {
 }

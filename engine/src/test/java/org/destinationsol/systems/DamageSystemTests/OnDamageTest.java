@@ -15,9 +15,10 @@
  */
 package org.destinationsol.systems.DamageSystemTests;
 
-import org.destinationsol.components.Health;
 import org.destinationsol.entitysystem.EntitySystemManager;
-import org.destinationsol.events.DamageEvent;
+import org.destinationsol.game.context.internal.ContextImpl;
+import org.destinationsol.health.components.Health;
+import org.destinationsol.health.events.DamageEvent;
 import org.destinationsol.modules.ModuleManager;
 import org.junit.Before;
 import org.junit.Test;
@@ -38,7 +39,7 @@ public class OnDamageTest {
     public void setUp() throws Exception {
         moduleManager = new ModuleManager();
         moduleManager.init();
-        entitySystemManager = new EntitySystemManager(moduleManager.getEnvironment(), new ComponentManager());
+        entitySystemManager = new EntitySystemManager(moduleManager.getEnvironment(), new ComponentManager(), new ContextImpl());
     }
 
     @Test

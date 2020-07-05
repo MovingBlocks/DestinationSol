@@ -13,22 +13,17 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.destinationsol.components;
+package org.destinationsol.force.components;
 
+import org.destinationsol.game.ship.KnockBack;
 import org.terasology.gestalt.entitysystem.component.Component;
 
 /**
- * Stasis components are a way to flag a component to indicate that it should be handled in a more resource-efficient
- * way. Generally speaking, every entity that gets too far away from a player either gets a stasis component or is
- * deleted. Entities in stasis remain that way until a player gets close to them again, at which point the stasis
- * component is removed.
- *
- * For systems that shouldn't operate on an entity in stasis, there should be a method annotated with "@Before" that
- * consumes that event if the entity has a stasis component.
+ * Denotes that an entity should not be affected by forces such as gravity or the {@link KnockBack} ship ability.
  */
-public class Stasis implements Component<Stasis> {
-
+public class ImmuneToForce implements Component<ImmuneToForce> {
     @Override
-    public void copy(Stasis other) {
+    public void copy(ImmuneToForce other) {
+
     }
 }

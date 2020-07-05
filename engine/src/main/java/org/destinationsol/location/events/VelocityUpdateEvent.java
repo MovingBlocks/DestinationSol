@@ -13,30 +13,27 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.destinationsol.events;
+package org.destinationsol.location.events;
 
 import com.badlogic.gdx.math.Vector2;
+import org.destinationsol.location.components.Velocity;
 import org.terasology.gestalt.entitysystem.event.Event;
 
 /**
- * Event that represents a continuous force applied to an entity, like gravity. This does NOT represent anything
- * that is a sudden, instantaneous force, like a collision. That type of occurrence is handled by {@link ImpulseEvent}.
- * This event is repeatedly sent as long as the force still affects the entity.
- * <p>
- * This event is sent every timestep for as long as the entity is being affected by the force.
+ * Updates the {@link Velocity} component of an entity.
  */
-public class ForceEvent implements Event {
+public class VelocityUpdateEvent implements Event {
 
-    private Vector2 force;
+    private Vector2 velocity;
 
-    public ForceEvent(Vector2 force) {
-        this.force = force;
+    public VelocityUpdateEvent(Vector2 velocity) {
+        this.velocity = velocity;
     }
 
     /**
-     * The force applied to the entity.
+     * The new value for the velocity of the entity.
      */
-    public Vector2 getForce() {
-        return force;
+    public Vector2 getVelocity() {
+        return velocity;
     }
 }

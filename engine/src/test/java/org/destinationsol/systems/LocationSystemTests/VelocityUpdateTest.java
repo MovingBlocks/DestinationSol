@@ -13,24 +13,22 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.destinationsol.systems.DamageSystemTests;
+package org.destinationsol.systems.LocationSystemTests;
 
+import com.badlogic.gdx.math.Vector2;
 import org.destinationsol.entitysystem.EntitySystemManager;
 import org.destinationsol.game.context.internal.ContextImpl;
-import org.destinationsol.health.components.Health;
-import org.destinationsol.health.events.DamageEvent;
+import org.destinationsol.location.components.Velocity;
+import org.destinationsol.location.events.VelocityUpdateEvent;
 import org.destinationsol.modules.ModuleManager;
 import org.junit.Before;
 import org.junit.Test;
 import org.terasology.gestalt.entitysystem.component.management.ComponentManager;
 import org.terasology.gestalt.entitysystem.entity.EntityRef;
 
-import static org.junit.Assert.assertEquals;
+import static junit.framework.TestCase.assertEquals;
 
-/**
- * Test to ensure that a damage event with a negative amount of damage doesn't add health.
- */
-public class NonNegativeDamageTest {
+public class VelocityUpdateTest {
 
     private ModuleManager moduleManager;
     private EntitySystemManager entitySystemManager;
@@ -43,18 +41,14 @@ public class NonNegativeDamageTest {
     }
 
     @Test
-    public void testNegativeDamageHasNoEffect() {
-        EntityRef entity = entitySystemManager.getEntityManager().createEntity(new Health());
-        if (entity.getComponent(Health.class).isPresent()) {
-            Health health = entity.getComponent(Health.class).get();
-            health.maxHealth = 50;
-            health.currentHealth = 50;
-            entity.setComponent(health);
-        }
-        DamageEvent event = new DamageEvent(-30);
+    public void testOnLocationUpdate() {
+        EntityRef entity = entitySystemManager.getEntityManager().createEntity(new Velocity());
+        VelocityUpdateEvent event = new VelocityUpdateEvent(new Vector2(1f, 2f));
 
-        entitySystemManager.sendEvent(event, new Health());
+        entitySystemManager.sendEvent(event, entity);
 
-        assertEquals(50, entity.getComponent(Health.class).get().currentHealth);
+        Velocity velocity = entity.getComponent(Velocity.class).get();
+        assertEquals(1f, velocity.velocity.x);
+        assertEquals(2f, velocity.velocity.y);
     }
 }

@@ -13,24 +13,23 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.destinationsol.systems.DamageSystemTests;
+package org.destinationsol.systems.LocationSystemTests;
 
-import org.destinationsol.entitysystem.EntitySystemManager;
+import com.badlogic.gdx.math.Vector2;
 import org.destinationsol.game.context.internal.ContextImpl;
-import org.destinationsol.health.components.Health;
-import org.destinationsol.health.events.DamageEvent;
+import org.destinationsol.location.components.Position;
+import org.destinationsol.entitysystem.EntitySystemManager;
+import org.destinationsol.location.events.PositionUpdateEvent;
 import org.destinationsol.modules.ModuleManager;
 import org.junit.Before;
 import org.junit.Test;
 import org.terasology.gestalt.entitysystem.component.management.ComponentManager;
 import org.terasology.gestalt.entitysystem.entity.EntityRef;
 
-import static org.junit.Assert.assertEquals;
+import static junit.framework.TestCase.assertEquals;
 
-/**
- * Test to ensure that a damage event with a negative amount of damage doesn't add health.
- */
-public class NonNegativeDamageTest {
+
+public class PositionUpdateTest {
 
     private ModuleManager moduleManager;
     private EntitySystemManager entitySystemManager;
@@ -43,18 +42,14 @@ public class NonNegativeDamageTest {
     }
 
     @Test
-    public void testNegativeDamageHasNoEffect() {
-        EntityRef entity = entitySystemManager.getEntityManager().createEntity(new Health());
-        if (entity.getComponent(Health.class).isPresent()) {
-            Health health = entity.getComponent(Health.class).get();
-            health.maxHealth = 50;
-            health.currentHealth = 50;
-            entity.setComponent(health);
-        }
-        DamageEvent event = new DamageEvent(-30);
+    public void testOnLocationUpdate() {
+        EntityRef entity = entitySystemManager.getEntityManager().createEntity(new Position());
+        PositionUpdateEvent event = new PositionUpdateEvent(new Vector2(1f, 2f));
 
-        entitySystemManager.sendEvent(event, new Health());
+        entitySystemManager.sendEvent(event, entity);
 
-        assertEquals(50, entity.getComponent(Health.class).get().currentHealth);
+        Position position = entity.getComponent(Position.class).get();
+        assertEquals(1f, position.position.x);
+        assertEquals(2f, position.position.y);
     }
 }

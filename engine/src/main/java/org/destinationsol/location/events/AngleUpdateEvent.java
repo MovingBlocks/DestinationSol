@@ -13,22 +13,26 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.destinationsol.events;
+package org.destinationsol.location.events;
 
+import org.destinationsol.location.components.Angle;
 import org.terasology.gestalt.entitysystem.event.Event;
 
 /**
- * Event that contains information about the damage an entity receives.
+ * Updates the {@link Angle} component of an entity.
  */
-public class DamageEvent implements Event {
+public class AngleUpdateEvent implements Event {
 
-    private int damage;
+    private float angle;
 
-    public DamageEvent(int damage) {
-        this.damage = damage;
+    public AngleUpdateEvent(float angle) {
+        this.angle = angle;
     }
 
-    public int getDamage() {
-        return damage;
+    /**
+     * The new value for the angle of the entity.
+     */
+    public float getAngle() {
+        return angle;
     }
 }

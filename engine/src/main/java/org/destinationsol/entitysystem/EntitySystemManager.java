@@ -16,6 +16,8 @@
 package org.destinationsol.entitysystem;
 
 import com.google.common.collect.Lists;
+import org.destinationsol.game.context.Context;
+import org.destinationsol.util.InjectionHelper;
 import org.terasology.gestalt.entitysystem.component.Component;
 import org.terasology.gestalt.entitysystem.component.management.ComponentManager;
 import org.terasology.gestalt.entitysystem.component.store.ArrayComponentStore;
@@ -23,6 +25,7 @@ import org.terasology.gestalt.entitysystem.component.store.ComponentStore;
 import org.terasology.gestalt.entitysystem.component.store.ConcurrentComponentStore;
 import org.terasology.gestalt.entitysystem.entity.EntityIterator;
 import org.terasology.gestalt.entitysystem.entity.EntityManager;
+import org.terasology.gestalt.entitysystem.entity.EntityRef;
 import org.terasology.gestalt.entitysystem.entity.manager.CoreEntityManager;
 import org.terasology.gestalt.entitysystem.event.Event;
 import org.terasology.gestalt.entitysystem.event.EventSystem;
@@ -36,10 +39,12 @@ import java.util.List;
 public class EntitySystemManager {
 
     private static EntityManager entityManager;
-    private EventSystem eventSystem = new EventSystemImpl();
-    private static EventReceiverMethodSupport eventReceiverMethodSupport = new EventReceiverMethodSupport();
+    private final EventSystem eventSystem = new EventSystemImpl();
+    private static final EventReceiverMethodSupport eventReceiverMethodSupport = new EventReceiverMethodSupport();
 
-    public EntitySystemManager(ModuleEnvironment environment, ComponentManager componentManager) {
+    public EntitySystemManager(ModuleEnvironment environment, ComponentManager componentManager, Context context) {
+
+        context.put(EntitySystemManager.class, this);
 
         List<ComponentStore<?>> stores = Lists.newArrayList();
         for (Class<? extends Component> componentType : environment.getSubtypesOf(Component.class)) {
@@ -53,7 +58,9 @@ public class EntitySystemManager {
 
         for (Class<? extends EventReceiver> eventReceiver : environment.getSubtypesOf(EventReceiver.class)) {
             try {
-                eventReceiverMethodSupport.register(eventReceiver.newInstance(), eventSystem);
+                EventReceiver receiver = eventReceiver.newInstance();
+                InjectionHelper.inject(receiver, context);
+                eventReceiverMethodSupport.register(receiver, eventSystem);
             } catch (Exception e) {
                 e.printStackTrace();
             }
@@ -65,6 +72,11 @@ public class EntitySystemManager {
         while (iterator.next()) {
             eventSystem.send(event, iterator.getEntity());
         }
+        eventSystem.processEvents();
+    }
+
+    public void sendEvent(Event event, EntityRef entity){
+        eventSystem.send(event, entity);
         eventSystem.processEvents();
     }
 

@@ -13,17 +13,17 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.destinationsol.components;
+package org.destinationsol.removal;
 
-import org.destinationsol.game.ship.KnockBack;
-import org.terasology.gestalt.entitysystem.component.Component;
+import org.destinationsol.removal.RemovalForOptimizationEvent;
+import org.terasology.gestalt.entitysystem.event.Event;
 
 /**
- * Denotes that an entity should not be affected by forces such as gravity or the {@link KnockBack} ship ability.
+ * Event that indicates that an entity should be removed.
+ * <p>
+ * An entity should usually be removed when its health reaches zero, or, for instance, if the object is a projectile,
+ * when it reaches its target. This event should not be used for entities being removed for optimization purposes when
+ * they get too far away. Removal for optimization purposes is handled by a {@link RemovalForOptimizationEvent}.
  */
-public class ImmuneToForce implements Component<ImmuneToForce> {
-    @Override
-    public void copy(ImmuneToForce other) {
-
-    }
+public class DestroyEvent implements Event {
 }
