@@ -54,8 +54,13 @@ import org.destinationsol.game.ship.ShipAbility;
 import org.destinationsol.game.ship.ShipBuilder;
 import org.destinationsol.game.ship.SloMo;
 import org.destinationsol.game.ship.hulls.HullConfig;
+import org.destinationsol.location.components.Position;
+import org.destinationsol.location.components.Velocity;
+import org.destinationsol.loot.components.DropsLootOnDeath;
 import org.destinationsol.mercenary.MercenaryUtils;
 import org.destinationsol.modules.ModuleManager;
+import org.destinationsol.removal.DestroyEvent;
+import org.destinationsol.size.components.Size;
 import org.destinationsol.ui.DebugCollector;
 import org.destinationsol.ui.TutorialManager;
 import org.destinationsol.ui.UiDrawer;
@@ -107,6 +112,7 @@ public class SolGame {
     private SortedMap<Integer, List<UpdateAwareSystem>> onPausedUpdateSystems;
     private SortedMap<Integer, List<UpdateAwareSystem>> updateSystems;
 
+    private EntitySystemManager entitySystemManager;
 
     public SolGame(String shipName, boolean isTutorial, boolean isNewGame, CommonDrawer commonDrawer, Context context,
                    WorldConfig worldConfig) {
@@ -152,6 +158,7 @@ public class SolGame {
         beaconHandler = new BeaconHandler();
         timeFactor = 1;
 
+        entitySystemManager = context.get(EntitySystemManager.class);
         // the ordering of update aware systems is very important, switching them up can cause bugs!
         updateSystems = new TreeMap<Integer, List<UpdateAwareSystem>>();
         List<UpdateAwareSystem> defaultSystems = new ArrayList<UpdateAwareSystem>();
@@ -306,8 +313,38 @@ public class SolGame {
     public GameScreens getScreens() {
         return gameScreens;
     }
+    private boolean madeLootEntity = false;
+    private int counter = 0;
+    EntityRef entity;
 
     public void update() {
+
+
+        if (!madeLootEntity) {
+
+            entitySystemManager.game = this;
+            entity = entitySystemManager.getEntityManager().createEntity(new DropsLootOnDeath(), new Position(), new Velocity(), new Size());
+
+            Position position = entity.getComponent(Position.class).get();
+            position.position = getHero().getPosition().cpy();
+            position.position.x += 1;
+            position.position.y += 3;
+            entity.setComponent(position);
+
+            Size size = new Size();
+            size.size = 20;
+            entity.setComponent(size);
+
+            madeLootEntity = true;
+            System.out.println("Made loot entity");
+        }
+        System.out.println(getHero().getPosition());
+        counter++;
+        if (counter == 500) {
+            entitySystemManager.sendEvent(new DestroyEvent(), entity);
+            System.out.println("Destroyed the loot entity");
+        }
+
         if (paused) {
             onPausedUpdateSystems.keySet().forEach(key -> onPausedUpdateSystems.get(key).forEach(system -> system.update(this, timeStep)));
         } else {

@@ -16,6 +16,7 @@
 package org.destinationsol.entitysystem;
 
 import com.google.common.collect.Lists;
+import org.destinationsol.game.SolGame;
 import org.destinationsol.game.context.Context;
 import org.destinationsol.util.InjectionHelper;
 import org.terasology.gestalt.entitysystem.component.Component;
@@ -41,6 +42,7 @@ public class EntitySystemManager {
     private static EntityManager entityManager;
     private final EventSystem eventSystem = new EventSystemImpl();
     private static final EventReceiverMethodSupport eventReceiverMethodSupport = new EventReceiverMethodSupport();
+    public SolGame game;
 
     public EntitySystemManager(ModuleEnvironment environment, ComponentManager componentManager, Context context) {
 

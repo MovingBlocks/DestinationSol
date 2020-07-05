@@ -19,6 +19,7 @@ import com.badlogic.gdx.math.Vector2;
 import org.destinationsol.common.In;
 import org.destinationsol.common.SolMath;
 import org.destinationsol.common.SolRandom;
+import org.destinationsol.entitysystem.EntitySystemManager;
 import org.destinationsol.entitysystem.EventReceiver;
 import org.destinationsol.game.SolGame;
 import org.destinationsol.game.item.Loot;
@@ -43,7 +44,7 @@ import java.util.List;
 public class LootDroppingSystem implements EventReceiver {
 
     @In
-    private SolGame game;
+    private EntitySystemManager entitySystemManager;
 
     @ReceiveEvent(components = {DropsLootOnDeath.class, Position.class, Velocity.class, Size.class})
     @Before(DefaultDestructionSystem.class)
@@ -52,6 +53,8 @@ public class LootDroppingSystem implements EventReceiver {
         Vector2 basePosition = entity.getComponent(Position.class).get().position;
         Vector2 baseVelocity = entity.getComponent(Velocity.class).get().velocity;
         float size = entity.getComponent(Size.class).get().size;
+
+        SolGame game = entitySystemManager.game;
 
         float thrMoney = size * 40f * SolRandom.randomFloat(.3f, 1);
         List<MoneyItem> moneyItems = game.getItemMan().moneyToItems(thrMoney);
