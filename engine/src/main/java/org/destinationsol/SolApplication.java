@@ -96,6 +96,8 @@ public class SolApplication implements ApplicationListener {
     private float timeAccumulator = 0;
     private boolean isMobile;
 
+    private ComponentManager componentManager;
+
     // TODO: Make this non-static.
     private static Set<ResizeSubscriber> resizeSubscribers;
 
@@ -119,23 +121,12 @@ public class SolApplication implements ApplicationListener {
         }
         options = new GameOptions(isMobile(), null);
 
-        ComponentManager componentManager = new ComponentManager();
+        componentManager = new ComponentManager();
         AssetHelper helper = new AssetHelper();
         helper.init(moduleManager.getEnvironment(), componentManager, isMobile);
         Assets.initialize(helper);
-        entitySystemManager = new EntitySystemManager(moduleManager.getEnvironment(), componentManager, context);
 
         context.put(ComponentSystemManager.class, new ComponentSystemManager(moduleManager.getEnvironment(), context));
-
-        // Big, fat, ugly HACK to get a working classloader
-        // Serialisation and thus a classloader is not needed when there are no components
-        Iterator<Class<? extends Component>> componentClasses =
-                moduleManager.getEnvironment().getSubtypesOf(Component.class).iterator();
-        SerialisationManager serialisationManager = new SerialisationManager(
-                SaveManager.getResourcePath("entity_store.dat"), entitySystemManager.getEntityManager(),
-                componentClasses.hasNext() ? componentClasses.next().getClassLoader() : null);
-        context.put(SerialisationManager.class, serialisationManager);
-
         logger.info("\n\n ------------------------------------------------------------ \n");
         moduleManager.printAvailableModules();
 
@@ -281,6 +272,22 @@ public class SolApplication implements ApplicationListener {
         context.get(ComponentSystemManager.class).preBegin();
         FactionInfo factionInfo = new FactionInfo();
         solGame = new SolGame(shipName, tut, isNewGame, commonDrawer, context, worldConfig);
+
+        context.put(SolGame.class, solGame);
+
+        entitySystemManager = new EntitySystemManager(moduleManager.getEnvironment(), componentManager, context);
+
+
+        // Big, fat, ugly HACK to get a working classloader
+        // Serialisation and thus a classloader is not needed when there are no components
+        Iterator<Class<? extends Component>> componentClasses =
+                moduleManager.getEnvironment().getSubtypesOf(Component.class).iterator();
+        SerialisationManager serialisationManager = new SerialisationManager(
+                SaveManager.getResourcePath("entity_store.dat"), entitySystemManager.getEntityManager(),
+                componentClasses.hasNext() ? componentClasses.next().getClassLoader() : null);
+        context.put(SerialisationManager.class, serialisationManager);
+
+
         factionDisplay = new FactionDisplay(solGame, factionInfo);
         inputManager.setScreen(this, solGame.getScreens().mainGameScreen);
     }
