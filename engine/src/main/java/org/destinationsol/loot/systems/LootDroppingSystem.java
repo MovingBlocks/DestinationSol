@@ -20,8 +20,11 @@ import org.destinationsol.common.In;
 import org.destinationsol.common.SolMath;
 import org.destinationsol.common.SolRandom;
 import org.destinationsol.entitysystem.EventReceiver;
+import org.destinationsol.game.ObjectManager;
 import org.destinationsol.game.SolGame;
+import org.destinationsol.game.item.ItemManager;
 import org.destinationsol.game.item.Loot;
+import org.destinationsol.game.item.LootBuilder;
 import org.destinationsol.game.item.MoneyItem;
 import org.destinationsol.location.components.Position;
 import org.destinationsol.location.components.Velocity;
@@ -45,6 +48,15 @@ public class LootDroppingSystem implements EventReceiver {
     @In
     private SolGame game;
 
+    @In
+    private LootBuilder lootBuilder;
+
+    @In
+    private ItemManager itemManager;
+
+    @In
+    private ObjectManager objectManager;
+
     @ReceiveEvent(components = {DropsLootOnDeath.class, Position.class, Velocity.class, Size.class})
     @Before(DefaultDestructionSystem.class)
     public EventResult onDestroy(DestroyEvent event, EntityRef entity) {
@@ -54,7 +66,7 @@ public class LootDroppingSystem implements EventReceiver {
         float size = entity.getComponent(Size.class).get().size;
 
         float thrMoney = size * 40f * SolRandom.randomFloat(.3f, 1);
-        List<MoneyItem> moneyItems = game.getItemMan().moneyToItems(thrMoney);
+        List<MoneyItem> moneyItems = itemManager.moneyToItems(thrMoney);
         for (MoneyItem item : moneyItems) {
             float velocityAngle = SolRandom.randomFloat(180);
             Vector2 lootVelocity = new Vector2();
@@ -63,8 +75,8 @@ public class LootDroppingSystem implements EventReceiver {
             Vector2 lootPosition = new Vector2();
             SolMath.fromAl(lootPosition, velocityAngle, SolRandom.randomFloat(0, size / 2));
             lootPosition.add(basePosition);
-            Loot l = game.getLootBuilder().build(game, lootPosition, item, lootVelocity, Loot.MAX_LIFE, SolRandom.randomFloat(Loot.MAX_ROT_SPD), null);
-            game.getObjectManager().addObjDelayed(l);
+            Loot l = lootBuilder.build(game, lootPosition, item, lootVelocity, Loot.MAX_LIFE, SolRandom.randomFloat(Loot.MAX_ROT_SPD), null);
+            objectManager.addObjDelayed(l);
         }
 
         return EventResult.CONTINUE;
