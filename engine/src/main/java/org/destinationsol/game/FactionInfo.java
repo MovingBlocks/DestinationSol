@@ -34,11 +34,11 @@ public class FactionInfo {
     private static ArrayList<String> factionColor = new ArrayList<String>();
     private static ArrayList<Integer> factionDisposition = new ArrayList<Integer>();
 
-    public FactionInfo() {
+    public static void init() {
         createFactionList();
     }
 
-    private void createFactionList() {
+    private static void createFactionList() {
         for (String modulePath : getModuleSet()) {
             Json factionJson = Assets.getJson(modulePath);
             Validator.getValidatedJSON(modulePath, "engine:schemaFactions");

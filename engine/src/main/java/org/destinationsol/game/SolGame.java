@@ -110,6 +110,9 @@ public class SolGame {
 
     public SolGame(String shipName, boolean isTutorial, boolean isNewGame, CommonDrawer commonDrawer, Context context,
                    WorldConfig worldConfig) {
+        // TODO: make this non-static
+        FactionInfo.init();
+
         this.isTutorial = isTutorial;
         solApplication = context.get(SolApplication.class);
         ModuleManager moduleManager = context.get(ModuleManager.class);
@@ -198,6 +201,7 @@ public class SolGame {
 
         // from this point we're ready!
         respawnState = new RespawnState();
+        SolRandom.setSeed(worldConfig.getSeed());
         planetManager.fill(solNames, worldConfig.getNumberOfSystems());
         createGame(shipName, isNewGame);
         if (!isNewGame) {
@@ -273,6 +277,7 @@ public class SolGame {
         } else {
             context.remove(TutorialManager.class, tutorialManager);
         }
+        FactionInfo.clearValues();
         objectManager.dispose();
     }
 
