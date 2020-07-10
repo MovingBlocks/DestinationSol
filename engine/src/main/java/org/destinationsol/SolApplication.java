@@ -253,13 +253,7 @@ public class SolApplication implements ApplicationListener {
     }
 
     public void play(boolean tut, String shipName, boolean isNewGame, WorldConfig worldConfig) {
-        if (!isNewGame) {
-            try {
-                context.get(SerialisationManager.class).deserialise();
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-        }
+
         context.get(ComponentSystemManager.class).preBegin();
         solGame = new SolGame(shipName, tut, isNewGame, commonDrawer, context, worldConfig);
         context.put(SolGame.class, solGame);
@@ -280,6 +274,13 @@ public class SolApplication implements ApplicationListener {
                 componentClasses.hasNext() ? componentClasses.next().getClassLoader() : null);
         context.put(SerialisationManager.class, serialisationManager);
 
+        if (!isNewGame) {
+            try {
+                context.get(SerialisationManager.class).deserialise();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
 
         factionDisplay = new FactionDisplay(solGame.getCam());
         inputManager.setScreen(this, solGame.getScreens().mainGameScreen);
