@@ -60,6 +60,7 @@ import org.destinationsol.ui.DebugCollector;
 import org.destinationsol.ui.TutorialManager;
 import org.destinationsol.ui.UiDrawer;
 import org.destinationsol.ui.Waypoint;
+import org.destinationsol.util.InjectionHelper;
 import org.terasology.gestalt.entitysystem.entity.EntityRef;
 
 import java.util.ArrayList;
@@ -139,6 +140,7 @@ public class SolGame {
         SolNames solNames = new SolNames();
         planetManager = new PlanetManager(hullConfigManager, gameColors, itemManager);
         SolContactListener contactListener = new SolContactListener(this);
+        InjectionHelper.inject(contactListener, context);
         factionManager = new FactionManager();
         objectManager = new ObjectManager(contactListener, factionManager);
         gridDrawer = new GridDrawer();
