@@ -30,12 +30,16 @@ import org.destinationsol.entitysystem.ComponentSystemManager;
 import org.destinationsol.entitysystem.EntitySystemManager;
 import org.destinationsol.entitysystem.SerialisationManager;
 import org.destinationsol.game.DebugOptions;
+import org.destinationsol.game.FactionInfo;
+import org.destinationsol.game.ObjectManager;
 import org.destinationsol.game.SaveManager;
 import org.destinationsol.game.SolGame;
 import org.destinationsol.game.WorldConfig;
 import org.destinationsol.game.console.adapter.ParameterAdapterManager;
 import org.destinationsol.game.context.Context;
 import org.destinationsol.game.context.internal.ContextImpl;
+import org.destinationsol.game.item.ItemManager;
+import org.destinationsol.game.item.LootBuilder;
 import org.destinationsol.menu.MenuScreens;
 import org.destinationsol.menu.background.MenuBackgroundManager;
 import org.destinationsol.modules.ModuleManager;
@@ -258,8 +262,11 @@ public class SolApplication implements ApplicationListener {
         }
         context.get(ComponentSystemManager.class).preBegin();
         solGame = new SolGame(shipName, tut, isNewGame, commonDrawer, context, worldConfig);
-
         context.put(SolGame.class, solGame);
+
+        context.put(LootBuilder.class, solGame.getLootBuilder());
+        context.put(ItemManager.class, solGame.getItemMan());
+        context.put(ObjectManager.class, solGame.getObjectManager());
 
         entitySystemManager = new EntitySystemManager(moduleManager.getEnvironment(), componentManager, context);
 
