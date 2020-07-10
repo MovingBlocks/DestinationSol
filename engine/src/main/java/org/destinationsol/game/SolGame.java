@@ -141,6 +141,7 @@ public class SolGame {
         SolNames solNames = new SolNames();
         planetManager = new PlanetManager(hullConfigManager, gameColors, itemManager);
         SolContactListener contactListener = new SolContactListener(this);
+        InjectionHelper.inject(contactListener, context);
         factionManager = new FactionManager();
         objectManager = new ObjectManager(contactListener, factionManager);
         gridDrawer = new GridDrawer();

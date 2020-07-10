@@ -17,6 +17,7 @@ package org.destinationsol.force.events;
 
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Contact;
+import org.terasology.gestalt.entitysystem.event.Event;
 
 /**
  * Event that represents the magnitude of a sudden, instantaneous force applied to an entity, like the impact of a
@@ -26,7 +27,7 @@ import com.badlogic.gdx.physics.box2d.Contact;
  * This does not represent anything that is an application of continuous force, like gravity. That type of occurrence
  * is handled by {@link ForceEvent}.
  */
-public class ImpulseEvent {
+public class ImpulseEvent implements Event {
 
     private Vector2 contactPosition;
     private float magnitude;
