@@ -1,0 +1,23 @@
+{
+  "entity": {
+    "Asteroid": {
+    },
+    "BodyLinked": {
+    },
+    "Health": {
+      "maxHealth": "40",
+      "currentHealth": "40"
+    },
+    "Angle": {
+    },
+    "Position": {
+    },
+    "Velocity": {
+    },
+    "DropsLoot": {
+    },
+    "Size": {
+      "size": "2"
+    }
+  }
+}

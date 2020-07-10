@@ -38,6 +38,7 @@ import org.destinationsol.game.WorldConfig;
 import org.destinationsol.game.console.adapter.ParameterAdapterManager;
 import org.destinationsol.game.context.Context;
 import org.destinationsol.game.context.internal.ContextImpl;
+import org.destinationsol.location.components.Position;
 import org.destinationsol.menu.MenuScreens;
 import org.destinationsol.menu.background.MenuBackgroundManager;
 import org.destinationsol.modules.ModuleManager;
@@ -53,6 +54,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.terasology.gestalt.entitysystem.component.Component;
 import org.terasology.gestalt.entitysystem.component.management.ComponentManager;
+import org.terasology.gestalt.entitysystem.entity.EntityRef;
 import org.terasology.gestalt.module.sandbox.API;
 
 import java.io.PrintWriter;
@@ -283,6 +285,13 @@ public class SolApplication implements ApplicationListener {
         solGame = new SolGame(shipName, tut, isNewGame, commonDrawer, context, worldConfig);
         factionDisplay = new FactionDisplay(solGame, factionInfo);
         inputManager.setScreen(this, solGame.getScreens().mainGameScreen);
+
+        EntityRef entity = entitySystemManager.getEntityManager().createEntity(Assets.getPrefab("core:asteroid"));
+        Position position = entity.getComponent(Position.class).get();
+        position.position = solGame.getHero().getPosition().cpy();
+        position.position.x += 1;
+        position.position.y += 3;
+        entity.setComponent(position);
     }
 
     public SolInputManager getInputManager() {
