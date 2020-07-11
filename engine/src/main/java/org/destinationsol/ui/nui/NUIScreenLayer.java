@@ -15,9 +15,9 @@
  */
 package org.destinationsol.ui.nui;
 
+import org.joml.Vector2i;
 import org.terasology.input.ButtonState;
 import org.terasology.input.Keyboard;
-import org.terasology.math.geom.Vector2i;
 import org.terasology.nui.AbstractWidget;
 import org.terasology.nui.Canvas;
 import org.terasology.nui.FocusManager;

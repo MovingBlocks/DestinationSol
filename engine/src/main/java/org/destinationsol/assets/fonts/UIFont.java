@@ -17,7 +17,7 @@ package org.destinationsol.assets.fonts;
 
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.GlyphLayout;
-import org.terasology.math.geom.Vector2i;
+import org.joml.Vector2i;
 import org.terasology.nui.backends.libgdx.LibGDXFont;
 
 import java.util.List;

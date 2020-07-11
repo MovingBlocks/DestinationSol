@@ -89,7 +89,7 @@ public class NUIManager {
     }
 
     public void update(SolApplication solApplication) {
-        canvas.processMousePosition(mouse.getPosition());
+        canvas.processMousePosition(mouse.getMousePosition());
         canvas.setGameTime(System.currentTimeMillis());
 
         for (KeyboardAction action : keyboard.getInputQueue()) {
