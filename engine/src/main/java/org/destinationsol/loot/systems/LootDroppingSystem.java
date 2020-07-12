@@ -45,6 +45,9 @@ import java.util.List;
  */
 public class LootDroppingSystem implements EventReceiver {
 
+    private final float MIN_MULTIPLIER = 12f;
+    private final float MAX_MULTIPLIER = 40f;
+
     @In
     private SolGame game;
 
@@ -65,8 +68,8 @@ public class LootDroppingSystem implements EventReceiver {
         Vector2 baseVelocity = entity.getComponent(Velocity.class).get().velocity;
         float size = entity.getComponent(Size.class).get().size;
 
-        float thrMoney = size * 40f * SolRandom.randomFloat(.3f, 1);
-        List<MoneyItem> moneyItems = itemManager.moneyToItems(thrMoney);
+        float moneyAmount = size * SolRandom.randomFloat(MIN_MULTIPLIER, MAX_MULTIPLIER);
+        List<MoneyItem> moneyItems = itemManager.moneyToItems(moneyAmount);
         for (MoneyItem item : moneyItems) {
             float velocityAngle = SolRandom.randomFloat(180);
             Vector2 lootVelocity = new Vector2();
@@ -75,8 +78,8 @@ public class LootDroppingSystem implements EventReceiver {
             Vector2 lootPosition = new Vector2();
             SolMath.fromAl(lootPosition, velocityAngle, SolRandom.randomFloat(0, size / 2));
             lootPosition.add(basePosition);
-            Loot l = lootBuilder.build(game, lootPosition, item, lootVelocity, Loot.MAX_LIFE, SolRandom.randomFloat(Loot.MAX_ROT_SPD), null);
-            objectManager.addObjDelayed(l);
+            Loot loot = lootBuilder.build(game, lootPosition, item, lootVelocity, Loot.MAX_LIFE, SolRandom.randomFloat(Loot.MAX_ROT_SPD), null);
+            objectManager.addObjDelayed(loot);
         }
 
         return EventResult.CONTINUE;
