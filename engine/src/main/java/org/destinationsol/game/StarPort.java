@@ -44,7 +44,7 @@ import java.util.List;
 public class StarPort implements SolObject {
     public static final int SIZE = 8;
 
-    private static final float DIST_FROM_PLANET = Const.PLANET_GAP * .5f;
+    public static final float DIST_FROM_PLANET = Const.PLANET_GAP * .5f;
     private static final float FARE = 10f;
     private final Body body;
     private final ArrayList<LightSource> lightSources;
