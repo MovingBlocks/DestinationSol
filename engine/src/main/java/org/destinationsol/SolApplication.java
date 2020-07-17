@@ -153,7 +153,7 @@ public class SolApplication implements ApplicationListener {
         inputManager.setScreen(this, menuScreens.main);
         parameterAdapterManager = ParameterAdapterManager.createCore(this);
 
-        nuiManager = new NUIManager(this, commonDrawer);
+        nuiManager = new NUIManager(this, commonDrawer, options);
     }
 
     @Override

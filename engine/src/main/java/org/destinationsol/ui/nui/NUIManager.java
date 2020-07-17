@@ -18,6 +18,7 @@ package org.destinationsol.ui.nui;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import org.destinationsol.CommonDrawer;
+import org.destinationsol.GameOptions;
 import org.destinationsol.SolApplication;
 import org.destinationsol.assets.Assets;
 import org.destinationsol.assets.sound.OggSound;
@@ -64,7 +65,7 @@ public class NUIManager {
     private static final String BUTTON_CLICK_URN = "engine:uiHover";
     private static final float BUTTON_CLICK_PITCH = 0.9f;
 
-    public NUIManager(SolApplication solApplication, CommonDrawer commonDrawer) {
+    public NUIManager(SolApplication solApplication, CommonDrawer commonDrawer, GameOptions options) {
         NUIInputProcessor.CONSUME_INPUT = true;
 
         mouse = new LibGDXMouseDevice();
@@ -86,6 +87,8 @@ public class NUIManager {
 
         // NOTE: SolApplication::addResizeSubscriber is not intended to be static, so use the instance form for compatibility
         solApplication.addResizeSubscriber(() -> resize(Gdx.graphics.getBackBufferWidth(), Gdx.graphics.getBackBufferHeight()));
+
+        setUiScale(options.getNuiUiScale());
     }
 
     public void update(SolApplication solApplication) {
@@ -215,5 +218,10 @@ public class NUIManager {
 
     public void resize(int width, int height) {
         canvasRenderer.resize(width, height);
+    }
+
+    public void setUiScale(float scale) {
+        canvas.setUiScale(1.0f / scale);
+        canvasRenderer.setUiScale(scale);
     }
 }

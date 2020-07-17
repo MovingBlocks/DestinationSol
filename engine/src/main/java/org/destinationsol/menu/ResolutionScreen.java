@@ -41,17 +41,22 @@ public class ResolutionScreen extends SolUiBaseScreen {
     private final SolUiControl closeControl;
     private final SolUiControl resolutionControl;
     private final SolUiControl fullscreenControl;
+    private final SolUiControl nuiUIScaleControl;
 
     ResolutionScreen(MenuLayout menuLayout, GameOptions gameOptions) {
         displayDimensions = SolApplication.displayDimensions;
 
-        resolutionControl = new SolUiControl(menuLayout.buttonRect(-1, 2), true);
+        resolutionControl = new SolUiControl(menuLayout.buttonRect(-1, 1), true);
         resolutionControl.setDisplayName("Resolution");
         controls.add(resolutionControl);
 
-        fullscreenControl = new SolUiControl(menuLayout.buttonRect(-1, 3), true);
+        fullscreenControl = new SolUiControl(menuLayout.buttonRect(-1, 2), true);
         fullscreenControl.setDisplayName("Fullscreen");
         controls.add(fullscreenControl);
+
+        nuiUIScaleControl = new SolUiControl(menuLayout.buttonRect(-1, 3), true);
+        nuiUIScaleControl.setDisplayName("Map Pan Speed");
+        controls.add(nuiUIScaleControl);
 
         closeControl = new SolUiControl(menuLayout.buttonRect(-1, 4), true, gameOptions.getKeyEscape());
         closeControl.setDisplayName("Back");
@@ -99,6 +104,12 @@ public class ResolutionScreen extends SolUiBaseScreen {
         fullscreenControl.setDisplayName(options.fullscreen ? "Fullscreen" : "Windowed");
         if (fullscreenControl.isJustOff()) {
             options.advanceFullscreen();
+        }
+
+        nuiUIScaleControl.setDisplayName("NUI UI scale: " + options.getNuiUiScale());
+        if (nuiUIScaleControl.isJustOff()) {
+            options.advanceNuiUiScale();
+            solApplication.getNuiManager().setUiScale(options.getNuiUiScale());
         }
 
         solApplication.getMenuBackgroundManager().update();

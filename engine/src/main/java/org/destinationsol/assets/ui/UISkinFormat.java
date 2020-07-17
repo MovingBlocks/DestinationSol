@@ -226,7 +226,7 @@ public class UISkinFormat extends AbstractAssetFileFormat<UISkinData> {
             }
             if (json.isJsonPrimitive()) {
                 // NOTE: Integer.parseUnsignedInt is not available on Android API 24 (7.0).
-                //       Since we're still pulling-in Guava, we use it's equivalent.
+                //       Since we still have Guava, we use its equivalent.
                 return new Color(UnsignedInts.parseUnsignedInt(json.getAsString(), 16));
             }
 
