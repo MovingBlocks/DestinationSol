@@ -79,11 +79,13 @@ public class ResolutionScreen extends SolUiBaseScreen {
                 }
                 if (mode != null) {
                     Gdx.graphics.setFullscreenMode(mode);
+                    solApplication.getNuiManager().resize(mode.width, mode.height);
                 } else {
                     logger.warn("The resolution {}x{} is not supported in fullscreen mode!", options.x, options.y);
                 }
             } else {
                 Gdx.graphics.setWindowedMode(options.x, options.y);
+                solApplication.getNuiManager().resize(options.x, options.y);
             }
             inputManager.setScreen(solApplication, solApplication.getMenuScreens().options);
             return;

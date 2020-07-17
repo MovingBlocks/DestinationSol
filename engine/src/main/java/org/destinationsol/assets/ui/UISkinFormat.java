@@ -1,6 +1,7 @@
 package org.destinationsol.assets.ui;
 
 import com.google.common.base.Charsets;
+import com.google.common.primitives.UnsignedInts;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.JsonArray;
@@ -224,7 +225,9 @@ public class UISkinFormat extends AbstractAssetFileFormat<UISkinData> {
                 return new Color(array.get(0).getAsFloat(), array.get(1).getAsFloat(), array.get(2).getAsFloat(), array.get(3).getAsFloat());
             }
             if (json.isJsonPrimitive()) {
-                return new Color(Integer.parseUnsignedInt(json.getAsString(), 16));
+                // NOTE: Integer.parseUnsignedInt is not available on Android API 24 (7.0).
+                //       Since we're still pulling-in Guava, we use it's equivalent.
+                return new Color(UnsignedInts.parseUnsignedInt(json.getAsString(), 16));
             }
 
             return null;

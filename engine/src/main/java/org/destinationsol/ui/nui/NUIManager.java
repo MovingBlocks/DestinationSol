@@ -85,7 +85,7 @@ public class NUIManager {
         UIText.DEFAULT_CURSOR_TEXTURE = whiteTexture;
 
         // NOTE: SolApplication::addResizeSubscriber is not intended to be static, so use the instance form for compatibility
-        solApplication.addResizeSubscriber(() -> canvasRenderer.resize(Gdx.graphics.getWidth(), Gdx.graphics.getHeight()));
+        solApplication.addResizeSubscriber(() -> resize(Gdx.graphics.getBackBufferWidth(), Gdx.graphics.getBackBufferHeight()));
     }
 
     public void update(SolApplication solApplication) {
@@ -211,5 +211,9 @@ public class NUIManager {
 
     public UISkin getDefaultSkin() {
         return skin;
+    }
+
+    public void resize(int width, int height) {
+        canvasRenderer.resize(width, height);
     }
 }
