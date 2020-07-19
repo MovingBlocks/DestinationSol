@@ -29,11 +29,14 @@ public final class Graphics implements Component<Graphics> {
 
     @Override
     public void copy(Graphics other) {
-        elements.clear();
-        for (GraphicsElement data : other.elements) {
-                elements.add(data);
+        ArrayList<GraphicsElement> newElements = new ArrayList<>();
+        for (int index = 0; index < other.elements.size(); index++) {
+            GraphicsElement data = new GraphicsElement();
+            data.copy(other.elements.get(index));
+            newElements.add(data);
 
         }
+        this.elements = newElements;
     }
 
 

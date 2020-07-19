@@ -18,9 +18,8 @@ package org.destinationsol.drawable;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.math.Vector2;
 import org.destinationsol.game.drawables.DrawableLevel;
-import org.terasology.gestalt.entitysystem.component.Component;
 
-public class GraphicsElement implements Component<GraphicsElement> {
+public class GraphicsElement {
 
     /**
      * Represents the texture of this graphics element.
@@ -42,11 +41,11 @@ public class GraphicsElement implements Component<GraphicsElement> {
      */
     public float relativeAngle;
 
-    @Override
+
     public void copy(GraphicsElement other) {
         this.texture = other.texture;
         this.drawableLevel = other.drawableLevel;
-        this.relativePosition = other.relativePosition;
+        this.relativePosition = other.relativePosition.cpy();
         this.relativeAngle = other.relativeAngle;
     }
 }
