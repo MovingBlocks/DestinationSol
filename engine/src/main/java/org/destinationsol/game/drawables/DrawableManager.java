@@ -22,9 +22,11 @@ import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.OrderedMap;
+import org.destinationsol.assets.Assets;
 import org.destinationsol.common.DebugCol;
 import org.destinationsol.common.In;
 import org.destinationsol.common.SolMath;
+import org.destinationsol.common.SolRandom;
 import org.destinationsol.drawable.components.Graphics;
 import org.destinationsol.drawable.GraphicsElement;
 import org.destinationsol.drawable.components.Invisibility;
@@ -40,6 +42,7 @@ import org.destinationsol.location.components.Angle;
 import org.destinationsol.location.components.Position;
 import org.terasology.gestalt.entitysystem.entity.EntityIterator;
 import org.terasology.gestalt.entitysystem.entity.EntityRef;
+import org.terasology.gestalt.entitysystem.entity.NullEntityRef;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -205,11 +208,32 @@ public class DrawableManager {
     }
 
 
+    private boolean entityCreated = false;
+
     /**
      * This handles the drawing of each entity with a {@link Graphics} component.
      */
     private void drawEntities(SolGame game) {
+
+        if (!entityCreated) {
+            //The following creates an entity that is drawn on the screen
+            GraphicsElement element = new GraphicsElement();
+            element.texture = SolRandom.randomElement(Assets.listTexturesMatching("engine:asteroid_.*"));
+            element.relativePosition = new Vector2(0, 0);
+            element.drawableLevel = DrawableLevel.BODIES;
+            Graphics graphicsComponent = new Graphics();
+            graphicsComponent.elements.add(element);
+            System.out.println(graphicsComponent.elements.get(0).texture.name);
+
+            Position position = new Position();
+            position.position = game.getHero().getShip().getPosition();
+            EntityRef entityRef = entitySystemManager.getEntityManager().createEntity(graphicsComponent, position, new Angle());
+            entityRef.setComponent(graphicsComponent);
+            entityRef.setComponent(position);
+            entityCreated = true;
+        }
         EntityIterator iterator = entitySystemManager.getEntityManager().iterate(new Graphics(), new Position(), new Angle());
+
         while (iterator.next()) {
             EntityRef entity = iterator.getEntity();
             if (!entity.hasComponent(Invisibility.class)) {
@@ -219,12 +243,12 @@ public class DrawableManager {
                 float baseAngle = entity.getComponent(Angle.class).get().getAngle();
 
                 for (GraphicsElement graphicsElement : graphics.elements) {
-                    Vector2 graphicsPosition = new Vector2();
-                    SolMath.toWorld(graphicsPosition, graphicsElement.relativePosition, baseAngle, basePosition);
+                    Vector2 graphicsPositionOffset = new Vector2();
+                    SolMath.toWorld(graphicsPositionOffset, graphicsElement.relativePosition, baseAngle, basePosition);
                     float angle = graphicsElement.relativeAngle + baseAngle;
 
-                    float x = graphicsPosition.x;
-                    float y = graphicsPosition.y;
+                    float x = graphicsPositionOffset.x;
+                    float y = graphicsPositionOffset.y;
 
                     if (graphicsElement.drawableLevel.depth != 1) {
                         Vector2 camPosition = game.getCam().getPosition();
@@ -232,7 +256,7 @@ public class DrawableManager {
                         y = (y - camPosition.y) / graphicsElement.drawableLevel.depth + camPosition.y;
                     }
 
-                    drawer.draw(graphicsElement.texture, x, y);
+                    drawer.draw(graphicsElement.texture, x + basePosition.x, y + basePosition.y);
                 }
             }
         }

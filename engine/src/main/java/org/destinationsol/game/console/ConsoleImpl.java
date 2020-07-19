@@ -26,6 +26,7 @@ import org.destinationsol.game.SolGame;
 import org.destinationsol.game.console.annotations.RegisterCommands;
 import org.destinationsol.game.console.exceptions.CommandExecutionException;
 import org.destinationsol.game.context.Context;
+import org.destinationsol.game.drawables.DrawableManager;
 import org.destinationsol.modules.ModuleManager;
 import org.destinationsol.util.CircularBuffer;
 import org.destinationsol.util.InjectionHelper;
@@ -98,6 +99,8 @@ public class ConsoleImpl implements Console {
                 e.printStackTrace();
             }
         }
+
+        InjectionHelper.inject(context.get(DrawableManager.class), context);
     }
 
     /**
