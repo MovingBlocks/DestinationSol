@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.destinationsol.loot.components;
+package org.destinationsol.moneyDropping.components;
 
 import org.destinationsol.game.item.Loot;
 import org.terasology.gestalt.entitysystem.component.Component;
@@ -21,9 +21,9 @@ import org.terasology.gestalt.entitysystem.component.Component;
 /**
  * Indicates that when the entity is destroyed, one or more {@link Loot} objects should be created.
  */
-public class DropsLootOnDeath implements Component<DropsLootOnDeath> {
+public class DropsMoneyOnDeath implements Component<DropsMoneyOnDeath> {
     @Override
-    public void copy(DropsLootOnDeath other) {
+    public void copy(DropsMoneyOnDeath other) {
 
     }
 }

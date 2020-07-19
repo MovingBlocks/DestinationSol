@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.destinationsol.loot.systems;
+package org.destinationsol.moneyDropping.systems;
 
 import com.badlogic.gdx.math.Vector2;
 import org.destinationsol.common.In;
@@ -28,7 +28,7 @@ import org.destinationsol.game.item.LootBuilder;
 import org.destinationsol.game.item.MoneyItem;
 import org.destinationsol.location.components.Position;
 import org.destinationsol.location.components.Velocity;
-import org.destinationsol.loot.components.DropsLootOnDeath;
+import org.destinationsol.moneyDropping.components.DropsMoneyOnDeath;
 import org.destinationsol.removal.DefaultDestructionSystem;
 import org.destinationsol.removal.DestroyEvent;
 import org.destinationsol.size.components.Size;
@@ -40,10 +40,10 @@ import org.terasology.gestalt.entitysystem.event.ReceiveEvent;
 import java.util.List;
 
 /**
- * When an entity with a {@link DropsLootOnDeath} component is destroyed, this system creates an amount of loot based
+ * When an entity with a {@link DropsMoneyOnDeath} component is destroyed, this system creates an amount of money based
  * on its {@link Size}.
  */
-public class LootDroppingSystem implements EventReceiver {
+public class MoneyDroppingSystem implements EventReceiver {
 
     private final float MIN_MULTIPLIER = 12f;
     private final float MAX_MULTIPLIER = 40f;
@@ -60,7 +60,7 @@ public class LootDroppingSystem implements EventReceiver {
     @In
     private ObjectManager objectManager;
 
-    @ReceiveEvent(components = {DropsLootOnDeath.class, Position.class, Velocity.class, Size.class})
+    @ReceiveEvent(components = {DropsMoneyOnDeath.class, Position.class, Velocity.class, Size.class})
     @Before(DefaultDestructionSystem.class)
     public EventResult onDestroy(DestroyEvent event, EntityRef entity) {
 
@@ -72,14 +72,14 @@ public class LootDroppingSystem implements EventReceiver {
         List<MoneyItem> moneyItems = itemManager.moneyToItems(moneyAmount);
         for (MoneyItem item : moneyItems) {
             float velocityAngle = SolRandom.randomFloat(180);
-            Vector2 lootVelocity = new Vector2();
-            SolMath.fromAl(lootVelocity, velocityAngle, SolRandom.randomFloat(0, Loot.MAX_SPD));
-            lootVelocity.add(baseVelocity);
-            Vector2 lootPosition = new Vector2();
-            SolMath.fromAl(lootPosition, velocityAngle, SolRandom.randomFloat(0, size / 2));
-            lootPosition.add(basePosition);
-            Loot loot = lootBuilder.build(game, lootPosition, item, lootVelocity, Loot.MAX_LIFE, SolRandom.randomFloat(Loot.MAX_ROT_SPD), null);
-            objectManager.addObjDelayed(loot);
+            Vector2 moneyVelocity = new Vector2();
+            SolMath.fromAl(moneyVelocity, velocityAngle, SolRandom.randomFloat(0, Loot.MAX_SPD));
+            moneyVelocity.add(baseVelocity);
+            Vector2 moneyPosition = new Vector2();
+            SolMath.fromAl(moneyPosition, velocityAngle, SolRandom.randomFloat(0, size / 2));
+            moneyPosition.add(basePosition);
+            Loot money = lootBuilder.build(game, moneyPosition, item, moneyVelocity, Loot.MAX_LIFE, SolRandom.randomFloat(Loot.MAX_ROT_SPD), null);
+            objectManager.addObjDelayed(money);
         }
 
         return EventResult.CONTINUE;
