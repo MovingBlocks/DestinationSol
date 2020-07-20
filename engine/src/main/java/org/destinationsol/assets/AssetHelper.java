@@ -73,6 +73,7 @@ public class AssetHelper {
                                 new ModuleEnvironmentDependencyProvider(environment))),
                 componentManager, assetTypeManager.getAssetManager()).create());
 
+        // The NUI widgets are loaded here so that they can be found when reading the UI JSON files (in UIFormat.UIWidgetTypeAdapter)
         ReflectFactory reflectFactory = new ReflectionReflectFactory();
         WidgetLibrary widgetLibrary = new WidgetLibrary(environment, reflectFactory, new CopyStrategyLibrary(reflectFactory));
         for (Class<? extends UIWidget> widgetClass : environment.getSubtypesOf(UIWidget.class)) {

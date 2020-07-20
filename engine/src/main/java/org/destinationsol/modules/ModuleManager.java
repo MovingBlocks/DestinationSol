@@ -185,7 +185,7 @@ public class ModuleManager {
             ModuleFactory moduleFactory = new ModuleFactory();
             engineModule = moduleFactory.createPackageModule("org.destinationsol");
             // TODO: Find a better way to do this!
-            Module nuiModule = new Module(new ModuleMetadata(new Name("nui"), new Version("0.2.0")), new EmptyFileSource(),
+            Module nuiModule = new Module(new ModuleMetadata(new Name("nui"), new Version("2.0.0-SNAPSHOT")), new EmptyFileSource(),
                     Collections.emptyList(), new Reflections("org.terasology.nui"), x -> {
                 String classPackageName = Reflection.getPackageName(x);
                 return "org.terasology.nui".equals(classPackageName) || classPackageName.startsWith("org.terasology.nui.");

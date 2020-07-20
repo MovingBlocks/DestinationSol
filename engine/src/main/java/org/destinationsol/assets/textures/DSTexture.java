@@ -40,6 +40,10 @@ public class DSTexture extends Asset<DSTextureData> {
         return dsTextureData.getTexture();
     }
 
+    /**
+     * Obtains the NUI {@link UITextureRegion} associated with this texture.
+     * @return the assoicated UI texture
+     */
     public UITextureRegion getUiTexture() {
         return dsTextureData;
     }

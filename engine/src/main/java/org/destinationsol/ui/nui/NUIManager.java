@@ -122,6 +122,7 @@ public class NUIManager {
         OggSound sound = Assets.getSound(BUTTON_CLICK_URN);
         sound.setBasePitch(BUTTON_CLICK_PITCH);
 
+        // NUI widgets do not know how to obtain assets directly, so we need to provide defaults values here.
         UIButton.DEFAULT_CLICK_SOUND = sound;
         UIText.DEFAULT_CURSOR_TEXTURE = whiteTexture;
 

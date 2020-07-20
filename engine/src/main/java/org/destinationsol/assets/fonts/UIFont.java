@@ -23,7 +23,8 @@ import org.terasology.nui.backends.libgdx.LibGDXFont;
 import java.util.List;
 
 /**
- * This class wraps a {@link Font} asset in order to adapt it to NUI's LibGDX back-end.
+ * This class wraps a {@link Font} asset in order to adapt it to NUI's LibGDX back-end. It handles font scaling,
+ * so that NUI renders correctly.
  */
 public class UIFont extends LibGDXFont {
     private float fontScale;
