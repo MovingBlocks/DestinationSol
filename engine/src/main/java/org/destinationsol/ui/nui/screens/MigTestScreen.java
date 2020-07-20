@@ -28,6 +28,9 @@ import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
 
+/**
+ * A test screen used to verify that NUI widgets render and interact correctly. It was taken from Terasology.
+ */
 public class MigTestScreen extends NUIScreenLayer {
     @Override
     public void initialise() {

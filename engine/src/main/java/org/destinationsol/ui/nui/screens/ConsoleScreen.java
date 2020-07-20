@@ -33,6 +33,10 @@ import org.terasology.nui.widgets.UIText;
 
 import java.util.List;
 
+/**
+ * The console screen. You can enter commands into this UI and they will be executed. The logic is in {@link Console}.
+ * This was taken from Terasology originally.
+ */
 public class ConsoleScreen extends NUIScreenLayer {
     private Console console;
     private UICommandEntry commandLine;
