@@ -27,7 +27,7 @@ buildscript {
         classpath 'dom4j:dom4j:1.6.1'
 
         // HACK: Needed for NUI reflections
-        classpath group: 'org.terasology.nui', name: 'nui', version: '0.2'
+        classpath group: 'org.terasology.nui', name: 'nui', version: '2.0.0-SNAPSHOT'
         classpath group: 'javax.servlet', name: 'javax.servlet-api', version: '3.0.1'
     }
 }
@@ -41,8 +41,8 @@ dependencies {
     compile(group: 'org.terasology.gestalt', name: 'gestalt-entity-system', version: '7.0.5')
     compile(group: 'org.terasology.gestalt', name: 'gestalt-module', version: '7.0.5')
     compile(group: 'org.terasology.gestalt', name: 'gestalt-util', version: '7.0.5')
-    compile group: 'org.terasology.nui', name: 'nui', version: '0.2'
-    compile group: 'org.terasology.nui', name: 'nui-libgdx', version: '0.2'
+    compile group: 'org.terasology.nui', name: 'nui', version: '2.0.0-SNAPSHOT'
+    compile group: 'org.terasology.nui', name: 'nui-libgdx', version: '2.0.0-SNAPSHOT'
     compile group: 'org.terasology', name: 'TeraMath', version: '1.5.0'
 
     compile group: 'com.google.protobuf', name: 'protobuf-java', version: '3.4.0'

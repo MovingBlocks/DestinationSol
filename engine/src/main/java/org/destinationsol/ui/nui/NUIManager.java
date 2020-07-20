@@ -49,22 +49,62 @@ import java.util.Deque;
 import java.util.Iterator;
 import java.util.LinkedList;
 
+/**
+ *  The NUI Manager is responsible for the initialisation and interaction between the NUI library and the game.
+ *  It manages the rendering and update cycles of NUI widgets, which are contained in {@link NUIScreenLayer}
+ *  containers. Each NUIScreenLayer manages its own UI-specific logic and rendering.
+ */
 public class NUIManager {
+    /**
+     * This LibGDX renderer used for NUI. It shares a SpriteBatch with the main game, although not a ShapeRenderer.
+     */
     private LibGDXCanvasRenderer canvasRenderer;
+    /**
+     * The game's canvas, which is used for all NUI rendering operations. See also {@link NUIManager#canvasRenderer}.
+     */
     private CanvasImpl canvas;
+    /**
+     * A blank white texture, used by-default for the text cursor.
+     */
     private UITextureRegion whiteTexture;
+    /**
+     * The NUI mouse device. Receives input directly form LibGDX, independently of the game.
+     */
     private MouseDevice mouse;
+    /**
+     * The NUI keyboard device. Receives input directly from LibHDX, independently of the game.
+     */
     private KeyboardDevice keyboard;
+    /**
+     * This allows NUI to determine which widgets are in-focus at the moment, which is used primarily for tabbing.
+     */
     private FocusManager focusManager;
+    /**
+     * The default UI skin used by all widgets.
+     */
     private UISkin skin;
 
+    /**
+     * The UI stack. The elements are rendered from most recently added to least recent, so a stack-like structure
+     * was used.
+     */
     private Deque<NUIScreenLayer> uiScreens = new LinkedList<>();
 
     private static final String WHITE_TEXTURE_URN = "engine:uiWhiteTex";
     private static final String DEFAULT_SKIN_URN = "engine:default";
     private static final String BUTTON_CLICK_URN = "engine:uiHover";
+    /**
+     * The value 0.9 was found from {@link org.destinationsol.ui.SolInputManager#playClick}, so it was copied here to
+     * retain the same click sound as the built-in UI.
+     */
     private static final float BUTTON_CLICK_PITCH = 0.9f;
 
+    /**
+     * Creates and initialises a new NUIManager instance, which involves initialising a canvas and NUI input handlers.
+     * @param solApplication the application to use for initialisation
+     * @param commonDrawer used to directly access the game's LibGDX {@link com.badlogic.gdx.graphics.g2d.SpriteBatch}
+     * @param options used to initialise the UI scale with its previously-saved value
+     */
     public NUIManager(SolApplication solApplication, CommonDrawer commonDrawer, GameOptions options) {
         NUIInputProcessor.CONSUME_INPUT = true;
 
@@ -91,6 +131,10 @@ public class NUIManager {
         setUiScale(options.getNuiUiScale());
     }
 
+    /**
+     * Processes NUI input events (Keyboard and Mouse) and updates all UI layers.
+     * @param solApplication the application to use
+     */
     public void update(SolApplication solApplication) {
         canvas.processMousePosition(mouse.getMousePosition());
         canvas.setGameTime(System.currentTimeMillis());
@@ -152,6 +196,10 @@ public class NUIManager {
         }
     }
 
+    /**
+     * Renders all UI layers.
+     * @param gameDrawer used to directly access the game's LibGDX {@link com.badlogic.gdx.graphics.g2d.SpriteBatch}
+     */
     public void draw(CommonDrawer gameDrawer) {
         gameDrawer.getSpriteBatch().flush();
 
@@ -170,10 +218,18 @@ public class NUIManager {
         gameDrawer.getSpriteBatch().flush();
     }
 
+    /**
+     * Obtains the topmost screen (rendered on-top of all others)
+     * @return the topmost screen
+     */
     public NUIScreenLayer getTopScreen() {
         return uiScreens.peek();
     }
 
+    /**
+     * Pushes a screen onto the UI stack.
+     * @param layer the screen to add
+     */
     public void pushScreen(NUIScreenLayer layer) {
         uiScreens.push(layer);
 
@@ -182,6 +238,10 @@ public class NUIManager {
         layer.initialise();
     }
 
+    /**
+     * Removes the topmost screen from the UI stack and returns it.
+     * @return the topmost screen
+     */
     public NUIScreenLayer popScreen() {
         if (!uiScreens.isEmpty()) {
             uiScreens.peek().onRemoved();
@@ -189,15 +249,29 @@ public class NUIManager {
         return uiScreens.pop();
     }
 
+    /**
+     * Removes a screen form the UI stack. It is no longer updated or drawn.
+     * @param screen the screen to remove
+     */
     public void removeScreen(NUIScreenLayer screen) {
         screen.onRemoved();
         uiScreens.remove(screen);
     }
 
+    /**
+     * States if a screen is currently present on the UI stack.
+     * @param screen the screen to search for
+     * @return true if the screen is currently on the UI stack, otherwise false
+     */
     public boolean hasScreen(NUIScreenLayer screen) {
         return uiScreens.contains(screen);
     }
 
+    /**
+     * States if a screen of a specified type is present on the UI stack.
+     * @param type the type of screen to search for
+     * @return true if a screen of the specified type is currently on the UI stack, otherwise false
+     */
     public boolean hasScreenOfType(Class<? extends NUIScreenLayer> type) {
         for (NUIScreenLayer screenLayer : uiScreens) {
             if (screenLayer.getClass().isAssignableFrom(type)) {
@@ -208,18 +282,37 @@ public class NUIManager {
         return false;
     }
 
+    /**
+     * Returns all of the UI screens currently on the UI stack.
+     * @return the UI stack
+     */
     public Deque<NUIScreenLayer> getScreens() {
         return uiScreens;
     }
 
+    /**
+     * Returns the default {@link UISkin} for widgets.
+     * @return the default {@link UISkin}
+     */
     public UISkin getDefaultSkin() {
         return skin;
     }
 
+    /**
+     * Re-sizes the current canvas to a particular width and height. This is not always the same as the game's current
+     * rendering resolution.
+     * @param width the width to use
+     * @param height the height to use
+     */
     public void resize(int width, int height) {
         canvasRenderer.resize(width, height);
     }
 
+    /**
+     * Sets the UI scale to a specified value. This will internally render the UI at specified scale and up-scale it
+     * to the target resolution.
+     * @param scale the new UI scale to use
+     */
     public void setUiScale(float scale) {
         canvas.setUiScale(1.0f / scale);
         canvasRenderer.setUiScale(scale);
