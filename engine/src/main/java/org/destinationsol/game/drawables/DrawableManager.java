@@ -25,6 +25,7 @@ import com.badlogic.gdx.utils.OrderedMap;
 import org.destinationsol.assets.Assets;
 import org.destinationsol.common.DebugCol;
 import org.destinationsol.common.In;
+import org.destinationsol.common.SolColor;
 import org.destinationsol.common.SolMath;
 import org.destinationsol.common.SolRandom;
 import org.destinationsol.drawable.components.Graphics;
@@ -42,7 +43,6 @@ import org.destinationsol.location.components.Angle;
 import org.destinationsol.location.components.Position;
 import org.terasology.gestalt.entitysystem.entity.EntityIterator;
 import org.terasology.gestalt.entitysystem.entity.EntityRef;
-import org.terasology.gestalt.entitysystem.entity.NullEntityRef;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -223,12 +223,12 @@ public class DrawableManager {
             element.drawableLevel = DrawableLevel.BODIES;
             Graphics graphicsComponent = new Graphics();
             graphicsComponent.elements.add(element);
-            System.out.println(graphicsComponent.elements.get(0).texture.name);
 
             Position position = new Position();
-            position.position = game.getHero().getShip().getPosition();
+            position.position = game.getHero().getShip().getPosition().cpy();
             EntityRef entityRef = entitySystemManager.getEntityManager().createEntity(graphicsComponent, position, new Angle());
             entityRef.setComponent(graphicsComponent);
+            position.position.y += 1;
             entityRef.setComponent(position);
             entityCreated = true;
         }
@@ -255,8 +255,14 @@ public class DrawableManager {
                         x = (x - camPosition.x) / graphicsElement.drawableLevel.depth + camPosition.x;
                         y = (y - camPosition.y) / graphicsElement.drawableLevel.depth + camPosition.y;
                     }
+                    drawer.draw(graphicsElement.texture, graphicsElement.texture.getRegionWidth(),
+                            graphicsElement.texture.getRegionHeight(), basePosition.x, basePosition.y, 10, 10, angle, SolColor.WHITE );
 
-                    drawer.draw(graphicsElement.texture, x + basePosition.x, y + basePosition.y);
+//                    I tried these two lines, and neither of these worked either:
+//                    SpriteManager.createStaticSprite(graphicsElement.texture, 100, 100, 100,
+//                            graphicsPositionOffset, graphicsElement.drawableLevel, angle, 0, SolColor.WHITE, true);
+//                    SpriteManager.createSprite("engine:asteroid_1", 10, 1, 1,
+//                            graphicsPositionOffset, DrawableLevel.BODIES, angle, 1, SolColor.WHITE, true).draw(drawer, game);
                 }
             }
         }
