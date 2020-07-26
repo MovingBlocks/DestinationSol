@@ -52,10 +52,6 @@ public class GameDrawer {
     }
 
 
-    public void draw(TextureAtlas.AtlasRegion texture, float x, float y) {
-        myDrawer.draw(texture, x, y);
-    }
-
     public void draw(TextureRegion tr, float width, float height, float origX, float origY, float x, float y,
                      float rot, Color tint) {
         maybeChangeAdditive(false);
