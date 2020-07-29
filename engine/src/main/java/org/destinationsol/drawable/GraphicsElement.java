@@ -15,6 +15,7 @@
  */
 package org.destinationsol.drawable;
 
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.math.Vector2;
 import org.destinationsol.game.drawables.DrawableLevel;
@@ -25,6 +26,16 @@ public class GraphicsElement {
      * Represents the texture of this graphics element.
      */
     public TextureAtlas.AtlasRegion texture;
+
+    /**
+     * The width of the texture.
+     */
+    public float width;
+
+    /**
+     * The height of the texture.
+     */
+    public float height;
 
     /**
      * Represents the depth at which this drawable renders, as well as its logical grouping.
@@ -41,12 +52,19 @@ public class GraphicsElement {
      */
     public float relativeAngle;
 
+    /**
+     * The tint that the texture should be given.
+     */
+    public Color tint;
 
     public void copy(GraphicsElement other) {
         this.texture = other.texture;
         this.drawableLevel = other.drawableLevel;
         this.relativePosition = other.relativePosition.cpy();
         this.relativeAngle = other.relativeAngle;
+        this.width = other.width;
+        this.height = other.height;
+        this.tint = other.tint;
     }
 }
 
