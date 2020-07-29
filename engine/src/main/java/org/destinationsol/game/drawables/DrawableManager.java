@@ -28,8 +28,8 @@ import org.destinationsol.common.In;
 import org.destinationsol.common.SolColor;
 import org.destinationsol.common.SolMath;
 import org.destinationsol.common.SolRandom;
-import org.destinationsol.drawable.components.Graphics;
 import org.destinationsol.drawable.GraphicsElement;
+import org.destinationsol.drawable.components.Graphics;
 import org.destinationsol.drawable.components.Invisibility;
 import org.destinationsol.entitysystem.EntitySystemManager;
 import org.destinationsol.game.DebugOptions;
@@ -256,13 +256,8 @@ public class DrawableManager {
                         y = (y - camPosition.y) / graphicsElement.drawableLevel.depth + camPosition.y;
                     }
                     drawer.draw(graphicsElement.texture, graphicsElement.texture.getRegionWidth(),
-                            graphicsElement.texture.getRegionHeight(), basePosition.x, basePosition.y, 10, 10, angle, SolColor.WHITE );
+                            graphicsElement.texture.getRegionHeight(), graphicsElement.texture.getRegionWidth() / 2, graphicsElement.texture.getRegionHeight() / 2, game.getHero().getPosition().x, game.getHero().getPosition().y, angle, SolColor.WHITE);
 
-//                    I tried these two lines, and neither of these worked either:
-//                    SpriteManager.createStaticSprite(graphicsElement.texture, 100, 100, 100,
-//                            graphicsPositionOffset, graphicsElement.drawableLevel, angle, 0, SolColor.WHITE, true);
-//                    SpriteManager.createSprite("engine:asteroid_1", 10, 1, 1,
-//                            graphicsPositionOffset, DrawableLevel.BODIES, angle, 1, SolColor.WHITE, true).draw(drawer, game);
                 }
             }
         }
