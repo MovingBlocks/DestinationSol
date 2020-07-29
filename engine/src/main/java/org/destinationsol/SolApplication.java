@@ -18,7 +18,9 @@ package org.destinationsol;
 import com.badlogic.gdx.Application;
 import com.badlogic.gdx.ApplicationListener;
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
+import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Box2D;
 import org.destinationsol.assets.AssetHelper;
 import org.destinationsol.assets.Assets;
@@ -26,6 +28,10 @@ import org.destinationsol.assets.music.OggMusicManager;
 import org.destinationsol.assets.sound.OggSoundManager;
 import org.destinationsol.common.SolColor;
 import org.destinationsol.common.SolMath;
+import org.destinationsol.common.SolRandom;
+import org.destinationsol.drawable.GraphicsElement;
+import org.destinationsol.drawable.components.Graphics;
+import org.destinationsol.drawable.events.RenderEvent;
 import org.destinationsol.entitysystem.ComponentSystemManager;
 import org.destinationsol.entitysystem.EntitySystemManager;
 import org.destinationsol.entitysystem.SerialisationManager;
@@ -40,6 +46,9 @@ import org.destinationsol.game.context.Context;
 import org.destinationsol.game.context.internal.ContextImpl;
 import org.destinationsol.game.item.ItemManager;
 import org.destinationsol.game.item.LootBuilder;
+import org.destinationsol.game.drawables.DrawableLevel;
+import org.destinationsol.location.components.Angle;
+import org.destinationsol.location.components.Position;
 import org.destinationsol.menu.MenuScreens;
 import org.destinationsol.menu.background.MenuBackgroundManager;
 import org.destinationsol.modules.ModuleManager;
@@ -55,6 +64,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.terasology.gestalt.entitysystem.component.Component;
 import org.terasology.gestalt.entitysystem.component.management.ComponentManager;
+import org.terasology.gestalt.entitysystem.entity.EntityRef;
 import org.terasology.gestalt.module.sandbox.API;
 
 import java.io.PrintWriter;
@@ -121,6 +131,7 @@ public class SolApplication implements ApplicationListener {
         options = new GameOptions(isMobile(), null);
 
         componentManager = new ComponentManager();
+        ComponentManager componentManager = new ComponentManager();
         AssetHelper helper = new AssetHelper();
         helper.init(moduleManager.getEnvironment(), componentManager, isMobile);
         Assets.initialize(helper);
@@ -137,6 +148,7 @@ public class SolApplication implements ApplicationListener {
 
         displayDimensions = new DisplayDimensions(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
         commonDrawer = new CommonDrawer();
+        context.put(CommonDrawer.class, commonDrawer);
         uiDrawer = new UiDrawer(commonDrawer);
         layouts = new SolLayouts();
 
@@ -227,11 +239,36 @@ public class SolApplication implements ApplicationListener {
         SolMath.checkVectorsTaken(null);
     }
 
+    private boolean entityCreated = false;
+
     private void draw() {
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
         commonDrawer.begin();
+
         if (solGame != null) {
+
+            entitySystemManager.sendEvent(new RenderEvent(), new Graphics(), new Position());
             solGame.draw();
+            if (!entityCreated) {
+                //The following creates an entity that is drawn on the screen
+                GraphicsElement element = new GraphicsElement();
+                element.texture = SolRandom.randomElement(Assets.listTexturesMatching("engine:asteroid_.*"));
+                element.relativePosition = new Vector2(0, 0);
+                element.drawableLevel = DrawableLevel.BODIES;
+                element.width = 2;
+                element.height = 2;
+                element.tint = Color.YELLOW;
+                Graphics graphicsComponent = new Graphics();
+                graphicsComponent.elements.add(element);
+
+                Position position = new Position();
+                position.position = solGame.getHero().getShip().getPosition().cpy();
+                EntityRef entityRef = entitySystemManager.getEntityManager().createEntity(graphicsComponent, position, new Angle());
+                entityRef.setComponent(graphicsComponent);
+                position.position.y += 1;
+                entityRef.setComponent(position);
+                entityCreated = true;
+            }
         }
         uiDrawer.updateMtx();
         inputManager.draw(uiDrawer, this);

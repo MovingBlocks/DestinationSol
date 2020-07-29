@@ -120,6 +120,7 @@ public class SolGame {
         solApplication = context.get(SolApplication.class);
         ModuleManager moduleManager = context.get(ModuleManager.class);
         GameDrawer drawer = new GameDrawer(commonDrawer);
+        context.put(GameDrawer.class, drawer);
         gameColors = new GameColors();
         soundManager = solApplication.getSoundManager();
         specialSounds = new SpecialSounds(soundManager);

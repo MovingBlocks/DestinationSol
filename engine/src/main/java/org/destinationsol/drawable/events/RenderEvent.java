@@ -24,5 +24,5 @@ import org.terasology.gestalt.entitysystem.event.Event;
 /**
  * Event that tells the {@link DrawableManager} to update the drawings of each entity with a {@link Graphics}.
  */
-public class GraphicsUpdateEvent implements Event {
+public class RenderEvent implements Event {
 }

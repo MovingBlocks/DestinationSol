@@ -22,16 +22,7 @@ import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.OrderedMap;
-import org.destinationsol.assets.Assets;
 import org.destinationsol.common.DebugCol;
-import org.destinationsol.common.In;
-import org.destinationsol.common.SolColor;
-import org.destinationsol.common.SolMath;
-import org.destinationsol.common.SolRandom;
-import org.destinationsol.drawable.GraphicsElement;
-import org.destinationsol.drawable.components.Graphics;
-import org.destinationsol.drawable.components.Invisibility;
-import org.destinationsol.entitysystem.EntitySystemManager;
 import org.destinationsol.game.DebugOptions;
 import org.destinationsol.game.GameDrawer;
 import org.destinationsol.game.MapDrawer;
@@ -39,10 +30,6 @@ import org.destinationsol.game.ObjectManager;
 import org.destinationsol.game.SolCam;
 import org.destinationsol.game.SolGame;
 import org.destinationsol.game.SolObject;
-import org.destinationsol.location.components.Angle;
-import org.destinationsol.location.components.Position;
-import org.terasology.gestalt.entitysystem.entity.EntityIterator;
-import org.terasology.gestalt.entitysystem.entity.EntityRef;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -56,8 +43,6 @@ public class DrawableManager {
     private final Set<Drawable> visibleDrawables = new HashSet<>();
     private final GameDrawer drawer;
 
-    @In
-    private EntitySystemManager entitySystemManager;
 
     public DrawableManager(GameDrawer drawer) {
         drawableLevels = DrawableLevel.values();
@@ -134,8 +119,6 @@ public class DrawableManager {
         Vector2 camPos = cam.getPosition();
         float viewDistance = cam.getViewDistance();
 
-        drawEntities(game);
-
         ObjectManager objectManager = game.getObjectManager();
         List<SolObject> objects = objectManager.getObjects();
         for (SolObject object : objects) {
@@ -205,66 +188,6 @@ public class DrawableManager {
 
         game.getSoundManager().drawDebug(drawer, game);
         drawer.maybeChangeAdditive(false);
-    }
-
-
-    private boolean entityCreated = false;
-
-    /**
-     * This handles the drawing of each entity with a {@link Graphics} component.
-     */
-    private void drawEntities(SolGame game) {
-
-        if (!entityCreated) {
-            //The following creates an entity that is drawn on the screen
-            GraphicsElement element = new GraphicsElement();
-            element.texture = SolRandom.randomElement(Assets.listTexturesMatching("engine:asteroid_.*"));
-            element.relativePosition = new Vector2(0, 0);
-            element.drawableLevel = DrawableLevel.BODIES;
-            element.width = 2;
-            element.height = 2;
-            element.tint = Color.YELLOW;
-            Graphics graphicsComponent = new Graphics();
-            graphicsComponent.elements.add(element);
-
-            Position position = new Position();
-            position.position = game.getHero().getShip().getPosition().cpy();
-            EntityRef entityRef = entitySystemManager.getEntityManager().createEntity(graphicsComponent, position, new Angle());
-            entityRef.setComponent(graphicsComponent);
-            position.position.y += 1;
-            entityRef.setComponent(position);
-            entityCreated = true;
-        }
-        EntityIterator iterator = entitySystemManager.getEntityManager().iterate(new Graphics(), new Position(), new Angle());
-
-        while (iterator.next()) {
-            EntityRef entity = iterator.getEntity();
-            if (!entity.hasComponent(Invisibility.class)) {
-
-                Graphics graphics = entity.getComponent(Graphics.class).get();
-                Vector2 basePosition = entity.getComponent(Position.class).get().position;
-                float baseAngle = entity.getComponent(Angle.class).get().getAngle();
-
-                for (GraphicsElement graphicsElement : graphics.elements) {
-                    Vector2 graphicsPositionOffset = new Vector2();
-                    SolMath.toWorld(graphicsPositionOffset, graphicsElement.relativePosition, baseAngle, basePosition);
-                    float angle = graphicsElement.relativeAngle + baseAngle;
-
-                    float x = graphicsPositionOffset.x;
-                    float y = graphicsPositionOffset.y;
-
-                    if (graphicsElement.drawableLevel.depth != 1) {
-                        Vector2 camPosition = game.getCam().getPosition();
-                        x = (x - camPosition.x) / graphicsElement.drawableLevel.depth + camPosition.x;
-                        y = (y - camPosition.y) / graphicsElement.drawableLevel.depth + camPosition.y;
-                    }
-                    drawer.draw(graphicsElement.texture, graphicsElement.width,
-                            graphicsElement.height, graphicsElement.width / 2, graphicsElement.height / 2,
-                            basePosition.x, basePosition.y, angle, graphicsElement.tint);
-
-                }
-            }
-        }
     }
 
     private void drawDebug(GameDrawer drawer, SolGame game, Drawable drawable) {
