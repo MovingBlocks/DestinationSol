@@ -221,6 +221,9 @@ public class DrawableManager {
             element.texture = SolRandom.randomElement(Assets.listTexturesMatching("engine:asteroid_.*"));
             element.relativePosition = new Vector2(0, 0);
             element.drawableLevel = DrawableLevel.BODIES;
+            element.width = 2;
+            element.height = 2;
+            element.tint = Color.YELLOW;
             Graphics graphicsComponent = new Graphics();
             graphicsComponent.elements.add(element);
 
@@ -255,8 +258,9 @@ public class DrawableManager {
                         x = (x - camPosition.x) / graphicsElement.drawableLevel.depth + camPosition.x;
                         y = (y - camPosition.y) / graphicsElement.drawableLevel.depth + camPosition.y;
                     }
-                    drawer.draw(graphicsElement.texture, graphicsElement.texture.getRegionWidth(),
-                            graphicsElement.texture.getRegionHeight(), graphicsElement.texture.getRegionWidth() / 2, graphicsElement.texture.getRegionHeight() / 2, game.getHero().getPosition().x, game.getHero().getPosition().y, angle, SolColor.WHITE);
+                    drawer.draw(graphicsElement.texture, graphicsElement.width,
+                            graphicsElement.height, graphicsElement.width / 2, graphicsElement.height / 2,
+                            basePosition.x, basePosition.y, angle, graphicsElement.tint);
 
                 }
             }
