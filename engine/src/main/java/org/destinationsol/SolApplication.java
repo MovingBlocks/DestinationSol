@@ -245,8 +245,11 @@ public class SolApplication implements ApplicationListener {
 
         if (solGame != null) {
 
-            entitySystemManager.sendEvent(new RenderEvent(), new Graphics(), new Position());
             solGame.draw();
+
+            //This event causes each entity with a `Graphics` component to be rendered onscreen
+            entitySystemManager.sendEvent(new RenderEvent(), new Graphics(), new Position());
+
             if (!entityCreated) {
                 //The following creates an entity that is drawn on the screen
                 GraphicsElement element = new GraphicsElement();

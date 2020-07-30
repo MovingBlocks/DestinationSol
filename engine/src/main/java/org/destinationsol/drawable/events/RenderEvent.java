@@ -19,8 +19,6 @@ import org.destinationsol.drawable.components.Graphics;
 import org.destinationsol.drawable.systems.GraphicsRenderer;
 import org.terasology.gestalt.entitysystem.event.Event;
 
-//TODO: make use of this instead of GameDrawer.draw()
-
 /**
  * Event that tells the {@link GraphicsRenderer} to update the drawings of each entity with a {@link Graphics}.
  */
