@@ -43,7 +43,6 @@ public class DrawableManager {
     private final Set<Drawable> visibleDrawables = new HashSet<>();
     private final GameDrawer drawer;
 
-
     public DrawableManager(GameDrawer drawer) {
         drawableLevels = DrawableLevel.values();
         this.drawer = drawer;

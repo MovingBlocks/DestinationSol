@@ -51,7 +51,6 @@ public class GameDrawer {
         myDrawer.drawString(s, x, y, size, centered, col);
     }
 
-
     public void draw(TextureRegion tr, float width, float height, float origX, float origY, float x, float y,
                      float rot, Color tint) {
         maybeChangeAdditive(false);

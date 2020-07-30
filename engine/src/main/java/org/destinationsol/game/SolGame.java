@@ -22,12 +22,13 @@ import org.destinationsol.CommonDrawer;
 import org.destinationsol.Const;
 import org.destinationsol.GameOptions;
 import org.destinationsol.SolApplication;
-import org.destinationsol.assets.Assets;
 import org.destinationsol.assets.sound.OggSoundManager;
 import org.destinationsol.assets.sound.SpecialSounds;
-import org.destinationsol.common.*;
-import org.destinationsol.drawable.GraphicsElement;
-import org.destinationsol.drawable.components.Graphics;
+import org.destinationsol.common.DebugCol;
+import org.destinationsol.common.In;
+import org.destinationsol.common.SolException;
+import org.destinationsol.common.SolMath;
+import org.destinationsol.common.SolRandom;
 import org.destinationsol.entitysystem.EntitySystemManager;
 import org.destinationsol.entitysystem.SerialisationManager;
 import org.destinationsol.files.HullConfigManager;
@@ -125,7 +126,6 @@ public class SolGame {
         soundManager = solApplication.getSoundManager();
         specialSounds = new SpecialSounds(soundManager);
         drawableManager = new DrawableManager(drawer);
-        context.put(DrawableManager.class, drawableManager);
         camera = new SolCam();
         gameScreens = new GameScreens(solApplication, context);
         if (isTutorial) {
@@ -347,8 +347,6 @@ public class SolGame {
     }
 
     public void draw() {
-
-
         drawableManager.draw(this);
     }
 

@@ -38,6 +38,4 @@ public final class Graphics implements Component<Graphics> {
         }
         this.elements = newElements;
     }
-
-
 }

@@ -16,13 +16,13 @@
 package org.destinationsol.drawable.events;
 
 import org.destinationsol.drawable.components.Graphics;
-import org.destinationsol.game.drawables.DrawableManager;
+import org.destinationsol.drawable.systems.GraphicsRenderer;
 import org.terasology.gestalt.entitysystem.event.Event;
 
 //TODO: make use of this instead of GameDrawer.draw()
 
 /**
- * Event that tells the {@link DrawableManager} to update the drawings of each entity with a {@link Graphics}.
+ * Event that tells the {@link GraphicsRenderer} to update the drawings of each entity with a {@link Graphics}.
  */
 public class RenderEvent implements Event {
 }

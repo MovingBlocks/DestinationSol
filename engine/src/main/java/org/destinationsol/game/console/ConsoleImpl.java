@@ -99,8 +99,6 @@ public class ConsoleImpl implements Console {
                 e.printStackTrace();
             }
         }
-
-        InjectionHelper.inject(context.get(DrawableManager.class), context);
     }
 
     /**

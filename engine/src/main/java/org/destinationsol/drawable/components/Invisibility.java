@@ -15,11 +15,12 @@
  */
 package org.destinationsol.drawable.components;
 
+import org.destinationsol.drawable.systems.GraphicsRenderer;
 import org.destinationsol.game.GameDrawer;
 import org.terasology.gestalt.entitysystem.component.Component;
 
 /**
- * Denotes that the object should not be drawn by the {@link GameDrawer}.
+ * Denotes that the object should not be drawn by the {@link GraphicsRenderer}.
  */
 public class Invisibility implements Component<Invisibility> {
     @Override

@@ -131,7 +131,6 @@ public class SolApplication implements ApplicationListener {
         options = new GameOptions(isMobile(), null);
 
         componentManager = new ComponentManager();
-        ComponentManager componentManager = new ComponentManager();
         AssetHelper helper = new AssetHelper();
         helper.init(moduleManager.getEnvironment(), componentManager, isMobile);
         Assets.initialize(helper);
@@ -148,7 +147,6 @@ public class SolApplication implements ApplicationListener {
 
         displayDimensions = new DisplayDimensions(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
         commonDrawer = new CommonDrawer();
-        context.put(CommonDrawer.class, commonDrawer);
         uiDrawer = new UiDrawer(commonDrawer);
         layouts = new SolLayouts();
 

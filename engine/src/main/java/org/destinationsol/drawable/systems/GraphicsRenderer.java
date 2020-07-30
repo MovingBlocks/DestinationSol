@@ -60,9 +60,9 @@ public class GraphicsRenderer implements EventReceiver {
                 drawer.draw(graphicsElement.texture, graphicsElement.width,
                         graphicsElement.height, graphicsElement.width / 2, graphicsElement.height / 2,
                         basePosition.x, basePosition.y, angle, graphicsElement.tint);
-
             }
         }
+
         return EventResult.CONTINUE;
     }
 }
