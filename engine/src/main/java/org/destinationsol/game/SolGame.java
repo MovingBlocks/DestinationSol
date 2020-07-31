@@ -25,6 +25,7 @@ import org.destinationsol.SolApplication;
 import org.destinationsol.assets.sound.OggSoundManager;
 import org.destinationsol.assets.sound.SpecialSounds;
 import org.destinationsol.common.DebugCol;
+import org.destinationsol.common.In;
 import org.destinationsol.common.SolException;
 import org.destinationsol.common.SolMath;
 import org.destinationsol.common.SolRandom;
@@ -60,6 +61,7 @@ import org.destinationsol.ui.DebugCollector;
 import org.destinationsol.ui.TutorialManager;
 import org.destinationsol.ui.UiDrawer;
 import org.destinationsol.ui.Waypoint;
+import org.destinationsol.util.InjectionHelper;
 import org.terasology.gestalt.entitysystem.entity.EntityRef;
 
 import java.util.ArrayList;
@@ -107,6 +109,8 @@ public class SolGame {
     private SortedMap<Integer, List<UpdateAwareSystem>> onPausedUpdateSystems;
     private SortedMap<Integer, List<UpdateAwareSystem>> updateSystems;
 
+    @In
+    private EntitySystemManager entitySystemManager;
 
     public SolGame(String shipName, boolean isTutorial, boolean isNewGame, CommonDrawer commonDrawer, Context context,
                    WorldConfig worldConfig) {
@@ -117,6 +121,7 @@ public class SolGame {
         solApplication = context.get(SolApplication.class);
         ModuleManager moduleManager = context.get(ModuleManager.class);
         GameDrawer drawer = new GameDrawer(commonDrawer);
+        context.put(GameDrawer.class, drawer);
         gameColors = new GameColors();
         soundManager = solApplication.getSoundManager();
         specialSounds = new SpecialSounds(soundManager);
@@ -177,6 +182,7 @@ public class SolGame {
                 }
                 RegisterUpdateSystem registerAnnotation = updateSystemClass.getDeclaredAnnotation(RegisterUpdateSystem.class);
                 UpdateAwareSystem system = (UpdateAwareSystem) updateSystemClass.newInstance();
+                InjectionHelper.inject(system, context);
                 if (!registerAnnotation.paused()) {
                     if (!updateSystems.containsKey(registerAnnotation.priority())) {
                         ArrayList<UpdateAwareSystem> systems = new ArrayList<UpdateAwareSystem>();

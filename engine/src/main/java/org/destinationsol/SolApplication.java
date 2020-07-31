@@ -26,11 +26,12 @@ import org.destinationsol.assets.music.OggMusicManager;
 import org.destinationsol.assets.sound.OggSoundManager;
 import org.destinationsol.common.SolColor;
 import org.destinationsol.common.SolMath;
+import org.destinationsol.rendering.components.Renderable;
+import org.destinationsol.rendering.events.RenderEvent;
 import org.destinationsol.entitysystem.ComponentSystemManager;
 import org.destinationsol.entitysystem.EntitySystemManager;
 import org.destinationsol.entitysystem.SerialisationManager;
 import org.destinationsol.game.DebugOptions;
-import org.destinationsol.game.FactionInfo;
 import org.destinationsol.game.ObjectManager;
 import org.destinationsol.game.SaveManager;
 import org.destinationsol.game.SolGame;
@@ -40,6 +41,7 @@ import org.destinationsol.game.context.Context;
 import org.destinationsol.game.context.internal.ContextImpl;
 import org.destinationsol.game.item.ItemManager;
 import org.destinationsol.game.item.LootBuilder;
+import org.destinationsol.location.components.Position;
 import org.destinationsol.menu.MenuScreens;
 import org.destinationsol.menu.background.MenuBackgroundManager;
 import org.destinationsol.modules.ModuleManager;
@@ -230,8 +232,13 @@ public class SolApplication implements ApplicationListener {
     private void draw() {
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
         commonDrawer.begin();
+
         if (solGame != null) {
+
             solGame.draw();
+
+            //This event causes each entity with a `Graphics` component to be rendered onscreen
+            entitySystemManager.sendEvent(new RenderEvent(), new Renderable(), new Position());
         }
         uiDrawer.updateMtx();
         inputManager.draw(uiDrawer, this);
