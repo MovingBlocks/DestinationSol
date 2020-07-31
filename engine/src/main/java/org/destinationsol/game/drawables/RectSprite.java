@@ -70,8 +70,13 @@ public class RectSprite implements Drawable {
         isAdditive = additive;
     }
 
+    /**
+     * Sets the larger of the dimensions of the texture to the passed-in size, maintaining proportions and
+     * recalculating other fields as needed to fit.
+     * @param textureSize the new size for the sprite
+     */
     public void setTextureSize(float textureSize) {
-        textureSize /= level.depth;
+        textureSize /= level.depth; // Scales the textureSize for background objects
         int dimensionsRatio = texture.getRegionWidth() / texture.getRegionHeight();
         if (dimensionsRatio > 1) {
             textureSizeX = textureSize;
