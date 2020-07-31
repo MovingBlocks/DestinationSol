@@ -264,7 +264,7 @@ public abstract class Assets {
         textureList = null;
     }
 
-    public static List<TextureAtlas.AtlasRegion> listTexturesMatching(String regex) {
+    public static synchronized List<TextureAtlas.AtlasRegion> listTexturesMatching(String regex) {
         boolean listsCached = true;
         if (textureList == null) {
             listsCached = false;
