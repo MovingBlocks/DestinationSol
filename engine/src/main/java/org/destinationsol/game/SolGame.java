@@ -109,9 +109,6 @@ public class SolGame {
     private SortedMap<Integer, List<UpdateAwareSystem>> onPausedUpdateSystems;
     private SortedMap<Integer, List<UpdateAwareSystem>> updateSystems;
 
-    @In
-    private EntitySystemManager entitySystemManager;
-
     public SolGame(String shipName, boolean isTutorial, boolean isNewGame, CommonDrawer commonDrawer, Context context,
                    WorldConfig worldConfig) {
         // TODO: make this non-static

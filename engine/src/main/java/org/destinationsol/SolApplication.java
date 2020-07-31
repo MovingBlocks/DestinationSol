@@ -234,10 +234,9 @@ public class SolApplication implements ApplicationListener {
         commonDrawer.begin();
 
         if (solGame != null) {
-
             solGame.draw();
 
-            //This event causes each entity with a `Graphics` component to be rendered onscreen
+            //This event causes each entity with a `Renderable` component to be rendered onscreen
             entitySystemManager.sendEvent(new RenderEvent(), new Renderable(), new Position());
         }
         uiDrawer.updateMtx();

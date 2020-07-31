@@ -47,13 +47,13 @@ public class RenderableElement {
     public Color tint;
 
     public void copy(RenderableElement other) {
-        this.texture = other.texture;
+        this.texture = new TextureAtlas.AtlasRegion(other.texture);
         this.drawableLevel = other.drawableLevel;
         this.relativePosition = other.relativePosition.cpy();
         this.relativeAngle = other.relativeAngle;
         this.width = other.width;
         this.height = other.height;
-        this.tint = other.tint;
+        this.tint = other.tint.cpy();
     }
 }
 
