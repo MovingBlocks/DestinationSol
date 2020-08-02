@@ -26,14 +26,23 @@ import org.destinationsol.assets.AssetHelper;
 import org.destinationsol.assets.Assets;
 import org.destinationsol.assets.music.OggMusicManager;
 import org.destinationsol.assets.sound.OggSoundManager;
+import org.destinationsol.asteroids.components.Asteroid;
+import org.destinationsol.body.components.BodyLinked;
 import org.destinationsol.common.SolColor;
 import org.destinationsol.common.SolMath;
+import org.destinationsol.common.SolRandom;
 import org.destinationsol.game.DebugOptions;
 import org.destinationsol.game.ObjectManager;
 import org.destinationsol.game.SaveManager;
 import org.destinationsol.game.SolGame;
 import org.destinationsol.game.SolNames;
 import org.destinationsol.game.WorldConfig;
+import org.destinationsol.game.drawables.DrawableLevel;
+import org.destinationsol.health.components.Health;
+import org.destinationsol.location.components.Angle;
+import org.destinationsol.location.components.Velocity;
+import org.destinationsol.moneyDropping.components.DropsMoneyOnDeath;
+import org.destinationsol.rendering.RenderableElement;
 import org.destinationsol.rendering.components.Renderable;
 import org.destinationsol.rendering.events.RenderEvent;
 import org.destinationsol.entitysystem.ComponentSystemManager;
@@ -48,6 +57,7 @@ import org.destinationsol.location.components.Position;
 import org.destinationsol.menu.MenuScreens;
 import org.destinationsol.menu.background.MenuBackgroundManager;
 import org.destinationsol.modules.ModuleManager;
+import org.destinationsol.size.components.Size;
 import org.destinationsol.ui.DebugCollector;
 import org.destinationsol.ui.DisplayDimensions;
 import org.destinationsol.ui.FontSize;
@@ -233,6 +243,8 @@ public class SolApplication implements ApplicationListener {
         SolMath.checkVectorsTaken(null);
     }
 
+    private boolean entityCreated = false;
+
     private void draw() {
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
         commonDrawer.begin();
@@ -242,6 +254,35 @@ public class SolApplication implements ApplicationListener {
 
             //This event causes each entity with a `Renderable` component to be rendered onscreen
             entitySystemManager.sendEvent(new RenderEvent(), new Renderable(), new Position());
+
+            if (!entityCreated) {
+                RenderableElement element = new RenderableElement();
+                element.texture = SolRandom.randomElement(Assets.listTexturesMatching("engine:asteroid_.*"));
+                element.relativePosition = new Vector2(0, 0);
+                element.drawableLevel = DrawableLevel.BODIES;
+                element.width = 2;
+                element.height = 2;
+                element.tint = Color.YELLOW;
+                Renderable graphicsComponent = new Renderable();
+                graphicsComponent.elements.add(element);
+
+                Position position = new Position();
+                position.position = solGame.getHero().getShip().getPosition().cpy();
+                position.position.y += 3;
+
+                Size size = new Size();
+                size.size = 2;
+
+                EntityRef entityRef = entitySystemManager.getEntityManager().createEntity(graphicsComponent, position, size,
+                        new Angle(), new Velocity(), new Asteroid(), new Health(), new DropsMoneyOnDeath());
+
+                entityRef.setComponent(position);
+                entityRef.setComponent(graphicsComponent);
+                entityRef.setComponent(size);
+
+                entityRef.setComponent(new BodyLinked());
+                entityCreated = true;
+            }
         }
         uiDrawer.updateMtx();
         inputManager.draw(uiDrawer, this);
