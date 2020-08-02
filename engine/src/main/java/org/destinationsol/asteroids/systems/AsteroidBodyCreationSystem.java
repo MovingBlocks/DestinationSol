@@ -15,32 +15,30 @@
  */
 package org.destinationsol.asteroids.systems;
 
-import com.badlogic.gdx.graphics.g2d.TextureAtlas;
+import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.BodyDef;
+import com.badlogic.gdx.physics.box2d.FixtureDef;
 import com.badlogic.gdx.physics.box2d.World;
-import org.destinationsol.assets.Assets;
+import org.destinationsol.Const;
 import org.destinationsol.asteroids.components.Asteroid;
 import org.destinationsol.body.events.BodyCreatedEvent;
-import org.destinationsol.body.events.BodyUpdateEvent;
 import org.destinationsol.body.events.GenerateBodyEvent;
 import org.destinationsol.common.In;
-import org.destinationsol.common.SolRandom;
 import org.destinationsol.entitysystem.EntitySystemManager;
 import org.destinationsol.entitysystem.EventReceiver;
 import org.destinationsol.game.CollisionMeshLoader;
-import org.destinationsol.game.drawables.Drawable;
-import org.destinationsol.game.drawables.DrawableLevel;
 import org.destinationsol.location.components.Angle;
 import org.destinationsol.location.components.Position;
+import org.destinationsol.rendering.RenderableElement;
+import org.destinationsol.rendering.components.Renderable;
 import org.destinationsol.size.components.Size;
 import org.terasology.gestalt.entitysystem.entity.EntityRef;
 import org.terasology.gestalt.entitysystem.event.EventResult;
 import org.terasology.gestalt.entitysystem.event.ReceiveEvent;
 
 import java.util.ArrayList;
-import java.util.List;
 
 public class AsteroidBodyCreationSystem implements EventReceiver {
 
@@ -49,27 +47,37 @@ public class AsteroidBodyCreationSystem implements EventReceiver {
     @In
     private EntitySystemManager entitySystemManager;
 
-    //TODO
     @In
     private World world;
 
     private final CollisionMeshLoader collisionMeshLoader = new CollisionMeshLoader("engine:asteroids");
-    private final List<TextureAtlas.AtlasRegion> textures = Assets.listTexturesMatching("engine:asteroid_.*");
 
-    @ReceiveEvent(components = {Asteroid.class, Size.class, Position.class, Angle.class})
+    @ReceiveEvent(components = {Asteroid.class, Size.class, Position.class, Angle.class, Renderable.class})
     public EventResult onGenerateBody(GenerateBodyEvent event, EntityRef entity) {
 
-        TextureAtlas.AtlasRegion texture = SolRandom.randomElement(textures);
+
         float size = entity.getComponent(Size.class).get().size;
         Vector2 position = entity.getComponent(Position.class).get().position;
         float angle = entity.getComponent(Angle.class).get().getAngle();
+        ArrayList<RenderableElement> renderableElements = entity.getComponent(Renderable.class).get().elements;
 
-        ArrayList<Drawable> drawables = new ArrayList<>();
+        //Body creation black box
+        BodyDef bd = new BodyDef();
+        bd.type = BodyDef.BodyType.DynamicBody;
+        bd.angle = angle * MathUtils.degRad;
+        bd.angularDamping = 0;
+        bd.position.set(position);
+        bd.linearDamping = 0;
+        Body body = world.createBody(bd);
 
-        Body body = collisionMeshLoader.getBodyAndSprite(world, texture, size, BodyDef.BodyType.DynamicBody, position, angle, drawables, DENSITY, DrawableLevel.BODIES);
+        for (RenderableElement element : renderableElements) {
+            FixtureDef fixtureDef = new FixtureDef();
+            fixtureDef.density = DENSITY;
+            fixtureDef.friction = Const.FRICTION;
+            collisionMeshLoader.attachFixture(body, element.texture.name, fixtureDef, size);
+        }
 
         entitySystemManager.sendEvent(new BodyCreatedEvent(body), entity);
-
         return EventResult.CONTINUE;
     }
 }
