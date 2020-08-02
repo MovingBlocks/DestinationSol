@@ -17,6 +17,7 @@ package org.destinationsol.game;
 
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.physics.box2d.World;
 import com.badlogic.gdx.utils.Timer;
 import org.destinationsol.CommonDrawer;
 import org.destinationsol.Const;
@@ -138,12 +139,12 @@ public class SolGame {
         itemManager = new ItemManager(soundManager, effectTypes, gameColors);
         AbilityCommonConfigs abilityCommonConfigs = new AbilityCommonConfigs(effectTypes, gameColors, soundManager);
         hullConfigManager = new HullConfigManager(itemManager, abilityCommonConfigs);
-        SolNames solNames = new SolNames();
         planetManager = new PlanetManager(hullConfigManager, gameColors, itemManager);
         SolContactListener contactListener = new SolContactListener(this);
         InjectionHelper.inject(contactListener, context);
         factionManager = new FactionManager();
         objectManager = new ObjectManager(contactListener, factionManager);
+        context.put(World.class, objectManager.getWorld());
         gridDrawer = new GridDrawer();
         chunkManager = new ChunkManager();
         partMan = new PartMan();
@@ -157,6 +158,11 @@ public class SolGame {
         mountDetectDrawer = new MountDetectDrawer();
         beaconHandler = new BeaconHandler();
         timeFactor = 1;
+
+    }
+
+    public void createUpdateSystems(Context context) {
+        ModuleManager moduleManager = context.get(ModuleManager.class);
 
         // the ordering of update aware systems is very important, switching them up can cause bugs!
         updateSystems = new TreeMap<Integer, List<UpdateAwareSystem>>();
@@ -202,8 +208,9 @@ public class SolGame {
         } catch (Exception e) {
             e.printStackTrace();
         }
+    }
 
-        // from this point we're ready!
+    public void startGame(String shipName, boolean isNewGame, WorldConfig worldConfig, SolNames solNames) {
         respawnState = new RespawnState();
         SolRandom.setSeed(worldConfig.getSeed());
         planetManager.fill(solNames, worldConfig.getNumberOfSystems());

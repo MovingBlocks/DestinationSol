@@ -21,10 +21,12 @@ import org.destinationsol.common.In;
 import org.destinationsol.entitysystem.EntitySystemManager;
 import org.destinationsol.game.SolGame;
 import org.destinationsol.game.UpdateAwareSystem;
+import org.destinationsol.game.attributes.RegisterUpdateSystem;
 
 /**
  * Sends a {@link BodyUpdateEvent} every tick to each entity with a {@link BodyLinked} component.
  */
+@RegisterUpdateSystem
 public class BodyUpdateSystem implements UpdateAwareSystem {
 
     @In
