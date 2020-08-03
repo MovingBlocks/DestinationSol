@@ -93,9 +93,7 @@ public class SolGame {
     private final StarPort.Builder starPortBuilder;
     private final OggSoundManager soundManager;
     private final DrawableDebugger drawableDebugger;
-    private final SpecialSounds specialSounds;
     private final SpecialEffects specialEffects;
-    private final GameColors gameColors;
     private final BeaconHandler beaconHandler;
     private final MountDetectDrawer mountDetectDrawer;
     private final TutorialManager tutorialManager;
@@ -109,6 +107,7 @@ public class SolGame {
     private RespawnState respawnState;
     private SortedMap<Integer, List<UpdateAwareSystem>> onPausedUpdateSystems;
     private SortedMap<Integer, List<UpdateAwareSystem>> updateSystems;
+    private Context context;
 
     private EntitySystemManager entitySystemManager;
 
@@ -117,17 +116,31 @@ public class SolGame {
         // TODO: make this non-static
         FactionInfo.init();
 
+        this.context = context;
+
         this.isTutorial = isTutorial;
         solApplication = context.get(SolApplication.class);
         ModuleManager moduleManager = context.get(ModuleManager.class);
+
+
+        //This no longer needs to be instantiated in SolGame
+        GameColors gameColors = new GameColors();
+        context.put(GameColors.class, gameColors);
+
+        //This no longer needs to be instantiated in SolGame
+        soundManager = solApplication.getSoundManager();
+        SpecialSounds specialSounds = new SpecialSounds(soundManager);
+        context.put(SpecialSounds.class, specialSounds);
+
+        //This no longer needs to be instantiated in SolGame
         GameDrawer drawer = new GameDrawer(commonDrawer);
         context.put(GameDrawer.class, drawer);
-        gameColors = new GameColors();
-        soundManager = solApplication.getSoundManager();
-        specialSounds = new SpecialSounds(soundManager);
         drawableManager = new DrawableManager(drawer);
+        context.put(DrawableManager.class, drawableManager);
+
         camera = new SolCam();
         gameScreens = new GameScreens(solApplication, context);
+
         if (isTutorial) {
             tutorialManager = new TutorialManager(gameScreens, solApplication.isMobile(), solApplication.getOptions(), this);
             context.put(TutorialManager.class, tutorialManager);
@@ -233,6 +246,10 @@ public class SolGame {
             }
         }, 0, 30);
         gameScreens.consoleScreen.init(this);
+    }
+
+    public Context getContext() {
+        return context;
     }
 
     private void createGame(String shipName, boolean shouldSpawnOnGalaxySpawnPosition) {
@@ -388,10 +405,6 @@ public class SolGame {
         return camera;
     }
 
-    public DrawableManager getDrawableManager() {
-        return drawableManager;
-    }
-
     public ObjectManager getObjectManager() {
         return objectManager;
     }
@@ -527,16 +540,8 @@ public class SolGame {
         drawableDebugger.draw(uiDrawer);
     }
 
-    public SpecialSounds getSpecialSounds() {
-        return specialSounds;
-    }
-
     public SpecialEffects getSpecialEffects() {
         return specialEffects;
-    }
-
-    public GameColors getCols() {
-        return gameColors;
     }
 
     public float getTimeFactor() {

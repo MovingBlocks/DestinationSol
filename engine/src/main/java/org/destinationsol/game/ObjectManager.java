@@ -189,7 +189,7 @@ public class ObjectManager implements UpdateAwareSystem {
         myObjs.remove(o);
         myRadii.remove(o);
         o.onRemove(game);
-        game.getDrawableManager().removeObject(o);
+        game.getContext().get(DrawableManager.class).removeObject(o);
     }
 
     public void addObjNow(SolGame game, SolObject o) {
@@ -198,7 +198,7 @@ public class ObjectManager implements UpdateAwareSystem {
         }
         myObjs.add(o);
         recalcRadius(o);
-        game.getDrawableManager().addObject(o);
+        game.getContext().get(DrawableManager.class).addObject(o);
     }
 
     private boolean isNear(FarObjData fod, Vector2 camPos, float ts) {

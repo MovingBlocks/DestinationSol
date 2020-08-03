@@ -19,6 +19,7 @@ package org.destinationsol.game.item;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
+import org.destinationsol.assets.sound.SpecialSounds;
 import org.destinationsol.common.SolMath;
 import org.destinationsol.game.DmgType;
 import org.destinationsol.game.FarObject;
@@ -118,7 +119,7 @@ public class Loot implements SolObject {
     @Override
     public void receiveDmg(float dmg, SolGame game, Vector2 position, DmgType dmgType) {
         life -= dmg;
-        game.getSpecialSounds().playHit(game, this, position, dmgType);
+        game.getContext().get(SpecialSounds.class).playHit(game, this, position, dmgType);
     }
 
     @Override
