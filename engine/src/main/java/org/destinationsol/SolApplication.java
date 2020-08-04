@@ -277,10 +277,6 @@ public class SolApplication implements ApplicationListener {
                 EntityRef entityRef = entitySystemManager.getEntityManager().createEntity(graphicsComponent, position, size,
                         new Angle(), new Velocity(), new Asteroid(), new Health(), new DropsMoneyOnDeath());
 
-                entityRef.setComponent(position);
-                entityRef.setComponent(graphicsComponent);
-                entityRef.setComponent(size);
-
                 Health health = entityRef.getComponent(Health.class).get();
                 health.currentHealth = 1;
                 entityRef.setComponent(health);
