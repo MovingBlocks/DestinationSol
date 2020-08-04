@@ -101,6 +101,7 @@ public class SolGame {
     private final MountDetectDrawer mountDetectDrawer;
     private final TutorialManager tutorialManager;
     private final GalaxyFiller galaxyFiller;
+    private final SolContactListener contactListener;
     private Hero hero;
     private float timeStep;
     private float time;
@@ -140,7 +141,7 @@ public class SolGame {
         AbilityCommonConfigs abilityCommonConfigs = new AbilityCommonConfigs(effectTypes, gameColors, soundManager);
         hullConfigManager = new HullConfigManager(itemManager, abilityCommonConfigs);
         planetManager = new PlanetManager(hullConfigManager, gameColors, itemManager);
-        SolContactListener contactListener = new SolContactListener(this);
+        contactListener = new SolContactListener(this);
         InjectionHelper.inject(contactListener, context);
         factionManager = new FactionManager();
         objectManager = new ObjectManager(contactListener, factionManager);
@@ -414,6 +415,10 @@ public class SolGame {
 
     public ShipBuilder getShipBuilder() {
         return shipBuilder;
+    }
+
+    public SolContactListener getContactListener() {
+        return contactListener;
     }
 
     public ItemManager getItemMan() {

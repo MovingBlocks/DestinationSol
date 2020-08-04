@@ -66,6 +66,7 @@ import org.destinationsol.ui.SolInputManager;
 import org.destinationsol.ui.SolLayouts;
 import org.destinationsol.ui.UiDrawer;
 import org.destinationsol.util.FramerateLimiter;
+import org.destinationsol.util.InjectionHelper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.terasology.gestalt.entitysystem.component.Component;
@@ -314,6 +315,8 @@ public class SolApplication implements ApplicationListener {
         context.put(ObjectManager.class, solGame.getObjectManager());
 
         entitySystemManager = new EntitySystemManager(moduleManager.getEnvironment(), componentManager, context);
+
+        InjectionHelper.inject(solGame.getContactListener(), context);
 
         solGame.createUpdateSystems(context);
 

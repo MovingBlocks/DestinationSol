@@ -70,6 +70,8 @@ public class AsteroidBodyCreationSystem implements EventReceiver {
         bd.linearDamping = 0;
         Body body = world.createBody(bd);
 
+        body.setUserData(entity);
+
         for (RenderableElement element : renderableElements) {
             FixtureDef fixtureDef = new FixtureDef();
             fixtureDef.density = DENSITY;
