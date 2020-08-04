@@ -281,6 +281,10 @@ public class SolApplication implements ApplicationListener {
                 entityRef.setComponent(graphicsComponent);
                 entityRef.setComponent(size);
 
+                Health health = entityRef.getComponent(Health.class).get();
+                health.currentHealth = 1;
+                entityRef.setComponent(health);
+                
                 entityRef.setComponent(new BodyLinked());
                 entityCreated = true;
             }
