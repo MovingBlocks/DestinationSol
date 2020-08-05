@@ -29,8 +29,8 @@ import org.destinationsol.game.item.MoneyItem;
 import org.destinationsol.location.components.Position;
 import org.destinationsol.location.components.Velocity;
 import org.destinationsol.moneyDropping.components.DropsMoneyOnDeath;
-import org.destinationsol.removal.DefaultDestructionSystem;
-import org.destinationsol.removal.DestroyEvent;
+import org.destinationsol.removal.systems.DestructionSystem;
+import org.destinationsol.removal.events.DestroyEvent;
 import org.destinationsol.size.components.Size;
 import org.terasology.gestalt.entitysystem.entity.EntityRef;
 import org.terasology.gestalt.entitysystem.event.Before;
@@ -61,7 +61,7 @@ public class MoneyDroppingSystem implements EventReceiver {
     private ObjectManager objectManager;
 
     @ReceiveEvent(components = {DropsMoneyOnDeath.class, Position.class, Velocity.class, Size.class})
-    @Before(DefaultDestructionSystem.class)
+    @Before(DestructionSystem.class)
     public EventResult onDestroy(DestroyEvent event, EntityRef entity) {
 
         Vector2 basePosition = entity.getComponent(Position.class).get().position;

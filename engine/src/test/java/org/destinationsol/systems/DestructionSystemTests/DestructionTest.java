@@ -16,7 +16,7 @@
 package org.destinationsol.systems.DestructionSystemTests;
 
 import org.destinationsol.entitysystem.EntitySystemManager;
-import org.destinationsol.removal.DestroyEvent;
+import org.destinationsol.removal.events.DestroyEvent;
 import org.destinationsol.game.context.internal.ContextImpl;
 import org.destinationsol.modules.ModuleManager;
 import org.junit.Before;
