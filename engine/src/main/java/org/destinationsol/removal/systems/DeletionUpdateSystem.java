@@ -17,23 +17,23 @@ package org.destinationsol.removal.systems;
 
 import org.destinationsol.common.In;
 import org.destinationsol.entitysystem.EntitySystemManager;
-import org.destinationsol.entitysystem.EventReceiver;
-import org.destinationsol.health.components.Health;
-import org.destinationsol.removal.events.ShouldBeDestroyedEvent;
-import org.destinationsol.removal.events.ZeroHealthEvent;
-import org.terasology.gestalt.entitysystem.entity.EntityRef;
-import org.terasology.gestalt.entitysystem.event.ReceiveEvent;
+import org.destinationsol.game.SolGame;
+import org.destinationsol.game.UpdateAwareSystem;
+import org.destinationsol.game.attributes.RegisterUpdateSystem;
+import org.destinationsol.removal.components.SlatedForDeletion;
+import org.destinationsol.removal.events.DeletionEvent;
 
 /**
- * When an entity's {@link Health} drops to zero, this system destroys that entity.
+ * Every tick, this sends a {@link DeletionEvent} to each entity with a {@link SlatedForDeletion} component.
  */
-public class DestroyOnZeroHealthSystem implements EventReceiver {
+@RegisterUpdateSystem
+public class DeletionUpdateSystem implements UpdateAwareSystem {
 
     @In
     private EntitySystemManager entitySystemManager;
 
-    @ReceiveEvent
-    public void onZeroHealth(ZeroHealthEvent event, EntityRef entity) {
-        entitySystemManager.sendEvent(new ShouldBeDestroyedEvent(), entity);
+    @Override
+    public void update(SolGame game, float timeStep) {
+        entitySystemManager.sendEvent(new DeletionEvent(), new SlatedForDeletion());
     }
 }

@@ -13,20 +13,24 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.destinationsol.removal.events;
+package org.destinationsol.removal.components;
 
 import com.badlogic.gdx.physics.box2d.Body;
-import org.destinationsol.removal.components.SlatedForDeletion;
+import org.destinationsol.removal.events.DeletionEvent;
 import org.destinationsol.removal.systems.DeletionUpdateSystem;
 import org.destinationsol.removal.systems.DestructionSystem;
-import org.terasology.gestalt.entitysystem.event.Event;
+import org.terasology.gestalt.entitysystem.component.Component;
 
 /**
- * Event that indicates that an entity no longer needs to exist and thus can be removed. Entities should not be deleted
- * when this event is processed. Instead, a {@link SlatedForDeletion} component should be added to the entity. Every
- * tick, the {@link DeletionUpdateSystem} sends a {@link DeletionEvent} to each entity with a SlatedForDeletion
+ * Indicates that an entity can safely be deleted.
+ * <p>
+ * Every tick, the {@link DeletionUpdateSystem} sends a {@link DeletionEvent} to each entity with a SlatedForDeletion
  * component, which causes the entity to actually be deleted by the {@link DestructionSystem}. This is done so that
  * certain resources, such as libGDX's {@link Body} class, can be disposed of properly before the entity is deleted.
  */
-public class RemovalForOptimizationEvent implements Event {
+public class SlatedForDeletion implements Component<SlatedForDeletion> {
+    @Override
+    public void copy(SlatedForDeletion other) {
+
+    }
 }
