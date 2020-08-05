@@ -31,10 +31,12 @@ import org.destinationsol.location.components.Velocity;
 import org.destinationsol.location.events.AngleUpdateEvent;
 import org.destinationsol.location.events.PositionUpdateEvent;
 import org.destinationsol.location.events.VelocityUpdateEvent;
+import org.destinationsol.removal.events.DeletionEvent;
+import org.destinationsol.removal.systems.DestructionSystem;
 import org.terasology.gestalt.entitysystem.entity.EntityRef;
+import org.terasology.gestalt.entitysystem.event.Before;
 import org.terasology.gestalt.entitysystem.event.EventResult;
 import org.terasology.gestalt.entitysystem.event.ReceiveEvent;
-import org.terasology.gestalt.entitysystem.event.lifecycle.OnRemoved;
 
 import java.util.HashMap;
 
@@ -103,7 +105,16 @@ public class BodyHandlerSystem implements EventReceiver {
         return EventResult.CONTINUE;
     }
 
-    public void removeBody(EntityRef entity) {
+    /**
+     * When an entity is about to be deleted, this destroys the {@link Body} associated with it and removes it from the HashMap.
+     */
+    @ReceiveEvent(components = BodyLinked.class)
+    @Before(DestructionSystem.class)
+    public EventResult onDeletion(DeletionEvent event, EntityRef entity) {
+        Body body = referenceToBodyObjects.get(entity);
         referenceToBodyObjects.remove(entity);
+        body.getWorld().destroyBody(body);
+
+        return EventResult.CONTINUE;
     }
 }

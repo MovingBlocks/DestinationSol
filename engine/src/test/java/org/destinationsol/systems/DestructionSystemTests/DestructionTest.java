@@ -16,7 +16,7 @@
 package org.destinationsol.systems.DestructionSystemTests;
 
 import org.destinationsol.entitysystem.EntitySystemManager;
-import org.destinationsol.removal.events.DestroyEvent;
+import org.destinationsol.removal.events.ShouldBeDestroyedEvent;
 import org.destinationsol.game.context.internal.ContextImpl;
 import org.destinationsol.modules.ModuleManager;
 import org.junit.Before;
@@ -27,7 +27,7 @@ import org.terasology.gestalt.entitysystem.entity.EntityRef;
 import static org.junit.Assert.assertFalse;
 
 /**
- * Test to ensure that a {@link DestroyEvent} on an entity will cause that entity to be removed.
+ * Test to ensure that a {@link ShouldBeDestroyedEvent} on an entity will cause that entity to be removed.
  */
 public class DestructionTest {
 
@@ -45,7 +45,7 @@ public class DestructionTest {
     public void testOnDestroy(){
         EntityRef entity = entitySystemManager.getEntityManager().createEntity();
 
-        entitySystemManager.sendEvent(new DestroyEvent(), entity);
+        entitySystemManager.sendEvent(new ShouldBeDestroyedEvent(), entity);
 
         assertFalse(entity.exists());
     }
