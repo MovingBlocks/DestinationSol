@@ -20,7 +20,7 @@ import org.destinationsol.entitysystem.EntitySystemManager;
 import org.destinationsol.health.components.Health;
 import org.destinationsol.entitysystem.EventReceiver;
 import org.destinationsol.health.events.DamageEvent;
-import org.destinationsol.removal.ZeroHealthEvent;
+import org.destinationsol.removal.events.ZeroHealthEvent;
 import org.terasology.gestalt.entitysystem.entity.EntityRef;
 import org.terasology.gestalt.entitysystem.event.EventResult;
 import org.terasology.gestalt.entitysystem.event.ReceiveEvent;
