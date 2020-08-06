@@ -25,6 +25,7 @@ import org.destinationsol.entitysystem.EntitySystemManager;
 import org.destinationsol.entitysystem.EventReceiver;
 import org.destinationsol.force.components.ImmuneToForce;
 import org.destinationsol.force.events.ForceEvent;
+import org.destinationsol.game.UpdateAwareSystem;
 import org.destinationsol.location.components.Angle;
 import org.destinationsol.location.components.Position;
 import org.destinationsol.location.components.Velocity;
@@ -44,6 +45,9 @@ import java.util.HashMap;
  * This system handles the interaction between an entity and a {@link Body}. If an entity has a {@link BodyLinked}
  * component but no actual Body object associated with it, this will send a {@link GenerateBodyEvent} so that one will
  * be created.
+ * <p>
+ * Bodies should only be created during an update sent by an {@link UpdateAwareSystem}. Attempting to create a body at
+ * any other time will cause the game to crash.
  */
 public class BodyHandlerSystem implements EventReceiver {
 
@@ -81,15 +85,21 @@ public class BodyHandlerSystem implements EventReceiver {
      */
     @ReceiveEvent(components = {BodyLinked.class, Position.class})
     public EventResult onForce(ForceEvent event, EntityRef entity) {
-        if (!entity.hasComponent(ImmuneToForce.class)) {
-            createBodyIfNonexistent(entity);
-            referenceToBodyObjects.get(entity).applyForceToCenter(event.getForce(), true);
+        if (!referenceToBodyObjects.containsKey(entity)){
+            return EventResult.CANCEL;
         }
+
+        if (entity.hasComponent(ImmuneToForce.class)) {
+            return EventResult.CANCEL;
+        }
+
+        referenceToBodyObjects.get(entity).applyForceToCenter(event.getForce(), true);
         return EventResult.CONTINUE;
     }
 
     /**
-     * if an entity with a {@link BodyLinked} doesn't have an existing body, this method creates one for it.
+     * if an entity with a {@link BodyLinked} doesn't have an existing body, this method creates one for it. This should
+     * only be called during an update. Attempting to create a body at any other time will cause the game to crash.
      *
      * @param entity the entity that should have a body associated with it
      */
