@@ -16,14 +16,10 @@
 package org.destinationsol.rendering.components;
 
 import org.destinationsol.rendering.systems.RenderingSystem;
-import org.terasology.gestalt.entitysystem.component.Component;
+import org.terasology.gestalt.entitysystem.component.EmptyComponent;
 
 /**
  * Denotes that the object should not be drawn by the {@link RenderingSystem}.
  */
-public class Invisible implements Component<Invisible> {
-    @Override
-    public void copy(Invisible other) {
-
-    }
+public class Invisible extends EmptyComponent {
 }

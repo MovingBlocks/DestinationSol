@@ -15,7 +15,7 @@
  */
 package org.destinationsol.stasis.components;
 
-import org.terasology.gestalt.entitysystem.component.Component;
+import org.terasology.gestalt.entitysystem.component.EmptyComponent;
 
 /**
  * Stasis components are a way to flag a component to indicate that it should be handled in a more resource-efficient
@@ -26,9 +26,5 @@ import org.terasology.gestalt.entitysystem.component.Component;
  * For systems that shouldn't operate on an entity in stasis, there should be a method annotated with "@Before" that
  * consumes that event if the entity has a stasis component.
  */
-public class Stasis implements Component<Stasis> {
-
-    @Override
-    public void copy(Stasis other) {
-    }
+public class Stasis extends EmptyComponent<Stasis> {
 }

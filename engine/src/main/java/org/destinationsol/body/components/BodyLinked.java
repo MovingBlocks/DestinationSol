@@ -16,14 +16,10 @@
 package org.destinationsol.body.components;
 
 import com.badlogic.gdx.physics.box2d.Body;
-import org.terasology.gestalt.entitysystem.component.Component;
+import org.terasology.gestalt.entitysystem.component.EmptyComponent;
 
 /**
  * Indicates that there is a {@link Body} associated with the entity.
  */
-public class BodyLinked implements Component<BodyLinked> {
-    @Override
-    public void copy(BodyLinked other) {
-
-    }
+public class BodyLinked extends EmptyComponent {
 }
