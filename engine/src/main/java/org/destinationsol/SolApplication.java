@@ -274,12 +274,11 @@ public class SolApplication implements ApplicationListener {
                 Size size = new Size();
                 size.size = 2;
 
-                EntityRef entityRef = entitySystemManager.getEntityManager().createEntity(graphicsComponent, position, size,
-                        new Angle(), new Velocity(), new Asteroid(), new Health(), new DropsMoneyOnDeath());
-
-                Health health = entityRef.getComponent(Health.class).get();
+                Health health = new Health();
                 health.currentHealth = 1;
-                entityRef.setComponent(health);
+
+                EntityRef entityRef = entitySystemManager.getEntityManager().createEntity(graphicsComponent, position, size,
+                        new Angle(), new Velocity(), new Asteroid(), health, new DropsMoneyOnDeath());
                 
                 entityRef.setComponent(new BodyLinked());
                 entityCreated = true;
