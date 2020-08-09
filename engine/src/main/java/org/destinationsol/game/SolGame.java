@@ -142,7 +142,6 @@ public class SolGame {
         hullConfigManager = new HullConfigManager(itemManager, abilityCommonConfigs);
         planetManager = new PlanetManager(hullConfigManager, gameColors, itemManager);
         contactListener = new SolContactListener(this);
-        InjectionHelper.inject(contactListener, context);
         factionManager = new FactionManager();
         objectManager = new ObjectManager(contactListener, factionManager);
         context.put(World.class, objectManager.getWorld());

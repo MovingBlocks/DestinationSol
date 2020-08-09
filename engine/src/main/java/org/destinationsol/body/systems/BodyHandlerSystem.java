@@ -90,7 +90,7 @@ public class BodyHandlerSystem implements EventReceiver {
         }
 
         if (entity.hasComponent(ImmuneToForce.class)) {
-            return EventResult.CANCEL;
+            return EventResult.CONTINUE;
         }
 
         referenceToBodyObjects.get(entity).applyForceToCenter(event.getForce(), true);

@@ -44,7 +44,9 @@ import java.util.ArrayList;
 /**
  * This system creates a {@link Body} for an entity with a {@link AsteroidMesh} component.
  * <p>
- * TODO Once {@link CollisionMeshLoader} has been refactored to be modular, this should be replaced by a generic body creation system.
+ * The way that {@link CollisionMeshLoader} is designed, it needs to be given a JSON fileName that points to a specific
+ * type of mesh, such as asteroid meshes, which doesn't lend itself to modular body creation.
+ * TODO Once CollisionMeshLoader has been refactored to be modular, this should be replaced by a generic body creation system.
  * <p>
  * Bodies should only be created during an update sent by an {@link UpdateAwareSystem}. Attempting to create a body at
  * any other time may cause the game to crash.
