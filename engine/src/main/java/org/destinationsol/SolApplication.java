@@ -26,7 +26,7 @@ import org.destinationsol.assets.AssetHelper;
 import org.destinationsol.assets.Assets;
 import org.destinationsol.assets.music.OggMusicManager;
 import org.destinationsol.assets.sound.OggSoundManager;
-import org.destinationsol.asteroids.components.Asteroid;
+import org.destinationsol.asteroids.components.AsteroidMesh;
 import org.destinationsol.body.components.BodyLinked;
 import org.destinationsol.common.SolColor;
 import org.destinationsol.common.SolMath;
@@ -244,6 +244,7 @@ public class SolApplication implements ApplicationListener {
         SolMath.checkVectorsTaken(null);
     }
 
+    //TODO remove this line - it is for debugging purposes
     private boolean entityCreated = false;
 
     private void draw() {
@@ -256,6 +257,7 @@ public class SolApplication implements ApplicationListener {
             //This event causes each entity with a `Renderable` component to be rendered onscreen
             entitySystemManager.sendEvent(new RenderEvent(), new Renderable(), new Position());
 
+            //TODO remove this block - it is for debugging purposes
             if (!entityCreated) {
                 RenderableElement element = new RenderableElement();
                 element.texture = SolRandom.randomElement(Assets.listTexturesMatching("engine:asteroid_.*"));
@@ -278,7 +280,7 @@ public class SolApplication implements ApplicationListener {
                 health.currentHealth = 1;
 
                 EntityRef entityRef = entitySystemManager.getEntityManager().createEntity(graphicsComponent, position, size,
-                        new Angle(), new Velocity(), new Asteroid(), health, new DropsMoneyOnDeath());
+                        new Angle(), new Velocity(), new AsteroidMesh(), health, new DropsMoneyOnDeath());
                 
                 entityRef.setComponent(new BodyLinked());
                 entityCreated = true;

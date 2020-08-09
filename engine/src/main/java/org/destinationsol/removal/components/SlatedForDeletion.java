@@ -20,6 +20,7 @@ import org.destinationsol.removal.events.DeletionEvent;
 import org.destinationsol.removal.systems.DeletionUpdateSystem;
 import org.destinationsol.removal.systems.DestructionSystem;
 import org.terasology.gestalt.entitysystem.component.Component;
+import org.terasology.gestalt.entitysystem.component.EmptyComponent;
 
 /**
  * Indicates that an entity can safely be deleted.
@@ -28,9 +29,5 @@ import org.terasology.gestalt.entitysystem.component.Component;
  * component, which causes the entity to actually be deleted by the {@link DestructionSystem}. This is done so that
  * certain resources, such as libGDX's {@link Body} class, can be disposed of properly before the entity is deleted.
  */
-public class SlatedForDeletion implements Component<SlatedForDeletion> {
-    @Override
-    public void copy(SlatedForDeletion other) {
-
-    }
+public class SlatedForDeletion extends EmptyComponent<SlatedForDeletion> {
 }

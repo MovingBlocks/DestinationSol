@@ -47,7 +47,7 @@ import java.util.HashMap;
  * be created.
  * <p>
  * Bodies should only be created during an update sent by an {@link UpdateAwareSystem}. Attempting to create a body at
- * any other time will cause the game to crash.
+ * any other time may cause the game to crash.
  */
 public class BodyHandlerSystem implements EventReceiver {
 

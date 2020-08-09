@@ -15,7 +15,7 @@
  */
 package org.destinationsol.asteroids.systems;
 
-import org.destinationsol.asteroids.components.Asteroid;
+import org.destinationsol.asteroids.components.AsteroidMesh;
 import org.destinationsol.body.components.BodyLinked;
 import org.destinationsol.common.In;
 import org.destinationsol.entitysystem.EntitySystemManager;
@@ -27,20 +27,21 @@ import org.terasology.gestalt.entitysystem.entity.EntityRef;
 import org.terasology.gestalt.entitysystem.event.EventResult;
 import org.terasology.gestalt.entitysystem.event.ReceiveEvent;
 
+//TODO refactor this to be generic. It currently applies ImpulseEvents to entities with AsteroidMesh components.
 public class AsteroidImpulseHandler implements EventReceiver {
 
-    private static final float DUR = .5f;
+    private static final float DURABILITY = .5f;
 
     @In
     private EntitySystemManager entitySystemManager;
 
-    @ReceiveEvent(components = {Asteroid.class, Health.class, BodyLinked.class})
+    @ReceiveEvent(components = {AsteroidMesh.class, Health.class, BodyLinked.class})
     public EventResult onImpulse(ImpulseEvent event, EntityRef entity){
 
         //TODO get the mass from the body
         float mass = 1;
 
-        float damage = event.getMagnitude() / mass / DUR;
+        float damage = event.getMagnitude() / mass / DURABILITY;
         entitySystemManager.sendEvent(new DamageEvent((int) damage), entity);
 
         return EventResult.CONTINUE;

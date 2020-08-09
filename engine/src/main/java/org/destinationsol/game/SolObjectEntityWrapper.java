@@ -24,6 +24,7 @@ import java.util.Collections;
 import java.util.List;
 
 /**
+ * TODO
  * This is a {@link SolObject} wrapper for an {@link EntityRef}. This is is a patch for the in-between period between
  * Object-Oriented design and Entity-Component-System architecture, so once everything has been converted, this can be
  * deleted.
@@ -32,6 +33,7 @@ import java.util.List;
  * interact with the entity that this class represents, use getEntity() to get the {@link EntityRef}, then use the
  * {@link EntitySystemManager} to send that entity events.
  */
+@Deprecated
 public class SolObjectEntityWrapper implements SolObject {
 
     private final EntityRef entity;

@@ -90,21 +90,21 @@ public class SolContactListener implements ContactListener {
         if (dataA instanceof EntityRef) {
             entitySystemManager.sendEvent(new ImpulseEvent(collPos, absImpulse), (EntityRef) dataA);
 
-            //This is a patch to smooth over contact between an Entity and a SolObject. Once every SolObject has been
-            //converted to an Entity, this can be removed.
+            //TODO This is a patch to smooth over contact between an entity and a SolObject.
+            // Once every SolObject has been converted to an entity, this can be removed.
             dataA = new SolObjectEntityWrapper((EntityRef) dataA);
         }
 
         if (dataB instanceof EntityRef) {
             entitySystemManager.sendEvent(new ImpulseEvent(collPos, absImpulse), (EntityRef) dataB);
 
-            //This is a patch to smooth over contact between an entity and a SolObject. Once every SolObject has been
-            //converted to an entity, this can be removed.
+            //TODO This is a patch to smooth over contact between an entity and a SolObject.
+            // Once every SolObject has been converted to an entity, this can be removed.
             dataB = new SolObjectEntityWrapper((EntityRef) dataB);
         }
 
-        //This is legacy code for handling contact between SolObjects. Once every SolObject has been converted to an
-        // entity, this can be removed.
+        //TODO This is legacy code for handling contact between SolObjects.
+        // Once every SolObject has been converted to an entity, this can be removed.
         SolObject soa = (SolObject) dataA;
         SolObject sob = (SolObject) dataB;
         if (soa instanceof Projectile && ((Projectile) soa).getConfig().density <= 0) {

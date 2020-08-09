@@ -15,11 +15,7 @@
  */
 package org.destinationsol.asteroids.components;
 
-import org.terasology.gestalt.entitysystem.component.Component;
+import org.terasology.gestalt.entitysystem.component.EmptyComponent;
 
-public class Asteroid implements Component<Asteroid> {
-    @Override
-    public void copy(Asteroid other) {
-        
-    }
+public class AsteroidMesh extends EmptyComponent<AsteroidMesh> {
 }

@@ -22,13 +22,14 @@ import com.badlogic.gdx.physics.box2d.BodyDef;
 import com.badlogic.gdx.physics.box2d.FixtureDef;
 import com.badlogic.gdx.physics.box2d.World;
 import org.destinationsol.Const;
-import org.destinationsol.asteroids.components.Asteroid;
+import org.destinationsol.asteroids.components.AsteroidMesh;
 import org.destinationsol.body.events.BodyCreatedEvent;
 import org.destinationsol.body.events.GenerateBodyEvent;
 import org.destinationsol.common.In;
 import org.destinationsol.entitysystem.EntitySystemManager;
 import org.destinationsol.entitysystem.EventReceiver;
 import org.destinationsol.game.CollisionMeshLoader;
+import org.destinationsol.game.UpdateAwareSystem;
 import org.destinationsol.location.components.Angle;
 import org.destinationsol.location.components.Position;
 import org.destinationsol.rendering.RenderableElement;
@@ -40,6 +41,14 @@ import org.terasology.gestalt.entitysystem.event.ReceiveEvent;
 
 import java.util.ArrayList;
 
+/**
+ * This system creates a {@link Body} for an entity with a {@link AsteroidMesh} component.
+ * <p>
+ * TODO Once {@link CollisionMeshLoader} has been refactored to be modular, this should be replaced by a generic body creation system.
+ * <p>
+ * Bodies should only be created during an update sent by an {@link UpdateAwareSystem}. Attempting to create a body at
+ * any other time may cause the game to crash.
+ */
 public class AsteroidBodyCreationSystem implements EventReceiver {
 
     private static final float DENSITY = 10f;
@@ -52,7 +61,7 @@ public class AsteroidBodyCreationSystem implements EventReceiver {
 
     private final CollisionMeshLoader collisionMeshLoader = new CollisionMeshLoader("engine:asteroids");
 
-    @ReceiveEvent(components = {Asteroid.class, Size.class, Position.class, Angle.class, Renderable.class})
+    @ReceiveEvent(components = {AsteroidMesh.class, Size.class, Position.class, Angle.class, Renderable.class})
     public EventResult onGenerateBody(GenerateBodyEvent event, EntityRef entity) {
 
 
@@ -61,7 +70,7 @@ public class AsteroidBodyCreationSystem implements EventReceiver {
         float angle = entity.getComponent(Angle.class).get().getAngle();
         ArrayList<RenderableElement> renderableElements = entity.getComponent(Renderable.class).get().elements;
 
-        //Body creation black box
+        //This creates an entity with a generic Body. The fixtures, which provide the collision meshes, are attached later.
         BodyDef bd = new BodyDef();
         bd.type = BodyDef.BodyType.DynamicBody;
         bd.angle = angle * MathUtils.degRad;
@@ -70,8 +79,10 @@ public class AsteroidBodyCreationSystem implements EventReceiver {
         bd.linearDamping = 0;
         Body body = world.createBody(bd);
 
+        //This sets a reference to an entity in the Body, so that the entity can be retrieved from the body during collision handling.
         body.setUserData(entity);
 
+        //This attaches collision meshes to the Body of an entity, based on its graphics.
         for (RenderableElement element : renderableElements) {
             FixtureDef fixtureDef = new FixtureDef();
             fixtureDef.density = DENSITY;
