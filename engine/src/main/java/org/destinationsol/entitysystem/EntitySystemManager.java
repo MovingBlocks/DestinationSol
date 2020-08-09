@@ -34,6 +34,7 @@ import org.terasology.gestalt.entitysystem.event.impl.EventSystemImpl;
 import org.terasology.gestalt.entitysystem.prefab.GeneratedFromRecipeComponent;
 import org.terasology.gestalt.module.ModuleEnvironment;
 
+import java.lang.reflect.Modifier;
 import java.util.List;
 
 public class EntitySystemManager {
@@ -48,8 +49,11 @@ public class EntitySystemManager {
 
         List<ComponentStore<?>> stores = Lists.newArrayList();
         for (Class<? extends Component> componentType : environment.getSubtypesOf(Component.class)) {
-            stores.add(
-                    new ConcurrentComponentStore<>(new ArrayComponentStore<>(componentManager.getType(componentType))));
+            //This filters out abstract components, which would create exceptions
+            if (!Modifier.isAbstract(componentType.getModifiers())) {
+                stores.add(
+                        new ConcurrentComponentStore<>(new ArrayComponentStore<>(componentManager.getType(componentType))));
+            }
         }
         stores.add(new ConcurrentComponentStore<>(
                 new ArrayComponentStore<>(componentManager.getType(GeneratedFromRecipeComponent.class))));
@@ -75,7 +79,7 @@ public class EntitySystemManager {
         eventSystem.processEvents();
     }
 
-    public void sendEvent(Event event, EntityRef entity){
+    public void sendEvent(Event event, EntityRef entity) {
         eventSystem.send(event, entity);
         eventSystem.processEvents();
     }

@@ -44,6 +44,7 @@ repositories {
 
     maven { url "https://maven.google.com" }
 
+    //This gets the java SemVer library that Gestalt uses
     maven { url = 'https://heisluft.tk/maven/' }
 }
 
