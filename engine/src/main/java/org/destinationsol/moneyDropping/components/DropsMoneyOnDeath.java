@@ -16,14 +16,10 @@
 package org.destinationsol.moneyDropping.components;
 
 import org.destinationsol.game.item.Loot;
-import org.terasology.gestalt.entitysystem.component.Component;
+import org.terasology.gestalt.entitysystem.component.EmptyComponent;
 
 /**
  * Indicates that when the entity is destroyed, one or more {@link Loot} objects should be created.
  */
-public class DropsMoneyOnDeath implements Component<DropsMoneyOnDeath> {
-    @Override
-    public void copy(DropsMoneyOnDeath other) {
-
-    }
+public class DropsMoneyOnDeath extends EmptyComponent<DropsMoneyOnDeath> {
 }
