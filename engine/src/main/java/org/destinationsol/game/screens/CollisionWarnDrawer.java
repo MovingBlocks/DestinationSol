@@ -63,11 +63,13 @@ public class CollisionWarnDrawer extends WarnDrawer {
         //TODO code from era when hero was SolShip - does this still work? (what is it supposed to do?)
         @Override
         public float reportRayFixture(Fixture fixture, Vector2 point, Vector2 normal, float fraction) {
-            SolObject o = (SolObject) fixture.getBody().getUserData();
-            if (hero == o) {
-                return -1;
+            if (fixture.getBody().getUserData() instanceof SolObject) {
+                SolObject o = (SolObject) fixture.getBody().getUserData();
+                if (hero == o) {
+                    return -1;
+                }
+                show = true;
             }
-            show = true;
             return 0;
         }
     }

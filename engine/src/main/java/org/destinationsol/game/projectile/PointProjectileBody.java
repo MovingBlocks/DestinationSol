@@ -107,12 +107,14 @@ public class PointProjectileBody implements ProjectileBody {
 
         @Override
         public float reportRayFixture(Fixture fixture, Vector2 point, Vector2 normal, float fraction) {
-            SolObject o = (SolObject) fixture.getBody().getUserData();
-            boolean oIsMassless = o instanceof Projectile && ((Projectile) o).isMassless();
-            if (!oIsMassless && projectile.shouldCollide(o, fixture, game.getFactionMan())) {
-                position.set(point);
-                projectile.setObstacle(o, game);
-                return 0;
+            if (fixture.getBody().getUserData() instanceof SolObject) {
+                SolObject o = (SolObject) fixture.getBody().getUserData();
+                boolean oIsMassless = o instanceof Projectile && ((Projectile) o).isMassless();
+                if (!oIsMassless && projectile.shouldCollide(o, fixture, game.getFactionMan())) {
+                    position.set(point);
+                    projectile.setObstacle(o, game);
+                    return 0;
+                }
             }
             return -1;
         }

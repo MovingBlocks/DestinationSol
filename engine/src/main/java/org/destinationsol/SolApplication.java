@@ -18,24 +18,36 @@ package org.destinationsol;
 import com.badlogic.gdx.Application;
 import com.badlogic.gdx.ApplicationListener;
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
+import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Box2D;
 import org.destinationsol.assets.AssetHelper;
 import org.destinationsol.assets.Assets;
 import org.destinationsol.assets.music.OggMusicManager;
 import org.destinationsol.assets.sound.OggSoundManager;
+import org.destinationsol.asteroids.components.AsteroidMesh;
+import org.destinationsol.body.components.BodyLinked;
 import org.destinationsol.common.SolColor;
 import org.destinationsol.common.SolMath;
+import org.destinationsol.common.SolRandom;
+import org.destinationsol.game.DebugOptions;
+import org.destinationsol.game.ObjectManager;
+import org.destinationsol.game.SaveManager;
+import org.destinationsol.game.SolGame;
+import org.destinationsol.game.SolNames;
+import org.destinationsol.game.WorldConfig;
+import org.destinationsol.game.drawables.DrawableLevel;
+import org.destinationsol.health.components.Health;
+import org.destinationsol.location.components.Angle;
+import org.destinationsol.location.components.Velocity;
+import org.destinationsol.moneyDropping.components.DropsMoneyOnDeath;
+import org.destinationsol.rendering.RenderableElement;
 import org.destinationsol.rendering.components.Renderable;
 import org.destinationsol.rendering.events.RenderEvent;
 import org.destinationsol.entitysystem.ComponentSystemManager;
 import org.destinationsol.entitysystem.EntitySystemManager;
 import org.destinationsol.entitysystem.SerialisationManager;
-import org.destinationsol.game.DebugOptions;
-import org.destinationsol.game.ObjectManager;
-import org.destinationsol.game.SaveManager;
-import org.destinationsol.game.SolGame;
-import org.destinationsol.game.WorldConfig;
 import org.destinationsol.game.console.adapter.ParameterAdapterManager;
 import org.destinationsol.game.context.Context;
 import org.destinationsol.game.context.internal.ContextImpl;
@@ -45,6 +57,7 @@ import org.destinationsol.location.components.Position;
 import org.destinationsol.menu.MenuScreens;
 import org.destinationsol.menu.background.MenuBackgroundManager;
 import org.destinationsol.modules.ModuleManager;
+import org.destinationsol.size.components.Size;
 import org.destinationsol.ui.DebugCollector;
 import org.destinationsol.ui.DisplayDimensions;
 import org.destinationsol.ui.FontSize;
@@ -53,10 +66,12 @@ import org.destinationsol.ui.SolInputManager;
 import org.destinationsol.ui.SolLayouts;
 import org.destinationsol.ui.UiDrawer;
 import org.destinationsol.util.FramerateLimiter;
+import org.destinationsol.util.InjectionHelper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.terasology.gestalt.entitysystem.component.Component;
 import org.terasology.gestalt.entitysystem.component.management.ComponentManager;
+import org.terasology.gestalt.entitysystem.entity.EntityRef;
 import org.terasology.gestalt.module.sandbox.API;
 
 import java.io.PrintWriter;
@@ -229,6 +244,9 @@ public class SolApplication implements ApplicationListener {
         SolMath.checkVectorsTaken(null);
     }
 
+    //TODO remove this line - it is for debugging purposes
+    private boolean entityCreated = false;
+
     private void draw() {
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
         commonDrawer.begin();
@@ -238,6 +256,35 @@ public class SolApplication implements ApplicationListener {
 
             //This event causes each entity with a `Renderable` component to be rendered onscreen
             entitySystemManager.sendEvent(new RenderEvent(), new Renderable(), new Position());
+
+            //TODO remove this block - it is for debugging purposes
+            if (!entityCreated) {
+                RenderableElement element = new RenderableElement();
+                element.texture = SolRandom.randomElement(Assets.listTexturesMatching("engine:asteroid_.*"));
+                element.relativePosition = new Vector2(0, 0);
+                element.drawableLevel = DrawableLevel.BODIES;
+                element.width = 2;
+                element.height = 2;
+                element.tint = Color.YELLOW;
+                Renderable graphicsComponent = new Renderable();
+                graphicsComponent.elements.add(element);
+
+                Position position = new Position();
+                position.position = solGame.getHero().getShip().getPosition().cpy();
+                position.position.y += 3;
+
+                Size size = new Size();
+                size.size = 2;
+
+                Health health = new Health();
+                health.currentHealth = 1;
+
+                EntityRef entityRef = entitySystemManager.getEntityManager().createEntity(graphicsComponent, position, size,
+                        new Angle(), new Velocity(), new AsteroidMesh(), health, new DropsMoneyOnDeath());
+                
+                entityRef.setComponent(new BodyLinked());
+                entityCreated = true;
+            }
         }
         uiDrawer.updateMtx();
         inputManager.draw(uiDrawer, this);
@@ -270,6 +317,11 @@ public class SolApplication implements ApplicationListener {
 
         entitySystemManager = new EntitySystemManager(moduleManager.getEnvironment(), componentManager, context);
 
+        InjectionHelper.inject(solGame.getContactListener(), context);
+
+        solGame.createUpdateSystems(context);
+
+        solGame.startGame(shipName, isNewGame, worldConfig, new SolNames());
 
         // Big, fat, ugly HACK to get a working classloader
         // Serialisation and thus a classloader is not needed when there are no components

@@ -13,27 +13,27 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.destinationsol.body.systems;
+package org.destinationsol.removal.systems;
 
-import org.destinationsol.body.components.BodyLinked;
-import org.destinationsol.body.events.BodyUpdateEvent;
 import org.destinationsol.common.In;
 import org.destinationsol.entitysystem.EntitySystemManager;
 import org.destinationsol.game.SolGame;
 import org.destinationsol.game.UpdateAwareSystem;
 import org.destinationsol.game.attributes.RegisterUpdateSystem;
+import org.destinationsol.removal.components.SlatedForDeletion;
+import org.destinationsol.removal.events.DeletionEvent;
 
 /**
- * Sends a {@link BodyUpdateEvent} every tick to each entity with a {@link BodyLinked} component.
+ * Every tick, this sends a {@link DeletionEvent} to each entity with a {@link SlatedForDeletion} component.
  */
 @RegisterUpdateSystem
-public class BodyUpdateSystem implements UpdateAwareSystem {
+public class DeletionUpdateSystem implements UpdateAwareSystem {
 
     @In
     private EntitySystemManager entitySystemManager;
 
     @Override
     public void update(SolGame game, float timeStep) {
-        entitySystemManager.sendEvent(new BodyUpdateEvent(), new BodyLinked());
+        entitySystemManager.sendEvent(new DeletionEvent(), new SlatedForDeletion());
     }
 }

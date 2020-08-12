@@ -20,7 +20,7 @@ import org.destinationsol.game.context.internal.ContextImpl;
 import org.destinationsol.health.components.Health;
 import org.destinationsol.health.events.DamageEvent;
 import org.destinationsol.modules.ModuleManager;
-import org.destinationsol.removal.DestroyOnZeroHealthSystem;
+import org.destinationsol.removal.systems.DestroyOnZeroHealthSystem;
 import org.junit.Before;
 import org.junit.Ignore;
 import org.junit.Test;

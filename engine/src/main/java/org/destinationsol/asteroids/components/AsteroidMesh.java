@@ -13,12 +13,9 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.destinationsol.removal;
+package org.destinationsol.asteroids.components;
 
-import org.terasology.gestalt.entitysystem.event.Event;
+import org.terasology.gestalt.entitysystem.component.EmptyComponent;
 
-/**
- * Event that indicates that an entity no longer needs to exist and thus can be removed.
- */
-public class RemovalForOptimizationEvent implements Event {
+public class AsteroidMesh extends EmptyComponent<AsteroidMesh> {
 }

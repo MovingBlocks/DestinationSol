@@ -13,13 +13,17 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.destinationsol.removal;
+package org.destinationsol.removal.events;
 
-import org.destinationsol.health.components.Health;
+import org.destinationsol.removal.systems.DeletionUpdateSystem;
+import org.destinationsol.removal.systems.DestructionSystem;
 import org.terasology.gestalt.entitysystem.event.Event;
 
 /**
- * Event that indicates that an entity with a {@link Health} component reached zero health.
+ * Every tick, the {@link DeletionUpdateSystem} sends a DeletionEvent to each entity with a SlatedForDeletion component,
+ * which causes the entity to be deleted by the {@link DestructionSystem}. This is different than a
+ * {@link ShouldBeDestroyedEvent} - that is for systems to respond to the destruction of an entity before it happens,
+ * e.g. to prevent it from being destroyed. This event is the actual deletion of the entity.
  */
-public class ZeroHealthEvent implements Event {
+public class DeletionEvent implements Event {
 }
