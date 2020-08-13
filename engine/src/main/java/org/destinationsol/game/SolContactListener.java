@@ -50,24 +50,28 @@ public class SolContactListener implements ContactListener {
             EntityRef entityB = (EntityRef) dataB;
             entitySystemManager.sendEvent(new ContactEvent(entityB, contact), entityA);
             entitySystemManager.sendEvent(new ContactEvent(entityA, contact), entityB);
+        }
+
+        //TODO This is a patch to smooth over contact between an Entity and a Projectile. Once Projectile has been converted
+        // to be an Entity, this can be removed.
+        if (dataA instanceof EntityRef) {
+            dataA = new SolObjectEntityWrapper((EntityRef) dataA);
+        }
+        if (dataB instanceof EntityRef) {
+            dataB = new SolObjectEntityWrapper((EntityRef) dataB);
+        }
+
+        //TODO This is legacy code for handling contact with a Projectile, which currently is designed to work with SolObjects.
+        // Once Projectile has been converted to be an entity, this should be refactored.
+        SolObject oA = (SolObject) dataA;
+        SolObject oB = (SolObject) dataB;
+        boolean aIsProj = oA instanceof Projectile;
+        if (!aIsProj && !(oB instanceof Projectile)) {
             return;
         }
-
-        if (dataA instanceof SolObject && dataB instanceof SolObject) {
-            SolObject oA = (SolObject) contact.getFixtureA().getBody().getUserData();
-            SolObject oB = (SolObject) contact.getFixtureB().getBody().getUserData();
-
-            boolean aIsProj = oA instanceof Projectile;
-            if (!aIsProj && !(oB instanceof Projectile)) {
-                return;
-            }
-
-            Projectile proj = (Projectile) (aIsProj ? oA : oB);
-            SolObject o = aIsProj ? oB : oA;
-            proj.setObstacle(o, myGame);
-        }
-
-        //TODO handle contact between an entity and a SolObject
+        Projectile proj = (Projectile) (aIsProj ? oA : oB);
+        SolObject o = aIsProj ? oB : oA;
+        proj.setObstacle(o, myGame);
     }
 
     @Override

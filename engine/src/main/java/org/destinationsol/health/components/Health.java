@@ -22,8 +22,8 @@ import org.terasology.gestalt.entitysystem.component.Component;
  */
 public final class Health implements Component<Health> {
 
-    public int maxHealth = 30;
-    public int currentHealth = 30;
+    public float maxHealth = 30;
+    public float currentHealth = 30;
 
     @Override
     public void copy(Health other) {

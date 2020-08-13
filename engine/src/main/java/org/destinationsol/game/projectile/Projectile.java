@@ -31,15 +31,17 @@ import org.destinationsol.game.FarObject;
 import org.destinationsol.game.GameDrawer;
 import org.destinationsol.game.SolGame;
 import org.destinationsol.game.SolObject;
+import org.destinationsol.game.SolObjectEntityWrapper;
 import org.destinationsol.game.drawables.Drawable;
 import org.destinationsol.game.drawables.DrawableLevel;
-import org.destinationsol.game.drawables.RectSprite;
 import org.destinationsol.game.drawables.SpriteManager;
 import org.destinationsol.game.item.Shield;
 import org.destinationsol.game.particle.DSParticleEmitter;
 import org.destinationsol.game.particle.EffectConfig;
 import org.destinationsol.game.particle.LightSource;
 import org.destinationsol.game.ship.SolShip;
+import org.destinationsol.health.events.DamageEvent;
+import org.terasology.gestalt.entitysystem.entity.EntityRef;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -115,25 +117,53 @@ public class Projectile implements SolObject {
     @Override
     public void update(SolGame game) {
         body.update(game);
+
         if (obstacle != null) {
-            if (!wasDamageDealt) {
-                if (config.aoeRadius >= 0) { //If AoE is enabled for this Projectile, damage all within the radius.
-                    game.getObjectManager().doToAllCloserThan(config.aoeRadius, this, (SolObject obj) ->
-                            obj.receiveDmg(config.dmg, game, body.getPosition(), config.dmgType)
-                    );
+            //This handles collision of a Projectile with an entity.
+            if (obstacle instanceof SolObjectEntityWrapper) {
+                EntityRef entity = ((SolObjectEntityWrapper) obstacle).getEntity();
+                if (config.aoeRadius >= 0) { //This checks if the projectile does Area-Of-Effect damage. If it does not, the value is usually -1
+                    //TODO enable Area-Of-Effect damage to entities
                 } else {
-                    obstacle.receiveDmg(config.dmg, game, body.getPosition(), config.dmgType);
+                    game.getEntitySystemManager().sendEvent(new DamageEvent(config.dmg), entity);
                 }
-            }
-            if (config.density > 0) {
-                obstacle = null;
-                wasDamageDealt = true;
-            } else {
+
+                if (config.density > 0) {
+                    obstacle = null;
+                    wasDamageDealt = true;
+                }
+
                 collided(game);
-                if (config.emTime > 0 && obstacle instanceof SolShip) {
-                    ((SolShip) obstacle).disableControls(config.emTime, game);
-                }
+
+                //TODO Once SolShip is an entity, this should be refactored to work with it
+//                if (config.emTime > 0 && obstacle instanceof SolShip) {
+//                    ((SolShip) obstacle).disableControls(config.emTime, game);
+//                }
+
                 return;
+
+            } else {
+                //TODO this else block is legacy code for handling contact between a SolObject and an entity. Once every
+                // SolObject has been converted to an entity, this can be removed.
+                if (!wasDamageDealt) {
+                    if (config.aoeRadius >= 0) { //If AoE is enabled for this Projectile, damage all within the radius.
+                        game.getObjectManager().doToAllCloserThan(config.aoeRadius, this, (SolObject obj) ->
+                                obj.receiveDmg(config.dmg, game, body.getPosition(), config.dmgType)
+                        );
+                    } else {
+                        obstacle.receiveDmg(config.dmg, game, body.getPosition(), config.dmgType);
+                    }
+                }
+                if (config.density > 0) {
+                    obstacle = null;
+                    wasDamageDealt = true;
+                } else {
+                    collided(game);
+                    if (config.emTime > 0 && obstacle instanceof SolShip) {
+                        ((SolShip) obstacle).disableControls(config.emTime, game);
+                    }
+                    return;
+                }
             }
         }
         if (lightSource != null) {
