@@ -16,10 +16,30 @@
 package org.destinationsol.body.components;
 
 import com.badlogic.gdx.physics.box2d.Body;
-import org.terasology.gestalt.entitysystem.component.EmptyComponent;
+import org.destinationsol.body.systems.BodyHandlerSystem;
+import org.terasology.gestalt.entitysystem.component.Component;
+
 
 /**
- * Indicates that there is a {@link Body} associated with the entity.
+ * Indicates that there is a {@link Body} associated with the entity. It also contains the mass of the entity.
  */
-public class BodyLinked extends EmptyComponent<BodyLinked> {
+public class BodyLinked implements Component<BodyLinked> {
+
+    private float mass;
+
+    /**
+     * Sets the mass of the entity. This is called every tick by the {@link BodyHandlerSystem}.
+     */
+    public void setMass(float mass) {
+        this.mass = mass;
+    }
+
+    public float getMass() {
+        return mass;
+    }
+
+    @Override
+    public void copy(BodyLinked other) {
+        this.mass = other.getMass();
+    }
 }

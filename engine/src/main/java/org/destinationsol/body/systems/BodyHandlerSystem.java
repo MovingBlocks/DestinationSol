@@ -66,6 +66,9 @@ public class BodyHandlerSystem implements EventReceiver {
 
         createBodyIfNonexistent(entity);
         Body body = referenceToBodyObjects.get(entity);
+        BodyLinked bodyLinkedComponent = entity.getComponent(BodyLinked.class).get();
+        bodyLinkedComponent.setMass(body.getMass());
+        entity.setComponent(bodyLinkedComponent);
 
         if (entity.hasComponent(Position.class)) {
             entitySystemManager.sendEvent(new PositionUpdateEvent(body.getPosition()), entity);
@@ -85,7 +88,7 @@ public class BodyHandlerSystem implements EventReceiver {
      */
     @ReceiveEvent(components = {BodyLinked.class, Position.class})
     public EventResult onForce(ForceEvent event, EntityRef entity) {
-        if (!referenceToBodyObjects.containsKey(entity)){
+        if (!referenceToBodyObjects.containsKey(entity)) {
             return EventResult.CANCEL;
         }
 

@@ -13,13 +13,13 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.destinationsol.asteroids.systems;
+package org.destinationsol.force.systems;
 
-import org.destinationsol.asteroids.components.AsteroidMesh;
 import org.destinationsol.body.components.BodyLinked;
 import org.destinationsol.common.In;
 import org.destinationsol.entitysystem.EntitySystemManager;
 import org.destinationsol.entitysystem.EventReceiver;
+import org.destinationsol.force.components.Durability;
 import org.destinationsol.force.events.ImpulseEvent;
 import org.destinationsol.health.components.Health;
 import org.destinationsol.health.events.DamageEvent;
@@ -27,23 +27,26 @@ import org.terasology.gestalt.entitysystem.entity.EntityRef;
 import org.terasology.gestalt.entitysystem.event.EventResult;
 import org.terasology.gestalt.entitysystem.event.ReceiveEvent;
 
-//TODO refactor this to be generic. It currently applies ImpulseEvents to entities with AsteroidMesh components.
-public class AsteroidImpulseHandler implements EventReceiver {
-
-    private static final float DURABILITY = .5f;
+/**
+ * When this receives an {@link ImpulseEvent}, it sends a {@link DamageEvent} to the entity that is scaled according to
+ * the entity's mass and durability.
+ */
+public class ImpulseHandlingSystem implements EventReceiver {
 
     @In
     private EntitySystemManager entitySystemManager;
 
-    @ReceiveEvent(components = {AsteroidMesh.class, Health.class, BodyLinked.class})
-    public EventResult onImpulse(ImpulseEvent event, EntityRef entity){
+    @ReceiveEvent(components = {Health.class, BodyLinked.class})
+    public EventResult onImpulse(ImpulseEvent event, EntityRef entity) {
 
-        //TODO get the mass from the body
-        float mass = 1;
+        float mass = entity.getComponent(BodyLinked.class).get().getMass();
+        float damage = event.getMagnitude() / mass;
 
-        float damage = event.getMagnitude() / mass / DURABILITY;
+        if (entity.hasComponent(Durability.class)) {
+            entity.getComponent(Durability.class).get().getDurability();
+        }
+
         entitySystemManager.sendEvent(new DamageEvent((int) damage), entity);
-
         return EventResult.CONTINUE;
     }
 }
