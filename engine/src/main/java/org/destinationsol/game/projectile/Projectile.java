@@ -41,6 +41,8 @@ import org.destinationsol.game.particle.EffectConfig;
 import org.destinationsol.game.particle.LightSource;
 import org.destinationsol.game.ship.SolShip;
 import org.destinationsol.health.events.DamageEvent;
+import org.destinationsol.location.components.Position;
+import org.terasology.gestalt.entitysystem.entity.EntityIterator;
 import org.terasology.gestalt.entitysystem.entity.EntityRef;
 
 import java.util.ArrayList;
@@ -119,13 +121,24 @@ public class Projectile implements SolObject {
         body.update(game);
 
         if (obstacle != null) {
+
             //This handles collision of a Projectile with an entity.
             if (obstacle instanceof SolObjectEntityWrapper) {
                 EntityRef entity = ((SolObjectEntityWrapper) obstacle).getEntity();
-                if (config.aoeRadius >= 0) { //This checks if the projectile does Area-Of-Effect damage. If it does not, the value is usually -1
-                    //TODO enable Area-Of-Effect damage to entities
-                } else {
-                    game.getEntitySystemManager().sendEvent(new DamageEvent(config.dmg), entity);
+
+                if (!wasDamageDealt) {
+                    if (config.aoeRadius >= 0) { //This checks if the projectile does Area-Of-Effect damage. If it does not, the value is usually -1
+                        EntityIterator iterator = game.getEntitySystemManager().getEntityManager().iterate(new Position());
+                        while (iterator.next()) {
+                            Vector2 entityPosition = iterator.getEntity().getComponent(Position.class).get().position;
+                            if (getPosition().dst2(entityPosition) <= config.aoeRadius) {
+                                game.getEntitySystemManager().sendEvent(new DamageEvent(config.dmg), entity);
+                            }
+                        }
+
+                    } else {
+                        game.getEntitySystemManager().sendEvent(new DamageEvent(config.dmg), entity);
+                    }
                 }
 
                 if (config.density > 0) {
