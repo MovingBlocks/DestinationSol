@@ -184,8 +184,10 @@ public class ModuleManager {
         try {
             ModuleFactory moduleFactory = new ModuleFactory();
             engineModule = moduleFactory.createPackageModule("org.destinationsol");
-            // TODO: Find a better way to do this!
-            Module nuiModule = new Module(new ModuleMetadata(new Name("nui"), new Version("2.0.0-SNAPSHOT")), new EmptyFileSource(),
+            // In order for the NUI widgets to be detected, they first need to be found and cached. The build script
+            // reflects over the NUI jar and saves a list of all the widgets within the engine's reflections.cache.
+            // TODO: Find a better way to do this.
+            Module nuiModule = new Module(new ModuleMetadata(new Name("nui"), new Version("2.0.0")), new EmptyFileSource(),
                     Collections.emptyList(), new Reflections("org.terasology.nui"), x -> {
                 String classPackageName = Reflection.getPackageName(x);
                 return "org.terasology.nui".equals(classPackageName) || classPackageName.startsWith("org.terasology.nui.");
