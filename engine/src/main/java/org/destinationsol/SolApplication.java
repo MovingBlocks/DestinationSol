@@ -57,6 +57,7 @@ import org.destinationsol.location.components.Position;
 import org.destinationsol.menu.MenuScreens;
 import org.destinationsol.menu.background.MenuBackgroundManager;
 import org.destinationsol.modules.ModuleManager;
+import org.destinationsol.rubble.components.CreatesRubbleOnDestruction;
 import org.destinationsol.size.components.Size;
 import org.destinationsol.ui.DebugCollector;
 import org.destinationsol.ui.DisplayDimensions;
@@ -280,7 +281,7 @@ public class SolApplication implements ApplicationListener {
                 health.currentHealth = 1;
 
                 EntityRef entityRef = entitySystemManager.getEntityManager().createEntity(graphicsComponent, position, size,
-                        new Angle(), new Velocity(), new AsteroidMesh(), health, new DropsMoneyOnDeath());
+                        new Angle(), new Velocity(), new AsteroidMesh(), health, new DropsMoneyOnDeath(), new CreatesRubbleOnDestruction());
                 
                 entityRef.setComponent(new BodyLinked());
                 entityCreated = true;

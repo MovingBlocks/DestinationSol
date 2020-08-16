@@ -154,6 +154,7 @@ public class SolGame {
         lootBuilder = new LootBuilder();
         mapDrawer = new MapDrawer();
         shardBuilder = new ShardBuilder();
+        context.put(ShardBuilder.class, shardBuilder);
         galaxyFiller = new GalaxyFiller(hullConfigManager);
         starPortBuilder = new StarPort.Builder();
         drawableDebugger = new DrawableDebugger();
