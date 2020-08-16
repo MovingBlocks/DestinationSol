@@ -22,13 +22,13 @@ import org.terasology.gestalt.entitysystem.event.Event;
  */
 public class DamageEvent implements Event {
 
-    private int damage;
+    private float damage;
 
-    public DamageEvent(int damage) {
+    public DamageEvent(float damage) {
         this.damage = damage;
     }
 
-    public int getDamage() {
+    public float getDamage() {
         return damage;
     }
 }

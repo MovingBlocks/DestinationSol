@@ -111,6 +111,8 @@ public class SolGame {
     private SortedMap<Integer, List<UpdateAwareSystem>> onPausedUpdateSystems;
     private SortedMap<Integer, List<UpdateAwareSystem>> updateSystems;
 
+    private EntitySystemManager entitySystemManager;
+
     public SolGame(String shipName, boolean isTutorial, boolean isNewGame, CommonDrawer commonDrawer, Context context,
                    WorldConfig worldConfig) {
         // TODO: make this non-static
@@ -210,7 +212,9 @@ public class SolGame {
         }
     }
 
-    public void startGame(String shipName, boolean isNewGame, WorldConfig worldConfig, SolNames solNames) {
+    public void startGame(String shipName, boolean isNewGame, WorldConfig worldConfig, SolNames solNames, EntitySystemManager entitySystemManager) {
+        this.entitySystemManager = entitySystemManager;
+
         respawnState = new RespawnState();
         SolRandom.setSeed(worldConfig.getSeed());
         planetManager.fill(solNames, worldConfig.getNumberOfSystems());
@@ -549,6 +553,10 @@ public class SolGame {
 
     public TutorialManager getTutMan() {
         return tutorialManager;
+    }
+
+    public EntitySystemManager getEntitySystemManager() {
+        return entitySystemManager;
     }
 
     public void setRespawnState() {
