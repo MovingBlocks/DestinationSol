@@ -17,6 +17,8 @@ package org.destinationsol.body.components;
 
 import com.badlogic.gdx.physics.box2d.Body;
 import org.destinationsol.body.systems.BodyHandlerSystem;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.terasology.gestalt.entitysystem.component.Component;
 
 
@@ -24,6 +26,7 @@ import org.terasology.gestalt.entitysystem.component.Component;
  * Indicates that there is a {@link Body} associated with the entity. It also contains the mass of the entity.
  */
 public class BodyLinked implements Component<BodyLinked> {
+    private static final Logger logger = LoggerFactory.getLogger(BodyLinked.class);
 
     private float mass;
 
@@ -31,6 +34,10 @@ public class BodyLinked implements Component<BodyLinked> {
      * Sets the mass of the entity. This is called every tick by the {@link BodyHandlerSystem}.
      */
     public void setMass(float mass) {
+        if (mass <= 0) {
+            logger.error("Invalid value for the mass. It can't be less than or equal to zero.");
+            this.mass = 1;
+        }
         this.mass = mass;
     }
 

@@ -91,8 +91,8 @@ public class SmallObjAvoider {
             if (data instanceof EntityRef) {
                 data = new SolObjectEntityWrapper((EntityRef) data);
             }
-            SolObject o = (SolObject) data;
-            if (myShip == o) {
+            SolObject solObject = (SolObject) data;
+            if (myShip == solObject) {
                 return -1;
             }
             myCollided = true;

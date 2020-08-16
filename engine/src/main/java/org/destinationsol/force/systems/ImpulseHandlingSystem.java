@@ -43,7 +43,8 @@ public class ImpulseHandlingSystem implements EventReceiver {
         float damage = event.getMagnitude() / mass;
 
         if (entity.hasComponent(Durability.class)) {
-            entity.getComponent(Durability.class).get().getDurability();
+            float durability = entity.getComponent(Durability.class).get().getDurability();
+            damage /= durability;
         }
 
         entitySystemManager.sendEvent(new DamageEvent((int) damage), entity);
