@@ -309,9 +309,6 @@ public class MainGameScreen extends SolUiBaseScreen {
             controls.forEach(x -> x.setEnabled(true));
             consoleControlGrave.setEnabled(true);
             consoleControlF1.setEnabled(true);
-
-            menuControl.update(inputPointers, false, false, inputMan, solApplication);
-            menuControl.update(inputPointers, false, false, inputMan, solApplication);
         }
 
         if (consoleControlGrave.isJustOff() || consoleControlF1.isJustOff()) {
