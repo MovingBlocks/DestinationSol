@@ -117,11 +117,13 @@ public class PointProjectileBody implements ProjectileBody {
                 userData = new SolObjectEntityWrapper((EntityRef) userData);
             }
 
-            SolObject o = (SolObject) userData;
-            boolean oIsMassless = o instanceof Projectile && ((Projectile) o).isMassless();
-            if (!oIsMassless && projectile.shouldCollide(o, fixture, game.getFactionMan())) {
+            //At this point, the object will either be an entity wrapped in a SolObjectEntityWrapper, or it will have already been a SolObject
+            SolObject solObject = (SolObject) userData;
+            
+            boolean objectIsMassless = solObject instanceof Projectile && ((Projectile) solObject).isMassless();
+            if (!objectIsMassless && projectile.shouldCollide(solObject, fixture, game.getFactionMan())) {
                 position.set(point);
-                projectile.setObstacle(o, game);
+                projectile.setObstacle(solObject, game);
                 return 0;
             }
 

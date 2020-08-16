@@ -63,15 +63,15 @@ public class SolContactListener implements ContactListener {
 
         //TODO This is legacy code for handling contact with a Projectile, which currently is designed to work with SolObjects.
         // Once Projectile has been converted to be an entity, this should be refactored.
-        SolObject oA = (SolObject) dataA;
-        SolObject oB = (SolObject) dataB;
-        boolean aIsProj = oA instanceof Projectile;
-        if (!aIsProj && !(oB instanceof Projectile)) {
+        SolObject firstSolObject = (SolObject) dataA;
+        SolObject secondSolObject = (SolObject) dataB;
+        boolean firstSolObjectIsProjectile = firstSolObject instanceof Projectile;
+        if (!firstSolObjectIsProjectile && !(secondSolObject instanceof Projectile)) {
             return;
         }
-        Projectile proj = (Projectile) (aIsProj ? oA : oB);
-        SolObject o = aIsProj ? oB : oA;
-        proj.setObstacle(o, myGame);
+        Projectile projectile = (Projectile) (firstSolObjectIsProjectile ? firstSolObject : secondSolObject);
+        SolObject solObject = firstSolObjectIsProjectile ? secondSolObject : firstSolObject;
+        projectile.setObstacle(solObject, myGame);
     }
 
     @Override
@@ -109,18 +109,18 @@ public class SolContactListener implements ContactListener {
 
         //TODO This is legacy code for handling contact between SolObjects.
         // Once every SolObject has been converted to an entity, this can be removed.
-        SolObject soa = (SolObject) dataA;
-        SolObject sob = (SolObject) dataB;
-        if (soa instanceof Projectile && ((Projectile) soa).getConfig().density <= 0) {
+        SolObject firstSolObject = (SolObject) dataA;
+        SolObject secondSolObject = (SolObject) dataB;
+        if (firstSolObject instanceof Projectile && ((Projectile) firstSolObject).getConfig().density <= 0) {
             return;
         }
-        if (sob instanceof Projectile && ((Projectile) sob).getConfig().density <= 0) {
+        if (secondSolObject instanceof Projectile && ((Projectile) secondSolObject).getConfig().density <= 0) {
             return;
         }
-        soa.handleContact(sob, absImpulse, myGame, collPos);
-        sob.handleContact(soa, absImpulse, myGame, collPos);
-        myGame.getSpecialSounds().playColl(myGame, absImpulse, soa, collPos);
-        myGame.getSpecialSounds().playColl(myGame, absImpulse, sob, collPos);
+        firstSolObject.handleContact(secondSolObject, absImpulse, myGame, collPos);
+        secondSolObject.handleContact(firstSolObject, absImpulse, myGame, collPos);
+        myGame.getSpecialSounds().playColl(myGame, absImpulse, firstSolObject, collPos);
+        myGame.getSpecialSounds().playColl(myGame, absImpulse, secondSolObject, collPos);
 
     }
 

@@ -144,16 +144,16 @@ public class Projectile implements SolObject {
                 if (config.density > 0) {
                     obstacle = null;
                     wasDamageDealt = true;
+                } else {
+                    collided(game);
+
+                    //TODO Once SolShip is an entity, this should be refactored to work with it
+//                    if (config.emTime > 0 && obstacle instanceof SolShip) {
+//                        ((SolShip) obstacle).disableControls(config.emTime, game);
+//                    }
+
+                    return;
                 }
-
-                collided(game);
-
-                //TODO Once SolShip is an entity, this should be refactored to work with it
-//                if (config.emTime > 0 && obstacle instanceof SolShip) {
-//                    ((SolShip) obstacle).disableControls(config.emTime, game);
-//                }
-
-                return;
 
             } else {
                 //TODO this else block is legacy code for handling contact between a SolObject and an entity. Once every
