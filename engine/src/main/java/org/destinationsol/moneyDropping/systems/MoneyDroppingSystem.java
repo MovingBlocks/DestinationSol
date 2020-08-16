@@ -28,7 +28,7 @@ import org.destinationsol.game.item.LootBuilder;
 import org.destinationsol.game.item.MoneyItem;
 import org.destinationsol.location.components.Position;
 import org.destinationsol.location.components.Velocity;
-import org.destinationsol.moneyDropping.components.DropsMoneyOnDeath;
+import org.destinationsol.moneyDropping.components.DropsMoneyOnDestruction;
 import org.destinationsol.removal.events.DeletionEvent;
 import org.destinationsol.removal.systems.DestructionSystem;
 import org.destinationsol.size.components.Size;
@@ -40,7 +40,7 @@ import org.terasology.gestalt.entitysystem.event.ReceiveEvent;
 import java.util.List;
 
 /**
- * When an entity with a {@link DropsMoneyOnDeath} component is destroyed, this system creates an amount of money based
+ * When an entity with a {@link DropsMoneyOnDestruction} component is destroyed, this system creates an amount of money based
  * on its {@link Size}.
  */
 public class MoneyDroppingSystem implements EventReceiver {
@@ -60,7 +60,7 @@ public class MoneyDroppingSystem implements EventReceiver {
     @In
     private ObjectManager objectManager;
 
-    @ReceiveEvent(components = {DropsMoneyOnDeath.class, Position.class, Velocity.class, Size.class})
+    @ReceiveEvent(components = {DropsMoneyOnDestruction.class, Position.class, Velocity.class, Size.class})
     @Before(DestructionSystem.class)
     public EventResult onDeletion(DeletionEvent event, EntityRef entity) {
 

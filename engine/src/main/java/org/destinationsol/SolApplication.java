@@ -41,7 +41,7 @@ import org.destinationsol.game.drawables.DrawableLevel;
 import org.destinationsol.health.components.Health;
 import org.destinationsol.location.components.Angle;
 import org.destinationsol.location.components.Velocity;
-import org.destinationsol.moneyDropping.components.DropsMoneyOnDeath;
+import org.destinationsol.moneyDropping.components.DropsMoneyOnDestruction;
 import org.destinationsol.rendering.RenderableElement;
 import org.destinationsol.rendering.components.Renderable;
 import org.destinationsol.rendering.events.RenderEvent;
@@ -281,7 +281,7 @@ public class SolApplication implements ApplicationListener {
                 health.currentHealth = 1;
 
                 EntityRef entityRef = entitySystemManager.getEntityManager().createEntity(graphicsComponent, position, size,
-                        new Angle(), new Velocity(), new AsteroidMesh(), health, new DropsMoneyOnDeath(), new CreatesRubbleOnDestruction());
+                        new Angle(), new Velocity(), new AsteroidMesh(), health, new DropsMoneyOnDestruction(), new CreatesRubbleOnDestruction());
                 
                 entityRef.setComponent(new BodyLinked());
                 entityCreated = true;
