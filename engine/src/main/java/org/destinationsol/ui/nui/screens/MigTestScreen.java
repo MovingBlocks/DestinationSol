@@ -16,16 +16,11 @@
 package org.destinationsol.ui.nui.screens;
 
 import org.destinationsol.ui.nui.NUIScreenLayer;
-import org.terasology.math.geom.Vector2i;
-import org.terasology.nui.Canvas;
-import org.terasology.nui.UIWidget;
 import org.terasology.nui.widgets.UIDropdown;
 import org.terasology.nui.widgets.UIDropdownScrollable;
 import org.terasology.nui.widgets.UIList;
 
 import java.util.Arrays;
-import java.util.Collections;
-import java.util.Iterator;
 import java.util.List;
 
 /**
