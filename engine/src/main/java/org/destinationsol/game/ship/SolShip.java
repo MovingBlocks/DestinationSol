@@ -354,7 +354,7 @@ public class SolShip implements SolObject {
     @Override
     public void onRemove(SolGame game) {
         if (myHull.life <= 0) {
-            game.getShardBuilder().buildExplosionShards(game, myHull.getPosition(), myHull.getVelocity(), myHull.config.getSize());
+            game.getRubbleBuilder().buildExplosionShards(game, myHull.getPosition(), myHull.getVelocity(), myHull.config.getSize());
             throwAllLoot(game);
         }
         myHull.onRemove(game);

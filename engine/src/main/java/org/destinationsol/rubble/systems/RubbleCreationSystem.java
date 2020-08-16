@@ -18,8 +18,8 @@ package org.destinationsol.rubble.systems;
 import com.badlogic.gdx.math.Vector2;
 import org.destinationsol.common.In;
 import org.destinationsol.entitysystem.EventReceiver;
-import org.destinationsol.game.Shard;
-import org.destinationsol.game.ShardBuilder;
+import org.destinationsol.game.Rubble;
+import org.destinationsol.game.RubbleBuilder;
 import org.destinationsol.game.SolGame;
 import org.destinationsol.location.components.Position;
 import org.destinationsol.location.components.Velocity;
@@ -34,20 +34,20 @@ import org.terasology.gestalt.entitysystem.event.EventResult;
 import org.terasology.gestalt.entitysystem.event.ReceiveEvent;
 
 /**
- * When an entity with a {@link CreatesRubbleOnDestruction} component is destroyed, this system creates {@link Shard}s
+ * When an entity with a {@link CreatesRubbleOnDestruction} component is destroyed, this system creates {@link Rubble}s
  * where the entity was.
  */
 public class RubbleCreationSystem implements EventReceiver {
 
     @In
-    private ShardBuilder shardBuilder;
+    private RubbleBuilder rubbleBuilder;
 
     @In
     private SolGame solGame;
 
     //TODO once Shards are entities, this needs to be refactored to replace ShardBuilder
     /**
-     *When an entity with a {@link CreatesRubbleOnDestruction} component is destroyed, this creates {@link Shard}s where
+     *When an entity with a {@link CreatesRubbleOnDestruction} component is destroyed, this creates {@link Rubble}s where
      * the entity was, unless the entity is in {@link Stasis}.
      */
     @ReceiveEvent(components = {CreatesRubbleOnDestruction.class, Position.class, Velocity.class, Size.class})
@@ -57,7 +57,7 @@ public class RubbleCreationSystem implements EventReceiver {
             Vector2 position = entity.getComponent(Position.class).get().position;
             Vector2 velocity = entity.getComponent(Velocity.class).get().velocity;
             float size = entity.getComponent(Size.class).get().size;
-            shardBuilder.buildExplosionShards(solGame, position, velocity, size);
+            rubbleBuilder.buildExplosionShards(solGame, position, velocity, size);
         }
         return EventResult.CONTINUE;
     }

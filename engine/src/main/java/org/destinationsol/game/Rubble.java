@@ -23,7 +23,7 @@ import org.destinationsol.game.drawables.Drawable;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Shard implements SolObject {
+public class Rubble implements SolObject {
 
     private final Body body;
     private final Vector2 position;
@@ -32,7 +32,7 @@ public class Shard implements SolObject {
 
     private float angle;
 
-    Shard(Body body, ArrayList<Drawable> drawables) {
+    Rubble(Body body, ArrayList<Drawable> drawables) {
         this.drawables = drawables;
         this.body = body;
         position = new Vector2();

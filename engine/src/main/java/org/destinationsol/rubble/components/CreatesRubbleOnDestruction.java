@@ -15,11 +15,11 @@
  */
 package org.destinationsol.rubble.components;
 
-import org.destinationsol.game.Shard;
+import org.destinationsol.game.Rubble;
 import org.terasology.gestalt.entitysystem.component.EmptyComponent;
 
 /**
- * Indicates that when an entity dies, {@link Shard}s should be created where the entity was.
+ * Indicates that when an entity dies, {@link Rubble}s should be created where the entity was.
  */
 public class CreatesRubbleOnDestruction extends EmptyComponent<CreatesRubbleOnDestruction> {
 }
