@@ -55,7 +55,7 @@ public class ResolutionScreen extends SolUiBaseScreen {
         controls.add(fullscreenControl);
 
         nuiUIScaleControl = new SolUiControl(menuLayout.buttonRect(-1, 3), true);
-        nuiUIScaleControl.setDisplayName("Map Pan Speed");
+        nuiUIScaleControl.setDisplayName("NUI UI scale");
         controls.add(nuiUIScaleControl);
 
         closeControl = new SolUiControl(menuLayout.buttonRect(-1, 4), true, gameOptions.getKeyEscape());
