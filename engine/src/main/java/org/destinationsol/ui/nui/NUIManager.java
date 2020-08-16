@@ -315,7 +315,7 @@ public class NUIManager {
      * @param scale the new UI scale to use
      */
     public void setUiScale(float scale) {
-        canvas.setUiScale(1.0f / scale);
-        canvasRenderer.setUiScale(scale);
+        canvas.setUiScale(scale);
+        canvasRenderer.setUiScale(1.0f / scale);
     }
 }
