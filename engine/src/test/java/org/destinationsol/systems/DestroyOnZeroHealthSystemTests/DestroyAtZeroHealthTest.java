@@ -18,7 +18,7 @@ package org.destinationsol.systems.DestroyOnZeroHealthSystemTests;
 import org.destinationsol.entitysystem.EntitySystemManager;
 import org.destinationsol.game.context.internal.ContextImpl;
 import org.destinationsol.modules.ModuleManager;
-import org.destinationsol.removal.ZeroHealthEvent;
+import org.destinationsol.removal.events.ZeroHealthEvent;
 import org.junit.Before;
 import org.junit.Test;
 import org.terasology.gestalt.entitysystem.component.management.ComponentManager;

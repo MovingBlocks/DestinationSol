@@ -18,6 +18,7 @@ package org.destinationsol.game;
 import com.badlogic.gdx.physics.box2d.ContactFilter;
 import com.badlogic.gdx.physics.box2d.Fixture;
 import org.destinationsol.game.projectile.Projectile;
+import org.terasology.gestalt.entitysystem.entity.EntityRef;
 
 public class SolContactFilter implements ContactFilter {
     private final FactionManager myFactionManager;
@@ -28,6 +29,13 @@ public class SolContactFilter implements ContactFilter {
 
     @Override
     public boolean shouldCollide(Fixture fixtureA, Fixture fixtureB) {
+
+        if (fixtureA.getBody().getUserData() instanceof EntityRef || fixtureB.getBody().getUserData() instanceof EntityRef) {
+            return true;
+        }
+
+        //TODO Everything after this will need to be replaced when Projectile is refactored to work with ECS
+
         SolObject oA = (SolObject) fixtureA.getBody().getUserData();
         SolObject oB = (SolObject) fixtureB.getBody().getUserData();
 

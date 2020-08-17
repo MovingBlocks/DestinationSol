@@ -25,16 +25,19 @@ import org.destinationsol.entitysystem.EntitySystemManager;
 import org.destinationsol.entitysystem.EventReceiver;
 import org.destinationsol.force.components.ImmuneToForce;
 import org.destinationsol.force.events.ForceEvent;
+import org.destinationsol.game.UpdateAwareSystem;
 import org.destinationsol.location.components.Angle;
 import org.destinationsol.location.components.Position;
 import org.destinationsol.location.components.Velocity;
 import org.destinationsol.location.events.AngleUpdateEvent;
 import org.destinationsol.location.events.PositionUpdateEvent;
 import org.destinationsol.location.events.VelocityUpdateEvent;
+import org.destinationsol.removal.events.DeletionEvent;
+import org.destinationsol.removal.systems.DestructionSystem;
 import org.terasology.gestalt.entitysystem.entity.EntityRef;
+import org.terasology.gestalt.entitysystem.event.Before;
 import org.terasology.gestalt.entitysystem.event.EventResult;
 import org.terasology.gestalt.entitysystem.event.ReceiveEvent;
-import org.terasology.gestalt.entitysystem.event.lifecycle.OnRemoved;
 
 import java.util.HashMap;
 
@@ -42,6 +45,9 @@ import java.util.HashMap;
  * This system handles the interaction between an entity and a {@link Body}. If an entity has a {@link BodyLinked}
  * component but no actual Body object associated with it, this will send a {@link GenerateBodyEvent} so that one will
  * be created.
+ * <p>
+ * Bodies should only be created during an update sent by an {@link UpdateAwareSystem}. Attempting to create a body at
+ * any other time may cause the game to crash.
  */
 public class BodyHandlerSystem implements EventReceiver {
 
@@ -79,15 +85,21 @@ public class BodyHandlerSystem implements EventReceiver {
      */
     @ReceiveEvent(components = {BodyLinked.class, Position.class})
     public EventResult onForce(ForceEvent event, EntityRef entity) {
-        if (!entity.hasComponent(ImmuneToForce.class)) {
-            createBodyIfNonexistent(entity);
-            referenceToBodyObjects.get(entity).applyForceToCenter(event.getForce(), true);
+        if (!referenceToBodyObjects.containsKey(entity)){
+            return EventResult.CANCEL;
         }
+
+        if (entity.hasComponent(ImmuneToForce.class)) {
+            return EventResult.CONTINUE;
+        }
+
+        referenceToBodyObjects.get(entity).applyForceToCenter(event.getForce(), true);
         return EventResult.CONTINUE;
     }
 
     /**
-     * if an entity with a {@link BodyLinked} doesn't have an existing body, this method creates one for it.
+     * if an entity with a {@link BodyLinked} doesn't have an existing body, this method creates one for it. This should
+     * only be called during an update. Attempting to create a body at any other time will cause the game to crash.
      *
      * @param entity the entity that should have a body associated with it
      */
@@ -103,7 +115,16 @@ public class BodyHandlerSystem implements EventReceiver {
         return EventResult.CONTINUE;
     }
 
-    public void removeBody(EntityRef entity) {
+    /**
+     * When an entity is about to be deleted, this destroys the {@link Body} associated with it and removes it from the HashMap.
+     */
+    @ReceiveEvent(components = BodyLinked.class)
+    @Before(DestructionSystem.class)
+    public EventResult onDeletion(DeletionEvent event, EntityRef entity) {
+        Body body = referenceToBodyObjects.get(entity);
         referenceToBodyObjects.remove(entity);
+        body.getWorld().destroyBody(body);
+
+        return EventResult.CONTINUE;
     }
 }

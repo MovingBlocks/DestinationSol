@@ -13,13 +13,19 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.destinationsol.body.components;
+package org.destinationsol.size.components;
 
-import com.badlogic.gdx.physics.box2d.Body;
-import org.terasology.gestalt.entitysystem.component.EmptyComponent;
+import org.terasology.gestalt.entitysystem.component.Component;
 
 /**
- * Indicates that there is a {@link Body} associated with the entity.
+ * The area that an entity takes up.
  */
-public class BodyLinked extends EmptyComponent<BodyLinked> {
+public class Size implements Component<Size> {
+
+    public float size;
+
+    @Override
+    public void copy(Size other) {
+        this.size = other.size;
+    }
 }

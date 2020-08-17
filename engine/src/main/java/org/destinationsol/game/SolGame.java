@@ -17,6 +17,7 @@ package org.destinationsol.game;
 
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.physics.box2d.World;
 import com.badlogic.gdx.utils.Timer;
 import org.destinationsol.CommonDrawer;
 import org.destinationsol.Const;
@@ -25,6 +26,7 @@ import org.destinationsol.SolApplication;
 import org.destinationsol.assets.sound.OggSoundManager;
 import org.destinationsol.assets.sound.SpecialSounds;
 import org.destinationsol.common.DebugCol;
+import org.destinationsol.common.In;
 import org.destinationsol.common.SolException;
 import org.destinationsol.common.SolMath;
 import org.destinationsol.common.SolRandom;
@@ -60,6 +62,7 @@ import org.destinationsol.ui.DebugCollector;
 import org.destinationsol.ui.TutorialManager;
 import org.destinationsol.ui.UiDrawer;
 import org.destinationsol.ui.Waypoint;
+import org.destinationsol.util.InjectionHelper;
 import org.terasology.gestalt.entitysystem.entity.EntityRef;
 
 import java.util.ArrayList;
@@ -98,6 +101,7 @@ public class SolGame {
     private final MountDetectDrawer mountDetectDrawer;
     private final TutorialManager tutorialManager;
     private final GalaxyFiller galaxyFiller;
+    private final SolContactListener contactListener;
     private Hero hero;
     private float timeStep;
     private float time;
@@ -107,6 +111,7 @@ public class SolGame {
     private SortedMap<Integer, List<UpdateAwareSystem>> onPausedUpdateSystems;
     private SortedMap<Integer, List<UpdateAwareSystem>> updateSystems;
 
+    private EntitySystemManager entitySystemManager;
 
     public SolGame(String shipName, boolean isTutorial, boolean isNewGame, CommonDrawer commonDrawer, Context context,
                    WorldConfig worldConfig) {
@@ -117,6 +122,7 @@ public class SolGame {
         solApplication = context.get(SolApplication.class);
         ModuleManager moduleManager = context.get(ModuleManager.class);
         GameDrawer drawer = new GameDrawer(commonDrawer);
+        context.put(GameDrawer.class, drawer);
         gameColors = new GameColors();
         soundManager = solApplication.getSoundManager();
         specialSounds = new SpecialSounds(soundManager);
@@ -136,11 +142,11 @@ public class SolGame {
         itemManager = new ItemManager(soundManager, effectTypes, gameColors);
         AbilityCommonConfigs abilityCommonConfigs = new AbilityCommonConfigs(effectTypes, gameColors, soundManager);
         hullConfigManager = new HullConfigManager(itemManager, abilityCommonConfigs);
-        SolNames solNames = new SolNames();
         planetManager = new PlanetManager(hullConfigManager, gameColors, itemManager);
-        SolContactListener contactListener = new SolContactListener(this);
+        contactListener = new SolContactListener(this);
         factionManager = new FactionManager();
         objectManager = new ObjectManager(contactListener, factionManager);
+        context.put(World.class, objectManager.getWorld());
         gridDrawer = new GridDrawer();
         chunkManager = new ChunkManager();
         partMan = new PartMan();
@@ -154,6 +160,11 @@ public class SolGame {
         mountDetectDrawer = new MountDetectDrawer();
         beaconHandler = new BeaconHandler();
         timeFactor = 1;
+
+    }
+
+    public void createUpdateSystems(Context context) {
+        ModuleManager moduleManager = context.get(ModuleManager.class);
 
         // the ordering of update aware systems is very important, switching them up can cause bugs!
         updateSystems = new TreeMap<Integer, List<UpdateAwareSystem>>();
@@ -177,6 +188,7 @@ public class SolGame {
                 }
                 RegisterUpdateSystem registerAnnotation = updateSystemClass.getDeclaredAnnotation(RegisterUpdateSystem.class);
                 UpdateAwareSystem system = (UpdateAwareSystem) updateSystemClass.newInstance();
+                InjectionHelper.inject(system, context);
                 if (!registerAnnotation.paused()) {
                     if (!updateSystems.containsKey(registerAnnotation.priority())) {
                         ArrayList<UpdateAwareSystem> systems = new ArrayList<UpdateAwareSystem>();
@@ -198,8 +210,11 @@ public class SolGame {
         } catch (Exception e) {
             e.printStackTrace();
         }
+    }
 
-        // from this point we're ready!
+    public void startGame(String shipName, boolean isNewGame, WorldConfig worldConfig, SolNames solNames, EntitySystemManager entitySystemManager) {
+        this.entitySystemManager = entitySystemManager;
+
         respawnState = new RespawnState();
         SolRandom.setSeed(worldConfig.getSeed());
         planetManager.fill(solNames, worldConfig.getNumberOfSystems());
@@ -405,6 +420,10 @@ public class SolGame {
         return shipBuilder;
     }
 
+    public SolContactListener getContactListener() {
+        return contactListener;
+    }
+
     public ItemManager getItemMan() {
         return itemManager;
     }
@@ -534,6 +553,10 @@ public class SolGame {
 
     public TutorialManager getTutMan() {
         return tutorialManager;
+    }
+
+    public EntitySystemManager getEntitySystemManager() {
+        return entitySystemManager;
     }
 
     public void setRespawnState() {

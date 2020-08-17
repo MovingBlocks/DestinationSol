@@ -13,13 +13,9 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.destinationsol.body.components;
+package org.destinationsol.asteroids.components;
 
-import com.badlogic.gdx.physics.box2d.Body;
 import org.terasology.gestalt.entitysystem.component.EmptyComponent;
 
-/**
- * Indicates that there is a {@link Body} associated with the entity.
- */
-public class BodyLinked extends EmptyComponent<BodyLinked> {
+public class AsteroidMesh extends EmptyComponent<AsteroidMesh> {
 }

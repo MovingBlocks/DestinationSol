@@ -13,12 +13,14 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.destinationsol.removal;
+package org.destinationsol.removal.systems;
 
 import org.destinationsol.common.In;
 import org.destinationsol.entitysystem.EntitySystemManager;
 import org.destinationsol.entitysystem.EventReceiver;
 import org.destinationsol.health.components.Health;
+import org.destinationsol.removal.events.ShouldBeDestroyedEvent;
+import org.destinationsol.removal.events.ZeroHealthEvent;
 import org.terasology.gestalt.entitysystem.entity.EntityRef;
 import org.terasology.gestalt.entitysystem.event.ReceiveEvent;
 
@@ -32,6 +34,6 @@ public class DestroyOnZeroHealthSystem implements EventReceiver {
 
     @ReceiveEvent
     public void onZeroHealth(ZeroHealthEvent event, EntityRef entity) {
-        entitySystemManager.sendEvent(new DestroyEvent(), entity);
+        entitySystemManager.sendEvent(new ShouldBeDestroyedEvent(), entity);
     }
 }

@@ -13,13 +13,14 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.destinationsol.body.components;
+package org.destinationsol.rendering.events;
 
-import com.badlogic.gdx.physics.box2d.Body;
-import org.terasology.gestalt.entitysystem.component.EmptyComponent;
+import org.destinationsol.rendering.components.Renderable;
+import org.destinationsol.rendering.systems.RenderingSystem;
+import org.terasology.gestalt.entitysystem.event.Event;
 
 /**
- * Indicates that there is a {@link Body} associated with the entity.
+ * Event that tells the {@link RenderingSystem} to update the drawings of each entity with a {@link Renderable}.
  */
-public class BodyLinked extends EmptyComponent<BodyLinked> {
+public class RenderEvent implements Event {
 }

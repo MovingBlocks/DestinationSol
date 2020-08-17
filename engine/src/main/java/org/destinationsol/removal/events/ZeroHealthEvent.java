@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.destinationsol.removal;
+package org.destinationsol.removal.events;
 
 import org.destinationsol.health.components.Health;
 import org.terasology.gestalt.entitysystem.event.Event;

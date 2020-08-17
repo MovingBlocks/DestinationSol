@@ -13,17 +13,13 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.destinationsol.removal;
+package org.destinationsol.rendering.components;
 
-import org.destinationsol.removal.RemovalForOptimizationEvent;
-import org.terasology.gestalt.entitysystem.event.Event;
+import org.destinationsol.rendering.systems.RenderingSystem;
+import org.terasology.gestalt.entitysystem.component.EmptyComponent;
 
 /**
- * Event that indicates that an entity should be removed.
- * <p>
- * An entity should usually be removed when its health reaches zero, or, for instance, if the object is a projectile,
- * when it reaches its target. This event should not be used for entities being removed for optimization purposes when
- * they get too far away. Removal for optimization purposes is handled by a {@link RemovalForOptimizationEvent}.
+ * Denotes that the object should not be drawn by the {@link RenderingSystem}.
  */
-public class DestroyEvent implements Event {
+public class Invisible extends EmptyComponent<Invisible> {
 }

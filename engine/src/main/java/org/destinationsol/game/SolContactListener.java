@@ -20,10 +20,20 @@ import com.badlogic.gdx.physics.box2d.Contact;
 import com.badlogic.gdx.physics.box2d.ContactImpulse;
 import com.badlogic.gdx.physics.box2d.ContactListener;
 import com.badlogic.gdx.physics.box2d.Manifold;
+import org.destinationsol.common.Immutable;
+import org.destinationsol.common.In;
 import org.destinationsol.common.SolMath;
+import org.destinationsol.entitysystem.EntitySystemManager;
+import org.destinationsol.force.events.ContactEvent;
+import org.destinationsol.force.events.ImpulseEvent;
 import org.destinationsol.game.projectile.Projectile;
+import org.terasology.gestalt.entitysystem.entity.EntityRef;
 
 public class SolContactListener implements ContactListener {
+
+    @In
+    private EntitySystemManager entitySystemManager;
+
     private final SolGame myGame;
 
     public SolContactListener(SolGame game) {
@@ -32,17 +42,36 @@ public class SolContactListener implements ContactListener {
 
     @Override
     public void beginContact(Contact contact) {
-        SolObject oA = (SolObject) contact.getFixtureA().getBody().getUserData();
-        SolObject oB = (SolObject) contact.getFixtureB().getBody().getUserData();
+        Object dataA = contact.getFixtureA().getBody().getUserData();
+        Object dataB = contact.getFixtureB().getBody().getUserData();
 
-        boolean aIsProj = oA instanceof Projectile;
-        if (!aIsProj && !(oB instanceof Projectile)) {
-            return;
+        if (dataA instanceof EntityRef && dataB instanceof EntityRef) {
+            EntityRef entityA = (EntityRef) dataA;
+            EntityRef entityB = (EntityRef) dataB;
+            entitySystemManager.sendEvent(new ContactEvent(entityB, contact), entityA);
+            entitySystemManager.sendEvent(new ContactEvent(entityA, contact), entityB);
         }
 
-        Projectile proj = (Projectile) (aIsProj ? oA : oB);
-        SolObject o = aIsProj ? oB : oA;
-        proj.setObstacle(o, myGame);
+        //TODO This is a patch to smooth over contact between an Entity and a Projectile. Once Projectile has been converted
+        // to be an Entity, this can be removed.
+        if (dataA instanceof EntityRef) {
+            dataA = new SolObjectEntityWrapper((EntityRef) dataA);
+        }
+        if (dataB instanceof EntityRef) {
+            dataB = new SolObjectEntityWrapper((EntityRef) dataB);
+        }
+
+        //TODO This is legacy code for handling contact with a Projectile, which currently is designed to work with SolObjects.
+        // Once Projectile has been converted to be an entity, this should be refactored.
+        SolObject firstSolObject = (SolObject) dataA;
+        SolObject secondSolObject = (SolObject) dataB;
+        boolean firstSolObjectIsProjectile = firstSolObject instanceof Projectile;
+        if (!firstSolObjectIsProjectile && !(secondSolObject instanceof Projectile)) {
+            return;
+        }
+        Projectile projectile = (Projectile) (firstSolObjectIsProjectile ? firstSolObject : secondSolObject);
+        SolObject solObject = firstSolObjectIsProjectile ? secondSolObject : firstSolObject;
+        projectile.setObstacle(solObject, myGame);
     }
 
     @Override
@@ -55,21 +84,44 @@ public class SolContactListener implements ContactListener {
 
     @Override
     public void postSolve(Contact contact, ContactImpulse impulse) {
-        SolObject soa = (SolObject) contact.getFixtureA().getBody().getUserData();
-        SolObject sob = (SolObject) contact.getFixtureB().getBody().getUserData();
-        if (soa instanceof Projectile && ((Projectile) soa).getConfig().density <= 0) {
-            return;
-        }
-        if (sob instanceof Projectile && ((Projectile) sob).getConfig().density <= 0) {
-            return;
+
+        Object dataA = contact.getFixtureA().getBody().getUserData();
+        Object dataB = contact.getFixtureB().getBody().getUserData();
+
+        Vector2 collPos = contact.getWorldManifold().getPoints()[0];
+        float absImpulse = calcAbsImpulse(impulse);
+
+        if (dataA instanceof EntityRef) {
+            entitySystemManager.sendEvent(new ImpulseEvent(collPos, absImpulse), (EntityRef) dataA);
+
+            //TODO This is a patch to smooth over contact between an entity and a SolObject.
+            // Once every SolObject has been converted to an entity, this can be removed.
+            dataA = new SolObjectEntityWrapper((EntityRef) dataA);
         }
 
-        float absImpulse = calcAbsImpulse(impulse);
-        Vector2 collPos = contact.getWorldManifold().getPoints()[0];
-        soa.handleContact(sob, absImpulse, myGame, collPos);
-        sob.handleContact(soa, absImpulse, myGame, collPos);
-        myGame.getSpecialSounds().playColl(myGame, absImpulse, soa, collPos);
-        myGame.getSpecialSounds().playColl(myGame, absImpulse, sob, collPos);
+        if (dataB instanceof EntityRef) {
+            entitySystemManager.sendEvent(new ImpulseEvent(collPos, absImpulse), (EntityRef) dataB);
+
+            //TODO This is a patch to smooth over contact between an entity and a SolObject.
+            // Once every SolObject has been converted to an entity, this can be removed.
+            dataB = new SolObjectEntityWrapper((EntityRef) dataB);
+        }
+
+        //TODO This is legacy code for handling contact between SolObjects.
+        // Once every SolObject has been converted to an entity, this can be removed.
+        SolObject firstSolObject = (SolObject) dataA;
+        SolObject secondSolObject = (SolObject) dataB;
+        if (firstSolObject instanceof Projectile && ((Projectile) firstSolObject).getConfig().density <= 0) {
+            return;
+        }
+        if (secondSolObject instanceof Projectile && ((Projectile) secondSolObject).getConfig().density <= 0) {
+            return;
+        }
+        firstSolObject.handleContact(secondSolObject, absImpulse, myGame, collPos);
+        secondSolObject.handleContact(firstSolObject, absImpulse, myGame, collPos);
+        myGame.getSpecialSounds().playColl(myGame, absImpulse, firstSolObject, collPos);
+        myGame.getSpecialSounds().playColl(myGame, absImpulse, secondSolObject, collPos);
+
     }
 
     private float calcAbsImpulse(ContactImpulse impulse) {

@@ -22,7 +22,9 @@ import org.destinationsol.Const;
 import org.destinationsol.common.SolMath;
 import org.destinationsol.game.SolGame;
 import org.destinationsol.game.SolObject;
+import org.destinationsol.game.SolObjectEntityWrapper;
 import org.destinationsol.game.ship.SolShip;
+import org.terasology.gestalt.entitysystem.entity.EntityRef;
 
 public class PointProjectileBody implements ProjectileBody {
     private final Vector2 position;
@@ -107,13 +109,24 @@ public class PointProjectileBody implements ProjectileBody {
 
         @Override
         public float reportRayFixture(Fixture fixture, Vector2 point, Vector2 normal, float fraction) {
-            SolObject o = (SolObject) fixture.getBody().getUserData();
-            boolean oIsMassless = o instanceof Projectile && ((Projectile) o).isMassless();
-            if (!oIsMassless && projectile.shouldCollide(o, fixture, game.getFactionMan())) {
+
+            //TODO This is a patch to smooth over contact between an Entity and a Projectile. Once Projectile has been
+            // converted to be an Entity, this can be removed.
+            Object userData = fixture.getBody().getUserData();
+            if (userData instanceof EntityRef) {
+                userData = new SolObjectEntityWrapper((EntityRef) userData);
+            }
+
+            //At this point, the object will either be an entity wrapped in a SolObjectEntityWrapper, or it will have already been a SolObject
+            SolObject solObject = (SolObject) userData;
+            
+            boolean objectIsMassless = solObject instanceof Projectile && ((Projectile) solObject).isMassless();
+            if (!objectIsMassless && projectile.shouldCollide(solObject, fixture, game.getFactionMan())) {
                 position.set(point);
-                projectile.setObstacle(o, game);
+                projectile.setObstacle(solObject, game);
                 return 0;
             }
+
             return -1;
         }
     }

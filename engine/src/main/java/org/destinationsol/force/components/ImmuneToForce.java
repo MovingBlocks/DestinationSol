@@ -16,14 +16,10 @@
 package org.destinationsol.force.components;
 
 import org.destinationsol.game.ship.KnockBack;
-import org.terasology.gestalt.entitysystem.component.Component;
+import org.terasology.gestalt.entitysystem.component.EmptyComponent;
 
 /**
  * Denotes that an entity should not be affected by forces such as gravity or the {@link KnockBack} ship ability.
  */
-public class ImmuneToForce implements Component<ImmuneToForce> {
-    @Override
-    public void copy(ImmuneToForce other) {
-
-    }
+public class ImmuneToForce extends EmptyComponent<ImmuneToForce> {
 }

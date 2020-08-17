@@ -13,22 +13,17 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.destinationsol.health.events;
+package org.destinationsol.removal.events;
 
+import org.destinationsol.removal.systems.DeletionUpdateSystem;
+import org.destinationsol.removal.systems.DestructionSystem;
 import org.terasology.gestalt.entitysystem.event.Event;
 
 /**
- * Event that contains information about the damage an entity receives.
+ * Every tick, the {@link DeletionUpdateSystem} sends a DeletionEvent to each entity with a SlatedForDeletion component,
+ * which causes the entity to be deleted by the {@link DestructionSystem}. This is different than a
+ * {@link ShouldBeDestroyedEvent} - that is for systems to respond to the destruction of an entity before it happens,
+ * e.g. to prevent it from being destroyed. This event is the actual deletion of the entity.
  */
-public class DamageEvent implements Event {
-
-    private float damage;
-
-    public DamageEvent(float damage) {
-        this.damage = damage;
-    }
-
-    public float getDamage() {
-        return damage;
-    }
+public class DeletionEvent implements Event {
 }

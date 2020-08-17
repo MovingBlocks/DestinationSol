@@ -13,12 +13,13 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.destinationsol.removal;
+package org.destinationsol.moneyDropping.components;
 
-import org.terasology.gestalt.entitysystem.event.Event;
+import org.destinationsol.game.item.Loot;
+import org.terasology.gestalt.entitysystem.component.EmptyComponent;
 
 /**
- * Event that indicates that an entity no longer needs to exist and thus can be removed.
+ * Indicates that when the entity is destroyed, one or more {@link Loot} objects should be created.
  */
-public class RemovalForOptimizationEvent implements Event {
+public class DropsMoneyOnDeath extends EmptyComponent<DropsMoneyOnDeath> {
 }
