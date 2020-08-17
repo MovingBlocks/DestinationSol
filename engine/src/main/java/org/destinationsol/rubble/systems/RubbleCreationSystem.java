@@ -46,16 +46,22 @@ public class RubbleCreationSystem implements EventReceiver {
     private SolGame solGame;
 
     //TODO once Shards are entities, this needs to be refactored to replace ShardBuilder
+
     /**
-     *When an entity with a {@link CreatesRubbleOnDestruction} component is destroyed, this creates {@link Rubble}s where
+     * When an entity with a {@link CreatesRubbleOnDestruction} component is destroyed, this creates {@link Rubble}s where
      * the entity was, unless the entity is in {@link Stasis}.
      */
-    @ReceiveEvent(components = {CreatesRubbleOnDestruction.class, Position.class, Velocity.class, Size.class})
+    @ReceiveEvent(components = {CreatesRubbleOnDestruction.class, Position.class, Size.class})
     @Before(DestructionSystem.class)
     public EventResult onDeletion(DeletionEvent event, EntityRef entity) {
         if (!entity.hasComponent(Stasis.class)) {
             Vector2 position = entity.getComponent(Position.class).get().position;
-            Vector2 velocity = entity.getComponent(Velocity.class).get().velocity;
+            Vector2 velocity;
+            if (entity.hasComponent(Velocity.class)) {
+                velocity = entity.getComponent(Velocity.class).get().velocity;
+            } else {
+                velocity = new Vector2();
+            }
             float size = entity.getComponent(Size.class).get().size;
             rubbleBuilder.buildExplosionShards(solGame, position, velocity, size);
         }

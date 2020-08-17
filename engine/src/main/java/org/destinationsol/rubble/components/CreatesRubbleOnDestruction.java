@@ -16,10 +16,12 @@
 package org.destinationsol.rubble.components;
 
 import org.destinationsol.game.Rubble;
+import org.destinationsol.location.components.Position;
 import org.terasology.gestalt.entitysystem.component.EmptyComponent;
 
 /**
- * Indicates that when an entity dies, {@link Rubble}s should be created where the entity was.
+ * Indicates that when an entity dies, {@link Rubble} should be created where the entity was. The entity needs to have
+ * a {@link Position} component for this to function.
  */
 public class CreatesRubbleOnDestruction extends EmptyComponent<CreatesRubbleOnDestruction> {
 }

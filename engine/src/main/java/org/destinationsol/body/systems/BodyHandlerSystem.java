@@ -68,13 +68,13 @@ public class BodyHandlerSystem implements EventReceiver {
         Body body = referenceToBodyObjects.get(entity);
 
         if (entity.hasComponent(Position.class)) {
-            entitySystemManager.sendEvent(new PositionUpdateEvent(body.getPosition()), entity);
+            entitySystemManager.sendEvent(new PositionUpdateEvent(body.getPosition().cpy()), entity);
         }
         if (entity.hasComponent(Angle.class)) {
             entitySystemManager.sendEvent(new AngleUpdateEvent(body.getAngle()), entity);
         }
         if (entity.hasComponent(Velocity.class)) {
-            entitySystemManager.sendEvent(new VelocityUpdateEvent(body.getLinearVelocity()), entity);
+            entitySystemManager.sendEvent(new VelocityUpdateEvent(body.getLinearVelocity().cpy()), entity);
         }
         return EventResult.CONTINUE;
     }
