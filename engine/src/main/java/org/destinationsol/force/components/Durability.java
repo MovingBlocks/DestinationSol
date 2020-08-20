@@ -43,8 +43,9 @@ public class Durability implements Component<Durability> {
         if (durability <= 0) {
             logger.error("Invalid value for the durability. It can't be less than or equal to zero.");
             this.durability = 1;
+        } else {
+            this.durability = durability;
         }
-        this.durability = durability;
     }
 
     @Override

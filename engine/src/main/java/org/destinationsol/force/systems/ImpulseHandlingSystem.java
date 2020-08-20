@@ -47,7 +47,7 @@ public class ImpulseHandlingSystem implements EventReceiver {
             damage /= durability;
         }
 
-        entitySystemManager.sendEvent(new DamageEvent((int) damage), entity);
+        entitySystemManager.sendEvent(new DamageEvent(damage), entity);
         return EventResult.CONTINUE;
     }
 }

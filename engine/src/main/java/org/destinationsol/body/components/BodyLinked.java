@@ -37,8 +37,9 @@ public class BodyLinked implements Component<BodyLinked> {
         if (mass <= 0) {
             logger.error("Invalid value for the mass. It can't be less than or equal to zero.");
             this.mass = 1;
+        } else {
+            this.mass = mass;
         }
-        this.mass = mass;
     }
 
     public float getMass() {
