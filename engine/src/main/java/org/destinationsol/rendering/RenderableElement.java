@@ -18,6 +18,7 @@ package org.destinationsol.rendering;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.math.Vector2;
+import org.destinationsol.common.SolMath;
 import org.destinationsol.game.drawables.DrawableLevel;
 
 /**
@@ -29,10 +30,10 @@ public class RenderableElement {
     public TextureAtlas.AtlasRegion texture;
 
     /** The width of the texture when drawn. */
-    public float width;
+    private float width;
 
     /** The height of the texture when drawn. */
-    public float height;
+    private float height;
 
     /** Represents the depth at which this element renders, as well as its logical grouping. */
     public DrawableLevel drawableLevel;
@@ -46,14 +47,45 @@ public class RenderableElement {
     /** The tint that the texture should be given. */
     public Color tint;
 
+    /**
+     * Sets the larger of the dimensions of the texture to the passed-in size, maintaining proportions and
+     * recalculating other fields as needed to fit.
+     * @param size the new size for the sprite
+     */
+    public void setSize(float size) {
+        size /= drawableLevel.depth; // Scales the texture size for background objects
+        float dimensionsRatio = texture.getRegionWidth() / texture.getRegionHeight();
+        if (dimensionsRatio > 1) {
+            width = size;
+            height = size / dimensionsRatio;
+        } else {
+            width = size / dimensionsRatio;
+            height = size;
+        }
+//        originalX = textureSizeX / 2 + size * originalPercentageX;
+//        originalY = textureSizeY / 2 + size * originalPercentageY;
+//
+//        float relativeX = textureSizeX / 2 + size * SolMath.abs(originalPercentageX);
+//        float relativeY = textureSizeY / 2 + size * SolMath.abs(originalPercentageY);
+//        radius = SolMath.sqrt(relativeX * relativeX + relativeY * relativeY);
+    }
+
     public void copy(RenderableElement other) {
         this.texture = new TextureAtlas.AtlasRegion(other.texture);
         this.drawableLevel = other.drawableLevel;
         this.relativePosition = other.relativePosition.cpy();
         this.relativeAngle = other.relativeAngle;
-        this.width = other.width;
-        this.height = other.height;
+        this.width = other.getWidth();
+        this.height = other.getHeight();
         this.tint = other.tint.cpy();
+    }
+
+    public float getWidth() {
+        return width;
+    }
+
+    public float getHeight() {
+        return height;
     }
 }
 

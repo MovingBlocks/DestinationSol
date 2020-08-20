@@ -57,8 +57,8 @@ public class RenderingSystem implements EventReceiver {
             for (RenderableElement renderableElement : renderable.elements) {
                 float angle = renderableElement.relativeAngle + baseAngle;
 
-                drawer.draw(renderableElement.texture, renderableElement.width,
-                        renderableElement.height, renderableElement.width / 2, renderableElement.height / 2,
+                drawer.draw(renderableElement.texture, renderableElement.getWidth(),
+                        renderableElement.getHeight(), renderableElement.getWidth() / 2, renderableElement.getHeight() / 2,
                         basePosition.x, basePosition.y, angle, renderableElement.tint);
             }
         }
