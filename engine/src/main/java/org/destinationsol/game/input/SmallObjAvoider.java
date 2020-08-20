@@ -23,8 +23,10 @@ import com.badlogic.gdx.physics.box2d.World;
 import org.destinationsol.common.SolMath;
 import org.destinationsol.game.SolGame;
 import org.destinationsol.game.SolObject;
+import org.destinationsol.game.SolObjectEntityWrapper;
 import org.destinationsol.game.planet.Planet;
 import org.destinationsol.game.ship.SolShip;
+import org.terasology.gestalt.entitysystem.entity.EntityRef;
 
 public class SmallObjAvoider {
     public static final float MANEUVER_TIME = 2f;
@@ -85,8 +87,12 @@ public class SmallObjAvoider {
     private class MyRayBack implements RayCastCallback {
         @Override
         public float reportRayFixture(Fixture fixture, Vector2 point, Vector2 normal, float fraction) {
-            SolObject o = (SolObject) fixture.getBody().getUserData();
-            if (myShip == o) {
+            Object data = fixture.getBody().getUserData();
+            if (data instanceof EntityRef) {
+                data = new SolObjectEntityWrapper((EntityRef) data);
+            }
+            SolObject solObject = (SolObject) data;
+            if (myShip == solObject) {
                 return -1;
             }
             myCollided = true;
