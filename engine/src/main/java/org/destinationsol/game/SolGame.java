@@ -26,7 +26,6 @@ import org.destinationsol.SolApplication;
 import org.destinationsol.assets.sound.OggSoundManager;
 import org.destinationsol.assets.sound.SpecialSounds;
 import org.destinationsol.common.DebugCol;
-import org.destinationsol.common.In;
 import org.destinationsol.common.SolException;
 import org.destinationsol.common.SolMath;
 import org.destinationsol.common.SolRandom;
@@ -89,7 +88,7 @@ public class SolGame {
     private final FarBackgroundManagerOld farBackgroundManagerOld;
     private final FactionManager factionManager;
     private final MapDrawer mapDrawer;
-    private final ShardBuilder shardBuilder;
+    private final RubbleBuilder rubbleBuilder;
     private final ItemManager itemManager;
     private final StarPort.Builder starPortBuilder;
     private final OggSoundManager soundManager;
@@ -153,7 +152,8 @@ public class SolGame {
         asteroidBuilder = new AsteroidBuilder();
         lootBuilder = new LootBuilder();
         mapDrawer = new MapDrawer();
-        shardBuilder = new ShardBuilder();
+        rubbleBuilder = new RubbleBuilder();
+        context.put(RubbleBuilder.class, rubbleBuilder);
         galaxyFiller = new GalaxyFiller(hullConfigManager);
         starPortBuilder = new StarPort.Builder();
         drawableDebugger = new DrawableDebugger();
@@ -495,8 +495,8 @@ public class SolGame {
         return mapDrawer;
     }
 
-    public ShardBuilder getShardBuilder() {
-        return shardBuilder;
+    public RubbleBuilder getRubbleBuilder() {
+        return rubbleBuilder;
     }
 
     public FarBackgroundManagerOld getFarBackgroundgManagerOld() {

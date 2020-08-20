@@ -21,5 +21,5 @@ import org.terasology.gestalt.entitysystem.component.EmptyComponent;
 /**
  * Indicates that when the entity is destroyed, one or more {@link Loot} objects should be created.
  */
-public class DropsMoneyOnDeath extends EmptyComponent<DropsMoneyOnDeath> {
+public class DropsMoneyOnDestruction extends EmptyComponent<DropsMoneyOnDestruction> {
 }

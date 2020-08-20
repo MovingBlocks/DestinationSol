@@ -29,7 +29,7 @@ import org.destinationsol.game.ship.ShipBuilder;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ShardBuilder {
+public class RubbleBuilder {
     public static final float MIN_SCALE = .07f;
     public static final float MAX_SCALE = .12f;
     public static final float SIZE_TO_SHARD_COUNT = 13f;
@@ -38,7 +38,7 @@ public class ShardBuilder {
     private final CollisionMeshLoader myCollisionMeshLoader;
     private final List<TextureAtlas.AtlasRegion> myTextures;
 
-    public ShardBuilder() {
+    public RubbleBuilder() {
         myCollisionMeshLoader = new CollisionMeshLoader("engine:miscCollisionMeshes");
         myTextures = Assets.listTexturesMatching("engine:shard_.*");
     }
@@ -46,12 +46,12 @@ public class ShardBuilder {
     public void buildExplosionShards(SolGame game, Vector2 position, Vector2 baseVelocity, float size) {
         int count = (int) (size * SIZE_TO_SHARD_COUNT);
         for (int i = 0; i < count; i++) {
-            Shard s = build(game, position, baseVelocity, size);
+            Rubble s = build(game, position, baseVelocity, size);
             game.getObjectManager().addObjDelayed(s);
         }
     }
 
-    public Shard build(SolGame game, Vector2 basePos, Vector2 baseVelocity, float size) {
+    public Rubble build(SolGame game, Vector2 basePos, Vector2 baseVelocity, float size) {
 
         ArrayList<Drawable> drawables = new ArrayList<>();
         float scale = SolRandom.randomFloat(MIN_SCALE, MAX_SCALE);
@@ -68,8 +68,8 @@ public class ShardBuilder {
         body.setLinearVelocity(velocity);
         SolMath.free(velocity);
 
-        Shard shard = new Shard(body, drawables);
-        body.setUserData(shard);
-        return shard;
+        Rubble rubble = new Rubble(body, drawables);
+        body.setUserData(rubble);
+        return rubble;
     }
 }

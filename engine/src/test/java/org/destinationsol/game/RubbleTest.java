@@ -36,7 +36,7 @@ import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 
-public class ShardTest {
+public class RubbleTest {
 
     private static ArrayList<Drawable> drawables;
 
@@ -50,7 +50,7 @@ public class ShardTest {
     private static SolObject createShard() {
         drawables = new ArrayList<>(1);
         Gdx.app.postRunnable(() -> drawables.add(new RectSprite(Assets.listTexturesMatching("engine:shard_.*").get(0), 1, 1, 1, new Vector2(), DrawableLevel.PART_FG_0, 0, 0, Color.WHITE, false)));
-        return new Shard(BodyUtilities.createDummyBody(), drawables);
+        return new Rubble(BodyUtilities.createDummyBody(), drawables);
     }
 
     @Test
@@ -82,15 +82,15 @@ public class ShardTest {
     public void getSpeed() {
         Body body = BodyUtilities.createDummyBody();
         body.setLinearVelocity(1f, 2f);
-        final Shard shard = new Shard(body, drawables);
-        assertTrue(shard.getVelocity().epsilonEquals(1f, 2f, 0.01f));
+        final Rubble rubble = new Rubble(body, drawables);
+        assertTrue(rubble.getVelocity().epsilonEquals(1f, 2f, 0.01f));
         assertTrue(SHARD_CONSTANT.getVelocity().epsilonEquals(0f, 0f, 0.01f));
     }
 
     @Test
     public void handleContact() {
         // Shards are not big enough to cause damage or get damage or anything, so this just shouldn't crash
-        SHARD_CONSTANT.handleContact(new Shard(BodyUtilities.createDummyBody(), drawables), 10f, InitializationUtilities.game, new Vector2(0f, 0f));
+        SHARD_CONSTANT.handleContact(new Rubble(BodyUtilities.createDummyBody(), drawables), 10f, InitializationUtilities.game, new Vector2(0f, 0f));
     }
 
     @Test
@@ -120,7 +120,7 @@ public class ShardTest {
     public void onRemove() {
         // TODO onRemove() should free its resources. How to test that?
         // I guess this just should not crash
-        new Shard(BodyUtilities.createDummyBody(), drawables).onRemove(InitializationUtilities.game);
+        new Rubble(BodyUtilities.createDummyBody(), drawables).onRemove(InitializationUtilities.game);
     }
 
     @Test
