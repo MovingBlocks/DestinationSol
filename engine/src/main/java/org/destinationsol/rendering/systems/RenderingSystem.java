@@ -19,7 +19,6 @@ import com.badlogic.gdx.math.Vector2;
 import org.destinationsol.common.In;
 import org.destinationsol.rendering.RenderableElement;
 import org.destinationsol.rendering.components.Renderable;
-import org.destinationsol.rendering.components.Invisible;
 import org.destinationsol.rendering.events.RenderEvent;
 import org.destinationsol.entitysystem.EntitySystemManager;
 import org.destinationsol.entitysystem.EventReceiver;
@@ -45,9 +44,9 @@ public class RenderingSystem implements EventReceiver {
     @ReceiveEvent(components = {Renderable.class, Position.class, Size.class})
     public EventResult onRender(RenderEvent event, EntityRef entity) {
 
-        if (!entity.hasComponent(Invisible.class)) {
+        Renderable renderable = entity.getComponent(Renderable.class).get();
+        if (!renderable.isInvisible) {
 
-            Renderable renderable = entity.getComponent(Renderable.class).get();
             Vector2 basePosition = entity.getComponent(Position.class).get().position;
             float size = entity.getComponent(Size.class).get().size;
 

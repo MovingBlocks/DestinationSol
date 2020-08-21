@@ -27,6 +27,8 @@ public final class Renderable implements Component<Renderable> {
 
     public ArrayList<RenderableElement> elements = new ArrayList<>();
 
+    public boolean isInvisible;
+
     @Override
     public void copy(Renderable other) {
         ArrayList<RenderableElement> newElements = new ArrayList<>();
@@ -37,5 +39,6 @@ public final class Renderable implements Component<Renderable> {
         }
 
         this.elements = newElements;
+        this.isInvisible = other.isInvisible;
     }
 }
