@@ -26,6 +26,7 @@ import org.destinationsol.entitysystem.EventReceiver;
 import org.destinationsol.game.GameDrawer;
 import org.destinationsol.location.components.Angle;
 import org.destinationsol.location.components.Position;
+import org.destinationsol.size.components.Size;
 import org.terasology.gestalt.entitysystem.entity.EntityRef;
 import org.terasology.gestalt.entitysystem.event.EventResult;
 import org.terasology.gestalt.entitysystem.event.ReceiveEvent;
@@ -41,13 +42,14 @@ public class RenderingSystem implements EventReceiver {
     @In
     private GameDrawer drawer;
 
-    @ReceiveEvent(components = {Renderable.class, Position.class})
+    @ReceiveEvent(components = {Renderable.class, Position.class, Size.class})
     public EventResult onRender(RenderEvent event, EntityRef entity) {
 
         if (!entity.hasComponent(Invisible.class)) {
 
             Renderable renderable = entity.getComponent(Renderable.class).get();
             Vector2 basePosition = entity.getComponent(Position.class).get().position;
+            float size = entity.getComponent(Size.class).get().size;
 
             float baseAngle = 0;
             if (entity.hasComponent(Position.class)) {
@@ -57,8 +59,13 @@ public class RenderingSystem implements EventReceiver {
             for (RenderableElement renderableElement : renderable.elements) {
                 float angle = renderableElement.relativeAngle + baseAngle;
 
+                float horizontalShift = renderableElement.getWidth() / 2;
+                float verticalShift = renderableElement.getHeight() / 2;
+                horizontalShift += renderableElement.graphicsOffset.x * size;
+                verticalShift += renderableElement.graphicsOffset.y * size;
+
                 drawer.draw(renderableElement.texture, renderableElement.getWidth(),
-                        renderableElement.getHeight(), renderableElement.getWidth() / 2, renderableElement.getHeight() / 2,
+                        renderableElement.getHeight(), horizontalShift, verticalShift,
                         basePosition.x, basePosition.y, angle, renderableElement.tint);
             }
         }

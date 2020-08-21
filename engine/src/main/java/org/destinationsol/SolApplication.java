@@ -261,14 +261,15 @@ public class SolApplication implements ApplicationListener {
             if (!entityCreated) {
 
                 Size size = new Size();
-                size.size = 4;
+                size.size = 2;
 
                 RenderableElement element = new RenderableElement();
                 element.texture = SolRandom.randomElement(Assets.listTexturesMatching("engine:asteroid_.*"));
-                element.relativePosition = new Vector2(0, 0);
+                element.relativePosition = new Vector2();
                 element.drawableLevel = DrawableLevel.BODIES;
                 element.tint = Color.YELLOW;
                 element.setSize(size.size);
+                element.graphicsOffset = new Vector2();
                 Renderable graphicsComponent = new Renderable();
                 graphicsComponent.elements.add(element);
 

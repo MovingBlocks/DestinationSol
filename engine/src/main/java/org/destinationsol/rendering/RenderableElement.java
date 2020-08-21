@@ -47,6 +47,8 @@ public class RenderableElement {
     /** The tint that the texture should be given. */
     public Color tint;
 
+    public Vector2 graphicsOffset;
+
     /**
      * Sets the larger of the dimensions of the texture to the passed-in size, maintaining proportions and
      * recalculating other fields as needed to fit.
@@ -54,7 +56,7 @@ public class RenderableElement {
      */
     public void setSize(float size) {
         size /= drawableLevel.depth; // Scales the texture size for background objects
-        float dimensionsRatio = texture.getRegionWidth() / texture.getRegionHeight();
+        float dimensionsRatio = (float) texture.getRegionWidth() / texture.getRegionHeight();
         if (dimensionsRatio > 1) {
             width = size;
             height = size / dimensionsRatio;
@@ -62,12 +64,6 @@ public class RenderableElement {
             width = size / dimensionsRatio;
             height = size;
         }
-//        originalX = textureSizeX / 2 + size * originalPercentageX;
-//        originalY = textureSizeY / 2 + size * originalPercentageY;
-//
-//        float relativeX = textureSizeX / 2 + size * SolMath.abs(originalPercentageX);
-//        float relativeY = textureSizeY / 2 + size * SolMath.abs(originalPercentageY);
-//        radius = SolMath.sqrt(relativeX * relativeX + relativeY * relativeY);
     }
 
     public void copy(RenderableElement other) {
@@ -78,6 +74,7 @@ public class RenderableElement {
         this.width = other.getWidth();
         this.height = other.getHeight();
         this.tint = other.tint.cpy();
+        this.graphicsOffset = other.graphicsOffset.cpy();
     }
 
     public float getWidth() {

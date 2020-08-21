@@ -90,6 +90,9 @@ public class AsteroidBodyCreationSystem implements EventReceiver {
             fixtureDef.density = DENSITY;
             fixtureDef.friction = Const.FRICTION;
             collisionMeshLoader.attachFixture(body, element.texture.name, fixtureDef, size);
+
+            Vector2 originInformation = collisionMeshLoader.getOrigin(element.texture.name, 1);
+            element.graphicsOffset = new Vector2(originInformation.x - .5f, originInformation.y - .5f);
         }
 
         entitySystemManager.sendEvent(new BodyCreatedEvent(body), entity);
