@@ -58,15 +58,20 @@ public class RenderingSystem implements EventReceiver {
 
             for (RenderableElement renderableElement : renderable.elements) {
                 float angle = renderableElement.relativeAngle + baseAngle;
+                Vector2 renderableElementPosition = basePosition.add(renderableElement.relativePosition);
 
+                /*
+                This calculates how much the position of the drawable should be shifted horizontally or vertically to
+                line up with the collision mesh.
+                 */
                 float horizontalShift = renderableElement.getWidth() / 2;
                 float verticalShift = renderableElement.getHeight() / 2;
                 horizontalShift += renderableElement.graphicsOffset.x * size;
                 verticalShift += renderableElement.graphicsOffset.y * size;
 
-                drawer.draw(renderableElement.texture, renderableElement.getWidth(),
-                        renderableElement.getHeight(), horizontalShift, verticalShift,
-                        basePosition.x, basePosition.y, angle, renderableElement.tint);
+                drawer.draw(renderableElement.texture, renderableElement.getWidth(), renderableElement.getHeight(),
+                        horizontalShift, verticalShift, renderableElementPosition.x, renderableElementPosition.y, angle,
+                        renderableElement.tint);
             }
         }
 

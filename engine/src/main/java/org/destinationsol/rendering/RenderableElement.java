@@ -20,6 +20,7 @@ import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.math.Vector2;
 import org.destinationsol.common.SolMath;
 import org.destinationsol.game.drawables.DrawableLevel;
+import org.destinationsol.size.components.Size;
 
 /**
  * Contains a {@link TextureAtlas.AtlasRegion} (an image), along with information about how it should be drawn.
@@ -47,15 +48,22 @@ public class RenderableElement {
     /** The tint that the texture should be given. */
     public Color tint;
 
+    /**
+     * The amount that the sprite should be moved to line up accurately with the mesh. This should be scaled according
+     * to the {@link Size}. This is different from the relativePosition, because this is a practical adjustment to align
+     * the mesh with the sprite, as opposed to moving the sprite relative to the base entity. Modification of this can
+     * create mesh misalignments, so only change this if you know what you're doing.
+     */
     public Vector2 graphicsOffset;
 
+
+    //TODO this should be automatically modified when the Size component is changed
     /**
-     * Sets the larger of the dimensions of the texture to the passed-in size, maintaining proportions and
-     * recalculating other fields as needed to fit.
-     * @param size the new size for the sprite
+     * Resizes the renderable element to the given size. The larger dimension of the texture is set to the size, and the
+     * smaller one is scaled down proportionally.
      */
     public void setSize(float size) {
-        size /= drawableLevel.depth; // Scales the texture size for background objects
+        size /= drawableLevel.depth; // Scales the texture size for objects that are in the background
         float dimensionsRatio = (float) texture.getRegionWidth() / texture.getRegionHeight();
         if (dimensionsRatio > 1) {
             width = size;
