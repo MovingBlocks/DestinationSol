@@ -51,13 +51,16 @@ public class RenderableElement {
     /**
      * The amount that the sprite should be moved to line up accurately with the mesh. This should be scaled according
      * to the {@link Size}. This is different from the relativePosition, because this is a practical adjustment to align
-     * the mesh with the sprite, as opposed to moving the sprite relative to the base entity. Modification of this can
-     * create mesh misalignments, so only change this if you know what you're doing.
+     * the mesh with the sprite, as opposed to moving the sprite relative to the base entity. To draw the sprite
+     * accurately, it needs to be drawn from the bottom-left of the actual image, not the bottom left of the .png file,
+     * so this contains the information for calculating the actual start of the sprite.
+     * <p>
+     * Modification of this can create mesh misalignments, so only change this if you know what you're doing.
      */
     public Vector2 graphicsOffset;
 
 
-    //TODO this should be automatically modified when the Size component is changed
+    //TODO this should be automatically called when the Size component is changed, e.g. the entity shrinks or grows
     /**
      * Resizes the renderable element to the given size. The larger dimension of the texture is set to the size, and the
      * smaller one is scaled down proportionally.
