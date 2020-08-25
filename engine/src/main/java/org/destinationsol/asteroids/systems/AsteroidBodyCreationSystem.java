@@ -66,7 +66,6 @@ public class AsteroidBodyCreationSystem implements EventReceiver {
     @ReceiveEvent(components = {AsteroidMesh.class, Size.class, Position.class, Angle.class, Renderable.class})
     public EventResult onGenerateBody(GenerateBodyEvent event, EntityRef entity) {
 
-
         float size = entity.getComponent(Size.class).get().size;
         Vector2 position = entity.getComponent(Position.class).get().position;
         float angle = entity.getComponent(Angle.class).get().getAngle();
@@ -90,9 +89,29 @@ public class AsteroidBodyCreationSystem implements EventReceiver {
             fixtureDef.density = DENSITY;
             fixtureDef.friction = Const.FRICTION;
             collisionMeshLoader.attachFixture(body, element.texture.name, fixtureDef, size);
+
+            calculateGraphicsOffset(element);
         }
 
         entitySystemManager.sendEvent(new BodyCreatedEvent(body), entity);
         return EventResult.CONTINUE;
+    }
+
+    /**
+     * This calculates the offset of the renderable element from "the origin" (as defined in the JSON that the
+     * CollisionMeshLoader reads from).
+     * The origin is where the center of the object should be, which is relevant for physics handling. The
+     * CollisionMeshLoader creates Fixtures (collision meshes) using that information, so the sprites need to be
+     * adjusted to overlay the mesh properly.
+     * LibGDX draws sprites from the bottom left corner. Since the position information is from the center, it
+     * needs to be adjusted to be at the bottom left of the sprite. To do so, (.5, .5) is subtracted from the origin.
+     * (The coordinates are scaled to range from zero to one, so (.5, .5) represents the center.)
+     * The originInformation is the information that was read from the JSON, which is used to calculate the graphics
+     * offset information.
+     */
+    //TODO separate this method into a separate system once CollisionMeshLoader is modular
+    private void calculateGraphicsOffset(RenderableElement element) {
+        Vector2 originInformation = collisionMeshLoader.getOrigin(element.texture.name, 1);
+        element.graphicsOffset = new Vector2(originInformation.x - .5f, originInformation.y - .5f);
     }
 }

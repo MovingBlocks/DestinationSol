@@ -260,22 +260,23 @@ public class SolApplication implements ApplicationListener {
 
             //TODO remove this block - it is for debugging purposes
             if (!entityCreated) {
+
+                Size size = new Size();
+                size.size = 2;
+
                 RenderableElement element = new RenderableElement();
                 element.texture = SolRandom.randomElement(Assets.listTexturesMatching("engine:asteroid_.*"));
-                element.relativePosition = new Vector2(0, 0);
+                element.relativePosition = new Vector2();
                 element.drawableLevel = DrawableLevel.BODIES;
-                element.width = 2;
-                element.height = 2;
                 element.tint = Color.YELLOW;
+                element.setSize(size.size);
+                element.graphicsOffset = new Vector2();
                 Renderable graphicsComponent = new Renderable();
                 graphicsComponent.elements.add(element);
 
                 Position position = new Position();
                 position.position = solGame.getHero().getShip().getPosition().cpy();
                 position.position.y += 3;
-
-                Size size = new Size();
-                size.size = 2;
 
                 Health health = new Health();
                 health.currentHealth = 1;

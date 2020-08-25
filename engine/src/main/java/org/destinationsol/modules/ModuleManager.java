@@ -157,6 +157,7 @@ public class ModuleManager {
             java.io.PipedOutputStream.class,
             /* Gestalt classes */
             org.terasology.gestalt.entitysystem.component.Component.class,
+            org.terasology.gestalt.entitysystem.component.EmptyComponent.class,
             org.terasology.gestalt.entitysystem.event.Event.class,
             org.terasology.gestalt.entitysystem.entity.EntityRef.class,
             org.terasology.gestalt.entitysystem.entity.EntityIterator.class,
