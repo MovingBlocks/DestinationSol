@@ -120,8 +120,6 @@ public class SolGame {
 
         this.isTutorial = isTutorial;
         solApplication = context.get(SolApplication.class);
-        ModuleManager moduleManager = context.get(ModuleManager.class);
-
 
         //This no longer needs to be instantiated in SolGame
         GameColors gameColors = new GameColors();
@@ -194,6 +192,7 @@ public class SolGame {
         onPausedUpdateSystems = new TreeMap<Integer, List<UpdateAwareSystem>>();
         onPausedUpdateSystems.put(0, defaultPausedSystems);
 
+        ModuleManager moduleManager = context.get(ModuleManager.class);
         try {
             for (Class<?> updateSystemClass : moduleManager.getEnvironment().getSubtypesOf(UpdateAwareSystem.class)) {
                 if (!updateSystemClass.isAnnotationPresent(RegisterUpdateSystem.class)) {
