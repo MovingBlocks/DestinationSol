@@ -371,10 +371,6 @@ public class SolGame {
         timeStep = Const.REAL_TIME_STEP * timeFactor;
     }
 
-    public void draw() {
-        drawableManager.draw(this);
-    }
-
     public void drawDebug(GameDrawer drawer) {
         if (DebugOptions.GRID_SZ > 0) {
             gridDrawer.draw(drawer, this, DebugOptions.GRID_SZ, drawer.debugWhiteTexture);
