@@ -183,19 +183,18 @@ public class SolGame {
         // the ordering of update aware systems is very important, switching them up can cause bugs!
         updateSystems = new TreeMap<Integer, List<UpdateAwareSystem>>();
         List<UpdateAwareSystem> defaultSystems = new ArrayList<UpdateAwareSystem>();
-        defaultSystems.addAll(Arrays.asList(planetManager, camera, chunkManager, mountDetectDrawer, objectManager, mapDrawer, soundManager, beaconHandler, drawableDebugger));
+        defaultSystems.addAll(Arrays.asList(planetManager, context.get(SolCam.class), chunkManager, mountDetectDrawer, objectManager, mapDrawer, soundManager, beaconHandler, drawableDebugger));
         if (tutorialManager != null) {
             defaultSystems.add(tutorialManager);
         }
         updateSystems.put(0, defaultSystems);
 
         List<UpdateAwareSystem> defaultPausedSystems = new ArrayList<UpdateAwareSystem>();
-        defaultPausedSystems.addAll(Arrays.asList(mapDrawer, camera, drawableDebugger));
+        defaultPausedSystems.addAll(Arrays.asList(mapDrawer, context.get(SolCam.class), drawableDebugger));
 
         onPausedUpdateSystems = new TreeMap<Integer, List<UpdateAwareSystem>>();
         onPausedUpdateSystems.put(0, defaultPausedSystems);
 
-        ModuleManager moduleManager = context.get(ModuleManager.class);
         try {
             for (Class<?> updateSystemClass : moduleManager.getEnvironment().getSubtypesOf(UpdateAwareSystem.class)) {
                 if (!updateSystemClass.isAnnotationPresent(RegisterUpdateSystem.class)) {
