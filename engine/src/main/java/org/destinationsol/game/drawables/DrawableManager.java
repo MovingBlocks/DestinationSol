@@ -30,6 +30,7 @@ import org.destinationsol.game.ObjectManager;
 import org.destinationsol.game.SolCam;
 import org.destinationsol.game.SolGame;
 import org.destinationsol.game.SolObject;
+import org.destinationsol.game.context.Context;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -105,18 +106,18 @@ public class DrawableManager {
         }
     }
 
-    public void draw(SolGame game) {
+    public void draw(SolGame game, Context context) {
+        SolCam solCam = context.get(SolCam.class);
         MapDrawer mapDrawer = game.getMapDrawer();
         if (mapDrawer.isToggled()) {
-            mapDrawer.draw(drawer, game);
+            mapDrawer.draw(drawer, game, context);
             return;
         }
 
-        SolCam cam = game.getCam();
-        drawer.updateMatrix(game);
-        game.getFarBackgroundgManagerOld().draw(drawer, cam, game);
-        Vector2 camPos = cam.getPosition();
-        float viewDistance = cam.getViewDistance();
+        drawer.updateMatrix(context);
+        game.getFarBackgroundgManagerOld().draw(drawer, solCam, game);
+        Vector2 camPos = solCam.getPosition();
+        float viewDistance = solCam.getViewDistance();
 
         ObjectManager objectManager = game.getObjectManager();
         List<SolObject> objects = objectManager.getObjects();
@@ -165,12 +166,12 @@ public class DrawableManager {
                 }
             }
             if (drawableLevel.depth <= 1) {
-                game.drawDebug(drawer);
+                game.drawDebug(drawer, context);
             }
             if (drawableLevel == DrawableLevel.ATM) {
                 if (!DebugOptions.NO_DRAS) {
-                    game.getPlanetManager().drawPlanetCoreHack(game, drawer);
-                    game.getPlanetManager().drawSunHack(game, drawer);
+                    game.getPlanetManager().drawPlanetCoreHack(game, drawer, context);
+                    game.getPlanetManager().drawSunHack(game, drawer, context);
                 }
             }
         }
@@ -179,18 +180,18 @@ public class DrawableManager {
             for (OrderedMap<Texture, List<Drawable>> map : drawables) {
                 for (List<Drawable> drawables : map.values()) {
                     for (Drawable drawable : drawables) {
-                        drawDebug(drawer, game, drawable);
+                        drawDebug(drawer, game, drawable, context);
                     }
                 }
             }
         }
 
-        game.getSoundManager().drawDebug(drawer, game);
+        game.getSoundManager().drawDebug(drawer, solCam);
         drawer.maybeChangeAdditive(false);
     }
 
-    private void drawDebug(GameDrawer drawer, SolGame game, Drawable drawable) {
-        SolCam cam = game.getCam();
+    private void drawDebug(GameDrawer drawer, SolGame game, Drawable drawable, Context context) {
+        SolCam cam = context.get(SolCam.class);
         float lineWidth = cam.getRealLineWidth();
         Color col = visibleDrawables.contains(drawable) ? DebugCol.DRA : DebugCol.DRA_OUT;
         Vector2 position = drawable.getPosition();

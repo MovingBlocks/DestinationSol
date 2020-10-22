@@ -21,7 +21,9 @@ import com.badlogic.gdx.math.Vector2;
 import org.destinationsol.GameOptions;
 import org.destinationsol.SolApplication;
 import org.destinationsol.game.MapDrawer;
+import org.destinationsol.game.SolCam;
 import org.destinationsol.game.SolGame;
+import org.destinationsol.game.context.Context;
 import org.destinationsol.ui.SolInputManager;
 import org.destinationsol.ui.SolUiBaseScreen;
 import org.destinationsol.ui.SolUiControl;
@@ -76,6 +78,7 @@ public class MapScreen extends SolUiBaseScreen {
 
     @Override
     public void updateCustom(SolApplication solApplication, SolInputManager.InputPointer[] inputPointers, boolean clickedOutside) {
+        Context context = solApplication.getContext();
         SolGame game = solApplication.getGame();
         GameOptions gameOptions = solApplication.getOptions();
         boolean justClosed = closeControl.isJustOff();
@@ -115,13 +118,13 @@ public class MapScreen extends SolUiBaseScreen {
         if (im.touchDragged) {
             //Scroll factor negates the drag and adjusts it to map's zoom
             float scrollFactor = -mapDrawer.getZoom() / Gdx.graphics.getHeight() * gameOptions.getMapScrollSpeed();
-            float rotateAngle = game.getCam().getAngle();
+            float rotateAngle = context.get(SolCam.class).getAngle();
             mapDrawer.getMapDrawPositionAdditive().add(im.getDrag().scl(scrollFactor).rotate(rotateAngle));
         }
 
         if (isPickingWaypointSpot) {
             if (inputPointers[0].isJustUnPressed() && !addWaypointControl.isJustOff()) {
-                Vector2 mapCamPos = game.getCam().getPosition().add(mapDrawer.getMapDrawPositionAdditive());
+                Vector2 mapCamPos = context.get(SolCam.class).getPosition().add(mapDrawer.getMapDrawPositionAdditive());
                 Vector2 clickPosition = new Vector2(inputPointers[0].x, inputPointers[0].y);
                 Vector2 worldPosition = screenPositionToWorld(clickPosition, mapCamPos, mapZoom);
                 ArrayList<Waypoint> waypoints = game.getHero().getWaypoints();
@@ -153,7 +156,7 @@ public class MapScreen extends SolUiBaseScreen {
         if (isPickingWaypointToRemove) {
             if (inputPointers[0].isJustUnPressed() && !removeWaypointControl.isJustOff()) {
                 Vector2 clickPosition = new Vector2(inputPointers[0].x, inputPointers[0].y);
-                Vector2 realPosition = screenPositionToWorld(clickPosition, game.getCam().getPosition(), mapZoom);
+                Vector2 realPosition = screenPositionToWorld(clickPosition, context.get(SolCam.class).getPosition(), mapZoom);
 
                 ArrayList<Waypoint> waypoints = game.getHero().getWaypoints();
                 for (int w = 0; w < waypoints.size(); w++) {

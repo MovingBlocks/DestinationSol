@@ -30,6 +30,7 @@ import org.destinationsol.game.SolGame;
 import org.destinationsol.game.SolNames;
 import org.destinationsol.game.SolObject;
 import org.destinationsol.game.UpdateAwareSystem;
+import org.destinationsol.game.context.Context;
 import org.destinationsol.game.item.ItemManager;
 import org.destinationsol.game.maze.Maze;
 import org.destinationsol.game.maze.MazeConfigs;
@@ -190,9 +191,9 @@ public class PlanetManager implements UpdateAwareSystem {
         return nearestPlanet;
     }
 
-    public void drawDebug(GameDrawer drawer, SolGame game) {
+    public void drawDebug(GameDrawer drawer, Context context) {
         if (DebugOptions.DRAW_PLANET_BORDERS) {
-            SolCam cam = game.getCam();
+            SolCam cam = context.get(SolCam.class);
             float lineWidth = cam.getRealLineWidth();
             float viewHeight = cam.getViewHeight();
             for (Planet planet : planets) {
@@ -255,11 +256,11 @@ public class PlanetManager implements UpdateAwareSystem {
         return res;
     }
 
-    public void drawSunHack(SolGame game, GameDrawer drawer) {
-        sunSingleton.draw(game, drawer);
+    public void drawSunHack(SolGame game, GameDrawer drawer, Context context) {
+        sunSingleton.draw(game, drawer, context);
     }
 
-    public void drawPlanetCoreHack(SolGame game, GameDrawer drawer) {
-        planetCoreSingleton.draw(game, drawer);
+    public void drawPlanetCoreHack(SolGame game, GameDrawer drawer, Context context) {
+        planetCoreSingleton.draw(game, drawer, context);
     }
 }

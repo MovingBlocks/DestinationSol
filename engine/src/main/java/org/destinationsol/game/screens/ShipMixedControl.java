@@ -26,6 +26,7 @@ import org.destinationsol.common.SolMath;
 import org.destinationsol.game.Hero;
 import org.destinationsol.game.SolCam;
 import org.destinationsol.game.SolGame;
+import org.destinationsol.game.context.Context;
 import org.destinationsol.game.input.Mover;
 import org.destinationsol.game.input.Shooter;
 import org.destinationsol.ui.SolInputManager;
@@ -62,17 +63,18 @@ public class ShipMixedControl implements ShipUiControl {
 
     @Override
     public void update(SolApplication solApplication, boolean enabled) {
+        Context context = solApplication.getContext();
         GameOptions gameOptions = solApplication.getOptions();
         blur();
         SolGame game = solApplication.getGame();
-        if (!enabled || problemWithProjections(game.getCam())) {
+        if (!enabled || problemWithProjections(context.get(SolCam.class))) {
             return;
         }
         SolInputManager im = solApplication.getInputManager();
         Hero hero = game.getHero();
         if (hero.isNonTranscendent()) {
             mouseWorldPosition.set(Gdx.input.getX(), Gdx.input.getY());
-            game.getCam().screenToWorld(mouseWorldPosition);
+            context.get(SolCam.class).screenToWorld(mouseWorldPosition);
             SolMath.assetReal(mouseWorldPosition, hero.getPosition());
             float desiredAngle = SolMath.angle(hero.getPosition(), mouseWorldPosition);
             Boolean needsToTurn = Mover.needsToTurn(hero.getAngle(), desiredAngle, hero.getRotationSpeed(), hero.getRotationAcceleration(), Shooter.MIN_SHOOT_AAD);

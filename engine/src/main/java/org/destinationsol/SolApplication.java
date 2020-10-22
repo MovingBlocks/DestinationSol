@@ -48,9 +48,11 @@ import org.destinationsol.rendering.events.RenderEvent;
 import org.destinationsol.entitysystem.ComponentSystemManager;
 import org.destinationsol.entitysystem.EntitySystemManager;
 import org.destinationsol.entitysystem.SerialisationManager;
+import org.destinationsol.game.SolCam;
 import org.destinationsol.game.console.adapter.ParameterAdapterManager;
 import org.destinationsol.game.context.Context;
 import org.destinationsol.game.context.internal.ContextImpl;
+import org.destinationsol.game.drawables.DrawableManager;
 import org.destinationsol.game.item.ItemManager;
 import org.destinationsol.game.item.LootBuilder;
 import org.destinationsol.location.components.Position;
@@ -147,16 +149,19 @@ public class SolApplication implements ApplicationListener {
         logger.info("\n\n ------------------------------------------------------------ \n");
         moduleManager.printAvailableModules();
 
+        displayDimensions = new DisplayDimensions(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
+        commonDrawer = new CommonDrawer();
+        uiDrawer = new UiDrawer(commonDrawer);
+        layouts = new SolLayouts();
+
+        SolCam camera = new SolCam();
+        context.put(SolCam.class, camera);
+
         musicManager = new OggMusicManager(options);
         soundManager = new OggSoundManager(context);
         inputManager = new SolInputManager(soundManager, context);
 
         musicManager.playMusic(OggMusicManager.MENU_MUSIC_SET, options);
-
-        displayDimensions = new DisplayDimensions(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
-        commonDrawer = new CommonDrawer();
-        uiDrawer = new UiDrawer(commonDrawer);
-        layouts = new SolLayouts();
 
         menuBackgroundManager = new MenuBackgroundManager(displayDimensions);
         menuScreens = new MenuScreens(layouts, isMobile(), options);
@@ -253,8 +258,7 @@ public class SolApplication implements ApplicationListener {
         commonDrawer.begin();
 
         if (solGame != null) {
-            context.get(DrawableManager.class).draw(solGame);
-
+            context.get(DrawableManager.class).draw(solGame, context);
 
             //This event causes each entity with a `Renderable` component to be rendered onscreen
             entitySystemManager.sendEvent(new RenderEvent(), new Renderable(), new Position());
@@ -343,7 +347,7 @@ public class SolApplication implements ApplicationListener {
             }
         }
 
-        factionDisplay = new FactionDisplay(solGame.getCam());
+        factionDisplay = new FactionDisplay(context.get(SolCam.class));
         inputManager.setScreen(this, solGame.getScreens().mainGameScreen);
     }
 
@@ -401,6 +405,10 @@ public class SolApplication implements ApplicationListener {
 
     public MenuBackgroundManager getMenuBackgroundManager() {
         return menuBackgroundManager;
+    }
+
+    public Context getContext() {
+        return context;
     }
 
     // TODO: Make this non-static.

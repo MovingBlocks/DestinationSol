@@ -72,11 +72,10 @@ import java.util.TreeMap;
 
 public class SolGame {
     private final GameScreens gameScreens;
-    private final SolCam camera;
+    private final SolCam solCamReference;
     private final ObjectManager objectManager;
     private final boolean isTutorial;
     private final SolApplication solApplication;
-    private final DrawableManager drawableManager;
     private final PlanetManager planetManager;
     private final ChunkManager chunkManager;
     private final PartMan partMan;
@@ -130,13 +129,17 @@ public class SolGame {
         SpecialSounds specialSounds = new SpecialSounds(soundManager);
         context.put(SpecialSounds.class, specialSounds);
 
-        //This no longer needs to be instantiated in SolGame
+        //These no longer need to be instantiated in SolGame
         GameDrawer drawer = new GameDrawer(commonDrawer);
         context.put(GameDrawer.class, drawer);
-        drawableManager = new DrawableManager(drawer);
+        DrawableManager drawableManager = new DrawableManager(drawer);
         context.put(DrawableManager.class, drawableManager);
 
-        camera = new SolCam();
+        //TODO refactor the usages of this to be independent from SolGame, so that this can be deleted
+        // The only methods still using this are those that require changing an interface signature (UpdateAwareSystem, SolObject, and Drawable)
+        SolCam camera = context.get(SolCam.class);
+        solCamReference = camera;
+
         gameScreens = new GameScreens(solApplication, context);
 
         if (isTutorial) {
@@ -155,7 +158,7 @@ public class SolGame {
         planetManager = new PlanetManager(hullConfigManager, gameColors, itemManager);
         contactListener = new SolContactListener(this);
         factionManager = new FactionManager();
-        objectManager = new ObjectManager(contactListener, factionManager);
+        objectManager = new ObjectManager(contactListener, factionManager, context);
         context.put(World.class, objectManager.getWorld());
         gridDrawer = new GridDrawer();
         chunkManager = new ChunkManager();
@@ -371,14 +374,14 @@ public class SolGame {
         timeStep = Const.REAL_TIME_STEP * timeFactor;
     }
 
-    public void drawDebug(GameDrawer drawer) {
+    public void drawDebug(GameDrawer drawer, Context context) {
         if (DebugOptions.GRID_SZ > 0) {
-            gridDrawer.draw(drawer, this, DebugOptions.GRID_SZ, drawer.debugWhiteTexture);
+            gridDrawer.draw(drawer, this, DebugOptions.GRID_SZ, drawer.debugWhiteTexture, context);
         }
-        planetManager.drawDebug(drawer, this);
-        objectManager.drawDebug(drawer, this);
+        planetManager.drawDebug(drawer, context);
+        objectManager.drawDebug(drawer);
         if (DebugOptions.ZOOM_OVERRIDE != 0) {
-            camera.drawDebug(drawer);
+            context.get(SolCam.class).drawDebug(drawer);
         }
         drawDebugPoint(drawer, DebugOptions.DEBUG_POINT, DebugCol.POINT);
         drawDebugPoint(drawer, DebugOptions.DEBUG_POINT2, DebugCol.POINT2);
@@ -387,7 +390,7 @@ public class SolGame {
 
     private void drawDebugPoint(GameDrawer drawer, Vector2 dp, Color col) {
         if (dp.x != 0 || dp.y != 0) {
-            float sz = camera.getRealLineWidth() * 5;
+            float sz = context.get(SolCam.class).getRealLineWidth() * 5;
             drawer.draw(drawer.debugWhiteTexture, sz, sz, sz / 2, sz / 2, dp.x, dp.y, 0, col);
         }
     }
@@ -396,8 +399,10 @@ public class SolGame {
         return timeStep;
     }
 
+    //TODO refactor the usages of this to be independent from SolGame, so that this can be deleted
+    // The only methods still using this are those that require changing an interface signature (UpdateAwareSystem, SolObject, and Drawable)
     public SolCam getCam() {
-        return camera;
+        return solCamReference;
     }
 
     public ObjectManager getObjectManager() {

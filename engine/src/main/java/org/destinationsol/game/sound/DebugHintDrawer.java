@@ -18,6 +18,7 @@ package org.destinationsol.game.sound;
 import com.badlogic.gdx.math.Vector2;
 import org.destinationsol.common.Nullable;
 import org.destinationsol.game.GameDrawer;
+import org.destinationsol.game.SolCam;
 import org.destinationsol.game.SolGame;
 import org.destinationsol.game.SolObject;
 
@@ -59,12 +60,12 @@ public class DebugHintDrawer {
         }
     }
 
-    public void draw(GameDrawer drawer, SolGame game) {
+    public void draw(GameDrawer drawer, SolCam solCam) {
         for (DebugHint n : myTracedNotes.values()) {
-            n.draw(drawer, game);
+            n.draw(drawer, solCam);
         }
         for (DebugHint n : myFreeNotes.values()) {
-            n.draw(drawer, game);
+            n.draw(drawer, solCam);
         }
     }
 
