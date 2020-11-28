@@ -20,6 +20,7 @@ import org.terasology.gestalt.assets.Asset;
 import org.terasology.gestalt.assets.AssetType;
 import org.terasology.gestalt.assets.ResourceUrn;
 import org.terasology.gestalt.assets.module.annotations.RegisterAssetType;
+import org.terasology.nui.UITextureRegion;
 
 @RegisterAssetType(folderName = {"textures", "ships", "items", "grounds", "mazes", "asteroids", "fonts"}, factoryClass = DSTextureFactory.class)
 public class DSTexture extends Asset<DSTextureData> {
@@ -37,5 +38,13 @@ public class DSTexture extends Asset<DSTextureData> {
 
     public Texture getTexture() {
         return dsTextureData.getTexture();
+    }
+
+    /**
+     * Obtains the NUI {@link UITextureRegion} associated with this texture.
+     * @return the assoicated UI texture
+     */
+    public UITextureRegion getUiTexture() {
+        return dsTextureData;
     }
 }

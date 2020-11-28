@@ -16,12 +16,15 @@
 package org.destinationsol.assets.textures;
 
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import org.terasology.gestalt.assets.AssetData;
+import org.terasology.nui.backends.libgdx.LibGDXTexture;
 
-public class DSTextureData implements AssetData {
+public class DSTextureData extends LibGDXTexture implements AssetData {
     private Texture texture;
 
     public DSTextureData(Texture texture) {
+        super(new TextureRegion(texture));
         this.texture = texture;
     }
 
