@@ -17,11 +17,13 @@ package org.destinationsol.assets.fonts;
 
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import org.terasology.gestalt.assets.AssetData;
+import org.terasology.nui.backends.libgdx.LibGDXFont;
 
-public class FontData implements AssetData {
+public class FontData extends LibGDXFont implements AssetData {
     private BitmapFont bitmapFont;
 
     public FontData(BitmapFont bitmapFont) {
+        super(bitmapFont);
         this.bitmapFont = bitmapFont;
     }
 

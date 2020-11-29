@@ -49,6 +49,9 @@ import org.destinationsol.ui.SolUiBaseScreen;
 import org.destinationsol.ui.SolUiControl;
 import org.destinationsol.ui.SolUiScreen;
 import org.destinationsol.ui.UiDrawer;
+import org.destinationsol.ui.nui.screens.ConsoleScreen;
+import org.terasology.gestalt.assets.ResourceUrn;
+import org.terasology.nui.asset.UIElement;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -97,6 +100,7 @@ public class MainGameScreen extends SolUiBaseScreen {
     private final TextPlace myMoneyExcessTp;
     private final SolApplication solApplication;
     private final Context context;
+    private final ConsoleScreen consoleScreen;
 
     private List<SolUiScreen> gameOverlayScreens = new ArrayList<>();
     private List<WarnDrawer> warnDrawers = new ArrayList<>();
@@ -176,6 +180,8 @@ public class MainGameScreen extends SolUiBaseScreen {
         compassTexture = Assets.getAtlasRegion("engine:uiCompass");
         myCompassTint = SolColor.col(1, 0);
 
+        consoleScreen = (ConsoleScreen) Assets.getAssetHelper().get(new ResourceUrn("engine:console"), UIElement.class).get().getRootWidget();
+
         myLifeTp = new TextPlace(SolColor.W50);
         myRepairsExcessTp = new TextPlace(SolColor.WHITE);
         myShieldLifeTp = new TextPlace(SolColor.W50);
@@ -244,7 +250,6 @@ public class MainGameScreen extends SolUiBaseScreen {
         if (menuControl.isJustOff()) {
             inputMan.setScreen(solApplication, screens.menuScreen);
         }
-
         boolean controlsEnabled = inputMan.getTopScreen() == this;
         shipControl.update(solApplication, controlsEnabled);
 
@@ -291,12 +296,30 @@ public class MainGameScreen extends SolUiBaseScreen {
 
         updateTalk(game);
 
+        if (solApplication.getNuiManager().hasScreen(consoleScreen)) {
+            controls.forEach(x -> x.setEnabled(false));
+            consoleControlGrave.setEnabled(true);
+            consoleControlF1.setEnabled(true);
+        }
+
         if (pauseControl.isJustOff()) {
             game.setPaused(!game.isPaused());
         }
 
+        if (consoleScreen.isConsoleJustClosed()) {
+            game.setPaused(false);
+            controls.forEach(x -> x.setEnabled(true));
+            consoleControlGrave.setEnabled(true);
+            consoleControlF1.setEnabled(true);
+        }
+
         if (consoleControlGrave.isJustOff() || consoleControlF1.isJustOff()) {
-            inputMan.setScreen(solApplication, screens.consoleScreen);
+            if (solApplication.getNuiManager().hasScreen(consoleScreen)) {
+                solApplication.getNuiManager().removeScreen(consoleScreen);
+            } else {
+                solApplication.getNuiManager().pushScreen(consoleScreen);
+                game.setPaused(true);
+            }
         }
 
         for (SolUiScreen screen : gameOverlayScreens) {

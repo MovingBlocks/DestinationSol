@@ -133,6 +133,7 @@ public class GameOptions {
     public static final int DEFAULT_BUTTON_RIGHT = -1;
     public static final int DEFAULT_MAP_SCROLL_SPEED = 10;
     public static final int DEFAULT_MOBILE_MAP_SCROLL_SPEED = 5;
+    private static final float DEFAULT_NUI_UI_SCALE = 1.0f;
 
     public int x;
     public int y;
@@ -177,6 +178,7 @@ public class GameOptions {
     private int controllerButtonUp;
     private int controllerButtonDown;
     private int mapScrollSpeed;
+    public float nuiUiScale;
 
     private ResolutionProvider resolutionProvider;
 
@@ -226,6 +228,7 @@ public class GameOptions {
         controllerButtonDown = reader.getInt("controllerButtonDown", DEFAULT_BUTTON_DOWN);
         canSellEquippedItems = reader.getBoolean("canSellEquippedItems", false);
         mapScrollSpeed = reader.getInt("mapScrollSpeed", mobile ? DEFAULT_MOBILE_MAP_SCROLL_SPEED : DEFAULT_MAP_SCROLL_SPEED);
+        nuiUiScale = reader.getFloat("nuiUiScale", DEFAULT_NUI_UI_SCALE);
     }
 
     public void advanceResolution() {
@@ -268,6 +271,13 @@ public class GameOptions {
         }
     }
 
+    public void advanceNuiUiScale() {
+        nuiUiScale += 0.25f;
+        if (nuiUiScale > 2.0f) {
+            nuiUiScale = 0.25f;
+        }
+    }
+
     /**
      * Save the configuration settings to file.
      */
@@ -286,7 +296,7 @@ public class GameOptions {
                 "controllerButtonShoot2", getControllerButtonShoot2(), "controllerButtonAbility", getControllerButtonAbility(),
                 "controllerButtonLeft", getControllerButtonLeft(), "controllerButtonRight", getControllerButtonRight(),
                 "controllerButtonUp", getControllerButtonUp(), "controllerButtonDown", getControllerButtonDown(),
-                "mapScrollSpeed", getMapScrollSpeed());
+                "mapScrollSpeed", getMapScrollSpeed(), "nuiUiScale", getNuiUiScale());
     }
 
     /**
@@ -1004,5 +1014,13 @@ public class GameOptions {
 
     public void setMapScrollSpeed(int mapScrollSpeed) {
         this.mapScrollSpeed = mapScrollSpeed;
+    }
+
+    public float getNuiUiScale() {
+        return nuiUiScale;
+    }
+
+    public void setNuiUiScale(float nuiUiScale) {
+        this.nuiUiScale = nuiUiScale;
     }
 }

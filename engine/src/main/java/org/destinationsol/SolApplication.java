@@ -68,6 +68,7 @@ import org.destinationsol.ui.ResizeSubscriber;
 import org.destinationsol.ui.SolInputManager;
 import org.destinationsol.ui.SolLayouts;
 import org.destinationsol.ui.UiDrawer;
+import org.destinationsol.ui.nui.NUIManager;
 import org.destinationsol.util.FramerateLimiter;
 import org.destinationsol.util.InjectionHelper;
 import org.slf4j.Logger;
@@ -109,6 +110,7 @@ public class SolApplication implements ApplicationListener {
     private String fatalErrorTrace;
     private SolGame solGame;
     private ParameterAdapterManager parameterAdapterManager;
+    private NUIManager nuiManager;
     private Context context;
     // TODO: Make this non-static.
     public static DisplayDimensions displayDimensions;
@@ -168,6 +170,8 @@ public class SolApplication implements ApplicationListener {
 
         inputManager.setScreen(this, menuScreens.main);
         parameterAdapterManager = ParameterAdapterManager.createCore(this);
+
+        nuiManager = new NUIManager(this, commonDrawer, options);
     }
 
     @Override
@@ -242,6 +246,7 @@ public class SolApplication implements ApplicationListener {
         }
 
         inputManager.update(this);
+        nuiManager.update(this);
 
         if (solGame != null) {
             solGame.update();
@@ -295,6 +300,8 @@ public class SolApplication implements ApplicationListener {
         }
         uiDrawer.updateMtx();
         inputManager.draw(uiDrawer, this);
+        nuiManager.draw(commonDrawer);
+        inputManager.drawCursor(uiDrawer);
 
         if (solGame != null) {
             solGame.drawDebugUi(uiDrawer);
@@ -409,6 +416,10 @@ public class SolApplication implements ApplicationListener {
 
     public Context getContext() {
         return context;
+    }
+  
+    public NUIManager getNuiManager() {
+        return nuiManager;
     }
 
     // TODO: Make this non-static.

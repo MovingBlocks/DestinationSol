@@ -17,10 +17,12 @@ package org.destinationsol.assets.sound;
 
 import org.destinationsol.assets.sound.OggSound;
 
+import org.terasology.nui.asset.Sound;
+
 /**
  * A class that stores an OggSound or a set of OggSounds.
  */
-public interface PlayableSound {
+public interface PlayableSound extends Sound {
 
     /**
      * Returns an OggSound selected from the sound set.
@@ -35,4 +37,9 @@ public interface PlayableSound {
      * @return
      */
     float getBasePitch();
+
+    @Override
+    default void play(float volume) {
+        getOggSound().getSound().play(volume, getBasePitch(), 0);
+    }
 }

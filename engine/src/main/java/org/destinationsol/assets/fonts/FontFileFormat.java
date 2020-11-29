@@ -15,8 +15,10 @@
  */
 package org.destinationsol.assets.fonts;
 
+import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.badlogic.gdx.utils.Array;
 import org.destinationsol.assets.AssetDataFileHandle;
 import org.destinationsol.assets.Assets;
 import org.terasology.gestalt.assets.ResourceUrn;
@@ -38,12 +40,17 @@ public class FontFileFormat extends AbstractAssetFileFormat<FontData> {
         AssetDataFileHandle fontDataHandle = new AssetDataFileHandle(inputs.get(0));
         BitmapFont.BitmapFontData fontData = new BitmapFont.BitmapFontData(fontDataHandle, true);
 
-        String[] fontTexturePath = fontData.imagePaths[0].split("/");
-        String fontTextureName = fontTexturePath[fontTexturePath.length - 1];
-        fontTextureName = fontTextureName.substring(0, fontTextureName.lastIndexOf('.'));
-        TextureRegion fontTexture = new TextureRegion(Assets.getDSTexture(urn.getModuleName() + ":" + fontTextureName).getTexture());
+        TextureRegion[] fontTextures = new TextureRegion[fontData.imagePaths.length];
+        for (int textureNo = 0; textureNo < fontData.imagePaths.length; textureNo++){
+            String[] pathSegments = fontData.imagePaths[textureNo].split("/");
+            String fontTextureName = pathSegments[pathSegments.length - 1];
+            fontTextureName = fontTextureName.substring(0, fontTextureName.lastIndexOf('.'));
+            Texture texture = Assets.getDSTexture(urn.getModuleName() + ":" + fontTextureName).getTexture();
+            TextureRegion fontTexture = new TextureRegion(texture);
+            fontTextures[textureNo] = fontTexture;
+        }
 
-        BitmapFont bitmapFont = new BitmapFont(fontData, fontTexture, false);
+        BitmapFont bitmapFont = new BitmapFont(fontData, Array.with(fontTextures), false);
         bitmapFont.setUseIntegerPositions(false);
         return new FontData(bitmapFont);
     }
