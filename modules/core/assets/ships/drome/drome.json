@@ -1,6 +1,6 @@
 {
     "size": 2.5,
-    "maxLife": 200,
+    "maxLife": 500,
     "type": "station",
     "gunSlots": [
         {
