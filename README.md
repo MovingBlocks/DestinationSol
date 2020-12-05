@@ -154,11 +154,13 @@ Contributors
 * [FearlessTobi](https://github.com/FearlessTobi)
 * [ujjman](https://github.com/ujjman)
 * [ThisIsPIRI](https://github.com/ThisIsPIRI)
+* [Esnardo](https://github.com/Esnardo)
 
 ... and your name here? :-) More coming!
 
-*Soundtrack:*
+*Additional credits:*
 
-Provided by [NeonInsect](https://github.com/NeonInsect) ([Soundcloud](https://soundcloud.com/neon-insect)) and copyrighted by him [CC-NC 4.0](https://creativecommons.org/licenses/by-nc/4.0/), free for our use with Destination Sol.
+* Soundtrack - Provided by [NeonInsect](https://github.com/NeonInsect) ([Soundcloud](https://soundcloud.com/neon-insect)) and copyrighted by him [CC-NC 4.0](https://creativecommons.org/licenses/by-nc/4.0/), free for our use with Destination Sol.
+* All sprites from MillionthVector are licensed under a Creative Commons Attribution 4.0 International License - originally reachable at millionthvector.blogspot.id
 
 Apologies in advance for any omissions, contact [Cervator](http://forum.terasology.org/members/cervator.2/) if you believe you've been missed :-)
