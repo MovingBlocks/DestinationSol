@@ -321,12 +321,12 @@
     "wave": {
         "dmg": 13,
         "dmgType": "energy",
-        "physSize": 0.8,
+        "physSize": 0.6,
         "massless": true,
         "speed": 5,
 
         "tex": "core:wave",
-        "texSz": 0.8,
+        "texSz": 0.6,
 
         "collisionEffect": {
             "effectFile": "core:explFire",
