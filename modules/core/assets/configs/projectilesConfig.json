@@ -321,7 +321,7 @@
     "wave": {
         "dmg": 13,
         "dmgType": "energy",
-        "physSize": 0.6,
+        "physSize": 0.15,
         "massless": true,
         "speed": 5,
 
