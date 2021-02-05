@@ -24,14 +24,13 @@ apply from: "../config/gradle/jre.gradle"
 project.ext.mainClassName = "org.destinationsol.desktop.SolDesktop"
 
 dependencies {
-    compile project(":engine")
-    compile "com.badlogicgames.gdx:gdx-backend-lwjgl3:$gdxVersion"
-    compile "com.badlogicgames.gdx:gdx-platform:$gdxVersion:natives-desktop"
-    compile "com.badlogicgames.gdx:gdx-box2d-platform:$gdxVersion:natives-desktop"
-    compile "com.badlogicgames.gdx:gdx-controllers-lwjgl3:$gdxVersion"
+    implementation project(":engine")
+    implementation "com.badlogicgames.gdx:gdx-backend-lwjgl3:$gdxVersion"
+    implementation "com.badlogicgames.gdx:gdx-platform:$gdxVersion:natives-desktop"
+    implementation "com.badlogicgames.gdx:gdx-box2d-platform:$gdxVersion:natives-desktop"
+    implementation "com.badlogicgames.gdx:gdx-controllers-lwjgl3:$gdxVersion"
 
-    compile group: 'org.terasology.crashreporter', name: 'cr-destsol', version: '4.0.0'
-    compile group: 'org.slf4j', name: 'slf4j-log4j12', version: '1.7.25'
+    implementation group: 'org.terasology.crashreporter', name: 'cr-destsol', version: '4.0.0'
 }
 
 task run(type: JavaExec) {
