@@ -164,14 +164,14 @@ dependencies {
 }
 
 // Change the output dir of each module
-//
-//java.sourceSets {
-//    main {
-//        java {
-//            output.classesDir 'build/classes'
-//        }
-//    }
-//}
+
+sourceSets {
+    main {
+        java {
+            output.classesDir 'build/classes'
+        }
+    }
+}
 
 // Generate the module directory structure if missing
 task createSkeleton() {
