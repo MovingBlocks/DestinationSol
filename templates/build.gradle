@@ -164,13 +164,9 @@ dependencies {
 }
 
 // Change the output dir of each module
-
 sourceSets {
-    main {
-        java {
-            output.classesDir 'build/classes'
-        }
-    }
+    main.java.outputDir = new File("$buildDir/classes")
+    test.java.outputDir = new File("$buildDir/testClasses")
 }
 
 // Generate the module directory structure if missing
