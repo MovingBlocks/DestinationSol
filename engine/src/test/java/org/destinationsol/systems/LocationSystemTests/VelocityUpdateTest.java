@@ -21,19 +21,19 @@ import org.destinationsol.game.context.internal.ContextImpl;
 import org.destinationsol.location.components.Velocity;
 import org.destinationsol.location.events.VelocityUpdateEvent;
 import org.destinationsol.modules.ModuleManager;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.terasology.gestalt.entitysystem.component.management.ComponentManager;
 import org.terasology.gestalt.entitysystem.entity.EntityRef;
 
-import static junit.framework.TestCase.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class VelocityUpdateTest {
 
     private ModuleManager moduleManager;
     private EntitySystemManager entitySystemManager;
 
-    @Before
+    @BeforeEach
     public void setUp() throws Exception {
         moduleManager = new ModuleManager();
         moduleManager.init();

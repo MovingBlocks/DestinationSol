@@ -16,17 +16,17 @@
 package org.destinationsol.systems.LocationSystemTests;
 
 import com.badlogic.gdx.math.Vector2;
+import org.destinationsol.entitysystem.EntitySystemManager;
 import org.destinationsol.game.context.internal.ContextImpl;
 import org.destinationsol.location.components.Position;
-import org.destinationsol.entitysystem.EntitySystemManager;
 import org.destinationsol.location.events.PositionUpdateEvent;
 import org.destinationsol.modules.ModuleManager;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.terasology.gestalt.entitysystem.component.management.ComponentManager;
 import org.terasology.gestalt.entitysystem.entity.EntityRef;
 
-import static junit.framework.TestCase.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 
 public class PositionUpdateTest {
@@ -34,7 +34,7 @@ public class PositionUpdateTest {
     private ModuleManager moduleManager;
     private EntitySystemManager entitySystemManager;
 
-    @Before
+    @BeforeEach
     public void setUp() throws Exception {
         moduleManager = new ModuleManager();
         moduleManager.init();
