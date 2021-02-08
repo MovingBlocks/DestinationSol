@@ -58,8 +58,6 @@ dependencies {
     testCompile "com.badlogicgames.gdx:gdx-controllers-platform:$gdxVersion:natives-desktop"
 
     // Test lib dependencies
-    testCompile group: 'junit', name: 'junit', version: '4.12'
-    testCompile group: 'org.mockito', name: 'mockito-core', version: '2.7.22'
     testCompile("org.junit.jupiter:junit-jupiter-api:5.5.2")
     testCompile("org.junit.jupiter:junit-jupiter-params:5.5.2")
     testCompile group: 'org.mockito', name: 'mockito-junit-jupiter', version: '3.2.0'
