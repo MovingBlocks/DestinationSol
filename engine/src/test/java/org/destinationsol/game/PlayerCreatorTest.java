@@ -52,7 +52,7 @@ public class PlayerCreatorTest {
 
     @Mock(answer = Answers.RETURNS_DEEP_STUBS)
     private SolGame solGame;
-    @Mock
+    @Mock(lenient = true)
     private ShipConfig shipConfig;
     @Mock
     private ShipBuilder shipBuilder;

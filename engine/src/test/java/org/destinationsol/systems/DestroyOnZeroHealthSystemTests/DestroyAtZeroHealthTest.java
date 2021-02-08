@@ -19,6 +19,8 @@ import org.destinationsol.entitysystem.EntitySystemManager;
 import org.destinationsol.game.context.internal.ContextImpl;
 import org.destinationsol.modules.ModuleManager;
 import org.destinationsol.removal.events.ZeroHealthEvent;
+import org.destinationsol.testsupport.AssetsHelperInitializer;
+import org.destinationsol.testsupport.Box2DInitializer;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.terasology.gestalt.entitysystem.component.management.ComponentManager;
@@ -26,7 +28,7 @@ import org.terasology.gestalt.entitysystem.entity.EntityRef;
 
 import static org.junit.jupiter.api.Assertions.assertFalse;
 
-public class DestroyAtZeroHealthTest {
+public class DestroyAtZeroHealthTest implements Box2DInitializer, AssetsHelperInitializer {
     private ModuleManager moduleManager;
     private EntitySystemManager entitySystemManager;
 

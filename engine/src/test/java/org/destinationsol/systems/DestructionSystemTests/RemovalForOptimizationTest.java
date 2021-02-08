@@ -20,6 +20,8 @@ import org.destinationsol.game.context.internal.ContextImpl;
 import org.destinationsol.health.components.Health;
 import org.destinationsol.modules.ModuleManager;
 import org.destinationsol.removal.events.RemovalForOptimizationEvent;
+import org.destinationsol.testsupport.AssetsHelperInitializer;
+import org.destinationsol.testsupport.Box2DInitializer;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.terasology.gestalt.entitysystem.component.management.ComponentManager;
@@ -30,7 +32,7 @@ import static org.junit.jupiter.api.Assertions.assertFalse;
 /**
  * Test to ensure that a {@link RemovalForOptimizationEvent} on an entity will remove that entity.
  */
-public class RemovalForOptimizationTest {
+public class RemovalForOptimizationTest implements Box2DInitializer, AssetsHelperInitializer {
 
     private ModuleManager moduleManager;
     private EntitySystemManager entitySystemManager;
