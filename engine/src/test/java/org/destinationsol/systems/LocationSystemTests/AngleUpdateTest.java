@@ -19,24 +19,20 @@ import org.destinationsol.entitysystem.EntitySystemManager;
 import org.destinationsol.game.context.internal.ContextImpl;
 import org.destinationsol.location.components.Angle;
 import org.destinationsol.location.events.AngleUpdateEvent;
-import org.destinationsol.modules.ModuleManager;
+import org.destinationsol.testsupport.AssetsHelperInitializer;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.terasology.gestalt.entitysystem.component.management.ComponentManager;
 import org.terasology.gestalt.entitysystem.entity.EntityRef;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-public class AngleUpdateTest {
+public class AngleUpdateTest implements AssetsHelperInitializer {
 
-    private ModuleManager moduleManager;
     private EntitySystemManager entitySystemManager;
 
     @BeforeEach
     public void setUp() throws Exception {
-        moduleManager = new ModuleManager();
-        moduleManager.init();
-        entitySystemManager = new EntitySystemManager(moduleManager.getEnvironment(), new ComponentManager(), new ContextImpl());
+        entitySystemManager = new EntitySystemManager(getModuleManager().getEnvironment(), getComponentManager(), new ContextImpl());
     }
 
     @Test

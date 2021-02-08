@@ -19,14 +19,12 @@ import org.destinationsol.entitysystem.EntitySystemManager;
 import org.destinationsol.game.context.internal.ContextImpl;
 import org.destinationsol.health.components.Health;
 import org.destinationsol.health.events.DamageEvent;
-import org.destinationsol.modules.ModuleManager;
 import org.destinationsol.removal.components.SlatedForDeletion;
 import org.destinationsol.removal.events.DeletionEvent;
 import org.destinationsol.testsupport.AssetsHelperInitializer;
 import org.destinationsol.testsupport.Box2DInitializer;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.terasology.gestalt.entitysystem.component.management.ComponentManager;
 import org.terasology.gestalt.entitysystem.entity.EntityRef;
 
 import static org.junit.jupiter.api.Assertions.assertFalse;
@@ -35,14 +33,12 @@ import static org.junit.jupiter.api.Assertions.assertFalse;
  * Test to ensure that an entity whose health reaches zero will be destroyed.
  */
 public class ZeroHealthCausesDestructionTest implements Box2DInitializer, AssetsHelperInitializer {
-    private ModuleManager moduleManager;
+
     private EntitySystemManager entitySystemManager;
 
     @BeforeEach
     public void setUp() throws Exception {
-        moduleManager = new ModuleManager();
-        moduleManager.init();
-        entitySystemManager = new EntitySystemManager(moduleManager.getEnvironment(), new ComponentManager(), new ContextImpl());
+        entitySystemManager = new EntitySystemManager(getModuleManager().getEnvironment(), getComponentManager(), new ContextImpl());
     }
 
     @Test
