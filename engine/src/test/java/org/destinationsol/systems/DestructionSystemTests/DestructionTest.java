@@ -18,6 +18,8 @@ package org.destinationsol.systems.DestructionSystemTests;
 import org.destinationsol.entitysystem.EntitySystemManager;
 import org.destinationsol.game.context.internal.ContextImpl;
 import org.destinationsol.modules.ModuleManager;
+import org.destinationsol.removal.components.SlatedForDeletion;
+import org.destinationsol.removal.events.DeletionEvent;
 import org.destinationsol.removal.events.ShouldBeDestroyedEvent;
 import org.destinationsol.testsupport.AssetsHelperInitializer;
 import org.destinationsol.testsupport.Box2DInitializer;
@@ -48,6 +50,9 @@ public class DestructionTest implements Box2DInitializer, AssetsHelperInitialize
         EntityRef entity = entitySystemManager.getEntityManager().createEntity();
 
         entitySystemManager.sendEvent(new ShouldBeDestroyedEvent(), entity);
+
+        // Emulate `DeletionUpdateSystem#update`
+        entitySystemManager.sendEvent(new DeletionEvent(), new SlatedForDeletion());
 
         assertFalse(entity.exists());
     }

@@ -19,6 +19,8 @@ import org.destinationsol.entitysystem.EntitySystemManager;
 import org.destinationsol.game.context.internal.ContextImpl;
 import org.destinationsol.health.components.Health;
 import org.destinationsol.modules.ModuleManager;
+import org.destinationsol.removal.components.SlatedForDeletion;
+import org.destinationsol.removal.events.DeletionEvent;
 import org.destinationsol.removal.events.RemovalForOptimizationEvent;
 import org.destinationsol.testsupport.AssetsHelperInitializer;
 import org.destinationsol.testsupport.Box2DInitializer;
@@ -49,6 +51,9 @@ public class RemovalForOptimizationTest implements Box2DInitializer, AssetsHelpe
         EntityRef entity = entitySystemManager.getEntityManager().createEntity(new Health());
 
         entitySystemManager.sendEvent(new RemovalForOptimizationEvent(), entity);
+
+        // Emulate `DeletionUpdateSystem#update`
+        entitySystemManager.sendEvent(new DeletionEvent(), new SlatedForDeletion());
 
         assertFalse(entity.exists());
     }

@@ -20,6 +20,8 @@ import org.destinationsol.game.context.internal.ContextImpl;
 import org.destinationsol.health.components.Health;
 import org.destinationsol.health.events.DamageEvent;
 import org.destinationsol.modules.ModuleManager;
+import org.destinationsol.removal.components.SlatedForDeletion;
+import org.destinationsol.removal.events.DeletionEvent;
 import org.destinationsol.testsupport.AssetsHelperInitializer;
 import org.destinationsol.testsupport.Box2DInitializer;
 import org.junit.jupiter.api.BeforeEach;
@@ -55,6 +57,9 @@ public class ZeroHealthCausesDestructionTest implements Box2DInitializer, Assets
         DamageEvent event = new DamageEvent(50);
 
         entitySystemManager.sendEvent(event, entity);
+
+        // Emulate `DeletionUpdateSystem#update`
+        entitySystemManager.sendEvent(new DeletionEvent(), new SlatedForDeletion());
 
         assertFalse(entity.exists());
     }

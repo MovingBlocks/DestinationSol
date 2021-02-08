@@ -18,6 +18,8 @@ package org.destinationsol.systems.DestroyOnZeroHealthSystemTests;
 import org.destinationsol.entitysystem.EntitySystemManager;
 import org.destinationsol.game.context.internal.ContextImpl;
 import org.destinationsol.modules.ModuleManager;
+import org.destinationsol.removal.components.SlatedForDeletion;
+import org.destinationsol.removal.events.DeletionEvent;
 import org.destinationsol.removal.events.ZeroHealthEvent;
 import org.destinationsol.testsupport.AssetsHelperInitializer;
 import org.destinationsol.testsupport.Box2DInitializer;
@@ -44,6 +46,9 @@ public class DestroyAtZeroHealthTest implements Box2DInitializer, AssetsHelperIn
         EntityRef entity = entitySystemManager.getEntityManager().createEntity();
 
         entitySystemManager.sendEvent(new ZeroHealthEvent(), entity);
+
+        // Emulate `DeletionUpdateSystem#update`
+        entitySystemManager.sendEvent(new DeletionEvent(), new SlatedForDeletion());
 
         assertFalse(entity.exists());
     }
