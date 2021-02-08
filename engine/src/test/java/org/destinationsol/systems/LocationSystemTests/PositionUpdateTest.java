@@ -21,6 +21,7 @@ import org.destinationsol.game.context.internal.ContextImpl;
 import org.destinationsol.location.components.Position;
 import org.destinationsol.location.events.PositionUpdateEvent;
 import org.destinationsol.modules.ModuleManager;
+import org.destinationsol.testsupport.Box2DInitializer;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.terasology.gestalt.entitysystem.component.management.ComponentManager;
@@ -29,7 +30,7 @@ import org.terasology.gestalt.entitysystem.entity.EntityRef;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 
-public class PositionUpdateTest {
+public class PositionUpdateTest implements Box2DInitializer {
 
     private ModuleManager moduleManager;
     private EntitySystemManager entitySystemManager;

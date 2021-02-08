@@ -21,13 +21,14 @@ import org.destinationsol.game.context.internal.ContextImpl;
 import org.destinationsol.location.components.Velocity;
 import org.destinationsol.location.events.VelocityUpdateEvent;
 import org.destinationsol.testsupport.AssetsHelperInitializer;
+import org.destinationsol.testsupport.Box2DInitializer;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.terasology.gestalt.entitysystem.entity.EntityRef;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-public class VelocityUpdateTest implements AssetsHelperInitializer {
+public class VelocityUpdateTest implements AssetsHelperInitializer, Box2DInitializer {
 
     private EntitySystemManager entitySystemManager;
 
