@@ -120,16 +120,16 @@ public class SolGame {
         this.isTutorial = isTutorial;
         solApplication = context.get(SolApplication.class);
 
-        //This no longer needs to be instantiated in SolGame
+        //TODO this no longer needs to be instantiated in SolGame
         GameColors gameColors = new GameColors();
         context.put(GameColors.class, gameColors);
 
-        //This no longer needs to be instantiated in SolGame
+        //TODO this no longer needs to be instantiated in SolGame
         soundManager = solApplication.getSoundManager();
         SpecialSounds specialSounds = new SpecialSounds(soundManager);
         context.put(SpecialSounds.class, specialSounds);
 
-        //These no longer need to be instantiated in SolGame
+        //TODO these no longer need to be instantiated in SolGame
         GameDrawer drawer = new GameDrawer(commonDrawer);
         context.put(GameDrawer.class, drawer);
         DrawableManager drawableManager = new DrawableManager(drawer);
