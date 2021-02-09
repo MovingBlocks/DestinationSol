@@ -4,6 +4,11 @@ import com.badlogic.gdx.Application;
 import org.destinationsol.modules.ModuleManager;
 import org.terasology.gestalt.entitysystem.component.management.ComponentManager;
 
+/**
+ * Partial Initialized game state using for easier access from tests.
+ * <p>
+ * This is internal class. initilized and used by {@link AssetsHelperInitializer only}
+ */
 class TestGameStateObject {
     private Application application;
     private ModuleManager moduleManager;
