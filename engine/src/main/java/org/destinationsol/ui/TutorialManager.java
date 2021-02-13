@@ -89,9 +89,9 @@ public class TutorialManager implements UpdateAwareSystem {
         }
 
         if (mobile) {
-            addStep("Have a look at the map", main.mapControl, true);
+            addStep("Have a look at the map", /*main.mapControl*/null, true);
         } else {
-            addStep("Have a look at the map\n(" + gameOptions.getKeyMapName() + " key)", main.mapControl, true);
+            addStep("Have a look at the map\n(" + gameOptions.getKeyMapName() + " key)", /*main.mapControl*/null, true);
         }
 
         if (mouseCtrl) {
@@ -110,9 +110,9 @@ public class TutorialManager implements UpdateAwareSystem {
         }
 
         if (mouseCtrl || mobile) {
-            addStep("Have a look\nat your inventory", main.inventoryControl, true);
+            addStep("Have a look\nat your inventory", /*main.inventoryControl*/null, true);
         } else {
-            addStep("Have a look\nat your inventory (" + gameOptions.getKeyInventoryName() + " key)", main.inventoryControl, true);
+            addStep("Have a look\nat your inventory (" + gameOptions.getKeyInventoryName() + " key)", /*main.inventoryControl*/null, true);
         }
 
         if (mouseCtrl || mobile) {
@@ -170,9 +170,9 @@ public class TutorialManager implements UpdateAwareSystem {
         }
 
         if (mobile) {
-            addStep("Fly closer to the station\nand talk with it", main.talkControl, true);
+            addStep("Fly closer to the station\nand talk with it", /*main.talkControl*/null, true);
         } else {
-            addStep("Fly closer to the station\nand talk with it (" + gameOptions.getKeyTalkName() + " key)", main.talkControl, true);
+            addStep("Fly closer to the station\nand talk with it (" + gameOptions.getKeyTalkName() + " key)", /*main.talkControl*/null, true);
         }
 
         if (mouseCtrl || mobile) {

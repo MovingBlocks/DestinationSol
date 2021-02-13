@@ -85,7 +85,7 @@ public class ShipMixedControl implements ShipUiControl {
                     turnLeft = true;
                 }
             }
-            if (!im.isMouseOnUi()) {
+            if (!im.isMouseOnUi() && !solApplication.getNuiManager().isMouseOnUi()) {
                 if (Gdx.input.isButtonPressed(Input.Buttons.LEFT)) {
                     shootCtrl.maybeFlashPressed(gameOptions.getKeyShoot());
                 }

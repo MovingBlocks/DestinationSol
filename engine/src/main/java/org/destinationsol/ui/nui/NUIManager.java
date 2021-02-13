@@ -24,6 +24,8 @@ import org.destinationsol.assets.Assets;
 import org.destinationsol.assets.sound.OggSound;
 import org.destinationsol.game.context.Context;
 import org.destinationsol.util.InjectionHelper;
+import org.joml.Rectanglei;
+import org.joml.Vector2i;
 import org.terasology.gestalt.assets.ResourceUrn;
 import org.terasology.input.InputType;
 import org.terasology.input.MouseInput;
@@ -42,16 +44,20 @@ import org.terasology.nui.backends.libgdx.LibGDXMouseDevice;
 import org.terasology.nui.backends.libgdx.NUIInputProcessor;
 import org.terasology.nui.canvas.CanvasImpl;
 import org.terasology.nui.events.NUICharEvent;
+import org.terasology.nui.canvas.CanvasRenderer;
 import org.terasology.nui.events.NUIKeyEvent;
 import org.terasology.nui.events.NUIMouseButtonEvent;
 import org.terasology.nui.events.NUIMouseWheelEvent;
 import org.terasology.nui.skin.UISkin;
+import org.terasology.nui.util.RectUtility;
 import org.terasology.nui.widgets.UIButton;
 import org.terasology.nui.widgets.UIText;
 
 import java.util.Deque;
 import java.util.Iterator;
 import java.util.LinkedList;
+import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  *  The NUI Manager is responsible for the initialisation and interaction between the NUI library and the game.
@@ -66,7 +72,7 @@ public class NUIManager {
     /**
      * The game's canvas, which is used for all NUI rendering operations. See also {@link NUIManager#canvasRenderer}.
      */
-    private CanvasImpl canvas;
+    private SolCanvas canvas;
     /**
      * A blank white texture, used by-default for the text cursor.
      */
@@ -131,7 +137,7 @@ public class NUIManager {
         skin = Assets.getSkin(DEFAULT_SKIN_URN);
         this.solApplication = solApplication;
 
-        canvas = new CanvasImpl(canvasRenderer, focusManager, keyboard, mouse, whiteTexture, skin, 100);
+        canvas = new SolCanvas(canvasRenderer, focusManager, keyboard, mouse, whiteTexture, skin, 100);
         TabbingManager.setFocusManager(focusManager);
 
         OggSound sound = Assets.getSound(BUTTON_CLICK_URN);
@@ -346,6 +352,17 @@ public class NUIManager {
         return solApplication;
     }
 
+    public boolean isMouseOnUi() {
+        // TODO: Find better way of doing this.
+        Vector2i mousePosition = mouse.getMousePosition();
+        for (Rectanglei interactionRegion : canvas.getInteractionRegions()) {
+            if (RectUtility.contains(interactionRegion, mousePosition)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
     /**
      * Re-sizes the current canvas to a particular width and height. This is not always the same as the game's current
      * rendering resolution.
@@ -364,5 +381,15 @@ public class NUIManager {
     public void setUiScale(float scale) {
         canvas.setUiScale(scale);
         canvasRenderer.setUiScale(1.0f / scale);
+    }
+
+    private class SolCanvas extends CanvasImpl {
+        public SolCanvas(CanvasRenderer renderer, FocusManager focusManager, KeyboardDevice keyboard, MouseDevice mouse, UITextureRegion whiteTexture, UISkin defaultSkin, int uiScale) {
+            super(renderer, focusManager, keyboard, mouse, whiteTexture, defaultSkin, uiScale);
+        }
+
+        public List<Rectanglei> getInteractionRegions() {
+            return interactionRegions.stream().map(region -> region.region).collect(Collectors.toList());
+        }
     }
 }
