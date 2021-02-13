@@ -1,0 +1,49 @@
+{
+  "type": "MainGameScreen",
+  "skin": "engine:mainGameScreen",
+  "contents": {
+    "type": "relativeLayout",
+    "contents": [
+      {
+        "type": "ColumnLayout",
+        "id": "menuList",
+        "layoutInfo": {
+          "use-content-width": true,
+          "use-content-height": true,
+          "position-vertical-center": {},
+          "position-left": {}
+        },
+        "columns": 1,
+        "verticalSpacing": 8,
+        "family": "sideUIButton",
+        "contents": [
+          {
+          "type": "UIButton",
+          "text": "Menu",
+          "id": "menuButton"
+          },
+          {
+            "type": "UIButton",
+            "text": "Map",
+            "id": "mapButton"
+          },
+          {
+            "type": "UIButton",
+            "text": "Items",
+            "id": "itemsButton"
+          },
+          {
+            "type": "UIButton",
+            "text": "Talk",
+            "id": "talkButton"
+          },
+          {
+            "type": "UIButton",
+            "text": "Mercs",
+            "id": "mercsButton"
+          }
+        ]
+      }
+    ]
+  }
+}

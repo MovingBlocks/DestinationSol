@@ -30,7 +30,7 @@ import org.destinationsol.ui.SolUiControl;
 import org.destinationsol.ui.UiDrawer;
 
 public class TalkScreen extends SolUiBaseScreen {
-    static final float MAX_TALK_DIST = 1f;
+    public static final float MAX_TALK_DIST = 1f;
 
     public final SolUiControl buyControl;
     public final SolUiControl closeControl;
