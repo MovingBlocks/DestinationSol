@@ -10,8 +10,10 @@
         "layoutInfo": {
           "use-content-width": true,
           "use-content-height": true,
-          "position-vertical-center": {},
-          "position-left": {}
+          "position-vertical-center": {
+            "offset": -100
+          },
+          "position-right": {}
         },
         "columns": 1,
         "verticalSpacing": 8,
