@@ -23,6 +23,7 @@ import org.destinationsol.CommonDrawer;
 import org.destinationsol.Const;
 import org.destinationsol.GameOptions;
 import org.destinationsol.SolApplication;
+import org.destinationsol.assets.Assets;
 import org.destinationsol.assets.sound.OggSoundManager;
 import org.destinationsol.assets.sound.SpecialSounds;
 import org.destinationsol.common.DebugCol;
@@ -61,8 +62,11 @@ import org.destinationsol.ui.DebugCollector;
 import org.destinationsol.ui.TutorialManager;
 import org.destinationsol.ui.UiDrawer;
 import org.destinationsol.ui.Waypoint;
+import org.destinationsol.ui.nui.screens.MainGameScreen;
 import org.destinationsol.util.InjectionHelper;
+import org.terasology.gestalt.assets.ResourceUrn;
 import org.terasology.gestalt.entitysystem.entity.EntityRef;
+import org.terasology.nui.asset.UIElement;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -98,6 +102,7 @@ public class SolGame {
     private final TutorialManager tutorialManager;
     private final GalaxyFiller galaxyFiller;
     private final SolContactListener contactListener;
+    private final MainGameScreen mainGameScreen;
     private Hero hero;
     private float timeStep;
     private float time;
@@ -174,7 +179,7 @@ public class SolGame {
         mountDetectDrawer = new MountDetectDrawer();
         beaconHandler = new BeaconHandler();
         timeFactor = 1;
-
+        mainGameScreen = (MainGameScreen) Assets.getAssetHelper().get(new ResourceUrn("engine:mainGameScreen"), UIElement.class).get().getRootWidget();
     }
 
     public void createUpdateSystems(Context context) {
@@ -247,6 +252,7 @@ public class SolGame {
             }
         }, 0, 30);
         gameScreens.consoleScreen.init(this);
+        solApplication.getNuiManager().pushScreen(mainGameScreen);
     }
 
     public Context getContext() {
@@ -312,6 +318,7 @@ public class SolGame {
         }
         FactionInfo.clearValues();
         objectManager.dispose();
+        solApplication.getNuiManager().removeScreen(mainGameScreen);
     }
 
     private void saveShip() {

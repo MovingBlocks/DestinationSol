@@ -89,6 +89,10 @@ public class NUIManager {
      * The current game context used to initialise UI screens.
      */
     private Context context;
+    /*
+     * An instance of the {@link SolApplication} used to access all game resources.
+     */
+    private SolApplication solApplication;
 
     /**
      * The UI stack. The elements are rendered from most recently added to least recent, so a stack-like structure
@@ -123,6 +127,7 @@ public class NUIManager {
         focusManager = new FocusManagerImpl();
         whiteTexture = Assets.getDSTexture(WHITE_TEXTURE_URN).getUiTexture();
         skin = Assets.getAssetHelper().get(new ResourceUrn(DEFAULT_SKIN_URN), UISkin.class).get();
+        this.solApplication = solApplication;
 
         canvas = new CanvasImpl(canvasRenderer, focusManager, keyboard, mouse, whiteTexture, skin, 100);
         TabbingManager.setFocusManager(focusManager);
@@ -315,6 +320,14 @@ public class NUIManager {
      */
     public void setContext(Context context) {
         this.context = context;
+    }
+
+    /*
+     * Returns the {@link SolApplication} instance for the game.
+     * @return the {@link SolApplication} instance
+     */
+    public SolApplication getSolApplication() {
+        return solApplication;
     }
 
     /**
