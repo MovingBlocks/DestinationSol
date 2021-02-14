@@ -20,27 +20,27 @@
         "family": "sideUIButton",
         "contents": [
           {
-          "type": "UIButton",
+          "type": "UIWarnButton",
           "text": "Menu",
           "id": "menuButton"
           },
           {
-            "type": "UIButton",
+            "type": "UIWarnButton",
             "text": "Map",
             "id": "mapButton"
           },
           {
-            "type": "UIButton",
+            "type": "UIWarnButton",
             "text": "Items",
             "id": "itemsButton"
           },
           {
-            "type": "UIButton",
+            "type": "UIWarnButton",
             "text": "Talk",
             "id": "talkButton"
           },
           {
-            "type": "UIButton",
+            "type": "UIWarnButton",
             "text": "Mercs",
             "id": "mercsButton"
           }

@@ -313,6 +313,9 @@
         "disabled": {
           "background": "button",
           "text-color": "BBBBBBFF"
+        },
+        "warn": {
+          "background": "buttonWarn"
         }
       }
     },

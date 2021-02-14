@@ -1,5 +1,6 @@
 package org.destinationsol.ui.nui.screens;
 
+import org.destinationsol.GameOptions;
 import org.destinationsol.SolApplication;
 import org.destinationsol.assets.Assets;
 import org.destinationsol.game.FactionManager;
@@ -11,12 +12,15 @@ import org.destinationsol.game.screens.TalkScreen;
 import org.destinationsol.game.ship.SolShip;
 import org.destinationsol.ui.SolInputManager;
 import org.destinationsol.ui.nui.NUIScreenLayer;
+import org.destinationsol.ui.nui.widgets.KeyActivatedButton;
+import org.destinationsol.ui.nui.widgets.UIWarnButton;
 import org.terasology.gestalt.assets.ResourceUrn;
 import org.terasology.input.ButtonState;
 import org.terasology.input.Keyboard;
 import org.terasology.nui.AbstractWidget;
 import org.terasology.nui.UIWidget;
 import org.terasology.nui.asset.UIElement;
+import org.terasology.nui.backends.libgdx.GDXInputUtil;
 import org.terasology.nui.events.NUIKeyEvent;
 import org.terasology.nui.widgets.UIButton;
 
@@ -24,11 +28,11 @@ import java.util.List;
 
 public class MainGameScreen extends NUIScreenLayer {
     private SolShip talkTarget;
-    private UIButton menuButton;
-    private UIButton mapButton;
-    private UIButton inventoryButton;
-    private UIButton talkButton;
-    private UIButton mercsButton;
+    private KeyActivatedButton menuButton;
+    private KeyActivatedButton mapButton;
+    private UIWarnButton inventoryButton;
+    private KeyActivatedButton talkButton;
+    private UIWarnButton mercsButton;
     private ConsoleScreen consoleScreen;
 
     @Override
@@ -38,20 +42,26 @@ public class MainGameScreen extends NUIScreenLayer {
         SolApplication solApplication = nuiManager.getSolApplication();
         SolInputManager solInputManager = solApplication.getInputManager();
         GameScreens gameScreens = solApplication.getGame().getScreens();
+        GameOptions gameOptions = solApplication.getOptions();
 
-        menuButton = find("menuButton", UIButton.class);
+        menuButton = find("menuButton", KeyActivatedButton.class);
+        menuButton.setKey(GDXInputUtil.GDXToNuiKey(gameOptions.getKeyMenu()));
         menuButton.subscribe(this::onMenuButtonClicked);
 
-        mapButton = find("mapButton", UIButton.class);
+        mapButton = find("mapButton", KeyActivatedButton.class);
+        mapButton.setKey(GDXInputUtil.GDXToNuiKey(gameOptions.getKeyMap()));
         mapButton.subscribe(this::onMapButtonClicked);
 
-        inventoryButton = find("itemsButton", UIButton.class);
+        inventoryButton = find("itemsButton", UIWarnButton.class);
+        inventoryButton.setKey(GDXInputUtil.GDXToNuiKey(gameOptions.getKeyInventory()));
         inventoryButton.subscribe(this::onItemsButtonClicked);
 
-        talkButton = find("talkButton", UIButton.class);
+        talkButton = find("talkButton", KeyActivatedButton.class);
+        talkButton.setKey(GDXInputUtil.GDXToNuiKey(gameOptions.getKeyTalk()));
         talkButton.subscribe(this::onTalkButtonClicked);
 
-        mercsButton = find("mercsButton", UIButton.class);
+        mercsButton = find("mercsButton", UIWarnButton.class);
+        mercsButton.setKey(GDXInputUtil.GDXToNuiKey(gameOptions.getKeyMercenaryInteraction()));
         mercsButton.subscribe(this::onMercsButtonClicked);
     }
 
@@ -69,10 +79,27 @@ public class MainGameScreen extends NUIScreenLayer {
             ((AbstractWidget) contents).setVisible(false);
         }
 
+        if (solInputManager.getTopScreen() != gameScreens.mainGameScreen) {
+            // User is in an original UI menu, so disable the escape key toggling the pause menu.
+            menuButton.setKey(Keyboard.Key.NONE);
+        } else {
+            menuButton.setKey(GDXInputUtil.GDXToNuiKey(solApplication.getOptions().getKeyMenu()));
+        }
+
         // NOTE: Copied directly from the original MainGameScreen class. The logic hasn't been changed
         //       but some variables have been re-named to be more descriptive.
         SolGame game = solApplication.getGame();
         Hero hero = game.getHero();
+
+        if (hero.isNonTranscendent() && !solInputManager.isScreenOn(gameScreens.inventoryScreen)) {
+            if (hero.getItemContainer().hasNew()) {
+                inventoryButton.enableWarn();
+            }
+
+            if (hero.getMercs().hasNew()) {
+                mercsButton.enableWarn();
+            }
+        }
 
         mercsButton.setEnabled(hero.isNonTranscendent());
         if (hero.isTranscendent()) {
@@ -128,39 +155,11 @@ public class MainGameScreen extends NUIScreenLayer {
                 (event.getKey() == Keyboard.Key.GRAVE || event.getKey() == Keyboard.Key.F1) &&
                 nuiManager.hasScreen(consoleScreen)) {
             nuiManager.removeScreen(consoleScreen);
+            return true;
         }
 
         if (!contents.isVisible()) {
-            return super.onKeyEvent(event);
-        }
-
-        if (event.getState() == ButtonState.UP && event.getKey() == Keyboard.Key.ESCAPE) {
-            onMenuButtonClicked(menuButton);
-            return true;
-        }
-
-        if (event.getState() == ButtonState.UP && event.getKey() == Keyboard.Key.TAB) {
-            onMapButtonClicked(mapButton);
-            return true;
-        }
-
-        if (event.getState() == ButtonState.UP && event.getKey() == Keyboard.Key.I) {
-            onItemsButtonClicked(inventoryButton);
-            return true;
-        }
-
-        if (event.getState() == ButtonState.UP && event.getKey() == Keyboard.Key.T) {
-            if (talkButton.isEnabled()) {
-                onTalkButtonClicked(talkButton);
-            }
-            return true;
-        }
-
-        if (event.getState() == ButtonState.UP && event.getKey() == Keyboard.Key.M) {
-            if (mercsButton.isEnabled()) {
-                onMercsButtonClicked(mercsButton);
-            }
-            return true;
+            return false;
         }
 
         if (event.getState() == ButtonState.UP &&
@@ -169,9 +168,19 @@ public class MainGameScreen extends NUIScreenLayer {
                 nuiManager.pushScreen(consoleScreen);
                 nuiManager.getSolApplication().getGame().setPaused(true);
             }
+            return true;
         }
 
         return super.onKeyEvent(event);
+    }
+
+    @Override
+    public void onRemoved() {
+        menuButton.unsubscribe(this::onMenuButtonClicked);
+        mapButton.unsubscribe(this::onMapButtonClicked);
+        inventoryButton.unsubscribe(this::onItemsButtonClicked);
+        talkButton.unsubscribe(this::onTalkButtonClicked);
+        mercsButton.unsubscribe(this::onMercsButtonClicked);
     }
 
     private void onMenuButtonClicked(UIWidget widget) {
