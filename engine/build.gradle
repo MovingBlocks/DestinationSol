@@ -15,20 +15,23 @@ buildscript {
         jcenter()
         mavenCentral()
 
-        // HACK: Needed for NUI reflections
+        // HACK: Needed for NUI and gestalt entity-component reflections
         mavenLocal()
         google()
         maven { url "http://artifactory.terasology.org/artifactory/virtual-repo-live" }
+        // Needed for Jsemver, which is a gestalt dependency
+        maven { url = 'https://heisluft.de/maven/' }
     }
 
     dependencies {
         // Needed for caching reflected data during builds
-        classpath 'org.reflections:reflections:0.9.10'
+        classpath 'org.reflections:reflections:0.9.12'
         classpath 'dom4j:dom4j:1.6.1'
 
-        // HACK: Needed for NUI reflections
+        // HACK: Needed for NUI and gestalt entity-component reflections
         classpath group: 'org.terasology.nui', name: 'nui', version: '2.0.0-SNAPSHOT'
         classpath group: 'javax.servlet', name: 'javax.servlet-api', version: '3.0.1'
+        classpath group: 'org.terasology.gestalt', name: 'gestalt-entity-system', version: '7.0.6-SNAPSHOT'
     }
 }
 
