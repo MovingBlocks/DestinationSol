@@ -15,7 +15,6 @@
  */
 package org.destinationsol.game.screens;
 
-import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.math.MathUtils;
@@ -69,8 +68,6 @@ public class MainGameScreen extends SolUiBaseScreen {
     public final ShipUiControl shipControl;
     private final SolUiControl freeCamControl;
     private final SolUiControl pauseControl;
-    private final SolUiControl consoleControlGrave;
-    private final SolUiControl consoleControlF1;
     private final CameraKeyboardControl cameraControl;
 
     private final ZoneNameAnnouncer zoneNameAnnouncer;
@@ -128,11 +125,6 @@ public class MainGameScreen extends SolUiBaseScreen {
         pauseControl = new SolUiControl(null, true, gameOptions.getKeyPause());
         controls.add(pauseControl);
         cameraControl = new CameraKeyboardControl(gameOptions, controls);
-
-        consoleControlGrave = new SolUiControl(null, true, Input.Keys.GRAVE);
-        consoleControlF1 = new SolUiControl(null, true, Input.Keys.F1);
-        controls.add(consoleControlGrave);
-        controls.add(consoleControlF1);
 
         // possible warning messages in order of importance, so earlier one will be drawn on the center
         warnDrawers.add(new SunWarnDrawer());
@@ -220,31 +212,13 @@ public class MainGameScreen extends SolUiBaseScreen {
         boolean controlsEnabled = inputMan.getTopScreen() == this;
         shipControl.update(solApplication, controlsEnabled);
 
-        //inventoryControl.setEnabled(hero.isNonTranscendent());
-        //if (hero.isNonTranscendent() && !inputMan.isScreenOn(screens.inventoryScreen)) {
-        //    if (hero.getItemContainer().hasNew()) {
-        //        inventoryControl.enableWarn();
-        //    }
-        //}
-
-        //mercControl.setEnabled(hero.isNonTranscendent());
-        //if (hero.isNonTranscendent() && !inputMan.isScreenOn(screens.inventoryScreen)) {
-        //    if (hero.getMercs().hasNew()) {
-        //        mercControl.enableWarn();
-        //    }
-        //}
-
         SolCam.DIRECT_CAM_CONTROL = freeCamControl.isOn();
 
         if (solApplication.getNuiManager().hasScreenOfType(ConsoleScreen.class)) {
             controls.forEach(x -> x.setEnabled(false));
-            consoleControlGrave.setEnabled(true);
-            consoleControlF1.setEnabled(true);
         } else if (!inputMan.isScreenOn(screens.menuScreen)) {
             game.setPaused(false);
             controls.forEach(x -> x.setEnabled(true));
-            consoleControlGrave.setEnabled(true);
-            consoleControlF1.setEnabled(true);
         }
 
         if (pauseControl.isJustOff()) {

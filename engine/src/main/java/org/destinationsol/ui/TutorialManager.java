@@ -27,6 +27,7 @@ import org.destinationsol.game.screens.InventoryScreen;
 import org.destinationsol.game.screens.MainGameScreen;
 import org.destinationsol.game.screens.ShipKbControl;
 import org.destinationsol.game.screens.ShipMixedControl;
+import org.destinationsol.ui.nui.widgets.UIWarnButton;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -38,7 +39,7 @@ public class TutorialManager implements UpdateAwareSystem {
 
     private int stepIndex;
 
-    public TutorialManager(GameScreens screens, boolean mobile, GameOptions gameOptions, SolGame game) {
+    public TutorialManager(GameScreens screens, org.destinationsol.ui.nui.screens.MainGameScreen nuiMain, boolean mobile, GameOptions gameOptions, SolGame game) {
         displayDimensions = SolApplication.displayDimensions;
 
         float backgroundW = displayDimensions.getRatio() * .5f;
@@ -88,10 +89,11 @@ public class TutorialManager implements UpdateAwareSystem {
             }
         }
 
+        UIWarnButton mapButton = nuiMain.find("mapButton", UIWarnButton.class);
         if (mobile) {
-            addStep("Have a look at the map", /*main.mapControl*/null, true);
+            addStep("Have a look at the map", mapButton, true);
         } else {
-            addStep("Have a look at the map\n(" + gameOptions.getKeyMapName() + " key)", /*main.mapControl*/null, true);
+            addStep("Have a look at the map\n(" + gameOptions.getKeyMapName() + " key)", mapButton, true);
         }
 
         if (mouseCtrl) {
@@ -109,10 +111,11 @@ public class TutorialManager implements UpdateAwareSystem {
                     screens.mapScreen.closeControl, true);
         }
 
+        UIWarnButton inventoryButton = nuiMain.find("itemsButton", UIWarnButton.class);
         if (mouseCtrl || mobile) {
-            addStep("Have a look\nat your inventory", /*main.inventoryControl*/null, true);
+            addStep("Have a look\nat your inventory", inventoryButton, true);
         } else {
-            addStep("Have a look\nat your inventory (" + gameOptions.getKeyInventoryName() + " key)", /*main.inventoryControl*/null, true);
+            addStep("Have a look\nat your inventory (" + gameOptions.getKeyInventoryName() + " key)", inventoryButton, true);
         }
 
         if (mouseCtrl || mobile) {
@@ -169,10 +172,11 @@ public class TutorialManager implements UpdateAwareSystem {
             addStep("Move forward (" + gameOptions.getKeyUpName() + " key).\nThere's no stop!", upCtrl);
         }
 
+        UIWarnButton talkButton = nuiMain.find("talkButton", UIWarnButton.class);
         if (mobile) {
-            addStep("Fly closer to the station\nand talk with it", /*main.talkControl*/null, true);
+            addStep("Fly closer to the station\nand talk with it", talkButton, true);
         } else {
-            addStep("Fly closer to the station\nand talk with it (" + gameOptions.getKeyTalkName() + " key)", /*main.talkControl*/null, true);
+            addStep("Fly closer to the station\nand talk with it (" + gameOptions.getKeyTalkName() + " key)", talkButton, true);
         }
 
         if (mouseCtrl || mobile) {
@@ -216,8 +220,16 @@ public class TutorialManager implements UpdateAwareSystem {
         addStep(text, ctrl, false);
     }
 
+    private void addStep(String text, UIWarnButton ctrl) {
+        addStep(text, ctrl, false);
+    }
+
     private void addStep(String text, SolUiControl ctrl, boolean checkOn) {
         steps.add(new Step(text, ctrl, checkOn));
+    }
+
+    private void addStep(String text, UIWarnButton ctrl, boolean checkOn) {
+        steps.add(new NuiStep(text, ctrl, checkOn));
     }
 
     private void addStep(Step step) {
@@ -272,6 +284,37 @@ public class TutorialManager implements UpdateAwareSystem {
                 return ctrl.isOn();
             } else {
                 return ctrl.isJustOff();
+            }
+        }
+    }
+
+    public static class NuiStep extends Step {
+        public final UIWarnButton nuiCtrl;
+        private boolean buttonPressed;
+
+        public NuiStep(String text, UIWarnButton ctrl, boolean checkOn) {
+            super(text, null, checkOn);
+            nuiCtrl = ctrl;
+            nuiCtrl.subscribe(widget -> {
+                buttonPressed = true;
+            });
+        }
+
+        // highlight control that needs to be pressed
+        @Override
+        public void highlight() {
+            if (nuiCtrl != null) {
+                nuiCtrl.enableWarn();
+            }
+        }
+
+        @Override
+        public boolean canProgressToNextStep() {
+            if (checkOn) {
+                return buttonPressed;
+            } else {
+                // TODO
+                return buttonPressed && !nuiCtrl.isActive();
             }
         }
     }

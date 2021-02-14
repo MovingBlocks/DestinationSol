@@ -158,9 +158,10 @@ public class SolGame {
         solCamReference = camera;
 
         gameScreens = new GameScreens(solApplication, context);
+        mainGameScreen = (MainGameScreen) Assets.getAssetHelper().get(new ResourceUrn("engine:mainGameScreen"), UIElement.class).get().getRootWidget();
 
         if (isTutorial) {
-            tutorialManager = new TutorialManager(gameScreens, solApplication.isMobile(), solApplication.getOptions(), this);
+            tutorialManager = new TutorialManager(gameScreens, mainGameScreen, solApplication.isMobile(), solApplication.getOptions(), this);
             context.put(TutorialManager.class, tutorialManager);
         } else {
             tutorialManager = null;
@@ -207,7 +208,6 @@ public class SolGame {
         context.put(GalaxyBuilder.class, galaxyBuilder);
 
         timeFactor = 1;
-        mainGameScreen = (MainGameScreen) Assets.getAssetHelper().get(new ResourceUrn("engine:mainGameScreen"), UIElement.class).get().getRootWidget();
     }
 
     public void createUpdateSystems(Context context) {

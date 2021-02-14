@@ -28,6 +28,7 @@ import org.joml.Rectanglei;
 import org.joml.Vector2i;
 import org.terasology.gestalt.assets.ResourceUrn;
 import org.terasology.input.InputType;
+import org.terasology.input.Keyboard;
 import org.terasology.input.MouseInput;
 import org.terasology.input.device.CharKeyboardAction;
 import org.terasology.input.device.RawKeyboardAction;
@@ -127,6 +128,11 @@ public class NUIManager {
     public NUIManager(SolApplication solApplication, Context context, CommonDrawer commonDrawer, GameOptions options) {
         NUIInputProcessor.CONSUME_INPUT = true;
         this.context = context;
+
+        // TODO: Re-enable tabbing when it works
+        TabbingManager.tabForwardInput = Keyboard.Key.NONE;
+        TabbingManager.tabBackInputModifier = Keyboard.Key.NONE;
+        TabbingManager.activateInput = Keyboard.Key.NONE;
 
         mouse = new LibGDXMouseDevice();
         keyboard = new LibGDXKeyboardDevice();
