@@ -17,7 +17,7 @@ public class KeyActivatedButton extends UIButton {
      * The {@code Binding} containing the key that activates this button.
      */
     @LayoutConfig
-    private Binding<String> key = new DefaultBinding<>("");
+    private Binding<String> key = new DefaultBinding<>(Keyboard.Key.NONE.getName());
 
     /**
      * Retrieves the key used to activate this {@code KeyActivatedButton}.
@@ -39,9 +39,13 @@ public class KeyActivatedButton extends UIButton {
 
     @Override
     public boolean onKeyEvent(NUIKeyEvent event) {
-        if (isVisible() && isEnabled() &&
-                event.getState() == ButtonState.UP && event.getKey() == getKey()) {
-            activateWidget();
+        if (isVisible() && isEnabled() && event.getKey() == getKey()) {
+            if (event.getState() == ButtonState.UP) {
+                activateWidget();
+                setActive(false);
+            } else if (event.getState() == ButtonState.DOWN) {
+                setActive(true);
+            }
             return true;
         }
 

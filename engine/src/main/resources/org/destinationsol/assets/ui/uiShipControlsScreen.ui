@@ -1,0 +1,91 @@
+{
+  "type": "UIShipControlsScreen",
+  "skin": "engine:mainGameScreen",
+  "contents": {
+    "type": "relativeLayout",
+    "contents": [
+      {
+        "type": "UIWarnButton",
+        "text": "Right",
+        "id": "rightButton",
+        "layoutInfo": {
+          "position-bottom": {},
+          "position-right": {},
+          "width": 100,
+          "height": 100
+        }
+      },
+      {
+        "type": "UIWarnButton",
+        "text": "Left",
+        "id": "leftButton",
+        "layoutInfo": {
+          "position-bottom": {},
+          "position-right": {
+            "widget": "rightButton",
+            "target": "LEFT",
+            "offset": 10
+          },
+          "width": 100,
+          "height": 100
+        }
+      },
+      {
+        "type": "UIWarnButton",
+        "text": "Ability",
+        "id": "abilityButton",
+        "layoutInfo": {
+          "position-bottom": {
+            "widget": "rightButton",
+            "target": "TOP",
+            "offset": 10
+          },
+          "position-right": {},
+          "width": 100,
+          "height": 100
+        }
+      },
+      {
+        "type": "UIWarnButton",
+        "text": "Fwd",
+        "id": "forwardButton",
+        "layoutInfo": {
+          "position-bottom": {},
+          "position-left": {},
+          "width": 100,
+          "height": 100
+        }
+      },
+      {
+        "type": "UIWarnButton",
+        "text": "Gun2",
+        "id": "gun2Button",
+        "layoutInfo": {
+          "position-bottom": {},
+          "position-left": {
+            "widget": "forwardButton",
+            "target": "RIGHT",
+            "offset": 10
+          },
+          "width": 100,
+          "height": 100
+        }
+      },
+      {
+        "type": "UIWarnButton",
+        "text": "Gun1",
+        "id": "gun1Button",
+        "layoutInfo": {
+          "position-bottom": {
+            "widget": "forwardButton",
+            "target": "TOP",
+            "offset": 10
+          },
+          "position-left": {},
+          "width": 100,
+          "height": 100
+        }
+      }
+    ]
+  }
+}
