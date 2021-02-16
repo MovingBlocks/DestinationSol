@@ -22,10 +22,14 @@ import org.terasology.nui.UIWidget;
 import org.terasology.nui.asset.UIElement;
 import org.terasology.nui.backends.libgdx.GDXInputUtil;
 import org.terasology.nui.events.NUIKeyEvent;
-import org.terasology.nui.widgets.UIButton;
 
 import java.util.List;
 
+/**
+ * The main HUD screen displayed when in-game. This screen is responsible for the menu buttons shown
+ * on the right-hand side of the UI. Through it, the menu, map, current ship inventory, communications UI
+ * and mercenaries UI can be accessed.
+ */
 public class MainGameScreen extends NUIScreenLayer {
     private SolShip talkTarget;
     private KeyActivatedButton menuButton;
@@ -40,8 +44,6 @@ public class MainGameScreen extends NUIScreenLayer {
         consoleScreen = (ConsoleScreen) Assets.getAssetHelper().get(new ResourceUrn("engine:console"), UIElement.class).get().getRootWidget();
 
         SolApplication solApplication = nuiManager.getSolApplication();
-        SolInputManager solInputManager = solApplication.getInputManager();
-        GameScreens gameScreens = solApplication.getGame().getScreens();
         GameOptions gameOptions = solApplication.getOptions();
 
         menuButton = find("menuButton", KeyActivatedButton.class);
@@ -109,6 +111,7 @@ public class MainGameScreen extends NUIScreenLayer {
 
         FactionManager factionManager = game.getFactionMan();
 
+        // The ship can only communicate if there is a friendly target in range.
         talkTarget = null;
         float minDist = TalkScreen.MAX_TALK_DIST;
         float heroApproxRadius = hero.getHull().config.getApproxRadius();
@@ -142,11 +145,6 @@ public class MainGameScreen extends NUIScreenLayer {
     @Override
     protected boolean escapeCloses() {
         return false;
-    }
-
-    @Override
-    public boolean isBlockingInput() {
-        return true;
     }
 
     @Override

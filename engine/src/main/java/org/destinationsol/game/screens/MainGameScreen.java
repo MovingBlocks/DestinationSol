@@ -49,6 +49,9 @@ import org.destinationsol.ui.SolUiControl;
 import org.destinationsol.ui.SolUiScreen;
 import org.destinationsol.ui.UiDrawer;
 import org.destinationsol.ui.nui.screens.ConsoleScreen;
+import org.destinationsol.ui.nui.screens.UIShipControlsScreen;
+import org.terasology.gestalt.assets.ResourceUrn;
+import org.terasology.nui.asset.UIElement;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -103,7 +106,11 @@ public class MainGameScreen extends SolUiBaseScreen {
 
         switch (gameOptions.controlType) {
             case KEYBOARD:
-                shipControl = new ShipKbControl(solApplication, controls);
+                UIShipControlsScreen shipControlsScreen =
+                        (UIShipControlsScreen) Assets.getAssetHelper().get(
+                                new ResourceUrn("engine:uiShipControlsScreen"), UIElement.class).get().getRootWidget();
+                solApplication.getNuiManager().pushScreen(shipControlsScreen);
+                shipControl = shipControlsScreen;
                 break;
             case MOUSE:
                 shipControl = new ShipMouseControl();
