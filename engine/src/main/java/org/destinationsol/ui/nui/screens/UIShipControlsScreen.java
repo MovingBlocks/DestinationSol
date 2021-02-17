@@ -7,7 +7,10 @@ import org.destinationsol.game.item.Gun;
 import org.destinationsol.game.screens.ShipUiControl;
 import org.destinationsol.ui.nui.NUIScreenLayer;
 import org.destinationsol.ui.nui.widgets.KeyActivatedButton;
+import org.terasology.input.ButtonState;
+import org.terasology.input.Keyboard;
 import org.terasology.nui.backends.libgdx.GDXInputUtil;
+import org.terasology.nui.events.NUIKeyEvent;
 import org.terasology.nui.widgets.UIButton;
 
 public class UIShipControlsScreen extends NUIScreenLayer implements ShipUiControl {
@@ -17,6 +20,8 @@ public class UIShipControlsScreen extends NUIScreenLayer implements ShipUiContro
     public KeyActivatedButton gun1Button;
     public KeyActivatedButton gun2Button;
     public KeyActivatedButton abilityButton;
+    private Keyboard.Key downKey;
+    private boolean downKeyHeld;
 
     @Override
     public void initialise() {
@@ -40,6 +45,8 @@ public class UIShipControlsScreen extends NUIScreenLayer implements ShipUiContro
 
         abilityButton = find("abilityButton", KeyActivatedButton.class);
         abilityButton.setKey(GDXInputUtil.GDXToNuiKey(gameOptions.getKeyAbility()));
+
+        downKey = GDXInputUtil.GDXToNuiKey(gameOptions.getKeyDown());
 
         if (!solApplication.isMobile()) {
             leftButton.setVisible(false);
@@ -78,7 +85,22 @@ public class UIShipControlsScreen extends NUIScreenLayer implements ShipUiContro
         gun1Button.setEnabled(g1 != null && g1.ammo > 0);
         Gun g2 = hero.isTranscendent() ? null : hero.getHull().getGun(true);
         gun2Button.setEnabled(g2 != null && g2.ammo > 0);
-        abilityButton.setEnabled(hero.isNonTranscendent() && hero.canUseAbility());
+
+        // The ability button needs to de-press before it is disabled,
+        // as otherwise it causes the button to be pressed again when it is enabled.
+        if (!abilityButton.getMode().equals(UIButton.DOWN_MODE)) {
+            abilityButton.setEnabled(hero.isNonTranscendent() && hero.canUseAbility());
+        }
+    }
+
+    @Override
+    public boolean onKeyEvent(NUIKeyEvent event) {
+        if (event.getKey() == downKey) {
+            downKeyHeld = (event.getState() == ButtonState.DOWN);
+            return true;
+        }
+
+        return super.onKeyEvent(event);
     }
 
     @Override
@@ -99,7 +121,7 @@ public class UIShipControlsScreen extends NUIScreenLayer implements ShipUiContro
     @Override
     public boolean isDown() {
         // TODO
-        return false;
+        return downKeyHeld;
     }
 
     @Override
