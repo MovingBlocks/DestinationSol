@@ -9,6 +9,7 @@ import org.destinationsol.ui.nui.NUIScreenLayer;
 import org.destinationsol.ui.nui.widgets.KeyActivatedButton;
 import org.terasology.input.ButtonState;
 import org.terasology.input.Keyboard;
+import org.terasology.nui.AbstractWidget;
 import org.terasology.nui.backends.libgdx.GDXInputUtil;
 import org.terasology.nui.events.NUIKeyEvent;
 import org.terasology.nui.widgets.UIButton;
@@ -56,6 +57,19 @@ public class UIShipControlsScreen extends NUIScreenLayer implements ShipUiContro
             gun2Button.setVisible(false);
             abilityButton.setVisible(false);
         }
+    }
+
+    /**
+     * Implementation of {@link org.terasology.nui.UIWidget#update(float)}
+     * @param delta the time elapsed since the last update cycle
+     */
+    @Override
+    public void update(float delta) {
+        SolApplication solApplication = nuiManager.getSolApplication();
+
+        // Hide controls if the use is looking at a different main game screen.
+        ((AbstractWidget)contents).setVisible(solApplication.getInputManager().getTopScreen() == solApplication.getGame().getScreens().mainGameScreen);
+        super.update(delta);
     }
 
     /**
