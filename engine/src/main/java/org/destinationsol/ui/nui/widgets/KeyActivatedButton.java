@@ -39,7 +39,12 @@ public class KeyActivatedButton extends UIButton {
 
     @Override
     public boolean onKeyEvent(NUIKeyEvent event) {
-        if (isVisible() && isEnabled() && event.getKey() == getKey()) {
+        if (!isVisible() || !isEnabled()) {
+            setActive(false);
+            return super.onKeyEvent(event);
+        }
+
+        if (event.getKey() == getKey()) {
             if (event.getState() == ButtonState.UP) {
                 activateWidget();
                 setActive(false);
