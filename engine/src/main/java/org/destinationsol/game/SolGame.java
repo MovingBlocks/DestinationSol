@@ -158,10 +158,16 @@ public class SolGame {
         solCamReference = camera;
 
         gameScreens = new GameScreens(solApplication, context);
-        mainGameScreen = (MainGameScreen) Assets.getAssetHelper().get(new ResourceUrn("engine:mainGameScreen"), UIElement.class).get().getRootWidget();
+
+        boolean isMobile = solApplication.isMobile();
+        if (!isMobile) {
+            mainGameScreen = (MainGameScreen) Assets.getAssetHelper().get(new ResourceUrn("engine:mainGameScreen_desktop"), UIElement.class).get().getRootWidget();
+        } else {
+            mainGameScreen = (MainGameScreen) Assets.getAssetHelper().get(new ResourceUrn("engine:mainGameScreen_mobile"), UIElement.class).get().getRootWidget();
+        }
 
         if (isTutorial) {
-            tutorialManager = new TutorialManager(gameScreens, mainGameScreen, solApplication.isMobile(), solApplication.getOptions(), this);
+            tutorialManager = new TutorialManager(gameScreens, mainGameScreen, isMobile, solApplication.getOptions(), this);
             context.put(TutorialManager.class, tutorialManager);
         } else {
             tutorialManager = null;
