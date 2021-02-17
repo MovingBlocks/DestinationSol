@@ -414,34 +414,6 @@ public class MainGameScreen extends SolUiBaseScreen {
         }
     }
 
-    public boolean isLeft() {
-        return shipControl.isLeft();
-    }
-
-    public boolean isRight() {
-        return shipControl.isRight();
-    }
-
-    public boolean isUp() {
-        return shipControl.isUp();
-    }
-
-    public boolean isDown() {
-        return shipControl.isDown();
-    }
-
-    public boolean isShoot() {
-        return shipControl.isShoot();
-    }
-
-    public boolean isShoot2() {
-        return shipControl.isShoot2();
-    }
-
-    public boolean isAbility() {
-        return shipControl.isAbility();
-    }
-
     public boolean isCameraUp() {
         return cameraControl.isUp();
     }
