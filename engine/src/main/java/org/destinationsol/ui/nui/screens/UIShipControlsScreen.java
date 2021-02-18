@@ -68,7 +68,7 @@ public class UIShipControlsScreen extends NUIScreenLayer implements ShipUiContro
         SolApplication solApplication = nuiManager.getSolApplication();
 
         // Hide controls if the use is looking at a different main game screen.
-        ((AbstractWidget)contents).setVisible(solApplication.getInputManager().getTopScreen() == solApplication.getGame().getScreens().mainGameScreen);
+        ((AbstractWidget)contents).setVisible(solApplication.getInputManager().isScreenOn(solApplication.getGame().getScreens().mainGameScreen));
         super.update(delta);
     }
 
