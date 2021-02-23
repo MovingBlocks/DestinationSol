@@ -7,6 +7,7 @@
       {
         "type": "UIWarnButton",
         "text": "Right",
+        "clickSound": null,
         "id": "rightButton",
         "layoutInfo": {
           "position-bottom": {},
@@ -18,6 +19,7 @@
       {
         "type": "UIWarnButton",
         "text": "Left",
+        "clickSound": null,
         "id": "leftButton",
         "layoutInfo": {
           "position-bottom": {},
@@ -33,6 +35,7 @@
       {
         "type": "UIWarnButton",
         "text": "Ability",
+        "clickSound": null,
         "id": "abilityButton",
         "layoutInfo": {
           "position-bottom": {
@@ -48,6 +51,7 @@
       {
         "type": "UIWarnButton",
         "text": "Fwd",
+        "clickSound": null,
         "id": "forwardButton",
         "layoutInfo": {
           "position-bottom": {},
@@ -59,6 +63,7 @@
       {
         "type": "UIWarnButton",
         "text": "Gun2",
+        "clickSound": null,
         "id": "gun2Button",
         "layoutInfo": {
           "position-bottom": {},
@@ -74,6 +79,7 @@
       {
         "type": "UIWarnButton",
         "text": "Gun1",
+        "clickSound": null,
         "id": "gun1Button",
         "layoutInfo": {
           "position-bottom": {
