@@ -22,6 +22,8 @@ import org.destinationsol.GameOptions;
 import org.destinationsol.SolApplication;
 import org.destinationsol.assets.Assets;
 import org.destinationsol.assets.sound.OggSound;
+import org.destinationsol.game.context.Context;
+import org.destinationsol.util.InjectionHelper;
 import org.terasology.gestalt.assets.ResourceUrn;
 import org.terasology.input.InputType;
 import org.terasology.input.MouseInput;
@@ -83,6 +85,10 @@ public class NUIManager {
      * The default UI skin used by all widgets.
      */
     private UISkin skin;
+    /**
+     * The current game context used to initialise UI screens.
+     */
+    private Context context;
 
     /**
      * The UI stack. The elements are rendered from most recently added to least recent, so a stack-like structure
@@ -102,11 +108,13 @@ public class NUIManager {
     /**
      * Creates and initialises a new NUIManager instance, which involves initialising a canvas and NUI input handlers.
      * @param solApplication the application to use for initialisation
+     * @param context the game context to use when displaying UI screens
      * @param commonDrawer used to directly access the game's LibGDX {@link com.badlogic.gdx.graphics.g2d.SpriteBatch}
      * @param options used to initialise the UI scale with its previously-saved value
      */
-    public NUIManager(SolApplication solApplication, CommonDrawer commonDrawer, GameOptions options) {
+    public NUIManager(SolApplication solApplication, Context context, CommonDrawer commonDrawer, GameOptions options) {
         NUIInputProcessor.CONSUME_INPUT = true;
+        this.context = context;
 
         mouse = new LibGDXMouseDevice();
         keyboard = new LibGDXKeyboardDevice();
@@ -234,6 +242,8 @@ public class NUIManager {
     public void pushScreen(NUIScreenLayer layer) {
         uiScreens.push(layer);
 
+        // Populate all @In annotated fields in the layer class with values from the context.
+        InjectionHelper.inject(layer, context);
         layer.setFocusManager(focusManager);
         layer.setNuiManager(this);
         layer.initialise();
@@ -297,6 +307,14 @@ public class NUIManager {
      */
     public UISkin getDefaultSkin() {
         return skin;
+    }
+
+    /**
+     * Sets the game context to be used by all UI screens. Newly-added screens will the use this context.
+     * @param context the new context to use
+     */
+    public void setContext(Context context) {
+        this.context = context;
     }
 
     /**
