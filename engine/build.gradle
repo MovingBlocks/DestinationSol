@@ -31,7 +31,7 @@ buildscript {
         // HACK: Needed for NUI and gestalt entity-component reflections
         classpath group: 'org.terasology.nui', name: 'nui', version: '2.0.0-SNAPSHOT'
         classpath group: 'javax.servlet', name: 'javax.servlet-api', version: '3.0.1'
-        classpath group: 'org.terasology.gestalt', name: 'gestalt-entity-system', version: '7.0.6-SNAPSHOT'
+        classpath group: 'org.terasology.gestalt', name: 'gestalt-entity-system', version: '7.0.7-SNAPSHOT'
     }
 }
 
@@ -40,10 +40,15 @@ dependencies {
     compile "com.badlogicgames.gdx:gdx-box2d:$gdxVersion"
     compile "com.badlogicgames.gdx:gdx-controllers:$gdxVersion"
 
-    compile(group: 'org.terasology.gestalt', name: 'gestalt-asset-core', version: '7.0.6-SNAPSHOT')
-    compile(group: 'org.terasology.gestalt', name: 'gestalt-entity-system', version: '7.0.6-SNAPSHOT')
-    compile(group: 'org.terasology.gestalt', name: 'gestalt-module', version: '7.0.6-SNAPSHOT')
-    compile(group: 'org.terasology.gestalt', name: 'gestalt-util', version: '7.0.6-SNAPSHOT')
+    compile(group: 'org.terasology.gestalt', name: 'gestalt-asset-core', version: '7.0.7-SNAPSHOT')
+    compile(group: 'org.terasology.gestalt', name: 'gestalt-entity-system', version: '7.0.7-SNAPSHOT')
+    compile(group: 'org.terasology.gestalt', name: 'gestalt-module', version: '7.0.7-SNAPSHOT')
+    compile(group: 'org.terasology.gestalt', name: 'gestalt-util', version: '7.0.7-SNAPSHOT')
+
+    compile(group: 'org.terasology.gestalt', name: 'gestalt-di', version: '7.0.7-SNAPSHOT')
+    compile(group: 'org.terasology.gestalt', name: 'gestalt-inject', version: '7.0.7-SNAPSHOT')
+    annotationProcessor(group: 'org.terasology.gestalt', name: 'gestalt-inject-java', version: '7.0.7-SNAPSHOT')
+
     compile group: 'org.terasology.nui', name: 'nui', version: '2.0.0'
     compile group: 'org.terasology.nui', name: 'nui-libgdx', version: '2.0.0'
 

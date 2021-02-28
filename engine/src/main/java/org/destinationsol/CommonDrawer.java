@@ -33,7 +33,9 @@ import org.destinationsol.common.SolMath;
 import org.destinationsol.ui.DisplayDimensions;
 import org.destinationsol.ui.ResizeSubscriber;
 import org.destinationsol.ui.UiDrawer;
+import org.terasology.context.annotation.Introspected;
 
+@Introspected
 public class CommonDrawer implements ResizeSubscriber {
     private final SpriteBatch spriteBatch;
     private final BitmapFont font;

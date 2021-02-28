@@ -20,6 +20,7 @@ import com.badlogic.gdx.Input;
 import com.google.common.base.Enums;
 import org.destinationsol.menu.Resolution;
 import org.destinationsol.menu.ResolutionProvider;
+import org.terasology.context.annotation.Introspected;
 
 import static java.util.Arrays.asList;
 

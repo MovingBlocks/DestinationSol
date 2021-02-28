@@ -17,11 +17,16 @@ package org.destinationsol.ui;
 
 import org.destinationsol.game.screens.RightPaneLayout;
 import org.destinationsol.menu.MenuLayout;
+import org.terasology.context.annotation.Introspected;
 
+import javax.inject.Inject;
+
+@Introspected
 public class SolLayouts {
     public final RightPaneLayout rightPaneLayout;
     public final MenuLayout menuLayout;
 
+    @Inject
     public SolLayouts() {
         rightPaneLayout = new RightPaneLayout();
         menuLayout = new MenuLayout();

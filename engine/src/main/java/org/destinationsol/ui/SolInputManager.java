@@ -33,12 +33,15 @@ import org.destinationsol.common.SolColor;
 import org.destinationsol.common.SolMath;
 import org.destinationsol.game.SolGame;
 import org.destinationsol.game.context.Context;
+import org.terasology.context.annotation.Introspected;
 
+import javax.inject.Inject;
 import java.util.ArrayList;
 import java.util.List;
 
 import static com.badlogic.gdx.graphics.Pixmap.Format.RGBA8888;
 
+@Introspected
 public class SolInputManager {
     private static final float CURSOR_SZ = .07f;
     private static final float WARN_PERC_GROWTH_TIME = 1f;
@@ -70,6 +73,7 @@ public class SolInputManager {
     private Boolean scrolledUp;
     public boolean touchDragged;
 
+    @Inject
     public SolInputManager(OggSoundManager soundManager, Context context) {
         this.context = context;
         inputPointers = new InputPointer[POINTER_COUNT];

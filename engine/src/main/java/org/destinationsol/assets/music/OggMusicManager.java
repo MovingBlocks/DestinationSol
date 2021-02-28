@@ -23,8 +23,10 @@ import org.json.JSONArray;
 import org.json.JSONObject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.terasology.context.annotation.Introspected;
 import org.terasology.gestalt.assets.ResourceUrn;
 
+import javax.inject.Inject;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -37,6 +39,7 @@ import java.util.Set;
  * This class does not rely on external updates; once a music set is set to be played, it will play, even looping,
  * until another is chosen. By default, music does not play concurrently.
  */
+@Introspected
 public class OggMusicManager {
     public static final String NO_MUSIC = "";
     public static final String MENU_MUSIC_SET = "menu";
@@ -51,6 +54,7 @@ public class OggMusicManager {
      * Registers engine music.
      * TODO Make music registerable from modules, and then register this music through the new way.
      */
+    @Inject
     public OggMusicManager(GameOptions options) {
         musicMap = new HashMap<>();
         registerMusic(GAME_MUSIC_SET, "engine:cimmerianDawn");

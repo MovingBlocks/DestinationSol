@@ -31,6 +31,7 @@ import org.reflections.util.ClasspathHelper;
 import org.reflections.util.ConfigurationBuilder;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.terasology.context.annotation.Introspected;
 import org.terasology.gestalt.assets.ResourceUrn;
 import org.terasology.gestalt.module.Module;
 import org.terasology.gestalt.module.ModuleEnvironment;
@@ -59,6 +60,7 @@ import java.util.Set;
 /**
  * A class used for loading and managing modules in Destination Sol.
  */
+@Introspected
 public class ModuleManager {
     private static final Logger logger = LoggerFactory.getLogger(ModuleManager.class);
     // The API whitelist is based off Terasology's

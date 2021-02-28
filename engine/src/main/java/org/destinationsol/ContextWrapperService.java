@@ -1,5 +1,5 @@
 /*
- * Copyright 2018 MovingBlocks
+ * Copyright 2020 The Terasology Foundation
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -13,7 +13,17 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-@API
-package org.destinationsol.ui;
+package org.destinationsol;
 
-import org.terasology.context.annotation.API;
+
+import org.destinationsol.game.context.Context;
+import org.terasology.gestalt.di.Lifetime;
+import org.terasology.gestalt.di.ServiceRegistry;
+
+public class ContextWrapperService extends ServiceRegistry {
+    public ContextWrapperService() {
+        this.with(Context.class)
+                .lifetime(Lifetime.Singleton)
+                .use(ContextWrapper.class);
+    }
+}

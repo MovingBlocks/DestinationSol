@@ -71,10 +71,12 @@ import org.destinationsol.util.FramerateLimiter;
 import org.destinationsol.util.InjectionHelper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.terasology.context.annotation.API;
+import org.terasology.gestalt.di.BeanContext;
+import org.terasology.gestalt.di.DefaultBeanContext;
 import org.terasology.gestalt.entitysystem.component.Component;
 import org.terasology.gestalt.entitysystem.component.management.ComponentManager;
 import org.terasology.gestalt.entitysystem.entity.EntityRef;
-import org.terasology.gestalt.module.sandbox.API;
 
 import java.io.PrintWriter;
 import java.io.StringWriter;
@@ -118,6 +120,8 @@ public class SolApplication implements ApplicationListener {
 
     private ComponentManager componentManager;
 
+    private BeanContext beanContext;
+
     // TODO: Make this non-static.
     private static Set<ResizeSubscriber> resizeSubscribers;
 
@@ -127,6 +131,8 @@ public class SolApplication implements ApplicationListener {
         this.moduleManager = moduleManager;
         this.targetFPS = targetFPS;
         resizeSubscribers = new HashSet<>();
+
+        this.beanContext = new DefaultBeanContext(new CoreService(this, moduleManager));
     }
 
     @Override
@@ -140,25 +146,25 @@ public class SolApplication implements ApplicationListener {
         }
         options = new GameOptions(isMobile(), null);
 
-        componentManager = new ComponentManager();
-        AssetHelper helper = new AssetHelper();
+        componentManager = beanContext.getBean(ComponentManager.class).get();
+        AssetHelper helper = beanContext.getBean(AssetHelper.class).get();
         helper.init(moduleManager.getEnvironment(), componentManager, isMobile);
         Assets.initialize(helper);
 
-        context.put(ComponentSystemManager.class, new ComponentSystemManager(moduleManager.getEnvironment(), context));
+        context.put(ComponentSystemManager.class, beanContext.getBean(ComponentSystemManager.class).get());
         logger.info("\n\n ------------------------------------------------------------ \n");
         moduleManager.printAvailableModules();
 
-        musicManager = new OggMusicManager(options);
-        soundManager = new OggSoundManager(context);
-        inputManager = new SolInputManager(soundManager, context);
+        musicManager = beanContext.getBean(OggMusicManager.class).get();
+        soundManager = beanContext.getBean(OggSoundManager.class).get();
+        inputManager = beanContext.getBean(SolInputManager.class).get();
 
         musicManager.playMusic(OggMusicManager.MENU_MUSIC_SET, options);
 
-        displayDimensions = new DisplayDimensions(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
-        commonDrawer = new CommonDrawer();
-        uiDrawer = new UiDrawer(commonDrawer);
-        layouts = new SolLayouts();
+        displayDimensions = beanContext.getBean(DisplayDimensions.class).get();
+        commonDrawer = beanContext.getBean(CommonDrawer.class).get();
+        uiDrawer = beanContext.getBean(UiDrawer.class).get();
+        layouts = beanContext.getBean(SolLayouts.class).get();
 
         menuBackgroundManager = new MenuBackgroundManager(displayDimensions);
         menuScreens = new MenuScreens(layouts, isMobile(), options);
@@ -288,7 +294,7 @@ public class SolApplication implements ApplicationListener {
 
                 EntityRef entityRef = entitySystemManager.getEntityManager().createEntity(graphicsComponent, position, size,
                         new Angle(), new Velocity(), new AsteroidMesh(), health, new DropsMoneyOnDestruction(), new CreatesRubbleOnDestruction());
-                
+
                 entityRef.setComponent(new BodyLinked());
                 entityCreated = true;
             }

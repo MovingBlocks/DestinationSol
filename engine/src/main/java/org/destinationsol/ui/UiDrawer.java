@@ -23,10 +23,13 @@ import com.badlogic.gdx.math.Vector2;
 import org.destinationsol.CommonDrawer;
 import org.destinationsol.SolApplication;
 import org.destinationsol.assets.Assets;
+import org.terasology.context.annotation.Introspected;
 
+import javax.inject.Inject;
 import java.util.HashMap;
 import java.util.Map;
 
+@Introspected
 public class UiDrawer implements ResizeSubscriber {
     public enum TextAlignment {
         LEFT,
@@ -49,6 +52,7 @@ public class UiDrawer implements ResizeSubscriber {
 
     public static Map<String, Position> positions = new HashMap<>();
 
+    @Inject
     public UiDrawer(CommonDrawer commonDrawer) {
         displayDimensions = SolApplication.displayDimensions;
         drawer = commonDrawer;
