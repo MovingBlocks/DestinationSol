@@ -3,6 +3,7 @@ package org.destinationsol.ui.nui.screens;
 import org.destinationsol.GameOptions;
 import org.destinationsol.SolApplication;
 import org.destinationsol.assets.Assets;
+import org.destinationsol.common.In;
 import org.destinationsol.game.FactionManager;
 import org.destinationsol.game.Hero;
 import org.destinationsol.game.SolGame;
@@ -39,11 +40,13 @@ public class MainGameScreen extends NUIScreenLayer {
     private UIWarnButton mercsButton;
     private ConsoleScreen consoleScreen;
 
+    @In
+    private SolApplication solApplication;
+
     @Override
     public void initialise() {
         consoleScreen = (ConsoleScreen) Assets.getAssetHelper().get(new ResourceUrn("engine:console"), UIElement.class).get().getRootWidget();
 
-        SolApplication solApplication = nuiManager.getSolApplication();
         GameOptions gameOptions = solApplication.getOptions();
 
         menuButton = find("menuButton", KeyActivatedButton.class);
@@ -70,8 +73,6 @@ public class MainGameScreen extends NUIScreenLayer {
     @Override
     public void update(float delta) {
         super.update(delta);
-
-        SolApplication solApplication = nuiManager.getSolApplication();
         SolInputManager solInputManager = solApplication.getInputManager();
         GameScreens gameScreens = solApplication.getGame().getScreens();
         if (!solInputManager.isScreenOn(gameScreens.menuScreen) &&
@@ -164,7 +165,7 @@ public class MainGameScreen extends NUIScreenLayer {
                 (event.getKey() == Keyboard.Key.GRAVE || event.getKey() == Keyboard.Key.F1)) {
             if (!nuiManager.hasScreen(consoleScreen)) {
                 nuiManager.pushScreen(consoleScreen);
-                nuiManager.getSolApplication().getGame().setPaused(true);
+                solApplication.getGame().setPaused(true);
             }
             return true;
         }
@@ -182,7 +183,6 @@ public class MainGameScreen extends NUIScreenLayer {
     }
 
     private void onMenuButtonClicked(UIWidget widget) {
-        SolApplication solApplication = nuiManager.getSolApplication();
         SolInputManager solInputManager = solApplication.getInputManager();
         GameScreens gameScreens = solApplication.getGame().getScreens();
 
@@ -190,7 +190,6 @@ public class MainGameScreen extends NUIScreenLayer {
     }
 
     private void onMapButtonClicked(UIWidget widget) {
-        SolApplication solApplication = nuiManager.getSolApplication();
         SolInputManager solInputManager = solApplication.getInputManager();
         GameScreens gameScreens = solApplication.getGame().getScreens();
 
@@ -198,7 +197,6 @@ public class MainGameScreen extends NUIScreenLayer {
     }
 
     private void onItemsButtonClicked(UIWidget widget) {
-        SolApplication solApplication = nuiManager.getSolApplication();
         SolInputManager solInputManager = solApplication.getInputManager();
         GameScreens gameScreens = solApplication.getGame().getScreens();
 
@@ -211,7 +209,6 @@ public class MainGameScreen extends NUIScreenLayer {
     }
 
     private void onTalkButtonClicked(UIWidget widget) {
-        SolApplication solApplication = nuiManager.getSolApplication();
         SolInputManager solInputManager = solApplication.getInputManager();
         GameScreens gameScreens = solApplication.getGame().getScreens();
 
@@ -223,7 +220,6 @@ public class MainGameScreen extends NUIScreenLayer {
     }
 
     private void onMercsButtonClicked(UIWidget widget) {
-        SolApplication solApplication = nuiManager.getSolApplication();
         SolInputManager solInputManager = solApplication.getInputManager();
         GameScreens gameScreens = solApplication.getGame().getScreens();
 

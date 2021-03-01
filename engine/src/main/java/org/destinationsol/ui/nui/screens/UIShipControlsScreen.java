@@ -2,6 +2,7 @@ package org.destinationsol.ui.nui.screens;
 
 import org.destinationsol.GameOptions;
 import org.destinationsol.SolApplication;
+import org.destinationsol.common.In;
 import org.destinationsol.game.Hero;
 import org.destinationsol.game.item.Gun;
 import org.destinationsol.game.screens.ShipUiControl;
@@ -24,9 +25,11 @@ public class UIShipControlsScreen extends NUIScreenLayer implements ShipUiContro
     private Keyboard.Key downKey;
     private boolean downKeyHeld;
 
+    @In
+    private SolApplication solApplication;
+
     @Override
     public void initialise() {
-        SolApplication solApplication = nuiManager.getSolApplication();
         GameOptions gameOptions = solApplication.getOptions();
 
         leftButton = find("leftButton", KeyActivatedButton.class);
@@ -65,8 +68,6 @@ public class UIShipControlsScreen extends NUIScreenLayer implements ShipUiContro
      */
     @Override
     public void update(float delta) {
-        SolApplication solApplication = nuiManager.getSolApplication();
-
         // Hide controls if the use is looking at a different main game screen.
         ((AbstractWidget)contents).setVisible(solApplication.getInputManager().isScreenOn(solApplication.getGame().getScreens().mainGameScreen));
         super.update(delta);
