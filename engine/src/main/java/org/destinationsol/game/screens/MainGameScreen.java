@@ -448,7 +448,7 @@ public class MainGameScreen extends SolUiBaseScreen {
         myMoneyExcessTp.text = null;
 
         maybeDrawHeight(uiDrawer);
-        borderDrawer.draw(uiDrawer, solApplication, solApplication.getContext());
+        borderDrawer.draw(uiDrawer, solApplication, context);
 
         SolGame game = solApplication.getGame();
         Hero hero = game.getHero();
