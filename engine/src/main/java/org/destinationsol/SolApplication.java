@@ -72,12 +72,15 @@ import org.destinationsol.util.InjectionHelper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.terasology.context.annotation.API;
+import org.terasology.context.annotation.Introspected;
 import org.terasology.gestalt.di.BeanContext;
 import org.terasology.gestalt.di.DefaultBeanContext;
 import org.terasology.gestalt.entitysystem.component.Component;
 import org.terasology.gestalt.entitysystem.component.management.ComponentManager;
 import org.terasology.gestalt.entitysystem.entity.EntityRef;
+import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 
+import javax.inject.Inject;
 import java.io.PrintWriter;
 import java.io.StringWriter;
 import java.util.HashSet;
@@ -85,6 +88,7 @@ import java.util.Iterator;
 import java.util.Set;
 
 @API
+@Introspected
 public class SolApplication implements ApplicationListener {
     private static final Logger logger = LoggerFactory.getLogger(SolApplication.class);
 
@@ -94,9 +98,13 @@ public class SolApplication implements ApplicationListener {
     private final ModuleManager moduleManager;
     private EntitySystemManager entitySystemManager;
 
-    private OggMusicManager musicManager;
-    private OggSoundManager soundManager;
-    private SolInputManager inputManager;
+    @Inject
+    protected OggMusicManager musicManager;
+    @Inject
+    protected OggSoundManager soundManager;
+    @Inject
+    protected SolInputManager inputManager;
+
     private MenuBackgroundManager menuBackgroundManager;
 
     private UiDrawer uiDrawer;
@@ -125,6 +133,10 @@ public class SolApplication implements ApplicationListener {
     // TODO: Make this non-static.
     private static Set<ResizeSubscriber> resizeSubscribers;
 
+    protected SolApplication() {
+        throw new NotImplementedException();
+    }
+
     public SolApplication(ModuleManager moduleManager, float targetFPS) {
         // Initiate Box2D to make sure natives are loaded early enough
         Box2D.init();
@@ -146,25 +158,27 @@ public class SolApplication implements ApplicationListener {
         }
         options = new GameOptions(isMobile(), null);
 
-        componentManager = beanContext.getBean(ComponentManager.class).get();
-        AssetHelper helper = beanContext.getBean(AssetHelper.class).get();
+        componentManager = beanContext.getBean(ComponentManager.class);
+        AssetHelper helper = beanContext.getBean(AssetHelper.class);
         helper.init(moduleManager.getEnvironment(), componentManager, isMobile);
         Assets.initialize(helper);
 
-        context.put(ComponentSystemManager.class, beanContext.getBean(ComponentSystemManager.class).get());
+        context.put(ComponentSystemManager.class, beanContext.getBean(ComponentSystemManager.class));
         logger.info("\n\n ------------------------------------------------------------ \n");
         moduleManager.printAvailableModules();
 
-        musicManager = beanContext.getBean(OggMusicManager.class).get();
-        soundManager = beanContext.getBean(OggSoundManager.class).get();
-        inputManager = beanContext.getBean(SolInputManager.class).get();
+        beanContext.inject(this);
+
+//        musicManager = beanContext.getBean(OggMusicManager.class);
+//        soundManager = beanContext.getBean(OggSoundManager.class);
+//        inputManager = beanContext.getBean(SolInputManager.class);
 
         musicManager.playMusic(OggMusicManager.MENU_MUSIC_SET, options);
 
-        displayDimensions = beanContext.getBean(DisplayDimensions.class).get();
-        commonDrawer = beanContext.getBean(CommonDrawer.class).get();
-        uiDrawer = beanContext.getBean(UiDrawer.class).get();
-        layouts = beanContext.getBean(SolLayouts.class).get();
+        displayDimensions = beanContext.getBean(DisplayDimensions.class);
+        commonDrawer = beanContext.getBean(CommonDrawer.class);
+        uiDrawer = beanContext.getBean(UiDrawer.class);
+        layouts = beanContext.getBean(SolLayouts.class);
 
         menuBackgroundManager = new MenuBackgroundManager(displayDimensions);
         menuScreens = new MenuScreens(layouts, isMobile(), options);

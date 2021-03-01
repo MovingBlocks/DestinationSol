@@ -33,7 +33,7 @@ public class ContextWrapper implements Context {
 
     @Override
     public <T> T get(Class<? extends T> type) {
-        return (T) context.getBean(type).get();
+        return (T) context.getBean(type);
     }
 
     @Override

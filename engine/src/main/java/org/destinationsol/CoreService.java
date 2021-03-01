@@ -7,6 +7,7 @@ import org.destinationsol.assets.music.OggMusicManager;
 import org.destinationsol.assets.sound.OggSoundManager;
 import org.destinationsol.entitysystem.ComponentSystemManager;
 import org.destinationsol.game.DebugOptions;
+import org.destinationsol.game.context.Context;
 import org.destinationsol.modules.ModuleManager;
 import org.destinationsol.ui.DisplayDimensions;
 import org.destinationsol.ui.SolInputManager;
@@ -42,6 +43,7 @@ public class CoreService extends ServiceRegistry {
         this.with(DisplayDimensions.class).lifetime(Lifetime.Singleton).use(() -> new DisplayDimensions(Gdx.graphics.getWidth(), Gdx.graphics.getHeight()));
 
         this.with(UiDrawer.class).lifetime(Lifetime.Singleton);
+        this.with(Context.class).use(ContextWrapper.class).lifetime(Lifetime.Singleton);
         this.with(SolLayouts.class);
     }
 }
