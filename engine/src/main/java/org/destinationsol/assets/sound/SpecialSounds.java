@@ -20,9 +20,12 @@ import org.destinationsol.Const;
 import org.destinationsol.game.DmgType;
 import org.destinationsol.game.SolGame;
 import org.destinationsol.game.SolObject;
+import org.terasology.context.annotation.Introspected;
 
+import javax.inject.Inject;
 import java.util.Arrays;
 
+@Introspected
 public class SpecialSounds {
 
     public final PlayableSound metalColl;
@@ -46,6 +49,7 @@ public class SpecialSounds {
     public final PlayableSound burning;
     public final PlayableSound transcendentMove;
 
+    @Inject
     public SpecialSounds(OggSoundManager soundManager) {
         // OggSound
         metalColl = soundManager.getSound("core:metalCollision");

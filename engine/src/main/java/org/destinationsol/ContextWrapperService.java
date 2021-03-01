@@ -22,8 +22,6 @@ import org.terasology.gestalt.di.ServiceRegistry;
 
 public class ContextWrapperService extends ServiceRegistry {
     public ContextWrapperService() {
-        this.with(Context.class)
-                .lifetime(Lifetime.Singleton)
-                .use(ContextWrapper.class);
+        this.with(Context.class).use(ContextWrapper.class).lifetime(Lifetime.Singleton);
     }
 }

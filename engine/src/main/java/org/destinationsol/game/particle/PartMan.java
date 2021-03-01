@@ -17,6 +17,7 @@ package org.destinationsol.game.particle;
 
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.math.Vector2;
+import org.destinationsol.common.In;
 import org.destinationsol.common.SolColor;
 import org.destinationsol.common.SolMath;
 import org.destinationsol.common.SolRandom;
@@ -29,14 +30,18 @@ import org.destinationsol.game.drawables.SpriteManager;
 import org.destinationsol.game.item.Shield;
 import org.destinationsol.game.ship.SolShip;
 import org.destinationsol.game.ship.hulls.Hull;
+import org.terasology.context.annotation.Introspected;
 
+import javax.inject.Inject;
 import java.util.ArrayList;
 
+@Introspected
 public class PartMan {
     public static final float EXPL_LIGHT_MAX_SZ = .4f;
     public static final float EXPL_LIGHT_MAX_FADE_TIME = .8f;
     public static final float SZ_TO_BLINK_COUNT = 18f;
 
+    @Inject
     public PartMan() {
     }
 

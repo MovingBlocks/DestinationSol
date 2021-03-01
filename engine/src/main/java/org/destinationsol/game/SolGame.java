@@ -62,45 +62,78 @@ import org.destinationsol.ui.TutorialManager;
 import org.destinationsol.ui.UiDrawer;
 import org.destinationsol.ui.Waypoint;
 import org.destinationsol.util.InjectionHelper;
+import org.terasology.context.annotation.Introspected;
 import org.terasology.gestalt.entitysystem.entity.EntityRef;
 
+import javax.inject.Inject;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.SortedMap;
 import java.util.TreeMap;
 
+@Introspected
 public class SolGame {
-    private final GameScreens gameScreens;
-    private final SolCam camera;
-    private final ObjectManager objectManager;
-    private final boolean isTutorial;
-    private final SolApplication solApplication;
-    private final DrawableManager drawableManager;
-    private final PlanetManager planetManager;
-    private final ChunkManager chunkManager;
-    private final PartMan partMan;
-    private final AsteroidBuilder asteroidBuilder;
-    private final LootBuilder lootBuilder;
-    private final ShipBuilder shipBuilder;
-    private final HullConfigManager hullConfigManager;
-    private final GridDrawer gridDrawer;
-    private final FarBackgroundManagerOld farBackgroundManagerOld;
-    private final FactionManager factionManager;
-    private final MapDrawer mapDrawer;
-    private final RubbleBuilder rubbleBuilder;
-    private final ItemManager itemManager;
-    private final StarPort.Builder starPortBuilder;
-    private final OggSoundManager soundManager;
-    private final DrawableDebugger drawableDebugger;
-    private final SpecialSounds specialSounds;
-    private final SpecialEffects specialEffects;
-    private final GameColors gameColors;
-    private final BeaconHandler beaconHandler;
-    private final MountDetectDrawer mountDetectDrawer;
-    private final TutorialManager tutorialManager;
-    private final GalaxyFiller galaxyFiller;
-    private final SolContactListener contactListener;
+    protected boolean isTutorial;
+    @Inject
+    protected GameScreens gameScreens;
+    @Inject
+    protected SolCam camera;
+    @Inject
+    protected ObjectManager objectManager;
+    @Inject
+    protected SolApplication solApplication;
+    @Inject
+    protected DrawableManager drawableManager;
+    @Inject
+    protected PlanetManager planetManager;
+    @Inject
+    protected ChunkManager chunkManager;
+    @Inject
+    protected PartMan partMan;
+    @Inject
+    protected AsteroidBuilder asteroidBuilder;
+    @Inject
+    protected LootBuilder lootBuilder;
+    @Inject
+    protected ShipBuilder shipBuilder;
+    @Inject
+    protected HullConfigManager hullConfigManager;
+    @Inject
+    protected GridDrawer gridDrawer;
+    @Inject
+    protected FarBackgroundManagerOld farBackgroundManagerOld;
+    @Inject
+    protected FactionManager factionManager;
+    @Inject
+    protected MapDrawer mapDrawer;
+    @Inject
+    protected RubbleBuilder rubbleBuilder;
+    @Inject
+    protected ItemManager itemManager;
+    @Inject
+    protected StarPort.Builder starPortBuilder;
+    @Inject
+    protected OggSoundManager soundManager;
+    @Inject
+    protected DrawableDebugger drawableDebugger;
+    @Inject
+    protected SpecialSounds specialSounds;
+    @Inject
+    protected SpecialEffects specialEffects;
+    @Inject
+    protected GameColors gameColors;
+    @Inject
+    protected BeaconHandler beaconHandler;
+    @Inject
+    protected MountDetectDrawer mountDetectDrawer;
+    @Inject
+    protected GalaxyFiller galaxyFiller;
+    @Inject
+    protected SolContactListener contactListener;
+
+    protected TutorialManager tutorialManager;
+
     private Hero hero;
     private float timeStep;
     private float time;
@@ -112,53 +145,56 @@ public class SolGame {
 
     private EntitySystemManager entitySystemManager;
 
-    public SolGame(String shipName, boolean isTutorial, boolean isNewGame, CommonDrawer commonDrawer, Context context,
-                   WorldConfig worldConfig) {
+    public SolGame() {
+        this(false);
+    }
+
+    public SolGame(boolean isTutorial) {
         // TODO: make this non-static
         FactionInfo.init();
 
-        this.isTutorial = isTutorial;
-        solApplication = context.get(SolApplication.class);
-        ModuleManager moduleManager = context.get(ModuleManager.class);
-        GameDrawer drawer = new GameDrawer(commonDrawer);
-        context.put(GameDrawer.class, drawer);
-        gameColors = new GameColors();
-        soundManager = solApplication.getSoundManager();
-        specialSounds = new SpecialSounds(soundManager);
-        drawableManager = new DrawableManager(drawer);
-        camera = new SolCam();
-        gameScreens = new GameScreens(solApplication, context);
-        if (isTutorial) {
-            tutorialManager = new TutorialManager(gameScreens, solApplication.isMobile(), solApplication.getOptions(), this);
-            context.put(TutorialManager.class, tutorialManager);
-        } else {
-            tutorialManager = null;
-        }
-        farBackgroundManagerOld = new FarBackgroundManagerOld();
-        shipBuilder = new ShipBuilder();
-        EffectTypes effectTypes = new EffectTypes();
-        specialEffects = new SpecialEffects(effectTypes, gameColors);
-        itemManager = new ItemManager(soundManager, effectTypes, gameColors);
-        AbilityCommonConfigs abilityCommonConfigs = new AbilityCommonConfigs(effectTypes, gameColors, soundManager);
-        hullConfigManager = new HullConfigManager(itemManager, abilityCommonConfigs);
-        planetManager = new PlanetManager(hullConfigManager, gameColors, itemManager);
-        contactListener = new SolContactListener(this);
-        factionManager = new FactionManager();
-        objectManager = new ObjectManager(contactListener, factionManager);
-        context.put(World.class, objectManager.getWorld());
-        gridDrawer = new GridDrawer();
-        chunkManager = new ChunkManager();
-        partMan = new PartMan();
-        asteroidBuilder = new AsteroidBuilder();
-        lootBuilder = new LootBuilder();
-        mapDrawer = new MapDrawer();
-        rubbleBuilder = new RubbleBuilder();
-        context.put(RubbleBuilder.class, rubbleBuilder);
-        galaxyFiller = new GalaxyFiller(hullConfigManager);
-        starPortBuilder = new StarPort.Builder();
-        drawableDebugger = new DrawableDebugger();
-        mountDetectDrawer = new MountDetectDrawer();
-        beaconHandler = new BeaconHandler();
+//        this.isTutorial = isTutorial;
+//        solApplication = context.get(SolApplication.class);
+//        ModuleManager moduleManager = context.get(ModuleManager.class);
+//        GameDrawer drawer = new GameDrawer(commonDrawer);
+//        context.put(GameDrawer.class, drawer);
+//        gameColors = new GameColors();
+//        soundManager = solApplication.getSoundManager();
+//        specialSounds = new SpecialSounds(soundManager);
+//        drawableManager = new DrawableManager(drawer);
+//        camera = new SolCam();
+//        gameScreens = new GameScreens(solApplication, context);
+//        if (isTutorial) {
+//            tutorialManager = new TutorialManager(gameScreens, solApplication.isMobile(), solApplication.getOptions(), this);
+//            context.put(TutorialManager.class, tutorialManager);
+//        } else {
+//            tutorialManager = null;
+//        }
+//        farBackgroundManagerOld = new FarBackgroundManagerOld();
+//        shipBuilder = new ShipBuilder();
+//        EffectTypes effectTypes = new EffectTypes();
+//        specialEffects = new SpecialEffects(effectTypes, gameColors);
+//        itemManager = new ItemManager(soundManager, effectTypes, gameColors);
+//        AbilityCommonConfigs abilityCommonConfigs = new AbilityCommonConfigs(effectTypes, gameColors, soundManager);
+//        hullConfigManager = new HullConfigManager(itemManager, abilityCommonConfigs);
+//        planetManager = new PlanetManager(hullConfigManager, gameColors, itemManager);
+//        contactListener = new SolContactListener(this);
+//        factionManager = new FactionManager();
+//        objectManager = new ObjectManager(contactListener, factionManager);
+//        context.put(World.class, objectManager.getWorld());
+//        gridDrawer = new GridDrawer();
+//        chunkManager = new ChunkManager();
+//        partMan = new PartMan();
+//        asteroidBuilder = new AsteroidBuilder();
+//        lootBuilder = new LootBuilder();
+//        mapDrawer = new MapDrawer();
+//        rubbleBuilder = new RubbleBuilder();
+//        context.put(RubbleBuilder.class, rubbleBuilder);
+//        galaxyFiller = new GalaxyFiller(hullConfigManager);
+//        starPortBuilder = new StarPort.Builder();
+//        drawableDebugger = new DrawableDebugger();
+//        mountDetectDrawer = new MountDetectDrawer();
+//        beaconHandler = new BeaconHandler();
         timeFactor = 1;
 
     }

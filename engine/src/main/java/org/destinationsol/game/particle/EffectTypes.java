@@ -15,12 +15,17 @@
  */
 package org.destinationsol.game.particle;
 
+import org.terasology.context.annotation.Introspected;
+
+import javax.inject.Inject;
 import java.util.HashMap;
 import java.util.Map;
 
+@Introspected
 public class EffectTypes {
     private final Map<String, EffectType> types;
 
+    @Inject
     public EffectTypes() {
         types = new HashMap<>();
     }

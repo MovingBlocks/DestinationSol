@@ -19,8 +19,17 @@ import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.math.Vector2;
 import org.destinationsol.common.SolColor;
+import org.terasology.context.annotation.Introspected;
 
+import javax.inject.Inject;
+
+@Introspected
 public class GridDrawer {
+    @Inject
+    public GridDrawer() {
+
+    }
+
     public void draw(GameDrawer drawer, SolGame game, float gridSz, TextureAtlas.AtlasRegion tex) {
         SolCam cam = game.getCam();
         float lw = 4 * cam.getRealLineWidth();

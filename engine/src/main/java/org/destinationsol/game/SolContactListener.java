@@ -27,15 +27,20 @@ import org.destinationsol.entitysystem.EntitySystemManager;
 import org.destinationsol.force.events.ContactEvent;
 import org.destinationsol.force.events.ImpulseEvent;
 import org.destinationsol.game.projectile.Projectile;
+import org.terasology.context.annotation.Introspected;
 import org.terasology.gestalt.entitysystem.entity.EntityRef;
 
+import javax.inject.Inject;
+
+@Introspected
 public class SolContactListener implements ContactListener {
 
-    @In
-    private EntitySystemManager entitySystemManager;
+    @Inject
+    protected EntitySystemManager entitySystemManager;
 
     private final SolGame myGame;
 
+    @Inject
     public SolContactListener(SolGame game) {
         myGame = game;
     }

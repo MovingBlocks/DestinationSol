@@ -33,10 +33,13 @@ import org.destinationsol.game.drawables.Drawable;
 import org.destinationsol.game.drawables.DrawableLevel;
 import org.destinationsol.game.drawables.RectSprite;
 import org.destinationsol.game.drawables.SpriteManager;
+import org.terasology.context.annotation.Introspected;
 
+import javax.inject.Inject;
 import java.util.ArrayList;
 import java.util.List;
 
+@Introspected
 public class AsteroidBuilder {
     private static final float DENSITY = 10f;
     private static final float MAX_A_ROT_SPD = .5f;
@@ -44,6 +47,7 @@ public class AsteroidBuilder {
     private final CollisionMeshLoader collisionMeshLoader;
     private final List<TextureAtlas.AtlasRegion> textures;
 
+    @Inject
     public AsteroidBuilder() {
         collisionMeshLoader = new CollisionMeshLoader("engine:asteroids");
         textures = Assets.listTexturesMatching("engine:asteroid_.*");

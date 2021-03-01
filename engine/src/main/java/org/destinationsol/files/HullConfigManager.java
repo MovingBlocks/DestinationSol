@@ -30,7 +30,9 @@ import org.destinationsol.game.ship.hulls.HullConfig;
 import org.destinationsol.modules.ModuleManager;
 import org.json.JSONArray;
 import org.json.JSONObject;
+import org.terasology.context.annotation.Introspected;
 
+import javax.inject.Inject;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -38,6 +40,7 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 
+@Introspected
 public final class HullConfigManager {
     private final ItemManager itemManager;
     private final AbilityCommonConfigs abilityCommonConfigs;
@@ -57,6 +60,7 @@ public final class HullConfigManager {
         }
     }
 
+    @Inject
     public HullConfigManager(ItemManager itemManager, AbilityCommonConfigs abilityCommonConfigs) {
         this.itemManager = itemManager;
         this.abilityCommonConfigs = abilityCommonConfigs;

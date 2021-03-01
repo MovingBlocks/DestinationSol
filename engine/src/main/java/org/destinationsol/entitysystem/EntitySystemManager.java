@@ -18,6 +18,7 @@ package org.destinationsol.entitysystem;
 import com.google.common.collect.Lists;
 import org.destinationsol.game.context.Context;
 import org.destinationsol.util.InjectionHelper;
+import org.terasology.context.annotation.Introspected;
 import org.terasology.gestalt.entitysystem.component.Component;
 import org.terasology.gestalt.entitysystem.component.management.ComponentManager;
 import org.terasology.gestalt.entitysystem.component.store.ArrayComponentStore;
@@ -34,15 +35,18 @@ import org.terasology.gestalt.entitysystem.event.impl.EventSystemImpl;
 import org.terasology.gestalt.entitysystem.prefab.GeneratedFromRecipeComponent;
 import org.terasology.gestalt.module.ModuleEnvironment;
 
+import javax.inject.Inject;
 import java.lang.reflect.Modifier;
 import java.util.List;
 
+@Introspected
 public class EntitySystemManager {
 
     private static EntityManager entityManager;
     private final EventSystem eventSystem = new EventSystemImpl();
     private static final EventReceiverMethodSupport eventReceiverMethodSupport = new EventReceiverMethodSupport();
 
+    @Inject
     public EntitySystemManager(ModuleEnvironment environment, ComponentManager componentManager, Context context) {
 
         context.put(EntitySystemManager.class, this);

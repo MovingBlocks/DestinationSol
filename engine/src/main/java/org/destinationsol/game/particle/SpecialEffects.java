@@ -21,10 +21,13 @@ import org.destinationsol.game.GameColors;
 import org.destinationsol.game.SolGame;
 import org.destinationsol.game.drawables.DrawableLevel;
 import org.json.JSONObject;
+import org.terasology.context.annotation.Introspected;
 
+import javax.inject.Inject;
 import java.util.ArrayList;
 import java.util.List;
 
+@Introspected
 public class SpecialEffects {
 
     public final EffectConfig starPortFlow;
@@ -37,6 +40,7 @@ public class SpecialEffects {
     private final EffectConfig asteroidDust;
     private final EffectConfig forceBeacon;
 
+    @Inject
     public SpecialEffects(EffectTypes effectTypes, GameColors colours) {
         JSONObject rootNode = Validator.getValidatedJSON("core:specialEffectsConfig", "engine:schemaSpecialEffectsConfig");
 

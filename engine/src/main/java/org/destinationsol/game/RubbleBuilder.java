@@ -25,10 +25,13 @@ import org.destinationsol.common.SolRandom;
 import org.destinationsol.game.drawables.Drawable;
 import org.destinationsol.game.drawables.DrawableLevel;
 import org.destinationsol.game.ship.ShipBuilder;
+import org.terasology.context.annotation.Introspected;
 
+import javax.inject.Inject;
 import java.util.ArrayList;
 import java.util.List;
 
+@Introspected
 public class RubbleBuilder {
     public static final float MIN_SCALE = .07f;
     public static final float MAX_SCALE = .12f;
@@ -38,6 +41,7 @@ public class RubbleBuilder {
     private final CollisionMeshLoader myCollisionMeshLoader;
     private final List<TextureAtlas.AtlasRegion> myTextures;
 
+    @Inject
     public RubbleBuilder() {
         myCollisionMeshLoader = new CollisionMeshLoader("engine:miscCollisionMeshes");
         myTextures = Assets.listTexturesMatching("engine:shard_.*");

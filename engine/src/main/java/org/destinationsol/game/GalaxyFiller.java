@@ -39,15 +39,19 @@ import org.destinationsol.game.planet.SysConfig;
 import org.destinationsol.game.ship.FarShip;
 import org.destinationsol.game.ship.hulls.HullConfig;
 import org.json.JSONObject;
+import org.terasology.context.annotation.Introspected;
 
+import javax.inject.Inject;
 import java.util.ArrayList;
 
+@Introspected
 public class GalaxyFiller {
     private static final float STATION_CONSUME_SECTOR = 45f;
     private final HullConfigManager hullConfigManager;
     private Vector2 mainStationPos = new Vector2();
     private HullConfig mainStationHc;
 
+    @Inject
     public GalaxyFiller(HullConfigManager hullConfigManager) {
         this.hullConfigManager = hullConfigManager;
     }

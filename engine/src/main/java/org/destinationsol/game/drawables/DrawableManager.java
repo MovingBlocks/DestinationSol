@@ -30,19 +30,23 @@ import org.destinationsol.game.ObjectManager;
 import org.destinationsol.game.SolCam;
 import org.destinationsol.game.SolGame;
 import org.destinationsol.game.SolObject;
+import org.terasology.context.annotation.Introspected;
 
+import javax.inject.Inject;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+@Introspected
 public class DrawableManager {
     private final DrawableLevel[] drawableLevels;
     private final ArrayList<OrderedMap<Texture, List<Drawable>>> drawables;
     private final Set<Drawable> visibleDrawables = new HashSet<>();
     private final GameDrawer drawer;
 
+    @Inject
     public DrawableManager(GameDrawer drawer) {
         drawableLevels = DrawableLevel.values();
         this.drawer = drawer;

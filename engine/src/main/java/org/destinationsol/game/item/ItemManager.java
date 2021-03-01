@@ -23,11 +23,14 @@ import org.destinationsol.common.SolRandom;
 import org.destinationsol.game.GameColors;
 import org.destinationsol.game.particle.EffectTypes;
 import org.destinationsol.game.projectile.ProjectileConfigs;
+import org.terasology.context.annotation.Introspected;
 
+import javax.inject.Inject;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
+@Introspected
 public class ItemManager {
     public final ProjectileConfigs projConfigs;
     public final TextureAtlas.AtlasRegion moneyIcon;
@@ -44,6 +47,7 @@ public class ItemManager {
     private final EffectTypes effectTypes;
     private final GameColors gameColors;
 
+    @Inject
     public ItemManager(OggSoundManager soundManager, EffectTypes effectTypes, GameColors gameColors) {
         this.soundManager = soundManager;
         this.effectTypes = effectTypes;

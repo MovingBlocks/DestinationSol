@@ -42,10 +42,13 @@ import org.destinationsol.game.ship.SolShip;
 import org.destinationsol.ui.DisplayDimensions;
 import org.destinationsol.ui.UiDrawer;
 import org.destinationsol.ui.Waypoint;
+import org.terasology.context.annotation.Introspected;
 
+import javax.inject.Inject;
 import java.util.ArrayList;
 import java.util.List;
 
+@Introspected
 public class MapDrawer implements UpdateAwareSystem{
     public static final float MIN_ZOOM = 8f;
     private static final float MUL_FACTOR = 2f;
@@ -86,6 +89,7 @@ public class MapDrawer implements UpdateAwareSystem{
 
     private final Vector2 mapDrawPositionAdditive = new Vector2();
 
+    @Inject
     MapDrawer() {
         DisplayDimensions displayDimensions = SolApplication.displayDimensions;
 
