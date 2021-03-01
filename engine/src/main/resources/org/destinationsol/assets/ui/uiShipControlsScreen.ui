@@ -1,6 +1,7 @@
 {
   "type": "UIShipControlsScreen",
   "skin": "engine:mainGameScreen",
+  "family": "controlsUIButton",
   "contents": {
     "type": "relativeLayout",
     "contents": [
