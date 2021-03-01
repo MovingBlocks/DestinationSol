@@ -20,24 +20,21 @@ import org.destinationsol.entitysystem.EntitySystemManager;
 import org.destinationsol.game.context.internal.ContextImpl;
 import org.destinationsol.location.components.Velocity;
 import org.destinationsol.location.events.VelocityUpdateEvent;
-import org.destinationsol.modules.ModuleManager;
-import org.junit.Before;
-import org.junit.Test;
-import org.terasology.gestalt.entitysystem.component.management.ComponentManager;
+import org.destinationsol.testsupport.AssetsHelperInitializer;
+import org.destinationsol.testsupport.Box2DInitializer;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.terasology.gestalt.entitysystem.entity.EntityRef;
 
-import static junit.framework.TestCase.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
-public class VelocityUpdateTest {
+public class VelocityUpdateTest implements AssetsHelperInitializer, Box2DInitializer {
 
-    private ModuleManager moduleManager;
     private EntitySystemManager entitySystemManager;
 
-    @Before
+    @BeforeEach
     public void setUp() throws Exception {
-        moduleManager = new ModuleManager();
-        moduleManager.init();
-        entitySystemManager = new EntitySystemManager(moduleManager.getEnvironment(), new ComponentManager(), new ContextImpl());
+        entitySystemManager = new EntitySystemManager(getModuleManager().getEnvironment(), getComponentManager(), new ContextImpl());
     }
 
     @Test

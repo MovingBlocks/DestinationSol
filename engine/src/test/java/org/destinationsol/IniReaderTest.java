@@ -16,20 +16,20 @@
 package org.destinationsol;
 
 import com.google.common.base.Enums;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 import java.io.BufferedReader;
 import java.io.StringReader;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 public class IniReaderTest {
     private IniReader iniReader;
 
-    @Before
+    @BeforeEach
     public void initIniReader() {
         String iniFileContents =
                 "# Full line comment\n" + // Each of these values is used exactly once in these tests, except for doubleRequestedKey
@@ -72,13 +72,13 @@ public class IniReaderTest {
         assertEquals("unicodevalue áśǵj́ḱĺóí⋄«»⋄⋄ǫő", iniReader.getString("UnicodeKey çáč🧝", "wrongValue"));
     }
 
-    @Test
+    @org.junit.jupiter.api.Test
     public void testGetString() {
         assertEquals("correctValue", iniReader.getString("asdfghjk", "correctValue"));
         assertEquals("validString", iniReader.getString("validStringKey", "wrongValue"));
     }
 
-    @Test
+    @org.junit.jupiter.api.Test
     public void testGetInt() {
         assertEquals(55, iniReader.getInt("asdfghjk", 55));
         assertEquals(5, iniReader.getInt("intKey", 0));
@@ -87,7 +87,7 @@ public class IniReaderTest {
         assertEquals(58, iniReader.getInt("blankIntKey", 58));
     }
 
-    @Test
+    @org.junit.jupiter.api.Test
     public void testGetBoolean() {
         assertFalse(iniReader.getBoolean("asdfghjk", false));
         assertTrue(iniReader.getBoolean("asdfghjk", true));
@@ -99,7 +99,7 @@ public class IniReaderTest {
         assertTrue(iniReader.getBoolean("invalidBooleanKey", true));
     }
 
-    @Test
+    @org.junit.jupiter.api.Test
     public void testGetFloat() {
         assertTrue(Float.compare(iniReader.getFloat("asdfghjk", 7.8f), 7.8f) == 0);
         assertTrue(Float.compare(iniReader.getFloat("floatKey", 7.8f), 6f) == 0);
@@ -108,7 +108,7 @@ public class IniReaderTest {
         assertTrue(Float.compare(iniReader.getFloat("anotherInvalidFloatKey", 7.8f), 7.8f) == 0);
     }
 
-    @Test
+    @org.junit.jupiter.api.Test
     public void testEnums() {
         // When no value exists in the file, use the defaultValue in getString.
         assertEquals(GameOptions.ControlType.MIXED, Enums.getIfPresent(GameOptions.ControlType.class,  iniReader.getString("enumDefault", "MIXED")).or(GameOptions.ControlType.KEYBOARD));

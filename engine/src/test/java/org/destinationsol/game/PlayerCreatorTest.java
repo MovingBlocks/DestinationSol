@@ -26,12 +26,12 @@ import org.destinationsol.game.ship.FarShip;
 import org.destinationsol.game.ship.ShipBuilder;
 import org.destinationsol.game.ship.SolShip;
 import org.destinationsol.game.ship.hulls.HullConfig;
-import org.junit.Before;
-import org.junit.Test;
-import org.junit.runner.RunWith;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Answers;
 import org.mockito.Mock;
-import org.mockito.junit.MockitoJUnitRunner;
+import org.mockito.junit.jupiter.MockitoExtension;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.ArgumentMatchers.any;
@@ -44,7 +44,7 @@ import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
-@RunWith(MockitoJUnitRunner.class)
+@ExtendWith(MockitoExtension.class)
 public class PlayerCreatorTest {
 
     public static final float TUTORIAL_MONEY = 200f;
@@ -52,7 +52,7 @@ public class PlayerCreatorTest {
 
     @Mock(answer = Answers.RETURNS_DEEP_STUBS)
     private SolGame solGame;
-    @Mock
+    @Mock(lenient = true)
     private ShipConfig shipConfig;
     @Mock
     private ShipBuilder shipBuilder;
@@ -65,7 +65,7 @@ public class PlayerCreatorTest {
     private SolShip solShip;
     private ItemContainer shipItemContainer;
 
-    @Before
+    @BeforeEach
     public void setUp() {
         playerCreator = new PlayerCreator();
         respawnState = new RespawnState();
