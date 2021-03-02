@@ -36,7 +36,8 @@ buildscript {
 }
 
 dependencies {
-    api group: 'org.slf4j', name: 'slf4j-log4j12', version: '1.7.25'
+
+    api group: 'org.slf4j', name: 'slf4j-api', version: '1.7.25'
     api group: 'com.google.code.gson', name: 'gson', version: '2.6.2'
 
     api "com.badlogicgames.gdx:gdx:$gdxVersion"
