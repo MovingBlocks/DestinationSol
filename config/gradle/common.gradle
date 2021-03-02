@@ -113,15 +113,6 @@ tasks.withType(Checkstyle) {
 tasks.withType(Pmd) {
     group = 'Reporting'
 }
-//
-//tasks.withType(SpotBugs) {
-//    group = 'Reporting'
-//    reports {
-//        xml.enabled = false
-//        html.enabled = true
-//    }
-//}
-
 
 // Make sure our config file for code analytics get extracted (vulnerability: non-IDE execution of single analytic)
 ideaModule.dependsOn rootProject.extractConfig
