@@ -54,7 +54,7 @@ dependencies {
 
     implementation group: 'com.google.protobuf', name: 'protobuf-java', version: '3.4.0'
 
-    implementation "com.github.zafarkhaja:java-semver:0.9.0" // gestalt lost this...
+    implementation "com.github.zafarkhaja:java-semver:0.10.0" // gestalt lost this...
     api "com.github.everit-org.json-schema:org.everit.json.schema:1.11.1"
     implementation "com.github.marschall:zipfilesystem-standalone:1.0.1"
     implementation 'dom4j:dom4j:1.6.1'
