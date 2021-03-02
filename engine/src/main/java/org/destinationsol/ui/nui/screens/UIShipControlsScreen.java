@@ -15,6 +15,10 @@ import org.terasology.nui.backends.libgdx.GDXInputUtil;
 import org.terasology.nui.events.NUIKeyEvent;
 import org.terasology.nui.widgets.UIButton;
 
+/**
+ * This screen contains the touchscreen controls used when playing the game on mobile platforms.
+ * It is the implementation of {@link ShipUiControl} used when the control type is set to "Keyboard".
+ */
 public class UIShipControlsScreen extends NUIScreenLayer implements ShipUiControl {
     public KeyActivatedButton leftButton;
     public KeyActivatedButton rightButton;
@@ -52,6 +56,7 @@ public class UIShipControlsScreen extends NUIScreenLayer implements ShipUiContro
 
         downKey = GDXInputUtil.GDXToNuiKey(gameOptions.getKeyDown());
 
+        // Hide touchscreen controls if not on mobile
         if (!solApplication.isMobile()) {
             leftButton.setVisible(false);
             rightButton.setVisible(false);
@@ -68,8 +73,10 @@ public class UIShipControlsScreen extends NUIScreenLayer implements ShipUiContro
      */
     @Override
     public void update(float delta) {
-        // Hide controls if the use is looking at a different main game screen.
-        ((AbstractWidget)contents).setVisible(solApplication.getInputManager().isScreenOn(solApplication.getGame().getScreens().mainGameScreen));
+        // Hide and disable controls if the main game screen is not visible.
+        boolean mainGameScreenVisible = solApplication.getInputManager().isScreenOn(solApplication.getGame().getScreens().mainGameScreen);
+        ((AbstractWidget)contents).setVisible(mainGameScreenVisible);
+        contents.setEnabled(mainGameScreenVisible);
         super.update(delta);
     }
 
@@ -135,7 +142,6 @@ public class UIShipControlsScreen extends NUIScreenLayer implements ShipUiContro
 
     @Override
     public boolean isDown() {
-        // TODO
         return downKeyHeld;
     }
 
@@ -152,5 +158,10 @@ public class UIShipControlsScreen extends NUIScreenLayer implements ShipUiContro
     @Override
     public boolean isAbility() {
         return abilityButton.getMode().equals(UIButton.DOWN_MODE);
+    }
+
+    @Override
+    protected boolean escapeCloses() {
+        return false;
     }
 }

@@ -331,6 +331,16 @@ public class NUIManager {
     }
 
     /**
+     * Removes all of the UI screens currently on UI stack.
+     */
+    public void clearScreens() {
+        for (NUIScreenLayer uiScreen : uiScreens) {
+            uiScreen.onRemoved();
+        }
+        uiScreens.clear();
+    }
+
+    /**
      * Returns the default {@link UISkin} for widgets.
      * @return the default {@link UISkin}
      */
@@ -346,6 +356,10 @@ public class NUIManager {
         this.context = context;
     }
 
+    /**
+     * Returns if the mouse is currently over an interactive UI element.
+     * @return true, if the mouse is currently over an interactive UI element, otherwise false
+     */
     public boolean isMouseOnUi() {
         // TODO: Find better way of doing this.
         Vector2i mousePosition = mouse.getMousePosition();
