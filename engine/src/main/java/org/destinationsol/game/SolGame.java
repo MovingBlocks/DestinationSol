@@ -324,7 +324,7 @@ public class SolGame {
         }
         FactionInfo.clearValues();
         objectManager.dispose();
-        solApplication.getNuiManager().removeScreen(mainGameScreen);
+        solApplication.getNuiManager().clearScreens();
     }
 
     private void saveShip() {
