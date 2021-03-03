@@ -151,6 +151,7 @@ public class MapScreen extends SolUiBaseScreen {
         }
 
         if (isPickingWaypointToRemove) {
+            
             if (inputPointers[0].isJustUnPressed() && !removeWaypointControl.isJustOff()) {
                 Vector2 clickPosition = new Vector2(inputPointers[0].x, inputPointers[0].y);
                 Vector2 realPosition = screenPositionToWorld(clickPosition, game.getCam().getPosition(), mapZoom);
@@ -195,17 +196,15 @@ public class MapScreen extends SolUiBaseScreen {
         }
     }
 
-    public Vector2 screenPositionToWorld(Vector2 screenPos, Vector2 camPos, float mapZoom) {
-        float ratio = (float) Gdx.graphics.getWidth() / (float) Gdx.graphics.getHeight();
-        screenPos.scl(5);
-        screenPos.scl(mapZoom);
-
-        Vector2 finalPosition = new Vector2(camPos);
-        finalPosition.add(screenPos);
-
-        finalPosition.x -= (ratio * mapZoom) / (2.f / 5);
-        finalPosition.y -= (mapZoom) / (2.f / 5);
-        return finalPosition;
+    public Vector2 screenPositionToWorld(Vector2 clickPosition, Vector2 camPos, float mapZoom) {
+        float screenWidth = (float) Gdx.graphics.getWidth();
+        float screenHeight = (float)  Gdx.graphics.getHeight();
+        return ScreenToWorldMapper.screenClickPositionToWorldPosition(
+            new Vector2(screenWidth, screenHeight), 
+            clickPosition, 
+            camPos, 
+            mapZoom
+        );
     }
 
     public void setWaypointButtonsEnabled(boolean value) {
