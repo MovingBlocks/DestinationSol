@@ -27,8 +27,8 @@ public class SolLayouts {
     public final MenuLayout menuLayout;
 
     @Inject
-    public SolLayouts() {
-        rightPaneLayout = new RightPaneLayout();
-        menuLayout = new MenuLayout();
+    public SolLayouts(RightPaneLayout rightPaneLayout, MenuLayout menuLayout) {
+        this.rightPaneLayout = rightPaneLayout;
+        this.menuLayout = menuLayout;
     }
 }

@@ -35,6 +35,8 @@ import org.destinationsol.ui.ResizeSubscriber;
 import org.destinationsol.ui.UiDrawer;
 import org.terasology.context.annotation.Introspected;
 
+import javax.inject.Inject;
+
 @Introspected
 public class CommonDrawer implements ResizeSubscriber {
     private final SpriteBatch spriteBatch;
@@ -46,8 +48,9 @@ public class CommonDrawer implements ResizeSubscriber {
 
     private DisplayDimensions displayDimensions;
 
-    CommonDrawer() {
-        displayDimensions = SolApplication.displayDimensions;
+    @Inject
+    CommonDrawer(DisplayDimensions displayDimensions) {
+        this.displayDimensions = displayDimensions;
 
         spriteBatch = new SpriteBatch();
 

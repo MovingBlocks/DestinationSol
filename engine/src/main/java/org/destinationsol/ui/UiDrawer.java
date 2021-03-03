@@ -48,31 +48,32 @@ public class UiDrawer implements ResizeSubscriber {
     //TODO WTF is `isTextMode` for? discuss and potentially (=probably) remove
     private Boolean isTextMode;
 
-    private DisplayDimensions displayDimensions;
+    @Inject
+    DisplayDimensions displayDimensions;
 
     public static Map<String, Position> positions = new HashMap<>();
 
     @Inject
-    public UiDrawer(CommonDrawer commonDrawer) {
-        displayDimensions = SolApplication.displayDimensions;
+    public UiDrawer(CommonDrawer commonDrawer, DisplayDimensions displayDimensions) {
+        this.displayDimensions = displayDimensions;
         drawer = commonDrawer;
 
-        uiLineWidth = 1.0f / displayDimensions.getHeight();
+        uiLineWidth = 1.0f / this.displayDimensions.getHeight();
 
         recomputeStraightMtx();
         drawer.setMatrix(straightMtx);
 
-        filler = new Rectangle(0, 0, displayDimensions.getRatio(), 1);
+        filler = new Rectangle(0, 0, this.displayDimensions.getRatio(), 1);
 
-        positions.put("top", new Position(0.5f, 0));
-        positions.put("topRight", new Position(1, 0));
-        positions.put("right", new Position(1, 0.5f));
-        positions.put("bottomRight", new Position(1, 1));
-        positions.put("bottom", new Position(0.5f, 1));
-        positions.put("bottomLeft", new Position(0, 1));
-        positions.put("left", new Position(0, 0.5f));
-        positions.put("topLeft", new Position(0, 0));
-        positions.put("center", new Position(0.5f, 0.5f));
+        positions.put("top", new Position(displayDimensions, 0.5f, 0));
+        positions.put("topRight", new Position(displayDimensions, 1, 0));
+        positions.put("right", new Position(displayDimensions, 1, 0.5f));
+        positions.put("bottomRight", new Position(displayDimensions, 1, 1));
+        positions.put("bottom", new Position(displayDimensions, 0.5f, 1));
+        positions.put("bottomLeft", new Position(displayDimensions, 0, 1));
+        positions.put("left", new Position(displayDimensions, 0, 0.5f));
+        positions.put("topLeft", new Position(displayDimensions, 0, 0));
+        positions.put("center", new Position(displayDimensions, 0.5f, 0.5f));
 
         SolApplication.addResizeSubscriber(this);
     }
