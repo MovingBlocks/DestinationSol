@@ -15,7 +15,7 @@ public class ScreenToWorldMapper {
      * @param camAngle The camera angle in the world
      * @return
      */
-    public static Vector2 screenClickPositionToWorldPosition(Vector2 screenDimensions, Vector2 clickPosition, Vector2 camPos, float zoom) {
+    public static Vector2 screenClickPositionToWorldPosition(Vector2 screenDimensions, Vector2 clickPosition, Vector2 camPos, float camAngle, float zoom) {
         float ratio = getScreenRatio(screenDimensions);
         clickPosition = matchClickPositionWithCameraZoom(clickPosition, zoom);
         return getCameraPositionOffsetToWorld(camPos, clickPosition, ratio, zoom);

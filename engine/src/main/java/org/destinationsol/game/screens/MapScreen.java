@@ -203,6 +203,7 @@ public class MapScreen extends SolUiBaseScreen {
             new Vector2(screenWidth, screenHeight), 
             clickPosition, 
             camPos, 
+            0.0f,
             mapZoom
         );
     }
