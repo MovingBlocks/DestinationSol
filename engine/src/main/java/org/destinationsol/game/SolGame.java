@@ -82,6 +82,9 @@ import java.util.SortedMap;
 import java.util.TreeMap;
 
 public class SolGame {
+    private static final String NUI_MAIN_GAME_SCREEN_DESKTOP_URI = "engine:mainGameScreen_desktop";
+    private static final String NUI_MAIN_GAME_SCREEN_MOBILE_URI = "engine:mainGameScreen_mobile";
+
     private final GameScreens gameScreens;
     private final SolCam solCamReference;
     private final ObjectManager objectManager;
@@ -161,9 +164,9 @@ public class SolGame {
 
         boolean isMobile = solApplication.isMobile();
         if (!isMobile) {
-            mainGameScreen = (MainGameScreen) Assets.getAssetHelper().get(new ResourceUrn("engine:mainGameScreen_desktop"), UIElement.class).get().getRootWidget();
+            mainGameScreen = (MainGameScreen) Assets.getAssetHelper().get(new ResourceUrn(NUI_MAIN_GAME_SCREEN_DESKTOP_URI), UIElement.class).get().getRootWidget();
         } else {
-            mainGameScreen = (MainGameScreen) Assets.getAssetHelper().get(new ResourceUrn("engine:mainGameScreen_mobile"), UIElement.class).get().getRootWidget();
+            mainGameScreen = (MainGameScreen) Assets.getAssetHelper().get(new ResourceUrn(NUI_MAIN_GAME_SCREEN_MOBILE_URI), UIElement.class).get().getRootWidget();
         }
 
         if (isTutorial) {
@@ -294,6 +297,9 @@ public class SolGame {
         }, 0, 30);
         gameScreens.consoleScreen.init(this);
         solApplication.getNuiManager().pushScreen(mainGameScreen);
+        if (isTutorial) {
+            tutorialManager.start();
+        }
     }
 
     private void addObjectsToPlanetManager() {

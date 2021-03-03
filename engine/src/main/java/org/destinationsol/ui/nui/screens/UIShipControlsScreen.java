@@ -8,6 +8,7 @@ import org.destinationsol.game.item.Gun;
 import org.destinationsol.game.screens.ShipUiControl;
 import org.destinationsol.ui.nui.NUIScreenLayer;
 import org.destinationsol.ui.nui.widgets.KeyActivatedButton;
+import org.destinationsol.ui.nui.widgets.UIWarnButton;
 import org.terasology.input.ButtonState;
 import org.terasology.input.Keyboard;
 import org.terasology.nui.AbstractWidget;
@@ -20,12 +21,12 @@ import org.terasology.nui.widgets.UIButton;
  * It is the implementation of {@link ShipUiControl} used when the control type is set to "Keyboard".
  */
 public class UIShipControlsScreen extends NUIScreenLayer implements ShipUiControl {
-    public KeyActivatedButton leftButton;
-    public KeyActivatedButton rightButton;
-    public KeyActivatedButton forwardButton;
-    public KeyActivatedButton gun1Button;
-    public KeyActivatedButton gun2Button;
-    public KeyActivatedButton abilityButton;
+    public UIWarnButton leftButton;
+    public UIWarnButton rightButton;
+    public UIWarnButton forwardButton;
+    public UIWarnButton gun1Button;
+    public UIWarnButton gun2Button;
+    public UIWarnButton abilityButton;
     private Keyboard.Key downKey;
     private boolean downKeyHeld;
 
@@ -36,22 +37,22 @@ public class UIShipControlsScreen extends NUIScreenLayer implements ShipUiContro
     public void initialise() {
         GameOptions gameOptions = solApplication.getOptions();
 
-        leftButton = find("leftButton", KeyActivatedButton.class);
+        leftButton = find("leftButton", UIWarnButton.class);
         leftButton.setKey(GDXInputUtil.GDXToNuiKey(gameOptions.getKeyLeft()));
 
-        rightButton = find("rightButton", KeyActivatedButton.class);
+        rightButton = find("rightButton", UIWarnButton.class);
         rightButton.setKey(GDXInputUtil.GDXToNuiKey(gameOptions.getKeyRight()));
 
-        forwardButton = find("forwardButton", KeyActivatedButton.class);
+        forwardButton = find("forwardButton", UIWarnButton.class);
         forwardButton.setKey(GDXInputUtil.GDXToNuiKey(gameOptions.getKeyUp()));
 
-        gun1Button = find("gun1Button", KeyActivatedButton.class);
+        gun1Button = find("gun1Button", UIWarnButton.class);
         gun1Button.setKey(GDXInputUtil.GDXToNuiKey(gameOptions.getKeyShoot()));
 
-        gun2Button = find("gun2Button", KeyActivatedButton.class);
+        gun2Button = find("gun2Button", UIWarnButton.class);
         gun2Button.setKey(GDXInputUtil.GDXToNuiKey(gameOptions.getKeyShoot2()));
 
-        abilityButton = find("abilityButton", KeyActivatedButton.class);
+        abilityButton = find("abilityButton", UIWarnButton.class);
         abilityButton.setKey(GDXInputUtil.GDXToNuiKey(gameOptions.getKeyAbility()));
 
         downKey = GDXInputUtil.GDXToNuiKey(gameOptions.getKeyDown());
@@ -123,6 +124,54 @@ public class UIShipControlsScreen extends NUIScreenLayer implements ShipUiContro
         }
 
         return super.onKeyEvent(event);
+    }
+
+    /**
+     * Returns the "Left" touchscreen control button element.
+     * @return the "Left" UI Button
+     */
+    public UIWarnButton getLeftButton() {
+        return leftButton;
+    }
+
+    /**
+     * Returns the "Right" touchscreen control button element.
+     * @return the "Right" UI Button
+     */
+    public UIWarnButton getRightButton() {
+        return rightButton;
+    }
+
+    /**
+     * Returns the "Fwd" touchscreen control button element.
+     * @return the "Fwd" UI Button
+     */
+    public UIWarnButton getForwardButton() {
+        return forwardButton;
+    }
+
+    /**
+     * Returns the "Gun" touchscreen control button element.
+     * @return the "Gun" UI Button
+     */
+    public UIWarnButton getGun1Button() {
+        return gun1Button;
+    }
+
+    /**
+     * Returns the "Gun2" touchscreen control button element.
+     * @return the "Gun2" UI Button
+     */
+    public UIWarnButton getGun2Button() {
+        return gun2Button;
+    }
+
+    /**
+     * Returns the "Ability" touchscreen control button element.
+     * @return the "Ability" UI Button
+     */
+    public UIWarnButton getAbilityButton() {
+        return abilityButton;
     }
 
     @Override
