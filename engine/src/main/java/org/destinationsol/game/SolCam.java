@@ -31,7 +31,11 @@ import org.destinationsol.game.screens.MainGameScreen;
 import org.destinationsol.game.ship.SolShip;
 import org.destinationsol.game.ship.hulls.Hull;
 import org.destinationsol.ui.DisplayDimensions;
+import org.terasology.context.annotation.Introspected;
 
+import javax.inject.Inject;
+
+@Introspected
 public class SolCam implements UpdateAwareSystem {
     public static final float CAM_ROT_SPD = 90f;
     private static final float VIEWPORT_HEIGHT = 5f;
@@ -55,8 +59,9 @@ public class SolCam implements UpdateAwareSystem {
     private Vector2 position;
     private DisplayDimensions displayDimensions;
 
-    public SolCam() {
-        displayDimensions = SolApplication.displayDimensions;
+    @Inject
+    public SolCam(DisplayDimensions displayDimensions) {
+        this.displayDimensions = displayDimensions;
         myCamRotStrategy = new CamRotStrategy.ToPlanet();
         myCam = new OrthographicCamera(VIEWPORT_HEIGHT * displayDimensions.getRatio(), -VIEWPORT_HEIGHT);
         viewport = new ScreenViewport(myCam);

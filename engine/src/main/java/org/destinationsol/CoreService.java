@@ -6,7 +6,12 @@ import org.destinationsol.assets.AssetHelper;
 import org.destinationsol.assets.music.OggMusicManager;
 import org.destinationsol.assets.sound.OggSoundManager;
 import org.destinationsol.entitysystem.ComponentSystemManager;
+import org.destinationsol.game.AbilityCommonConfigs;
 import org.destinationsol.game.DebugOptions;
+import org.destinationsol.game.GameDrawer;
+import org.destinationsol.game.ObjectManager;
+import org.destinationsol.game.SolCam;
+import org.destinationsol.game.screens.GameScreens;
 import org.destinationsol.game.screens.RightPaneLayout;
 import org.destinationsol.menu.MenuLayout;
 import org.destinationsol.modules.ModuleManager;
@@ -48,5 +53,12 @@ public class CoreService extends ServiceRegistry {
         this.with(SolLayouts.class);
         this.with(RightPaneLayout.class);
         this.with(MenuLayout.class);
+        
+        // Screens
+        this.with(GameScreens.class);
+        this.with(SolCam.class);
+        this.with(ObjectManager.class);
+        this.with(GameDrawer.class);
+        this.with(AbilityCommonConfigs.class);
     }
 }

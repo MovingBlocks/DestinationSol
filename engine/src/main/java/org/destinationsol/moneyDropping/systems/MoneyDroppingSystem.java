@@ -32,33 +32,36 @@ import org.destinationsol.moneyDropping.components.DropsMoneyOnDestruction;
 import org.destinationsol.removal.events.DeletionEvent;
 import org.destinationsol.removal.systems.DestructionSystem;
 import org.destinationsol.size.components.Size;
+import org.terasology.context.annotation.Introspected;
 import org.terasology.gestalt.entitysystem.entity.EntityRef;
 import org.terasology.gestalt.entitysystem.event.Before;
 import org.terasology.gestalt.entitysystem.event.EventResult;
 import org.terasology.gestalt.entitysystem.event.ReceiveEvent;
 
+import javax.inject.Inject;
 import java.util.List;
 
 /**
  * When an entity with a {@link DropsMoneyOnDestruction} component is destroyed, this system creates an amount of money based
  * on its {@link Size}.
  */
+@Introspected
 public class MoneyDroppingSystem implements EventReceiver {
 
     private final float MIN_MULTIPLIER = 12f;
     private final float MAX_MULTIPLIER = 40f;
 
-    @In
-    private SolGame game;
+    @Inject
+    SolGame game;
 
-    @In
-    private LootBuilder lootBuilder;
+    @Inject
+    LootBuilder lootBuilder;
 
-    @In
-    private ItemManager itemManager;
+    @Inject
+    ItemManager itemManager;
 
-    @In
-    private ObjectManager objectManager;
+    @Inject
+    ObjectManager objectManager;
 
     @ReceiveEvent(components = {DropsMoneyOnDestruction.class, Position.class, Velocity.class, Size.class})
     @Before(DestructionSystem.class)

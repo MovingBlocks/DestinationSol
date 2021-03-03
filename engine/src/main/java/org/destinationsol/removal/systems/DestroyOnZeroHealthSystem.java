@@ -21,16 +21,20 @@ import org.destinationsol.entitysystem.EventReceiver;
 import org.destinationsol.health.components.Health;
 import org.destinationsol.removal.events.ShouldBeDestroyedEvent;
 import org.destinationsol.removal.events.ZeroHealthEvent;
+import org.terasology.context.annotation.Introspected;
 import org.terasology.gestalt.entitysystem.entity.EntityRef;
 import org.terasology.gestalt.entitysystem.event.ReceiveEvent;
+
+import javax.inject.Inject;
 
 /**
  * When an entity's {@link Health} drops to zero, this system destroys that entity.
  */
+@Introspected
 public class DestroyOnZeroHealthSystem implements EventReceiver {
 
-    @In
-    private EntitySystemManager entitySystemManager;
+    @Inject
+    EntitySystemManager entitySystemManager;
 
     @ReceiveEvent
     public void onZeroHealth(ZeroHealthEvent event, EntityRef entity) {

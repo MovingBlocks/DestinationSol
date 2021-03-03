@@ -16,14 +16,19 @@
 package org.destinationsol;
 
 import org.destinationsol.game.context.Context;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.terasology.context.annotation.Introspected;
 import org.terasology.gestalt.di.BeanContext;
+import org.terasology.gestalt.di.exceptions.BeanResolutionException;
 import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 
 import javax.inject.Inject;
 
 @Introspected
 public class ContextWrapper implements Context {
+
+    private static final Logger logger = LoggerFactory.getLogger(ContextWrapper.class);
     protected BeanContext context;
 
     @Inject
@@ -33,7 +38,12 @@ public class ContextWrapper implements Context {
 
     @Override
     public <T> T get(Class<? extends T> type) {
-        return (T) context.getBean(type);
+        try {
+            return (T) context.getBean(type);
+        } catch (BeanResolutionException e){
+            logger.warn("Bean [{}] no found",type);
+            return null;
+        }
     }
 
     @Override

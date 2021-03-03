@@ -26,20 +26,24 @@ import org.destinationsol.game.GameDrawer;
 import org.destinationsol.location.components.Angle;
 import org.destinationsol.location.components.Position;
 import org.destinationsol.size.components.Size;
+import org.terasology.context.annotation.Introspected;
 import org.terasology.gestalt.entitysystem.entity.EntityRef;
 import org.terasology.gestalt.entitysystem.event.EventResult;
 import org.terasology.gestalt.entitysystem.event.ReceiveEvent;
 
+import javax.inject.Inject;
+
 /**
  * This handles the drawing of each entity with a {@link Renderable} component.
  */
+@Introspected
 public class RenderingSystem implements EventReceiver {
 
-    @In
-    private EntitySystemManager entitySystemManager;
+    @Inject
+    EntitySystemManager entitySystemManager;
 
-    @In
-    private GameDrawer drawer;
+    @Inject
+    GameDrawer drawer;
 
     @ReceiveEvent(components = {Renderable.class, Position.class, Size.class})
     public EventResult onRender(RenderEvent event, EntityRef entity) {

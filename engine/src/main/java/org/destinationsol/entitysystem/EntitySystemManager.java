@@ -47,10 +47,7 @@ public class EntitySystemManager {
     private static final EventReceiverMethodSupport eventReceiverMethodSupport = new EventReceiverMethodSupport();
 
     @Inject
-    public EntitySystemManager(ModuleEnvironment environment, ComponentManager componentManager, Context context) {
-
-        context.put(EntitySystemManager.class, this);
-
+    public EntitySystemManager(ModuleEnvironment environment, ComponentManager componentManager, List<EventReceiver> eventReceivers) {
         List<ComponentStore<?>> stores = Lists.newArrayList();
         for (Class<? extends Component> componentType : environment.getSubtypesOf(Component.class)) {
             //This filters out abstract components, which would create exceptions
@@ -64,14 +61,8 @@ public class EntitySystemManager {
 
         entityManager = new CoreEntityManager(stores);
 
-        for (Class<? extends EventReceiver> eventReceiver : environment.getSubtypesOf(EventReceiver.class)) {
-            try {
-                EventReceiver receiver = eventReceiver.newInstance();
-                InjectionHelper.inject(receiver, context);
-                eventReceiverMethodSupport.register(receiver, eventSystem);
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
+        for (EventReceiver eventReceiver : eventReceivers) {
+            eventReceiverMethodSupport.register(eventReceiver, eventSystem);
         }
     }
 

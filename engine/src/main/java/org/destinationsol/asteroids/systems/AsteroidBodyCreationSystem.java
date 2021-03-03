@@ -35,10 +35,12 @@ import org.destinationsol.location.components.Position;
 import org.destinationsol.rendering.RenderableElement;
 import org.destinationsol.rendering.components.Renderable;
 import org.destinationsol.size.components.Size;
+import org.terasology.context.annotation.Introspected;
 import org.terasology.gestalt.entitysystem.entity.EntityRef;
 import org.terasology.gestalt.entitysystem.event.EventResult;
 import org.terasology.gestalt.entitysystem.event.ReceiveEvent;
 
+import javax.inject.Inject;
 import java.util.ArrayList;
 
 /**
@@ -51,15 +53,16 @@ import java.util.ArrayList;
  * Bodies should only be created during an update sent by an {@link UpdateAwareSystem}. Attempting to create a body at
  * any other time may cause the game to crash.
  */
+@Introspected
 public class AsteroidBodyCreationSystem implements EventReceiver {
 
     private static final float DENSITY = 10f;
 
-    @In
-    private EntitySystemManager entitySystemManager;
+    @Inject
+    EntitySystemManager entitySystemManager;
 
-    @In
-    private World world;
+    @Inject
+    World world;
 
     private final CollisionMeshLoader collisionMeshLoader = new CollisionMeshLoader("engine:asteroids");
 

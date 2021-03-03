@@ -333,7 +333,7 @@ public class SolApplication implements ApplicationListener {
 
         gameContext = appContext.getNestedContainer(new SolGameServiceRegistry(isNewGame), new ContextWrapperService());
         appContext.getBean(ComponentSystemManager.class).preBegin();
-        SolGame game = gameContext.getBean(SolGame.class);
+        solGame = gameContext.getBean(SolGame.class);
         gameContext.getBean(ComponentSystemManager.class).preBegin();
         entitySystemManager = gameContext.getBean(EntitySystemManager.class);
 

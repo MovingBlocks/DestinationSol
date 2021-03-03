@@ -34,11 +34,13 @@ import org.destinationsol.location.events.PositionUpdateEvent;
 import org.destinationsol.location.events.VelocityUpdateEvent;
 import org.destinationsol.removal.events.DeletionEvent;
 import org.destinationsol.removal.systems.DestructionSystem;
+import org.terasology.context.annotation.Introspected;
 import org.terasology.gestalt.entitysystem.entity.EntityRef;
 import org.terasology.gestalt.entitysystem.event.Before;
 import org.terasology.gestalt.entitysystem.event.EventResult;
 import org.terasology.gestalt.entitysystem.event.ReceiveEvent;
 
+import javax.inject.Inject;
 import java.util.HashMap;
 
 /**
@@ -49,10 +51,11 @@ import java.util.HashMap;
  * Bodies should only be created during an update sent by an {@link UpdateAwareSystem}. Attempting to create a body at
  * any other time may cause the game to crash.
  */
+@Introspected
 public class BodyHandlerSystem implements EventReceiver {
 
-    @In
-    private EntitySystemManager entitySystemManager;
+    @Inject
+    EntitySystemManager entitySystemManager;
 
     private HashMap<EntityRef, Body> referenceToBodyObjects = new HashMap<>();
 

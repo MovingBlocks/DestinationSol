@@ -20,6 +20,7 @@ import org.destinationsol.removal.components.SlatedForDeletion;
 import org.destinationsol.removal.events.DeletionEvent;
 import org.destinationsol.removal.events.ShouldBeDestroyedEvent;
 import org.destinationsol.removal.events.RemovalForOptimizationEvent;
+import org.terasology.context.annotation.Introspected;
 import org.terasology.gestalt.entitysystem.entity.EntityRef;
 import org.terasology.gestalt.entitysystem.event.EventResult;
 import org.terasology.gestalt.entitysystem.event.ReceiveEvent;
@@ -34,6 +35,7 @@ import java.util.HashSet;
  * Every tick, the {@link DeletionUpdateSystem} sends a {@link DeletionEvent} to each entity with a SlatedForDeletion
  * component. When that happens, this system deletes those entities.
  */
+@Introspected
 public class DestructionSystem implements EventReceiver {
 
     /**

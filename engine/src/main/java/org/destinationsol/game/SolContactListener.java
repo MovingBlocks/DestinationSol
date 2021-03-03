@@ -31,6 +31,7 @@ import org.terasology.context.annotation.Introspected;
 import org.terasology.gestalt.entitysystem.entity.EntityRef;
 
 import javax.inject.Inject;
+import javax.inject.Provider;
 
 @Introspected
 public class SolContactListener implements ContactListener {
@@ -38,10 +39,10 @@ public class SolContactListener implements ContactListener {
     @Inject
     protected EntitySystemManager entitySystemManager;
 
-    private final SolGame myGame;
+    private final Provider<SolGame> myGame;
 
     @Inject
-    public SolContactListener(SolGame game) {
+    public SolContactListener(Provider<SolGame> game) {
         myGame = game;
     }
 
@@ -76,7 +77,7 @@ public class SolContactListener implements ContactListener {
         }
         Projectile projectile = (Projectile) (firstSolObjectIsProjectile ? firstSolObject : secondSolObject);
         SolObject solObject = firstSolObjectIsProjectile ? secondSolObject : firstSolObject;
-        projectile.setObstacle(solObject, myGame);
+        projectile.setObstacle(solObject, myGame.get());
     }
 
     @Override
@@ -122,10 +123,10 @@ public class SolContactListener implements ContactListener {
         if (secondSolObject instanceof Projectile && ((Projectile) secondSolObject).getConfig().density <= 0) {
             return;
         }
-        firstSolObject.handleContact(secondSolObject, absImpulse, myGame, collPos);
-        secondSolObject.handleContact(firstSolObject, absImpulse, myGame, collPos);
-        myGame.getSpecialSounds().playColl(myGame, absImpulse, firstSolObject, collPos);
-        myGame.getSpecialSounds().playColl(myGame, absImpulse, secondSolObject, collPos);
+        firstSolObject.handleContact(secondSolObject, absImpulse, myGame.get(), collPos);
+        secondSolObject.handleContact(firstSolObject, absImpulse, myGame.get(), collPos);
+        myGame.get().getSpecialSounds().playColl(myGame.get(), absImpulse, firstSolObject, collPos);
+        myGame.get().getSpecialSounds().playColl(myGame.get(), absImpulse, secondSolObject, collPos);
 
     }
 

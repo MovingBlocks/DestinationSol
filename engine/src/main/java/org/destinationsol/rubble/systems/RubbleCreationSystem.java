@@ -28,22 +28,26 @@ import org.destinationsol.removal.systems.DestructionSystem;
 import org.destinationsol.rubble.components.CreatesRubbleOnDestruction;
 import org.destinationsol.size.components.Size;
 import org.destinationsol.stasis.components.Stasis;
+import org.terasology.context.annotation.Introspected;
 import org.terasology.gestalt.entitysystem.entity.EntityRef;
 import org.terasology.gestalt.entitysystem.event.Before;
 import org.terasology.gestalt.entitysystem.event.EventResult;
 import org.terasology.gestalt.entitysystem.event.ReceiveEvent;
 
+import javax.inject.Inject;
+
 /**
  * When an entity with a {@link CreatesRubbleOnDestruction} component is destroyed, this system creates {@link Rubble}s
  * where the entity was.
  */
+@Introspected
 public class RubbleCreationSystem implements EventReceiver {
 
-    @In
-    private RubbleBuilder rubbleBuilder;
+    @Inject
+    RubbleBuilder rubbleBuilder;
 
-    @In
-    private SolGame solGame;
+    @Inject
+    SolGame solGame;
 
     //TODO once Shards are entities, this needs to be refactored to replace ShardBuilder
 

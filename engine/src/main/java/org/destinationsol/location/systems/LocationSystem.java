@@ -22,6 +22,7 @@ import org.destinationsol.location.components.Velocity;
 import org.destinationsol.location.events.AngleUpdateEvent;
 import org.destinationsol.location.events.PositionUpdateEvent;
 import org.destinationsol.location.events.VelocityUpdateEvent;
+import org.terasology.context.annotation.Introspected;
 import org.terasology.gestalt.entitysystem.entity.EntityRef;
 import org.terasology.gestalt.entitysystem.event.EventResult;
 import org.terasology.gestalt.entitysystem.event.ReceiveEvent;
@@ -30,6 +31,7 @@ import org.terasology.gestalt.entitysystem.event.ReceiveEvent;
  * This system updates the location of an entity with a {@link Position}, {@link Angle}, or {@link Velocity} component
  * when it receives a {@link PositionUpdateEvent}, {@link AngleUpdateEvent}, or {@link VelocityUpdateEvent}, respectively.
  */
+@Introspected
 public class LocationSystem implements EventReceiver {
 
     @ReceiveEvent(components = Position.class)

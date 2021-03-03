@@ -22,13 +22,18 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector2;
 import org.destinationsol.CommonDrawer;
 import org.destinationsol.assets.Assets;
+import org.terasology.context.annotation.Introspected;
 
+import javax.inject.Inject;
+
+@Introspected
 public class GameDrawer {
     public final TextureAtlas.AtlasRegion debugWhiteTexture;
     private final CommonDrawer myDrawer;
 
     private boolean myCurrAdditive;
 
+    @Inject
     public GameDrawer(CommonDrawer commonDrawer) {
         myDrawer = commonDrawer;
         debugWhiteTexture = Assets.getAtlasRegion("engine:uiWhiteTex");
