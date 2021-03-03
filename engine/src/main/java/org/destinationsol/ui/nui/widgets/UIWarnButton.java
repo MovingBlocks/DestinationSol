@@ -55,6 +55,12 @@ public class UIWarnButton extends KeyActivatedButton {
         }
     }
 
+    /**
+     * Starts the "warn" phase of the button, causing it to pulsate briefly
+     * the colour specified for the mode {@link UIWarnButton#WARN_MODE}.
+     *
+     * This can be used to notify the user of an event, such as a new item that is now in their inventory.
+     */
     public void enableWarn() {
         warnCounter = WARN_COUNTER_MAX;
     }

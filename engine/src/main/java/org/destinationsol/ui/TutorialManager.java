@@ -25,9 +25,10 @@ import org.destinationsol.game.item.SolItem;
 import org.destinationsol.game.screens.GameScreens;
 import org.destinationsol.game.screens.InventoryScreen;
 import org.destinationsol.game.screens.MainGameScreen;
-import org.destinationsol.game.screens.ShipKbControl;
 import org.destinationsol.game.screens.ShipMixedControl;
+import org.destinationsol.ui.nui.screens.UIShipControlsScreen;
 import org.destinationsol.ui.nui.widgets.UIWarnButton;
+import org.terasology.nui.widgets.UIButton;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -35,11 +36,22 @@ import java.util.List;
 public class TutorialManager implements UpdateAwareSystem {
     private DisplayDimensions displayDimensions;
     private final Rectangle background;
-    private final ArrayList<Step> steps;
+    private ArrayList<Step> steps;
+    private final GameScreens screens;
+    private final org.destinationsol.ui.nui.screens.MainGameScreen nuiMain;
+    private final boolean mobile;
+    private final GameOptions gameOptions;
+    private final SolGame game;
 
     private int stepIndex;
 
     public TutorialManager(GameScreens screens, org.destinationsol.ui.nui.screens.MainGameScreen nuiMain, boolean mobile, GameOptions gameOptions, SolGame game) {
+        this.screens = screens;
+        this.nuiMain = nuiMain;
+        this.mobile = mobile;
+        this.gameOptions = gameOptions;
+        this.game = game;
+
         displayDimensions = SolApplication.displayDimensions;
 
         float backgroundW = displayDimensions.getRatio() * .5f;
@@ -47,29 +59,33 @@ public class TutorialManager implements UpdateAwareSystem {
         background = new Rectangle(displayDimensions.getRatio() / 2 - backgroundW / 2, 1 - backgroundH, backgroundW, backgroundH);
         steps = new ArrayList<>();
         stepIndex = 0;
+    }
 
+    public void start() {
         MainGameScreen main = screens.mainGameScreen;
         boolean mouseCtrl = main.shipControl instanceof ShipMixedControl;
-        SolUiControl shootCtrl;
+        SolUiControl shootCtrl = null;
         String shootKey;
         String shootKey2;
-        SolUiControl upCtrl;
-        SolUiControl leftCtrl;
-        SolUiControl abilityCtrl;
+        SolUiControl upCtrl = null;
+        SolUiControl abilityCtrl = null;
+        UIWarnButton nuiShootCtrl = null;
+        UIWarnButton nuiUpCtrl = null;
+        UIWarnButton nuiLeftCtrl = null;
+        UIWarnButton nuiAbilityCtrl = null;
         if (mouseCtrl) {
             ShipMixedControl mixedControl = (ShipMixedControl) main.shipControl;
             shootCtrl = mixedControl.shootCtrl;
             shootKey = "(LEFT mouse button)";
             shootKey2 = "(Click LEFT mouse button)";
             upCtrl = mixedControl.upCtrl;
-            leftCtrl = null;
             abilityCtrl = mixedControl.abilityCtrl;
         } else {
-            ShipKbControl kbControl = (ShipKbControl) main.shipControl;
-            shootCtrl = kbControl.shootCtrl;
-            upCtrl = kbControl.upCtrl;
-            leftCtrl = kbControl.leftCtrl;
-            abilityCtrl = kbControl.abilityCtrl;
+            UIShipControlsScreen kbControl = (UIShipControlsScreen) main.shipControl;
+            nuiShootCtrl = kbControl.getGun1Button();
+            nuiUpCtrl = kbControl.getForwardButton();
+            nuiLeftCtrl = kbControl.getLeftButton();
+            nuiAbilityCtrl = kbControl.getAbilityButton();
             if (mobile) {
                 shootKey = "(GUN 1 button)";
                 shootKey2 = "(Press GUN 1 button)";
@@ -79,17 +95,21 @@ public class TutorialManager implements UpdateAwareSystem {
             }
         }
 
-        addStep("Hi! Shoot your main gun\n" + shootKey, shootCtrl);
+        if (mouseCtrl) {
+            addStep("Hi! Shoot your main gun\n" + shootKey, shootCtrl);
+        } else {
+            addStep("Hi! Shoot your main gun\n" + shootKey, nuiShootCtrl);
+        }
 
-        if (leftCtrl != null) {
+        if (nuiLeftCtrl != null) {
             if (mobile) {
-                addStep("Great! Turn left.\nDon't fly away yet!", leftCtrl);
+                addStep("Great! Turn left.\nDon't fly away yet!", nuiLeftCtrl);
             } else {
-                addStep("Great! Turn left (" + gameOptions.getKeyLeftName() + " key). \nDon't fly away yet!", leftCtrl);
+                addStep("Great! Turn left (" + gameOptions.getKeyLeftName() + " key). \nDon't fly away yet!", nuiLeftCtrl);
             }
         }
 
-        UIWarnButton mapButton = nuiMain.find("mapButton", UIWarnButton.class);
+        UIWarnButton mapButton = nuiMain.getMapButton();
         if (mobile) {
             addStep("Have a look at the map", mapButton, true);
         } else {
@@ -111,7 +131,7 @@ public class TutorialManager implements UpdateAwareSystem {
                     screens.mapScreen.closeControl, true);
         }
 
-        UIWarnButton inventoryButton = nuiMain.find("itemsButton", UIWarnButton.class);
+        UIWarnButton inventoryButton = nuiMain.getInventoryButton();
         if (mouseCtrl || mobile) {
             addStep("Have a look\nat your inventory", inventoryButton, true);
         } else {
@@ -167,12 +187,12 @@ public class TutorialManager implements UpdateAwareSystem {
         if (mouseCtrl) {
             addStep("Move forward (" + gameOptions.getKeyUpMouseName() + " key).\nThere's no stop!", upCtrl);
         } else if (mobile) {
-            addStep("Move forward.\nThere's no stop!", upCtrl);
+            addStep("Move forward.\nThere's no stop!", nuiUpCtrl);
         } else {
-            addStep("Move forward (" + gameOptions.getKeyUpName() + " key).\nThere's no stop!", upCtrl);
+            addStep("Move forward (" + gameOptions.getKeyUpName() + " key).\nThere's no stop!", nuiUpCtrl);
         }
 
-        UIWarnButton talkButton = nuiMain.find("talkButton", UIWarnButton.class);
+        UIWarnButton talkButton = nuiMain.getTalkButton();
         if (mobile) {
             addStep("Fly closer to the station\nand talk with it", talkButton, true);
         } else {
@@ -201,19 +221,32 @@ public class TutorialManager implements UpdateAwareSystem {
             addStep("Use the ability of your ship\n(MIDDLE mouse button or " + gameOptions.getKeyAbilityName() + " key)",
                     abilityCtrl, true);
         } else if (mobile) {
-            addStep("Use the ability of your ship", abilityCtrl, true);
+            addStep("Use the ability of your ship", nuiAbilityCtrl, true);
         } else {
-            addStep("Use the ability of your ship\n(" + gameOptions.getKeyAbilityName() + " key)", abilityCtrl, true);
+            addStep("Use the ability of your ship\n(" + gameOptions.getKeyAbilityName() + " key)", nuiAbilityCtrl, true);
         }
 
-        addStep("Here's a couple of hints...\n" + shootKey2, shootCtrl);
-        addStep("Enemies are orange icons, allies are blue\n" + shootKey2, shootCtrl);
-        addStep("Avoid enemies with skull icon\n" + shootKey2, shootCtrl);
-        addStep("To repair, have repair kits and just stay idle\n" + shootKey2, shootCtrl);
-        addStep("Destroy asteroids to find money\n" + shootKey2, shootCtrl);
-        addStep("Find or buy shields, armor, guns; equip them\n" + shootKey2, shootCtrl);
-        addStep("Buy new ships, hire mercenaries\n" + shootKey2, shootCtrl);
-        addStep("Tutorial is complete and will exit now!\n" + shootKey2, shootCtrl);
+        if (mouseCtrl) {
+            addStep("Here's a couple of hints...\n" + shootKey2, shootCtrl);
+            addStep("Enemies are orange icons, allies are blue\n" + shootKey2, shootCtrl);
+            addStep("Avoid enemies with skull icon\n" + shootKey2, shootCtrl);
+            addStep("To repair, have repair kits and just stay idle\n" + shootKey2, shootCtrl);
+            addStep("Destroy asteroids to find money\n" + shootKey2, shootCtrl);
+            addStep("Find or buy shields, armor, guns; equip them\n" + shootKey2, shootCtrl);
+            addStep("Buy new ships, hire mercenaries\n" + shootKey2, shootCtrl);
+            addStep("Tutorial is complete and will exit now!\n" + shootKey2, shootCtrl);
+        } else {
+            addStep("Here's a couple of hints...\n" + shootKey2, nuiShootCtrl);
+            addStep("Enemies are orange icons, allies are blue\n" + shootKey2, nuiShootCtrl);
+            addStep("Avoid enemies with skull icon\n" + shootKey2, nuiShootCtrl);
+            addStep("To repair, have repair kits and just stay idle\n" + shootKey2, nuiShootCtrl);
+            addStep("Destroy asteroids to find money\n" + shootKey2, nuiShootCtrl);
+            addStep("Find or buy shields, armor, guns; equip them\n" + shootKey2, nuiShootCtrl);
+            addStep("Buy new ships, hire mercenaries\n" + shootKey2, nuiShootCtrl);
+            addStep("Tutorial is complete and will exit now!\n" + shootKey2, nuiShootCtrl);
+        }
+
+        steps.get(0).start();
     }
 
     private void addStep(String text, SolUiControl ctrl) {
@@ -242,6 +275,9 @@ public class TutorialManager implements UpdateAwareSystem {
         step.highlight();
         if (step.canProgressToNextStep()) {
             stepIndex++;
+            if (stepIndex < steps.size()) {
+                steps.get(stepIndex).start();
+            }
         }
     }
 
@@ -272,6 +308,10 @@ public class TutorialManager implements UpdateAwareSystem {
             this.checkOn = checkOn;
         }
 
+        public void start() {
+            // Empty, as it is only used in NuiStep
+        }
+
         // highlight control that needs to be pressed
         public void highlight() {
             if (ctrl != null) {
@@ -295,6 +335,10 @@ public class TutorialManager implements UpdateAwareSystem {
         public NuiStep(String text, UIWarnButton ctrl, boolean checkOn) {
             super(text, null, checkOn);
             nuiCtrl = ctrl;
+        }
+
+        @Override
+        public void start() {
             nuiCtrl.subscribe(widget -> {
                 buttonPressed = true;
             });
@@ -310,11 +354,14 @@ public class TutorialManager implements UpdateAwareSystem {
 
         @Override
         public boolean canProgressToNextStep() {
+            boolean pressed = buttonPressed;
+            buttonPressed = false;
             if (checkOn) {
-                return buttonPressed;
+                // TODO: The following line should work but doesn't currently due a nui-libgdx issue
+                //return nuiCtrl.getMode().equals(UIButton.DOWN_MODE);
+                return pressed;
             } else {
-                // TODO
-                return buttonPressed && !nuiCtrl.isActive();
+                return pressed;
             }
         }
     }

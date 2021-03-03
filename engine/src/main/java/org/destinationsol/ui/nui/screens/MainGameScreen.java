@@ -33,10 +33,10 @@ import java.util.List;
  */
 public class MainGameScreen extends NUIScreenLayer {
     private SolShip talkTarget;
-    private KeyActivatedButton menuButton;
-    private KeyActivatedButton mapButton;
+    private UIWarnButton menuButton;
+    private UIWarnButton mapButton;
     private UIWarnButton inventoryButton;
-    private KeyActivatedButton talkButton;
+    private UIWarnButton talkButton;
     private UIWarnButton mercsButton;
     private ConsoleScreen consoleScreen;
 
@@ -49,11 +49,11 @@ public class MainGameScreen extends NUIScreenLayer {
 
         GameOptions gameOptions = solApplication.getOptions();
 
-        menuButton = find("menuButton", KeyActivatedButton.class);
+        menuButton = find("menuButton", UIWarnButton.class);
         menuButton.setKey(GDXInputUtil.GDXToNuiKey(gameOptions.getKeyMenu()));
         menuButton.subscribe(this::onMenuButtonClicked);
 
-        mapButton = find("mapButton", KeyActivatedButton.class);
+        mapButton = find("mapButton", UIWarnButton.class);
         mapButton.setKey(GDXInputUtil.GDXToNuiKey(gameOptions.getKeyMap()));
         mapButton.subscribe(this::onMapButtonClicked);
 
@@ -61,7 +61,7 @@ public class MainGameScreen extends NUIScreenLayer {
         inventoryButton.setKey(GDXInputUtil.GDXToNuiKey(gameOptions.getKeyInventory()));
         inventoryButton.subscribe(this::onItemsButtonClicked);
 
-        talkButton = find("talkButton", KeyActivatedButton.class);
+        talkButton = find("talkButton", UIWarnButton.class);
         talkButton.setKey(GDXInputUtil.GDXToNuiKey(gameOptions.getKeyTalk()));
         talkButton.subscribe(this::onTalkButtonClicked);
 
@@ -180,6 +180,46 @@ public class MainGameScreen extends NUIScreenLayer {
         inventoryButton.unsubscribe(this::onItemsButtonClicked);
         talkButton.unsubscribe(this::onTalkButtonClicked);
         mercsButton.unsubscribe(this::onMercsButtonClicked);
+    }
+
+    /**
+     * Returns the "Menu" UI Button element.
+     * @return the "Menu" UI Button
+     */
+    public UIWarnButton getMenuButton() {
+        return menuButton;
+    }
+
+    /**
+     * Returns the "Map" UI Button element.
+     * @return The "Map" UI Button
+     */
+    public UIWarnButton getMapButton() {
+        return mapButton;
+    }
+
+    /**
+     * Returns the "Items" UI Button element.
+     * @return The "Items" UI Button
+     */
+    public UIWarnButton getInventoryButton() {
+        return inventoryButton;
+    }
+
+    /**
+     * Returns the "Talk" UI Button element.
+     * @return The "Talk" UI Button
+     */
+    public UIWarnButton getTalkButton() {
+        return talkButton;
+    }
+
+    /**
+     * Returns the "Mercs" UI Button element.
+     * @return The "Mercs" UI Button
+     */
+    public UIWarnButton getMercsButton() {
+        return mercsButton;
     }
 
     private void onMenuButtonClicked(UIWidget widget) {
