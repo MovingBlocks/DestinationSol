@@ -32,7 +32,6 @@ import org.terasology.gestalt.entitysystem.event.Event;
 import org.terasology.gestalt.entitysystem.event.EventSystem;
 import org.terasology.gestalt.entitysystem.event.impl.EventReceiverMethodSupport;
 import org.terasology.gestalt.entitysystem.event.impl.EventSystemImpl;
-import org.terasology.gestalt.entitysystem.prefab.GeneratedFromRecipeComponent;
 import org.terasology.gestalt.module.ModuleEnvironment;
 
 import javax.inject.Inject;
@@ -56,9 +55,6 @@ public class EntitySystemManager {
                         new ConcurrentComponentStore<>(new ArrayComponentStore<>(componentManager.getType(componentType))));
             }
         }
-        stores.add(new ConcurrentComponentStore<>(
-                new ArrayComponentStore<>(componentManager.getType(GeneratedFromRecipeComponent.class))));
-
         entityManager = new CoreEntityManager(stores);
 
         for (EventReceiver eventReceiver : eventReceivers) {
