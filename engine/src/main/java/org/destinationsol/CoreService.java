@@ -50,8 +50,8 @@ public class CoreService extends ServiceRegistry {
         this.with(DisplayDimensions.class).lifetime(Lifetime.Singleton).use(() -> new DisplayDimensions(Gdx.graphics.getWidth(), Gdx.graphics.getHeight()));
 
         this.with(UiDrawer.class).lifetime(Lifetime.Singleton);
-        this.with(SolLayouts.class);
-        this.with(RightPaneLayout.class);
-        this.with(MenuLayout.class);
+        this.with(SolLayouts.class).lifetime(Lifetime.Singleton);
+        this.with(RightPaneLayout.class).lifetime(Lifetime.Singleton);
+        this.with(MenuLayout.class).lifetime(Lifetime.Singleton);
     }
 }

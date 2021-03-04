@@ -337,33 +337,12 @@ public class SolApplication implements ApplicationListener {
         gameContext.getBean(ComponentSystemManager.class).preBegin();
         entitySystemManager = gameContext.getBean(EntitySystemManager.class);
 
-
-//        solGame = new SolGame(shipName, tut, isNewGame, commonDrawer, context, worldConfig);
-//        context.put(SolGame.class, solGame);
-//
-//        context.put(LootBuilder.class, solGame.getLootBuilder());
-//        context.put(ItemManager.class, solGame.getItemMan());
-//        context.put(ObjectManager.class, solGame.getObjectManager());
-
-//        entitySystemManager = new EntitySystemManager(moduleManager.getEnvironment(), componentManager, context);
-
-//        InjectionHelper.inject(solGame.getContactListener(), context);
-
         solGame.createUpdateSystems(gameContext.getBean(Context.class));
         solGame.startGame(shipName, isNewGame, worldConfig, new SolNames(), entitySystemManager);
 
-        // Big, fat, ugly HACK to get a working classloader
-        // Serialisation and thus a classloader is not needed when there are no components
-        Iterator<Class<? extends Component>> componentClasses =
-                moduleManager.getEnvironment().getSubtypesOf(Component.class).iterator();
-        SerialisationManager serialisationManager = new SerialisationManager(
-                SaveManager.getResourcePath("entity_store.dat"), entitySystemManager.getEntityManager(),
-                componentClasses.hasNext() ? componentClasses.next().getClassLoader() : null);
-//        context.put(SerialisationManager.class, serialisationManager); // TODO: add a way to add singleton bean to the live context
-
         if (!isNewGame) {
             try {
-//                context.get(SerialisationManager.class).deserialise();
+                gameContext.getBean(SerialisationManager.class).deserialise();
             } catch (Exception e) {
                 e.printStackTrace();
             }

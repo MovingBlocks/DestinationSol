@@ -17,6 +17,7 @@ package org.destinationsol;
 
 import org.destinationsol.assets.sound.SpecialSounds;
 import org.destinationsol.entitysystem.EntitySystemManager;
+import org.destinationsol.entitysystem.SerialisationManager;
 import org.destinationsol.files.HullConfigManager;
 import org.destinationsol.game.AbilityCommonConfigs;
 import org.destinationsol.game.BeaconHandler;
@@ -57,6 +58,8 @@ public class SolGameServiceRegistry extends ServiceRegistry {
             this.with(SolGame.class).lifetime(Lifetime.Singleton).use(() -> new SolGame(isTutorial));
 
             this.with(EntitySystemManager.class);
+            this.with(SerialisationManager.class).lifetime(Lifetime.Singleton);
+
 
             this.with(DrawableManager.class).lifetime(Lifetime.Singleton);
             this.with(PlanetManager.class).lifetime(Lifetime.Singleton);
