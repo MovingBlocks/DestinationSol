@@ -53,12 +53,5 @@ public class CoreService extends ServiceRegistry {
         this.with(SolLayouts.class);
         this.with(RightPaneLayout.class);
         this.with(MenuLayout.class);
-        
-        // Screens
-        this.with(GameScreens.class);
-        this.with(SolCam.class);
-        this.with(ObjectManager.class);
-        this.with(GameDrawer.class);
-        this.with(AbilityCommonConfigs.class);
     }
 }

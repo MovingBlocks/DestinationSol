@@ -18,14 +18,18 @@ package org.destinationsol;
 import org.destinationsol.assets.sound.SpecialSounds;
 import org.destinationsol.entitysystem.EntitySystemManager;
 import org.destinationsol.files.HullConfigManager;
+import org.destinationsol.game.AbilityCommonConfigs;
 import org.destinationsol.game.BeaconHandler;
 import org.destinationsol.game.FactionManager;
 import org.destinationsol.game.GalaxyFiller;
 import org.destinationsol.game.GameColors;
+import org.destinationsol.game.GameDrawer;
 import org.destinationsol.game.GridDrawer;
 import org.destinationsol.game.MapDrawer;
 import org.destinationsol.game.MountDetectDrawer;
+import org.destinationsol.game.ObjectManager;
 import org.destinationsol.game.RubbleBuilder;
+import org.destinationsol.game.SolCam;
 import org.destinationsol.game.SolContactListener;
 import org.destinationsol.game.SolGame;
 import org.destinationsol.game.StarPort;
@@ -40,6 +44,7 @@ import org.destinationsol.game.particle.EffectTypes;
 import org.destinationsol.game.particle.PartMan;
 import org.destinationsol.game.particle.SpecialEffects;
 import org.destinationsol.game.planet.PlanetManager;
+import org.destinationsol.game.screens.GameScreens;
 import org.destinationsol.game.ship.ShipBuilder;
 import org.destinationsol.ui.TutorialManager;
 import org.terasology.gestalt.di.BeanContext;
@@ -78,5 +83,10 @@ public class SolGameServiceRegistry extends ServiceRegistry {
             this.with(TutorialManager.class).lifetime(Lifetime.Singleton);
             this.with(GalaxyFiller.class).lifetime(Lifetime.Singleton);
             this.with(SolContactListener.class).lifetime(Lifetime.Singleton);
+            this.with(GameScreens.class).lifetime(Lifetime.Singleton);
+            this.with(SolCam.class).lifetime(Lifetime.Singleton);
+            this.with(ObjectManager.class).lifetime(Lifetime.Singleton);
+            this.with(GameDrawer.class).lifetime(Lifetime.Singleton);
+            this.with(AbilityCommonConfigs.class).lifetime(Lifetime.Singleton);
     }
 }
