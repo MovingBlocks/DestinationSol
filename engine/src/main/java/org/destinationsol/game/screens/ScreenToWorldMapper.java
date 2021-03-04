@@ -15,6 +15,7 @@
  */
 
 package org.destinationsol.game.screens;
+
 import com.badlogic.gdx.math.Vector2;
 
 public class ScreenToWorldMapper {
@@ -24,14 +25,17 @@ public class ScreenToWorldMapper {
     public static final int PIXEL_TO_WORLD_UNIT_RATIO = 5;
 
     /**
-     * Maps a click position on the screen to the world 
+     * Maps a click position on the screen to the world
+     * 
      * @param screenDimensions The screen dimensions of the game window
-     * @param clickPosition The click position on the screen. Is a vector2 with values between 0 and 1
-     * @param camPos The camera position in the world
-     * @param camAngle The camera angle in the world
+     * @param clickPosition    The click position on the screen. Is a vector2 with
+     *                         values between 0 and 1
+     * @param camPos           The camera position in the world
+     * @param camAngle         The camera angle in the world
      * @return
      */
-    public static Vector2 screenClickPositionToWorldPosition(Vector2 screenDimensions, Vector2 clickPosition, Vector2 camPos, float camAngle, float zoom) {
+    public static Vector2 screenClickPositionToWorldPosition(Vector2 screenDimensions, Vector2 clickPosition,
+            Vector2 camPos, float camAngle, float zoom) {
         float ratio = getScreenRatio(screenDimensions);
         clickPosition = matchClickPositionWithCameraAngle(clickPosition, ratio, camAngle);
         clickPosition = matchClickPositionWithCameraZoom(clickPosition, zoom);
@@ -54,10 +58,11 @@ public class ScreenToWorldMapper {
     }
 
     /**
-     * Get the camera position to the center of the world 
+     * Get the camera position to the center of the world
+     * 
      * @param camPos The camera pos
-     * @param zoom The zoom of the world
-     * @param ratio The screen ratio
+     * @param zoom   The zoom of the world
+     * @param ratio  The screen ratio
      * @return The position as if the cameras position would be center of the world
      */
     private static Vector2 matchCameraPositionToCenterOfWorld(Vector2 camPos, float zoom, float ratio) {
@@ -67,7 +72,7 @@ public class ScreenToWorldMapper {
         return camPosCopy;
     }
 
-        /**
+    /**
      * Takes a given clickPosition and match it with a given camera angle.
      * 
      * @param clickPosition The click position
@@ -83,7 +88,6 @@ public class ScreenToWorldMapper {
         return clickPositionCopy;
     }
 
-    
     /**
      * Get the center of screen in percent format. That is, (0, 0) is the upper left
      * part of the screen. (1, 1) is the bottom right part of the screen. (0.5 *
@@ -95,7 +99,6 @@ public class ScreenToWorldMapper {
     private static Vector2 getCenterOfScreenPercent(float screenRatio) {
         return new Vector2(0.5f * screenRatio, 0.5f);
     }
-
 
     /**
      * Matches the click position with the world zoom
