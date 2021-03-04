@@ -21,6 +21,7 @@ import com.badlogic.gdx.math.Vector2;
 import org.destinationsol.GameOptions;
 import org.destinationsol.SolApplication;
 import org.destinationsol.game.MapDrawer;
+import org.destinationsol.game.SolCam;
 import org.destinationsol.game.SolGame;
 import org.destinationsol.ui.SolInputManager;
 import org.destinationsol.ui.SolUiBaseScreen;
@@ -121,9 +122,10 @@ public class MapScreen extends SolUiBaseScreen {
 
         if (isPickingWaypointSpot) {
             if (inputPointers[0].isJustUnPressed() && !addWaypointControl.isJustOff()) {
-                Vector2 mapCamPos = game.getCam().getPosition().add(mapDrawer.getMapDrawPositionAdditive());
+                SolCam camera = game.getCam();
+                Vector2 mapCamPos = camera.getPosition().add(mapDrawer.getMapDrawPositionAdditive());
                 Vector2 clickPosition = new Vector2(inputPointers[0].x, inputPointers[0].y);
-                Vector2 worldPosition = screenPositionToWorld(clickPosition, mapCamPos, mapZoom);
+                Vector2 worldPosition = screenPositionToWorld(clickPosition, mapCamPos, camera.getAngle(), mapZoom);
                 ArrayList<Waypoint> waypoints = game.getHero().getWaypoints();
 
                 //make sure waypoints aren't too close to each other
@@ -154,7 +156,8 @@ public class MapScreen extends SolUiBaseScreen {
             
             if (inputPointers[0].isJustUnPressed() && !removeWaypointControl.isJustOff()) {
                 Vector2 clickPosition = new Vector2(inputPointers[0].x, inputPointers[0].y);
-                Vector2 realPosition = screenPositionToWorld(clickPosition, game.getCam().getPosition(), mapZoom);
+                SolCam camera = game.getCam();
+                Vector2 realPosition = screenPositionToWorld(clickPosition, camera.getPosition(), camera.getAngle(), mapZoom);
 
                 ArrayList<Waypoint> waypoints = game.getHero().getWaypoints();
                 for (int w = 0; w < waypoints.size(); w++) {
@@ -196,14 +199,14 @@ public class MapScreen extends SolUiBaseScreen {
         }
     }
 
-    public Vector2 screenPositionToWorld(Vector2 clickPosition, Vector2 camPos, float mapZoom) {
+    public Vector2 screenPositionToWorld(Vector2 clickPosition, Vector2 camPos, float camAngle, float mapZoom) {
         float screenWidth = (float) Gdx.graphics.getWidth();
         float screenHeight = (float)  Gdx.graphics.getHeight();
         return ScreenToWorldMapper.screenClickPositionToWorldPosition(
             new Vector2(screenWidth, screenHeight), 
             clickPosition, 
             camPos, 
-            0.0f,
+            camAngle,
             mapZoom
         );
     }

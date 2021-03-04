@@ -2,6 +2,7 @@
 package org.destinationsol.screens.ScreenToWorldMapper;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import com.badlogic.gdx.math.Vector2;
 
@@ -33,10 +34,12 @@ public class ScreenToWorldMapperRotationTest {
             45.0f,
             1
         );
+        
 
         // Because the camera rotation is always in the center of the screen, the click position should be
         // equal to the camera position itself.
-        assertEquals(camPos, worldPos);
+        assertEquals(camPos.x, worldPos.x, 0.00001);
+        assertEquals(camPos.y, worldPos.y, 0.00001);
     }
 
 
@@ -67,7 +70,7 @@ public class ScreenToWorldMapperRotationTest {
         // is now the bottom left part of the screen. That is, the top left part rotated 90 degrees
         Vector2 worldPosCorrect = ScreenToWorldMapper.screenClickPositionToWorldPosition(
             new Vector2(screenWidth, screenHeight), 
-            new Vector2(0.0f, 1.0f), 
+            new Vector2(1.0f, 0.0f), 
             camPos,
             0.0f,
             1
@@ -106,13 +109,10 @@ public class ScreenToWorldMapperRotationTest {
             zoom
         );
 
-        assertEquals(
-            camPos
-                .add(new Vector2(0.5f, 0.5f)
-                .scl(ScreenToWorldMapper.PIXEL_TO_WORLD_UNIT_RATIO * zoom)
-            ).rotate(45.0f), 
-            worldPos
-        );
+        Vector2 expectedValue = camPos.add(new Vector2(0.5f, 0.5f).rotate(45.0f).scl(ScreenToWorldMapper.PIXEL_TO_WORLD_UNIT_RATIO * zoom));
+        assertEquals(expectedValue.x, worldPos.x, 0.00001, "X elements");
+        assertEquals(expectedValue.y, worldPos.y, 0.00001, "Y elements");
+        
     }
 
     /** 
@@ -147,10 +147,8 @@ public class ScreenToWorldMapperRotationTest {
             1
         );
 
-        assertEquals(
-            worldPosDuplicate, 
-            worldPos
-        );
+        assertEquals(worldPosDuplicate.x, worldPos.x, 0.00001);
+        assertEquals(worldPosDuplicate.y, worldPos.y, 0.00001);
     }
 
     
@@ -186,10 +184,8 @@ public class ScreenToWorldMapperRotationTest {
             1
         );
 
-        assertEquals(
-            worldPosDuplicate, 
-            worldPos
-        );
+        assertEquals(worldPosDuplicate.x, worldPos.x, 0.00001);
+        assertEquals(worldPosDuplicate.y, worldPos.y, 0.00001);
     }
 
 }

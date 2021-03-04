@@ -17,6 +17,7 @@ public class ScreenToWorldMapper {
      */
     public static Vector2 screenClickPositionToWorldPosition(Vector2 screenDimensions, Vector2 clickPosition, Vector2 camPos, float camAngle, float zoom) {
         float ratio = getScreenRatio(screenDimensions);
+        clickPosition = matchClickPositionWithCameraAngle(clickPosition, ratio, camAngle);
         clickPosition = matchClickPositionWithCameraZoom(clickPosition, zoom);
         return getCameraPositionOffsetToWorld(camPos, clickPosition, ratio, zoom);
     }
@@ -49,6 +50,36 @@ public class ScreenToWorldMapper {
         camPosCopy.y -= (zoom) / 2.0f * PIXEL_TO_WORLD_UNIT_RATIO;
         return camPosCopy;
     }
+
+        /**
+     * Takes a given clickPosition and match it with a given camera angle.
+     * 
+     * @param clickPosition The click position
+     * @param screenRatio   The screen ratio
+     * @param camAngle      The camera angle in degrees
+     */
+    private static Vector2 matchClickPositionWithCameraAngle(Vector2 clickPosition, float screenRatio, float camAngle) {
+        Vector2 clickPositionCopy = clickPosition.cpy();
+        Vector2 screenCenterOffset = getCenterOfScreenPercent(screenRatio);
+        clickPositionCopy.add(screenCenterOffset.cpy().scl(-1.0f));
+        clickPositionCopy.rotate(camAngle);
+        clickPositionCopy.add(screenCenterOffset);
+        return clickPositionCopy;
+    }
+
+    
+    /**
+     * Get the center of screen in percent format. That is, (0, 0) is the upper left
+     * part of the screen. (1, 1) is the bottom right part of the screen. (0.5 *
+     * ratio, 0.5) is the middle part of the screen.
+     * 
+     * @param screenRatio The screen ratio
+     * @return The center of the screen in percent represented as a vector
+     */
+    private static Vector2 getCenterOfScreenPercent(float screenRatio) {
+        return new Vector2(0.5f * screenRatio, 0.5f);
+    }
+
 
     /**
      * Matches the click position with the world zoom
