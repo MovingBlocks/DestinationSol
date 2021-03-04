@@ -49,9 +49,9 @@ public final class SerialisationManager {
     private Map<String, Class<? extends Component>> classLookup = new HashMap<>();
 
     @Inject
-    public SerialisationManager(EntityManager entityManager, ModuleManager moduleManager) {
+    public SerialisationManager(EntitySystemManager entitySystemManager, ModuleManager moduleManager) {
         file = new File(SaveManager.getResourcePath("entity_store.dat"));
-        this.entityManager = entityManager;
+        this.entityManager = entitySystemManager.getEntityManager();
         for(Class<? extends Component> componentClass: moduleManager.getEnvironment().getSubtypesOf(Component.class)) {
             classLookup.put(componentClass.getName(), componentClass);
         }
