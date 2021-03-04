@@ -153,7 +153,6 @@ public class MapScreen extends SolUiBaseScreen {
         }
 
         if (isPickingWaypointToRemove) {
-            
             if (inputPointers[0].isJustUnPressed() && !removeWaypointControl.isJustOff()) {
                 Vector2 clickPosition = new Vector2(inputPointers[0].x, inputPointers[0].y);
                 SolCam camera = game.getCam();
