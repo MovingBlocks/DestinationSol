@@ -19,6 +19,7 @@ import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
+import org.destinationsol.assets.sound.SpecialSounds;
 import org.destinationsol.common.SolMath;
 import org.destinationsol.common.SolRandom;
 import org.destinationsol.game.DmgType;
@@ -171,7 +172,7 @@ public class Asteroid implements SolObject {
         if (life <= 0) {
             game.getSpecialEffects().asteroidDust(game, position, velocity, size);
             float vol = SolMath.clamp(size / .5f);
-            game.getSoundManager().play(game, game.getSpecialSounds().asteroidCrack, null, this, vol);
+            game.getSoundManager().play(game, game.getContext().get(SpecialSounds.class).asteroidCrack, null, this, vol);
             maybeSplit(game);
         }
     }
@@ -216,7 +217,7 @@ public class Asteroid implements SolObject {
     @Override
     public void receiveDmg(float dmg, SolGame game, Vector2 position, DmgType dmgType) {
         life -= dmg;
-        game.getSpecialSounds().playHit(game, this, position, dmgType);
+        game.getContext().get(SpecialSounds.class).playHit(game, this, position, dmgType);
     }
 
     @Override

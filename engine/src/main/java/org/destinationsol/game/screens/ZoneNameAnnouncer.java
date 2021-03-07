@@ -19,7 +19,9 @@ import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.math.Vector2;
 import org.destinationsol.Const;
 import org.destinationsol.SolApplication;
+import org.destinationsol.game.SolCam;
 import org.destinationsol.game.SolGame;
+import org.destinationsol.game.context.Context;
 import org.destinationsol.game.planet.Planet;
 import org.destinationsol.game.planet.PlanetManager;
 import org.destinationsol.game.planet.SolSystem;
@@ -39,11 +41,11 @@ public class ZoneNameAnnouncer {
         displayDimensions = SolApplication.displayDimensions;
     }
 
-    public void update(SolGame game) {
+    public void update(SolGame game, Context context) {
         PlanetManager planetManager = game.getPlanetManager();
         String zone = null;
         String pref = null;
-        Vector2 camPosition = game.getCam().getPosition();
+        Vector2 camPosition = context.get(SolCam.class).getPosition();
         Planet planet = planetManager.getNearestPlanet();
         if (planet.getPosition().dst(camPosition) < planet.getFullHeight()) {
             zone = planet.getName();

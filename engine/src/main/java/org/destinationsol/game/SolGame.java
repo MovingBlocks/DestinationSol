@@ -72,11 +72,10 @@ import java.util.TreeMap;
 
 public class SolGame {
     private final GameScreens gameScreens;
-    private final SolCam camera;
+    private final SolCam solCamReference;
     private final ObjectManager objectManager;
     private final boolean isTutorial;
     private final SolApplication solApplication;
-    private final DrawableManager drawableManager;
     private final PlanetManager planetManager;
     private final ChunkManager chunkManager;
     private final PartMan partMan;
@@ -93,9 +92,7 @@ public class SolGame {
     private final StarPort.Builder starPortBuilder;
     private final OggSoundManager soundManager;
     private final DrawableDebugger drawableDebugger;
-    private final SpecialSounds specialSounds;
     private final SpecialEffects specialEffects;
-    private final GameColors gameColors;
     private final BeaconHandler beaconHandler;
     private final MountDetectDrawer mountDetectDrawer;
     private final TutorialManager tutorialManager;
@@ -109,6 +106,7 @@ public class SolGame {
     private RespawnState respawnState;
     private SortedMap<Integer, List<UpdateAwareSystem>> onPausedUpdateSystems;
     private SortedMap<Integer, List<UpdateAwareSystem>> updateSystems;
+    private Context context;
 
     private EntitySystemManager entitySystemManager;
 
@@ -117,17 +115,33 @@ public class SolGame {
         // TODO: make this non-static
         FactionInfo.init();
 
+        this.context = context;
+
         this.isTutorial = isTutorial;
         solApplication = context.get(SolApplication.class);
-        ModuleManager moduleManager = context.get(ModuleManager.class);
+
+        //TODO this no longer needs to be instantiated in SolGame
+        GameColors gameColors = new GameColors();
+        context.put(GameColors.class, gameColors);
+
+        //TODO this no longer needs to be instantiated in SolGame
+        soundManager = solApplication.getSoundManager();
+        SpecialSounds specialSounds = new SpecialSounds(soundManager);
+        context.put(SpecialSounds.class, specialSounds);
+
+        //TODO these no longer need to be instantiated in SolGame
         GameDrawer drawer = new GameDrawer(commonDrawer);
         context.put(GameDrawer.class, drawer);
-        gameColors = new GameColors();
-        soundManager = solApplication.getSoundManager();
-        specialSounds = new SpecialSounds(soundManager);
-        drawableManager = new DrawableManager(drawer);
-        camera = new SolCam();
+        DrawableManager drawableManager = new DrawableManager(drawer);
+        context.put(DrawableManager.class, drawableManager);
+
+        //TODO refactor the usages of this to be independent from SolGame, so that this can be deleted
+        // The only methods still using this are those that require changing an interface signature (UpdateAwareSystem, SolObject, and Drawable)
+        SolCam camera = context.get(SolCam.class);
+        solCamReference = camera;
+
         gameScreens = new GameScreens(solApplication, context);
+
         if (isTutorial) {
             tutorialManager = new TutorialManager(gameScreens, solApplication.isMobile(), solApplication.getOptions(), this);
             context.put(TutorialManager.class, tutorialManager);
@@ -144,7 +158,7 @@ public class SolGame {
         planetManager = new PlanetManager(hullConfigManager, gameColors, itemManager);
         contactListener = new SolContactListener(this);
         factionManager = new FactionManager();
-        objectManager = new ObjectManager(contactListener, factionManager);
+        objectManager = new ObjectManager(contactListener, factionManager, context);
         context.put(World.class, objectManager.getWorld());
         gridDrawer = new GridDrawer();
         chunkManager = new ChunkManager();
@@ -169,14 +183,14 @@ public class SolGame {
         // the ordering of update aware systems is very important, switching them up can cause bugs!
         updateSystems = new TreeMap<Integer, List<UpdateAwareSystem>>();
         List<UpdateAwareSystem> defaultSystems = new ArrayList<UpdateAwareSystem>();
-        defaultSystems.addAll(Arrays.asList(planetManager, camera, chunkManager, mountDetectDrawer, objectManager, mapDrawer, soundManager, beaconHandler, drawableDebugger));
+        defaultSystems.addAll(Arrays.asList(planetManager, context.get(SolCam.class), chunkManager, mountDetectDrawer, objectManager, mapDrawer, soundManager, beaconHandler, drawableDebugger));
         if (tutorialManager != null) {
             defaultSystems.add(tutorialManager);
         }
         updateSystems.put(0, defaultSystems);
 
         List<UpdateAwareSystem> defaultPausedSystems = new ArrayList<UpdateAwareSystem>();
-        defaultPausedSystems.addAll(Arrays.asList(mapDrawer, camera, drawableDebugger));
+        defaultPausedSystems.addAll(Arrays.asList(mapDrawer, context.get(SolCam.class), drawableDebugger));
 
         onPausedUpdateSystems = new TreeMap<Integer, List<UpdateAwareSystem>>();
         onPausedUpdateSystems.put(0, defaultPausedSystems);
@@ -233,6 +247,10 @@ public class SolGame {
             }
         }, 0, 30);
         gameScreens.consoleScreen.init(this);
+    }
+
+    public Context getContext() {
+        return context;
     }
 
     private void createGame(String shipName, boolean shouldSpawnOnGalaxySpawnPosition) {
@@ -355,18 +373,14 @@ public class SolGame {
         timeStep = Const.REAL_TIME_STEP * timeFactor;
     }
 
-    public void draw() {
-        drawableManager.draw(this);
-    }
-
-    public void drawDebug(GameDrawer drawer) {
+    public void drawDebug(GameDrawer drawer, Context context) {
         if (DebugOptions.GRID_SZ > 0) {
-            gridDrawer.draw(drawer, this, DebugOptions.GRID_SZ, drawer.debugWhiteTexture);
+            gridDrawer.draw(drawer, this, DebugOptions.GRID_SZ, drawer.debugWhiteTexture, context);
         }
-        planetManager.drawDebug(drawer, this);
-        objectManager.drawDebug(drawer, this);
+        planetManager.drawDebug(drawer, context);
+        objectManager.drawDebug(drawer);
         if (DebugOptions.ZOOM_OVERRIDE != 0) {
-            camera.drawDebug(drawer);
+            context.get(SolCam.class).drawDebug(drawer);
         }
         drawDebugPoint(drawer, DebugOptions.DEBUG_POINT, DebugCol.POINT);
         drawDebugPoint(drawer, DebugOptions.DEBUG_POINT2, DebugCol.POINT2);
@@ -375,7 +389,7 @@ public class SolGame {
 
     private void drawDebugPoint(GameDrawer drawer, Vector2 dp, Color col) {
         if (dp.x != 0 || dp.y != 0) {
-            float sz = camera.getRealLineWidth() * 5;
+            float sz = context.get(SolCam.class).getRealLineWidth() * 5;
             drawer.draw(drawer.debugWhiteTexture, sz, sz, sz / 2, sz / 2, dp.x, dp.y, 0, col);
         }
     }
@@ -384,12 +398,10 @@ public class SolGame {
         return timeStep;
     }
 
+    //TODO refactor the usages of this to be independent from SolGame, so that this can be deleted
+    // The only methods still using this are those that require changing an interface signature (UpdateAwareSystem, SolObject, and Drawable)
     public SolCam getCam() {
-        return camera;
-    }
-
-    public DrawableManager getDrawableManager() {
-        return drawableManager;
+        return solCamReference;
     }
 
     public ObjectManager getObjectManager() {
@@ -527,16 +539,8 @@ public class SolGame {
         drawableDebugger.draw(uiDrawer);
     }
 
-    public SpecialSounds getSpecialSounds() {
-        return specialSounds;
-    }
-
     public SpecialEffects getSpecialEffects() {
         return specialEffects;
-    }
-
-    public GameColors getCols() {
-        return gameColors;
     }
 
     public float getTimeFactor() {

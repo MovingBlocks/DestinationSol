@@ -32,6 +32,7 @@ import org.destinationsol.game.SolCam;
 import org.destinationsol.game.SolGame;
 import org.destinationsol.game.SolObject;
 import org.destinationsol.game.StarPort;
+import org.destinationsol.game.context.Context;
 import org.destinationsol.game.planet.Planet;
 import org.destinationsol.game.planet.PlanetManager;
 import org.destinationsol.game.planet.SolSystem;
@@ -84,9 +85,9 @@ public class BorderDrawer {
         }
     }
 
-    public void draw(UiDrawer drawer, SolApplication application) {
+    public void draw(UiDrawer drawer, SolApplication application, Context context) {
         SolGame game = application.getGame();
-        SolCam cam = game.getCam();
+        SolCam cam = context.get(SolCam.class);
         Vector2 camPosition = cam.getPosition();
         Hero hero = game.getHero();
         drawPlanetProximityIndicators(drawer, game, cam, camPosition);

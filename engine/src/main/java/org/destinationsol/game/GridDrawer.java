@@ -19,10 +19,11 @@ import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.math.Vector2;
 import org.destinationsol.common.SolColor;
+import org.destinationsol.game.context.Context;
 
 public class GridDrawer {
-    public void draw(GameDrawer drawer, SolGame game, float gridSz, TextureAtlas.AtlasRegion tex) {
-        SolCam cam = game.getCam();
+    public void draw(GameDrawer drawer, SolGame game, float gridSz, TextureAtlas.AtlasRegion tex, Context context) {
+        SolCam cam = context.get(SolCam.class);
         float lw = 4 * cam.getRealLineWidth();
         Vector2 camPos = cam.getPosition().cpy().add(game.getMapDrawer().getMapDrawPositionAdditive());
         float viewDist = cam.getViewDistance(cam.getRealZoom());

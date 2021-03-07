@@ -20,6 +20,7 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.World;
 import com.badlogic.gdx.physics.box2d.joints.PrismaticJoint;
+import org.destinationsol.assets.sound.SpecialSounds;
 import org.destinationsol.common.SolMath;
 import org.destinationsol.game.Faction;
 import org.destinationsol.game.FactionManager;
@@ -52,12 +53,12 @@ public class Door {
         if (open) {
             myOpenAwait = MAX_OPEN_AWAIT;
             myJoint.setMotorSpeed(SPEED);
-            game.getSoundManager().play(game, game.getSpecialSounds().doorMove, doorPos, ship);
+            game.getSoundManager().play(game, game.getContext().get(SpecialSounds.class).doorMove, doorPos, ship);
         } else if (myOpenAwait > 0) {
             myOpenAwait -= game.getTimeStep();
             if (myOpenAwait < 0) {
                 myJoint.setMotorSpeed(-SPEED);
-                game.getSoundManager().play(game, game.getSpecialSounds().doorMove, doorPos, ship);
+                game.getSoundManager().play(game, game.getContext().get(SpecialSounds.class).doorMove, doorPos, ship);
             }
         }
 

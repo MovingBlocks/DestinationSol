@@ -20,6 +20,7 @@ import com.badlogic.gdx.physics.box2d.Contact;
 import com.badlogic.gdx.physics.box2d.ContactImpulse;
 import com.badlogic.gdx.physics.box2d.ContactListener;
 import com.badlogic.gdx.physics.box2d.Manifold;
+import org.destinationsol.assets.sound.SpecialSounds;
 import org.destinationsol.common.Immutable;
 import org.destinationsol.common.In;
 import org.destinationsol.common.SolMath;
@@ -119,8 +120,8 @@ public class SolContactListener implements ContactListener {
         }
         firstSolObject.handleContact(secondSolObject, absImpulse, myGame, collPos);
         secondSolObject.handleContact(firstSolObject, absImpulse, myGame, collPos);
-        myGame.getSpecialSounds().playColl(myGame, absImpulse, firstSolObject, collPos);
-        myGame.getSpecialSounds().playColl(myGame, absImpulse, secondSolObject, collPos);
+        myGame.getContext().get(SpecialSounds.class).playColl(myGame, absImpulse, firstSolObject, collPos);
+        myGame.getContext().get(SpecialSounds.class).playColl(myGame, absImpulse, secondSolObject, collPos);
 
     }
 

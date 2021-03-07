@@ -99,6 +99,7 @@ public class MainGameScreen extends SolUiBaseScreen {
     private final TextPlace myChargesExcessTp;
     private final TextPlace myMoneyExcessTp;
     private final SolApplication solApplication;
+    private final Context context;
     private final ConsoleScreen consoleScreen;
 
     private List<SolUiScreen> gameOverlayScreens = new ArrayList<>();
@@ -107,6 +108,7 @@ public class MainGameScreen extends SolUiBaseScreen {
     MainGameScreen(RightPaneLayout rightPaneLayout, Context context) {
         DisplayDimensions displayDimensions = SolApplication.displayDimensions;
 
+        this.context = context;
         solApplication = context.get(SolApplication.class);
         GameOptions gameOptions = solApplication.getOptions();
 
@@ -203,7 +205,7 @@ public class MainGameScreen extends SolUiBaseScreen {
     private void maybeDrawHeight(UiDrawer drawer) {
         SolGame game = solApplication.getGame();
         Planet np = game.getPlanetManager().getNearestPlanet();
-        SolCam cam = game.getCam();
+        SolCam cam = context.get(SolCam.class);
         Vector2 camPos = cam.getPosition();
         if (np != null && np.getPosition().dst(camPos) < np.getFullHeight()) {
             drawHeight(drawer, np, camPos, cam.getAngle());
@@ -243,7 +245,7 @@ public class MainGameScreen extends SolUiBaseScreen {
             warnDrawer.update(game);
         }
 
-        zoneNameAnnouncer.update(game);
+        zoneNameAnnouncer.update(game, context);
 
         if (menuControl.isJustOff()) {
             inputMan.setScreen(solApplication, screens.menuScreen);
@@ -446,7 +448,7 @@ public class MainGameScreen extends SolUiBaseScreen {
         myMoneyExcessTp.text = null;
 
         maybeDrawHeight(uiDrawer);
-        borderDrawer.draw(uiDrawer, solApplication);
+        borderDrawer.draw(uiDrawer, solApplication, context);
 
         SolGame game = solApplication.getGame();
         Hero hero = game.getHero();
@@ -673,7 +675,7 @@ public class MainGameScreen extends SolUiBaseScreen {
             float heroCap = HardnessCalc.getShipDmgCap(hero.getShip());
             List<SolObject> objs = game.getObjectManager().getObjects();
             FactionManager fm = game.getFactionMan();
-            SolCam cam = game.getCam();
+            SolCam cam = game.getContext().get(SolCam.class);
             float viewDist = cam.getViewDistance();
             float dps = 0;
 

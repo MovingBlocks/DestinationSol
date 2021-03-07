@@ -22,6 +22,7 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector2;
 import org.destinationsol.CommonDrawer;
 import org.destinationsol.assets.Assets;
+import org.destinationsol.game.context.Context;
 
 public class GameDrawer {
     public final TextureAtlas.AtlasRegion debugWhiteTexture;
@@ -38,8 +39,8 @@ public class GameDrawer {
         myDrawer.begin();
     }
 
-    public void updateMatrix(SolGame game) {
-        myDrawer.setMatrix(game.getCam().getMtx());
+    public void updateMatrix(Context context) {
+        myDrawer.setMatrix(context.get(SolCam.class).getMtx());
     }
 
     public void end() {
