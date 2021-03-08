@@ -34,6 +34,7 @@ import org.destinationsol.common.SolMath;
 import org.destinationsol.common.SolRandom;
 import org.destinationsol.game.CollisionMeshLoader;
 import org.destinationsol.game.Faction;
+import org.destinationsol.game.GameColors;
 import org.destinationsol.game.RemoveController;
 import org.destinationsol.game.SolGame;
 import org.destinationsol.game.drawables.Drawable;
@@ -254,7 +255,7 @@ public class ShipBuilder {
 
         List<LightSource> lCs = new ArrayList<>();
         for (Vector2 p : hullConfig.getLightSourcePositions()) {
-            LightSource lc = new LightSource(.35f, true, .7f, p, game.getCols().hullLights);
+            LightSource lc = new LightSource(.35f, true, .7f, p, game.getContext().get(GameColors.class).hullLights);
             lc.collectDrawables(drawables);
             lCs.add(lc);
         }

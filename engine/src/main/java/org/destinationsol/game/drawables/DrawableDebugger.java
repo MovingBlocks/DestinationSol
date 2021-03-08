@@ -53,7 +53,7 @@ public class DrawableDebugger implements UpdateAwareSystem {
         textures.clear();
         Vector2 cursorPosition = new Vector2(Gdx.input.getX(), Gdx.input.getY());
         game.getCam().screenToWorld(cursorPosition);
-        game.getDrawableManager().collectTextures(textures, cursorPosition);
+        game.getContext().get(DrawableManager.class).collectTextures(textures, cursorPosition);
     }
 
     public void draw(UiDrawer uiDrawer) {

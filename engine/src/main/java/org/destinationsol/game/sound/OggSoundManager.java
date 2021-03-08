@@ -27,6 +27,7 @@ import org.destinationsol.common.SolRandom;
 import org.destinationsol.game.DebugOptions;
 import org.destinationsol.game.GameDrawer;
 import org.destinationsol.game.Hero;
+import org.destinationsol.game.SolCam;
 import org.destinationsol.game.SolGame;
 import org.destinationsol.game.SolObject;
 import org.destinationsol.game.planet.Planet;
@@ -168,9 +169,9 @@ public class OggSoundManager {
         return playing;
     }
 
-    public void drawDebug(GameDrawer drawer, SolGame game) {
+    public void drawDebug(GameDrawer drawer, SolCam solCam) {
         if (DebugOptions.SOUND_INFO) {
-            debugHintDrawer.draw(drawer, game);
+            debugHintDrawer.draw(drawer, solCam);
         }
     }
 

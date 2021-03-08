@@ -22,6 +22,7 @@ import org.destinationsol.common.SolColor;
 import org.destinationsol.game.GameDrawer;
 import org.destinationsol.game.SolCam;
 import org.destinationsol.game.SolGame;
+import org.destinationsol.game.context.Context;
 
 public class PlanetCoreSingleton {
     private final TextureAtlas.AtlasRegion texture;
@@ -30,8 +31,8 @@ public class PlanetCoreSingleton {
         texture = Assets.getAtlasRegion("engine:planetStarCommonPlanetCore");
     }
 
-    public void draw(SolGame game, GameDrawer drawer) {
-        SolCam cam = game.getCam();
+    public void draw(SolGame game, GameDrawer drawer, Context context) {
+        SolCam cam = context.get(SolCam.class);
         Vector2 camPosition = cam.getPosition();
         Planet nearestPlanet = game.getPlanetManager().getNearestPlanet();
         Vector2 planetPosition = nearestPlanet.getPosition();
