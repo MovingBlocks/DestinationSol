@@ -68,7 +68,7 @@ public class MainGameScreen extends SolUiBaseScreen {
     private static final float HELPER_ROW_2 = HELPER_ROW_1 - .5f * CELL_SZ;
     private static final float HELPER_ROW_3 = HELPER_ROW_2 - .5f * CELL_SZ;
 
-    public final ShipUiControl shipControl;
+    private final ShipUiControl shipControl;
     private final SolUiControl freeCamControl;
     private final SolUiControl pauseControl;
     private final CameraKeyboardControl cameraControl;
@@ -412,6 +412,10 @@ public class MainGameScreen extends SolUiBaseScreen {
         for (SolUiScreen screen : gameOverlayScreens) {
             screen.blurCustom(solApplication);
         }
+    }
+
+    public ShipUiControl getShipControl() {
+        return shipControl;
     }
 
     public boolean isCameraUp() {
