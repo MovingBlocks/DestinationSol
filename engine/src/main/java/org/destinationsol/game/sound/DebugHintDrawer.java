@@ -70,7 +70,7 @@ public class DebugHintDrawer {
         }
     }
 
-    public void draw(GameDrawer drawer, SolGame solCam) {
+    public void draw(GameDrawer drawer, SolCam solCam) {
         for (DebugHint n : tracedSolObjectNotes.values()) {
             n.draw(drawer, solCam);
         }
