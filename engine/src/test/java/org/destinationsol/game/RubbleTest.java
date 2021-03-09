@@ -25,16 +25,16 @@ import org.destinationsol.game.drawables.DrawableLevel;
 import org.destinationsol.game.drawables.RectSprite;
 import org.destinationsol.testingUtilities.BodyUtilities;
 import org.destinationsol.testingUtilities.InitializationUtilities;
-import org.junit.Ignore;
-import org.junit.Test;
+import org.junit.jupiter.api.Disabled;
+import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertNull;
-import static org.junit.Assert.assertTrue;
-import static org.junit.Assert.fail;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertNull;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.fail;
 
 public class RubbleTest {
 
@@ -135,7 +135,7 @@ public class RubbleTest {
         assertTrue(SHARD_CONSTANT.receivesGravity());
     }
 
-    @Ignore
+    @Disabled
     @Test
     public void receiveForce() {
         // TODO I don't quite know what does this even do, so better leave this for sb else

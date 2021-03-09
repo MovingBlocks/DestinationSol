@@ -25,6 +25,7 @@ import org.destinationsol.game.Faction;
 import org.destinationsol.game.SolCam;
 import org.destinationsol.game.SolGame;
 import org.destinationsol.game.drawables.Drawable;
+import org.destinationsol.game.drawables.DrawableManager;
 import org.destinationsol.game.gun.GunMount;
 import org.destinationsol.game.input.Pilot;
 import org.destinationsol.game.item.Engine;
@@ -167,7 +168,7 @@ public class Hull {
             List<Drawable> particleEmitterDrawables = new ArrayList<>();
             particleEmitters.forEach(pe -> particleEmitterDrawables.addAll(pe.getDrawables()));
             drawables.removeAll(particleEmitterDrawables);
-            game.getDrawableManager().removeAll(particleEmitterDrawables);
+            game.getContext().get(DrawableManager.class).removeAll(particleEmitterDrawables);
             particleEmitters.clear();
         }
         // Add the new particle emitters and their associated drawables
@@ -175,7 +176,7 @@ public class Hull {
         List<Drawable> particleEmitterDrawables = new ArrayList<>();
         particleEmitters.forEach(pe -> particleEmitterDrawables.addAll(pe.getDrawables()));
         drawables.addAll(particleEmitterDrawables);
-        game.getDrawableManager().addAll(particleEmitterDrawables);
+        game.getContext().get(DrawableManager.class).addAll(particleEmitterDrawables);
     }
 
     public float getAngle() {

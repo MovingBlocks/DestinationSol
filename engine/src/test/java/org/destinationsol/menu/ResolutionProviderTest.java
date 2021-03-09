@@ -16,7 +16,7 @@
 package org.destinationsol.menu;
 
 import com.badlogic.gdx.Graphics;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 import java.util.Arrays;
 import java.util.Collections;
@@ -27,14 +27,14 @@ public class ResolutionProviderTest {
 
     private ResolutionProvider resolutionProvider;
 
-    @Test
+    @org.junit.jupiter.api.Test
     public void testIncreaseReturnsResolutionForSingleDisplayMode() {
         resolutionProvider = new ResolutionProvider(Collections.singletonList(new TestDisplayMode(100, 50)));
         Resolution resolution = resolutionProvider.increase();
         assertResolution(resolution, 100, 50);
     }
 
-    @Test
+    @org.junit.jupiter.api.Test
     public void testIncreaseCirclesThroughAllResolutions() {
         resolutionProvider = new ResolutionProvider(Arrays.asList(new TestDisplayMode(100, 50), new TestDisplayMode(200, 100)));
         assertResolution(resolutionProvider.increase(), 200, 100);
@@ -51,7 +51,7 @@ public class ResolutionProviderTest {
         assertResolution(resolutionProvider.increase(), 100, 50);
     }
 
-    @Test
+    @org.junit.jupiter.api.Test
     public void testGetResolution() {
         resolutionProvider = new ResolutionProvider(Arrays.asList(new TestDisplayMode(100, 50), new TestDisplayMode(200, 100)));
         assertResolution(resolutionProvider.getResolution(), 100, 50);
@@ -59,7 +59,7 @@ public class ResolutionProviderTest {
         assertResolution(resolutionProvider.getResolution(), 200, 100);
     }
 
-    @Test
+    @org.junit.jupiter.api.Test
     public void testNoDuplicatedResolutions() {
         TestDisplayMode firstUniqueDisplayMode = new TestDisplayMode(100, 50);
         TestDisplayMode duplicationOfFirstDisplayMode = new TestDisplayMode(100, 50);

@@ -18,28 +18,27 @@ package org.destinationsol.systems.DestructionSystemTests;
 import org.destinationsol.entitysystem.EntitySystemManager;
 import org.destinationsol.game.context.internal.ContextImpl;
 import org.destinationsol.health.components.Health;
-import org.destinationsol.modules.ModuleManager;
+import org.destinationsol.removal.components.SlatedForDeletion;
+import org.destinationsol.removal.events.DeletionEvent;
 import org.destinationsol.removal.events.RemovalForOptimizationEvent;
-import org.junit.Before;
-import org.junit.Test;
-import org.terasology.gestalt.entitysystem.component.management.ComponentManager;
+import org.destinationsol.testsupport.AssetsHelperInitializer;
+import org.destinationsol.testsupport.Box2DInitializer;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.terasology.gestalt.entitysystem.entity.EntityRef;
 
-import static org.junit.Assert.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertFalse;
 
 /**
  * Test to ensure that a {@link RemovalForOptimizationEvent} on an entity will remove that entity.
  */
-public class RemovalForOptimizationTest {
+public class RemovalForOptimizationTest implements Box2DInitializer, AssetsHelperInitializer {
 
-    private ModuleManager moduleManager;
     private EntitySystemManager entitySystemManager;
 
-    @Before
+    @BeforeEach
     public void setUp() throws Exception {
-        moduleManager = new ModuleManager();
-        moduleManager.init();
-        entitySystemManager = new EntitySystemManager(moduleManager.getEnvironment(), new ComponentManager(), new ContextImpl());
+        entitySystemManager = new EntitySystemManager(getModuleManager().getEnvironment(), getComponentManager(), new ContextImpl());
     }
 
     @Test
@@ -47,6 +46,9 @@ public class RemovalForOptimizationTest {
         EntityRef entity = entitySystemManager.getEntityManager().createEntity(new Health());
 
         entitySystemManager.sendEvent(new RemovalForOptimizationEvent(), entity);
+
+        // Emulate `DeletionUpdateSystem#update`
+        entitySystemManager.sendEvent(new DeletionEvent(), new SlatedForDeletion());
 
         assertFalse(entity.exists());
     }

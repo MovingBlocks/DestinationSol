@@ -16,15 +16,18 @@
 package org.destinationsol.assets;
 
 import org.destinationsol.assets.music.AndroidOggMusicFileFormat;
-import org.destinationsol.assets.music.OggMusic;
-import org.destinationsol.assets.music.OggMusicData;
 import org.destinationsol.assets.sound.AndroidOggSoundFileFormat;
-import org.destinationsol.assets.sound.OggSound;
 import org.destinationsol.assets.sound.OggSoundData;
+import org.destinationsol.assets.music.OggMusicData;
+import org.destinationsol.assets.music.OggMusic;
+import org.destinationsol.assets.sound.OggSound;
+import org.destinationsol.assets.ui.UIFormat;
+import org.destinationsol.assets.ui.UISkinFormat;
 import org.terasology.gestalt.assets.Asset;
 import org.terasology.gestalt.assets.AssetData;
 import org.terasology.gestalt.assets.AssetType;
 import org.terasology.gestalt.assets.ResourceUrn;
+import org.terasology.gestalt.assets.format.producer.AssetFileDataProducer;
 import org.terasology.gestalt.assets.module.ModuleAwareAssetTypeManager;
 import org.terasology.gestalt.assets.module.ModuleAwareAssetTypeManagerImpl;
 import org.terasology.gestalt.assets.module.ModuleDependencyResolutionStrategy;
@@ -35,6 +38,13 @@ import org.terasology.gestalt.entitysystem.prefab.Prefab;
 import org.terasology.gestalt.entitysystem.prefab.PrefabJsonFormat;
 import org.terasology.gestalt.module.ModuleEnvironment;
 import org.terasology.gestalt.naming.Name;
+import org.terasology.nui.UIWidget;
+import org.terasology.nui.asset.UIElement;
+import org.terasology.nui.reflection.WidgetLibrary;
+import org.terasology.nui.skin.UISkin;
+import org.terasology.reflection.copy.CopyStrategyLibrary;
+import org.terasology.reflection.reflect.ReflectFactory;
+import org.terasology.reflection.reflect.ReflectionReflectFactory;
 
 import java.util.Optional;
 import java.util.Set;
@@ -62,6 +72,20 @@ public class AssetHelper {
                         new ComponentTypeIndex(environment, new ModuleDependencyResolutionStrategy(
                                 new ModuleEnvironmentDependencyProvider(environment))),
                 componentManager, assetTypeManager.getAssetManager()).create());
+
+        // The NUI widgets are loaded here so that they can be found when reading the UI JSON files (in UIFormat.UIWidgetTypeAdapter)
+        ReflectFactory reflectFactory = new ReflectionReflectFactory();
+        WidgetLibrary widgetLibrary = new WidgetLibrary(environment, reflectFactory, new CopyStrategyLibrary(reflectFactory));
+        for (Class<? extends UIWidget> widgetClass : environment.getSubtypesOf(UIWidget.class)) {
+            Name moduleName = environment.getModuleProviding(widgetClass);
+            widgetLibrary.register(new ResourceUrn(moduleName, new Name(widgetClass.getSimpleName())), widgetClass);
+        }
+
+        assetTypeManager.createAssetType(UISkin.class, UISkin::new, "skins");
+        ((AssetFileDataProducer)assetTypeManager.getAssetType(UISkin.class).get().getProducers().get(0)).addAssetFormat(new UISkinFormat(widgetLibrary));
+
+        assetTypeManager.createAssetType(UIElement.class, UIElement::new, "ui");
+        ((AssetFileDataProducer)assetTypeManager.getAssetType(UIElement.class).get().getProducers().get(0)).addAssetFormat(new UIFormat(widgetLibrary));
 
         assetTypeManager.switchEnvironment(environment);
     }

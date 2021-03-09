@@ -21,13 +21,13 @@ import org.destinationsol.health.components.Health;
 import org.destinationsol.health.events.DamageEvent;
 import org.destinationsol.modules.ModuleManager;
 import org.destinationsol.removal.systems.DestroyOnZeroHealthSystem;
-import org.junit.Before;
-import org.junit.Ignore;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Disabled;
+import org.junit.jupiter.api.Test;
 import org.terasology.gestalt.entitysystem.component.management.ComponentManager;
 import org.terasology.gestalt.entitysystem.entity.EntityRef;
 
-import static org.junit.Assert.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 /**
  * Test to ensure that a damage event that would make the health become negative reduces it to zero instead.
@@ -36,7 +36,7 @@ public class NonNegativeHealthTest {
     private ModuleManager moduleManager;
     private EntitySystemManager entitySystemManager;
 
-    @Before
+    @BeforeEach
     public void setUp() throws Exception {
         moduleManager = new ModuleManager();
         moduleManager.init();
@@ -49,7 +49,7 @@ public class NonNegativeHealthTest {
      * so the behavior of its components is effectively unspecified.
      */
     @Test
-    @Ignore
+    @Disabled
     public void testDamageDoesntMakeHealthBecomeNegative() {
         Health health;
         EntityRef entity = entitySystemManager.getEntityManager().createEntity(new Health());

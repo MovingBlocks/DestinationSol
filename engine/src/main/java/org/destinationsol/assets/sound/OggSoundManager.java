@@ -27,6 +27,7 @@ import org.destinationsol.common.SolRandom;
 import org.destinationsol.game.DebugOptions;
 import org.destinationsol.game.GameDrawer;
 import org.destinationsol.game.Hero;
+import org.destinationsol.game.SolCam;
 import org.destinationsol.game.SolGame;
 import org.destinationsol.game.SolObject;
 import org.destinationsol.game.UpdateAwareSystem;
@@ -80,9 +81,12 @@ public class OggSoundManager implements UpdateAwareSystem {
     private final Map<EntityRef, Map<OggSound, Float>> loopedSoundMapOfEntities;
     /**
      * Used for drawing debug hints when {@link DebugOptions#SOUND_INFO} flag is set. See
-     * {@link #drawDebug(GameDrawer, SolGame)} for more info.
+     * {@link #drawDebug(GameDrawer, SolCam)} for more info.
      */
     private final DebugHintDrawer debugHintDrawer;
+
+    //A reference to the camera, which represents the on-screen area.
+    private final SolCam solCam;
 
     /**
      * This is used only in {@link #update(SolGame, float)}, and is used for ensuring some more resource expensive operations
@@ -99,7 +103,7 @@ public class OggSoundManager implements UpdateAwareSystem {
         loopedSoundMapOfEntities = new HashMap<>();
         debugHintDrawer = new DebugHintDrawer();
         solApplication = context.get(SolApplication.class);
-
+        this.solCam = context.get(SolCam.class);
     }
 
     /**
@@ -270,7 +274,7 @@ public class OggSoundManager implements UpdateAwareSystem {
     private float getVolume(SolGame game, Vector2 position, float volumeMultiplier, OggSound sound) {
         float globalVolumeMultiplier = solApplication.getOptions().sfxVolume.getVolume();
 
-        Vector2 cameraPosition = game.getCam().getPosition();
+        Vector2 cameraPosition = solCam.getPosition();
         Planet nearestPlanet = game.getPlanetManager().getNearestPlanet();
 
         float airPercentage = 0;
@@ -362,16 +366,16 @@ public class OggSoundManager implements UpdateAwareSystem {
      * Draws info about recently played sounds in player proximity when {@link DebugOptions#SOUND_INFO} flag is set.
      *
      * @param drawer GameDrawer to use for drawing
-     * @param game   Game to draw to.
+     * @param solCam Display information for drawing
      */
-    public void drawDebug(GameDrawer drawer, SolGame game) {
+    public void drawDebug(GameDrawer drawer, SolCam solCam) {
         if (DebugOptions.SOUND_INFO) {
-            debugHintDrawer.draw(drawer, game);
+            debugHintDrawer.draw(drawer, solCam);
         }
     }
 
     /**
-     * Updates drawer used in {@link #drawDebug(GameDrawer, SolGame)} and removes unnecessary objects.
+     * Updates drawer used in {@link #drawDebug(GameDrawer, SolCam)} and removes unnecessary objects.
      *
      * @param game Game currently in progress.
      */

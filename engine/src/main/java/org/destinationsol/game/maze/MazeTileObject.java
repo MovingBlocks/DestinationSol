@@ -24,6 +24,7 @@ import com.badlogic.gdx.physics.box2d.BodyDef;
 import com.badlogic.gdx.physics.box2d.ChainShape;
 import com.badlogic.gdx.physics.box2d.Fixture;
 import org.destinationsol.Const;
+import org.destinationsol.assets.sound.SpecialSounds;
 import org.destinationsol.common.SolColor;
 import org.destinationsol.game.DmgType;
 import org.destinationsol.game.FarObject;
@@ -72,7 +73,7 @@ public class MazeTileObject implements SolObject {
 
     @Override
     public void receiveDmg(float dmg, SolGame game, Vector2 position, DmgType dmgType) {
-        game.getSpecialSounds().playHit(game, this, position, dmgType);
+        game.getContext().get(SpecialSounds.class).playHit(game, this, position, dmgType);
     }
 
     @Override

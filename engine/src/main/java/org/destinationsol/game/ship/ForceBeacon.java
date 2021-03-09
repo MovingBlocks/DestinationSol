@@ -17,6 +17,7 @@
 package org.destinationsol.game.ship;
 
 import com.badlogic.gdx.math.Vector2;
+import org.destinationsol.assets.sound.SpecialSounds;
 import org.destinationsol.common.SolMath;
 import org.destinationsol.game.Faction;
 import org.destinationsol.game.SolGame;
@@ -71,7 +72,7 @@ public class ForceBeacon {
                     toMe.add(ownVelocity);
                 }
                 ship.getHull().getBody().setLinearVelocity(toMe);
-                game.getSoundManager().play(game, game.getSpecialSounds().forceBeaconWork, null, ship);
+                game.getSoundManager().play(game, game.getContext().get(SpecialSounds.class).forceBeaconWork, null, ship);
                 if (toMeLen < minLen) {
                     res = ship;
                     minLen = toMeLen;

@@ -23,6 +23,7 @@ import org.destinationsol.game.Faction;
 import org.destinationsol.game.SolGame;
 import org.destinationsol.game.SolObject;
 import org.destinationsol.game.drawables.Drawable;
+import org.destinationsol.game.drawables.DrawableManager;
 import org.destinationsol.game.input.Shooter;
 import org.destinationsol.game.item.Gun;
 import org.destinationsol.game.item.ItemContainer;
@@ -90,7 +91,7 @@ public class GunMount {
         if (myGun != null) {
             List<Drawable> dras1 = myGun.getDrawables();
             drawables.removeAll(dras1);
-            game.getDrawableManager().removeAll(dras1);
+            game.getContext().get(DrawableManager.class).removeAll(dras1);
             myGun.getItem().setEquipped(0);
             myGun = null;
         }
@@ -102,7 +103,7 @@ public class GunMount {
             myGun.getItem().setEquipped(slotNr);
             List<Drawable> dras1 = myGun.getDrawables();
             drawables.addAll(dras1);
-            game.getDrawableManager().addAll(dras1);
+            game.getContext().get(DrawableManager.class).addAll(dras1);
         }
     }
 

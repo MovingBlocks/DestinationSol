@@ -19,6 +19,7 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.TimeUtils;
 import org.destinationsol.common.DebugCol;
 import org.destinationsol.game.GameDrawer;
+import org.destinationsol.game.SolCam;
 import org.destinationsol.game.SolGame;
 import org.destinationsol.game.SolObject;
 import org.destinationsol.location.components.Position;
@@ -99,8 +100,8 @@ public class DebugHint {
         return myMsgs.isEmpty();
     }
 
-    public void draw(GameDrawer drawer, SolGame game) {
-        float fontSz = game.getCam().getDebugFontSize();
+    public void draw(GameDrawer drawer, SolCam solCam) {
+        float fontSz = solCam.getDebugFontSize();
         drawer.drawString(myMsg, position.x, position.y, fontSz, false, DebugCol.HINT);
     }
 }

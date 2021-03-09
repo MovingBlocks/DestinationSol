@@ -4,15 +4,12 @@ apply plugin: 'idea'
 apply plugin: 'project-report'
 apply plugin: 'checkstyle'
 apply plugin: 'pmd'
-apply plugin: 'findbugs'
-
-// Computes code coverage of (unit) tests
+apply plugin: 'com.github.spotbugs'
 apply plugin: 'jacoco'
 
 dependencies {
-    checkstyle('com.puppycrawl.tools:checkstyle:6.5')
-    pmd('net.sourceforge.pmd:pmd-core:5.3.3')
-    pmd('net.sourceforge.pmd:pmd-java:5.3.3')
+    pmd('net.sourceforge.pmd:pmd-core:6.15.0')
+    pmd('net.sourceforge.pmd:pmd-java:6.15.0')
     // the FindBugs version is set in the configuration
 }
 
@@ -57,14 +54,10 @@ test {
 
     // Arguments to include while running tests
     jvmArgs '-Xms512m', '-Xmx1024m'
-
-    jacoco {
-        append = false
-    }
 }
 
 jacoco {
-    toolVersion = "0.7.4.201502262128"
+    toolVersion = "0.8.5"
 }
 
 jacocoTestReport {
@@ -93,10 +86,19 @@ pmd {
     ruleSets = []
 }
 
-findbugs {
+spotbugs {
+    toolVersion = '4.0.0'
     ignoreFailures = true
-    toolVersion = '3.0.1'
     excludeFilter = new File(rootDir, "config/metrics/findbugs/findbugs-exclude.xml")
+}
+
+spotbugsMain {
+    reports {
+        xml {
+            enabled = true
+            destination = file("$buildDir/reports/spotbugs/main/spotbugs.xml")
+        }
+    }
 }
 
 // TODO: Temporary until javadoc has been fixed for Java 8 everywhere
@@ -110,22 +112,6 @@ tasks.withType(Checkstyle) {
 
 tasks.withType(Pmd) {
     group = 'Reporting'
-}
-
-tasks.withType(FindBugs) {
-    group = 'Reporting'
-    reports {
-        xml.enabled = false
-        html.enabled = true
-    }
-}
-
-//HACK: FindBugs throws an exception with modules that contain no code.
-String[] srcDir = sourceSets.main.java.srcDirs.iterator().next().list()
-if (srcDir == null || srcDir.length == 0) {
-    findbugs {
-        sourceSets = []
-    }
 }
 
 // Make sure our config file for code analytics get extracted (vulnerability: non-IDE execution of single analytic)

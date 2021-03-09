@@ -50,9 +50,11 @@ import org.destinationsol.rendering.events.RenderEvent;
 import org.destinationsol.entitysystem.ComponentSystemManager;
 import org.destinationsol.entitysystem.EntitySystemManager;
 import org.destinationsol.entitysystem.SerialisationManager;
+import org.destinationsol.game.SolCam;
 import org.destinationsol.game.console.adapter.ParameterAdapterManager;
 import org.destinationsol.game.context.Context;
 import org.destinationsol.game.context.internal.ContextImpl;
+import org.destinationsol.game.drawables.DrawableManager;
 import org.destinationsol.game.item.ItemManager;
 import org.destinationsol.game.item.LootBuilder;
 import org.destinationsol.location.components.Position;
@@ -68,6 +70,7 @@ import org.destinationsol.ui.ResizeSubscriber;
 import org.destinationsol.ui.SolInputManager;
 import org.destinationsol.ui.SolLayouts;
 import org.destinationsol.ui.UiDrawer;
+import org.destinationsol.ui.nui.NUIManager;
 import org.destinationsol.util.FramerateLimiter;
 import org.destinationsol.util.InjectionHelper;
 import org.slf4j.Logger;
@@ -109,6 +112,7 @@ public class SolApplication implements ApplicationListener {
     private String fatalErrorTrace;
     private SolGame solGame;
     private ParameterAdapterManager parameterAdapterManager;
+    private NUIManager nuiManager;
     private Context context;
     // TODO: Make this non-static.
     public static DisplayDimensions displayDimensions;
@@ -149,22 +153,27 @@ public class SolApplication implements ApplicationListener {
         logger.info("\n\n ------------------------------------------------------------ \n");
         moduleManager.printAvailableModules();
 
+        displayDimensions = new DisplayDimensions(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
+        commonDrawer = new CommonDrawer();
+        uiDrawer = new UiDrawer(commonDrawer);
+        layouts = new SolLayouts();
+
+        SolCam camera = new SolCam();
+        context.put(SolCam.class, camera);
+
         musicManager = new OggMusicManager(options);
         soundManager = new OggSoundManager(context);
         inputManager = new SolInputManager(soundManager, context);
 
         musicManager.playMusic(OggMusicManager.MENU_MUSIC_SET, options);
 
-        displayDimensions = new DisplayDimensions(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
-        commonDrawer = new CommonDrawer();
-        uiDrawer = new UiDrawer(commonDrawer);
-        layouts = new SolLayouts();
-
         menuBackgroundManager = new MenuBackgroundManager(displayDimensions);
         menuScreens = new MenuScreens(layouts, isMobile(), options);
 
         inputManager.setScreen(this, menuScreens.main);
         parameterAdapterManager = ParameterAdapterManager.createCore(this);
+
+        nuiManager = new NUIManager(this, context, commonDrawer, options);
     }
 
     @Override
@@ -239,6 +248,7 @@ public class SolApplication implements ApplicationListener {
         }
 
         inputManager.update(this);
+        nuiManager.update(this);
 
         if (solGame != null) {
             solGame.update();
@@ -255,7 +265,7 @@ public class SolApplication implements ApplicationListener {
         commonDrawer.begin();
 
         if (solGame != null) {
-            solGame.draw();
+            context.get(DrawableManager.class).draw(solGame, context);
 
             //This event causes each entity with a `Renderable` component to be rendered onscreen
             entitySystemManager.sendEvent(new RenderEvent(), new Renderable(), new Position());
@@ -295,6 +305,8 @@ public class SolApplication implements ApplicationListener {
         }
         uiDrawer.updateMtx();
         inputManager.draw(uiDrawer, this);
+        nuiManager.draw(commonDrawer);
+        inputManager.drawCursor(uiDrawer);
 
         if (solGame != null) {
             solGame.drawDebugUi(uiDrawer);
@@ -347,7 +359,7 @@ public class SolApplication implements ApplicationListener {
             }
         }
 
-        factionDisplay = new FactionDisplay(solGame.getCam());
+        factionDisplay = new FactionDisplay(context.get(SolCam.class));
         inputManager.setScreen(this, solGame.getScreens().mainGameScreen);
     }
 
@@ -405,6 +417,14 @@ public class SolApplication implements ApplicationListener {
 
     public MenuBackgroundManager getMenuBackgroundManager() {
         return menuBackgroundManager;
+    }
+
+    public Context getContext() {
+        return context;
+    }
+  
+    public NUIManager getNuiManager() {
+        return nuiManager;
     }
 
     // TODO: Make this non-static.

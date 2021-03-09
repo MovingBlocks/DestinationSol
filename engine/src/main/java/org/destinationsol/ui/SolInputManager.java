@@ -353,7 +353,9 @@ public class SolInputManager {
         if (tutorialManager != null && getTopScreen() != game.getScreens().menuScreen) {
             tutorialManager.draw(uiDrawer);
         }
+    }
 
+    public void drawCursor(UiDrawer uiDrawer) {
         if (currCursor != null) {
             uiDrawer.draw(currCursor, CURSOR_SZ, CURSOR_SZ, CURSOR_SZ / 2, CURSOR_SZ / 2, mousePos.x, mousePos.y, 0, SolColor.WHITE);
         }

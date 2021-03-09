@@ -49,6 +49,9 @@ import org.destinationsol.ui.SolUiBaseScreen;
 import org.destinationsol.ui.SolUiControl;
 import org.destinationsol.ui.SolUiScreen;
 import org.destinationsol.ui.UiDrawer;
+import org.destinationsol.ui.nui.screens.ConsoleScreen;
+import org.terasology.gestalt.assets.ResourceUrn;
+import org.terasology.nui.asset.UIElement;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -96,6 +99,8 @@ public class MainGameScreen extends SolUiBaseScreen {
     private final TextPlace myChargesExcessTp;
     private final TextPlace myMoneyExcessTp;
     private final SolApplication solApplication;
+    private final Context context;
+    private final ConsoleScreen consoleScreen;
 
     private List<SolUiScreen> gameOverlayScreens = new ArrayList<>();
     private List<WarnDrawer> warnDrawers = new ArrayList<>();
@@ -103,6 +108,7 @@ public class MainGameScreen extends SolUiBaseScreen {
     MainGameScreen(RightPaneLayout rightPaneLayout, Context context) {
         DisplayDimensions displayDimensions = SolApplication.displayDimensions;
 
+        this.context = context;
         solApplication = context.get(SolApplication.class);
         GameOptions gameOptions = solApplication.getOptions();
 
@@ -174,6 +180,8 @@ public class MainGameScreen extends SolUiBaseScreen {
         compassTexture = Assets.getAtlasRegion("engine:uiCompass");
         myCompassTint = SolColor.col(1, 0);
 
+        consoleScreen = (ConsoleScreen) Assets.getAssetHelper().get(new ResourceUrn("engine:console"), UIElement.class).get().getRootWidget();
+
         myLifeTp = new TextPlace(SolColor.W50);
         myRepairsExcessTp = new TextPlace(SolColor.WHITE);
         myShieldLifeTp = new TextPlace(SolColor.W50);
@@ -197,7 +205,7 @@ public class MainGameScreen extends SolUiBaseScreen {
     private void maybeDrawHeight(UiDrawer drawer) {
         SolGame game = solApplication.getGame();
         Planet np = game.getPlanetManager().getNearestPlanet();
-        SolCam cam = game.getCam();
+        SolCam cam = context.get(SolCam.class);
         Vector2 camPos = cam.getPosition();
         if (np != null && np.getPosition().dst(camPos) < np.getFullHeight()) {
             drawHeight(drawer, np, camPos, cam.getAngle());
@@ -237,12 +245,11 @@ public class MainGameScreen extends SolUiBaseScreen {
             warnDrawer.update(game);
         }
 
-        zoneNameAnnouncer.update(game);
+        zoneNameAnnouncer.update(game, context);
 
         if (menuControl.isJustOff()) {
             inputMan.setScreen(solApplication, screens.menuScreen);
         }
-
         boolean controlsEnabled = inputMan.getTopScreen() == this;
         shipControl.update(solApplication, controlsEnabled);
 
@@ -289,12 +296,30 @@ public class MainGameScreen extends SolUiBaseScreen {
 
         updateTalk(game);
 
+        if (solApplication.getNuiManager().hasScreen(consoleScreen)) {
+            controls.forEach(x -> x.setEnabled(false));
+            consoleControlGrave.setEnabled(true);
+            consoleControlF1.setEnabled(true);
+        }
+
         if (pauseControl.isJustOff()) {
             game.setPaused(!game.isPaused());
         }
 
+        if (consoleScreen.isConsoleJustClosed()) {
+            game.setPaused(false);
+            controls.forEach(x -> x.setEnabled(true));
+            consoleControlGrave.setEnabled(true);
+            consoleControlF1.setEnabled(true);
+        }
+
         if (consoleControlGrave.isJustOff() || consoleControlF1.isJustOff()) {
-            inputMan.setScreen(solApplication, screens.consoleScreen);
+            if (solApplication.getNuiManager().hasScreen(consoleScreen)) {
+                solApplication.getNuiManager().removeScreen(consoleScreen);
+            } else {
+                solApplication.getNuiManager().pushScreen(consoleScreen);
+                game.setPaused(true);
+            }
         }
 
         for (SolUiScreen screen : gameOverlayScreens) {
@@ -423,7 +448,7 @@ public class MainGameScreen extends SolUiBaseScreen {
         myMoneyExcessTp.text = null;
 
         maybeDrawHeight(uiDrawer);
-        borderDrawer.draw(uiDrawer, solApplication);
+        borderDrawer.draw(uiDrawer, solApplication, context);
 
         SolGame game = solApplication.getGame();
         Hero hero = game.getHero();
@@ -650,7 +675,7 @@ public class MainGameScreen extends SolUiBaseScreen {
             float heroCap = HardnessCalc.getShipDmgCap(hero.getShip());
             List<SolObject> objs = game.getObjectManager().getObjects();
             FactionManager fm = game.getFactionMan();
-            SolCam cam = game.getCam();
+            SolCam cam = game.getContext().get(SolCam.class);
             float viewDist = cam.getViewDistance();
             float dps = 0;
 
