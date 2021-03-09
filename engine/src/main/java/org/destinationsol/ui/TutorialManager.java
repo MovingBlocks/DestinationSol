@@ -63,7 +63,7 @@ public class TutorialManager implements UpdateAwareSystem {
 
     public void start() {
         MainGameScreen main = screens.mainGameScreen;
-        boolean mouseCtrl = main.shipControl instanceof ShipMixedControl;
+        boolean mouseCtrl = main.getShipControl() instanceof ShipMixedControl;
         SolUiControl shootCtrl = null;
         String shootKey;
         String shootKey2;
@@ -74,14 +74,14 @@ public class TutorialManager implements UpdateAwareSystem {
         UIWarnButton nuiLeftCtrl = null;
         UIWarnButton nuiAbilityCtrl = null;
         if (mouseCtrl) {
-            ShipMixedControl mixedControl = (ShipMixedControl) main.shipControl;
+            ShipMixedControl mixedControl = (ShipMixedControl) main.getShipControl();
             shootCtrl = mixedControl.shootCtrl;
             shootKey = "(LEFT mouse button)";
             shootKey2 = "(Click LEFT mouse button)";
             upCtrl = mixedControl.upCtrl;
             abilityCtrl = mixedControl.abilityCtrl;
         } else {
-            UIShipControlsScreen kbControl = (UIShipControlsScreen) main.shipControl;
+            UIShipControlsScreen kbControl = (UIShipControlsScreen) main.getShipControl();
             nuiShootCtrl = kbControl.getGun1Button();
             nuiUpCtrl = kbControl.getForwardButton();
             nuiLeftCtrl = kbControl.getLeftButton();
