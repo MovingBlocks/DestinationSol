@@ -124,7 +124,9 @@ public class SolGame {
         context.put(GameDrawer.class, drawer);
         gameColors = new GameColors();
         soundManager = solApplication.getSoundManager();
+        context.put(OggSoundManager.class, soundManager);
         specialSounds = new SpecialSounds(soundManager);
+        context.put(SpecialSounds.class, specialSounds);
         drawableManager = new DrawableManager(drawer);
         camera = new SolCam();
         gameScreens = new GameScreens(solApplication, context);

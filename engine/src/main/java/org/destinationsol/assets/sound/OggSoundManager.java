@@ -201,6 +201,22 @@ public class OggSoundManager implements UpdateAwareSystem {
     /**
      * Plays a sound at a particular position. If the sound has an associated loop, this will loop the sound, coming
      * from the entity.
+     * <p>
+     * {@code source} must not be null if the sound is specified to loop, and at least one of {@code source} or
+     * {@code position} must be specified.
+     *
+     * @param game          Game to play the sound in
+     * @param playableSound The sound to play
+     * @param position      Position to play the sound at
+     * @param soundSource   Bearer of a sound. Must not be null for looped sounds.
+     */
+    public void play(SolGame game, PlayableSound playableSound, @NotNull Vector2 position, @NotNull EntityRef soundSource) {
+        play(game, playableSound, position, soundSource, 1f);
+    }
+
+    /**
+     * Plays a sound at a particular position. If the sound has an associated loop, this will loop the sound, coming
+     * from the entity.
      *
      * @param game             Game to play the sound in
      * @param playableSound    The sound to play
@@ -329,7 +345,7 @@ public class OggSoundManager implements UpdateAwareSystem {
         Map<OggSound, Float> looped = loopedSoundMapOfEntities.get(source);
         if (looped == null) {
             looped = new HashMap<>();
-            loopedSoundMapOfEntities                                .put(source, looped);
+            loopedSoundMapOfEntities.put(source, looped);
             return false;
         } else {
             Float endTime = looped.get(sound);

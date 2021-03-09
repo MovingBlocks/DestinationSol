@@ -13,21 +13,20 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.destinationsol.sound.events;
+package org.destinationsol.material.components;
 
-import org.destinationsol.assets.sound.PlayableSound;
-import org.terasology.gestalt.entitysystem.event.Event;
+import org.destinationsol.material.MaterialType;
+import org.terasology.gestalt.entitysystem.component.Component;
 
 /**
- * Plays a sound emitting from an entity.
+ * Indicates what type of material the entity is made of.
  */
-public class SoundEvent implements Event {
+public class Material implements Component<Material> {
 
-    public final PlayableSound playableSound;
-    public final float volumeMultplier;
+    public MaterialType materialType;
 
-    public SoundEvent(PlayableSound playableSound, float volumeMultplier) {
-        this.playableSound = playableSound;
-        this.volumeMultplier = volumeMultplier;
+    @Override
+    public void copy(Material other) {
+        this.materialType = other.materialType;
     }
 }

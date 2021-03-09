@@ -15,6 +15,7 @@
  */
 package org.destinationsol.health.events;
 
+import org.destinationsol.game.DmgType;
 import org.terasology.gestalt.entitysystem.event.Event;
 
 /**
@@ -23,12 +24,22 @@ import org.terasology.gestalt.entitysystem.event.Event;
 public class DamageEvent implements Event {
 
     private float damage;
+    private DmgType damageType;
 
     public DamageEvent(float damage) {
         this.damage = damage;
     }
 
+    public DamageEvent(float damage, DmgType damageType) {
+        this.damage = damage;
+        this.damageType = damageType;
+    }
+
     public float getDamage() {
         return damage;
+    }
+
+    public DmgType getDamageType() {
+        return damageType;
     }
 }

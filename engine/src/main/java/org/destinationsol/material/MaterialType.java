@@ -13,21 +13,11 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.destinationsol.sound.events;
-
-import org.destinationsol.assets.sound.PlayableSound;
-import org.terasology.gestalt.entitysystem.event.Event;
+package org.destinationsol.material;
 
 /**
- * Plays a sound emitting from an entity.
+ * The types of materials that an entity can be composed of.
  */
-public class SoundEvent implements Event {
-
-    public final PlayableSound playableSound;
-    public final float volumeMultplier;
-
-    public SoundEvent(PlayableSound playableSound, float volumeMultplier) {
-        this.playableSound = playableSound;
-        this.volumeMultplier = volumeMultplier;
-    }
+public enum MaterialType {
+    METAL, ROCK
 }
