@@ -19,10 +19,10 @@ import com.google.common.collect.Sets;
 import com.google.common.reflect.Reflection;
 import org.destinationsol.assets.AssetHelper;
 import org.destinationsol.assets.Assets;
-import org.destinationsol.assets.music.OggMusic;
-import org.destinationsol.assets.sound.OggSound;
 import org.destinationsol.assets.emitters.Emitter;
 import org.destinationsol.assets.json.Json;
+import org.destinationsol.assets.music.OggMusic;
+import org.destinationsol.assets.sound.OggSound;
 import org.destinationsol.assets.textures.DSTexture;
 import org.reflections.Reflections;
 import org.reflections.scanners.SubTypesScanner;
@@ -31,7 +31,6 @@ import org.reflections.util.ClasspathHelper;
 import org.reflections.util.ConfigurationBuilder;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.terasology.context.annotation.Introspected;
 import org.terasology.gestalt.assets.ResourceUrn;
 import org.terasology.gestalt.module.Module;
 import org.terasology.gestalt.module.ModuleEnvironment;
@@ -47,8 +46,8 @@ import org.terasology.gestalt.module.sandbox.ModuleSecurityPolicy;
 import org.terasology.gestalt.module.sandbox.StandardPermissionProviderFactory;
 import org.terasology.gestalt.naming.Name;
 import org.terasology.gestalt.naming.Version;
-import org.terasology.nui.UIWidget;
 
+import javax.inject.Inject;
 import java.io.File;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.ReflectPermission;
@@ -60,7 +59,6 @@ import java.util.Set;
 /**
  * A class used for loading and managing modules in Destination Sol.
  */
-@Introspected
 public class ModuleManager {
     private static final Logger logger = LoggerFactory.getLogger(ModuleManager.class);
     // The API whitelist is based off Terasology's
@@ -180,6 +178,7 @@ public class ModuleManager {
     protected ModuleRegistry registry;
     protected Module engineModule;
 
+    @Inject
     public ModuleManager() {
     }
 

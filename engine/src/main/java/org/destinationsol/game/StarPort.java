@@ -37,7 +37,6 @@ import org.destinationsol.game.planet.Planet;
 import org.destinationsol.game.ship.FarShip;
 import org.destinationsol.game.ship.ForceBeacon;
 import org.destinationsol.game.ship.SolShip;
-import org.terasology.context.annotation.Introspected;
 
 import javax.inject.Inject;
 import java.util.ArrayList;
@@ -228,7 +227,6 @@ public class StarPort implements SolObject {
         return toPlanet;
     }
 
-    @Introspected
     public static class Builder {
         public static final float FLOW_DIST = .26f * SIZE;
         private final CollisionMeshLoader myLoader;

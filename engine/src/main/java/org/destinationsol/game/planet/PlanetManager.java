@@ -36,13 +36,11 @@ import org.destinationsol.game.maze.MazeConfigs;
 import org.destinationsol.game.ship.SolShip;
 import org.destinationsol.game.ship.hulls.Hull;
 import org.destinationsol.game.ship.hulls.HullConfig;
-import org.terasology.context.annotation.Introspected;
 
 import javax.inject.Inject;
 import java.util.ArrayList;
 import java.util.List;
 
-@Introspected
 public class PlanetManager implements UpdateAwareSystem {
     private final ArrayList<SolSystem> systems;
     private final ArrayList<Planet> planets;

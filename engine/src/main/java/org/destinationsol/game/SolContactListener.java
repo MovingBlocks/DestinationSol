@@ -20,20 +20,16 @@ import com.badlogic.gdx.physics.box2d.Contact;
 import com.badlogic.gdx.physics.box2d.ContactImpulse;
 import com.badlogic.gdx.physics.box2d.ContactListener;
 import com.badlogic.gdx.physics.box2d.Manifold;
-import org.destinationsol.common.Immutable;
-import org.destinationsol.common.In;
 import org.destinationsol.common.SolMath;
 import org.destinationsol.entitysystem.EntitySystemManager;
 import org.destinationsol.force.events.ContactEvent;
 import org.destinationsol.force.events.ImpulseEvent;
 import org.destinationsol.game.projectile.Projectile;
-import org.terasology.context.annotation.Introspected;
 import org.terasology.gestalt.entitysystem.entity.EntityRef;
 
 import javax.inject.Inject;
 import javax.inject.Provider;
 
-@Introspected
 public class SolContactListener implements ContactListener {
 
     @Inject

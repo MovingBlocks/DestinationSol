@@ -20,12 +20,10 @@ import org.destinationsol.Const;
 import org.destinationsol.game.DmgType;
 import org.destinationsol.game.SolGame;
 import org.destinationsol.game.SolObject;
-import org.terasology.context.annotation.Introspected;
 
 import javax.inject.Inject;
 import java.util.Arrays;
 
-@Introspected
 public class SpecialSounds {
 
     public final PlayableSound metalColl;

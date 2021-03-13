@@ -25,13 +25,11 @@ import org.destinationsol.game.SolGame;
 import org.destinationsol.game.UpdateAwareSystem;
 import org.destinationsol.ui.FontSize;
 import org.destinationsol.ui.UiDrawer;
-import org.terasology.context.annotation.Introspected;
 
 import javax.inject.Inject;
 import java.util.HashSet;
 import java.util.Set;
 
-@Introspected
 public class DrawableDebugger implements UpdateAwareSystem {
     private static final float TEX_SZ = 0.1f;
     private static final float GAP = 0.01f;

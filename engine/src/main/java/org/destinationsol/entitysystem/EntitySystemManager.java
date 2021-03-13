@@ -16,9 +16,6 @@
 package org.destinationsol.entitysystem;
 
 import com.google.common.collect.Lists;
-import org.destinationsol.game.context.Context;
-import org.destinationsol.util.InjectionHelper;
-import org.terasology.context.annotation.Introspected;
 import org.terasology.gestalt.entitysystem.component.Component;
 import org.terasology.gestalt.entitysystem.component.management.ComponentManager;
 import org.terasology.gestalt.entitysystem.component.store.ArrayComponentStore;
@@ -38,7 +35,6 @@ import javax.inject.Inject;
 import java.lang.reflect.Modifier;
 import java.util.List;
 
-@Introspected
 public class EntitySystemManager {
 
     private static EntityManager entityManager;

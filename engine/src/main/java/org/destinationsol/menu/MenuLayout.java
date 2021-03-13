@@ -18,11 +18,9 @@ package org.destinationsol.menu;
 
 import com.badlogic.gdx.math.Rectangle;
 import org.destinationsol.ui.DisplayDimensions;
-import org.terasology.context.annotation.Introspected;
 
 import javax.inject.Inject;
 
-@Introspected
 public class MenuLayout {
     public static final float BG_BORDER = .03f;
     private static final int numberOfRowsTotal = 5;

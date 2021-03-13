@@ -17,9 +17,7 @@ package org.destinationsol.game;
 
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.math.Vector2;
-import com.badlogic.gdx.physics.box2d.World;
 import com.badlogic.gdx.utils.Timer;
-import org.destinationsol.CommonDrawer;
 import org.destinationsol.Const;
 import org.destinationsol.GameOptions;
 import org.destinationsol.SolApplication;
@@ -43,7 +41,6 @@ import org.destinationsol.game.item.ItemManager;
 import org.destinationsol.game.item.LootBuilder;
 import org.destinationsol.game.item.MercItem;
 import org.destinationsol.game.item.SolItem;
-import org.destinationsol.game.particle.EffectTypes;
 import org.destinationsol.game.particle.PartMan;
 import org.destinationsol.game.particle.SpecialEffects;
 import org.destinationsol.game.planet.Planet;
@@ -62,7 +59,6 @@ import org.destinationsol.ui.TutorialManager;
 import org.destinationsol.ui.UiDrawer;
 import org.destinationsol.ui.Waypoint;
 import org.destinationsol.util.InjectionHelper;
-import org.terasology.context.annotation.Introspected;
 import org.terasology.gestalt.entitysystem.entity.EntityRef;
 
 import javax.inject.Inject;
@@ -72,7 +68,6 @@ import java.util.List;
 import java.util.SortedMap;
 import java.util.TreeMap;
 
-@Introspected
 public class SolGame {
     protected boolean isTutorial;
     @Inject
@@ -145,6 +140,7 @@ public class SolGame {
 
     private EntitySystemManager entitySystemManager;
 
+    @Inject
     public SolGame() {
         this(false);
     }

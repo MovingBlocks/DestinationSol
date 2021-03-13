@@ -35,13 +35,11 @@ import org.destinationsol.entitysystem.ComponentSystemManager;
 import org.destinationsol.entitysystem.EntitySystemManager;
 import org.destinationsol.entitysystem.SerialisationManager;
 import org.destinationsol.game.DebugOptions;
-import org.destinationsol.game.SaveManager;
 import org.destinationsol.game.SolGame;
 import org.destinationsol.game.SolNames;
 import org.destinationsol.game.WorldConfig;
 import org.destinationsol.game.console.adapter.ParameterAdapterManager;
 import org.destinationsol.game.context.Context;
-import org.destinationsol.game.context.internal.ContextImpl;
 import org.destinationsol.game.drawables.DrawableLevel;
 import org.destinationsol.health.components.Health;
 import org.destinationsol.location.components.Angle;
@@ -68,10 +66,8 @@ import org.destinationsol.util.FramerateLimiter;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.terasology.context.annotation.API;
-import org.terasology.context.annotation.Introspected;
 import org.terasology.gestalt.di.BeanContext;
 import org.terasology.gestalt.di.DefaultBeanContext;
-import org.terasology.gestalt.entitysystem.component.Component;
 import org.terasology.gestalt.entitysystem.component.management.ComponentManager;
 import org.terasology.gestalt.entitysystem.entity.EntityRef;
 import sun.reflect.generics.reflectiveObjects.NotImplementedException;
@@ -80,11 +76,9 @@ import javax.inject.Inject;
 import java.io.PrintWriter;
 import java.io.StringWriter;
 import java.util.HashSet;
-import java.util.Iterator;
 import java.util.Set;
 
 @API
-@Introspected
 public class SolApplication implements ApplicationListener {
     private static final Logger logger = LoggerFactory.getLogger(SolApplication.class);
 
@@ -134,6 +128,7 @@ public class SolApplication implements ApplicationListener {
     // TODO: Make this non-static.
     private static Set<ResizeSubscriber> resizeSubscribers;
 
+    @Inject
     protected SolApplication() {
         throw new NotImplementedException();
     }

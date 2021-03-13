@@ -16,9 +16,7 @@
 package org.destinationsol.game;
 
 import com.badlogic.gdx.graphics.Color;
-import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.math.Vector2;
-import org.destinationsol.assets.Assets;
 import org.destinationsol.common.SolMath;
 import org.destinationsol.game.drawables.Drawable;
 import org.destinationsol.game.drawables.DrawableLevel;
@@ -30,13 +28,11 @@ import org.destinationsol.game.input.Pilot;
 import org.destinationsol.game.planet.PlanetBind;
 import org.destinationsol.game.ship.FarShip;
 import org.destinationsol.game.ship.SolShip;
-import org.terasology.context.annotation.Introspected;
 
 import javax.inject.Inject;
 import java.util.ArrayList;
 import java.util.List;
 
-@Introspected
 public class BeaconHandler implements UpdateAwareSystem {
     private static final float TEX_SZ = .5f;
     private static final float ROT_SPD = 30f;

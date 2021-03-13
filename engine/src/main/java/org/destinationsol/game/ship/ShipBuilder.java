@@ -55,13 +55,11 @@ import org.destinationsol.game.particle.LightSource;
 import org.destinationsol.game.ship.hulls.Hull;
 import org.destinationsol.game.ship.hulls.HullConfig;
 import org.json.JSONObject;
-import org.terasology.context.annotation.Introspected;
 
 import javax.inject.Inject;
 import java.util.ArrayList;
 import java.util.List;
 
-@Introspected
 public class ShipBuilder {
     public static final float SHIP_DENSITY = 3f;
     public static final float AVG_BATTLE_TIME = 30f;

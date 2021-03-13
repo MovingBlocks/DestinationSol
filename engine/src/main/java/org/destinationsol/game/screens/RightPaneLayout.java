@@ -17,11 +17,9 @@ package org.destinationsol.game.screens;
 
 import com.badlogic.gdx.math.Rectangle;
 import org.destinationsol.ui.DisplayDimensions;
-import org.terasology.context.annotation.Introspected;
 
 import javax.inject.Inject;
 
-@Introspected
 public class RightPaneLayout {
     private final float btnH;
     private final float btnW;

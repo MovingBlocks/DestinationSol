@@ -20,7 +20,6 @@ import org.destinationsol.body.components.BodyLinked;
 import org.destinationsol.body.events.BodyCreatedEvent;
 import org.destinationsol.body.events.BodyUpdateEvent;
 import org.destinationsol.body.events.GenerateBodyEvent;
-import org.destinationsol.common.In;
 import org.destinationsol.entitysystem.EntitySystemManager;
 import org.destinationsol.entitysystem.EventReceiver;
 import org.destinationsol.force.components.ImmuneToForce;
@@ -34,7 +33,6 @@ import org.destinationsol.location.events.PositionUpdateEvent;
 import org.destinationsol.location.events.VelocityUpdateEvent;
 import org.destinationsol.removal.events.DeletionEvent;
 import org.destinationsol.removal.systems.DestructionSystem;
-import org.terasology.context.annotation.Introspected;
 import org.terasology.gestalt.entitysystem.entity.EntityRef;
 import org.terasology.gestalt.entitysystem.event.Before;
 import org.terasology.gestalt.entitysystem.event.EventResult;
@@ -51,11 +49,14 @@ import java.util.HashMap;
  * Bodies should only be created during an update sent by an {@link UpdateAwareSystem}. Attempting to create a body at
  * any other time may cause the game to crash.
  */
-@Introspected
 public class BodyHandlerSystem implements EventReceiver {
 
     @Inject
     EntitySystemManager entitySystemManager;
+
+    @Inject
+    public BodyHandlerSystem() {
+    }
 
     private HashMap<EntityRef, Body> referenceToBodyObjects = new HashMap<>();
 

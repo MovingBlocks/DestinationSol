@@ -31,7 +31,6 @@ import org.destinationsol.game.SolObject;
 import org.destinationsol.game.UpdateAwareSystem;
 import org.destinationsol.game.planet.Planet;
 import org.destinationsol.game.sound.DebugHintDrawer;
-import org.terasology.context.annotation.Introspected;
 
 import javax.inject.Inject;
 import javax.inject.Provider;
@@ -57,7 +56,6 @@ import java.util.Map;
  * sound will be accepted only when loopTime time units has passed since the beginning of the sound's prior playback, or
  * the request is from different object.
  */
-@Introspected
 public class OggSoundManager implements UpdateAwareSystem {
     /**
      * A container for all the sounds that have been so far loaded in the game. Sounds are loaded on as needed basis,

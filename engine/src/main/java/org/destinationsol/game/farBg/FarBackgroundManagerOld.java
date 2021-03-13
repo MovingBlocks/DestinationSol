@@ -29,12 +29,10 @@ import org.destinationsol.game.GameDrawer;
 import org.destinationsol.game.SolCam;
 import org.destinationsol.game.SolGame;
 import org.destinationsol.game.planet.Planet;
-import org.terasology.context.annotation.Introspected;
 
 import javax.inject.Inject;
 import java.util.ArrayList;
 
-@Introspected
 public class FarBackgroundManagerOld {
     private final TextureAtlas.AtlasRegion nebulaTexture;
     private final ArrayList<FarBackgroundStar> stars = new ArrayList<>();

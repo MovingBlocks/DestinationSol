@@ -15,13 +15,11 @@
  */
 package org.destinationsol.health.systems;
 
-import org.destinationsol.common.In;
 import org.destinationsol.entitysystem.EntitySystemManager;
-import org.destinationsol.health.components.Health;
 import org.destinationsol.entitysystem.EventReceiver;
+import org.destinationsol.health.components.Health;
 import org.destinationsol.health.events.DamageEvent;
 import org.destinationsol.removal.events.ZeroHealthEvent;
-import org.terasology.context.annotation.Introspected;
 import org.terasology.gestalt.entitysystem.entity.EntityRef;
 import org.terasology.gestalt.entitysystem.event.EventResult;
 import org.terasology.gestalt.entitysystem.event.ReceiveEvent;
@@ -33,11 +31,15 @@ import javax.inject.Inject;
  * lowers its health by that amount. If it would lower the health to less than zero, it's reduced to zero instead. If
  * the damage is a negative amount, nothing happens.
  */
-@Introspected
 public class DamageSystem implements EventReceiver {
 
     @Inject
     EntitySystemManager entitySystemManager;
+
+    @Inject
+    public DamageSystem() {
+
+    }
 
     /**
      * Handles a damage event done to an entity with a Health component.

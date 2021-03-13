@@ -18,11 +18,9 @@ package org.destinationsol.game.screens;
 import org.destinationsol.SolApplication;
 import org.destinationsol.game.context.Context;
 import org.destinationsol.ui.SolLayouts;
-import org.terasology.context.annotation.Introspected;
 
 import javax.inject.Inject;
 
-@Introspected
 public class GameScreens {
     public final MainGameScreen mainGameScreen;
     public final MapScreen mapScreen;

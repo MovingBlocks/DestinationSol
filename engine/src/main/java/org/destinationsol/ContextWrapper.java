@@ -18,14 +18,12 @@ package org.destinationsol;
 import org.destinationsol.game.context.Context;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.terasology.context.annotation.Introspected;
 import org.terasology.gestalt.di.BeanContext;
 import org.terasology.gestalt.di.exceptions.BeanResolutionException;
 import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 
 import javax.inject.Inject;
 
-@Introspected
 public class ContextWrapper implements Context {
 
     private static final Logger logger = LoggerFactory.getLogger(ContextWrapper.class);

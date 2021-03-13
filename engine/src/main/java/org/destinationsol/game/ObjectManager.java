@@ -26,7 +26,6 @@ import org.destinationsol.game.drawables.Drawable;
 import org.destinationsol.game.drawables.DrawableManager;
 import org.destinationsol.game.drawables.FarDrawable;
 import org.destinationsol.game.ship.FarShip;
-import org.terasology.context.annotation.Introspected;
 
 import javax.inject.Inject;
 import java.util.ArrayList;
@@ -35,7 +34,6 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.function.Consumer;
 
-@Introspected
 public class ObjectManager implements UpdateAwareSystem {
     private static final float MAX_RADIUS_RECALC_AWAIT = 1f;
     private final List<SolObject> myObjs;

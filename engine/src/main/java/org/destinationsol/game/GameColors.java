@@ -19,13 +19,11 @@ import com.badlogic.gdx.graphics.Color;
 import org.destinationsol.assets.json.Validator;
 import org.destinationsol.common.SolColorUtil;
 import org.json.JSONObject;
-import org.terasology.context.annotation.Introspected;
 
 import javax.inject.Inject;
 import java.util.HashMap;
 import java.util.Map;
 
-@Introspected
 public class GameColors {
 
     public final Color fire;

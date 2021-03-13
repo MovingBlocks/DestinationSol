@@ -27,9 +27,7 @@ import org.destinationsol.game.screens.InventoryScreen;
 import org.destinationsol.game.screens.MainGameScreen;
 import org.destinationsol.game.screens.ShipKbControl;
 import org.destinationsol.game.screens.ShipMixedControl;
-import org.terasology.context.annotation.Introspected;
 
-import javax.inject.Inject;
 import java.util.ArrayList;
 import java.util.List;
 

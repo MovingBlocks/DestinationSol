@@ -22,13 +22,11 @@ import org.destinationsol.common.SolMath;
 import org.destinationsol.game.RemoveController;
 import org.destinationsol.game.SolGame;
 import org.destinationsol.game.UpdateAwareSystem;
-import org.terasology.context.annotation.Introspected;
 
 import javax.inject.Inject;
 import java.util.HashSet;
 import java.util.Set;
 
-@Introspected
 public class ChunkManager implements UpdateAwareSystem {
     private static final int MAX_FILL_DIST = 1;
     private static final int MIN_REMOVE_DIST = MAX_FILL_DIST + 2;

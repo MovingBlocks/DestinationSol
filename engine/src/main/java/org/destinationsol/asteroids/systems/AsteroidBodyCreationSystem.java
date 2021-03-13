@@ -25,7 +25,6 @@ import org.destinationsol.Const;
 import org.destinationsol.asteroids.components.AsteroidMesh;
 import org.destinationsol.body.events.BodyCreatedEvent;
 import org.destinationsol.body.events.GenerateBodyEvent;
-import org.destinationsol.common.In;
 import org.destinationsol.entitysystem.EntitySystemManager;
 import org.destinationsol.entitysystem.EventReceiver;
 import org.destinationsol.game.CollisionMeshLoader;
@@ -35,7 +34,6 @@ import org.destinationsol.location.components.Position;
 import org.destinationsol.rendering.RenderableElement;
 import org.destinationsol.rendering.components.Renderable;
 import org.destinationsol.size.components.Size;
-import org.terasology.context.annotation.Introspected;
 import org.terasology.gestalt.entitysystem.entity.EntityRef;
 import org.terasology.gestalt.entitysystem.event.EventResult;
 import org.terasology.gestalt.entitysystem.event.ReceiveEvent;
@@ -53,7 +51,6 @@ import java.util.ArrayList;
  * Bodies should only be created during an update sent by an {@link UpdateAwareSystem}. Attempting to create a body at
  * any other time may cause the game to crash.
  */
-@Introspected
 public class AsteroidBodyCreationSystem implements EventReceiver {
 
     private static final float DENSITY = 10f;
@@ -65,6 +62,11 @@ public class AsteroidBodyCreationSystem implements EventReceiver {
     World world;
 
     private final CollisionMeshLoader collisionMeshLoader = new CollisionMeshLoader("engine:asteroids");
+
+    @Inject
+    public AsteroidBodyCreationSystem(){
+
+    }
 
     @ReceiveEvent(components = {AsteroidMesh.class, Size.class, Position.class, Angle.class, Renderable.class})
     public EventResult onGenerateBody(GenerateBodyEvent event, EntityRef entity) {

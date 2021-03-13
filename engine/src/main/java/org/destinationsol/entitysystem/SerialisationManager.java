@@ -15,6 +15,19 @@
  */
 package org.destinationsol.entitysystem;
 
+import com.google.common.collect.Lists;
+import com.google.protobuf.ByteString;
+import org.destinationsol.game.SaveManager;
+import org.destinationsol.modules.ModuleManager;
+import org.destinationsol.protobuf.EntityData;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.terasology.gestalt.assets.ResourceUrn;
+import org.terasology.gestalt.entitysystem.component.Component;
+import org.terasology.gestalt.entitysystem.entity.EntityManager;
+import org.terasology.gestalt.entitysystem.entity.EntityRef;
+
+import javax.inject.Inject;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
@@ -24,22 +37,6 @@ import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
 
-import com.google.common.collect.Lists;
-import com.google.protobuf.ByteString;
-
-import org.destinationsol.game.SaveManager;
-import org.destinationsol.modules.ModuleManager;
-import org.destinationsol.protobuf.EntityData;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.terasology.context.annotation.Introspected;
-import org.terasology.gestalt.assets.ResourceUrn;
-import org.terasology.gestalt.entitysystem.component.Component;
-import org.terasology.gestalt.entitysystem.entity.EntityManager;
-import org.terasology.gestalt.entitysystem.entity.EntityRef;
-import javax.inject.Inject;
-
-@Introspected
 public final class SerialisationManager {
 
     private static final Logger logger = LoggerFactory.getLogger(SerialisationManager.class);

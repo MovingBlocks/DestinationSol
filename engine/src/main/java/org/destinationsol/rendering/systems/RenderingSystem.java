@@ -16,17 +16,15 @@
 package org.destinationsol.rendering.systems;
 
 import com.badlogic.gdx.math.Vector2;
-import org.destinationsol.common.In;
-import org.destinationsol.rendering.RenderableElement;
-import org.destinationsol.rendering.components.Renderable;
-import org.destinationsol.rendering.events.RenderEvent;
 import org.destinationsol.entitysystem.EntitySystemManager;
 import org.destinationsol.entitysystem.EventReceiver;
 import org.destinationsol.game.GameDrawer;
 import org.destinationsol.location.components.Angle;
 import org.destinationsol.location.components.Position;
+import org.destinationsol.rendering.RenderableElement;
+import org.destinationsol.rendering.components.Renderable;
+import org.destinationsol.rendering.events.RenderEvent;
 import org.destinationsol.size.components.Size;
-import org.terasology.context.annotation.Introspected;
 import org.terasology.gestalt.entitysystem.entity.EntityRef;
 import org.terasology.gestalt.entitysystem.event.EventResult;
 import org.terasology.gestalt.entitysystem.event.ReceiveEvent;
@@ -36,7 +34,6 @@ import javax.inject.Inject;
 /**
  * This handles the drawing of each entity with a {@link Renderable} component.
  */
-@Introspected
 public class RenderingSystem implements EventReceiver {
 
     @Inject
@@ -44,6 +41,11 @@ public class RenderingSystem implements EventReceiver {
 
     @Inject
     GameDrawer drawer;
+
+    @Inject
+    public RenderingSystem() {
+
+    }
 
     @ReceiveEvent(components = {Renderable.class, Position.class, Size.class})
     public EventResult onRender(RenderEvent event, EntityRef entity) {

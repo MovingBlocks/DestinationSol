@@ -21,12 +21,10 @@ import com.badlogic.gdx.physics.box2d.RayCastCallback;
 import org.destinationsol.game.input.Pilot;
 import org.destinationsol.game.projectile.Projectile;
 import org.destinationsol.game.ship.SolShip;
-import org.terasology.context.annotation.Introspected;
 
 import javax.inject.Inject;
 import java.util.List;
 
-@Introspected
 public class FactionManager {
 
     private final MyRayBack myRayBack;
