@@ -26,6 +26,7 @@ import org.destinationsol.common.SolMath;
 import org.destinationsol.game.Hero;
 import org.destinationsol.game.SolCam;
 import org.destinationsol.game.SolGame;
+import org.destinationsol.game.context.Context;
 import org.destinationsol.game.input.Mover;
 import org.destinationsol.game.input.Shooter;
 import org.destinationsol.ui.SolInputManager;
@@ -62,6 +63,7 @@ public class ShipMixedControl implements ShipUiControl {
 
     @Override
     public void update(SolApplication solApplication, boolean enabled) {
+//        Context context = solApplication.getContext();
         GameOptions gameOptions = solApplication.getOptions();
         blur();
         SolGame game = solApplication.getGame();

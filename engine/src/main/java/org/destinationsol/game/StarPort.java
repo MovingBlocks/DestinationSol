@@ -22,6 +22,7 @@ import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.BodyDef;
 import org.destinationsol.Const;
 import org.destinationsol.assets.Assets;
+import org.destinationsol.assets.sound.SpecialSounds;
 import org.destinationsol.common.Bound;
 import org.destinationsol.common.SolColor;
 import org.destinationsol.common.SolMath;
@@ -129,7 +130,7 @@ public class StarPort implements SolObject {
             ObjectManager objectManager = game.getObjectManager();
             objectManager.addObjDelayed(transcendent);
             blip(game, ship);
-            game.getSoundManager().play(game, game.getSpecialSounds().transcendentCreated, null, transcendent);
+            game.getSoundManager().play(game, game.getContext().get(SpecialSounds.class).transcendentCreated, null, transcendent);
             objectManager.removeObjDelayed(ship);
         }
         for (LightSource light : lightSources) {
@@ -155,7 +156,7 @@ public class StarPort implements SolObject {
 
     @Override
     public void receiveDmg(float dmg, SolGame game, Vector2 position, DmgType dmgType) {
-        game.getSpecialSounds().playHit(game, this, position, dmgType);
+        game.getContext().get(SpecialSounds.class).playHit(game, this, position, dmgType);
     }
 
     @Override
@@ -406,10 +407,10 @@ public class StarPort implements SolObject {
                 }
                 objectManager.addObjDelayed(ship);
                 blip(game, ship);
-                game.getSoundManager().play(game, game.getSpecialSounds().transcendentFinished, null, this);
+                game.getSoundManager().play(game, game.getContext().get(SpecialSounds.class).transcendentFinished, null, this);
                 game.getObjectManager().resetDelays(); // because of the hacked speed
             } else {
-                game.getSoundManager().play(game, game.getSpecialSounds().transcendentMove, null, this);
+                game.getSoundManager().play(game, game.getContext().get(SpecialSounds.class).transcendentMove, null, this);
                 lightSource.update(true, angle, game);
             }
         }
@@ -435,7 +436,7 @@ public class StarPort implements SolObject {
 
         @Override
         public void receiveDmg(float dmg, SolGame game, Vector2 position, DmgType dmgType) {
-            game.getSpecialSounds().playHit(game, this, position, dmgType);
+            game.getContext().get(SpecialSounds.class).playHit(game, this, position, dmgType);
         }
 
         @Override

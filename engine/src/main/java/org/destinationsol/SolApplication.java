@@ -35,12 +35,14 @@ import org.destinationsol.entitysystem.ComponentSystemManager;
 import org.destinationsol.entitysystem.EntitySystemManager;
 import org.destinationsol.entitysystem.SerialisationManager;
 import org.destinationsol.game.DebugOptions;
+import org.destinationsol.game.SolCam;
 import org.destinationsol.game.SolGame;
 import org.destinationsol.game.SolNames;
 import org.destinationsol.game.WorldConfig;
 import org.destinationsol.game.console.adapter.ParameterAdapterManager;
 import org.destinationsol.game.context.Context;
 import org.destinationsol.game.drawables.DrawableLevel;
+import org.destinationsol.game.drawables.DrawableManager;
 import org.destinationsol.health.components.Health;
 import org.destinationsol.location.components.Angle;
 import org.destinationsol.location.components.Position;
@@ -70,7 +72,6 @@ import org.terasology.gestalt.di.BeanContext;
 import org.terasology.gestalt.di.DefaultBeanContext;
 import org.terasology.gestalt.entitysystem.component.management.ComponentManager;
 import org.terasology.gestalt.entitysystem.entity.EntityRef;
-import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 
 import javax.inject.Inject;
 import java.io.PrintWriter;
@@ -130,7 +131,7 @@ public class SolApplication implements ApplicationListener {
 
     @Inject
     protected SolApplication() {
-        throw new NotImplementedException();
+        throw  new RuntimeException("Unimplemented");
     }
 
     public SolApplication(ModuleManager moduleManager, float targetFPS) {
@@ -268,7 +269,7 @@ public class SolApplication implements ApplicationListener {
         commonDrawer.begin();
 
         if (solGame != null) {
-            solGame.draw();
+            solGame.getDrawableManager().draw(solGame, new ContextWrapper(gameContext) );
 
             //This event causes each entity with a `Renderable` component to be rendered onscreen
             entitySystemManager.sendEvent(new RenderEvent(), new Renderable(), new Position());
@@ -343,7 +344,7 @@ public class SolApplication implements ApplicationListener {
             }
         }
 
-        factionDisplay = new FactionDisplay(solGame.getCam());
+        factionDisplay = new FactionDisplay(gameContext.getBean(SolCam.class));
         inputManager.setScreen(this, solGame.getScreens().mainGameScreen);
     }
 
@@ -403,6 +404,7 @@ public class SolApplication implements ApplicationListener {
     public MenuBackgroundManager getMenuBackgroundManager() {
         return menuBackgroundManager;
     }
+
 
     public NUIManager getNuiManager() {
         return nuiManager;

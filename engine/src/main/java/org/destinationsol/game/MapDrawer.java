@@ -28,6 +28,7 @@ import org.destinationsol.assets.Assets;
 import org.destinationsol.common.Nullable;
 import org.destinationsol.common.SolColor;
 import org.destinationsol.common.SolMath;
+import org.destinationsol.game.context.Context;
 import org.destinationsol.game.maze.Maze;
 import org.destinationsol.game.maze.MazeBuilder;
 import org.destinationsol.game.planet.FarTileObject;
@@ -126,8 +127,8 @@ public class MapDrawer implements UpdateAwareSystem{
         isToggled = toggled;
     }
 
-    public void draw(GameDrawer drawer, SolGame game) {
-        SolCam camera = game.getCam();
+    public void draw(GameDrawer drawer, SolGame game, Context context) {
+        SolCam camera = context.get(SolCam.class);
         float iconSz = getIconRadius(camera) * 2;
         float starNodeW = camera.getViewHeight(zoom) * STAR_NODE_SZ;
         float viewDist = camera.getViewDistance(zoom);
@@ -142,10 +143,10 @@ public class MapDrawer implements UpdateAwareSystem{
         OrthographicCamera drawCamera = camera.getCamera();
         drawCamera.position.add(new Vector3(mapDrawPositionAdditive, 0));
         drawCamera.update();
-        drawer.updateMatrix(game);
+        drawer.updateMatrix(context);
 
         game.getGridDrawer().draw(drawer, game, GRID_SZ, lineTexture);
-        drawPlanets(drawer, game, viewDist, np, cameraPosition, heroDmgCap, camAngle);
+        drawPlanets(drawer, game, viewDist, np, cameraPosition, heroDmgCap, camAngle, context);
         drawMazes(drawer, game, viewDist, np, cameraPosition, heroDmgCap, camAngle);
         drawStarNodes(drawer, game, viewDist, cameraPosition, starNodeW);
         drawWaypoints(drawer, game, iconSz, viewDist);
@@ -189,9 +190,9 @@ public class MapDrawer implements UpdateAwareSystem{
     }
 
     private void drawPlanets(GameDrawer drawer, SolGame game, float viewDist, Planet np, Vector2 camPos, float heroDmgCap,
-                             float camAngle) {
+                             float camAngle, Context context) {
         ArrayList<SolSystem> systems = game.getPlanetManager().getSystems();
-        SolCam cam = game.getCam();
+        SolCam cam = context.get(SolCam.class);
         float circleWidth = cam.getRealLineWidth() * 6;
         float vh = cam.getViewHeight(zoom);
         for (SolSystem sys : systems) {

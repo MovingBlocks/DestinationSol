@@ -25,8 +25,10 @@ import org.destinationsol.common.SolColor;
 import org.destinationsol.common.SolMath;
 import org.destinationsol.game.DmgType;
 import org.destinationsol.game.GameDrawer;
+import org.destinationsol.game.SolCam;
 import org.destinationsol.game.SolGame;
 import org.destinationsol.game.SolObject;
+import org.destinationsol.game.context.Context;
 
 public class SunSingleton {
     public static final float SUN_HOT_RAD = .75f * Const.SUN_RADIUS;
@@ -44,8 +46,9 @@ public class SunSingleton {
         fillTint = SolColor.col(1, 1);
     }
 
-    public void draw(SolGame game, GameDrawer drawer) {
-        Vector2 camPos = game.getCam().getPosition();
+    public void draw(SolGame game, GameDrawer drawer, Context context) {
+        SolCam solCam = context.get(SolCam.class);
+        Vector2 camPos = solCam.getPosition();
         SolSystem sys = game.getPlanetManager().getNearestSystem(camPos);
         Vector2 toCam = SolMath.getVec(camPos);
         toCam.sub(sys.getPosition());
@@ -55,7 +58,7 @@ public class SunSingleton {
             gradatingTint.a = MathUtils.clamp(closeness * 4, (float) 0, (float) 1);
             fillTint.a = MathUtils.clamp((closeness - .25f) * 4, (float) 0, (float) 1);
 
-            float sz = 2 * game.getCam().getViewDistance();
+            float sz = 2 * solCam.getViewDistance();
             float gradAngle = SolMath.angle(toCam) + 90;
             drawer.draw(whiteTexture, sz * 2, sz * 2, sz, sz, camPos.x, camPos.y, 0, fillTint);
             drawer.draw(gradatingTexture, sz * 2, sz * 2, sz, sz, camPos.x, camPos.y, gradAngle, gradatingTint);

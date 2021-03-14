@@ -20,6 +20,7 @@ import com.badlogic.gdx.math.Vector2;
 import org.destinationsol.common.SolColor;
 import org.destinationsol.common.SolMath;
 import org.destinationsol.common.SolRandom;
+import org.destinationsol.game.GameColors;
 import org.destinationsol.game.SolGame;
 import org.destinationsol.game.drawables.Drawable;
 import org.destinationsol.game.drawables.DrawableLevel;
@@ -60,7 +61,7 @@ public class PartMan {
             lightPos.add(position);
             float lightSize = SolRandom.randomFloat(.5f, 1) * EXPL_LIGHT_MAX_SZ;
             float fadeTime = SolRandom.randomFloat(.5f, 1) * EXPL_LIGHT_MAX_FADE_TIME;
-            LightObject light = new LightObject(lightSize, true, 1, lightPos, fadeTime, game.getCols().fire);
+            LightObject light = new LightObject(lightSize, true, 1, lightPos, fadeTime, game.getContext().get(GameColors.class).fire);
             game.getObjectManager().addObjDelayed(light);
         }
     }

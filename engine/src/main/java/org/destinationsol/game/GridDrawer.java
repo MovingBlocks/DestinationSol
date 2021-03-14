@@ -23,16 +23,17 @@ import org.destinationsol.common.SolColor;
 import javax.inject.Inject;
 
 public class GridDrawer {
+    private final SolCam solCam;
     @Inject
-    public GridDrawer() {
-
+    public GridDrawer(SolCam solCam) {
+        this.solCam = solCam;
     }
 
     public void draw(GameDrawer drawer, SolGame game, float gridSz, TextureAtlas.AtlasRegion tex) {
-        SolCam cam = game.getCam();
-        float lw = 4 * cam.getRealLineWidth();
-        Vector2 camPos = cam.getPosition().cpy().add(game.getMapDrawer().getMapDrawPositionAdditive());
-        float viewDist = cam.getViewDistance(cam.getRealZoom());
+
+        float lw = 4 * solCam.getRealLineWidth();
+        Vector2 camPos = solCam.getPosition().cpy().add(game.getMapDrawer().getMapDrawPositionAdditive());
+        float viewDist = solCam.getViewDistance(solCam.getRealZoom());
         float x = (int) ((camPos.x - viewDist) / gridSz) * gridSz;
         float y = (int) ((camPos.y - viewDist) / gridSz) * gridSz;
         int count = (int) (viewDist * 2 / gridSz);

@@ -22,7 +22,9 @@ import org.destinationsol.SolApplication;
 import org.destinationsol.assets.Assets;
 import org.destinationsol.game.BeaconHandler;
 import org.destinationsol.game.Hero;
+import org.destinationsol.game.SolCam;
 import org.destinationsol.game.SolGame;
+import org.destinationsol.game.context.Context;
 import org.destinationsol.ui.SolInputManager;
 
 public class ShipMouseControl implements ShipUiControl {
@@ -42,6 +44,7 @@ public class ShipMouseControl implements ShipUiControl {
 
     @Override
     public void update(SolApplication solApplication, boolean enabled) {
+//        Context context = solApplication.getContext();
         SolGame game = solApplication.getGame();
         Hero hero = game.getHero();
         myCursor = null;

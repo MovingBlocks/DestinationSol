@@ -19,6 +19,7 @@ import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Timer;
 import org.destinationsol.Const;
+import org.destinationsol.ContextWrapper;
 import org.destinationsol.GameOptions;
 import org.destinationsol.SolApplication;
 import org.destinationsol.assets.sound.OggSoundManager;
@@ -59,6 +60,7 @@ import org.destinationsol.ui.TutorialManager;
 import org.destinationsol.ui.UiDrawer;
 import org.destinationsol.ui.Waypoint;
 import org.destinationsol.util.InjectionHelper;
+import org.terasology.gestalt.di.BeanContext;
 import org.terasology.gestalt.entitysystem.entity.EntityRef;
 
 import javax.inject.Inject;
@@ -126,9 +128,10 @@ public class SolGame {
     protected GalaxyFiller galaxyFiller;
     @Inject
     protected SolContactListener contactListener;
+    @Inject
+    BeanContext beanContext;
 
     protected TutorialManager tutorialManager;
-
     private Hero hero;
     private float timeStep;
     private float time;
@@ -148,49 +151,6 @@ public class SolGame {
     public SolGame(boolean isTutorial) {
         // TODO: make this non-static
         FactionInfo.init();
-
-//        this.isTutorial = isTutorial;
-//        solApplication = context.get(SolApplication.class);
-//        ModuleManager moduleManager = context.get(ModuleManager.class);
-//        GameDrawer drawer = new GameDrawer(commonDrawer);
-//        context.put(GameDrawer.class, drawer);
-//        gameColors = new GameColors();
-//        soundManager = solApplication.getSoundManager();
-//        specialSounds = new SpecialSounds(soundManager);
-//        drawableManager = new DrawableManager(drawer);
-//        camera = new SolCam();
-//        gameScreens = new GameScreens(solApplication, context);
-//        if (isTutorial) {
-//            tutorialManager = new TutorialManager(gameScreens, solApplication.isMobile(), solApplication.getOptions(), this);
-//            context.put(TutorialManager.class, tutorialManager);
-//        } else {
-//            tutorialManager = null;
-//        }
-//        farBackgroundManagerOld = new FarBackgroundManagerOld();
-//        shipBuilder = new ShipBuilder();
-//        EffectTypes effectTypes = new EffectTypes();
-//        specialEffects = new SpecialEffects(effectTypes, gameColors);
-//        itemManager = new ItemManager(soundManager, effectTypes, gameColors);
-//        AbilityCommonConfigs abilityCommonConfigs = new AbilityCommonConfigs(effectTypes, gameColors, soundManager);
-//        hullConfigManager = new HullConfigManager(itemManager, abilityCommonConfigs);
-//        planetManager = new PlanetManager(hullConfigManager, gameColors, itemManager);
-//        contactListener = new SolContactListener(this);
-//        factionManager = new FactionManager();
-//        objectManager = new ObjectManager(contactListener, factionManager);
-//        context.put(World.class, objectManager.getWorld());
-//        gridDrawer = new GridDrawer();
-//        chunkManager = new ChunkManager();
-//        partMan = new PartMan();
-//        asteroidBuilder = new AsteroidBuilder();
-//        lootBuilder = new LootBuilder();
-//        mapDrawer = new MapDrawer();
-//        rubbleBuilder = new RubbleBuilder();
-//        context.put(RubbleBuilder.class, rubbleBuilder);
-//        galaxyFiller = new GalaxyFiller(hullConfigManager);
-//        starPortBuilder = new StarPort.Builder();
-//        drawableDebugger = new DrawableDebugger();
-//        mountDetectDrawer = new MountDetectDrawer();
-//        beaconHandler = new BeaconHandler();
         timeFactor = 1;
 
     }
@@ -201,14 +161,14 @@ public class SolGame {
         // the ordering of update aware systems is very important, switching them up can cause bugs!
         updateSystems = new TreeMap<Integer, List<UpdateAwareSystem>>();
         List<UpdateAwareSystem> defaultSystems = new ArrayList<UpdateAwareSystem>();
-        defaultSystems.addAll(Arrays.asList(planetManager, camera, chunkManager, mountDetectDrawer, objectManager, mapDrawer, soundManager, beaconHandler, drawableDebugger));
+        defaultSystems.addAll(Arrays.asList(planetManager, context.get(SolCam.class), chunkManager, mountDetectDrawer, objectManager, mapDrawer, soundManager, beaconHandler, drawableDebugger));
         if (tutorialManager != null) {
             defaultSystems.add(tutorialManager);
         }
         updateSystems.put(0, defaultSystems);
 
         List<UpdateAwareSystem> defaultPausedSystems = new ArrayList<UpdateAwareSystem>();
-        defaultPausedSystems.addAll(Arrays.asList(mapDrawer, camera, drawableDebugger));
+        defaultPausedSystems.addAll(Arrays.asList(mapDrawer, context.get(SolCam.class), drawableDebugger));
 
         onPausedUpdateSystems = new TreeMap<Integer, List<UpdateAwareSystem>>();
         onPausedUpdateSystems.put(0, defaultPausedSystems);
@@ -265,6 +225,10 @@ public class SolGame {
             }
         }, 0, 30);
         gameScreens.consoleScreen.init(this);
+    }
+
+    public Context getContext() {
+        return new ContextWrapper(beanContext);
     }
 
     private void createGame(String shipName, boolean shouldSpawnOnGalaxySpawnPosition) {
@@ -325,7 +289,7 @@ public class SolGame {
             context.remove(TutorialManager.class, tutorialManager);
         }
         FactionInfo.clearValues();
-        objectManager.dispose();
+//        objectManager.dispose();
     }
 
     private void saveShip() {
@@ -387,18 +351,14 @@ public class SolGame {
         timeStep = Const.REAL_TIME_STEP * timeFactor;
     }
 
-    public void draw() {
-        drawableManager.draw(this);
-    }
-
-    public void drawDebug(GameDrawer drawer) {
+    public void drawDebug(GameDrawer drawer, Context context) {
         if (DebugOptions.GRID_SZ > 0) {
             gridDrawer.draw(drawer, this, DebugOptions.GRID_SZ, drawer.debugWhiteTexture);
         }
-        planetManager.drawDebug(drawer, this);
-        objectManager.drawDebug(drawer, this);
+        planetManager.drawDebug(drawer, context);
+        objectManager.drawDebug(drawer);
         if (DebugOptions.ZOOM_OVERRIDE != 0) {
-            camera.drawDebug(drawer);
+            context.get(SolCam.class).drawDebug(drawer);
         }
         drawDebugPoint(drawer, DebugOptions.DEBUG_POINT, DebugCol.POINT);
         drawDebugPoint(drawer, DebugOptions.DEBUG_POINT2, DebugCol.POINT2);
@@ -407,7 +367,7 @@ public class SolGame {
 
     private void drawDebugPoint(GameDrawer drawer, Vector2 dp, Color col) {
         if (dp.x != 0 || dp.y != 0) {
-            float sz = camera.getRealLineWidth() * 5;
+            float sz = getContext().get(SolCam.class).getRealLineWidth() * 5;
             drawer.draw(drawer.debugWhiteTexture, sz, sz, sz / 2, sz / 2, dp.x, dp.y, 0, col);
         }
     }
@@ -416,13 +376,6 @@ public class SolGame {
         return timeStep;
     }
 
-    public SolCam getCam() {
-        return camera;
-    }
-
-    public DrawableManager getDrawableManager() {
-        return drawableManager;
-    }
 
     public ObjectManager getObjectManager() {
         return objectManager;
@@ -454,6 +407,10 @@ public class SolGame {
 
     public SolContactListener getContactListener() {
         return contactListener;
+    }
+
+    public SolCam getCam() {
+        return this.camera;
     }
 
     public ItemManager getItemMan() {
@@ -559,16 +516,8 @@ public class SolGame {
         drawableDebugger.draw(uiDrawer);
     }
 
-    public SpecialSounds getSpecialSounds() {
-        return specialSounds;
-    }
-
     public SpecialEffects getSpecialEffects() {
         return specialEffects;
-    }
-
-    public GameColors getCols() {
-        return gameColors;
     }
 
     public float getTimeFactor() {
@@ -589,6 +538,10 @@ public class SolGame {
 
     public EntitySystemManager getEntitySystemManager() {
         return entitySystemManager;
+    }
+
+    public DrawableManager getDrawableManager() {
+        return drawableManager;
     }
 
     public void setRespawnState() {

@@ -20,7 +20,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.terasology.gestalt.di.BeanContext;
 import org.terasology.gestalt.di.exceptions.BeanResolutionException;
-import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 
 import javax.inject.Inject;
 
@@ -46,12 +45,11 @@ public class ContextWrapper implements Context {
 
     @Override
     public <T, U extends T> void put(Class<T> type, U object) {
-        throw  new NotImplementedException();
+        throw new RuntimeException("Unsupported");
     }
 
     @Override
     public <T, U extends T> void remove(Class<T> type, U object) {
-
-        throw  new NotImplementedException();
+        throw new RuntimeException("Unsupported");
     }
 }

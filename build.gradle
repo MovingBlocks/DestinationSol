@@ -3,10 +3,16 @@ apply from: 'config/gradle/ide.gradle'
 buildscript {
     repositories {
         mavenCentral()
+        maven {
+            url "https://plugins.gradle.org/m2/"
+        }
     }
     dependencies {
         // Git plugin for Gradle
         classpath 'org.ajoberstar:gradle-git:0.6.3'
+
+        //spotbugs
+        classpath "gradle.plugin.com.github.spotbugs.snom:spotbugs-gradle-plugin:4.6.0"
     }
 }
 // Git plugin details at https://github.com/ajoberstar/gradle-git
@@ -21,6 +27,7 @@ allprojects {
         appName = 'DestinationSol'
         gdxVersion = '1.9.8'
         roboVMVersion = '2.3.3'
+        gestaltVersion = '7.0.6-SNAPSHOT'
     }
 }
 
@@ -46,7 +53,7 @@ configurations {
 
 dependencies {
     // Config for our code analytics lives in a centralized repo: https://github.com/MovingBlocks/TeraConfig
-    codeMetrics group: 'org.terasology.config', name: 'codemetrics', version: '1.2.0', ext: 'zip'
+    codeMetrics group: 'org.terasology.config', name: 'codemetrics', version: '1.6.0', ext: 'zip'
 }
 
 task extractConfig(type: Copy) {
@@ -150,8 +157,4 @@ task(fetchGwt, type: GitClone) {
     //println "Fetching $repo from $uri"
     destinationPath = destination
     bare = false
-}
-
-task wrapper(type: Wrapper) {
-    gradleVersion = '2.10'
 }
