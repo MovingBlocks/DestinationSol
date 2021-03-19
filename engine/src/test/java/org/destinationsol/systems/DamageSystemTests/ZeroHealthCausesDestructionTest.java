@@ -19,13 +19,21 @@ import org.destinationsol.entitysystem.EntitySystemManager;
 import org.destinationsol.game.context.internal.ContextImpl;
 import org.destinationsol.health.components.Health;
 import org.destinationsol.health.events.DamageEvent;
+import org.destinationsol.modules.ModuleManager;
 import org.destinationsol.removal.components.SlatedForDeletion;
 import org.destinationsol.removal.events.DeletionEvent;
 import org.destinationsol.testsupport.AssetsHelperInitializer;
 import org.destinationsol.testsupport.Box2DInitializer;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.terasology.gestalt.di.DefaultBeanContext;
+import org.terasology.gestalt.entitysystem.component.management.ComponentManager;
 import org.terasology.gestalt.entitysystem.entity.EntityRef;
+import org.terasology.gestalt.module.ModuleFactory;
+import org.terasology.gestalt.module.ModulePathScanner;
+import org.terasology.gestalt.module.TableModuleRegistry;
+
+import java.util.Collections;
 
 import static org.junit.jupiter.api.Assertions.assertFalse;
 
@@ -38,7 +46,7 @@ public class ZeroHealthCausesDestructionTest implements Box2DInitializer, Assets
 
     @BeforeEach
     public void setUp() throws Exception {
-        entitySystemManager = new EntitySystemManager(getModuleManager().getEnvironment(), getComponentManager(), new ContextImpl());
+        entitySystemManager = new EntitySystemManager(getModuleManager(),getComponentManager(), Collections.emptyList());
     }
 
     @Test

@@ -9,7 +9,11 @@ import org.destinationsol.modules.ModuleManager;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.parallel.ResourceLock;
+import org.terasology.gestalt.di.DefaultBeanContext;
 import org.terasology.gestalt.entitysystem.component.management.ComponentManager;
+import org.terasology.gestalt.module.ModuleFactory;
+import org.terasology.gestalt.module.ModulePathScanner;
+import org.terasology.gestalt.module.TableModuleRegistry;
 
 /**
  * Create partial game instance with {@link ModuleManager}, {@link Assets}, {@link ComponentManager}, {@link HeadlessApplication}
@@ -44,7 +48,8 @@ public interface AssetsHelperInitializer {
         ComponentManager componentManager = new ComponentManager();
         stateObject.setComponentManager(componentManager);
 
-        ModuleManager moduleManager = new ModuleManager();
+        ModuleFactory moduleFactory = new ModuleFactory();
+        ModuleManager moduleManager = new ModuleManager(new DefaultBeanContext(), moduleFactory,new TableModuleRegistry(),new ModulePathScanner(moduleFactory));
         moduleManager.init();
         stateObject.setModuleManager(moduleManager);
 

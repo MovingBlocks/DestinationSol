@@ -25,6 +25,8 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.terasology.gestalt.entitysystem.entity.EntityRef;
 
+import java.util.Collections;
+
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class AngleUpdateTest implements AssetsHelperInitializer, Box2DInitializer {
@@ -33,7 +35,7 @@ public class AngleUpdateTest implements AssetsHelperInitializer, Box2DInitialize
 
     @BeforeEach
     public void setUp() throws Exception {
-        entitySystemManager = new EntitySystemManager(getModuleManager().getEnvironment(), getComponentManager(), new ContextImpl());
+        entitySystemManager = new EntitySystemManager(getModuleManager(), getComponentManager(), Collections.emptyList());
     }
 
     @Test

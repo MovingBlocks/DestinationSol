@@ -22,8 +22,14 @@ import org.destinationsol.health.events.DamageEvent;
 import org.destinationsol.modules.ModuleManager;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.terasology.gestalt.di.DefaultBeanContext;
 import org.terasology.gestalt.entitysystem.component.management.ComponentManager;
 import org.terasology.gestalt.entitysystem.entity.EntityRef;
+import org.terasology.gestalt.module.ModuleFactory;
+import org.terasology.gestalt.module.ModulePathScanner;
+import org.terasology.gestalt.module.TableModuleRegistry;
+
+import java.util.Collections;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
@@ -37,9 +43,10 @@ public class NonNegativeDamageTest {
 
     @BeforeEach
     public void setUp() throws Exception {
-        moduleManager = new ModuleManager();
+        ModuleFactory moduleFactory = new ModuleFactory();
+        moduleManager = new ModuleManager(new DefaultBeanContext(), moduleFactory,new TableModuleRegistry(),new ModulePathScanner(moduleFactory));
         moduleManager.init();
-        entitySystemManager = new EntitySystemManager(moduleManager.getEnvironment(), new ComponentManager(), new ContextImpl());
+        entitySystemManager = new EntitySystemManager(moduleManager, new ComponentManager(), Collections.emptyList());
     }
 
     @Test
