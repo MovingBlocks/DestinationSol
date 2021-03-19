@@ -70,8 +70,12 @@ import org.slf4j.LoggerFactory;
 import org.terasology.context.annotation.API;
 import org.terasology.gestalt.di.BeanContext;
 import org.terasology.gestalt.di.DefaultBeanContext;
+import org.terasology.gestalt.di.ServiceRegistry;
 import org.terasology.gestalt.entitysystem.component.management.ComponentManager;
 import org.terasology.gestalt.entitysystem.entity.EntityRef;
+import org.terasology.gestalt.module.ModuleEnvironment;
+import org.terasology.gestalt.module.ModuleServiceRegistry;
+import org.terasology.gestalt.module.sandbox.StandardPermissionProviderFactory;
 
 import javax.inject.Inject;
 import java.io.PrintWriter;
@@ -85,8 +89,6 @@ public class SolApplication implements ApplicationListener {
 
     private final float targetFPS;
 
-    @SuppressWarnings("FieldCanBeLocal")
-    private final ModuleManager moduleManager;
     private EntitySystemManager entitySystemManager;
 
     @Inject
@@ -134,15 +136,15 @@ public class SolApplication implements ApplicationListener {
         throw  new RuntimeException("Unimplemented");
     }
 
-    public SolApplication(ModuleManager moduleManager, float targetFPS) {
+    public SolApplication(float targetFPS) {
         // Initiate Box2D to make sure natives are loaded early enough
         Box2D.init();
-        this.moduleManager = moduleManager;
         this.targetFPS = targetFPS;
         resizeSubscribers = new HashSet<>();
 
         this.appContext = new DefaultBeanContext(
-                new CoreService(this, moduleManager),
+                new ModuleServiceRegistry(new StandardPermissionProviderFactory()),
+                new CoreService(this),
                 new ContextWrapperService());
     }
 
@@ -158,13 +160,17 @@ public class SolApplication implements ApplicationListener {
         options = new GameOptions(isMobile(), null);
 
         componentManager = appContext.getBean(ComponentManager.class);
+        try {
+            appContext.getBean(ModuleManager.class).init();
+        } catch (Exception e) {
+           logger.error("Cannot initialize modules");
+        }
         AssetHelper helper = appContext.getBean(AssetHelper.class);
-        helper.init(moduleManager.getEnvironment(), componentManager, isMobile);
+        helper.init(appContext.getBean(ModuleManager.class).getEnvironment(), componentManager, isMobile);
         Assets.initialize(helper);
 
-//        context.put(ComponentSystemManager.class, appContext.getBean(ComponentSystemManager.class));
         logger.info("\n\n ------------------------------------------------------------ \n");
-        moduleManager.printAvailableModules();
+        appContext.getBean(ModuleManager.class).printAvailableModules();
 
         appContext.inject(this);
 

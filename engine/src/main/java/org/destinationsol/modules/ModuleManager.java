@@ -24,14 +24,10 @@ import org.destinationsol.assets.json.Json;
 import org.destinationsol.assets.music.OggMusic;
 import org.destinationsol.assets.sound.OggSound;
 import org.destinationsol.assets.textures.DSTexture;
-import org.reflections.Reflections;
-import org.reflections.scanners.SubTypesScanner;
-import org.reflections.scanners.TypeAnnotationsScanner;
-import org.reflections.util.ClasspathHelper;
-import org.reflections.util.ConfigurationBuilder;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.terasology.gestalt.assets.ResourceUrn;
+import org.terasology.gestalt.di.BeanContext;
 import org.terasology.gestalt.module.Module;
 import org.terasology.gestalt.module.ModuleEnvironment;
 import org.terasology.gestalt.module.ModuleFactory;
@@ -175,30 +171,27 @@ public class ModuleManager {
     };
 
     protected static ModuleEnvironment environment;
+    private final ModuleFactory moduleFactory;
+    private final ModulePathScanner scanner;
+    private final BeanContext beanContext;
     protected ModuleRegistry registry;
     protected Module engineModule;
 
     @Inject
-    public ModuleManager() {
+    public ModuleManager(BeanContext beanContext, ModuleFactory moduleFactory, ModuleRegistry moduleRegistry, ModulePathScanner scanner) {
+        this.moduleFactory = moduleFactory;
+        this.registry = moduleRegistry;
+        this.scanner = scanner;
+        this.beanContext = beanContext;
     }
 
     public void init() throws Exception {
         try {
-            ModuleFactory moduleFactory = new ModuleFactory();
             engineModule = moduleFactory.createPackageModule("org.destinationsol");
-            // In order for the NUI widgets to be detected, they first need to be found and cached. The build script
-            // reflects over the NUI jar and saves a list of all the widgets within the engine's reflections.cache.
-            // TODO: Find a better way to do this.
-            Module nuiModule = new Module(new ModuleMetadata(new Name("nui"), new Version("2.0.0")), new EmptyFileSource(),
-                    Collections.emptyList(), new Reflections("org.terasology.nui"), x -> {
-                String classPackageName = Reflection.getPackageName(x);
-                return "org.terasology.nui".equals(classPackageName) || classPackageName.startsWith("org.terasology.nui.");
-            });
+            Module nuiModule = moduleFactory.createPackageModule(new ModuleMetadata(new Name("nui"), new Version("2.0.0")),"org.terasology.nui");
 
             // scan for all standard modules
-            registry = new TableModuleRegistry();
             File modulesRoot = Paths.get(".").resolve("modules").toFile();
-            ModulePathScanner scanner = new ModulePathScanner(moduleFactory);
             scanner.scan(registry, modulesRoot);
 
             Set<Module> requiredModules = Sets.newHashSet();
@@ -229,17 +222,13 @@ public class ModuleManager {
         permissionFactory.getBasePermissionSet().grantPermission("com.google.gson", RuntimePermission.class);
         permissionFactory.getBasePermissionSet().grantPermission("com.google.gson.internal", RuntimePermission.class);
 
-        ConfigurationBuilder config = new ConfigurationBuilder()
-                .addClassLoader(ClasspathHelper.contextClassLoader())
-                .addUrls(ClasspathHelper.forClassLoader())
-                .addScanners(new TypeAnnotationsScanner(), new SubTypesScanner());
-        Reflections reflections = new Reflections(config);
-
         APIScanner scanner = new APIScanner(permissionFactory);
-        scanner.scan(reflections);
+        for(Module module: modules){
+            scanner.scan(module.getClassIndex());
+        }
         Policy.setPolicy(new ModuleSecurityPolicy());
         System.setSecurityManager(new ModuleSecurityManager());
-        environment = new ModuleEnvironment(modules,permissionFactory);
+        environment = new ModuleEnvironment(beanContext, modules, permissionFactory);
     }
 
     public ModuleEnvironment getEnvironment() {

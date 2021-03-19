@@ -16,6 +16,7 @@
 package org.destinationsol.entitysystem;
 
 import com.google.common.collect.Lists;
+import org.destinationsol.modules.ModuleManager;
 import org.terasology.gestalt.entitysystem.component.Component;
 import org.terasology.gestalt.entitysystem.component.management.ComponentManager;
 import org.terasology.gestalt.entitysystem.component.store.ArrayComponentStore;
@@ -42,9 +43,9 @@ public class EntitySystemManager {
     private static final EventReceiverMethodSupport eventReceiverMethodSupport = new EventReceiverMethodSupport();
 
     @Inject
-    public EntitySystemManager(ModuleEnvironment environment, ComponentManager componentManager, List<EventReceiver> eventReceivers) {
+    public EntitySystemManager(ModuleManager moduleManager, ComponentManager componentManager, List<EventReceiver> eventReceivers) {
         List<ComponentStore<?>> stores = Lists.newArrayList();
-        for (Class<? extends Component> componentType : environment.getSubtypesOf(Component.class)) {
+        for (Class<? extends Component> componentType : moduleManager.getEnvironment().getSubtypesOf(Component.class)) {
             //This filters out abstract components, which would create exceptions
             if (!Modifier.isAbstract(componentType.getModifiers())) {
                 stores.add(

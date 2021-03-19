@@ -6,10 +6,7 @@ import java.text.SimpleDateFormat;
 
 // Git plugin details at https://github.com/ajoberstar/gradle-git
 import org.ajoberstar.gradle.git.tasks.*
-import org.reflections.Reflections;
-import org.reflections.scanners.SubTypesScanner;
-import org.reflections.scanners.TypeAnnotationsScanner;
-import org.reflections.util.ConfigurationBuilder;
+
 
 // Dependencies needed for what our Gradle scripts themselves use. It cannot be included via an external Gradle file :-(
 buildscript {
@@ -169,6 +166,17 @@ sourceSets {
     test.java.outputDir = new File("$buildDir/testClasses")
 }
 
+// Adds Resources as parameter for AnnotationProcessor (gather ResourceIndex,
+// also add resource as input for compilejava, for re-gathering ResourceIndex, when resource was changed.
+compileJava { // TODO adds assets
+    inputs.files sourceSets.main.resources.srcDirs
+    options.compilerArgs = ["-Aresource=${sourceSets.main.resources.srcDirs.join(File.pathSeparator)}"]
+}
+compileTestJava {
+    inputs.files sourceSets.test.resources.srcDirs
+    options.compilerArgs = ["-Aresource=${sourceSets.test.resources.srcDirs.join(File.pathSeparator)}"]
+}
+
 // Generate the module directory structure if missing
 task createSkeleton() {
     mkdir('assets')
@@ -183,30 +191,6 @@ task createSkeleton() {
     mkdir('deltas')
     mkdir('src/main/java')
     mkdir('src/test/java')
-}
-
-task cacheReflections {
-    description = 'Caches reflection output to make regular startup faster. May go stale and need cleanup at times.'
-    inputs.files sourceSets.main.output.classesDirs,
-            // getClassesDir from all sourceSets (for any jvm (seems) language)
-            configurations."${sourceSets.main.runtimeClasspathConfigurationName}"
-
-    outputs.upToDateWhen {classes.state.upToDate}
-    outputs.file("$buildDir/classes/reflections.cache")
-    dependsOn classes
-
-    doLast {
-        // Without the .mkdirs() we might hit a scenario where the classes dir doesn't exist yet
-        Reflections reflections = new Reflections(new ConfigurationBuilder()
-                .addUrls(inputs.files.collect { it.toURI().toURL() })
-                .setScanners(new TypeAnnotationsScanner(), new SubTypesScanner()))
-        reflections.save("$buildDir/classes/reflections.cache")
-    }
-}
-
-task cleanReflections(type: Delete) {
-    description = 'Cleans the reflection cache. Useful in cases where it has gone stale and needs regeneration.'
-    delete sourceSets.main.output.classesDirs[0].toString() + "/reflections.cache"
 }
 
 // This task syncs everything in the assets dir into the output dir, used when jarring the module
@@ -228,7 +212,6 @@ task syncDeltas(type: Sync) {
 // Instructions for packaging a jar file - is a manifest even needed for modules?
 jar {
     // Make sure the assets directory is included
-    dependsOn cacheReflections
     dependsOn syncAssets
     dependsOn syncOverrides
     dependsOn syncDeltas
@@ -241,8 +224,6 @@ jar {
         }
     }
 }
-
-jar.finalizedBy cleanReflections
 
 // Prep an IntelliJ module for the DestinationSol module - yes, might want to read that twice :D
 idea {

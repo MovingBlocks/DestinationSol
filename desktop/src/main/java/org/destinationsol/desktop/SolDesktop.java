@@ -57,8 +57,6 @@ import java.util.stream.Stream;
 public final class SolDesktop {
 
     private static Logger logger = LoggerFactory.getLogger(SolDesktop.class);
-    private static boolean initFinished;
-    private static ModuleManager moduleManager;
 
     /**
      * Specifies the commandline option to pass to the application for it to generate no crash reports.
@@ -119,31 +117,13 @@ public final class SolDesktop {
         }
 
         handleCrashReporting(argv);
-        new Thread(new Runnable() {
-            @Override
-            public void run() {
-                try {
-                    moduleManager = new ModuleManager();
-                    moduleManager.init();
-                } catch (Exception ignore) {
-                }
-                initFinished = true;
-            }
-        }).start();
 
-        while (!initFinished) {
-            try {
-                Thread.sleep(100);
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-        }
 
         if (useSplash) {
             splash.close();
         }
         // Everything is set up correctly, launch the application
-        SolApplication application = new SolApplication(moduleManager, 100);
+        SolApplication application = new SolApplication(100);
         SolApplication.addResizeSubscriber(new SolDesktop.FullScreenWindowPositionAdjustment(!options.fullscreen));
         // Everything is set up correctly, launch the application
         new Lwjgl3Application(application, applicationConfig);

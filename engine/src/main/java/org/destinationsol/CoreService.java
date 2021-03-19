@@ -20,7 +20,7 @@ import org.terasology.gestalt.entitysystem.component.management.ComponentManager
 import org.terasology.gestalt.module.ModuleEnvironment;
 
 public class CoreService extends ServiceRegistry {
-    public CoreService(SolApplication application, ModuleManager moduleManager) {
+    public CoreService(SolApplication application) {
         this.with(SolApplication.class).lifetime(Lifetime.Singleton).use(() -> application);
         this.with(CommonDrawer.class).lifetime(Lifetime.Singleton);
         this.with(GameOptions.class).lifetime(Lifetime.Singleton).use(() -> {
@@ -30,8 +30,7 @@ public class CoreService extends ServiceRegistry {
             }
             return new GameOptions(isMobile, null);
         });
-        this.with(ModuleManager.class).lifetime(Lifetime.Singleton).use(() -> moduleManager);
-        this.with(ModuleEnvironment.class).lifetime(Lifetime.Singleton).use(moduleManager::getEnvironment);
+        this.with(ModuleManager.class).lifetime(Lifetime.Singleton);
         this.with(ComponentSystemManager.class).lifetime(Lifetime.Singleton);
 
         this.with(OggMusicManager.class).lifetime(Lifetime.Singleton);

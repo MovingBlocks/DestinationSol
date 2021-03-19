@@ -15,6 +15,10 @@
  */
 package org.destinationsol.entitysystem;
 
+/**
+ * This is System part of ECS pattern.
+ * <p>Don't forget make constructor and mark it with `@Inject`(empty contrutor too) - this is enable class to discover it via DI.</p>
+ */
 public class ComponentSystem {
 
     //TODO: Use this stuff

@@ -2,12 +2,6 @@ apply from: '../config/gradle/common.gradle'
 apply plugin: 'java-library'
 [compileJava, compileTestJava]*.options*.encoding = 'UTF-8'
 
-import org.reflections.Reflections;
-import org.reflections.scanners.SubTypesScanner;
-import org.reflections.scanners.TypeAnnotationsScanner;
-import org.reflections.util.ConfigurationBuilder;
-import org.reflections.util.ClasspathHelper;
-
 // Dependencies needed for what our Gradle scripts themselves use. It cannot be included via an external Gradle file :-(
 buildscript {
     repositories {
@@ -24,8 +18,6 @@ buildscript {
     }
 
     dependencies {
-        // Needed for caching reflected data during builds
-        classpath 'org.reflections:reflections:0.9.12'
         classpath 'dom4j:dom4j:1.6.1'
 
         // HACK: Needed for NUI and gestalt entity-component reflections
@@ -39,6 +31,7 @@ dependencies {
 
     api group: 'org.slf4j', name: 'slf4j-api', version: '1.7.25'
     api group: 'com.google.code.gson', name: 'gson', version: '2.6.2'
+    api group: 'com.google.guava', name: 'guava', version: '30.1-jre'
 
     api "com.badlogicgames.gdx:gdx:$gdxVersion"
     api "com.badlogicgames.gdx:gdx-box2d:$gdxVersion"
@@ -55,8 +48,8 @@ dependencies {
 
     implementation "net.jcip:jcip-annotations:1.0"
 
-    api group: 'org.terasology.nui', name: 'nui', version: '2.0.0'
-    api group: 'org.terasology.nui', name: 'nui-libgdx', version: '2.0.0'
+    api group: 'org.terasology.nui', name: 'nui', version: '2.1.0-SNAPSHOT'
+    api group: 'org.terasology.nui', name: 'nui-libgdx', version: '2.1.0-SNAPSHOT'
 
 
     implementation group: 'com.google.protobuf', name: 'protobuf-java', version: '3.4.0'
@@ -83,29 +76,20 @@ dependencies {
     testCompile group: 'org.assertj', name: 'assertj-core', version: '3.9.0'
 }
 
-task cacheReflections {
-    description = 'Caches reflection output to make regular startup faster. May go stale and need cleanup at times.'
-    inputs.files sourceSets.main.output.classesDirs,
-            // getClassesDir from all sourceSets (for any jvm (seems) language)
-            configurations."${sourceSets.main.runtimeClasspathConfigurationName}"
 
-    outputs.upToDateWhen {classes.state.upToDate}
-    outputs.file("$buildDir/classes/reflections.cache")
-    dependsOn classes
-
-    doLast {
-        // Without the .mkdirs() we might hit a scenario where the classes dir doesn't exist yet
-        Reflections reflections = new Reflections(new ConfigurationBuilder()
-                .addUrls(inputs.files.collect { it.toURI().toURL() })
-                .setScanners(new TypeAnnotationsScanner(), new SubTypesScanner()))
-        reflections.save("$buildDir/classes/reflections.cache")
-    }
+// Adds Resources as parameter for AnnotationProcessor (gather ResourceIndex,
+// also add resource as input for compilejava, for re-gathering ResourceIndex, when resource was changed.
+compileJava {
+    inputs.files sourceSets.main.resources.srcDirs
+    options.compilerArgs = ["-Aresource=${sourceSets.main.resources.srcDirs.join(File.pathSeparator)}"]
+}
+compileTestJava {
+    inputs.files sourceSets.test.resources.srcDirs
+    options.compilerArgs = ["-Aresource=${sourceSets.test.resources.srcDirs.join(File.pathSeparator)}"]
 }
 
-jar {
-    // This prevents the assets from being scanned as code files
-    dependsOn cacheReflections
 
+jar {
     archiveName = "sol.jar"
 
     doFirst {

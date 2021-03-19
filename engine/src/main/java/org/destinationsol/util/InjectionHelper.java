@@ -15,9 +15,9 @@
  */
 package org.destinationsol.util;
 
+import com.google.common.collect.Sets;
 import org.destinationsol.common.In;
 import org.destinationsol.game.context.Context;
-import org.reflections.ReflectionUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.terasology.gestalt.util.reflection.ParameterProvider;
@@ -28,7 +28,9 @@ import java.security.AccessController;
 import java.security.PrivilegedAction;
 import java.util.NoSuchElementException;
 import java.util.Optional;
+import java.util.Set;
 
+// TODO replace with gestalt-di's impl
 public final class InjectionHelper {
     private static final Logger logger = LoggerFactory.getLogger(InjectionHelper.class);
 
@@ -37,8 +39,14 @@ public final class InjectionHelper {
 
     public static void inject(final Object object, Context context) {
         AccessController.doPrivileged((PrivilegedAction<Object>) () -> {
-            for (Field field : ReflectionUtils.getAllFields(object.getClass(),
-                    ReflectionUtils.withAnnotation(In.class))) {
+
+            Set<Field> fields = Sets.newHashSet(); // TODO replace with gestalt-di's impl
+            for (Field field : object.getClass().getDeclaredFields()) {
+                if (field.getAnnotation(In.class) != null) {
+                    fields.add(field);
+                }
+            }
+            for (Field field : fields) {
                 Object value = context.get(field.getType());
                 if (value != null) {
                     try {
@@ -53,6 +61,7 @@ public final class InjectionHelper {
             return null;
         });
     }
+
     /**
      * Creates a new instance for a class using constructor injection.
      * The constructor does not need a special annotation for this.
@@ -63,7 +72,8 @@ public final class InjectionHelper {
      * <li>If not all parameters can be populated from the Context, the next Constructor with less parameters is used.</li>
      * <li>If no parameters can be populated at all, the default constructor (if available) is used.</li>
      * </ul>
-     * @param clazz The class to instantiate.
+     *
+     * @param clazz   The class to instantiate.
      * @param context The context to use for injection.
      * @return A new instance of the class to create.
      * @throws NoSuchElementException if the injection failed, e.g. if no parameters were available on the context and a default constructor is missing.
