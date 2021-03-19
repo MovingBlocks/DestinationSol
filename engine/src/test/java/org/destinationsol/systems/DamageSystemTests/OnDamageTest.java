@@ -19,6 +19,7 @@ import org.destinationsol.entitysystem.EntitySystemManager;
 import org.destinationsol.game.context.internal.ContextImpl;
 import org.destinationsol.health.components.Health;
 import org.destinationsol.health.events.DamageEvent;
+import org.destinationsol.health.systems.DamageSystem;
 import org.destinationsol.modules.ModuleManager;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -46,7 +47,7 @@ public class OnDamageTest {
         ModuleFactory moduleFactory = new ModuleFactory();
         moduleManager = new ModuleManager(new DefaultBeanContext(), moduleFactory,new TableModuleRegistry(),new ModulePathScanner(moduleFactory));
         moduleManager.init();
-        entitySystemManager = new EntitySystemManager(moduleManager, new ComponentManager(), Collections.emptyList());
+        entitySystemManager = new EntitySystemManager(moduleManager, new ComponentManager(), Collections.singletonList(new DamageSystem()));
     }
 
     @Test

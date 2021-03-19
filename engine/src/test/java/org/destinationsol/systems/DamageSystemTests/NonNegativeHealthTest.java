@@ -19,6 +19,7 @@ import org.destinationsol.entitysystem.EntitySystemManager;
 import org.destinationsol.game.context.internal.ContextImpl;
 import org.destinationsol.health.components.Health;
 import org.destinationsol.health.events.DamageEvent;
+import org.destinationsol.health.systems.DamageSystem;
 import org.destinationsol.modules.ModuleManager;
 import org.destinationsol.removal.systems.DestroyOnZeroHealthSystem;
 import org.junit.jupiter.api.BeforeEach;
@@ -47,7 +48,7 @@ public class NonNegativeHealthTest {
         ModuleFactory moduleFactory = new ModuleFactory();
         moduleManager = new ModuleManager(new DefaultBeanContext(), moduleFactory,new TableModuleRegistry(),new ModulePathScanner(moduleFactory));
         moduleManager.init();
-        entitySystemManager = new EntitySystemManager(moduleManager, new ComponentManager(), Collections.emptyList());
+        entitySystemManager = new EntitySystemManager(moduleManager, new ComponentManager(), Collections.singletonList(new DamageSystem()));
     }
 
     /**

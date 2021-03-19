@@ -19,6 +19,7 @@ import org.destinationsol.entitysystem.EntitySystemManager;
 import org.destinationsol.game.context.internal.ContextImpl;
 import org.destinationsol.location.components.Angle;
 import org.destinationsol.location.events.AngleUpdateEvent;
+import org.destinationsol.location.systems.LocationSystem;
 import org.destinationsol.testsupport.AssetsHelperInitializer;
 import org.destinationsol.testsupport.Box2DInitializer;
 import org.junit.jupiter.api.BeforeEach;
@@ -35,7 +36,7 @@ public class AngleUpdateTest implements AssetsHelperInitializer, Box2DInitialize
 
     @BeforeEach
     public void setUp() throws Exception {
-        entitySystemManager = new EntitySystemManager(getModuleManager(), getComponentManager(), Collections.emptyList());
+        entitySystemManager = new EntitySystemManager(getModuleManager(), getComponentManager(), Collections.singletonList(new LocationSystem()));
     }
 
     @Test

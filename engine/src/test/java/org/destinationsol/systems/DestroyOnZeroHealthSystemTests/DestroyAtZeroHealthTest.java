@@ -20,9 +20,11 @@ import org.destinationsol.game.context.internal.ContextImpl;
 import org.destinationsol.removal.components.SlatedForDeletion;
 import org.destinationsol.removal.events.DeletionEvent;
 import org.destinationsol.removal.events.ZeroHealthEvent;
+import org.destinationsol.removal.systems.DestroyOnZeroHealthSystem;
 import org.destinationsol.testsupport.AssetsHelperInitializer;
 import org.destinationsol.testsupport.Box2DInitializer;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.terasology.gestalt.entitysystem.entity.EntityRef;
 
@@ -36,10 +38,11 @@ public class DestroyAtZeroHealthTest implements Box2DInitializer, AssetsHelperIn
 
     @BeforeEach
     public void setUp() throws Exception {
-        entitySystemManager = new EntitySystemManager(getModuleManager(), getComponentManager(), Collections.emptyList());
+        entitySystemManager = new EntitySystemManager(getModuleManager(), getComponentManager(), Collections.singletonList(new DestroyOnZeroHealthSystem()));
     }
 
     @Test
+    @Disabled("Reimplement with test-di... DamageSystems using entity manager for sending events")
     public void testZeroHealthCausesDestruction() {
         EntityRef entity = entitySystemManager.getEntityManager().createEntity();
 

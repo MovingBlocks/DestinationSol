@@ -20,6 +20,7 @@ import org.destinationsol.entitysystem.EntitySystemManager;
 import org.destinationsol.game.context.internal.ContextImpl;
 import org.destinationsol.location.components.Position;
 import org.destinationsol.location.events.PositionUpdateEvent;
+import org.destinationsol.location.systems.LocationSystem;
 import org.destinationsol.modules.ModuleManager;
 import org.destinationsol.testsupport.Box2DInitializer;
 import org.junit.jupiter.api.BeforeEach;
@@ -46,7 +47,7 @@ public class PositionUpdateTest implements Box2DInitializer {
         ModuleFactory moduleFactory = new ModuleFactory();
         moduleManager = new ModuleManager(new DefaultBeanContext(), moduleFactory,new TableModuleRegistry(),new ModulePathScanner(moduleFactory));
         moduleManager.init();
-        entitySystemManager = new EntitySystemManager(moduleManager, new ComponentManager(), Collections.emptyList());
+        entitySystemManager = new EntitySystemManager(moduleManager, new ComponentManager(), Collections.singletonList(new LocationSystem()));
     }
 
     @Test

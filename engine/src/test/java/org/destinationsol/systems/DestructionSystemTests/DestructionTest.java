@@ -20,6 +20,7 @@ import org.destinationsol.game.context.internal.ContextImpl;
 import org.destinationsol.removal.components.SlatedForDeletion;
 import org.destinationsol.removal.events.DeletionEvent;
 import org.destinationsol.removal.events.ShouldBeDestroyedEvent;
+import org.destinationsol.removal.systems.DestructionSystem;
 import org.destinationsol.testsupport.AssetsHelperInitializer;
 import org.destinationsol.testsupport.Box2DInitializer;
 import org.junit.jupiter.api.BeforeEach;
@@ -39,7 +40,7 @@ public class DestructionTest implements Box2DInitializer, AssetsHelperInitialize
 
     @BeforeEach
     public void setUp() throws Exception {
-        entitySystemManager = new EntitySystemManager(getModuleManager(), getComponentManager(), Collections.emptyList());
+        entitySystemManager = new EntitySystemManager(getModuleManager(), getComponentManager(), Collections.singletonList(new DestructionSystem()));
     }
 
     @Test
