@@ -101,7 +101,7 @@ public class MapScreen extends SolUiBaseScreen {
         float mapZoom = mapDrawer.getZoom();
         zoomInControl.setEnabled(mapZoom != MapDrawer.MIN_ZOOM);
         zoomOutControl.setEnabled(mapZoom != MapDrawer.MAX_ZOOM);
-        ShipUiControl shipControl = game.getScreens().mainGameScreen.shipControl;
+        ShipUiControl shipControl = game.getScreens().mainGameScreen.getShipControl();
         if (shipControl instanceof ShipMouseControl) {
             shipControl.update(solApplication, true);
         }

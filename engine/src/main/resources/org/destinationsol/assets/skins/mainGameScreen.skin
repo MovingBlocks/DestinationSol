@@ -1,0 +1,17 @@
+{
+  "inherit": "engine:default",
+  "families": {
+    "sideUIButton": {
+      "elements": {
+        "UIButton": {
+          "min-width": 160,
+          "min-height": 64
+        }
+      },
+      "font": "engine:main#2"
+    },
+    "controlsUIButton": {
+      "font": "engine:main#2"
+    }
+  }
+}

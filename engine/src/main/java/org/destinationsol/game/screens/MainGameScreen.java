@@ -15,7 +15,6 @@
  */
 package org.destinationsol.game.screens;
 
-import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.math.MathUtils;
@@ -50,6 +49,7 @@ import org.destinationsol.ui.SolUiControl;
 import org.destinationsol.ui.SolUiScreen;
 import org.destinationsol.ui.UiDrawer;
 import org.destinationsol.ui.nui.screens.ConsoleScreen;
+import org.destinationsol.ui.nui.screens.UIShipControlsScreen;
 import org.terasology.gestalt.assets.ResourceUrn;
 import org.terasology.nui.asset.UIElement;
 
@@ -68,16 +68,9 @@ public class MainGameScreen extends SolUiBaseScreen {
     private static final float HELPER_ROW_2 = HELPER_ROW_1 - .5f * CELL_SZ;
     private static final float HELPER_ROW_3 = HELPER_ROW_2 - .5f * CELL_SZ;
 
-    public final ShipUiControl shipControl;
-    public final SolUiControl mapControl;
-    public final SolUiControl inventoryControl;
-    public final SolUiControl talkControl;
-    private final SolUiControl mercControl;
+    private final ShipUiControl shipControl;
     private final SolUiControl freeCamControl;
-    private final SolUiControl menuControl;
     private final SolUiControl pauseControl;
-    private final SolUiControl consoleControlGrave;
-    private final SolUiControl consoleControlF1;
     private final CameraKeyboardControl cameraControl;
 
     private final ZoneNameAnnouncer zoneNameAnnouncer;
@@ -100,7 +93,6 @@ public class MainGameScreen extends SolUiBaseScreen {
     private final TextPlace myMoneyExcessTp;
     private final SolApplication solApplication;
     private final Context context;
-    private final ConsoleScreen consoleScreen;
 
     private List<SolUiScreen> gameOverlayScreens = new ArrayList<>();
     private List<WarnDrawer> warnDrawers = new ArrayList<>();
@@ -114,7 +106,11 @@ public class MainGameScreen extends SolUiBaseScreen {
 
         switch (gameOptions.controlType) {
             case KEYBOARD:
-                shipControl = new ShipKbControl(solApplication, controls);
+                UIShipControlsScreen shipControlsScreen =
+                        (UIShipControlsScreen) Assets.getAssetHelper().get(
+                                new ResourceUrn("engine:uiShipControlsScreen"), UIElement.class).get().getRootWidget();
+                solApplication.getNuiManager().pushScreen(shipControlsScreen);
+                shipControl = shipControlsScreen;
                 break;
             case MOUSE:
                 shipControl = new ShipMouseControl();
@@ -130,37 +126,12 @@ public class MainGameScreen extends SolUiBaseScreen {
 
         boolean mobile = solApplication.isMobile();
         float lastCol = displayDimensions.getRatio() - MainGameScreen.CELL_SZ;
-        Rectangle menuArea = mobile ? btn(0, HELPER_ROW_2, true) : rightPaneLayout.buttonRect(0);
-        menuControl = new SolUiControl(menuArea, true, gameOptions.getKeyMenu());
-        menuControl.setDisplayName("Menu");
-        controls.add(menuControl);
-        Rectangle mapArea = mobile ? btn(0, HELPER_ROW_1, true) : rightPaneLayout.buttonRect(1);
-        mapControl = new SolUiControl(mapArea, true, gameOptions.getKeyMap());
-        mapControl.setDisplayName("Map");
-        controls.add(mapControl);
-        Rectangle invArea = mobile ? btn(lastCol, HELPER_ROW_1, true) : rightPaneLayout.buttonRect(2);
-        inventoryControl = new SolUiControl(invArea, true, gameOptions.getKeyInventory());
-        inventoryControl.setDisplayName("Items");
-        controls.add(inventoryControl);
-        Rectangle talkArea = mobile ? btn(lastCol, HELPER_ROW_2, true) : rightPaneLayout.buttonRect(3);
-        talkControl = new SolUiControl(talkArea, true, gameOptions.getKeyTalk());
-        talkControl.setDisplayName("Talk");
-        controls.add(talkControl);
-        Rectangle mercArea = mobile ? btn(lastCol, HELPER_ROW_3, true) : rightPaneLayout.buttonRect(4);
-        mercControl = new SolUiControl(mercArea, true, gameOptions.getKeyMercenaryInteraction());
-        mercControl.setDisplayName("Mercs");
-        controls.add(mercControl);
         // No button, since on mobile, it should be ideally controlled straightly by dragging.
         freeCamControl = new SolUiControl(null, false, gameOptions.getKeyFreeCameraMovement());
         controls.add(freeCamControl);
         pauseControl = new SolUiControl(null, true, gameOptions.getKeyPause());
         controls.add(pauseControl);
         cameraControl = new CameraKeyboardControl(gameOptions, controls);
-
-        consoleControlGrave = new SolUiControl(null, true, Input.Keys.GRAVE);
-        consoleControlF1 = new SolUiControl(null, true, Input.Keys.F1);
-        controls.add(consoleControlGrave);
-        controls.add(consoleControlF1);
 
         // possible warning messages in order of importance, so earlier one will be drawn on the center
         warnDrawers.add(new SunWarnDrawer());
@@ -179,8 +150,6 @@ public class MainGameScreen extends SolUiBaseScreen {
 
         compassTexture = Assets.getAtlasRegion("engine:uiCompass");
         myCompassTint = SolColor.col(1, 0);
-
-        consoleScreen = (ConsoleScreen) Assets.getAssetHelper().get(new ResourceUrn("engine:console"), UIElement.class).get().getRootWidget();
 
         myLifeTp = new TextPlace(SolColor.W50);
         myRepairsExcessTp = new TextPlace(SolColor.WHITE);
@@ -247,127 +216,24 @@ public class MainGameScreen extends SolUiBaseScreen {
 
         zoneNameAnnouncer.update(game, context);
 
-        if (menuControl.isJustOff()) {
-            inputMan.setScreen(solApplication, screens.menuScreen);
-        }
         boolean controlsEnabled = inputMan.getTopScreen() == this;
         shipControl.update(solApplication, controlsEnabled);
 
-        if (mapControl.isJustOff()) {
-            inputMan.setScreen(solApplication, screens.mapScreen);
-        }
-
-        inventoryControl.setEnabled(hero.isNonTranscendent());
-        if (hero.isNonTranscendent() && !inputMan.isScreenOn(screens.inventoryScreen)) {
-            if (hero.getItemContainer().hasNew()) {
-                inventoryControl.enableWarn();
-            }
-        }
-        if (inventoryControl.isJustOff()) {
-            InventoryScreen is = screens.inventoryScreen;
-            boolean isOn = inputMan.isScreenOn(is);
-            inputMan.setScreen(solApplication, screens.mainGameScreen);
-            if (!isOn) {
-                is.showInventory.setTarget(hero.getShip());
-                is.setOperations(is.showInventory);
-                inputMan.addScreen(solApplication, is);
-            }
-        }
-
-        mercControl.setEnabled(hero.isNonTranscendent());
-        if (hero.isNonTranscendent() && !inputMan.isScreenOn(screens.inventoryScreen)) {
-            if (hero.getMercs().hasNew()) {
-                mercControl.enableWarn();
-            }
-        }
-        if (mercControl.isJustOff()) {
-            InventoryScreen is = screens.inventoryScreen;
-            boolean isOn = inputMan.isScreenOn(is);
-            inputMan.setScreen(solApplication, screens.mainGameScreen);
-            if (!isOn) {
-                is.setOperations(is.chooseMercenaryScreen);
-                inputMan.addScreen(solApplication, is);
-                
-                game.getHero().getMercs().markAllAsSeen();
-            }
-        }
-
         SolCam.DIRECT_CAM_CONTROL = freeCamControl.isOn();
 
-        updateTalk(game);
-
-        if (solApplication.getNuiManager().hasScreen(consoleScreen)) {
+        if (solApplication.getNuiManager().hasScreenOfType(ConsoleScreen.class)) {
             controls.forEach(x -> x.setEnabled(false));
-            consoleControlGrave.setEnabled(true);
-            consoleControlF1.setEnabled(true);
+        } else if (!inputMan.isScreenOn(screens.menuScreen)) {
+            game.setPaused(false);
+            controls.forEach(x -> x.setEnabled(true));
         }
 
         if (pauseControl.isJustOff()) {
             game.setPaused(!game.isPaused());
         }
 
-        if (consoleScreen.isConsoleJustClosed()) {
-            game.setPaused(false);
-            controls.forEach(x -> x.setEnabled(true));
-            consoleControlGrave.setEnabled(true);
-            consoleControlF1.setEnabled(true);
-        }
-
-        if (consoleControlGrave.isJustOff() || consoleControlF1.isJustOff()) {
-            if (solApplication.getNuiManager().hasScreen(consoleScreen)) {
-                solApplication.getNuiManager().removeScreen(consoleScreen);
-            } else {
-                solApplication.getNuiManager().pushScreen(consoleScreen);
-                game.setPaused(true);
-            }
-        }
-
         for (SolUiScreen screen : gameOverlayScreens) {
             screen.updateCustom(solApplication, inputPointers, clickedOutside);
-        }
-    }
-
-    private void updateTalk(SolGame game) {
-        Hero hero = game.getHero();
-        if (hero.isTranscendent()) {
-            talkControl.setEnabled(false);
-            return;
-        }
-        FactionManager factionManager = game.getFactionMan();
-
-        SolShip target = null;
-        float minDist = TalkScreen.MAX_TALK_DIST;
-        float har = hero.getHull().config.getApproxRadius();
-        List<SolObject> objs = game.getObjectManager().getObjects();
-        for (SolObject o : objs) {
-            if (!(o instanceof SolShip)) {
-                continue;
-            }
-            SolShip ship = (SolShip) o;
-            if (factionManager.areEnemies(hero.getShip(), ship)) {
-                continue;
-            }
-            if (ship.getTradeContainer() == null) {
-                continue;
-            }
-            float dst = ship.getPosition().dst(hero.getPosition());
-            float ar = ship.getHull().config.getApproxRadius();
-            if (minDist < dst - har - ar) {
-                continue;
-            }
-            target = ship;
-            minDist = dst;
-        }
-        talkControl.setEnabled(target != null);
-        if (talkControl.isJustOff()) {
-            TalkScreen talkScreen = game.getScreens().talkScreen;
-            SolInputManager inputMan = solApplication.getInputManager();
-            boolean isOn = inputMan.isScreenOn(talkScreen);
-            inputMan.setScreen(solApplication, this);
-            if (!isOn) {
-                talkScreen.setTarget(target);
-                inputMan.addScreen(solApplication, talkScreen);
-            }
         }
     }
 
@@ -548,32 +414,8 @@ public class MainGameScreen extends SolUiBaseScreen {
         }
     }
 
-    public boolean isLeft() {
-        return shipControl.isLeft();
-    }
-
-    public boolean isRight() {
-        return shipControl.isRight();
-    }
-
-    public boolean isUp() {
-        return shipControl.isUp();
-    }
-
-    public boolean isDown() {
-        return shipControl.isDown();
-    }
-
-    public boolean isShoot() {
-        return shipControl.isShoot();
-    }
-
-    public boolean isShoot2() {
-        return shipControl.isShoot2();
-    }
-
-    public boolean isAbility() {
-        return shipControl.isAbility();
+    public ShipUiControl getShipControl() {
+        return shipControl;
     }
 
     public boolean isCameraUp() {

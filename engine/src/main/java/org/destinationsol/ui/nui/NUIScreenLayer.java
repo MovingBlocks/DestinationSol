@@ -15,6 +15,7 @@
  */
 package org.destinationsol.ui.nui;
 
+import org.destinationsol.ui.nui.widgets.KeyActivatedButton;
 import org.joml.Vector2i;
 import org.terasology.input.ButtonState;
 import org.terasology.input.Keyboard;
@@ -124,6 +125,12 @@ public abstract class NUIScreenLayer extends AbstractWidget {
         if (escapeCloses() && event.getState() == ButtonState.UP && event.getKey() == Keyboard.Key.ESCAPE) {
             nuiManager.removeScreen(this);
             return true;
+        }
+
+        // Send key events to all KeyActivatedButton sub-widgets. These buttons are supposed to react to key events
+        // even when they are not in-focus.
+        for (UIWidget widget : contents.findAll(KeyActivatedButton.class)) {
+            widget.onKeyEvent(event);
         }
 
         return super.onKeyEvent(event);
