@@ -12,7 +12,6 @@ import org.reflections.util.ClasspathHelper;
 buildscript {
     repositories {
         // External libs - jcenter is Bintray and is supposed to be a superset of Maven Central, but do both just in case
-        jcenter()
         mavenCentral()
 
         // HACK: Needed for NUI and gestalt entity-component reflections
