@@ -45,6 +45,7 @@ import org.terasology.nui.asset.UIData;
 import org.terasology.nui.asset.font.Font;
 import org.terasology.nui.reflection.WidgetLibrary;
 import org.terasology.nui.skin.UISkin;
+import org.terasology.nui.skin.UISkinAsset;
 import org.terasology.nui.widgets.UILabel;
 import org.terasology.reflection.ReflectionUtil;
 import org.terasology.reflection.metadata.ClassMetadata;
@@ -103,7 +104,7 @@ public class UIFormat extends AbstractAssetFileFormat<UIData> {
                 .registerTypeAdapter(UISkin.class, new JsonDeserializer<UISkin>() {
                     @Override
                     public UISkin deserialize(JsonElement json, Type typeOfT, JsonDeserializationContext context) throws JsonParseException {
-                        return Assets.getAssetHelper().get(new ResourceUrn(json.getAsString()), UISkin.class).get();
+                        return Assets.getAssetHelper().get(new ResourceUrn(json.getAsString()), UISkinAsset.class).get().getSkin();
                     }
                 })
                 .registerTypeAdapter(UITextureRegion.class, new UISkinFormat.TextureRegionTypeAdapter())

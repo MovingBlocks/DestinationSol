@@ -49,8 +49,9 @@ dependencies {
     api(group: 'org.terasology.gestalt', name: 'gestalt-module', version: '7.0.6-SNAPSHOT')
     api(group: 'org.terasology.gestalt', name: 'gestalt-util', version: '7.0.6-SNAPSHOT')
 
-    api group: 'org.terasology.nui', name: 'nui', version: '2.0.0'
-    api group: 'org.terasology.nui', name: 'nui-libgdx', version: '2.0.0'
+    api group: 'org.terasology.nui', name: 'nui', version: nuiVersion
+    api group: 'org.terasology.nui', name: 'nui-libgdx', version: nuiVersion
+    api group: 'org.terasology.nui', name: 'nui-gestalt7', version: nuiVersion
 
     implementation group: 'com.google.protobuf', name: 'protobuf-java', version: '3.4.0'
 

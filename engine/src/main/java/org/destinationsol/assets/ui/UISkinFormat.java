@@ -24,6 +24,7 @@ import org.terasology.nui.UITextureRegion;
 import org.terasology.nui.UIWidget;
 import org.terasology.nui.asset.font.Font;
 import org.terasology.nui.skin.UISkin;
+import org.terasology.nui.skin.UISkinAsset;
 import org.terasology.nui.skin.UISkinBuilder;
 import org.terasology.nui.skin.UISkinData;
 import org.terasology.nui.skin.UIStyleFragment;
@@ -96,7 +97,7 @@ public class UISkinFormat extends AbstractAssetFileFormat<UISkinData> {
                 DefaultInfo defaultInfo = null;
                 defaultInfo = context.deserialize(json, DefaultInfo.class);
                 defaultInfo.apply(builder);
-                return builder.build();
+                return new UISkinData(builder.build());
             }
             return null;
         }
@@ -110,9 +111,9 @@ public class UISkinFormat extends AbstractAssetFileFormat<UISkinData> {
         public void apply(UISkinBuilder builder) {
             super.apply(builder);
             if (inherit != null) {
-                Optional<? extends UISkin> skin = Assets.getAssetHelper().get(new ResourceUrn(inherit), UISkin.class);
+                Optional<? extends UISkinAsset> skin = Assets.getAssetHelper().get(new ResourceUrn(inherit), UISkinAsset.class);
                 if (skin.isPresent()) {
-                    builder.setBaseSkin(skin.get());
+                    builder.setBaseSkin(skin.get().getSkin());
                 }
             }
             if (families != null) {
