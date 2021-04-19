@@ -24,9 +24,8 @@ import org.destinationsol.assets.Assets;
 import org.destinationsol.assets.sound.OggSound;
 import org.destinationsol.game.context.Context;
 import org.destinationsol.util.InjectionHelper;
-import org.joml.Rectanglei;
+import org.terasology.joml.geom.Rectanglei;
 import org.joml.Vector2i;
-import org.terasology.gestalt.assets.ResourceUrn;
 import org.terasology.input.InputType;
 import org.terasology.input.Keyboard;
 import org.terasology.input.MouseInput;
@@ -137,7 +136,6 @@ public class NUIManager {
         focusManager = new FocusManagerImpl();
         whiteTexture = Assets.getDSTexture(WHITE_TEXTURE_URN).getUiTexture();
         skin = Assets.getSkin(DEFAULT_SKIN_URN);
-        this.solApplication = solApplication;
 
         canvas = new SolCanvas(canvasRenderer, focusManager, keyboard, mouse, whiteTexture, skin, 100);
         TabbingManager.setFocusManager(focusManager);
@@ -362,7 +360,7 @@ public class NUIManager {
      */
     public boolean isMouseOnUi() {
         // TODO: Find better way of doing this.
-        Vector2i mousePosition = mouse.getMousePosition();
+        Vector2i mousePosition = mouse.getPosition();
         for (Rectanglei interactionRegion : canvas.getInteractionRegions()) {
             if (RectUtility.contains(interactionRegion, mousePosition)) {
                 return true;
