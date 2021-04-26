@@ -56,7 +56,7 @@ jar {
     archiveName = "solDesktop.jar"
 
     manifest {
-        def manifestClasspath = configurations.runtime.collect { it.getName() }.join(" ")
+        def manifestClasspath = configurations.runtimeClasspath.collect { it.getName() }.join(" ")
         attributes 'Main-Class': project.mainClassName
         attributes("Class-Path": manifestClasspath)
         attributes "SplashScreen-Image": "mainMenuLogo.png"
@@ -88,7 +88,7 @@ task libsDist(type: Copy) {
     dependsOn jar
 
     from jar
-    from configurations.runtime
+    from configurations.runtimeClasspath
     into("$distsDir/app/libs")
 }
 

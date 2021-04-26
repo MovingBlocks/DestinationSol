@@ -45,10 +45,10 @@ dependencies {
     annotationProcessor "org.terasology.gestalt:gestalt-inject-java:$gestaltVersion"
 
     implementation "net.jcip:jcip-annotations:1.0"
-
-    api group: 'org.terasology.nui', name: 'nui', version: '2.1.0-SNAPSHOT'
-    api group: 'org.terasology.nui', name: 'nui-libgdx', version: '2.1.0-SNAPSHOT'
-
+    
+    api group: 'org.terasology.nui', name: 'nui', version: nuiVersion
+    api group: 'org.terasology.nui', name: 'nui-libgdx', version: nuiVersion
+    api group: 'org.terasology.nui', name: 'nui-gestalt7', version: nuiVersion
 
     implementation group: 'com.google.protobuf', name: 'protobuf-java', version: '3.4.0'
 

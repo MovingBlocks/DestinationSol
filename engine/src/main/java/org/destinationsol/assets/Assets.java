@@ -31,6 +31,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.terasology.gestalt.assets.ResourceUrn;
 import org.terasology.gestalt.entitysystem.prefab.Prefab;
+import org.terasology.nui.skin.UISkin;
+import org.terasology.nui.skin.UISkinAsset;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -123,6 +125,16 @@ public abstract class Assets {
         }
 
         throw new RuntimeException("Font " + path + " not found!");
+    }
+
+    public static UISkin getSkin(String path) {
+        Optional<UISkinAsset> skinOptional = assetHelper.get(new ResourceUrn(path), UISkinAsset.class);
+
+        if (skinOptional.isPresent()) {
+            return skinOptional.get().getSkin();
+        }
+
+        throw new RuntimeException("UISkin " + path + " not found!");
     }
 
     /**
