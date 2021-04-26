@@ -1,6 +1,6 @@
 import groovy.json.JsonSlurper
 
-@GrabResolver(name = 'jcenter', root = 'http://jcenter.bintray.com/')
+@GrabResolver(name = 'grgit-backup', root = 'https://ajoberstar.github.io/bintray-backup/')
 @Grab(group = 'org.ajoberstar', module = 'grgit', version = '1.9.3')
 import org.ajoberstar.grgit.Grgit
 import org.ajoberstar.grgit.Remote

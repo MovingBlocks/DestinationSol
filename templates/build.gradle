@@ -11,15 +11,11 @@ import org.ajoberstar.gradle.git.tasks.*
 // Dependencies needed for what our Gradle scripts themselves use. It cannot be included via an external Gradle file :-(
 buildscript {
     repositories {
-        // External libs - jcenter is Bintray and is supposed to be a superset of Maven Central, but do both just in case
-        jcenter()
+        // External libs
         mavenCentral()
     }
 
     dependencies {
-        // Artifactory plugin
-        classpath(group: 'org.jfrog.buildinfo', name: 'build-info-extractor-gradle', version: '4.0.0')
-
         // Git plugin for Gradle
         classpath 'org.ajoberstar:gradle-git:0.6.3'
 
