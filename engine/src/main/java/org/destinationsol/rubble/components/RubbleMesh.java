@@ -15,10 +15,12 @@
  */
 package org.destinationsol.rubble.components;
 
+import org.destinationsol.body.events.GenerateBodyEvent;
+import org.destinationsol.rubble.systems.RubbleBodyCreationSystem;
 import org.terasology.gestalt.entitysystem.component.EmptyComponent;
 
 /**
- * This class directs the onGenerateBody event to the RubbleBodyCreationSystem
+ * This class directs the {@link GenerateBodyEvent} to the {@link RubbleBodyCreationSystem}
  */
 public class RubbleMesh extends EmptyComponent<RubbleMesh> {
 }

@@ -51,10 +51,9 @@ import org.terasology.gestalt.entitysystem.event.ReceiveEvent;
  */
 public class RubbleCreationSystem implements EventReceiver {
 
+    public static final float SIZE_TO_SHARD_COUNT = 13f;
     public static final float MIN_SCALE = .07f;
     public static final float MAX_SCALE = .12f;
-    public static final float SIZE_TO_SHARD_COUNT = 13f;
-    private static final float MAX_ROT_SPD = 5f;
     private static final float MAX_SPD = 40f;
 
     @In
@@ -67,6 +66,55 @@ public class RubbleCreationSystem implements EventReceiver {
     private EntitySystemManager entitySystemManager;
 
     /**
+     * When an entity with a {@link CreatesRubbleOnDestruction} component is destroyed, this creates {@link Rubble} where
+     * the entity was, unless the entity is in {@link Stasis}.
+     */
+    @ReceiveEvent(components = {CreatesRubbleOnDestruction.class, Position.class, Size.class})
+    @Before(DestructionSystem.class)
+    public EventResult onDeletion(DeletionEvent event, EntityRef entity) {
+        if (!entity.hasComponent(Stasis.class)) {
+            Velocity velocityComponent;
+            Angle angleComponent;
+            Size sizeComponent;
+            Position positionComponent;
+
+            if (entity.hasComponent(Velocity.class)) {
+                velocityComponent = entity.getComponent(Velocity.class).get();
+            } else {
+                velocityComponent = new Velocity();
+                velocityComponent.velocity = new Vector2();
+            }
+
+
+            if (entity.hasComponent(Angle.class)) {
+                angleComponent = entity.getComponent(Angle.class).get();
+            } else {
+                angleComponent = new Angle();
+                angleComponent.setAngle(0f);
+            }
+
+
+            if (entity.hasComponent(Size.class)) {
+                sizeComponent = entity.getComponent(Size.class).get();
+            } else {
+                sizeComponent = new Size();
+                sizeComponent.size = 2f;
+            }
+
+
+            if (entity.hasComponent(Position.class)) {
+                positionComponent  = entity.getComponent(Position.class).get();
+            } else {
+                positionComponent = new Position();
+                positionComponent.position = new Vector2();
+            }
+
+            buildRubblePieces(positionComponent, velocityComponent, angleComponent, sizeComponent);
+        }
+        return EventResult.CONTINUE;
+    }
+
+    /**
      * This method creates pieces of rubble using values from the object that they are being creating from. It
      * initializes entities for each piece of rubble with the relevant component
      * @param pos Position component of parent entity
@@ -74,7 +122,7 @@ public class RubbleCreationSystem implements EventReceiver {
      * @param angle Angle component of parent entity
      * @param size Size component of parent entity, used to determine amount of rubble to generate
      */
-    public void buildRubblePieces(Position pos, Velocity vel, Angle angle, Size size) {
+    private void buildRubblePieces(Position pos, Velocity vel, Angle angle, Size size) {
         int count = (int) (size.size * SIZE_TO_SHARD_COUNT);
         Vector2 basePos = pos.position;
         for (int i = 0; i < count; i++) {
@@ -113,58 +161,12 @@ public class RubbleCreationSystem implements EventReceiver {
             Velocity velocityComponent = new Velocity();
             Vector2 velocity = SolMath.fromAl(velocityAngle, SolRandom.randomFloat(MAX_SPD));
             velocity.add(vel.velocity);
-            SolMath.free(velocity);
             velocityComponent.velocity = velocity;
 
             EntityRef entityRef = entitySystemManager.getEntityManager().createEntity(graphicsComponent, positionComponent,
                     velocityComponent, angle, sizeComponent, new RubbleMesh());
+            SolMath.free(velocity);
             entityRef.setComponent(new BodyLinked());
         }
-    }
-
-    /**
-     * When an entity with a {@link CreatesRubbleOnDestruction} component is destroyed, this creates {@link Rubble}s where
-     * the entity was, unless the entity is in {@link Stasis}.
-     */
-    @ReceiveEvent(components = {CreatesRubbleOnDestruction.class, Position.class, Size.class})
-    @Before(DestructionSystem.class)
-    public EventResult onDeletion(DeletionEvent event, EntityRef entity) {
-        if (!entity.hasComponent(Stasis.class)) {
-
-            Velocity velocityComponent = new Velocity();
-
-            if (entity.hasComponent(Velocity.class)) {
-                velocityComponent.velocity = entity.getComponent(Velocity.class).get().velocity;
-            } else {
-                velocityComponent.velocity = new Vector2();
-            }
-
-            Angle angleComponent = new Angle();
-
-            if (entity.hasComponent(Angle.class)) {
-                angleComponent.setAngle(entity.getComponent(Angle.class).get().getAngle());
-            } else {
-                angleComponent.setAngle(0f);
-            }
-
-            Size sizeComponent = new Size();
-
-            if (entity.hasComponent(Size.class)) {
-                sizeComponent.size = entity.getComponent(Size.class).get().size;
-            } else {
-                sizeComponent.size = 2f;
-            }
-
-            Position positionComponent = new Position();
-
-            if (entity.hasComponent(Position.class)) {
-                positionComponent.position = entity.getComponent(Position.class).get().position;
-            } else {
-                positionComponent.position = new Vector2();
-            }
-
-            buildRubblePieces(positionComponent, velocityComponent, angleComponent, sizeComponent);
-        }
-        return EventResult.CONTINUE;
     }
 }
