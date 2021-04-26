@@ -17,7 +17,7 @@ package org.destinationsol;
 
 
 import org.destinationsol.game.context.Context;
-import org.terasology.gestalt.di.Lifetime;
+import org.terasology.context.Lifetime;
 import org.terasology.gestalt.di.ServiceRegistry;
 
 public class ContextWrapperService extends ServiceRegistry {

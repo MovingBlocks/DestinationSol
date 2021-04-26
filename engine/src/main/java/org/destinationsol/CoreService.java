@@ -14,10 +14,9 @@ import org.destinationsol.ui.DisplayDimensions;
 import org.destinationsol.ui.SolInputManager;
 import org.destinationsol.ui.SolLayouts;
 import org.destinationsol.ui.UiDrawer;
-import org.terasology.gestalt.di.Lifetime;
+import org.terasology.context.Lifetime;
 import org.terasology.gestalt.di.ServiceRegistry;
 import org.terasology.gestalt.entitysystem.component.management.ComponentManager;
-import org.terasology.gestalt.module.ModuleEnvironment;
 
 public class CoreService extends ServiceRegistry {
     public CoreService(SolApplication application) {

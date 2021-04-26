@@ -42,7 +42,6 @@ import org.destinationsol.game.WorldConfig;
 import org.destinationsol.game.console.adapter.ParameterAdapterManager;
 import org.destinationsol.game.context.Context;
 import org.destinationsol.game.drawables.DrawableLevel;
-import org.destinationsol.game.drawables.DrawableManager;
 import org.destinationsol.health.components.Health;
 import org.destinationsol.location.components.Angle;
 import org.destinationsol.location.components.Position;
@@ -70,10 +69,8 @@ import org.slf4j.LoggerFactory;
 import org.terasology.context.annotation.API;
 import org.terasology.gestalt.di.BeanContext;
 import org.terasology.gestalt.di.DefaultBeanContext;
-import org.terasology.gestalt.di.ServiceRegistry;
 import org.terasology.gestalt.entitysystem.component.management.ComponentManager;
 import org.terasology.gestalt.entitysystem.entity.EntityRef;
-import org.terasology.gestalt.module.ModuleEnvironment;
 import org.terasology.gestalt.module.ModuleServiceRegistry;
 import org.terasology.gestalt.module.sandbox.StandardPermissionProviderFactory;
 

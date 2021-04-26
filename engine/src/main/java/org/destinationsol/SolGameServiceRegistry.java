@@ -48,8 +48,7 @@ import org.destinationsol.game.planet.PlanetManager;
 import org.destinationsol.game.screens.GameScreens;
 import org.destinationsol.game.ship.ShipBuilder;
 import org.destinationsol.ui.TutorialManager;
-import org.terasology.gestalt.di.BeanContext;
-import org.terasology.gestalt.di.Lifetime;
+import org.terasology.context.Lifetime;
 import org.terasology.gestalt.di.ServiceRegistry;
 
 public class SolGameServiceRegistry extends ServiceRegistry {

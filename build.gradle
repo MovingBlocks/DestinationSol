@@ -27,7 +27,7 @@ allprojects {
         appName = 'DestinationSol'
         gdxVersion = '1.9.8'
         roboVMVersion = '2.3.3'
-        gestaltVersion = '7.0.6-SNAPSHOT'
+        gestaltVersion = '8.0.0-SNAPSHOT'
     }
 }
 
