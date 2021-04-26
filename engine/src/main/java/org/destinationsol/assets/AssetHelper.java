@@ -42,6 +42,7 @@ import org.terasology.nui.UIWidget;
 import org.terasology.nui.asset.UIElement;
 import org.terasology.nui.reflection.WidgetLibrary;
 import org.terasology.nui.skin.UISkin;
+import org.terasology.nui.skin.UISkinAsset;
 import org.terasology.reflection.copy.CopyStrategyLibrary;
 import org.terasology.reflection.reflect.ReflectFactory;
 import org.terasology.reflection.reflect.ReflectionReflectFactory;
@@ -81,8 +82,8 @@ public class AssetHelper {
             widgetLibrary.register(new ResourceUrn(moduleName, new Name(widgetClass.getSimpleName())), widgetClass);
         }
 
-        assetTypeManager.createAssetType(UISkin.class, UISkin::new, "skins");
-        ((AssetFileDataProducer)assetTypeManager.getAssetType(UISkin.class).get().getProducers().get(0)).addAssetFormat(new UISkinFormat(widgetLibrary));
+        assetTypeManager.createAssetType(UISkinAsset.class, UISkinAsset::new, "skins");
+        ((AssetFileDataProducer)assetTypeManager.getAssetType(UISkinAsset.class).get().getProducers().get(0)).addAssetFormat(new UISkinFormat(widgetLibrary));
 
         assetTypeManager.createAssetType(UIElement.class, UIElement::new, "ui");
         ((AssetFileDataProducer)assetTypeManager.getAssetType(UIElement.class).get().getProducers().get(0)).addAssetFormat(new UIFormat(widgetLibrary));

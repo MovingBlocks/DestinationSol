@@ -27,7 +27,8 @@ import org.destinationsol.util.InjectionHelper;
 import org.terasology.gestalt.assets.ResourceUrn;
 import org.terasology.input.InputType;
 import org.terasology.input.MouseInput;
-import org.terasology.input.device.KeyboardAction;
+import org.terasology.input.device.CharKeyboardAction;
+import org.terasology.input.device.RawKeyboardAction;
 import org.terasology.input.device.KeyboardDevice;
 import org.terasology.input.device.MouseAction;
 import org.terasology.input.device.MouseDevice;
@@ -40,6 +41,7 @@ import org.terasology.nui.backends.libgdx.LibGDXKeyboardDevice;
 import org.terasology.nui.backends.libgdx.LibGDXMouseDevice;
 import org.terasology.nui.backends.libgdx.NUIInputProcessor;
 import org.terasology.nui.canvas.CanvasImpl;
+import org.terasology.nui.events.NUICharEvent;
 import org.terasology.nui.events.NUIKeyEvent;
 import org.terasology.nui.events.NUIMouseButtonEvent;
 import org.terasology.nui.events.NUIMouseWheelEvent;
@@ -122,7 +124,7 @@ public class NUIManager {
                 commonDrawer.getSpriteBatch(), new ShapeRenderer(), false, true);
         focusManager = new FocusManagerImpl();
         whiteTexture = Assets.getDSTexture(WHITE_TEXTURE_URN).getUiTexture();
-        skin = Assets.getAssetHelper().get(new ResourceUrn(DEFAULT_SKIN_URN), UISkin.class).get();
+        skin = Assets.getSkin(DEFAULT_SKIN_URN);
 
         canvas = new CanvasImpl(canvasRenderer, focusManager, keyboard, mouse, whiteTexture, skin, 100);
         TabbingManager.setFocusManager(focusManager);
@@ -145,11 +147,11 @@ public class NUIManager {
      * @param solApplication the application to use
      */
     public void update(SolApplication solApplication) {
-        canvas.processMousePosition(mouse.getMousePosition());
+        canvas.processMousePosition(mouse.getPosition());
         canvas.setGameTime(System.currentTimeMillis());
 
-        for (KeyboardAction action : keyboard.getInputQueue()) {
-            NUIKeyEvent event = new NUIKeyEvent(mouse, keyboard, action.getInput(), action.getInputChar(), action.getState());
+        for (RawKeyboardAction action : keyboard.getInputQueue()) {
+            NUIKeyEvent event = new NUIKeyEvent(mouse, keyboard, action.getInput(), action.getState());
 
             if (focusManager.getFocus() != null) {
                 focusManager.getFocus().onKeyEvent(event);
@@ -157,6 +159,20 @@ public class NUIManager {
 
             for (NUIScreenLayer uiScreen : uiScreens) {
                 if (uiScreen.onKeyEvent(event) || uiScreen.isBlockingInput() || event.isConsumed()) {
+                    break;
+                }
+            }
+        }
+
+        for (CharKeyboardAction action : keyboard.getCharInputQueue()) {
+            NUICharEvent event = new NUICharEvent(mouse, keyboard, action.getCharacter());
+
+            if (focusManager.getFocus() != null) {
+                focusManager.getFocus().onCharEvent(event);
+            }
+
+            for (NUIScreenLayer uiScreen : uiScreens) {
+                if (uiScreen.onCharEvent(event) || uiScreen.isBlockingInput() || event.isConsumed()) {
                     break;
                 }
             }
