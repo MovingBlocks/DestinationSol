@@ -75,8 +75,6 @@ public class RubbleCreationSystem implements EventReceiver {
         if (!entity.hasComponent(Stasis.class)) {
             Velocity velocityComponent;
             Angle angleComponent;
-            Size sizeComponent;
-            Position positionComponent;
 
             if (entity.hasComponent(Velocity.class)) {
                 velocityComponent = entity.getComponent(Velocity.class).get();
@@ -85,7 +83,6 @@ public class RubbleCreationSystem implements EventReceiver {
                 velocityComponent.velocity = new Vector2();
             }
 
-
             if (entity.hasComponent(Angle.class)) {
                 angleComponent = entity.getComponent(Angle.class).get();
             } else {
@@ -93,23 +90,7 @@ public class RubbleCreationSystem implements EventReceiver {
                 angleComponent.setAngle(0f);
             }
 
-
-            if (entity.hasComponent(Size.class)) {
-                sizeComponent = entity.getComponent(Size.class).get();
-            } else {
-                sizeComponent = new Size();
-                sizeComponent.size = 2f;
-            }
-
-
-            if (entity.hasComponent(Position.class)) {
-                positionComponent  = entity.getComponent(Position.class).get();
-            } else {
-                positionComponent = new Position();
-                positionComponent.position = new Vector2();
-            }
-
-            buildRubblePieces(positionComponent, velocityComponent, angleComponent, sizeComponent);
+            buildRubblePieces(entity.getComponent(Position.class).get(), velocityComponent, angleComponent, entity.getComponent(Size.class).get());
         }
         return EventResult.CONTINUE;
     }
