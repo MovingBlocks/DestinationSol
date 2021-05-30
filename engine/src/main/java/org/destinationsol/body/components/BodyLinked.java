@@ -30,6 +30,9 @@ public class BodyLinked implements Component<BodyLinked> {
 
     private float mass;
 
+    private String jsonPath = "";
+    private String jsonSchemaFileName = "";
+
     /**
      * Sets the mass of the entity. This is called every tick by the {@link BodyHandlerSystem}.
      */
@@ -46,8 +49,26 @@ public class BodyLinked implements Component<BodyLinked> {
         return mass;
     }
 
+    public String getJsonPath() {
+        return jsonPath;
+    }
+
+    public void setJsonPath(String jsonPath) {
+        this.jsonPath = jsonPath;
+    }
+
+    public String getJsonSchemaFileName() {
+        return jsonSchemaFileName;
+    }
+
+    public void setJsonSchemaFileName(String jsonSchemaFileName) {
+        this.jsonSchemaFileName = jsonSchemaFileName;
+    }
+
     @Override
     public void copy(BodyLinked other) {
         this.mass = other.getMass();
+        this.jsonPath = other.getJsonPath();
+        this.jsonSchemaFileName = other.jsonSchemaFileName;
     }
 }
