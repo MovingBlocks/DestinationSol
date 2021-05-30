@@ -26,7 +26,6 @@ import org.destinationsol.assets.AssetHelper;
 import org.destinationsol.assets.Assets;
 import org.destinationsol.assets.music.OggMusicManager;
 import org.destinationsol.assets.sound.OggSoundManager;
-import org.destinationsol.asteroids.components.AsteroidMesh;
 import org.destinationsol.body.components.BodyLinked;
 import org.destinationsol.common.SolColor;
 import org.destinationsol.common.SolMath;
