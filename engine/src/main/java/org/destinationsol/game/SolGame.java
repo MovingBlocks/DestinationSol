@@ -62,6 +62,7 @@ import org.destinationsol.ui.TutorialManager;
 import org.destinationsol.ui.UiDrawer;
 import org.destinationsol.ui.Waypoint;
 import org.destinationsol.util.InjectionHelper;
+import org.destinationsol.world.WorldBuilder;
 import org.terasology.gestalt.entitysystem.entity.EntityRef;
 
 import java.util.ArrayList;
@@ -233,6 +234,8 @@ public class SolGame {
         SolRandom.setSeed(worldConfig.getSeed());
         planetManager.fill(solNames, worldConfig.getNumberOfSystems());
         createGame(shipName, isNewGame);
+
+        WorldBuilder worldBuilder = new WorldBuilder(context);  //World Generation will be initiated from here
         if (!isNewGame) {
             createAndSpawnMercenariesFromSave();
         }
