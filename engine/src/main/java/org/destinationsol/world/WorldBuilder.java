@@ -15,63 +15,70 @@
  */
 package org.destinationsol.world;
 
-
 import org.destinationsol.game.context.Context;
 import org.destinationsol.modules.ModuleManager;
-import org.destinationsol.world.generators.MazeGenerator;
-import org.destinationsol.world.generators.PlanetGenerator;
+import org.destinationsol.world.generators.FeatureGenerator;
 import org.destinationsol.world.generators.SolSystemGenerator;
 
+import java.lang.reflect.Modifier;
 import java.util.ArrayList;
+import java.util.Random;
 
 /**
- * This class is the starting point for world generation
+ * This class is the starting point for world generation. When a new world is created, this class first retrieves
+ * all Generator classes and then initiates each SolSystem's build process. Two types of world generation classes are
+ * retrieved: classes that subclass SolSystemGenerator and those at subclass FeatureGenerator.
  */
 public class WorldBuilder {
-    ArrayList<Object> solSystemGenerators = new ArrayList<>();
-    ArrayList<Object> planetGenerators = new ArrayList<>();
-    ArrayList<Object> mazeGenerators = new ArrayList<>();
+    ArrayList<SolSystemGenerator> solSystemGenerators = new ArrayList<>();
+    ArrayList<FeatureGenerator> featureGenerators = new ArrayList<>();
     Context context;
+    private final int numberOfSystems;
 
-    public WorldBuilder(Context context) {
+
+    /**
+     * Initialize the WorldBuilder class
+     * @param context System Context
+     * @param numSystems Number of SolSystems the world should have. This can be set by the user
+     */
+    public WorldBuilder(Context context, int numSystems) {
         this.context = context;
-        populateGeneratorList();
-
+        numberOfSystems = numSystems;
+        populateSolSystemGeneratorList();
+        populateFeatureGeneratorList();
         initializeSolSystemGenerators();
     }
 
     /**
-     * This method will use reflection to get all generator classes (using the @WorldGenerator annotation)
+     * This method uses reflection to retrieve all SolSystemGenerator classes. They are added to the list
+     * of SolSystemGenerators.
      */
-    private void populateGeneratorList() {
+    private void populateSolSystemGeneratorList() {
 
         for (Class generator : context.get(ModuleManager.class).getEnvironment().getSubtypesOf(SolSystemGenerator.class)) {
-            if (generator.isAnnotationPresent(WorldGenerator.class)) {
-                try {
-                    Object solSystemGenerator = generator.newInstance();
+            try {
+                for (int i = 0; i < numberOfSystems; i++) {
+                    //for each SolSystem available, we will make the number of instances equal to the total number
+                    //of SolSystems we want for our world
+                    SolSystemGenerator solSystemGenerator = (SolSystemGenerator) generator.newInstance();
                     solSystemGenerators.add(solSystemGenerator);
-                } catch (InstantiationException | IllegalAccessException e) {
-                    e.printStackTrace();
                 }
+            } catch (InstantiationException | IllegalAccessException e) {
+                e.printStackTrace();
             }
         }
+    }
 
-        for (Class generator : context.get(ModuleManager.class).getEnvironment().getSubtypesOf(PlanetGenerator.class)) {
-            if (generator.isAnnotationPresent(WorldGenerator.class)) {
+    /**
+     * This method uses reflection to retrieve all concrete FeatureGenerator classes. They are added to the list
+     * of FeatureGenerators.
+     */
+    private void populateFeatureGeneratorList() {
+        for (Class generator : context.get(ModuleManager.class).getEnvironment().getSubtypesOf(FeatureGenerator.class)) {
+            if (!Modifier.isAbstract(generator.getModifiers())) {
                 try {
-                    Object planetGenerator = generator.newInstance();
-                    planetGenerators.add(planetGenerator);
-                } catch (InstantiationException | IllegalAccessException e) {
-                    e.printStackTrace();
-                }
-            }
-        }
-
-        for (Class generator : context.get(ModuleManager.class).getEnvironment().getSubtypesOf(MazeGenerator.class)) {
-            if (generator.isAnnotationPresent(WorldGenerator.class)) {
-                try {
-                    Object mazeGenerator = generator.newInstance();
-                    mazeGenerators.add(mazeGenerator);
+                    FeatureGenerator featureGenerator = (FeatureGenerator) generator.newInstance();
+                    featureGenerators.add(featureGenerator);
                 } catch (InstantiationException | IllegalAccessException e) {
                     e.printStackTrace();
                 }
@@ -80,15 +87,18 @@ public class WorldBuilder {
     }
 
     /**
-     * Eventually this method will be used to pick a random assortment of the available generators. The number of
-     * SolSystemGenerators used will depend on how many Sol Systems the world should have
+     * This method initializes the SolSystemGenerators. How many generators are initialized depends on the number
+     * of SolSystems the world is set to have. When there are multiple types of SolSystemGenerators available, this
+     * method chooses randomly from the list of all generators to decide which to create.
      */
     private void initializeSolSystemGenerators() {
-        for (Object gen : solSystemGenerators) {
-            SolSystemGenerator generator = (SolSystemGenerator) gen;
-            generator.setPlanetGenerators(planetGenerators);
-            generator.setMazeGenerators(mazeGenerators);
-            generator.build();
+        Random random = new Random();
+        for (int i = 0; i < numberOfSystems; i++) {
+            int systemIndex = random.nextInt(solSystemGenerators.size());
+            SolSystemGenerator solGenerator = solSystemGenerators.get(systemIndex);
+            solSystemGenerators.remove(systemIndex);
+            solGenerator.setFeatureGenerators(featureGenerators);
+            solGenerator.build();
         }
     }
 }

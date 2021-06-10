@@ -15,46 +15,16 @@
  */
 package org.destinationsol.world.generators;
 
-import org.destinationsol.world.WorldGenerator;
-
-import java.util.ArrayList;
-
-@WorldGenerator
+/**
+ * This class is a concrete implementation of a SolSystem and handles its creation. This class has access to the
+ * featureGenerators list from {@link SolSystemGenerator}. This allows it to generate features
+ */
 public class SolSystemGeneratorImpl extends SolSystemGenerator {
-    ArrayList<PlanetGenerator> planetGenerators = new ArrayList<>();
-    ArrayList<MazeGenerator> mazeGenerators = new ArrayList<>();
-
-    @Override
-    void initializePlanetGenerators() {
-        for (PlanetGenerator generator : planetGenerators) {
-            generator.build();
-        }
-    }
-
-    @Override
-    void initializeMazeGenerators() {
-        for (MazeGenerator generator : mazeGenerators) {
-            generator.build();
-        }
-    }
-
-    @Override
-    public void setPlanetGenerators(ArrayList<Object> generators) {
-        for (Object o : generators) {
-            planetGenerators.add((PlanetGenerator) o);
-        }
-    }
-
-    @Override
-    public void setMazeGenerators(ArrayList<Object> generators) {
-        for (Object o : generators) {
-            mazeGenerators.add((MazeGenerator) o);
-        }
-    }
 
     @Override
     public void build() {
-        initializePlanetGenerators();
-        initializeMazeGenerators();
+        for(FeatureGenerator generator : featureGenerators) {
+            generator.build();
+        }
     }
 }

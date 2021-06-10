@@ -13,14 +13,13 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.destinationsol.world;
+package org.destinationsol.world.generators;
 
-import java.lang.annotation.ElementType;
-import java.lang.annotation.Retention;
-import java.lang.annotation.RetentionPolicy;
-import java.lang.annotation.Target;
+/**
+ * This class represents the framework
+ */
+public abstract class FeatureGenerator {
 
-@Target(ElementType.TYPE)
-@Retention(RetentionPolicy.RUNTIME)
-public @interface WorldGenerator {
+    public abstract void build();
+
 }
