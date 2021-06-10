@@ -15,8 +15,11 @@
  */
 package org.destinationsol.world.generators;
 
-public abstract class PlanetGenerator {
-
-    public abstract void build();
+/**
+ * This class defines the contract for Planet generators. Any Planet will be created from a concrete
+ * implementation of this class.
+ * TODO: Implement behavior common to all Planets as concrete methods in this class
+ */
+public abstract class PlanetGenerator extends FeatureGenerator {
 
 }

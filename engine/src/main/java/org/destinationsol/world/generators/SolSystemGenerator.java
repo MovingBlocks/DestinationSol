@@ -17,18 +17,30 @@ package org.destinationsol.world.generators;
 
 import java.util.ArrayList;
 
+/**
+ * This class defines the contract for SolSystem generators. Any SolSystem in the game will be created from a concrete
+ * implementation of this class. Every SolSystem is given access to all the available features. Particular
+ * implementation can decide which of those features will be used
+ */
 public abstract class SolSystemGenerator {
+    //This field is protected as that allows subclasses to access it
+    protected ArrayList<FeatureGenerator> featureGenerators = new ArrayList<>();
 
-    //somehow this needs the get the right PlanetGenerators for the Specific SolSystemGenerator
-    abstract void initializePlanetGenerators();
+    /**
+     * This method allows {@link org.destinationsol.world.WorldBuilder} to give SolSystems access to other
+     * world features so they can be initialized and incorporated into the SolSystem
+     * @param generators The list of FeatureGenerators available
+     */
+    public void setFeatureGenerators(ArrayList<FeatureGenerator> generators) {
+        for (FeatureGenerator feature : generators) {
+            featureGenerators.add(feature);
+        }
+    }
 
-    abstract void initializeMazeGenerators();
-
-    public abstract void setPlanetGenerators(ArrayList<Object> generators);
-
-    public abstract void setMazeGenerators(ArrayList<Object> generators);
-
+    /**
+     * This method is intended to first set up the SolSystem during world generation and then initialize all the
+     * FeatureGenerators of that SolSystem
+     */
     public abstract void build();
-
 
 }

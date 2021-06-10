@@ -15,7 +15,11 @@
  */
 package org.destinationsol.world.generators;
 
-public abstract class MazeGenerator {
+/**
+ * This class defines the contract for Maze generators. Any Maze will be created from a concrete
+ * implementation of this class.
+ * TODO: Implement behavior common to all Mazes as concrete methods in this class
+ */
+public abstract class MazeGenerator extends FeatureGenerator {
 
-    public abstract void build();
 }

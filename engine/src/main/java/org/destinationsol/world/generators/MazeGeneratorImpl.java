@@ -15,9 +15,9 @@
  */
 package org.destinationsol.world.generators;
 
-import org.destinationsol.world.WorldGenerator;
-
-@WorldGenerator
+/**
+ * This class is a concrete implementation of a Maze and handles its creation
+ */
 public class MazeGeneratorImpl extends MazeGenerator {
 
     @Override

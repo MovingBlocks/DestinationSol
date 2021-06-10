@@ -235,7 +235,7 @@ public class SolGame {
         planetManager.fill(solNames, worldConfig.getNumberOfSystems());
         createGame(shipName, isNewGame);
 
-        WorldBuilder worldBuilder = new WorldBuilder(context);  //World Generation will be initiated from here
+        WorldBuilder worldBuilder = new WorldBuilder(context, worldConfig.getNumberOfSystems());  //World Generation will be initiated from here
         if (!isNewGame) {
             createAndSpawnMercenariesFromSave();
         }
