@@ -99,6 +99,7 @@ public class SolGame {
     private final TutorialManager tutorialManager;
     private final GalaxyFiller galaxyFiller;
     private final SolContactListener contactListener;
+    private final WorldBuilder worldBuilder;
     private Hero hero;
     private float timeStep;
     private float time;
@@ -174,6 +175,7 @@ public class SolGame {
         drawableDebugger = new DrawableDebugger();
         mountDetectDrawer = new MountDetectDrawer();
         beaconHandler = new BeaconHandler();
+        worldBuilder = new WorldBuilder(context, worldConfig.getNumberOfSystems());
         timeFactor = 1;
 
     }
@@ -235,7 +237,9 @@ public class SolGame {
         planetManager.fill(solNames, worldConfig.getNumberOfSystems());
         createGame(shipName, isNewGame);
 
-        WorldBuilder worldBuilder = new WorldBuilder(context, worldConfig.getNumberOfSystems());  //World Generation will be initiated from here
+        //World Generation will be initiated from here
+        worldBuilder.build();
+
         if (!isNewGame) {
             createAndSpawnMercenariesFromSave();
         }

@@ -1,5 +1,5 @@
 /*
- * Copyright 2020 The Terasology Foundation
+ * Copyright 2021 The Terasology Foundation
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -16,8 +16,8 @@
 package org.destinationsol.world.generators;
 
 /**
- * This class defines the contract for Planet generators. Any Planet will be created from a concrete
- * implementation of this class.
+ * This class defines the general behavior for Planet generators (such as ground, sky, gravity, etc). Any Planet will be
+ * created from a concrete implementation of this class, with behavior specific to that Planet defined there.
  * TODO: Implement behavior common to all Planets as concrete methods in this class
  */
 public abstract class PlanetGenerator extends FeatureGenerator {

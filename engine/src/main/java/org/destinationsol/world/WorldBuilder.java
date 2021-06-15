@@ -1,5 +1,5 @@
 /*
- * Copyright 2020 The Terasology Foundation
+ * Copyright 2021 The Terasology Foundation
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -15,38 +15,36 @@
  */
 package org.destinationsol.world;
 
+import org.destinationsol.common.SolRandom;
 import org.destinationsol.game.context.Context;
 import org.destinationsol.modules.ModuleManager;
 import org.destinationsol.world.generators.FeatureGenerator;
 import org.destinationsol.world.generators.SolSystemGenerator;
 
 import java.lang.reflect.Modifier;
-import java.util.ArrayList;
-import java.util.Random;
+import java.util.*;
 
 /**
  * This class is the starting point for world generation. When a new world is created, this class first retrieves
  * all Generator classes and then initiates each SolSystem's build process. Two types of world generation classes are
- * retrieved: classes that subclass SolSystemGenerator and those at subclass FeatureGenerator.
+ * retrieved: those that subclass SolSystemGenerator and those at subclass FeatureGenerator.
  */
 public class WorldBuilder {
-    ArrayList<SolSystemGenerator> solSystemGenerators = new ArrayList<>();
-    ArrayList<FeatureGenerator> featureGenerators = new ArrayList<>();
-    Context context;
-    private final int numberOfSystems;
-
-
     /**
-     * Initialize the WorldBuilder class
-     * @param context System Context
-     * @param numSystems Number of SolSystems the world should have. This can be set by the user
+     * These arrays hold instances of any class which extends SolSystemGenerator or FeatureGenerator, respectively.
      */
+    private ArrayList<SolSystemGenerator> solSystemGenerators = new ArrayList<>();
+    private ArrayList<FeatureGenerator> featureGenerators = new ArrayList<>();
+    private Context context;
+    private final int numberOfSystems;
+    private int systemsBuilt; //This field is for testing purposes
+
     public WorldBuilder(Context context, int numSystems) {
         this.context = context;
         numberOfSystems = numSystems;
         populateSolSystemGeneratorList();
         populateFeatureGeneratorList();
-        initializeSolSystemGenerators();
+        systemsBuilt = 0;
     }
 
     /**
@@ -57,12 +55,8 @@ public class WorldBuilder {
 
         for (Class generator : context.get(ModuleManager.class).getEnvironment().getSubtypesOf(SolSystemGenerator.class)) {
             try {
-                for (int i = 0; i < numberOfSystems; i++) {
-                    //for each SolSystem available, we will make the number of instances equal to the total number
-                    //of SolSystems we want for our world
-                    SolSystemGenerator solSystemGenerator = (SolSystemGenerator) generator.newInstance();
-                    solSystemGenerators.add(solSystemGenerator);
-                }
+                SolSystemGenerator solSystemGenerator = (SolSystemGenerator) generator.newInstance();
+                solSystemGenerators.add(solSystemGenerator);
             } catch (InstantiationException | IllegalAccessException e) {
                 e.printStackTrace();
             }
@@ -90,15 +84,36 @@ public class WorldBuilder {
      * This method initializes the SolSystemGenerators. How many generators are initialized depends on the number
      * of SolSystems the world is set to have. When there are multiple types of SolSystemGenerators available, this
      * method chooses randomly from the list of all generators to decide which to create.
+     *
+     * This method calls setFeatureGenerators() on each SolSystemGenerator to give each SolSystem access to other
+     * FeatureGenerators (Planets, Mazes, etc.) so they can be initialized and incorporated into the SolSystem.
      */
     private void initializeSolSystemGenerators() {
-        Random random = new Random();
         for (int i = 0; i < numberOfSystems; i++) {
-            int systemIndex = random.nextInt(solSystemGenerators.size());
-            SolSystemGenerator solGenerator = solSystemGenerators.get(systemIndex);
-            solSystemGenerators.remove(systemIndex);
-            solGenerator.setFeatureGenerators(featureGenerators);
-            solGenerator.build();
+            SolSystemGenerator solSystemGenerator = solSystemGenerators.get(SolRandom.seededRandomInt(solSystemGenerators.size()));
+            solSystemGenerator.setFeatureGenerators(featureGenerators);
+            solSystemGenerator.build();
+            systemsBuilt++;
         }
+    }
+
+    public void build() {
+        initializeSolSystemGenerators();
+    }
+
+    public int getSystemsBuilt() {
+        return systemsBuilt;
+    }
+
+    public ArrayList<SolSystemGenerator> getSolSystemGenerators() {
+        return solSystemGenerators;
+    }
+
+    public ArrayList<FeatureGenerator> getFeatureGenerators() {
+        return featureGenerators;
+    }
+
+    public Context getContext() {
+        return context;
     }
 }

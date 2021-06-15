@@ -1,5 +1,5 @@
 /*
- * Copyright 2020 The Terasology Foundation
+ * Copyright 2021 The Terasology Foundation
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -16,7 +16,9 @@
 package org.destinationsol.world.generators;
 
 /**
- * This class is a concrete implementation of a Planet and handles its creation
+ * This class is a concrete implementation of a PlanetGenerator and handles its creation. This class defines the
+ * behavior specific to the default Planets of Destination: Sol.
+ * TODO: Implement the default behavior of a MazeGenerator in this class (As it is implemented in the game currently)
  */
 public class PlanetGeneratorImpl extends PlanetGenerator {
 
