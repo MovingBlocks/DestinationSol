@@ -1,5 +1,5 @@
 /*
- * Copyright 2020 The Terasology Foundation
+ * Copyright 2021 The Terasology Foundation
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -16,8 +16,11 @@
 package org.destinationsol.world.generators;
 
 /**
- * This class is a concrete implementation of a SolSystem and handles its creation. This class has access to the
- * featureGenerators list from {@link SolSystemGenerator}. This allows it to generate features
+ * This class is a concrete implementation of a SolSystem and handles creation of elements
+ * specific to this type of SolSystem (such as how many Planets to generate, how large to make
+ * the SolSystem, etc). It defines the behavior specific to the default Planets of Destination: Sol.
+ * This class also has access to the featureGenerators list from {@link SolSystemGenerator}.
+ * This allows it to choose which FeatureGenerators to use in populating the SolSystem.
  */
 public class SolSystemGeneratorImpl extends SolSystemGenerator {
 
