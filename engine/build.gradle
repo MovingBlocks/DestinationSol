@@ -47,10 +47,10 @@ dependencies {
 
     implementation "net.jcip:jcip-annotations:1.0"
 
-    api group: 'org.terasology.nui', name: 'nui', version: '3.0.3-SNAPSHOT'
-    api group: 'org.terasology.nui', name: 'nui-libgdx', version: '3.0.3-SNAPSHOT'
-    api group: 'org.terasology.nui', name: 'nui-gestalt-di', version: '3.0.3-SNAPSHOT'
-    api group: 'org.terasology.nui', name: 'nui-reflect', version: '3.0.3-SNAPSHOT'
+    api group: 'org.terasology.nui', name: 'nui', version: '4.0.0-SNAPSHOT'
+    api group: 'org.terasology.nui', name: 'nui-libgdx', version: '4.0.0-SNAPSHOT'
+    api group: 'org.terasology.nui', name: 'nui-gestalt', version: '4.0.0-SNAPSHOT'
+    api group: 'org.terasology.nui', name: 'nui-reflect', version: '4.0.0-SNAPSHOT'
 
     implementation group: 'com.google.protobuf', name: 'protobuf-java', version: '3.4.0'
 
