@@ -21,8 +21,7 @@ import org.destinationsol.modules.ModuleManager;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.*;
 
 public class WorldBuilderTest {
     private Context context;
@@ -39,11 +38,11 @@ public class WorldBuilderTest {
     }
 
     @Test
-    void populatesSolSystemsList() {
+    void populatesSolarSystemsList() {
         int testNumberSystems = 2;
         worldBuilder = new WorldBuilder(context, testNumberSystems);
-        worldBuilder.build();
-        assertNotNull(worldBuilder.getSolSystemGenerators());
+        worldBuilder.buildWithRandomSolarSystemGenerators();
+        assertTrue(worldBuilder.getSolarSystemGenerators().size() > 0);
 
     }
 
@@ -51,15 +50,16 @@ public class WorldBuilderTest {
     void populatesFeatureGeneratorsList() {
         int testNumberSystems = 2;
         worldBuilder = new WorldBuilder(context, testNumberSystems);
-        worldBuilder.build();
-        assertNotNull(worldBuilder.getFeatureGenerators());
+        worldBuilder.buildWithRandomSolarSystemGenerators();
+        assertTrue(worldBuilder.getFeatureGenerators().size() > 0);
     }
 
     @Test
-    void createsCorrectNumberOfSolSystems() {
+    void createsCorrectNumberOfSolarSystems() {
+        //TODO Implement mockito test to correctly verify number of SolarSystems being generated instead of using counter
         int testNumberSystems = 2;
         worldBuilder = new WorldBuilder(context, testNumberSystems);
-        worldBuilder.build();
+        worldBuilder.buildWithRandomSolarSystemGenerators();
         assertEquals(worldBuilder.getSystemsBuilt(), 2);
     }
 

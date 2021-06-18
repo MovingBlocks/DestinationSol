@@ -238,7 +238,7 @@ public class SolGame {
         createGame(shipName, isNewGame);
 
         //World Generation will be initiated from here
-        worldBuilder.build();
+        worldBuilder.buildWithRandomSolarSystemGenerators();
 
         if (!isNewGame) {
             createAndSpawnMercenariesFromSave();

@@ -18,18 +18,18 @@ package org.destinationsol.world.generators;
 import java.util.ArrayList;
 
 /**
- * This class defines the general behavior for Planet generators (such as belts, radius etc). Any SolSystem in the game
+ * This class defines the general behavior for Planet generators (such as belts, radius etc). Any SolarSystem in the game
  * will be created from a concrete implementation of this class, with its specific implementation defined there.
- * Every SolSystem is given access to all the available FeatureGenerators (PlanetGenerators, MazeGenerators, etc).
- * Particular implementations can decide which of those FeatureGenerators will be used to populate the SolSystem.
+ * Every SolarSystem is given access to all the available FeatureGenerators (PlanetGenerators, MazeGenerators, etc).
+ * Particular implementations can decide which of those FeatureGenerators will be used to populate the SolarSystem.
  */
-public abstract class SolSystemGenerator {
+public abstract class SolarSystemGenerator {
     //This field is protected as that allows subclasses to access it
     protected ArrayList<FeatureGenerator> featureGenerators = new ArrayList<>();
 
     /**
-     * This method is intended to first set up the SolSystem during world generation and then initialize all the
-     * FeatureGenerators of that SolSystem
+     * This method is intended to first set up the SolarSystem during world generation and then initialize all the
+     * FeatureGenerators of that SolarSystem
      * @return
      */
     public abstract void build();
