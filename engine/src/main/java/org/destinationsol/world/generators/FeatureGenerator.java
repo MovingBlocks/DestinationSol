@@ -16,9 +16,9 @@
 package org.destinationsol.world.generators;
 
 /**
- * This class represents the abstract version of any feature which will populate the game's SolSystems, such as Planets,
+ * This class represents the abstract version of any feature which will populate the game's SolarSystems, such as Planets,
  * Mazes, or anything else which a user may wish to implement. Extend this class with a concrete class to create a
- * general Feature, or extend to child {@link PlanetGenerator} or {@link MazeGenerator} classes to create custom
+ * general Feature, or extend the child {@link PlanetGenerator} or {@link MazeGenerator} classes to create custom
  * versions of those elements.
  */
 public abstract class FeatureGenerator {

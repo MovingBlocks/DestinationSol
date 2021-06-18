@@ -16,13 +16,15 @@
 package org.destinationsol.world.generators;
 
 /**
- * This class is a concrete implementation of a SolSystem and handles creation of elements
- * specific to this type of SolSystem (such as how many Planets to generate, how large to make
- * the SolSystem, etc). It defines the behavior specific to the default Planets of Destination: Sol.
- * This class also has access to the featureGenerators list from {@link SolSystemGenerator}.
- * This allows it to choose which FeatureGenerators to use in populating the SolSystem.
+ * This class is a concrete implementation of a SolarSystem and handles creation of elements
+ * specific to this type of SolarSystem (such as how many Planets to generate, how large to make
+ * the SolarSystem, etc).
+ *
+ * This class also has access to the featureGenerators list from {@link SolarSystemGenerator}.
+ * This allows it to choose which FeatureGenerators to use in populating the SolarSystem.
+ * TODO: Define the behavior of default Planets in this class (As it is implemented in the game currently)
  */
-public class SolSystemGeneratorImpl extends SolSystemGenerator {
+public class SolarSystemGeneratorImpl extends SolarSystemGenerator {
 
     @Override
     public void build() {
