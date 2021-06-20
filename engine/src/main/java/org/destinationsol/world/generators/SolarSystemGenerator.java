@@ -30,12 +30,11 @@ public abstract class SolarSystemGenerator {
     /**
      * This method is intended to first set up the SolarSystem during world generation and then initialize all the
      * FeatureGenerators of that SolarSystem
-     * @return
      */
     public abstract void build();
 
     public void setFeatureGenerators(ArrayList<FeatureGenerator> generators) {
-        featureGenerators = (ArrayList<FeatureGenerator>) generators.clone();
+        featureGenerators.addAll(generators);
     }
 
 }

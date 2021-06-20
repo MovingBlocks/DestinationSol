@@ -22,7 +22,7 @@ import org.destinationsol.world.generators.FeatureGenerator;
 import org.destinationsol.world.generators.SolarSystemGenerator;
 
 import java.lang.reflect.Modifier;
-import java.util.*;
+import java.util.ArrayList;
 
 /**
  * This class is the starting point for world generation. When a new world is created, this class first retrieves
