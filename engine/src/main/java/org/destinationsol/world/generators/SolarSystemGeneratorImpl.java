@@ -28,7 +28,7 @@ public class SolarSystemGeneratorImpl extends SolarSystemGenerator {
 
     @Override
     public void build() {
-        for(FeatureGenerator generator : featureGenerators) {
+        for (FeatureGenerator generator : featureGenerators) {
             generator.build();
         }
     }
