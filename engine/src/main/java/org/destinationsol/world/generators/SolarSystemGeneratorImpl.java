@@ -16,7 +16,7 @@
 package org.destinationsol.world.generators;
 
 /**
- * This class is a concrete implementation of a SolarSystem and handles creation of elements
+ * This class is a concrete implementation of a SolarSystemGenerator and handles creation of elements
  * specific to this type of SolarSystem (such as how many Planets to generate, how large to make
  * the SolarSystem, etc).
  *
