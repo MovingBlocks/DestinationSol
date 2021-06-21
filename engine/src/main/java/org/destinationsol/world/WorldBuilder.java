@@ -27,7 +27,7 @@ import java.util.ArrayList;
 /**
  * This class is the starting point for world generation. When a new world is created, this class first retrieves
  * all Generator classes and then initiates each SolarSystem's build process. Two types of world generation classes are
- * retrieved: those that subclass SolarSystemGenerator and those at subclass FeatureGenerator.
+ * retrieved: those that subclass SolarSystemGenerator and those that subclass FeatureGenerator.
  */
 public class WorldBuilder {
 
