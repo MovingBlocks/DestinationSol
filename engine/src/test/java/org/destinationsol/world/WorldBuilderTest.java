@@ -23,8 +23,6 @@ import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
-import static org.junit.jupiter.api.Assertions.assertTrue;
-
 
 public class WorldBuilderTest {
     private Context context;
@@ -41,7 +39,7 @@ public class WorldBuilderTest {
     }
 
     @Test
-    void populatesSolarSystemsList() {
+    void populatesSolSystemsList() {
         int testNumberSystems = 2;
         worldBuilder = new WorldBuilder(context, testNumberSystems);
         worldBuilder.buildWithRandomSolarSystemGenerators();
@@ -53,8 +51,8 @@ public class WorldBuilderTest {
     void populatesFeatureGeneratorsList() {
         int testNumberSystems = 2;
         worldBuilder = new WorldBuilder(context, testNumberSystems);
-        worldBuilder.buildWithRandomSolarSystemGenerators();
-        assertTrue(worldBuilder.getFeatureGenerators().size() > 0);
+        worldBuilder.build();
+        assertNotNull(worldBuilder.getFeatureGenerators());
     }
 
     @Test

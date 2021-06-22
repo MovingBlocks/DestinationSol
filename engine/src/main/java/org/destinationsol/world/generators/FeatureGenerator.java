@@ -1,5 +1,5 @@
 /*
- * Copyright 2021 The Terasology Foundation
+ * Copyright 2020 The Terasology Foundation
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -15,14 +15,41 @@
  */
 package org.destinationsol.world.generators;
 
+import com.badlogic.gdx.math.Vector2;
+
 /**
- * This class represents the abstract version of any feature which will populate the game's SolarSystems, such as Planets,
- * Mazes, or anything else which a user may wish to implement. Extend this class with a concrete class to create a
- * general Feature, or extend the child {@link PlanetGenerator} or {@link MazeGenerator} classes to create custom
- * versions of those elements.
+ * This class represents the framework
  */
 public abstract class FeatureGenerator {
+    private Vector2 position;
+    private float radius;
+    private boolean positioned;
 
     public abstract void build();
+
+    public void setPosition(Vector2 position) {
+        this.position = position;
+        setPositioned(true);
+    }
+
+    public Vector2 getPosition() {
+        return position;
+    }
+
+    public void setRadius(float radius) {
+        this.radius = radius;
+    }
+
+    public float getRadius() {
+        return radius;
+    }
+
+    public void setPositioned(boolean p) {
+        positioned = p;
+    }
+
+    public boolean getPositioned() {
+        return positioned;
+    }
 
 }
