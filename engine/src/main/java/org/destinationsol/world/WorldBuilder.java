@@ -1,5 +1,5 @@
 /*
- * Copyright 2020 The Terasology Foundation
+ * Copyright 2021 The Terasology Foundation
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -21,10 +21,10 @@ import org.destinationsol.common.SolMath;
 import org.destinationsol.common.SolRandom;
 import org.destinationsol.game.context.Context;
 import org.destinationsol.modules.ModuleManager;
-import org.destinationsol.world.generators.MazeGenerator;
-import org.destinationsol.world.generators.PlanetGenerator;
-import org.destinationsol.world.generators.SolSystemGenerator;
+import org.destinationsol.world.generators.FeatureGenerator;
+import org.destinationsol.world.generators.SolarSystemGenerator;
 
+import java.lang.reflect.Modifier;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -44,17 +44,18 @@ public class WorldBuilder {
 
     public WorldBuilder(Context context, int numSystems) {
         this.context = context;
-        populateGeneratorList();
-
-        initializeSolSystemGenerators();
+        numberOfSystems = numSystems;
+        populateSolarSystemGeneratorList();
+        populateFeatureGeneratorList();
+        systemsBuilt = 0;
     }
 
     /**
-     * This method will use reflection to get all generator classes (using the @WorldGenerator annotation)
+     * This method uses reflection to retrieve all SolarSystemGenerator classes. They are added to the list
+     * of SolarSystemGenerators.
      */
-    private void populateGeneratorList() {
-
-        for (Class generator : context.get(ModuleManager.class).getEnvironment().getSubtypesOf(SolSystemGenerator.class)) {
+    private void populateSolarSystemGeneratorList() {
+        for (Class generator : context.get(ModuleManager.class).getEnvironment().getSubtypesOf(SolarSystemGenerator.class)) {
             try {
                 SolarSystemGenerator solarSystemGenerator = (SolarSystemGenerator) generator.newInstance();
                 solarSystemGeneratorTypes.add(solarSystemGenerator);
@@ -62,23 +63,17 @@ public class WorldBuilder {
                 e.printStackTrace();
             }
         }
-
-        for (Class generator : context.get(ModuleManager.class).getEnvironment().getSubtypesOf(PlanetGenerator.class)) {
-            if (generator.isAnnotationPresent(WorldGenerator.class)) {
+    }
+    /**
+     * This method uses reflection to retrieve all concrete FeatureGenerator classes. They are added to the list
+     * of FeatureGenerators.
+     */
+    private void populateFeatureGeneratorList() {
+        for (Class generator : context.get(ModuleManager.class).getEnvironment().getSubtypesOf(FeatureGenerator.class)) {
+            if (!Modifier.isAbstract(generator.getModifiers())) {
                 try {
-                    Object planetGenerator = generator.newInstance();
-                    planetGenerators.add(planetGenerator);
-                } catch (InstantiationException | IllegalAccessException e) {
-                    e.printStackTrace();
-                }
-            }
-        }
-
-        for (Class generator : context.get(ModuleManager.class).getEnvironment().getSubtypesOf(MazeGenerator.class)) {
-            if (generator.isAnnotationPresent(WorldGenerator.class)) {
-                try {
-                    Object mazeGenerator = generator.newInstance();
-                    mazeGenerators.add(mazeGenerator);
+                    FeatureGenerator featureGenerator = (FeatureGenerator) generator.newInstance();
+                    featureGenerators.add(featureGenerator);
                 } catch (InstantiationException | IllegalAccessException e) {
                     e.printStackTrace();
                 }
@@ -102,8 +97,7 @@ public class WorldBuilder {
      * This method calls setFeatureGenerators() on each SolarSystemGenerator to give each SolarSystem access to other
      * FeatureGenerators (Planets, Mazes, etc.) so they can be initialized and incorporated into the SolarSystem.
      */
-    private void initializeSolSystemGenerators() {
-        Random random = new Random();
+    private void initializeRandomSolarSystemGenerators() {
         for (int i = 0; i < numberOfSystems; i++) {
             Class<? extends SolarSystemGenerator> solarSystemGenerator =  solarSystemGeneratorTypes.get(SolRandom.seededRandomInt(solarSystemGeneratorTypes.size())).getClass();
             try {
@@ -176,6 +170,10 @@ public class WorldBuilder {
 
     public ArrayList<SolarSystemGenerator> getSolarSystemGeneratorTypes() {
         return solarSystemGeneratorTypes;
+    }
+
+    public ArrayList<SolarSystemGenerator> getActiveSolarSystemGenerators() {
+        return activeSolarSystemGenerators;
     }
 
     public ArrayList<FeatureGenerator> getFeatureGenerators() {

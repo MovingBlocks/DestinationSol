@@ -15,6 +15,8 @@
  */
 package org.destinationsol.world.generators;
 
+import java.util.ArrayList;
+
 /**
  * This class is a concrete implementation of a SolarSystemGenerator and handles creation of elements
  * specific to this type of SolarSystem (such as how many Planets to generate, how large to make
@@ -25,11 +27,27 @@ package org.destinationsol.world.generators;
  * TODO: Define the behavior of default Planets in this class (As it is implemented in the game currently)
  */
 public class SolarSystemGeneratorImpl extends SolarSystemGenerator {
+    ArrayList<PlanetGenerator> planetGenerators = new ArrayList<>();
+    ArrayList<MazeGenerator> mazeGenerators = new ArrayList<>();
+
+    public SolarSystemGeneratorImpl() {
+        /*This is necessary to be in the constructor as the number of planets in the System must be determined before
+        build() is called, so the system can be placed */
+        super(5);
+    }
 
     @Override
     public void build() {
-        for (FeatureGenerator generator : featureGenerators) {
-            generator.build();
+        initializeRandomPlanetGenerators();
+        initializeRandomMazeGenerators(2);
+
+        placeMazes();
+
+        //Just temporary to see where everything is placed
+        for (FeatureGenerator generator : activeFeatureGenerators) {
+            System.out.println(generator + ": " + generator.getPosition());
         }
+
     }
+
 }
