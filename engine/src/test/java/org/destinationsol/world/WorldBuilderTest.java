@@ -39,7 +39,7 @@ public class WorldBuilderTest {
     }
 
     @Test
-    void populatesSolSystemsList() {
+    void populatesSolarSystemsList() {
         int testNumberSystems = 2;
         worldBuilder = new WorldBuilder(context, testNumberSystems);
         worldBuilder.buildWithRandomSolarSystemGenerators();

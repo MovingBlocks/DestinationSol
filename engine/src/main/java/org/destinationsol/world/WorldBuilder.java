@@ -88,8 +88,8 @@ public class WorldBuilder {
     }
 
     /**
-     * This method initializes the SolSystemGenerators. How many generators are initialized depends on the number
-     * of SolSystems the world is set to have. When there are multiple types of SolSystemGenerators available, this
+     * This method initializes the SolarSystemGenerators. How many generators are initialized depends on the number
+     * of SolarSystems the world is set to have. When there are multiple types of SolarSystemGenerators available, this
      * method chooses randomly from the list of all generators to decide which to create.
      *
      * A Class variable is used in this method to allow new instances to be made of each type of available SolarSystemGenerator
