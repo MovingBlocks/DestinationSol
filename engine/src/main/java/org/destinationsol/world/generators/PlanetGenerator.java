@@ -15,11 +15,52 @@
  */
 package org.destinationsol.world.generators;
 
+import org.destinationsol.Const;
+
 /**
  * This class defines the general behavior for Planet generators (such as ground, sky, gravity, etc). Any Planet will be
  * created from a concrete implementation of this class, with behavior specific to that Planet defined there.
  * TODO: Implement behavior common to all Planets as concrete methods in this class
  */
 public abstract class PlanetGenerator extends FeatureGenerator {
+    protected static final float DEFAULT_MAX_GROUND_HEIGHT = 25f;
+    protected static final float DEFAULT_ATMOSPHERE_HEIGHT = 14f;
+    float groundHeight;
+    //distance from ground of planet to atmosphere
+    float atmosphereHeight;
+    float angleInSolarSystem;
+    float distanceFromSolarSystemCenter;
+
+    public void setAtmosphereHeight(float aHeight) {
+        atmosphereHeight = aHeight;
+    }
+
+    public float getAtmosphereHeight() {
+        return atmosphereHeight;
+    }
+
+    public void setGroundHeight(float gHeight) {
+        groundHeight = gHeight;
+    }
+
+    public float getGroundHeight() {
+        return groundHeight;
+    }
+
+    void setRadius() {
+        setRadius(getGroundHeight() + getAtmosphereHeight());
+    }
+
+    public void setAngleInSolarSystem(float angle) {
+        angleInSolarSystem = angle;
+    }
+
+    public void setDistanceFromSolarSystemCenter(float distance) {
+        distanceFromSolarSystemCenter = distance;
+    }
+
+    public float getDistanceFromSolarSystemCenter() {
+        return distanceFromSolarSystemCenter;
+    }
 
 }

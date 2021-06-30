@@ -15,12 +15,16 @@
  */
 package org.destinationsol.world.generators;
 
-/**
- * This class defines the general behavior for Maze generators (such as having a layout, or a radius). Any Maze will be
- * created from a concrete implementation of this class, with behavior specific to that Maze defined there.
- * TODO: Implement behavior common to all Mazes as concrete methods in this class
- */
-public abstract class MazeGenerator extends FeatureGenerator {
-    protected static final float DEFAULT_MAX_MAZE_RADIUS = 40f;
+public abstract class BeltGenerator extends FeatureGenerator {
+    protected static final float DEFAULT_BELT_HALF_WIDTH = 20f;
+    private float distanceFromCenter;
 
+    public float getDistanceFromCenter() {
+        return distanceFromCenter;
+    }
+
+    public void setDistanceFromCenter(float distance) {
+        distanceFromCenter = distance;
+    }
 }
+

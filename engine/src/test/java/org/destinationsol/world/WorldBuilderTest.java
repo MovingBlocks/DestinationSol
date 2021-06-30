@@ -52,7 +52,7 @@ public class WorldBuilderTest {
         int testNumberSystems = 2;
         worldBuilder = new WorldBuilder(context, testNumberSystems);
         worldBuilder.buildWithRandomSolarSystemGenerators();
-        assertTrue(worldBuilder.getFeatureGenerators().size() > 0);
+        assertTrue(worldBuilder.getFeatureGeneratorTypes().size() > 0);
     }
 
     @Test

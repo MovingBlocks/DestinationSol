@@ -1,5 +1,5 @@
 /*
- * Copyright 2021 The Terasology Foundation
+ * Copyright 2020 The Terasology Foundation
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -16,11 +16,10 @@
 package org.destinationsol.world.generators;
 
 /**
- * This class defines the general behavior for Maze generators (such as having a layout, or a radius). Any Maze will be
- * created from a concrete implementation of this class, with behavior specific to that Maze defined there.
- * TODO: Implement behavior common to all Mazes as concrete methods in this class
+ * This class defines the general behavior for Sun generators. Any Sun will be
+ * created from a concrete implementation of this class, with behavior specific to that Sun defined there.
+ * TODO: Implement behavior common to all Suns as concrete methods in this class
  */
-public abstract class MazeGenerator extends FeatureGenerator {
-    protected static final float DEFAULT_MAX_MAZE_RADIUS = 40f;
+public abstract class SunGenerator extends FeatureGenerator{
 
 }

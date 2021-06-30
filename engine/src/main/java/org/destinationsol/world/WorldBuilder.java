@@ -24,6 +24,7 @@ import org.destinationsol.modules.ModuleManager;
 import org.destinationsol.world.generators.FeatureGenerator;
 import org.destinationsol.world.generators.SolarSystemGenerator;
 
+import java.lang.reflect.Array;
 import java.lang.reflect.Modifier;
 import java.util.ArrayList;
 import java.util.List;
@@ -36,7 +37,7 @@ import java.util.List;
 public class WorldBuilder {
     //These ArrayLists hold an instance of any class which extends SolarSystemGenerator or FeatureGenerator, respectively
     private ArrayList<SolarSystemGenerator> solarSystemGeneratorTypes = new ArrayList<>();
-    private ArrayList<FeatureGenerator> featureGenerators = new ArrayList<>();
+    private ArrayList<FeatureGenerator> featureGeneratorTypes = new ArrayList<>();
     private ArrayList<SolarSystemGenerator> activeSolarSystemGenerators = new ArrayList<>();
     private Context context;
     private final int numberOfSystems;
@@ -66,6 +67,7 @@ public class WorldBuilder {
             }
         }
     }
+
     /**
      * This method uses reflection to retrieve all concrete FeatureGenerator classes. They are added to the list
      * of FeatureGenerators.
@@ -75,7 +77,7 @@ public class WorldBuilder {
             if (!Modifier.isAbstract(generator.getModifiers())) {
                 try {
                     FeatureGenerator featureGenerator = (FeatureGenerator) generator.newInstance();
-                    featureGenerators.add(featureGenerator);
+                    featureGeneratorTypes.add(featureGenerator);
                 } catch (InstantiationException | IllegalAccessException e) {
                     e.printStackTrace();
                 }
@@ -85,8 +87,8 @@ public class WorldBuilder {
 
     public void buildWithRandomSolarSystemGenerators() {
         initializeRandomSolarSystemGenerators();
-        placeSystems();
         buildSolarSystems();
+        positionSolarSystems();
     }
 
     /**
@@ -94,35 +96,36 @@ public class WorldBuilder {
      * of SolarSystems the world is set to have. When there are multiple types of SolarSystemGenerators available, this
      * method chooses randomly from the list of all generators to decide which to create.
      *
-     * A Class variable is used in this method to allow new instances to be made of each type of available SolarSystemGenerator
+     * A Class variable is used in this method to allow new instances to be made of each type of available SolarSystemGenerator.
      *
      * This method calls setFeatureGenerators() on each SolarSystemGenerator to give each SolarSystem access to other
      * FeatureGenerators (Planets, Mazes, etc.) so they can be initialized and incorporated into the SolarSystem.
      */
-    private void initializeRandomSolarSystemGenerators() {
+    public ArrayList<SolarSystemGenerator> initializeRandomSolarSystemGenerators() {
+        ArrayList<SolarSystemGenerator> generatorArrayList = new ArrayList<>();
         for (int i = 0; i < numberOfSystems; i++) {
             Class<? extends SolarSystemGenerator> solarSystemGenerator =  solarSystemGeneratorTypes.get(SolRandom.seededRandomInt(solarSystemGeneratorTypes.size())).getClass();
             try {
                 SolarSystemGenerator s = solarSystemGenerator.newInstance();
-                s.setFeatureGeneratorTypes(featureGenerators);
-                activeSolarSystemGenerators.add(s);
+                s.setFeatureGeneratorTypes(featureGeneratorTypes);
+                generatorArrayList.add(s);
             } catch (Exception e) {
                 e.printStackTrace();
             }
             systemsBuilt++;
         }
+        return generatorArrayList;
     }
 
     /**
      * This method iterates through the loop of SolarSystemGenerators that have been initialized and assigns each of
-     * them a position in the world
+     * them a position in the world.
      */
-    public void placeSystems() {
+    public void positionSolarSystems() {
         for (SolarSystemGenerator generator : activeSolarSystemGenerators) {
-            Vector2 position = getSolarSystemPosition(activeSolarSystemGenerators, generator.getRadius());
+            Vector2 position = calculateSolarSystemPosition(activeSolarSystemGenerators, generator.getRadius());
             generator.setPosition(position);
-        }
-        for (SolarSystemGenerator generator : activeSolarSystemGenerators) {
+            //Printout of generator position for for testing (as these positions don't have a representation in the game yet
             System.out.println(generator + " position: " + generator.getPosition().x + ", " + generator.getPosition().y);
         }
     }
@@ -142,28 +145,34 @@ public class WorldBuilder {
      * a SolarSystem there will not cause it to overlap with any others.
      * TODO Implement logic to allow system to be positioned within a particular annulus
      */
-    private Vector2 getSolarSystemPosition(List<SolarSystemGenerator> systems, float bodyRadius) {
+    private Vector2 calculateSolarSystemPosition(List<SolarSystemGenerator> systems, float bodyRadius) {
         Vector2 result = new Vector2();
         float distance = 0;
         while (true) {
             //test 20 spots at each radius
             for (int i = 0; i < 20; i++) {
-                float angle = SolRandom.seededRandomFloat(180);
-                SolMath.fromAl(result, angle, distance);
-                boolean good = true;
+                calculateRandomWorldPositionAtDistance(result, distance);
                 //check for overlap with each SolarSystem which already has been placed
-                for (SolarSystemGenerator system : systems) {
-                    if (system.getPositioned() && system.getPosition().dst(result) < system.getRadius() + bodyRadius) {
-                        good = false;
-                        break;
-                    }
-                }
-                if (good) {
+                if (isPositionAvailable(systems, bodyRadius, result)) {
                     return result;
                 }
             }
             distance += Const.SUN_RADIUS;
         }
+    }
+
+    private boolean isPositionAvailable(List<SolarSystemGenerator> systems, float bodyRadius, Vector2 result) {
+        for (SolarSystemGenerator system : systems) {
+            if (system.getPositioned() && system.getPosition().dst(result) < system.getRadius() + bodyRadius) {
+                return false;
+            }
+        }
+        return true;
+    }
+
+    private void calculateRandomWorldPositionAtDistance(Vector2 result, float distance) {
+        float angle = SolRandom.seededRandomFloat(180);
+        SolMath.fromAl(result, angle, distance);
     }
 
     public int getSystemsBuilt() {
@@ -178,8 +187,8 @@ public class WorldBuilder {
         return activeSolarSystemGenerators;
     }
 
-    public ArrayList<FeatureGenerator> getFeatureGenerators() {
-        return featureGenerators;
+    public ArrayList<FeatureGenerator> getFeatureGeneratorTypes() {
+        return featureGeneratorTypes;
     }
 
     public Context getContext() {

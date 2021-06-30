@@ -15,8 +15,6 @@
  */
 package org.destinationsol.world.generators;
 
-import java.util.ArrayList;
-
 /**
  * This class is a concrete implementation of a SolarSystemGenerator and handles creation of elements
  * specific to this type of SolarSystem (such as how many Planets to generate, how large to make
@@ -24,24 +22,28 @@ import java.util.ArrayList;
  *
  * This class also has access to the featureGenerators list from {@link SolarSystemGenerator}.
  * This allows it to choose which FeatureGenerators to use in populating the SolarSystem.
- * TODO: Define the behavior of default Planets in this class (As it is implemented in the game currently)
+ * TODO: Define the behavior of default SolarSystems in this class (As it is implemented in the game currently)
  */
 public class SolarSystemGeneratorImpl extends SolarSystemGenerator {
-    ArrayList<PlanetGenerator> planetGenerators = new ArrayList<>();
-    ArrayList<MazeGenerator> mazeGenerators = new ArrayList<>();
-
-    public SolarSystemGeneratorImpl() {
-        /*This is necessary to be in the constructor as the number of planets in the System must be determined before
-        build() is called, so the system can be placed */
-        super(5);
-    }
 
     @Override
     public void build() {
+        setPlanetCount(5);
+        setPossibleBeltCount(1);
+        setMazeCount(2);
+        setSunCount(1);
+        initializeRandomSunGenerators();
         initializeRandomPlanetGenerators();
-        initializeRandomMazeGenerators(2);
+        initializeRandomMazeGenerators();
+        initializeRandomBeltGenerators(.8f);
+        buildFeatureGenerators();
+        setRadius(calcSolarSystemRadius());
+        calculateSunPositionOneSun();
+        calculateMazePositions();
+        calculatePlanetPositions();
+        calculateBeltPositions();
 
-        placeMazes();
+        System.out.println(this + " radius: " + getRadius());
 
         //Just temporary to see where everything is placed
         for (FeatureGenerator generator : activeFeatureGenerators) {

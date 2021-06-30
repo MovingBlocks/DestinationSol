@@ -1,5 +1,5 @@
 /*
- * Copyright 2021 The Terasology Foundation
+ * Copyright 2020 The Terasology Foundation
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -15,12 +15,17 @@
  */
 package org.destinationsol.world.generators;
 
-/**
- * This class defines the general behavior for Maze generators (such as having a layout, or a radius). Any Maze will be
- * created from a concrete implementation of this class, with behavior specific to that Maze defined there.
- * TODO: Implement behavior common to all Mazes as concrete methods in this class
- */
-public abstract class MazeGenerator extends FeatureGenerator {
-    protected static final float DEFAULT_MAX_MAZE_RADIUS = 40f;
+import org.destinationsol.Const;
 
+/**
+ * This class is a concrete implementation of a SunGenerator and handles its creation. This class defines the
+ * behavior specific to the default Sun of Destination: Sol.
+ * TODO: Implement the default behavior of a SunGenerator in this class (As it is implemented in the game currently)
+ */
+public class SunGeneratorImpl extends SunGenerator{
+    @Override
+    public void build() {
+        System.out.println("Building a sun now!");
+        setRadius(Const.SUN_RADIUS);
+    }
 }

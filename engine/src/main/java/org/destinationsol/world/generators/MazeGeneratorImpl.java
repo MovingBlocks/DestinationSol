@@ -15,6 +15,8 @@
  */
 package org.destinationsol.world.generators;
 
+import org.destinationsol.common.SolRandom;
+
 /**
  * This class is a concrete implementation of a MazeGenerator and handles its creation. This class defines the
  * behavior specific to the default Mazes in Destination: Sol.
@@ -25,5 +27,6 @@ public class MazeGeneratorImpl extends MazeGenerator {
     @Override
     public void build() {
         System.out.println("Building a maze now!");
+        setRadius(SolRandom.seededRandomFloat(.7f, 1) * DEFAULT_MAX_MAZE_RADIUS);
     }
 }

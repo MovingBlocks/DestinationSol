@@ -24,7 +24,7 @@ import com.badlogic.gdx.math.Vector2;
  * versions of those elements.
 */
 public abstract class FeatureGenerator {
-    private Vector2 position;
+    private Vector2 position = Vector2.Zero;
     private float radius;
     private boolean positioned;
 
