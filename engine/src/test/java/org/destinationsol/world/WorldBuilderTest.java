@@ -21,6 +21,7 @@ import org.destinationsol.modules.ModuleManager;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
@@ -60,7 +61,7 @@ public class WorldBuilderTest {
         int testNumberSystems = 2;
         worldBuilder = new WorldBuilder(context, testNumberSystems);
         worldBuilder.buildWithRandomSolarSystemGenerators();
-        assertTrue(worldBuilder.getActiveSolarSystemGenerators().size() == 2);
+        assertEquals(worldBuilder.getActiveSolarSystemGenerators().size(), 2);
     }
 
     @Test

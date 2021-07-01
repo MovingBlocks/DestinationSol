@@ -15,6 +15,7 @@
  */
 package org.destinationsol.world.generators;
 
+import com.badlogic.gdx.math.Vector2;
 import org.destinationsol.Const;
 import org.destinationsol.game.context.Context;
 import org.destinationsol.game.context.internal.ContextImpl;
@@ -53,11 +54,13 @@ public class SolarSystemGeneratorTest {
         solarSystemGenerator.setPossibleBeltCount(1);
         solarSystemGenerator.setMazeCount(2);
         solarSystemGenerator.setSunCount(1);
+
         solarSystemGenerator.initializeRandomSunGenerators();
         solarSystemGenerator.initializeRandomPlanetGenerators();
         solarSystemGenerator.initializeRandomMazeGenerators();
         solarSystemGenerator.initializeRandomBeltGenerators(1f);
         solarSystemGenerator.buildFeatureGenerators();
+        
         solarSystemGenerator.setRadius(solarSystemGenerator.calcSolarSystemRadius());
         solarSystemGenerator.calculateSunPositionOneSun();
         solarSystemGenerator.calculateMazePositions();
@@ -136,9 +139,11 @@ public class SolarSystemGeneratorTest {
     }
 
     @Test
-    void planetAreInsideSolarSystem() {
+    void planetsAreInsideSolarSystem() {
+        System.out.println("SolarSystem Radius: " + solarSystemGenerator.getRadius());
         for (FeatureGenerator featureGenerator : solarSystemGenerator.getActiveFeatureGenerators()) {
             if (featureGenerator.getClass().getSuperclass().equals(PlanetGenerator.class)) {
+                System.out.println("Planet Distance: " + featureGenerator.getPosition().dst(solarSystemGenerator.getPosition()));
                 assertTrue(featureGenerator.getPosition().dst(solarSystemGenerator.getPosition()) < solarSystemGenerator.getRadius());
             }
         }

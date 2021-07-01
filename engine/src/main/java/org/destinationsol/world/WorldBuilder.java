@@ -86,7 +86,7 @@ public class WorldBuilder {
     }
 
     public void buildWithRandomSolarSystemGenerators() {
-        initializeRandomSolarSystemGenerators();
+        activeSolarSystemGenerators.addAll(initializeRandomSolarSystemGenerators());
         buildSolarSystems();
         positionSolarSystems();
     }

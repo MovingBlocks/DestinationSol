@@ -372,7 +372,7 @@ public abstract class SolarSystemGenerator {
 
     public void setPosition(Vector2 position) {
         Vector2 oldPosition = new Vector2(this.getPosition());
-        this.position.set(position);
+        this.position = position;
         for (FeatureGenerator featureGenerator : activeFeatureGenerators) {
             //Move each FeatureGenerator of the SolarSystemGenerator with the SolarSystemGenerator
             Vector2 featurePosition = new Vector2(featureGenerator.getPosition());
