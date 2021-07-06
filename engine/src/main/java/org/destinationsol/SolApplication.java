@@ -332,7 +332,7 @@ public class SolApplication implements ApplicationListener {
 
     public void play(boolean tut, String shipName, boolean isNewGame, WorldConfig worldConfig) {
 
-        gameContext = appContext.getNestedContainer(new SolGameServiceRegistry(isNewGame), new ContextWrapperService());
+        gameContext = appContext.getNestedContainer(new SolGameServiceRegistry(tut), new ContextWrapperService());
         appContext.getBean(ComponentSystemManager.class).preBegin();
         solGame = gameContext.getBean(SolGame.class);
         gameContext.getBean(ComponentSystemManager.class).preBegin();

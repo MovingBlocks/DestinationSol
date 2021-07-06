@@ -54,7 +54,10 @@ import org.terasology.gestalt.di.ServiceRegistry;
 public class SolGameServiceRegistry extends ServiceRegistry {
 
     public SolGameServiceRegistry(boolean isTutorial) {
-            this.with(SolGame.class).lifetime(Lifetime.Singleton).use(() -> new SolGame(isTutorial));
+            this.with(SolGame.class).lifetime(Lifetime.Singleton);
+            if (isTutorial) {
+                    this.with(TutorialManager.class).lifetime(Lifetime.Singleton);
+            }
 
             this.with(EntitySystemManager.class);
             this.with(SerialisationManager.class).lifetime(Lifetime.Singleton);
@@ -82,7 +85,6 @@ public class SolGameServiceRegistry extends ServiceRegistry {
             this.with(GameColors.class).lifetime(Lifetime.Singleton);
             this.with(BeaconHandler.class).lifetime(Lifetime.Singleton);
             this.with(MountDetectDrawer.class).lifetime(Lifetime.Singleton);
-            this.with(TutorialManager.class).lifetime(Lifetime.Singleton);
             this.with(GalaxyFiller.class).lifetime(Lifetime.Singleton);
             this.with(SolContactListener.class).lifetime(Lifetime.Singleton);
             this.with(GameScreens.class).lifetime(Lifetime.Singleton);
