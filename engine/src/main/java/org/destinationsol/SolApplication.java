@@ -69,6 +69,7 @@ import org.slf4j.LoggerFactory;
 import org.terasology.context.annotation.API;
 import org.terasology.gestalt.di.BeanContext;
 import org.terasology.gestalt.di.DefaultBeanContext;
+import org.terasology.gestalt.di.ServiceRegistry;
 import org.terasology.gestalt.entitysystem.component.management.ComponentManager;
 import org.terasology.gestalt.entitysystem.entity.EntityRef;
 import org.terasology.gestalt.module.ModuleServiceRegistry;
@@ -133,13 +134,14 @@ public class SolApplication implements ApplicationListener {
         throw  new RuntimeException("Unimplemented");
     }
 
-    public SolApplication(float targetFPS) {
+    public SolApplication(float targetFPS, ServiceRegistry platformServices) {
         // Initiate Box2D to make sure natives are loaded early enough
         Box2D.init();
         this.targetFPS = targetFPS;
         resizeSubscribers = new HashSet<>();
 
         this.appContext = new DefaultBeanContext(
+                platformServices,
                 new ModuleServiceRegistry(new StandardPermissionProviderFactory()),
                 new CoreService(this),
                 new ContextWrapperService());

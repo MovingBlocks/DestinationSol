@@ -22,6 +22,7 @@ import com.badlogic.gdx.backends.lwjgl3.Lwjgl3Application;
 import com.badlogic.gdx.backends.lwjgl3.Lwjgl3ApplicationConfiguration;
 import com.badlogic.gdx.backends.lwjgl3.Lwjgl3Graphics;
 import org.destinationsol.GameOptions;
+import org.destinationsol.modules.FacadeModuleConfig;
 import org.destinationsol.modules.ModuleManager;
 import org.destinationsol.SolApplication;
 import org.destinationsol.SolFileReader;
@@ -29,13 +30,18 @@ import org.destinationsol.game.DebugOptions;
 import org.destinationsol.ui.ResizeSubscriber;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.terasology.context.Lifetime;
 import org.terasology.crashreporter.CrashReporter;
+import org.terasology.gestalt.di.ServiceRegistry;
+import org.terasology.gestalt.module.ModuleEnvironment;
+import org.terasology.gestalt.module.sandbox.JavaModuleClassLoader;
 
 import java.awt.Graphics2D;
 import java.awt.Color;
 import java.awt.SplashScreen;
 import java.awt.Rectangle;
 import java.io.BufferedReader;
+import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -123,7 +129,7 @@ public final class SolDesktop {
             splash.close();
         }
         // Everything is set up correctly, launch the application
-        SolApplication application = new SolApplication(100);
+        SolApplication application = new SolApplication(100, new DesktopServices());
         SolApplication.addResizeSubscriber(new SolDesktop.FullScreenWindowPositionAdjustment(!options.fullscreen));
         // Everything is set up correctly, launch the application
         new Lwjgl3Application(application, applicationConfig);
@@ -208,6 +214,34 @@ public final class SolDesktop {
             } else {
                 applicationConfig.setWindowedMode(options.x, options.y);
             }
+        }
+    }
+
+    private static class DesktopServices extends ServiceRegistry {
+        public DesktopServices() {
+            this.with(FacadeModuleConfig.class).lifetime(Lifetime.Singleton).use(DesktopModuleConfig::new);
+        }
+    }
+
+    private static class DesktopModuleConfig implements FacadeModuleConfig {
+        @Override
+        public File getModulesPath() {
+            return Paths.get(".").resolve("modules").toFile();
+        }
+
+        @Override
+        public boolean useSecurityManager() {
+            return true;
+        }
+
+        @Override
+        public ModuleEnvironment.ClassLoaderSupplier getClassLoaderSupplier() {
+            return JavaModuleClassLoader::create;
+        }
+
+        @Override
+        public Class<?>[] getAPIClasses() {
+            return new Class<?>[0];
         }
     }
 
