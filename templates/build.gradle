@@ -154,6 +154,8 @@ dependencies {
             }
         }
     }
+
+    annotationProcessor "org.terasology.gestalt:gestalt-inject-java:$gestaltVersion"
 }
 
 // Change the output dir of each module

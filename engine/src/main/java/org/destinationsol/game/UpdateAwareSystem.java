@@ -15,6 +15,9 @@
  */
 package org.destinationsol.game;
 
+import org.terasology.context.annotation.IndexInherited;
+
+@IndexInherited
 public interface UpdateAwareSystem {
 
     void update(SolGame game, float timeStep);

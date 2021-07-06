@@ -23,6 +23,7 @@ import org.destinationsol.location.events.PositionUpdateEvent;
 import org.destinationsol.location.systems.LocationSystem;
 import org.destinationsol.modules.ModuleManager;
 import org.destinationsol.testsupport.Box2DInitializer;
+import org.destinationsol.testsupport.TestModuleConfig;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.terasology.gestalt.di.DefaultBeanContext;
@@ -45,7 +46,8 @@ public class PositionUpdateTest implements Box2DInitializer {
     @BeforeEach
     public void setUp() throws Exception {
         ModuleFactory moduleFactory = new ModuleFactory();
-        moduleManager = new ModuleManager(new DefaultBeanContext(), moduleFactory,new TableModuleRegistry(),new ModulePathScanner(moduleFactory));
+        moduleManager = new ModuleManager(new DefaultBeanContext(), moduleFactory, new TableModuleRegistry(),
+                new ModulePathScanner(moduleFactory), new TestModuleConfig());
         moduleManager.init();
         entitySystemManager = new EntitySystemManager(moduleManager, new ComponentManager(), Collections.singletonList(new LocationSystem()));
     }

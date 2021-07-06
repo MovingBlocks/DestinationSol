@@ -49,7 +49,8 @@ public interface AssetsHelperInitializer {
         stateObject.setComponentManager(componentManager);
 
         ModuleFactory moduleFactory = new ModuleFactory();
-        ModuleManager moduleManager = new ModuleManager(new DefaultBeanContext(), moduleFactory,new TableModuleRegistry(),new ModulePathScanner(moduleFactory));
+        ModuleManager moduleManager = new ModuleManager(new DefaultBeanContext(), moduleFactory, new TableModuleRegistry(),
+                                                        new ModulePathScanner(moduleFactory), new TestModuleConfig());
         moduleManager.init();
         stateObject.setModuleManager(moduleManager);
 

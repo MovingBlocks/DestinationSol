@@ -15,6 +15,8 @@
  */
 package org.destinationsol.game.attributes;
 
+import org.terasology.context.annotation.Index;
+
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
@@ -22,6 +24,7 @@ import java.lang.annotation.Target;
 
 @Target(ElementType.TYPE)
 @Retention(RetentionPolicy.RUNTIME)
+@Index
 public @interface RegisterUpdateSystem {
     int priority() default 0;
     boolean paused() default false;
