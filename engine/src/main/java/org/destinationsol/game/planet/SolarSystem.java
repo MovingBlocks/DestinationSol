@@ -20,7 +20,7 @@ import org.destinationsol.game.HardnessCalc;
 
 import java.util.ArrayList;
 
-public class SolSystem {
+public class SolarSystem {
 
     private final Vector2 position;
     private final ArrayList<Planet> planets;
@@ -32,7 +32,7 @@ public class SolSystem {
     private final float innerDamagePerSecond;
     private float innerRadius;
 
-    public SolSystem(Vector2 position, SysConfig config, String name, float sysRadius) {
+    public SolarSystem(Vector2 position, SysConfig config, String name, float sysRadius) {
         this.config = config;
         this.name = name;
         this.position = new Vector2(position);

@@ -21,6 +21,7 @@ package org.destinationsol.world.generators;
  * TODO: Implement behavior common to all Mazes as concrete methods in this class
  */
 public abstract class MazeGenerator extends FeatureGenerator {
-    protected static final float DEFAULT_MAX_MAZE_RADIUS = 40f;
-
+    protected static final float MAX_MAZE_RADIUS = 40f;
+    protected static final float MAX_MAZE_DIAMETER = 80f;
+    protected static final float MAZE_BUFFER = 10f;
 }

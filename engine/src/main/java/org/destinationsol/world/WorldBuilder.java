@@ -16,15 +16,14 @@
 package org.destinationsol.world;
 
 import com.badlogic.gdx.math.Vector2;
-import org.destinationsol.Const;
 import org.destinationsol.common.SolMath;
 import org.destinationsol.common.SolRandom;
 import org.destinationsol.game.context.Context;
 import org.destinationsol.modules.ModuleManager;
 import org.destinationsol.world.generators.FeatureGenerator;
 import org.destinationsol.world.generators.SolarSystemGenerator;
+import org.destinationsol.world.generators.SunGenerator;
 
-import java.lang.reflect.Array;
 import java.lang.reflect.Modifier;
 import java.util.ArrayList;
 import java.util.List;
@@ -36,8 +35,8 @@ import java.util.List;
  */
 public class WorldBuilder {
     //These ArrayLists hold an instance of any class which extends SolarSystemGenerator or FeatureGenerator, respectively
-    private ArrayList<SolarSystemGenerator> solarSystemGeneratorTypes = new ArrayList<>();
-    private ArrayList<FeatureGenerator> featureGeneratorTypes = new ArrayList<>();
+    private ArrayList<Class<? extends SolarSystemGenerator>> solarSystemGeneratorTypes = new ArrayList<>();
+    private ArrayList<Class<? extends FeatureGenerator>> featureGeneratorTypes = new ArrayList<>();
     private ArrayList<SolarSystemGenerator> activeSolarSystemGenerators = new ArrayList<>();
     private Context context;
     private final int numberOfSystems;
@@ -59,12 +58,7 @@ public class WorldBuilder {
      */
     private void populateSolarSystemGeneratorList() {
         for (Class generator : context.get(ModuleManager.class).getEnvironment().getSubtypesOf(SolarSystemGenerator.class)) {
-            try {
-                SolarSystemGenerator solarSystemGenerator = (SolarSystemGenerator) generator.newInstance();
-                solarSystemGeneratorTypes.add(solarSystemGenerator);
-            } catch (InstantiationException | IllegalAccessException e) {
-                e.printStackTrace();
-            }
+            solarSystemGeneratorTypes.add(generator);
         }
     }
 
@@ -75,36 +69,31 @@ public class WorldBuilder {
     private void populateFeatureGeneratorList() {
         for (Class generator : context.get(ModuleManager.class).getEnvironment().getSubtypesOf(FeatureGenerator.class)) {
             if (!Modifier.isAbstract(generator.getModifiers())) {
-                try {
-                    FeatureGenerator featureGenerator = (FeatureGenerator) generator.newInstance();
-                    featureGeneratorTypes.add(featureGenerator);
-                } catch (InstantiationException | IllegalAccessException e) {
-                    e.printStackTrace();
-                }
+                featureGeneratorTypes.add(generator);
             }
         }
     }
 
     public void buildWithRandomSolarSystemGenerators() {
         activeSolarSystemGenerators.addAll(initializeRandomSolarSystemGenerators());
-        buildSolarSystems();
         positionSolarSystems();
+        buildSolarSystems();
     }
 
     /**
      * This method initializes the SolarSystemGenerators. How many generators are initialized depends on the number
      * of SolarSystems the world is set to have. When there are multiple types of SolarSystemGenerators available, this
      * method chooses randomly from the list of all generators to decide which to create.
-     *
+     * <p>
      * A Class variable is used in this method to allow new instances to be made of each type of available SolarSystemGenerator.
-     *
+     * <p>
      * This method calls setFeatureGenerators() on each SolarSystemGenerator to give each SolarSystem access to other
      * FeatureGenerators (Planets, Mazes, etc.) so they can be initialized and incorporated into the SolarSystem.
      */
     public ArrayList<SolarSystemGenerator> initializeRandomSolarSystemGenerators() {
         ArrayList<SolarSystemGenerator> generatorArrayList = new ArrayList<>();
         for (int i = 0; i < numberOfSystems; i++) {
-            Class<? extends SolarSystemGenerator> solarSystemGenerator =  solarSystemGeneratorTypes.get(SolRandom.seededRandomInt(solarSystemGeneratorTypes.size())).getClass();
+            Class<? extends SolarSystemGenerator> solarSystemGenerator = solarSystemGeneratorTypes.get(SolRandom.seededRandomInt(solarSystemGeneratorTypes.size()));
             try {
                 SolarSystemGenerator s = solarSystemGenerator.newInstance();
                 s.setFeatureGeneratorTypes(featureGeneratorTypes);
@@ -121,11 +110,11 @@ public class WorldBuilder {
      * This method iterates through the loop of SolarSystemGenerators that have been initialized and assigns each of
      * them a position in the world.
      */
-    public void positionSolarSystems() {
+    private void positionSolarSystems() {
         for (SolarSystemGenerator generator : activeSolarSystemGenerators) {
             Vector2 position = calculateSolarSystemPosition(activeSolarSystemGenerators, generator.getRadius());
             generator.setPosition(position);
-            //Printout of generator position for for testing (as these positions don't have a representation in the game yet
+            //Printout of generator position for for testing (as these positions don't have a representation in the game yet)
             System.out.println(generator + " position: " + generator.getPosition().x + ", " + generator.getPosition().y);
         }
     }
@@ -157,7 +146,7 @@ public class WorldBuilder {
                     return result;
                 }
             }
-            distance += Const.SUN_RADIUS;
+            distance += SunGenerator.SUN_RADIUS;
         }
     }
 
@@ -179,7 +168,7 @@ public class WorldBuilder {
         return systemsBuilt;
     }
 
-    public ArrayList<SolarSystemGenerator> getSolarSystemGeneratorTypes() {
+    public ArrayList<Class<? extends SolarSystemGenerator>> getSolarSystemGeneratorTypes() {
         return solarSystemGeneratorTypes;
     }
 
@@ -187,7 +176,7 @@ public class WorldBuilder {
         return activeSolarSystemGenerators;
     }
 
-    public ArrayList<FeatureGenerator> getFeatureGeneratorTypes() {
+    public ArrayList<Class<? extends FeatureGenerator>> getFeatureGeneratorTypes() {
         return featureGeneratorTypes;
     }
 

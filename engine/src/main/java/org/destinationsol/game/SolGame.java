@@ -48,7 +48,7 @@ import org.destinationsol.game.particle.PartMan;
 import org.destinationsol.game.particle.SpecialEffects;
 import org.destinationsol.game.planet.Planet;
 import org.destinationsol.game.planet.PlanetManager;
-import org.destinationsol.game.planet.SolSystem;
+import org.destinationsol.game.planet.SolarSystem;
 import org.destinationsol.game.planet.SunSingleton;
 import org.destinationsol.game.screens.GameScreens;
 import org.destinationsol.game.ship.ShipAbility;
@@ -479,7 +479,7 @@ public class SolGame {
             }
         }
 
-        SolSystem ns = planetManager.getNearestSystem(position);
+        SolarSystem ns = planetManager.getNearestSystem(position);
         if (ns.getPosition().dst(position) < SunSingleton.SUN_HOT_RAD) {
             return false;
         }

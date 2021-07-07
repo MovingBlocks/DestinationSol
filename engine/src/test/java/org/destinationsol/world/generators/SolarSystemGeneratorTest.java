@@ -15,8 +15,6 @@
  */
 package org.destinationsol.world.generators;
 
-import com.badlogic.gdx.math.Vector2;
-import org.destinationsol.Const;
 import org.destinationsol.game.context.Context;
 import org.destinationsol.game.context.internal.ContextImpl;
 import org.destinationsol.modules.ModuleManager;
@@ -26,7 +24,8 @@ import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
 
-import static org.destinationsol.world.generators.SolarSystemGenerator.MAZE_GAP;
+import static org.destinationsol.world.generators.MazeGenerator.MAZE_BUFFER;
+import static org.destinationsol.world.generators.PlanetGenerator.PLANET_MAX_DIAMETER;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
@@ -50,22 +49,10 @@ public class SolarSystemGeneratorTest {
     }
 
     private void setupSolarSystemGenerator() {
-        solarSystemGenerator.setPlanetCount(5);
-        solarSystemGenerator.setPossibleBeltCount(1);
-        solarSystemGenerator.setMazeCount(2);
-        solarSystemGenerator.setSunCount(1);
 
-        solarSystemGenerator.initializeRandomSunGenerators();
-        solarSystemGenerator.initializeRandomPlanetGenerators();
-        solarSystemGenerator.initializeRandomMazeGenerators();
-        solarSystemGenerator.initializeRandomBeltGenerators(1f);
+        solarSystemGenerator.initializeRandomDefaultFeatureGenerators(1f);
         solarSystemGenerator.buildFeatureGenerators();
-        
-        solarSystemGenerator.setRadius(solarSystemGenerator.calcSolarSystemRadius());
-        solarSystemGenerator.calculateSunPositionOneSun();
-        solarSystemGenerator.calculateMazePositions();
-        solarSystemGenerator.calculatePlanetPositions();
-        solarSystemGenerator.calculateBeltPositions();
+        solarSystemGenerator.calculateFeaturePositions();
     }
 
     @Test
@@ -92,14 +79,16 @@ public class SolarSystemGeneratorTest {
     @Test
     void hasCorrectRadius() {
         float radiusFromFeatures = 0;
-        radiusFromFeatures += Const.SUN_RADIUS;
+        radiusFromFeatures += SunGenerator.SUN_RADIUS;
         for (FeatureGenerator featureGenerator : solarSystemGenerator.getActiveFeatureGenerators()) {
-            radiusFromFeatures += Const.PLANET_GAP;
-            radiusFromFeatures += featureGenerator.getRadius();
-            radiusFromFeatures += featureGenerator.getRadius();
-            radiusFromFeatures += Const.PLANET_GAP;
+            if (!featureGenerator.getClass().getSuperclass().equals(MazeGenerator.class)) {
+                radiusFromFeatures += FeatureGenerator.ORBITAL_FEATURE_BUFFER;
+                radiusFromFeatures += PLANET_MAX_DIAMETER;
+                radiusFromFeatures += FeatureGenerator.ORBITAL_FEATURE_BUFFER;
+            }
         }
-        radiusFromFeatures += MAZE_GAP;
+        //This only needs to be added once, not for each MazeGenerator. This is because each Maze is in the same orbital
+        radiusFromFeatures += MAZE_BUFFER + MazeGenerator.MAX_MAZE_DIAMETER + MAZE_BUFFER;
         //This value will tend to be off by 0.0001 even if calculated correctly, so we are testing if they are very close
         assertTrue(solarSystemGenerator.getRadius() - radiusFromFeatures < 1f);
 
@@ -109,7 +98,7 @@ public class SolarSystemGeneratorTest {
     void mazesAreCorrectDistanceFromSolarSystemCenter() {
         float actualMazeDistance = 0;
         float expectedMazeDistance = 0;
-        expectedMazeDistance = solarSystemGenerator.getRadius() - MAZE_GAP - SolarSystemGenerator.MAX_MAZE_RADIUS;
+        expectedMazeDistance = solarSystemGenerator.getRadius() - MAZE_BUFFER - (MazeGenerator.MAX_MAZE_DIAMETER / 2);
 
         for (FeatureGenerator featureGenerator : solarSystemGenerator.getActiveFeatureGenerators()) {
             if (featureGenerator.getClass().getSuperclass().equals(MazeGenerator.class)) {
@@ -140,10 +129,8 @@ public class SolarSystemGeneratorTest {
 
     @Test
     void planetsAreInsideSolarSystem() {
-        System.out.println("SolarSystem Radius: " + solarSystemGenerator.getRadius());
         for (FeatureGenerator featureGenerator : solarSystemGenerator.getActiveFeatureGenerators()) {
             if (featureGenerator.getClass().getSuperclass().equals(PlanetGenerator.class)) {
-                System.out.println("Planet Distance: " + featureGenerator.getPosition().dst(solarSystemGenerator.getPosition()));
                 assertTrue(featureGenerator.getPosition().dst(solarSystemGenerator.getPosition()) < solarSystemGenerator.getRadius());
             }
         }

@@ -16,6 +16,7 @@
 package org.destinationsol.world.generators;
 
 import com.badlogic.gdx.math.Vector2;
+import org.destinationsol.world.Orbital;
 
 /**
  * This class represents the abstract version of any feature which will populate the game's SolarSystems, such as Planets,
@@ -24,9 +25,11 @@ import com.badlogic.gdx.math.Vector2;
  * versions of those elements.
 */
 public abstract class FeatureGenerator {
+    public static final float ORBITAL_FEATURE_BUFFER = 8f;
     private Vector2 position = Vector2.Zero;
     private float radius;
     private boolean positioned;
+    private Orbital orbital;
 
     public abstract void build();
 
@@ -55,4 +58,15 @@ public abstract class FeatureGenerator {
         return positioned;
     }
 
+    public void setOrbital(Orbital orbital) {
+        this.orbital = orbital;
+    }
+
+    public Orbital getOrbital() {
+        return orbital;
+    }
+
+    public float getDiameter() {
+        return 2 * radius;
+    }
 }

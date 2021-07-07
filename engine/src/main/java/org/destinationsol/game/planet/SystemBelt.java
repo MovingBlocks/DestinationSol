@@ -21,11 +21,11 @@ import org.destinationsol.game.HardnessCalc;
 public class SystemBelt {
     private final Float halfWidth;
     private final float radius;
-    private final SolSystem system;
+    private final SolarSystem system;
     private final SysConfig config;
     private final float damagePerSecond;
 
-    SystemBelt(Float halfWidth, float radius, SolSystem s, SysConfig config) {
+    SystemBelt(Float halfWidth, float radius, SolarSystem s, SysConfig config) {
         this.halfWidth = halfWidth;
         this.radius = radius;
         system = s;

@@ -19,7 +19,7 @@ package org.destinationsol.world.generators;
  * This class is a concrete implementation of a SolarSystemGenerator and handles creation of elements
  * specific to this type of SolarSystem (such as how many Planets to generate, how large to make
  * the SolarSystem, etc).
- *
+ * <p>
  * This class also has access to the featureGenerators list from {@link SolarSystemGenerator}.
  * This allows it to choose which FeatureGenerators to use in populating the SolarSystem.
  * TODO: Define the behavior of default SolarSystems in this class (As it is implemented in the game currently)
@@ -27,21 +27,20 @@ package org.destinationsol.world.generators;
 public class SolarSystemGeneratorImpl extends SolarSystemGenerator {
 
     @Override
+    public SolarSystemSize getSolarSystemSize() {
+        return SolarSystemSize.MEDIUM;
+    }
+
+    @Override
+    public int getCustomFeaturesCount() {
+        return 0;
+    }
+
+    @Override
     public void build() {
-        setPlanetCount(5);
-        setPossibleBeltCount(1);
-        setMazeCount(2);
-        setSunCount(1);
-        initializeRandomSunGenerators();
-        initializeRandomPlanetGenerators();
-        initializeRandomMazeGenerators();
-        initializeRandomBeltGenerators(.8f);
+        initializeRandomDefaultFeatureGenerators(.8f);
         buildFeatureGenerators();
-        setRadius(calcSolarSystemRadius());
-        calculateSunPositionOneSun();
-        calculateMazePositions();
-        calculatePlanetPositions();
-        calculateBeltPositions();
+        calculateFeaturePositions();
 
         System.out.println(this + " radius: " + getRadius());
 
@@ -51,5 +50,4 @@ public class SolarSystemGeneratorImpl extends SolarSystemGenerator {
         }
 
     }
-
 }

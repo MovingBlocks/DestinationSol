@@ -27,6 +27,6 @@ public class MazeGeneratorImpl extends MazeGenerator {
     @Override
     public void build() {
         System.out.println("Building a maze now!");
-        setRadius(SolRandom.seededRandomFloat(.7f, 1) * DEFAULT_MAX_MAZE_RADIUS);
+        setRadius(SolRandom.seededRandomFloat(.7f, 1) * MAX_MAZE_RADIUS);
     }
 }

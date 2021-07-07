@@ -15,16 +15,21 @@
  */
 package org.destinationsol.world.generators;
 
+/**
+ * This class defines the general behavior for Belt generators (such as asteroid frequency). Any Belt will be
+ * created from a concrete implementation of this class, with behavior specific to that Belt defined there.
+ * TODO: Implement behavior common to all Belts as concrete methods in this class
+ */
 public abstract class BeltGenerator extends FeatureGenerator {
     protected static final float DEFAULT_BELT_HALF_WIDTH = 20f;
-    private float distanceFromCenter;
+    private float distanceFromCenterOfSolarSystem;
 
-    public float getDistanceFromCenter() {
-        return distanceFromCenter;
+    public float getDistanceFromCenterOfSolarSystem() {
+        return distanceFromCenterOfSolarSystem;
     }
 
-    public void setDistanceFromCenter(float distance) {
-        distanceFromCenter = distance;
+    public void setDistanceFromCenterOfSolarSystem(float distance) {
+        distanceFromCenterOfSolarSystem = distance;
     }
 }
 

@@ -15,8 +15,6 @@
  */
 package org.destinationsol.world.generators;
 
-import org.destinationsol.Const;
-
 /**
  * This class is a concrete implementation of a SunGenerator and handles its creation. This class defines the
  * behavior specific to the default Sun of Destination: Sol.
@@ -26,6 +24,6 @@ public class SunGeneratorImpl extends SunGenerator{
     @Override
     public void build() {
         System.out.println("Building a sun now!");
-        setRadius(Const.SUN_RADIUS);
+        setRadius(SunGenerator.SUN_RADIUS);
     }
 }

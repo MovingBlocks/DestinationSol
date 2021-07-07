@@ -23,6 +23,7 @@ import org.destinationsol.Const;
  * TODO: Implement behavior common to all Planets as concrete methods in this class
  */
 public abstract class PlanetGenerator extends FeatureGenerator {
+    public static final float PLANET_MAX_DIAMETER = 78f;
     protected static final float DEFAULT_MAX_GROUND_HEIGHT = 25f;
     protected static final float DEFAULT_ATMOSPHERE_HEIGHT = 14f;
     float groundHeight;
