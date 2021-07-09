@@ -320,6 +320,10 @@ public class Projectile implements SolObject {
                 return shield != null && shield.canAbsorb(config.dmgType);
             }
             return true;
+        } else if (object instanceof Projectile) {
+            // Projectiles from the same sources are allowed to overlap
+            Projectile projectile = (Projectile) object;
+            return projectile.ship != this.ship;
         }
 
         return true;
