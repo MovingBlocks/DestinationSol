@@ -148,7 +148,6 @@ public class SolApplication implements ApplicationListener {
         Assets.initialize(helper);
 
         context.put(ComponentSystemManager.class, new ComponentSystemManager(moduleManager.getEnvironment(), context));
-        logger.info("\n\n ------------------------------------------------------------ \n");
         moduleManager.printAvailableModules();
 
         displayDimensions = new DisplayDimensions(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
