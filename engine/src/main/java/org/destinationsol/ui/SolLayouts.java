@@ -18,12 +18,15 @@ package org.destinationsol.ui;
 import org.destinationsol.game.screens.RightPaneLayout;
 import org.destinationsol.menu.MenuLayout;
 
+import javax.inject.Inject;
+
 public class SolLayouts {
     public final RightPaneLayout rightPaneLayout;
     public final MenuLayout menuLayout;
 
-    public SolLayouts() {
-        rightPaneLayout = new RightPaneLayout();
-        menuLayout = new MenuLayout();
+    @Inject
+    public SolLayouts(RightPaneLayout rightPaneLayout, MenuLayout menuLayout) {
+        this.rightPaneLayout = rightPaneLayout;
+        this.menuLayout = menuLayout;
     }
 }

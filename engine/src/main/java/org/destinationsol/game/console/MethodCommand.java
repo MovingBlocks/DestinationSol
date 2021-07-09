@@ -19,6 +19,7 @@ import com.google.common.base.Preconditions;
 import com.google.common.base.Predicate;
 import com.google.common.base.Predicates;
 import com.google.common.collect.Lists;
+import com.google.common.collect.Sets;
 import org.destinationsol.game.SolGame;
 import org.destinationsol.game.console.annotations.Command;
 import org.destinationsol.game.console.annotations.CommandParam;
@@ -26,11 +27,11 @@ import org.destinationsol.game.console.annotations.Game;
 import org.destinationsol.game.context.Context;
 import org.destinationsol.util.InjectionHelper;
 import org.destinationsol.util.SpecificAccessibleObject;
-import org.reflections.ReflectionUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.lang.annotation.Annotation;
+import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 import java.lang.reflect.Modifier;
 import java.util.List;
@@ -46,7 +47,7 @@ public final class MethodCommand extends AbstractCommand {
 
     /**
      * Creates a new {@code ReferencedCommand} to a specific method
-     * annotated with {@link
+     * annotated with {@link Command}
      *
      * @param specificMethod The method to reference to
      * @return The command reference object created
@@ -77,8 +78,12 @@ public final class MethodCommand extends AbstractCommand {
      * Registers all available command methods annotated with {@link
      */
     public static void registerAvailable(Object provider, Console console, SolGame game, Context context) {
-        Predicate<? super Method> predicate = Predicates.and(ReflectionUtils.withModifier(Modifier.PUBLIC), ReflectionUtils.withAnnotation(Command.class));
-        Set<Method> commandMethods = ReflectionUtils.getAllMethods(provider.getClass(), predicate);
+        Set<Method> commandMethods = Sets.newHashSet(); // TODO replace with gestalt-di's impl
+        for (Method method : provider.getClass().getDeclaredMethods()) {
+            if((method.getModifiers() & Modifier.PUBLIC) == 1 && method.getAnnotation(Command.class) != null){
+                commandMethods.add(method);
+            }
+        }
         for (Method method : commandMethods) {
             if (!hasSenderAnnotation(method)) {
                 logger.error("Command {} provided by {} contains a EntityRef without @Sender annotation, may cause a NullPointerException", method.getName(), provider.getClass().getSimpleName());

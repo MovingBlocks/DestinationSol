@@ -34,6 +34,7 @@ import org.destinationsol.common.SolMath;
 import org.destinationsol.game.SolGame;
 import org.destinationsol.game.context.Context;
 
+import javax.inject.Inject;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -70,6 +71,7 @@ public class SolInputManager {
     private Boolean scrolledUp;
     public boolean touchDragged;
 
+    @Inject
     public SolInputManager(OggSoundManager soundManager, Context context) {
         this.context = context;
         inputPointers = new InputPointer[POINTER_COUNT];

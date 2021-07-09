@@ -40,6 +40,7 @@ import org.destinationsol.game.ship.FarShip;
 import org.destinationsol.game.ship.hulls.HullConfig;
 import org.json.JSONObject;
 
+import javax.inject.Inject;
 import java.util.ArrayList;
 
 public class GalaxyFiller {
@@ -48,6 +49,7 @@ public class GalaxyFiller {
     private Vector2 mainStationPos = new Vector2();
     private HullConfig mainStationHc;
 
+    @Inject
     public GalaxyFiller(HullConfigManager hullConfigManager) {
         this.hullConfigManager = hullConfigManager;
     }

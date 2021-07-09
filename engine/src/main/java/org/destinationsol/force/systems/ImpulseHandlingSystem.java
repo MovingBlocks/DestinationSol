@@ -16,7 +16,6 @@
 package org.destinationsol.force.systems;
 
 import org.destinationsol.body.components.BodyLinked;
-import org.destinationsol.common.In;
 import org.destinationsol.entitysystem.EntitySystemManager;
 import org.destinationsol.entitysystem.EventReceiver;
 import org.destinationsol.force.components.Durability;
@@ -27,14 +26,21 @@ import org.terasology.gestalt.entitysystem.entity.EntityRef;
 import org.terasology.gestalt.entitysystem.event.EventResult;
 import org.terasology.gestalt.entitysystem.event.ReceiveEvent;
 
+import javax.inject.Inject;
+
 /**
  * When this receives an {@link ImpulseEvent}, it sends a {@link DamageEvent} to the entity that is scaled according to
  * the entity's mass and durability.
  */
 public class ImpulseHandlingSystem implements EventReceiver {
 
-    @In
-    private EntitySystemManager entitySystemManager;
+    @Inject
+    EntitySystemManager entitySystemManager;
+
+    @Inject
+    public ImpulseHandlingSystem() {
+
+    }
 
     @ReceiveEvent(components = {Health.class, BodyLinked.class})
     public EventResult onImpulse(ImpulseEvent event, EntityRef entity) {

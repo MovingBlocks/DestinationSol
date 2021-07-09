@@ -44,6 +44,7 @@ import org.destinationsol.ui.DisplayDimensions;
 import org.destinationsol.ui.UiDrawer;
 import org.destinationsol.ui.Waypoint;
 
+import javax.inject.Inject;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -87,6 +88,7 @@ public class MapDrawer implements UpdateAwareSystem{
 
     private final Vector2 mapDrawPositionAdditive = new Vector2();
 
+    @Inject
     MapDrawer() {
         DisplayDimensions displayDimensions = SolApplication.displayDimensions;
 
@@ -143,7 +145,7 @@ public class MapDrawer implements UpdateAwareSystem{
         drawCamera.update();
         drawer.updateMatrix(context);
 
-        game.getGridDrawer().draw(drawer, game, GRID_SZ, lineTexture, context);
+        game.getGridDrawer().draw(drawer, game, GRID_SZ, lineTexture);
         drawPlanets(drawer, game, viewDist, np, cameraPosition, heroDmgCap, camAngle, context);
         drawMazes(drawer, game, viewDist, np, cameraPosition, heroDmgCap, camAngle);
         drawStarNodes(drawer, game, viewDist, cameraPosition, starNodeW);

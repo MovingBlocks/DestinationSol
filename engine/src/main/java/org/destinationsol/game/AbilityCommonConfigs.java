@@ -16,13 +16,14 @@
 package org.destinationsol.game;
 
 import org.destinationsol.assets.Assets;
-import org.destinationsol.assets.sound.OggSoundManager;
 import org.destinationsol.assets.json.Json;
 import org.destinationsol.assets.json.Validator;
+import org.destinationsol.assets.sound.OggSoundManager;
 import org.destinationsol.game.particle.EffectTypes;
 import org.json.JSONObject;
 import org.terasology.gestalt.assets.ResourceUrn;
 
+import javax.inject.Inject;
 import java.util.HashMap;
 import java.util.Locale;
 import java.util.Map;
@@ -30,6 +31,7 @@ import java.util.Map;
 public class AbilityCommonConfigs {
     public final Map<String, AbilityCommonConfig> abilityConfigs;
 
+    @Inject
     public AbilityCommonConfigs(EffectTypes effectTypes, GameColors cols, OggSoundManager soundManager) {
         abilityConfigs = new HashMap<>();
 

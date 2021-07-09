@@ -38,6 +38,7 @@ import org.destinationsol.game.ship.SolShip;
 import org.destinationsol.game.ship.hulls.Hull;
 import org.destinationsol.game.ship.hulls.HullConfig;
 
+import javax.inject.Inject;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -54,6 +55,7 @@ public class PlanetManager implements UpdateAwareSystem {
     private final PlanetCoreSingleton planetCoreSingleton;
     private Planet nearestPlanet;
 
+    @Inject
     public PlanetManager(HullConfigManager hullConfigs, GameColors cols,
                             ItemManager itemManager) {
         planetConfigs = new PlanetConfigs(hullConfigs, cols, itemManager);

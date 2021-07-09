@@ -30,6 +30,7 @@ import org.destinationsol.game.SolCam;
 import org.destinationsol.game.SolGame;
 import org.destinationsol.game.planet.Planet;
 
+import javax.inject.Inject;
 import java.util.ArrayList;
 
 public class FarBackgroundManagerOld {
@@ -38,6 +39,7 @@ public class FarBackgroundManagerOld {
     private final float nebulaAngle;
     private final Color nebulaTint;
 
+    @Inject
     public FarBackgroundManagerOld() {
         nebulaTexture = Assets.getAtlasRegion("engine:farBgNebulae");
         if (SolRandom.test(.5f)) {

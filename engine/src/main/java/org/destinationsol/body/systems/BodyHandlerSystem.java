@@ -20,7 +20,6 @@ import org.destinationsol.body.components.BodyLinked;
 import org.destinationsol.body.events.BodyCreatedEvent;
 import org.destinationsol.body.events.BodyUpdateEvent;
 import org.destinationsol.body.events.GenerateBodyEvent;
-import org.destinationsol.common.In;
 import org.destinationsol.entitysystem.EntitySystemManager;
 import org.destinationsol.entitysystem.EventReceiver;
 import org.destinationsol.force.components.ImmuneToForce;
@@ -39,6 +38,7 @@ import org.terasology.gestalt.entitysystem.event.Before;
 import org.terasology.gestalt.entitysystem.event.EventResult;
 import org.terasology.gestalt.entitysystem.event.ReceiveEvent;
 
+import javax.inject.Inject;
 import java.util.HashMap;
 
 /**
@@ -51,8 +51,12 @@ import java.util.HashMap;
  */
 public class BodyHandlerSystem implements EventReceiver {
 
-    @In
-    private EntitySystemManager entitySystemManager;
+    @Inject
+    EntitySystemManager entitySystemManager;
+
+    @Inject
+    public BodyHandlerSystem() {
+    }
 
     private HashMap<EntityRef, Body> referenceToBodyObjects = new HashMap<>();
 

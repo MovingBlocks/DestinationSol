@@ -22,6 +22,7 @@ import org.destinationsol.game.SolGame;
 import org.destinationsol.game.drawables.DrawableLevel;
 import org.json.JSONObject;
 
+import javax.inject.Inject;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -37,6 +38,7 @@ public class SpecialEffects {
     private final EffectConfig asteroidDust;
     private final EffectConfig forceBeacon;
 
+    @Inject
     public SpecialEffects(EffectTypes effectTypes, GameColors colours) {
         JSONObject rootNode = Validator.getValidatedJSON("core:specialEffectsConfig", "engine:schemaSpecialEffectsConfig");
 

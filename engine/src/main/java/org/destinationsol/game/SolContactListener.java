@@ -21,8 +21,6 @@ import com.badlogic.gdx.physics.box2d.ContactImpulse;
 import com.badlogic.gdx.physics.box2d.ContactListener;
 import com.badlogic.gdx.physics.box2d.Manifold;
 import org.destinationsol.assets.sound.SpecialSounds;
-import org.destinationsol.common.Immutable;
-import org.destinationsol.common.In;
 import org.destinationsol.common.SolMath;
 import org.destinationsol.entitysystem.EntitySystemManager;
 import org.destinationsol.force.events.ContactEvent;
@@ -30,15 +28,22 @@ import org.destinationsol.force.events.ImpulseEvent;
 import org.destinationsol.game.projectile.Projectile;
 import org.terasology.gestalt.entitysystem.entity.EntityRef;
 
+import javax.inject.Inject;
+import javax.inject.Provider;
+
 public class SolContactListener implements ContactListener {
 
-    @In
-    private EntitySystemManager entitySystemManager;
+    @Inject
+    protected EntitySystemManager entitySystemManager;
 
-    private final SolGame myGame;
+    private final Provider<SolGame> myGame;
 
-    public SolContactListener(SolGame game) {
-        myGame = game;
+    private final SpecialSounds specialSounds;
+
+    @Inject
+    public SolContactListener(Provider<SolGame> game, SpecialSounds specialSounds) {
+        this.myGame = game;
+        this.specialSounds = specialSounds;
     }
 
     @Override
@@ -72,7 +77,7 @@ public class SolContactListener implements ContactListener {
         }
         Projectile projectile = (Projectile) (firstSolObjectIsProjectile ? firstSolObject : secondSolObject);
         SolObject solObject = firstSolObjectIsProjectile ? secondSolObject : firstSolObject;
-        projectile.setObstacle(solObject, myGame);
+        projectile.setObstacle(solObject, myGame.get());
     }
 
     @Override
@@ -118,10 +123,10 @@ public class SolContactListener implements ContactListener {
         if (secondSolObject instanceof Projectile && ((Projectile) secondSolObject).getConfig().density <= 0) {
             return;
         }
-        firstSolObject.handleContact(secondSolObject, absImpulse, myGame, collPos);
-        secondSolObject.handleContact(firstSolObject, absImpulse, myGame, collPos);
-        myGame.getContext().get(SpecialSounds.class).playColl(myGame, absImpulse, firstSolObject, collPos);
-        myGame.getContext().get(SpecialSounds.class).playColl(myGame, absImpulse, secondSolObject, collPos);
+        firstSolObject.handleContact(secondSolObject, absImpulse, myGame.get(), collPos);
+        secondSolObject.handleContact(firstSolObject, absImpulse, myGame.get(), collPos);
+        specialSounds.playColl(myGame.get(), absImpulse, firstSolObject, collPos);
+        specialSounds.playColl(myGame.get(), absImpulse, secondSolObject, collPos);
 
     }
 

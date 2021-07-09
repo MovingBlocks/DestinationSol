@@ -16,7 +16,6 @@
 package org.destinationsol.rubble.systems;
 
 import com.badlogic.gdx.math.Vector2;
-import org.destinationsol.common.In;
 import org.destinationsol.entitysystem.EventReceiver;
 import org.destinationsol.game.Rubble;
 import org.destinationsol.game.RubbleBuilder;
@@ -33,17 +32,24 @@ import org.terasology.gestalt.entitysystem.event.Before;
 import org.terasology.gestalt.entitysystem.event.EventResult;
 import org.terasology.gestalt.entitysystem.event.ReceiveEvent;
 
+import javax.inject.Inject;
+
 /**
  * When an entity with a {@link CreatesRubbleOnDestruction} component is destroyed, this system creates {@link Rubble}s
  * where the entity was.
  */
 public class RubbleCreationSystem implements EventReceiver {
 
-    @In
-    private RubbleBuilder rubbleBuilder;
+    @Inject
+    RubbleBuilder rubbleBuilder;
 
-    @In
-    private SolGame solGame;
+    @Inject
+    SolGame solGame;
+
+    @Inject
+    public RubbleCreationSystem() {
+
+    }
 
     //TODO once Shards are entities, this needs to be refactored to replace ShardBuilder
 

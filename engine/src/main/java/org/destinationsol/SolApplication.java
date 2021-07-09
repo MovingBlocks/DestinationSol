@@ -31,34 +31,28 @@ import org.destinationsol.body.components.BodyLinked;
 import org.destinationsol.common.SolColor;
 import org.destinationsol.common.SolMath;
 import org.destinationsol.common.SolRandom;
+import org.destinationsol.entitysystem.ComponentSystemManager;
+import org.destinationsol.entitysystem.EntitySystemManager;
+import org.destinationsol.entitysystem.SerialisationManager;
 import org.destinationsol.game.DebugOptions;
-import org.destinationsol.game.ObjectManager;
-import org.destinationsol.game.SaveManager;
+import org.destinationsol.game.SolCam;
 import org.destinationsol.game.SolGame;
 import org.destinationsol.game.SolNames;
 import org.destinationsol.game.WorldConfig;
+import org.destinationsol.game.console.adapter.ParameterAdapterManager;
+import org.destinationsol.game.context.Context;
 import org.destinationsol.game.drawables.DrawableLevel;
 import org.destinationsol.health.components.Health;
 import org.destinationsol.location.components.Angle;
+import org.destinationsol.location.components.Position;
 import org.destinationsol.location.components.Velocity;
+import org.destinationsol.menu.MenuScreens;
+import org.destinationsol.menu.background.MenuBackgroundManager;
+import org.destinationsol.modules.ModuleManager;
 import org.destinationsol.moneyDropping.components.DropsMoneyOnDestruction;
 import org.destinationsol.rendering.RenderableElement;
 import org.destinationsol.rendering.components.Renderable;
 import org.destinationsol.rendering.events.RenderEvent;
-import org.destinationsol.entitysystem.ComponentSystemManager;
-import org.destinationsol.entitysystem.EntitySystemManager;
-import org.destinationsol.entitysystem.SerialisationManager;
-import org.destinationsol.game.SolCam;
-import org.destinationsol.game.console.adapter.ParameterAdapterManager;
-import org.destinationsol.game.context.Context;
-import org.destinationsol.game.context.internal.ContextImpl;
-import org.destinationsol.game.drawables.DrawableManager;
-import org.destinationsol.game.item.ItemManager;
-import org.destinationsol.game.item.LootBuilder;
-import org.destinationsol.location.components.Position;
-import org.destinationsol.menu.MenuScreens;
-import org.destinationsol.menu.background.MenuBackgroundManager;
-import org.destinationsol.modules.ModuleManager;
 import org.destinationsol.rubble.components.CreatesRubbleOnDestruction;
 import org.destinationsol.size.components.Size;
 import org.destinationsol.ui.DebugCollector;
@@ -70,18 +64,20 @@ import org.destinationsol.ui.SolLayouts;
 import org.destinationsol.ui.UiDrawer;
 import org.destinationsol.ui.nui.NUIManager;
 import org.destinationsol.util.FramerateLimiter;
-import org.destinationsol.util.InjectionHelper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.terasology.gestalt.entitysystem.component.Component;
+import org.terasology.context.annotation.API;
+import org.terasology.gestalt.di.BeanContext;
+import org.terasology.gestalt.di.DefaultBeanContext;
 import org.terasology.gestalt.entitysystem.component.management.ComponentManager;
 import org.terasology.gestalt.entitysystem.entity.EntityRef;
-import org.terasology.gestalt.module.sandbox.API;
+import org.terasology.gestalt.module.ModuleServiceRegistry;
+import org.terasology.gestalt.module.sandbox.StandardPermissionProviderFactory;
 
+import javax.inject.Inject;
 import java.io.PrintWriter;
 import java.io.StringWriter;
 import java.util.HashSet;
-import java.util.Iterator;
 import java.util.Set;
 
 @API
@@ -90,28 +86,34 @@ public class SolApplication implements ApplicationListener {
 
     private final float targetFPS;
 
-    @SuppressWarnings("FieldCanBeLocal")
-    private final ModuleManager moduleManager;
     private EntitySystemManager entitySystemManager;
 
-    private OggMusicManager musicManager;
-    private OggSoundManager soundManager;
-    private SolInputManager inputManager;
+    @Inject
+    protected OggMusicManager musicManager;
+    @Inject
+    protected OggSoundManager soundManager;
+    @Inject
+    protected SolInputManager inputManager;
+    @Inject
+    protected UiDrawer uiDrawer;
+    @Inject
+    protected CommonDrawer commonDrawer;
+    @Inject
+    protected SolLayouts layouts;
+
     private MenuBackgroundManager menuBackgroundManager;
 
-    private UiDrawer uiDrawer;
 
     private FactionDisplay factionDisplay;
     private MenuScreens menuScreens;
-    private SolLayouts layouts;
     private GameOptions options;
-    private CommonDrawer commonDrawer;
     private String fatalErrorMsg;
     private String fatalErrorTrace;
     private SolGame solGame;
     private ParameterAdapterManager parameterAdapterManager;
     private NUIManager nuiManager;
-    private Context context;
+//    private Context context;
+
     // TODO: Make this non-static.
     public static DisplayDimensions displayDimensions;
 
@@ -120,50 +122,57 @@ public class SolApplication implements ApplicationListener {
 
     private ComponentManager componentManager;
 
+    private BeanContext appContext;
+    private BeanContext gameContext;
+
     // TODO: Make this non-static.
     private static Set<ResizeSubscriber> resizeSubscribers;
 
-    public SolApplication(ModuleManager moduleManager, float targetFPS) {
+    @Inject
+    protected SolApplication() {
+        throw  new RuntimeException("Unimplemented");
+    }
+
+    public SolApplication(float targetFPS) {
         // Initiate Box2D to make sure natives are loaded early enough
         Box2D.init();
-        this.moduleManager = moduleManager;
         this.targetFPS = targetFPS;
         resizeSubscribers = new HashSet<>();
+
+        this.appContext = new DefaultBeanContext(
+                new ModuleServiceRegistry(new StandardPermissionProviderFactory()),
+                new CoreService(this),
+                new ContextWrapperService());
     }
 
     @Override
     public void create() {
-        context = new ContextImpl();
-        context.put(SolApplication.class, this);
-        context.put(ModuleManager.class, moduleManager);
+//        context = new ContextImpl();
+//        context.put(SolApplication.class, this);
+//        context.put(ModuleManager.class, moduleManager);
         isMobile = Gdx.app.getType() == Application.ApplicationType.Android || Gdx.app.getType() == Application.ApplicationType.iOS;
         if (isMobile) {
             DebugOptions.read(null);
         }
         options = new GameOptions(isMobile(), null);
 
-        componentManager = new ComponentManager();
-        AssetHelper helper = new AssetHelper();
-        helper.init(moduleManager.getEnvironment(), componentManager, isMobile);
+        componentManager = appContext.getBean(ComponentManager.class);
+        try {
+            appContext.getBean(ModuleManager.class).init();
+        } catch (Exception e) {
+           logger.error("Cannot initialize modules");
+        }
+        AssetHelper helper = appContext.getBean(AssetHelper.class);
+        helper.init(appContext.getBean(ModuleManager.class).getEnvironment(), componentManager, isMobile);
         Assets.initialize(helper);
 
-        context.put(ComponentSystemManager.class, new ComponentSystemManager(moduleManager.getEnvironment(), context));
         logger.info("\n\n ------------------------------------------------------------ \n");
-        moduleManager.printAvailableModules();
+        appContext.getBean(ModuleManager.class).printAvailableModules();
 
-        displayDimensions = new DisplayDimensions(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
-        commonDrawer = new CommonDrawer();
-        uiDrawer = new UiDrawer(commonDrawer);
-        layouts = new SolLayouts();
-
-        SolCam camera = new SolCam();
-        context.put(SolCam.class, camera);
-
-        musicManager = new OggMusicManager(options);
-        soundManager = new OggSoundManager(context);
-        inputManager = new SolInputManager(soundManager, context);
+        appContext.inject(this);
 
         musicManager.playMusic(OggMusicManager.MENU_MUSIC_SET, options);
+        displayDimensions = appContext.getBean(DisplayDimensions.class);
 
         menuBackgroundManager = new MenuBackgroundManager(displayDimensions);
         menuScreens = new MenuScreens(layouts, isMobile(), options);
@@ -171,7 +180,7 @@ public class SolApplication implements ApplicationListener {
         inputManager.setScreen(this, menuScreens.main);
         parameterAdapterManager = ParameterAdapterManager.createCore(this);
 
-        nuiManager = new NUIManager(this, context, commonDrawer, options);
+        nuiManager = new NUIManager(this, appContext.getBean(Context.class), commonDrawer, options);
     }
 
     @Override
@@ -263,7 +272,7 @@ public class SolApplication implements ApplicationListener {
         commonDrawer.begin();
 
         if (solGame != null) {
-            context.get(DrawableManager.class).draw(solGame, context);
+            solGame.getDrawableManager().draw(solGame, new ContextWrapper(gameContext) );
 
             //This event causes each entity with a `Renderable` component to be rendered onscreen
             entitySystemManager.sendEvent(new RenderEvent(), new Renderable(), new Position());
@@ -293,7 +302,7 @@ public class SolApplication implements ApplicationListener {
 
                 EntityRef entityRef = entitySystemManager.getEntityManager().createEntity(graphicsComponent, position, size,
                         new Angle(), new Velocity(), new AsteroidMesh(), health, new DropsMoneyOnDestruction(), new CreatesRubbleOnDestruction());
-                
+
                 entityRef.setComponent(new BodyLinked());
                 entityCreated = true;
             }
@@ -321,40 +330,24 @@ public class SolApplication implements ApplicationListener {
 
     public void play(boolean tut, String shipName, boolean isNewGame, WorldConfig worldConfig) {
 
-        context.get(ComponentSystemManager.class).preBegin();
-        solGame = new SolGame(shipName, tut, isNewGame, commonDrawer, context, worldConfig);
-        context.put(SolGame.class, solGame);
+        gameContext = appContext.getNestedContainer(new SolGameServiceRegistry(isNewGame), new ContextWrapperService());
+        appContext.getBean(ComponentSystemManager.class).preBegin();
+        solGame = gameContext.getBean(SolGame.class);
+        gameContext.getBean(ComponentSystemManager.class).preBegin();
+        entitySystemManager = gameContext.getBean(EntitySystemManager.class);
 
-        context.put(LootBuilder.class, solGame.getLootBuilder());
-        context.put(ItemManager.class, solGame.getItemMan());
-        context.put(ObjectManager.class, solGame.getObjectManager());
-
-        entitySystemManager = new EntitySystemManager(moduleManager.getEnvironment(), componentManager, context);
-
-        InjectionHelper.inject(solGame.getContactListener(), context);
-
-        solGame.createUpdateSystems(context);
-
+        solGame.createUpdateSystems(gameContext.getBean(Context.class));
         solGame.startGame(shipName, isNewGame, worldConfig, new SolNames(), entitySystemManager);
-
-        // Big, fat, ugly HACK to get a working classloader
-        // Serialisation and thus a classloader is not needed when there are no components
-        Iterator<Class<? extends Component>> componentClasses =
-                moduleManager.getEnvironment().getSubtypesOf(Component.class).iterator();
-        SerialisationManager serialisationManager = new SerialisationManager(
-                SaveManager.getResourcePath("entity_store.dat"), entitySystemManager.getEntityManager(),
-                componentClasses.hasNext() ? componentClasses.next().getClassLoader() : null);
-        context.put(SerialisationManager.class, serialisationManager);
 
         if (!isNewGame) {
             try {
-                context.get(SerialisationManager.class).deserialise();
+                gameContext.getBean(SerialisationManager.class).deserialise();
             } catch (Exception e) {
                 e.printStackTrace();
             }
         }
 
-        factionDisplay = new FactionDisplay(context.get(SolCam.class));
+        factionDisplay = new FactionDisplay(gameContext.getBean(SolCam.class));
         inputManager.setScreen(this, solGame.getScreens().mainGameScreen);
     }
 
@@ -370,7 +363,7 @@ public class SolApplication implements ApplicationListener {
         commonDrawer.dispose();
 
         if (solGame != null) {
-            solGame.onGameEnd(context);
+            solGame.onGameEnd(gameContext.getBean(Context.class));
         }
 
         inputManager.dispose();
@@ -389,9 +382,10 @@ public class SolApplication implements ApplicationListener {
     }
 
     public void finishGame() {
-        solGame.onGameEnd(context);
+        solGame.onGameEnd(gameContext.getBean(Context.class));
         solGame = null;
         inputManager.setScreen(this, menuScreens.main);
+
     }
 
     public boolean isMobile() {
@@ -414,10 +408,7 @@ public class SolApplication implements ApplicationListener {
         return menuBackgroundManager;
     }
 
-    public Context getContext() {
-        return context;
-    }
-  
+
     public NUIManager getNuiManager() {
         return nuiManager;
     }

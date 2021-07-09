@@ -30,10 +30,11 @@ import org.destinationsol.game.SolCam;
 import org.destinationsol.game.SolGame;
 import org.destinationsol.game.SolObject;
 import org.destinationsol.game.UpdateAwareSystem;
-import org.destinationsol.game.context.Context;
 import org.destinationsol.game.planet.Planet;
 import org.destinationsol.game.sound.DebugHintDrawer;
 
+import javax.inject.Inject;
+import javax.inject.Provider;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -76,8 +77,6 @@ public class OggSoundManager implements UpdateAwareSystem {
      */
     private final DebugHintDrawer debugHintDrawer;
 
-    //A reference to the camera, which represents the on-screen area.
-    private final SolCam solCam;
 
     /**
      * This is used only in {@link #update(SolGame, float)}, and is used for ensuring some more resource expensive operations
@@ -85,15 +84,15 @@ public class OggSoundManager implements UpdateAwareSystem {
      * "Do the operations now".
      */
     private float myLoopAwait;
-    private final SolApplication solApplication;
+    private final Provider<SolApplication> applicationProvider;
 
 
-    public OggSoundManager(Context context) {
+    @Inject
+    public OggSoundManager(Provider<SolApplication> applicationProvider) {
         soundMap = new HashMap<>();
         loopedSoundMap = new HashMap<>();
         debugHintDrawer = new DebugHintDrawer();
-        solApplication = context.get(SolApplication.class);
-        this.solCam = context.get(SolCam.class);
+        this.applicationProvider = applicationProvider;
     }
 
     /**
@@ -171,7 +170,7 @@ public class OggSoundManager implements UpdateAwareSystem {
             position = source.getPosition();
         }
 
-        float volume = getVolume(game, position, volumeMultiplier, sound);
+        float volume = getVolume(game, position, volumeMultiplier, sound, game.getCam());
 
         if (volume <= 0) {
             return;
@@ -204,8 +203,8 @@ public class OggSoundManager implements UpdateAwareSystem {
      * @param sound            Sound to be played with the calculated volume.
      * @return Volume the sound should play at.
      */
-    private float getVolume(SolGame game, Vector2 position, float volumeMultiplier, OggSound sound) {
-        float globalVolumeMultiplier = solApplication.getOptions().sfxVolume.getVolume();
+    private float getVolume(SolGame game, Vector2 position, float volumeMultiplier, OggSound sound, SolCam solCam) {
+        float globalVolumeMultiplier = applicationProvider.get().getOptions().sfxVolume.getVolume();
 
         Vector2 cameraPosition = solCam.getPosition();
         Planet nearestPlanet = game.getPlanetManager().getNearestPlanet();

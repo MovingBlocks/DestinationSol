@@ -25,6 +25,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.terasology.gestalt.assets.ResourceUrn;
 
+import javax.inject.Inject;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -51,6 +52,7 @@ public class OggMusicManager {
      * Registers engine music.
      * TODO Make music registerable from modules, and then register this music through the new way.
      */
+    @Inject
     public OggMusicManager(GameOptions options) {
         musicMap = new HashMap<>();
         registerMusic(GAME_MUSIC_SET, "engine:cimmerianDawn");

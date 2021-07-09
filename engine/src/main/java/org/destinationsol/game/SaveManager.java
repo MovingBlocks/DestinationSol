@@ -37,7 +37,7 @@ import org.destinationsol.game.ship.hulls.HullConfig;
 import org.destinationsol.ui.Waypoint;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.terasology.gestalt.module.sandbox.API;
+import org.terasology.context.annotation.API;
 
 import java.io.File;
 import java.io.FileNotFoundException;

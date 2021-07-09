@@ -19,6 +19,8 @@ import org.destinationsol.SolApplication;
 import org.destinationsol.game.context.Context;
 import org.destinationsol.ui.SolLayouts;
 
+import javax.inject.Inject;
+
 public class GameScreens {
     public final MainGameScreen mainGameScreen;
     public final MapScreen mapScreen;
@@ -28,6 +30,7 @@ public class GameScreens {
     public final WaypointCreationScreen waypointCreationScreen;
     public final ConsoleScreen consoleScreen;
 
+    @Inject
     public GameScreens(SolApplication cmp, Context context) {
         SolLayouts layouts = cmp.getLayouts();
         RightPaneLayout rightPaneLayout = layouts.rightPaneLayout;

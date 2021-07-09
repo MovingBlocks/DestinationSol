@@ -18,13 +18,13 @@ package org.destinationsol.removal.systems;
 import org.destinationsol.entitysystem.EventReceiver;
 import org.destinationsol.removal.components.SlatedForDeletion;
 import org.destinationsol.removal.events.DeletionEvent;
-import org.destinationsol.removal.events.ShouldBeDestroyedEvent;
 import org.destinationsol.removal.events.RemovalForOptimizationEvent;
+import org.destinationsol.removal.events.ShouldBeDestroyedEvent;
 import org.terasology.gestalt.entitysystem.entity.EntityRef;
 import org.terasology.gestalt.entitysystem.event.EventResult;
 import org.terasology.gestalt.entitysystem.event.ReceiveEvent;
 
-import java.util.HashSet;
+import javax.inject.Inject;
 
 /**
  * When an entity receives a {@link ShouldBeDestroyedEvent} or a {@link RemovalForOptimizationEvent}, this system adds a
@@ -35,6 +35,10 @@ import java.util.HashSet;
  * component. When that happens, this system deletes those entities.
  */
 public class DestructionSystem implements EventReceiver {
+
+    @Inject
+    public DestructionSystem(){
+    }
 
     /**
      * Adds a {@link SlatedForDeletion} component to an entity. That entity will be destroyed on the next tick.

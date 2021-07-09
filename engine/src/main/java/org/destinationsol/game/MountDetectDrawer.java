@@ -21,6 +21,8 @@ import org.destinationsol.assets.Assets;
 import org.destinationsol.common.SolColor;
 import org.destinationsol.game.ship.SolShip;
 
+import javax.inject.Inject;
+
 public class MountDetectDrawer implements UpdateAwareSystem {
     private final Vector2 myNePos;
     private final TextureAtlas.AtlasRegion myTexture;
@@ -30,6 +32,7 @@ public class MountDetectDrawer implements UpdateAwareSystem {
     private float myAnimPercentage;
     private float myAngle;
 
+    @Inject
     public MountDetectDrawer() {
         myNePos = new Vector2();
         myTexture = Assets.getAtlasRegion("engine:targetDetected");

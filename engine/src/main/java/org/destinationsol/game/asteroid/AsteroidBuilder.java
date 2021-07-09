@@ -34,6 +34,7 @@ import org.destinationsol.game.drawables.DrawableLevel;
 import org.destinationsol.game.drawables.RectSprite;
 import org.destinationsol.game.drawables.SpriteManager;
 
+import javax.inject.Inject;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -44,6 +45,7 @@ public class AsteroidBuilder {
     private final CollisionMeshLoader collisionMeshLoader;
     private final List<TextureAtlas.AtlasRegion> textures;
 
+    @Inject
     public AsteroidBuilder() {
         collisionMeshLoader = new CollisionMeshLoader("engine:asteroids");
         textures = Assets.listTexturesMatching("engine:asteroid_.*");

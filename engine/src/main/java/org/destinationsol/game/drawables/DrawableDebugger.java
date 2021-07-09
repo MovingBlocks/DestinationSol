@@ -26,6 +26,7 @@ import org.destinationsol.game.UpdateAwareSystem;
 import org.destinationsol.ui.FontSize;
 import org.destinationsol.ui.UiDrawer;
 
+import javax.inject.Inject;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -34,6 +35,7 @@ public class DrawableDebugger implements UpdateAwareSystem {
     private static final float GAP = 0.01f;
     private final Set<TextureAtlas.AtlasRegion> textures;
 
+    @Inject
     public DrawableDebugger() {
         textures = new HashSet<>();
     }

@@ -17,10 +17,9 @@ package org.destinationsol.game;
 
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.math.Vector2;
-import com.badlogic.gdx.physics.box2d.World;
 import com.badlogic.gdx.utils.Timer;
-import org.destinationsol.CommonDrawer;
 import org.destinationsol.Const;
+import org.destinationsol.ContextWrapper;
 import org.destinationsol.GameOptions;
 import org.destinationsol.SolApplication;
 import org.destinationsol.assets.sound.OggSoundManager;
@@ -43,7 +42,6 @@ import org.destinationsol.game.item.ItemManager;
 import org.destinationsol.game.item.LootBuilder;
 import org.destinationsol.game.item.MercItem;
 import org.destinationsol.game.item.SolItem;
-import org.destinationsol.game.particle.EffectTypes;
 import org.destinationsol.game.particle.PartMan;
 import org.destinationsol.game.particle.SpecialEffects;
 import org.destinationsol.game.planet.Planet;
@@ -62,8 +60,10 @@ import org.destinationsol.ui.TutorialManager;
 import org.destinationsol.ui.UiDrawer;
 import org.destinationsol.ui.Waypoint;
 import org.destinationsol.util.InjectionHelper;
+import org.terasology.gestalt.di.BeanContext;
 import org.terasology.gestalt.entitysystem.entity.EntityRef;
 
+import javax.inject.Inject;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -71,33 +71,67 @@ import java.util.SortedMap;
 import java.util.TreeMap;
 
 public class SolGame {
-    private final GameScreens gameScreens;
-    private final SolCam solCamReference;
-    private final ObjectManager objectManager;
-    private final boolean isTutorial;
-    private final SolApplication solApplication;
-    private final PlanetManager planetManager;
-    private final ChunkManager chunkManager;
-    private final PartMan partMan;
-    private final AsteroidBuilder asteroidBuilder;
-    private final LootBuilder lootBuilder;
-    private final ShipBuilder shipBuilder;
-    private final HullConfigManager hullConfigManager;
-    private final GridDrawer gridDrawer;
-    private final FarBackgroundManagerOld farBackgroundManagerOld;
-    private final FactionManager factionManager;
-    private final MapDrawer mapDrawer;
-    private final RubbleBuilder rubbleBuilder;
-    private final ItemManager itemManager;
-    private final StarPort.Builder starPortBuilder;
-    private final OggSoundManager soundManager;
-    private final DrawableDebugger drawableDebugger;
-    private final SpecialEffects specialEffects;
-    private final BeaconHandler beaconHandler;
-    private final MountDetectDrawer mountDetectDrawer;
-    private final TutorialManager tutorialManager;
-    private final GalaxyFiller galaxyFiller;
-    private final SolContactListener contactListener;
+    protected boolean isTutorial;
+    @Inject
+    protected GameScreens gameScreens;
+    @Inject
+    protected SolCam camera;
+    @Inject
+    protected ObjectManager objectManager;
+    @Inject
+    protected SolApplication solApplication;
+    @Inject
+    protected DrawableManager drawableManager;
+    @Inject
+    protected PlanetManager planetManager;
+    @Inject
+    protected ChunkManager chunkManager;
+    @Inject
+    protected PartMan partMan;
+    @Inject
+    protected AsteroidBuilder asteroidBuilder;
+    @Inject
+    protected LootBuilder lootBuilder;
+    @Inject
+    protected ShipBuilder shipBuilder;
+    @Inject
+    protected HullConfigManager hullConfigManager;
+    @Inject
+    protected GridDrawer gridDrawer;
+    @Inject
+    protected FarBackgroundManagerOld farBackgroundManagerOld;
+    @Inject
+    protected FactionManager factionManager;
+    @Inject
+    protected MapDrawer mapDrawer;
+    @Inject
+    protected RubbleBuilder rubbleBuilder;
+    @Inject
+    protected ItemManager itemManager;
+    @Inject
+    protected StarPort.Builder starPortBuilder;
+    @Inject
+    protected OggSoundManager soundManager;
+    @Inject
+    protected DrawableDebugger drawableDebugger;
+    @Inject
+    protected SpecialSounds specialSounds;
+    @Inject
+    protected SpecialEffects specialEffects;
+    @Inject
+    protected GameColors gameColors;
+    @Inject
+    protected BeaconHandler beaconHandler;
+    @Inject
+    protected MountDetectDrawer mountDetectDrawer;
+    @Inject
+    protected GalaxyFiller galaxyFiller;
+    @Inject
+    protected SolContactListener contactListener;
+    @Inject
+    BeanContext beanContext;
+
+    protected TutorialManager tutorialManager;
     private Hero hero;
     private float timeStep;
     private float time;
@@ -106,73 +140,17 @@ public class SolGame {
     private RespawnState respawnState;
     private SortedMap<Integer, List<UpdateAwareSystem>> onPausedUpdateSystems;
     private SortedMap<Integer, List<UpdateAwareSystem>> updateSystems;
-    private Context context;
 
     private EntitySystemManager entitySystemManager;
 
-    public SolGame(String shipName, boolean isTutorial, boolean isNewGame, CommonDrawer commonDrawer, Context context,
-                   WorldConfig worldConfig) {
+    @Inject
+    public SolGame() {
+        this(false);
+    }
+
+    public SolGame(boolean isTutorial) {
         // TODO: make this non-static
         FactionInfo.init();
-
-        this.context = context;
-
-        this.isTutorial = isTutorial;
-        solApplication = context.get(SolApplication.class);
-
-        //TODO this no longer needs to be instantiated in SolGame
-        GameColors gameColors = new GameColors();
-        context.put(GameColors.class, gameColors);
-
-        //TODO this no longer needs to be instantiated in SolGame
-        soundManager = solApplication.getSoundManager();
-        SpecialSounds specialSounds = new SpecialSounds(soundManager);
-        context.put(SpecialSounds.class, specialSounds);
-
-        //TODO these no longer need to be instantiated in SolGame
-        GameDrawer drawer = new GameDrawer(commonDrawer);
-        context.put(GameDrawer.class, drawer);
-        DrawableManager drawableManager = new DrawableManager(drawer);
-        context.put(DrawableManager.class, drawableManager);
-
-        //TODO refactor the usages of this to be independent from SolGame, so that this can be deleted
-        // The only methods still using this are those that require changing an interface signature (UpdateAwareSystem, SolObject, and Drawable)
-        SolCam camera = context.get(SolCam.class);
-        solCamReference = camera;
-
-        gameScreens = new GameScreens(solApplication, context);
-
-        if (isTutorial) {
-            tutorialManager = new TutorialManager(gameScreens, solApplication.isMobile(), solApplication.getOptions(), this);
-            context.put(TutorialManager.class, tutorialManager);
-        } else {
-            tutorialManager = null;
-        }
-        farBackgroundManagerOld = new FarBackgroundManagerOld();
-        shipBuilder = new ShipBuilder();
-        EffectTypes effectTypes = new EffectTypes();
-        specialEffects = new SpecialEffects(effectTypes, gameColors);
-        itemManager = new ItemManager(soundManager, effectTypes, gameColors);
-        AbilityCommonConfigs abilityCommonConfigs = new AbilityCommonConfigs(effectTypes, gameColors, soundManager);
-        hullConfigManager = new HullConfigManager(itemManager, abilityCommonConfigs);
-        planetManager = new PlanetManager(hullConfigManager, gameColors, itemManager);
-        contactListener = new SolContactListener(this);
-        factionManager = new FactionManager();
-        objectManager = new ObjectManager(contactListener, factionManager, context);
-        context.put(World.class, objectManager.getWorld());
-        gridDrawer = new GridDrawer();
-        chunkManager = new ChunkManager();
-        partMan = new PartMan();
-        asteroidBuilder = new AsteroidBuilder();
-        lootBuilder = new LootBuilder();
-        mapDrawer = new MapDrawer();
-        rubbleBuilder = new RubbleBuilder();
-        context.put(RubbleBuilder.class, rubbleBuilder);
-        galaxyFiller = new GalaxyFiller(hullConfigManager);
-        starPortBuilder = new StarPort.Builder();
-        drawableDebugger = new DrawableDebugger();
-        mountDetectDrawer = new MountDetectDrawer();
-        beaconHandler = new BeaconHandler();
         timeFactor = 1;
 
     }
@@ -250,7 +228,7 @@ public class SolGame {
     }
 
     public Context getContext() {
-        return context;
+        return new ContextWrapper(beanContext);
     }
 
     private void createGame(String shipName, boolean shouldSpawnOnGalaxySpawnPosition) {
@@ -311,7 +289,7 @@ public class SolGame {
             context.remove(TutorialManager.class, tutorialManager);
         }
         FactionInfo.clearValues();
-        objectManager.dispose();
+//        objectManager.dispose();
     }
 
     private void saveShip() {
@@ -375,7 +353,7 @@ public class SolGame {
 
     public void drawDebug(GameDrawer drawer, Context context) {
         if (DebugOptions.GRID_SZ > 0) {
-            gridDrawer.draw(drawer, this, DebugOptions.GRID_SZ, drawer.debugWhiteTexture, context);
+            gridDrawer.draw(drawer, this, DebugOptions.GRID_SZ, drawer.debugWhiteTexture);
         }
         planetManager.drawDebug(drawer, context);
         objectManager.drawDebug(drawer);
@@ -389,7 +367,7 @@ public class SolGame {
 
     private void drawDebugPoint(GameDrawer drawer, Vector2 dp, Color col) {
         if (dp.x != 0 || dp.y != 0) {
-            float sz = context.get(SolCam.class).getRealLineWidth() * 5;
+            float sz = getContext().get(SolCam.class).getRealLineWidth() * 5;
             drawer.draw(drawer.debugWhiteTexture, sz, sz, sz / 2, sz / 2, dp.x, dp.y, 0, col);
         }
     }
@@ -398,11 +376,6 @@ public class SolGame {
         return timeStep;
     }
 
-    //TODO refactor the usages of this to be independent from SolGame, so that this can be deleted
-    // The only methods still using this are those that require changing an interface signature (UpdateAwareSystem, SolObject, and Drawable)
-    public SolCam getCam() {
-        return solCamReference;
-    }
 
     public ObjectManager getObjectManager() {
         return objectManager;
@@ -434,6 +407,10 @@ public class SolGame {
 
     public SolContactListener getContactListener() {
         return contactListener;
+    }
+
+    public SolCam getCam() {
+        return this.camera;
     }
 
     public ItemManager getItemMan() {
@@ -561,6 +538,10 @@ public class SolGame {
 
     public EntitySystemManager getEntitySystemManager() {
         return entitySystemManager;
+    }
+
+    public DrawableManager getDrawableManager() {
+        return drawableManager;
     }
 
     public void setRespawnState() {
