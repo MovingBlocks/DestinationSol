@@ -83,12 +83,10 @@ public final class MethodCommand extends AbstractCommand {
             if (!hasSenderAnnotation(method)) {
                 logger.error("Command {} provided by {} contains a EntityRef without @Sender annotation, may cause a NullPointerException", method.getName(), provider.getClass().getSimpleName());
             }
-            logger.debug("Registering command method {} in class {}", method.getName(), method.getDeclaringClass().getCanonicalName());
             try {
                 SpecificAccessibleObject<Method> specificMethod = new SpecificAccessibleObject<>(method, provider);
                 MethodCommand command = referringTo(specificMethod, game, context);
                 console.registerCommand(command);
-                logger.debug("Registered command method {} in class {}", method.getName(), method.getDeclaringClass().getCanonicalName());
             } catch (RuntimeException t) {
                 logger.error("Failed to load command method {} in class {}", method.getName(), method.getDeclaringClass().getCanonicalName(), t);
             }
