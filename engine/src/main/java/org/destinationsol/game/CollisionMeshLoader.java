@@ -338,7 +338,7 @@ public class CollisionMeshLoader {
 
     public static class PolygonModel {
         public final List<Vector2> vertices = new ArrayList<>();
-        private Vector2[] tmpArray; // Used to avoid allocation in attachFixture()
+        public Vector2[] tmpArray; // Used to avoid allocation in attachFixture()
     }
 
     public static class CircleModel {

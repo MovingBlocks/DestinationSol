@@ -59,6 +59,9 @@ public class RenderableElement {
      */
     public Vector2 graphicsOffset;
 
+    /** Represents the density of this element. */
+    public float density;
+
 
     //TODO this should be automatically called when the Size component is changed, e.g. the entity shrinks or grows
     /**
@@ -86,6 +89,7 @@ public class RenderableElement {
         this.height = other.getHeight();
         this.tint = other.tint.cpy();
         this.graphicsOffset = other.graphicsOffset.cpy();
+        this.density = other.density;
     }
 
     public float getWidth() {

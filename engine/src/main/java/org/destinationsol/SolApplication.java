@@ -26,7 +26,6 @@ import org.destinationsol.assets.AssetHelper;
 import org.destinationsol.assets.Assets;
 import org.destinationsol.assets.music.OggMusicManager;
 import org.destinationsol.assets.sound.OggSoundManager;
-import org.destinationsol.asteroids.components.AsteroidMesh;
 import org.destinationsol.body.components.BodyLinked;
 import org.destinationsol.common.SolColor;
 import org.destinationsol.common.SolMath;
@@ -280,6 +279,7 @@ public class SolApplication implements ApplicationListener {
                 element.tint = Color.YELLOW;
                 element.setSize(size.size);
                 element.graphicsOffset = new Vector2();
+                element.density = 10;
                 Renderable graphicsComponent = new Renderable();
                 graphicsComponent.elements.add(element);
 
@@ -290,10 +290,14 @@ public class SolApplication implements ApplicationListener {
                 Health health = new Health();
                 health.currentHealth = 1;
 
-                EntityRef entityRef = entitySystemManager.getEntityManager().createEntity(graphicsComponent, position, size,
-                        new Angle(), new Velocity(), new AsteroidMesh(), health, new DropsMoneyOnDestruction(), new CreatesRubbleOnDestruction());
-                
-                entityRef.setComponent(new BodyLinked());
+                BodyLinked bodyLinked = new BodyLinked();
+                bodyLinked.setJsonSchemaFileName("engine:schemaCollisionMesh");
+                bodyLinked.setJsonPath("engine:asteroids");
+
+                EntityRef entityRef = entitySystemManager.getEntityManager().createEntity(graphicsComponent, position,
+                        size, bodyLinked, new Angle(), new Velocity(), health,
+                        new DropsMoneyOnDestruction(), new CreatesRubbleOnDestruction());
+
                 entityCreated = true;
             }
         }

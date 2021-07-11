@@ -65,6 +65,9 @@ public class BodyHandlerSystem implements EventReceiver {
     public EventResult onBodyUpdate(BodyUpdateEvent event, EntityRef entity) {
 
         createBodyIfNonexistent(entity);
+        if (!referenceToBodyObjects.containsKey(entity)) {
+            return EventResult.CANCEL;
+        }
         Body body = referenceToBodyObjects.get(entity);
         BodyLinked bodyLinkedComponent = entity.getComponent(BodyLinked.class).get();
         bodyLinkedComponent.setMass(body.getMass());
