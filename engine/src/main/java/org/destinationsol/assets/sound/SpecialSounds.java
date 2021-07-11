@@ -20,6 +20,7 @@ import org.destinationsol.Const;
 import org.destinationsol.game.DmgType;
 import org.destinationsol.game.SolGame;
 import org.destinationsol.game.SolObject;
+import org.destinationsol.material.MaterialType;
 
 import java.util.Arrays;
 
@@ -105,5 +106,49 @@ public class SpecialSounds {
             return;
         }
         game.getSoundManager().play(game, metal ? metalColl : rockColl, position, o, absImpulse * Const.IMPULSE_TO_COLL_VOL);
+    }
+
+    /**
+     * Gets the damage sound associated with the given {@link MaterialType} and {@link DmgType}. If no sound is defined,
+     * null is returned.
+     *
+     * @param materialType the material type of the damaged entity
+     * @param damageType   the type of damage done
+     * @return the sound of the damage
+     */
+    public PlayableSound getHitSound(MaterialType materialType, DmgType damageType) {
+        if (damageType == DmgType.ENERGY) {
+            if (materialType == MaterialType.METAL) {
+                return metalEnergyHit;
+            }
+            if (materialType == MaterialType.ROCK) {
+                return rockEnergyHit;
+            }
+        }
+        if (damageType == DmgType.BULLET) {
+            if (materialType == MaterialType.METAL) {
+                return metalBulletHit;
+            }
+            if (materialType == MaterialType.ROCK) {
+                return rockBulletHit;
+            }
+        }
+        return null;
+    }
+
+    /**
+     * Gets the collision sound associated with the given {@link MaterialType}. If no sound is defined, null is returned.
+     *
+     * @param materialType the material type of the entity
+     * @return the sound of the collision
+     */
+    public PlayableSound getCollisionSound(MaterialType materialType) {
+        if (materialType == MaterialType.METAL) {
+            return metalColl;
+        }
+        if (materialType == MaterialType.ROCK) {
+            return rockColl;
+        }
+        return null;
     }
 }

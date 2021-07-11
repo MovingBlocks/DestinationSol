@@ -21,33 +21,43 @@ import org.destinationsol.game.GameDrawer;
 import org.destinationsol.game.SolCam;
 import org.destinationsol.game.SolGame;
 import org.destinationsol.game.SolObject;
+import org.terasology.gestalt.entitysystem.entity.EntityRef;
 
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
 
 public class DebugHintDrawer {
-    private final Map<SolObject, DebugHint> myTracedNotes;
-    private final Map<Vector2, DebugHint> myFreeNotes;
+    private final Map<SolObject, DebugHint> tracedSolObjectNotes;
+    private final Map<Vector2, DebugHint> freeNotes;
+    private final Map<EntityRef, DebugHint> tracedEntityNotes;
 
     public DebugHintDrawer() {
-        myTracedNotes = new HashMap<>();
-        myFreeNotes = new HashMap<>();
+        tracedSolObjectNotes = new HashMap<>();
+        freeNotes = new HashMap<>();
+        tracedEntityNotes = new HashMap<>();
     }
 
     public void add(@Nullable SolObject owner, Vector2 position, String value) {
         DebugHint dh;
         if (owner == null) {
-            dh = myFreeNotes.computeIfAbsent(position, p -> new DebugHint(null, p));
+            dh = freeNotes.computeIfAbsent(position, p -> new DebugHint(null, null, p));
         } else {
-            dh = myTracedNotes.computeIfAbsent(owner, o -> new DebugHint(o, o.getPosition()));
+            dh = tracedSolObjectNotes.computeIfAbsent(owner, o -> new DebugHint(o, null, o.getPosition()));
         }
         dh.add(value);
     }
 
+    public void add(EntityRef entity, Vector2 position, String value) {
+        DebugHint debugHint;
+        debugHint = tracedEntityNotes.computeIfAbsent(entity, entityRef -> new DebugHint(null, entityRef, position));
+        debugHint.add(value);
+    }
+
     public void update(SolGame game) {
-        updateEach(game, myTracedNotes.values().iterator());
-        updateEach(game, myFreeNotes.values().iterator());
+        updateEach(game, tracedSolObjectNotes.values().iterator());
+        updateEach(game, freeNotes.values().iterator());
+        updateEach(game, tracedEntityNotes.values().iterator());
     }
 
     private void updateEach(SolGame game, Iterator<DebugHint> it) {
@@ -61,10 +71,13 @@ public class DebugHintDrawer {
     }
 
     public void draw(GameDrawer drawer, SolCam solCam) {
-        for (DebugHint n : myTracedNotes.values()) {
+        for (DebugHint n : tracedSolObjectNotes.values()) {
             n.draw(drawer, solCam);
         }
-        for (DebugHint n : myFreeNotes.values()) {
+        for (DebugHint n : freeNotes.values()) {
+            n.draw(drawer, solCam);
+        }
+        for (DebugHint n : tracedEntityNotes.values()) {
             n.draw(drawer, solCam);
         }
     }
