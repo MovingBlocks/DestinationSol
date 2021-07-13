@@ -35,7 +35,7 @@ import org.destinationsol.game.StarPort;
 import org.destinationsol.game.context.Context;
 import org.destinationsol.game.planet.Planet;
 import org.destinationsol.game.planet.PlanetManager;
-import org.destinationsol.game.planet.SolSystem;
+import org.destinationsol.game.planet.SolarSystem;
 import org.destinationsol.game.planet.SunSingleton;
 import org.destinationsol.game.ship.FarShip;
 import org.destinationsol.game.ship.SolShip;
@@ -206,7 +206,7 @@ public class BorderDrawer {
             float objRad = planet.getFullHeight();
             apply0(camPosition, camAngle, objPos, objRad);
         }
-        SolSystem sys = planetManager.getNearestSystem(camPosition);
+        SolarSystem sys = planetManager.getNearestSystem(camPosition);
         apply0(camPosition, camAngle, sys.getPosition(), SunSingleton.SUN_HOT_RAD);
         for (PlanetProximityIndicator planetProximityIndicator : planetProximityIndicators) {
             planetProximityIndicator.draw(drawer);

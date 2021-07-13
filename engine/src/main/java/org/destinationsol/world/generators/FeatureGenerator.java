@@ -15,14 +15,58 @@
  */
 package org.destinationsol.world.generators;
 
+import com.badlogic.gdx.math.Vector2;
+import org.destinationsol.world.Orbital;
+
 /**
  * This class represents the abstract version of any feature which will populate the game's SolarSystems, such as Planets,
  * Mazes, or anything else which a user may wish to implement. Extend this class with a concrete class to create a
  * general Feature, or extend the child {@link PlanetGenerator} or {@link MazeGenerator} classes to create custom
  * versions of those elements.
- */
+*/
 public abstract class FeatureGenerator {
+    public static final float ORBITAL_FEATURE_BUFFER = 8f;
+    private Vector2 position = Vector2.Zero;
+    private float radius;
+    private boolean positioned;
+    private Orbital orbital;
 
     public abstract void build();
 
+    public void setPosition(Vector2 position) {
+        this.position = position;
+        setPositioned(true);
+    }
+
+    public Vector2 getPosition() {
+        return position;
+    }
+
+    public void setRadius(float radius) {
+        this.radius = radius;
+    }
+
+    public float getRadius() {
+        return radius;
+    }
+
+    public void setPositioned(boolean p) {
+        positioned = p;
+    }
+
+    public boolean getPositioned() {
+        return positioned;
+    }
+
+    public void setOrbital(Orbital orbital) {
+        this.orbital = orbital;
+    }
+
+    public Orbital getOrbital() {
+        return orbital;
+    }
+
+    public float getDiameter() {
+        return 2 * radius;
+    }
 }

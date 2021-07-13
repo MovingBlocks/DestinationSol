@@ -24,7 +24,7 @@ import org.destinationsol.game.SolGame;
 import org.destinationsol.game.context.Context;
 import org.destinationsol.game.planet.Planet;
 import org.destinationsol.game.planet.PlanetManager;
-import org.destinationsol.game.planet.SolSystem;
+import org.destinationsol.game.planet.SolarSystem;
 import org.destinationsol.ui.DisplayDimensions;
 import org.destinationsol.ui.FontSize;
 import org.destinationsol.ui.UiDrawer;
@@ -51,7 +51,7 @@ public class ZoneNameAnnouncer {
             zone = planet.getName();
             pref = "Planet";
         } else {
-            SolSystem system = planetManager.getNearestSystem(camPosition);
+            SolarSystem system = planetManager.getNearestSystem(camPosition);
             if (system.getPosition().dst(camPosition) < system.getRadius()) {
                 zone = system.getName();
                 pref = "System";

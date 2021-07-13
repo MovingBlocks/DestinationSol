@@ -38,6 +38,7 @@ import org.destinationsol.game.planet.Planet;
 import org.destinationsol.game.ship.FarShip;
 import org.destinationsol.game.ship.ForceBeacon;
 import org.destinationsol.game.ship.SolShip;
+import org.destinationsol.world.generators.FeatureGenerator;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -45,7 +46,7 @@ import java.util.List;
 public class StarPort implements SolObject {
     public static final int SIZE = 8;
 
-    private static final float DIST_FROM_PLANET = Const.PLANET_GAP * .5f;
+    private static final float DIST_FROM_PLANET = FeatureGenerator.ORBITAL_FEATURE_BUFFER * .5f;
     private static final float FARE = 10f;
     private final Body body;
     private final ArrayList<LightSource> lightSources;

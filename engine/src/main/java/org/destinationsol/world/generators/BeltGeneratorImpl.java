@@ -15,21 +15,12 @@
  */
 package org.destinationsol.world.generators;
 
-import org.destinationsol.common.SolRandom;
+public class BeltGeneratorImpl extends BeltGenerator {
 
-/**
- * This class is a concrete implementation of a PlanetGenerator and handles its creation. This class defines the
- * behavior specific to the default Planets of Destination: Sol.
- * TODO: Implement the default behavior of a PlanetGenerator in this class (As it is implemented in the game currently)
- */
-public class PlanetGeneratorImpl extends PlanetGenerator {
 
     @Override
     public void build() {
-        System.out.println("Building a planet now!");
-        setGroundHeight(SolRandom.seededRandomFloat(.5f, 1) * DEFAULT_MAX_GROUND_HEIGHT);
-        setAtmosphereHeight(DEFAULT_ATMOSPHERE_HEIGHT);
-        setRadius();
-        setAngleInSolarSystem(SolRandom.seededRandomFloat(180));
+        System.out.println("Building a belt now!");
+        setRadius(DEFAULT_BELT_HALF_WIDTH);
     }
 }

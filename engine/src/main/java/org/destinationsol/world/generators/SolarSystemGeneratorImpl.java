@@ -15,21 +15,47 @@
  */
 package org.destinationsol.world.generators;
 
+import org.destinationsol.common.SolRandom;
+import org.destinationsol.game.planet.SolarSystem;
+import org.destinationsol.game.planet.SolarSystemConfig;
+
 /**
  * This class is a concrete implementation of a SolarSystemGenerator and handles creation of elements
  * specific to this type of SolarSystem (such as how many Planets to generate, how large to make
  * the SolarSystem, etc).
- *
+ * <p>
  * This class also has access to the featureGenerators list from {@link SolarSystemGenerator}.
  * This allows it to choose which FeatureGenerators to use in populating the SolarSystem.
- * TODO: Define the behavior of default Planets in this class (As it is implemented in the game currently)
+ * TODO: Define the behavior of default SolarSystems in this class (As it is implemented in the game currently)
  */
 public class SolarSystemGeneratorImpl extends SolarSystemGenerator {
 
     @Override
-    public void build() {
-        for (FeatureGenerator generator : featureGenerators) {
-            generator.build();
+    public SolarSystemSize getSolarSystemSize() {
+        return SolarSystemSize.MEDIUM;
+    }
+
+    @Override
+    public int getCustomFeaturesCount() {
+        return 0;
+    }
+
+    @Override
+    public SolarSystem build() {
+        getSolarSystemConfigManager().loadDefaultSolarSystemConfigs();
+        setSolarSystemConfig(getSolarSystemConfigManager().getRandomSolarSystemConfig(getSolarSystemNumber() < 1));
+        setName(SolRandom.seededRandomElement(getDefaultSolarSystemNames()));
+        initializeRandomDefaultFeatureGenerators(.8f);
+        buildFeatureGenerators();
+        calculateFeaturePositions();
+
+        System.out.println(this + " radius: " + getRadius());
+
+        //Just temporary to see where everything is placed
+        for (FeatureGenerator generator : activeFeatureGenerators) {
+            System.out.println(generator + ": " + generator.getPosition());
         }
+
+        return getBuiltSolarSystem();
     }
 }
