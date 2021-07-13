@@ -15,9 +15,21 @@
  */
 package org.destinationsol.world.generators;
 
+import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.GL20;
+import com.sun.javafx.sg.prism.EffectFilter;
+import org.destinationsol.files.HullConfigManager;
+import org.destinationsol.game.AbilityCommonConfigs;
+import org.destinationsol.game.GameColors;
 import org.destinationsol.game.context.Context;
 import org.destinationsol.game.context.internal.ContextImpl;
+import org.destinationsol.game.item.ItemManager;
+import org.destinationsol.game.particle.EffectTypes;
+import org.destinationsol.assets.sound.OggSoundManager;
+import org.destinationsol.game.planet.SolarSystemConfigManager;
 import org.destinationsol.modules.ModuleManager;
+import org.destinationsol.testingUtilities.MockGL;
+import org.destinationsol.testsupport.AssetsHelperInitializer;
 import org.destinationsol.world.WorldBuilder;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -29,18 +41,28 @@ import static org.destinationsol.world.generators.PlanetGenerator.PLANET_MAX_DIA
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
-public class SolarSystemGeneratorTest {
+public class SolarSystemGeneratorTest implements AssetsHelperInitializer {
     private Context context;
     private ModuleManager moduleManager;
-    WorldBuilder worldBuilder;
-    SolarSystemGenerator solarSystemGenerator;
+    private WorldBuilder worldBuilder;
+    private GameColors gameColors;
+    private EffectTypes effectTypes;
+    private OggSoundManager soundManager;
+    private AbilityCommonConfigs abilityCommonConfigs;
+    private SolarSystemGenerator solarSystemGenerator;
 
     @BeforeEach
     public void setUp() throws Exception {
         context = new ContextImpl();
-        moduleManager = new ModuleManager();
+        moduleManager = getModuleManager();
         moduleManager.init();
         context.put(ModuleManager.class, moduleManager);
+
+        setupMockGL();
+
+        SolarSystemConfigManager solarSystemConfigManager = setupSolarSystemConfigManager();
+        context.put(SolarSystemConfigManager.class, solarSystemConfigManager);
+
         worldBuilder = new WorldBuilder(context, 1);
 
         ArrayList<SolarSystemGenerator> solarSystemGenerators = worldBuilder.initializeRandomSolarSystemGenerators();
@@ -48,8 +70,31 @@ public class SolarSystemGeneratorTest {
         setupSolarSystemGenerator();
     }
 
-    private void setupSolarSystemGenerator() {
+    private void setupMockGL() {
+        GL20 mockGL = new MockGL();
+        Gdx.gl = mockGL;
+        Gdx.gl20 = mockGL;
+    }
 
+    private SolarSystemConfigManager setupSolarSystemConfigManager() {
+        ItemManager itemManager = setupItemManager();
+        HullConfigManager hullConfigManager = setupHullConfigManager(itemManager);
+        return new SolarSystemConfigManager(hullConfigManager, itemManager);
+    }
+
+    private ItemManager setupItemManager() {
+        gameColors = new GameColors();
+        effectTypes = new EffectTypes();
+        soundManager = new OggSoundManager(context);
+        return new ItemManager(soundManager, effectTypes, gameColors);
+    }
+
+    private HullConfigManager setupHullConfigManager(ItemManager itemManager) {
+        abilityCommonConfigs = new AbilityCommonConfigs(effectTypes, gameColors, soundManager);
+        return new HullConfigManager(itemManager, abilityCommonConfigs);
+    }
+
+    private void setupSolarSystemGenerator() {
         solarSystemGenerator.initializeRandomDefaultFeatureGenerators(1f);
         solarSystemGenerator.buildFeatureGenerators();
         solarSystemGenerator.calculateFeaturePositions();
@@ -57,21 +102,21 @@ public class SolarSystemGeneratorTest {
 
     @Test
     void hasCorrectPlanetCountForDefaultSolarSystem() {
-        if(solarSystemGenerator.getClass().equals(SolarSystemGeneratorImpl.class)) {
+        if (solarSystemGenerator.getClass().equals(SolarSystemGeneratorImpl.class)) {
             assertEquals(solarSystemGenerator.getPlanetCount(), 5);
         }
     }
 
     @Test
     void hasCorrectMazeCountForDefaultSolarSystem() {
-        if(solarSystemGenerator.getClass().equals(SolarSystemGeneratorImpl.class)) {
+        if (solarSystemGenerator.getClass().equals(SolarSystemGeneratorImpl.class)) {
             assertEquals(solarSystemGenerator.getMazeCount(), 2);
         }
     }
 
     @Test
     void hasCorrectPossibleBeltCountForDefaultSolarSystem() {
-        if(solarSystemGenerator.getClass().equals(SolarSystemGeneratorImpl.class)) {
+        if (solarSystemGenerator.getClass().equals(SolarSystemGeneratorImpl.class)) {
             assertEquals(solarSystemGenerator.getPossibleBeltCount(), 1);
         }
     }
@@ -104,7 +149,7 @@ public class SolarSystemGeneratorTest {
             if (featureGenerator.getClass().getSuperclass().equals(MazeGenerator.class)) {
                 actualMazeDistance = featureGenerator.getPosition().dst(solarSystemGenerator.getPosition());
                 //This value will tend to be off by 0.0001 even if calculated correctly, so we are testing if they are very close
-                assertTrue(expectedMazeDistance- actualMazeDistance < 1f);
+                assertTrue(expectedMazeDistance - actualMazeDistance < 1f);
             }
         }
     }

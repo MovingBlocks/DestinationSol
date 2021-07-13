@@ -23,7 +23,6 @@ import org.destinationsol.files.HullConfigManager;
 import org.destinationsol.game.ShipConfig;
 import org.destinationsol.game.chunk.SpaceEnvConfig;
 import org.destinationsol.game.item.ItemManager;
-import org.destinationsol.game.item.TradeConfig;
 import org.json.JSONObject;
 import org.terasology.gestalt.assets.ResourceUrn;
 import org.terasology.gestalt.naming.Name;
@@ -36,16 +35,30 @@ import java.util.Set;
 public class BeltConfigManager {
     private final Map<String, BeltConfig> configs;
     private final Map<String, BeltConfig> hardConfigs;
+    private HullConfigManager hullConfigManager;
+    private ItemManager itemManager;
 
-    public BeltConfigManager(HullConfigManager hullConfigs, ItemManager itemManager) {
+    public BeltConfigManager(HullConfigManager hullConfigManager, ItemManager itemManager) {
         configs = new HashMap<>();
         hardConfigs = new HashMap<>();
-
-        load(hullConfigs, false, itemManager);
+        this.hullConfigManager = hullConfigManager;
+        this.itemManager = itemManager;
     }
 
-    private void load(HullConfigManager hullConfigs, boolean b, ItemManager itemManager) {
-        JSONObject rootNode = Validator.getValidatedJSON("engine:asteroidBeltsConfig", "engine:schemaSystemsConfig");
+    /**
+     * This method is used to tell the JSON data loader to load data from the engine module
+     */
+    public void loadDefaultBeltConfigs() {
+        load("engine:asteroidBeltsConfig", "engine:schemaSystemsConfig", "engine", "asteroidBeltsConfig");
+    }
+
+    /**
+     * This method loads in all the Belt configuration data from the specified location
+     * @param jsonPath path to the JSON data
+     * @param schemaPath path to the schema
+     */
+    public void load(String jsonPath, String schemaPath, String moduleName, String assetType) {
+        JSONObject rootNode = Validator.getValidatedJSON(jsonPath, schemaPath);
 
         for (String s : rootNode.keySet()) {
             if (!(rootNode.get(s) instanceof JSONObject)) {
@@ -59,11 +72,11 @@ public class BeltConfigManager {
 
             SpaceEnvConfig envConfig = new SpaceEnvConfig(node.getJSONObject("environment"));
 
-            BeltConfig beltConfig = new BeltConfig(name, new ArrayList<>(), envConfig, new ArrayList<>(), new ArrayList<>(), new TradeConfig(), new ArrayList<>(), hard);
+            BeltConfig beltConfig = new BeltConfig(name, envConfig, hard);
             configsToLoad.put(name, beltConfig);
         }
 
-        Set<ResourceUrn> configUrnList = Assets.getAssetHelper().listAssets(Json.class, "asteroidBeltsConfig", new Name("engine"));
+        Set<ResourceUrn> configUrnList = Assets.getAssetHelper().listAssets(Json.class, assetType, new Name(moduleName));
 
         for (ResourceUrn configUrn : configUrnList) {
             rootNode = Validator.getValidatedJSON(configUrn.toString(), "engine:schemaSystemsConfig");
@@ -82,10 +95,12 @@ public class BeltConfigManager {
 
                 // TODO : Maybe add sanity checks for config?
 
-                config.tempEnemies.addAll(ShipConfig.loadList(node.has("temporaryEnemies") ? node.getJSONArray("temporaryEnemies") : null, hullConfigs, itemManager));
-                config.innerTempEnemies.addAll(ShipConfig.loadList(node.has("innerTemporaryEnemies") ? node.getJSONArray("innerTemporaryEnemies") : null, hullConfigs, itemManager));
+                //Load the configs for the enemy ships used in this belt. If there are no ships in the JSONArray, the resulting list will be empty
+                config.tempEnemies.addAll(ShipConfig.loadList(node.has("temporaryEnemies") ? node.getJSONArray("temporaryEnemies") : null, hullConfigManager, itemManager));
+                config.innerTempEnemies.addAll(ShipConfig.loadList(node.has("innerTemporaryEnemies") ? node.getJSONArray("innerTemporaryEnemies") : null, hullConfigManager, itemManager));
 
-                config.tradeConfig.load(node.has("trading") ? node.getJSONObject("trading") : null, hullConfigs, itemManager);
+                //get the config for trading for this belt
+                config.tradeConfig.load(node.has("trading") ? node.getJSONObject("trading") : null, hullConfigManager, itemManager);
             }
         }
     }
@@ -105,15 +120,11 @@ public class BeltConfigManager {
 
     public void addAllConfigs(ArrayList<ShipConfig> shipConfigs) {
         for (BeltConfig sc : configs.values()) {
-            shipConfigs.addAll(sc.constAllies);
-            shipConfigs.addAll(sc.constEnemies);
             shipConfigs.addAll(sc.tempEnemies);
             shipConfigs.addAll(sc.innerTempEnemies);
         }
 
         for (BeltConfig sc : hardConfigs.values()) {
-            shipConfigs.addAll(sc.constAllies);
-            shipConfigs.addAll(sc.constEnemies);
             shipConfigs.addAll(sc.tempEnemies);
             shipConfigs.addAll(sc.innerTempEnemies);
         }

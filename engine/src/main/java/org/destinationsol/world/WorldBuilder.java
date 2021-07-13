@@ -19,6 +19,8 @@ import com.badlogic.gdx.math.Vector2;
 import org.destinationsol.common.SolMath;
 import org.destinationsol.common.SolRandom;
 import org.destinationsol.game.context.Context;
+import org.destinationsol.game.planet.SolarSystem;
+import org.destinationsol.game.planet.SolarSystemConfigManager;
 import org.destinationsol.modules.ModuleManager;
 import org.destinationsol.world.generators.FeatureGenerator;
 import org.destinationsol.world.generators.SolarSystemGenerator;
@@ -34,22 +36,22 @@ import java.util.List;
  * retrieved: those that subclass SolarSystemGenerator and those that subclass FeatureGenerator.
  */
 public class WorldBuilder {
-    //These ArrayLists hold an instance of any class which extends SolarSystemGenerator or FeatureGenerator, respectively
+    //These ArrayLists hold class types of any class which extends SolarSystemGenerator or FeatureGenerator, respectively
     private ArrayList<Class<? extends SolarSystemGenerator>> solarSystemGeneratorTypes = new ArrayList<>();
     private ArrayList<Class<? extends FeatureGenerator>> featureGeneratorTypes = new ArrayList<>();
     private ArrayList<SolarSystemGenerator> activeSolarSystemGenerators = new ArrayList<>();
+    //This ArrayList will hold the final SolarSystem objects that each SolarSystemGenerator will return
+    private ArrayList<SolarSystem> builtSolarSystems = new ArrayList<>();
     private Context context;
+    private SolarSystemConfigManager solarSystemConfigManager;
     private final int numberOfSystems;
-    //This field is for testing whether the correct number of SolarSystems are built
-    private int systemsBuilt;
-
 
     public WorldBuilder(Context context, int numSystems) {
         this.context = context;
+        this.solarSystemConfigManager = context.get(SolarSystemConfigManager.class);
         numberOfSystems = numSystems;
         populateSolarSystemGeneratorList();
         populateFeatureGeneratorList();
-        systemsBuilt = 0;
     }
 
     /**
@@ -97,11 +99,12 @@ public class WorldBuilder {
             try {
                 SolarSystemGenerator s = solarSystemGenerator.newInstance();
                 s.setFeatureGeneratorTypes(featureGeneratorTypes);
+                s.setSolarSystemConfigManager(solarSystemConfigManager);
+                s.setSolarSystemNumber(i);
                 generatorArrayList.add(s);
             } catch (Exception e) {
                 e.printStackTrace();
             }
-            systemsBuilt++;
         }
         return generatorArrayList;
     }
@@ -114,7 +117,7 @@ public class WorldBuilder {
         for (SolarSystemGenerator generator : activeSolarSystemGenerators) {
             Vector2 position = calculateSolarSystemPosition(activeSolarSystemGenerators, generator.getRadius());
             generator.setPosition(position);
-            //Printout of generator position for for testing (as these positions don't have a representation in the game yet)
+            //Printout of generator position for testing (as these positions don't have a representation in the game yet)
             System.out.println(generator + " position: " + generator.getPosition().x + ", " + generator.getPosition().y);
         }
     }
@@ -124,7 +127,7 @@ public class WorldBuilder {
      */
     private void buildSolarSystems() {
         for (SolarSystemGenerator solarSystemGenerator : activeSolarSystemGenerators) {
-            solarSystemGenerator.build();
+            builtSolarSystems.add(solarSystemGenerator.build());
         }
     }
 
@@ -164,10 +167,6 @@ public class WorldBuilder {
         SolMath.fromAl(result, angle, distance);
     }
 
-    public int getSystemsBuilt() {
-        return systemsBuilt;
-    }
-
     public ArrayList<Class<? extends SolarSystemGenerator>> getSolarSystemGeneratorTypes() {
         return solarSystemGeneratorTypes;
     }
@@ -182,5 +181,9 @@ public class WorldBuilder {
 
     public Context getContext() {
         return context;
+    }
+
+    public ArrayList<SolarSystem> getBuiltSolarSystems() {
+        return builtSolarSystems;
     }
 }

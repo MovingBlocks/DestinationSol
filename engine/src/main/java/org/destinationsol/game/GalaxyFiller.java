@@ -35,6 +35,7 @@ import org.destinationsol.game.planet.ConsumedAngles;
 import org.destinationsol.game.planet.Planet;
 import org.destinationsol.game.planet.PlanetManager;
 import org.destinationsol.game.planet.SolarSystem;
+import org.destinationsol.game.planet.SolarSystemConfig;
 import org.destinationsol.game.planet.SysConfig;
 import org.destinationsol.game.ship.FarShip;
 import org.destinationsol.game.ship.hulls.HullConfig;
@@ -151,16 +152,16 @@ public class GalaxyFiller {
         mainStationHc = mainStation.getHullConfig();
 
         for (SolarSystem system : systems) {
-            SysConfig sysConfig = system.getConfig();
+            SolarSystemConfig solarSystemConfig = system.getConfig();
 
-            for (ShipConfig shipConfig : sysConfig.constAllies) {
+            for (ShipConfig shipConfig : solarSystemConfig.constAllies) {
                 int count = (int) (shipConfig.density);
                 for (int i = 0; i < count; i++) {
                     build(game, shipConfig, Faction.LAANI, false, system, angles);
                 }
             }
 
-            for (ShipConfig shipConfig : sysConfig.constEnemies) {
+            for (ShipConfig shipConfig : solarSystemConfig.constEnemies) {
                 int count = (int) (shipConfig.density);
                 for (int i = 0; i < count; i++) {
                     build(game, shipConfig, Faction.EHAR, false, system, angles);

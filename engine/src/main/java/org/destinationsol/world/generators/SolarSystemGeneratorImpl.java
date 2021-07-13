@@ -15,6 +15,10 @@
  */
 package org.destinationsol.world.generators;
 
+import org.destinationsol.common.SolRandom;
+import org.destinationsol.game.planet.SolarSystem;
+import org.destinationsol.game.planet.SolarSystemConfig;
+
 /**
  * This class is a concrete implementation of a SolarSystemGenerator and handles creation of elements
  * specific to this type of SolarSystem (such as how many Planets to generate, how large to make
@@ -37,7 +41,10 @@ public class SolarSystemGeneratorImpl extends SolarSystemGenerator {
     }
 
     @Override
-    public void build() {
+    public SolarSystem build() {
+        getSolarSystemConfigManager().loadDefaultSolarSystemConfigs();
+        setSolarSystemConfig(getSolarSystemConfigManager().getRandomSolarSystemConfig(getSolarSystemNumber() < 1));
+        setName(SolRandom.seededRandomElement(getDefaultSolarSystemNames()));
         initializeRandomDefaultFeatureGenerators(.8f);
         buildFeatureGenerators();
         calculateFeaturePositions();
@@ -49,5 +56,6 @@ public class SolarSystemGeneratorImpl extends SolarSystemGenerator {
             System.out.println(generator + ": " + generator.getPosition());
         }
 
+        return getBuiltSolarSystem();
     }
 }

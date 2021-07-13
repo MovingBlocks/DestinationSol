@@ -22,10 +22,10 @@ public class SystemBelt {
     private final Float halfWidth;
     private final float radius;
     private final SolarSystem system;
-    private final SysConfig config;
+    private final BeltConfig config;
     private final float damagePerSecond;
 
-    SystemBelt(Float halfWidth, float radius, SolarSystem s, SysConfig config) {
+    SystemBelt(Float halfWidth, float radius, SolarSystem s, BeltConfig config) {
         this.halfWidth = halfWidth;
         this.radius = radius;
         system = s;
@@ -46,7 +46,7 @@ public class SystemBelt {
         return radius - halfWidth < toCenter && toCenter < radius + halfWidth;
     }
 
-    public SysConfig getConfig() {
+    public BeltConfig getConfig() {
         return config;
     }
 

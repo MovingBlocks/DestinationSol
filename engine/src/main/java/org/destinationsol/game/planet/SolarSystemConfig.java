@@ -24,25 +24,27 @@ import java.util.ArrayList;
 public class SolarSystemConfig {
 
     public final String name;
-    public final ArrayList<ShipConfig> tempEnemies;
     public final SpaceEnvConfig envConfig;
+    //These ArrayLists represent Configs for the enemy ships. When the game is populating the SolarSystem, it will look into
+    //the SolarSystem config for enemy ship configs. Some enemies are temporary (they respawn) and some are constant (they don't respawn)
+    public final ArrayList<ShipConfig> tempEnemies;
     public final ArrayList<ShipConfig> constEnemies;
     public final ArrayList<ShipConfig> constAllies;
-    public final TradeConfig tradeConfig;
     public final ArrayList<ShipConfig> innerTempEnemies;
+    public final TradeConfig tradeConfig;
     public final boolean hard;
 
-    public SolarSystemConfig(String name, ArrayList<ShipConfig> tempEnemies, SpaceEnvConfig envConfig,
-                     ArrayList<ShipConfig> constEnemies, ArrayList<ShipConfig> constAllies, TradeConfig tradeConfig,
-                     ArrayList<ShipConfig> innerTempEnemies, boolean hard) {
+    public SolarSystemConfig(String name, SpaceEnvConfig envConfig, boolean hard) {
         this.name = name;
-        this.tempEnemies = tempEnemies;
         this.envConfig = envConfig;
-        this.constEnemies = constEnemies;
-        this.constAllies = constAllies;
-        this.tradeConfig = tradeConfig;
-        this.innerTempEnemies = innerTempEnemies;
         this.hard = hard;
+
+        //These objects are loaded in by the SolarSystemConfigManager class using JSON
+        this.tradeConfig = new TradeConfig();
+        this.constEnemies = new ArrayList<>();
+        this.constAllies = new ArrayList<>();
+        this.tempEnemies = new ArrayList<>();
+        this.innerTempEnemies = new ArrayList<>();
     }
 
 }

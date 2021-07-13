@@ -16,6 +16,10 @@
 package org.destinationsol.world;
 
 import org.destinationsol.world.generators.FeatureGenerator;
+import org.destinationsol.world.generators.MazeGenerator;
+import org.destinationsol.world.generators.PlanetGenerator;
+
+import static org.destinationsol.world.generators.FeatureGenerator.ORBITAL_FEATURE_BUFFER;
 
 /**
  * This class represents one 'ring' around a SolarSystem's center. It is used to keep track of what Features a SolarSystemGenerator
@@ -24,6 +28,9 @@ import org.destinationsol.world.generators.FeatureGenerator;
  * outer edge.
  */
 public class Orbital {
+    public static final float PLANET_ORBITAL_WIDTH = ORBITAL_FEATURE_BUFFER + PlanetGenerator.PLANET_MAX_DIAMETER + ORBITAL_FEATURE_BUFFER;
+    public static final float MAZE_ORBITAL_WIDTH = MazeGenerator.MAZE_BUFFER + MazeGenerator.MAX_MAZE_DIAMETER + MazeGenerator.MAZE_BUFFER;
+
     int positionInSolarSystem;
     float width;
     float startingDistanceFromSystemCenter;

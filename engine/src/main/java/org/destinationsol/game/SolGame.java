@@ -49,6 +49,7 @@ import org.destinationsol.game.particle.SpecialEffects;
 import org.destinationsol.game.planet.Planet;
 import org.destinationsol.game.planet.PlanetManager;
 import org.destinationsol.game.planet.SolarSystem;
+import org.destinationsol.game.planet.SolarSystemConfigManager;
 import org.destinationsol.game.planet.SunSingleton;
 import org.destinationsol.game.screens.GameScreens;
 import org.destinationsol.game.ship.ShipAbility;
@@ -100,6 +101,7 @@ public class SolGame {
     private final GalaxyFiller galaxyFiller;
     private final SolContactListener contactListener;
     private final WorldBuilder worldBuilder;
+    private final SolarSystemConfigManager solarSystemConfigManager;
     private Hero hero;
     private float timeStep;
     private float time;
@@ -158,6 +160,7 @@ public class SolGame {
         AbilityCommonConfigs abilityCommonConfigs = new AbilityCommonConfigs(effectTypes, gameColors, soundManager);
         hullConfigManager = new HullConfigManager(itemManager, abilityCommonConfigs);
         planetManager = new PlanetManager(hullConfigManager, gameColors, itemManager);
+
         contactListener = new SolContactListener(this);
         factionManager = new FactionManager();
         objectManager = new ObjectManager(contactListener, factionManager, context);
@@ -175,7 +178,10 @@ public class SolGame {
         drawableDebugger = new DrawableDebugger();
         mountDetectDrawer = new MountDetectDrawer();
         beaconHandler = new BeaconHandler();
+        solarSystemConfigManager = new SolarSystemConfigManager(hullConfigManager, itemManager);
+        context.put(SolarSystemConfigManager.class, solarSystemConfigManager);
         worldBuilder = new WorldBuilder(context, worldConfig.getNumberOfSystems());
+        context.put(WorldBuilder.class, worldBuilder);
         timeFactor = 1;
 
     }
@@ -234,11 +240,12 @@ public class SolGame {
 
         respawnState = new RespawnState();
         SolRandom.setSeed(worldConfig.getSeed());
-        planetManager.fill(solNames, worldConfig.getNumberOfSystems());
-        createGame(shipName, isNewGame);
-
         //World Generation will be initiated from here
         worldBuilder.buildWithRandomSolarSystemGenerators();
+        //this is just temporarily loaded here so that current world-gen implementation works
+        solarSystemConfigManager.loadDefaultSolarSystemConfigs();
+        planetManager.fill(solNames, worldConfig.getNumberOfSystems());
+        createGame(shipName, isNewGame);
 
         if (!isNewGame) {
             createAndSpawnMercenariesFromSave();

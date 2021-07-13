@@ -24,25 +24,23 @@ import java.util.ArrayList;
 public class BeltConfig {
 
     public final String name;
+    //These ArrayLists represent Configs for the enemies. When the game is populating the Belt, it will look into
+    //the belt config for enemy ship configs. These enemies are temporary (they respawn)
     public final ArrayList<ShipConfig> tempEnemies;
-    public final SpaceEnvConfig envConfig;
-    public final ArrayList<ShipConfig> constEnemies;
-    public final ArrayList<ShipConfig> constAllies;
-    public final TradeConfig tradeConfig;
     public final ArrayList<ShipConfig> innerTempEnemies;
+    public final SpaceEnvConfig envConfig;
+    public final TradeConfig tradeConfig;
+
     public final boolean hard;
 
-    public BeltConfig(String name, ArrayList<ShipConfig> tempEnemies, SpaceEnvConfig envConfig,
-                             ArrayList<ShipConfig> constEnemies, ArrayList<ShipConfig> constAllies, TradeConfig tradeConfig,
-                             ArrayList<ShipConfig> innerTempEnemies, boolean hard) {
+    public BeltConfig(String name, SpaceEnvConfig envConfig, boolean hard) {
         this.name = name;
-        this.tempEnemies = tempEnemies;
         this.envConfig = envConfig;
-        this.constEnemies = constEnemies;
-        this.constAllies = constAllies;
-        this.tradeConfig = tradeConfig;
-        this.innerTempEnemies = innerTempEnemies;
         this.hard = hard;
+        //These objects are loaded in by the BeltConfigManager class using JSON
+        this.tradeConfig = new TradeConfig();
+        this.tempEnemies = new ArrayList<>();
+        this.innerTempEnemies = new ArrayList<>();
     }
 
 }

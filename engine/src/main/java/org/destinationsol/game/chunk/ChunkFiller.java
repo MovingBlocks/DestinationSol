@@ -39,9 +39,11 @@ import org.destinationsol.game.input.MoveDestProvider;
 import org.destinationsol.game.input.Pilot;
 import org.destinationsol.game.input.StillGuard;
 import org.destinationsol.game.maze.Maze;
+import org.destinationsol.game.planet.BeltConfig;
 import org.destinationsol.game.planet.Planet;
 import org.destinationsol.game.planet.PlanetManager;
 import org.destinationsol.game.planet.SolarSystem;
+import org.destinationsol.game.planet.SolarSystemConfig;
 import org.destinationsol.game.planet.SysConfig;
 import org.destinationsol.game.planet.SystemBelt;
 import org.destinationsol.game.ship.FarShip;
@@ -126,7 +128,7 @@ public class ChunkFiller {
                     if (!fillFarBackground) {
                         fillAsteroids(game, removeController, true, chunkCenter);
                     }
-                    SysConfig beltConfig = belt.getConfig();
+                    BeltConfig beltConfig = belt.getConfig();
                     for (ShipConfig enemyConfig : beltConfig.tempEnemies) {
                         if (!fillFarBackground) {
                             fillEnemies(game, removeController, enemyConfig, chunkCenter);
@@ -161,7 +163,7 @@ public class ChunkFiller {
     }
 
     private void fillForSys(SolGame game, Vector2 chunkCenter, RemoveController removeController, SolarSystem system) {
-        SysConfig config = system.getConfig();
+        SolarSystemConfig config = system.getConfig();
         Vector2 mainStationPosition = game.getGalaxyFiller().getMainStationPosition();
         Vector2 startPosition = mainStationPosition == null ? new Vector2() : mainStationPosition;
         float distanceToStartPosition = chunkCenter.dst(startPosition);

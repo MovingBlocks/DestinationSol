@@ -50,14 +50,16 @@ public class PlanetManager implements UpdateAwareSystem {
     private final MazeConfigs mazeConfigs;
     private final ArrayList<Maze> mazes;
     private final SunSingleton sunSingleton;
-    private final SysConfigs sysConfigs;
+    private final SolarSystemConfigManager solarSystemConfigManager;
+    private final BeltConfigManager beltConfigManager;
     private final PlanetCoreSingleton planetCoreSingleton;
     private Planet nearestPlanet;
 
     public PlanetManager(HullConfigManager hullConfigs, GameColors cols,
                             ItemManager itemManager) {
         planetConfigs = new PlanetConfigs(hullConfigs, cols, itemManager);
-        sysConfigs = new SysConfigs(hullConfigs, itemManager);
+        solarSystemConfigManager = new SolarSystemConfigManager(hullConfigs, itemManager);
+        beltConfigManager = new BeltConfigManager(hullConfigs, itemManager);
         mazeConfigs = new MazeConfigs(hullConfigs, itemManager);
 
         systems = new ArrayList<>();
@@ -70,7 +72,8 @@ public class PlanetManager implements UpdateAwareSystem {
     }
 
     public void fill(SolNames names, int numberOfSystems) {
-        new SystemsBuilder().build(systems, planets, belts, planetConfigs, mazeConfigs, mazes, sysConfigs, names, numberOfSystems);
+        new SystemsBuilder().build(systems, planets, belts, planetConfigs, mazeConfigs, mazes, solarSystemConfigManager,
+                beltConfigManager, names, numberOfSystems);
     }
 
     @Override

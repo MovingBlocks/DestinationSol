@@ -40,7 +40,7 @@ public class SystemsBuilder {
     private static final float BELT_HALF_WIDTH = 20f;
 
     public List<SolarSystem> build(List<SolarSystem> systems, List<Planet> planets, ArrayList<SystemBelt> belts, PlanetConfigs planetConfigs,
-                                   MazeConfigs mazeConfigs, ArrayList<Maze> mazes, SysConfigs sysConfigs, SolNames names, int systemCount) {
+                                   MazeConfigs mazeConfigs, ArrayList<Maze> mazes, SolarSystemConfigManager solarSystemConfigManager, BeltConfigManager beltConfigManager, SolNames names, int systemCount) {
         
         int sysLeft = systemCount;
         int mazesLeft = systemCount * 2;
@@ -53,7 +53,7 @@ public class SystemsBuilder {
                 List<Float> ghs = generatePlanetGhs();
                 float sysRadius = calcSysRadius(ghs);
                 Vector2 position = getBodyPos(systems, mazes, sysRadius);
-                SolarSystem s = createSystem(ghs, position, planets, belts, planetConfigs, sysRadius, sysConfigs, names, systems.isEmpty());
+                SolarSystem s = createSystem(ghs, position, planets, belts, planetConfigs, sysRadius, solarSystemConfigManager, beltConfigManager , names, systems.isEmpty());
                 systems.add(s);
                 sysLeft--;
             } else {
@@ -134,14 +134,17 @@ public class SystemsBuilder {
 
     private SolarSystem createSystem(List<Float> groundHeights, Vector2 systemPosition, List<Planet> planets, ArrayList<SystemBelt> belts,
                                      PlanetConfigs planetConfigs,
-                                     float systemRadius, SysConfigs sysConfigs, SolNames names, boolean firstSys) {
+                                     float systemRadius, SolarSystemConfigManager solarSystemConfigs, BeltConfigManager beltConfigs,
+                                     SolNames names, boolean firstSys) {
+        solarSystemConfigs.loadDefaultSolarSystemConfigs();
+        beltConfigs.loadDefaultBeltConfigs();
         boolean hard = !firstSys;
         String systemType = DebugOptions.FORCE_SYSTEM_TYPE;
-        SysConfig sysConfig;
+        SolarSystemConfig sysConfig;
         if (systemType.isEmpty()) {
-            sysConfig = sysConfigs.getRandomCfg(hard);
+            sysConfig = solarSystemConfigs.getRandomSolarSystemConfig(hard);
         } else {
-            sysConfig = sysConfigs.getConfig(systemType);
+            sysConfig = solarSystemConfigs.getSolarSystemConfig(systemType);
         }
         String name = firstSys ? SolRandom.seededRandomElement(names.systems) : "Sol"; //hack
         SolarSystem system = new SolarSystem(systemPosition, sysConfig, name, systemRadius);
@@ -167,7 +170,7 @@ public class SystemsBuilder {
                 planets.add(planet);
                 system.getPlanets().add(planet);
             } else {
-                SysConfig beltConfig = sysConfigs.getRandomBelt(hard);
+                BeltConfig beltConfig = beltConfigs.getRandomBeltConfig(hard);
                 SystemBelt belt = new SystemBelt(-groundHeight, planetDist, system, beltConfig);
                 belts.add(belt);
                 system.addBelt(belt);

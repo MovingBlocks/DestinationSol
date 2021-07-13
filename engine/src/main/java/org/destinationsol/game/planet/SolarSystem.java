@@ -25,14 +25,14 @@ public class SolarSystem {
     private final Vector2 position;
     private final ArrayList<Planet> planets;
     private final ArrayList<SystemBelt> belts;
-    private final SysConfig config;
+    private final SolarSystemConfig config;
     private final String name;
     private final float radius;
     private final float damagePerSecond;
     private final float innerDamagePerSecond;
     private float innerRadius;
 
-    public SolarSystem(Vector2 position, SysConfig config, String name, float sysRadius) {
+    public SolarSystem(Vector2 position, SolarSystemConfig config, String name, float sysRadius) {
         this.config = config;
         this.name = name;
         this.position = new Vector2(position);
@@ -60,7 +60,7 @@ public class SolarSystem {
         return radius;
     }
 
-    public SysConfig getConfig() {
+    public SolarSystemConfig getConfig() {
         return config;
     }
 
