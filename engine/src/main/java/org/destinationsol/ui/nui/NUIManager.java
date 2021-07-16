@@ -151,6 +151,15 @@ public class NUIManager {
         solApplication.addResizeSubscriber(() -> resize(Gdx.graphics.getBackBufferWidth(), Gdx.graphics.getBackBufferHeight()));
 
         setUiScale(options.getNuiUiScale());
+
+        // TODO: This is a temporary work-around until the NUI UI scales properly.
+        //       Use RelativeLayout to scale the controls instead of scaling based
+        //       on a reference resolution for mobile.
+        if (solApplication.isMobile()) {
+            if (Gdx.graphics.getBackBufferWidth() > 1024) {
+                setUiScale(Gdx.graphics.getBackBufferWidth() / 1024.0f);
+            }
+        }
     }
 
     /**
@@ -158,7 +167,10 @@ public class NUIManager {
      * @param solApplication the application to use
      */
     public void update(SolApplication solApplication) {
-        canvas.processMousePosition(mouse.getPosition());
+        for (int pointer = 0; pointer < mouse.getMaxPointers(); pointer++) {
+            canvas.processMousePosition(mouse.getPosition(pointer), pointer);
+        }
+
         canvas.setGameTime(System.currentTimeMillis());
 
         for (RawKeyboardAction action : keyboard.getInputQueue()) {
@@ -192,9 +204,9 @@ public class NUIManager {
         for (MouseAction action : mouse.getInputQueue()) {
             if (action.getInput().getType() == InputType.MOUSE_BUTTON) {
                 if (action.getState().isDown()) {
-                    canvas.processMouseClick((MouseInput) action.getInput(), action.getMousePosition());
+                    canvas.processMouseClick((MouseInput) action.getInput(), action.getMousePosition(), action.getPointer());
                 } else {
-                    canvas.processMouseRelease((MouseInput) action.getInput(), action.getMousePosition());
+                    canvas.processMouseRelease((MouseInput) action.getInput(), action.getMousePosition(), action.getPointer());
                 }
 
                 NUIMouseButtonEvent event = new NUIMouseButtonEvent((MouseInput) action.getInput(), action.getState(), action.getMousePosition());
