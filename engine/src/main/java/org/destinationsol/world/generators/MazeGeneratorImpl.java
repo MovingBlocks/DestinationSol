@@ -16,6 +16,8 @@
 package org.destinationsol.world.generators;
 
 import org.destinationsol.common.SolRandom;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * This class is a concrete implementation of a MazeGenerator and handles its creation. This class defines the
@@ -23,10 +25,11 @@ import org.destinationsol.common.SolRandom;
  * TODO: Implement the behavior of default MazeGenerators in this class (As it is implemented in the game currently)
  */
 public class MazeGeneratorImpl extends MazeGenerator {
+    private static final Logger logger = LoggerFactory.getLogger(MazeGeneratorImpl.class);
 
     @Override
     public void build() {
-        System.out.println("Building a maze now!");
+        logger.info("Building a maze now!");
         setRadius(SolRandom.seededRandomFloat(.7f, 1) * MAX_MAZE_RADIUS);
     }
 }

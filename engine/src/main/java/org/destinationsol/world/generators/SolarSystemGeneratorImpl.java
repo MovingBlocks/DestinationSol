@@ -17,7 +17,8 @@ package org.destinationsol.world.generators;
 
 import org.destinationsol.common.SolRandom;
 import org.destinationsol.game.planet.SolarSystem;
-import org.destinationsol.game.planet.SolarSystemConfig;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * This class is a concrete implementation of a SolarSystemGenerator and handles creation of elements
@@ -29,6 +30,7 @@ import org.destinationsol.game.planet.SolarSystemConfig;
  * TODO: Define the behavior of default SolarSystems in this class (As it is implemented in the game currently)
  */
 public class SolarSystemGeneratorImpl extends SolarSystemGenerator {
+    private static final Logger logger = LoggerFactory.getLogger(SolarSystemGeneratorImpl.class);
 
     @Override
     public SolarSystemSize getSolarSystemSize() {
@@ -49,11 +51,11 @@ public class SolarSystemGeneratorImpl extends SolarSystemGenerator {
         buildFeatureGenerators();
         calculateFeaturePositions();
 
-        System.out.println(this + " radius: " + getRadius());
+        logger.info(this + " radius: " + getRadius());
 
-        //Just temporary to see where everything is placed
+        //TODO: removed once there is a visual representation of the SolarSystem in the game
         for (FeatureGenerator generator : activeFeatureGenerators) {
-            System.out.println(generator + ": " + generator.getPosition());
+            logger.info(generator + ": " + generator.getPosition());
         }
 
         return getBuiltSolarSystem();

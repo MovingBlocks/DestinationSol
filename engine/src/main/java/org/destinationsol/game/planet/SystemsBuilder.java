@@ -140,14 +140,14 @@ public class SystemsBuilder {
         beltConfigs.loadDefaultBeltConfigs();
         boolean hard = !firstSys;
         String systemType = DebugOptions.FORCE_SYSTEM_TYPE;
-        SolarSystemConfig sysConfig;
+        SolarSystemConfig solarSystemConfig;
         if (systemType.isEmpty()) {
-            sysConfig = solarSystemConfigs.getRandomSolarSystemConfig(hard);
+            solarSystemConfig = solarSystemConfigs.getRandomSolarSystemConfig(hard);
         } else {
-            sysConfig = solarSystemConfigs.getSolarSystemConfig(systemType);
+            solarSystemConfig = solarSystemConfigs.getSolarSystemConfig(systemType);
         }
         String name = firstSys ? SolRandom.seededRandomElement(names.systems) : "Sol"; //hack
-        SolarSystem system = new SolarSystem(systemPosition, sysConfig, name, systemRadius);
+        SolarSystem system = new SolarSystem(systemPosition, solarSystemConfig, name, systemRadius);
         float planetDist = SunGenerator.SUN_RADIUS;
         for (Float groundHeight : groundHeights) {
             float reserved;

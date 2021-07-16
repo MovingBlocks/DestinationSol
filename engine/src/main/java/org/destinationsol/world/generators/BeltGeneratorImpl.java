@@ -15,12 +15,15 @@
  */
 package org.destinationsol.world.generators;
 
-public class BeltGeneratorImpl extends BeltGenerator {
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
+public class BeltGeneratorImpl extends BeltGenerator {
+    private static final Logger logger = LoggerFactory.getLogger(BeltGeneratorImpl.class);
 
     @Override
     public void build() {
-        System.out.println("Building a belt now!");
+        logger.info("Building a belt now!");
         setRadius(DEFAULT_BELT_HALF_WIDTH);
     }
 }

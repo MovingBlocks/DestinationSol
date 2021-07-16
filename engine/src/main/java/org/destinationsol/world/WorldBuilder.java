@@ -25,6 +25,8 @@ import org.destinationsol.modules.ModuleManager;
 import org.destinationsol.world.generators.FeatureGenerator;
 import org.destinationsol.world.generators.SolarSystemGenerator;
 import org.destinationsol.world.generators.SunGenerator;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.lang.reflect.Modifier;
 import java.util.ArrayList;
@@ -36,6 +38,7 @@ import java.util.List;
  * retrieved: those that subclass SolarSystemGenerator and those that subclass FeatureGenerator.
  */
 public class WorldBuilder {
+    private static final Logger logger = LoggerFactory.getLogger(WorldBuilder.class);
     //These ArrayLists hold class types of any class which extends SolarSystemGenerator or FeatureGenerator, respectively
     private ArrayList<Class<? extends SolarSystemGenerator>> solarSystemGeneratorTypes = new ArrayList<>();
     private ArrayList<Class<? extends FeatureGenerator>> featureGeneratorTypes = new ArrayList<>();
@@ -43,11 +46,13 @@ public class WorldBuilder {
     //This ArrayList will hold the final SolarSystem objects that each SolarSystemGenerator will return
     private ArrayList<SolarSystem> builtSolarSystems = new ArrayList<>();
     private Context context;
+    private ModuleManager moduleManager;
     private SolarSystemConfigManager solarSystemConfigManager;
     private final int numberOfSystems;
 
     public WorldBuilder(Context context, int numSystems) {
         this.context = context;
+        this.moduleManager = context.get(ModuleManager.class);
         this.solarSystemConfigManager = context.get(SolarSystemConfigManager.class);
         numberOfSystems = numSystems;
         populateSolarSystemGeneratorList();
@@ -59,9 +64,8 @@ public class WorldBuilder {
      * of SolarSystemGenerators.
      */
     private void populateSolarSystemGeneratorList() {
-        for (Class generator : context.get(ModuleManager.class).getEnvironment().getSubtypesOf(SolarSystemGenerator.class)) {
-            solarSystemGeneratorTypes.add(generator);
-        }
+        //It is necessary to use an iterator as getSubtypesOf() returns an Iterable
+        moduleManager.getEnvironment().getSubtypesOf(SolarSystemGenerator.class).iterator().forEachRemaining(solarSystemGeneratorTypes::add);
     }
 
     /**
@@ -69,13 +73,19 @@ public class WorldBuilder {
      * of FeatureGenerators.
      */
     private void populateFeatureGeneratorList() {
-        for (Class generator : context.get(ModuleManager.class).getEnvironment().getSubtypesOf(FeatureGenerator.class)) {
+
+        for (Class<? extends FeatureGenerator> generator : moduleManager.getEnvironment().getSubtypesOf(FeatureGenerator.class)) {
             if (!Modifier.isAbstract(generator.getModifiers())) {
                 featureGeneratorTypes.add(generator);
             }
         }
     }
 
+    /**
+     * This method builds the world using random types of SolarSystemGenerators. This is the default method of generating
+     * worlds in Destination: Sol. Each SolarSystem produced we be a random type of SolarSystem from among the generators
+     * available.
+     */
     public void buildWithRandomSolarSystemGenerators() {
         activeSolarSystemGenerators.addAll(initializeRandomSolarSystemGenerators());
         positionSolarSystems();
@@ -97,11 +107,11 @@ public class WorldBuilder {
         for (int i = 0; i < numberOfSystems; i++) {
             Class<? extends SolarSystemGenerator> solarSystemGenerator = solarSystemGeneratorTypes.get(SolRandom.seededRandomInt(solarSystemGeneratorTypes.size()));
             try {
-                SolarSystemGenerator s = solarSystemGenerator.newInstance();
-                s.setFeatureGeneratorTypes(featureGeneratorTypes);
-                s.setSolarSystemConfigManager(solarSystemConfigManager);
-                s.setSolarSystemNumber(i);
-                generatorArrayList.add(s);
+                SolarSystemGenerator generator = solarSystemGenerator.newInstance();
+                generator.setFeatureGeneratorTypes(featureGeneratorTypes);
+                generator.setSolarSystemConfigManager(solarSystemConfigManager);
+                generator.setSolarSystemNumber(i);
+                generatorArrayList.add(generator);
             } catch (Exception e) {
                 e.printStackTrace();
             }
@@ -115,10 +125,9 @@ public class WorldBuilder {
      */
     private void positionSolarSystems() {
         for (SolarSystemGenerator generator : activeSolarSystemGenerators) {
-            Vector2 position = calculateSolarSystemPosition(activeSolarSystemGenerators, generator.getRadius());
-            generator.setPosition(position);
+            calculateSolarSystemPosition(activeSolarSystemGenerators, generator, generator.getRadius());
             //Printout of generator position for testing (as these positions don't have a representation in the game yet)
-            System.out.println(generator + " position: " + generator.getPosition().x + ", " + generator.getPosition().y);
+            logger.info(generator + " position: " + generator.getPosition().x + ", " + generator.getPosition().y);
         }
     }
 
@@ -137,20 +146,27 @@ public class WorldBuilder {
      * a SolarSystem there will not cause it to overlap with any others.
      * TODO Implement logic to allow system to be positioned within a particular annulus
      */
-    private Vector2 calculateSolarSystemPosition(List<SolarSystemGenerator> systems, float bodyRadius) {
-        Vector2 result = new Vector2();
+    private void calculateSolarSystemPosition(List<SolarSystemGenerator> systems, SolarSystemGenerator solarSystemGenerator, float bodyRadius) {
+        Vector2 result = SolMath.getVec();
         float distance = 0;
-        while (true) {
+        int counter = 0;
+        //This loop should find a position for the SolarSystem well before the counter reaches 400
+        while (counter < 400) {
             //test 20 spots at each radius
             for (int i = 0; i < 20; i++) {
                 calculateRandomWorldPositionAtDistance(result, distance);
                 //check for overlap with each SolarSystem which already has been placed
                 if (isPositionAvailable(systems, bodyRadius, result)) {
-                    return result;
+                    solarSystemGenerator.getPosition().add(result);
+                    solarSystemGenerator.setPositioned(true);
+                    SolMath.free(result);
+                    return;
                 }
             }
             distance += SunGenerator.SUN_RADIUS;
+            counter++;
         }
+        SolMath.free(result);
     }
 
     private boolean isPositionAvailable(List<SolarSystemGenerator> systems, float bodyRadius, Vector2 result) {

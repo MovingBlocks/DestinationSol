@@ -26,7 +26,7 @@ import org.destinationsol.world.Orbital;
 */
 public abstract class FeatureGenerator {
     public static final float ORBITAL_FEATURE_BUFFER = 8f;
-    private Vector2 position = Vector2.Zero;
+    private Vector2 position = new Vector2();
     private float radius;
     private boolean positioned;
     private Orbital orbital;
@@ -34,7 +34,7 @@ public abstract class FeatureGenerator {
     public abstract void build();
 
     public void setPosition(Vector2 position) {
-        this.position = position;
+        this.position.set(position);
         setPositioned(true);
     }
 
@@ -50,8 +50,8 @@ public abstract class FeatureGenerator {
         return radius;
     }
 
-    public void setPositioned(boolean p) {
-        positioned = p;
+    public void setPositioned(boolean positioned) {
+        this.positioned = positioned;
     }
 
     public boolean getPositioned() {

@@ -15,15 +15,20 @@
  */
 package org.destinationsol.world.generators;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 /**
  * This class is a concrete implementation of a SunGenerator and handles its creation. This class defines the
  * behavior specific to the default Sun of Destination: Sol.
  * TODO: Implement the default behavior of a SunGenerator in this class (As it is implemented in the game currently)
  */
-public class SunGeneratorImpl extends SunGenerator{
+public class SunGeneratorImpl extends SunGenerator {
+    private static final Logger logger = LoggerFactory.getLogger(SunGeneratorImpl.class);
+
     @Override
     public void build() {
-        System.out.println("Building a sun now!");
+        logger.info("Building a sun now!");
         setRadius(SunGenerator.SUN_RADIUS);
     }
 }

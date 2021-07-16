@@ -46,18 +46,18 @@ public class BeltConfigManager {
     }
 
     /**
-     * This method is used to tell the JSON data loader to load data from the engine module
+     * This method is used to tell the JSON data loader to load data from the engine module.
      */
     public void loadDefaultBeltConfigs() {
-        load("engine:asteroidBeltsConfig", "engine:schemaSystemsConfig", "engine", "asteroidBeltsConfig");
+        load("engine:asteroidBeltsConfig", "engine:schemaSystemsConfig", "asteroidBeltsConfig");
     }
 
     /**
-     * This method loads in all the Belt configuration data from the specified location
+     * This method loads in all the Belt configuration data from the specified location.
      * @param jsonPath path to the JSON data
      * @param schemaPath path to the schema
      */
-    public void load(String jsonPath, String schemaPath, String moduleName, String assetType) {
+    public void load(String jsonPath, String schemaPath, String assetType) {
         JSONObject rootNode = Validator.getValidatedJSON(jsonPath, schemaPath);
 
         for (String s : rootNode.keySet()) {
@@ -76,17 +76,18 @@ public class BeltConfigManager {
             configsToLoad.put(name, beltConfig);
         }
 
-        Set<ResourceUrn> configUrnList = Assets.getAssetHelper().listAssets(Json.class, assetType, new Name(moduleName));
+        //TODO: determine why "engine" module is excluded
+        Set<ResourceUrn> configUrnList = Assets.getAssetHelper().listAssets(Json.class, assetType, new Name("engine"));
 
         for (ResourceUrn configUrn : configUrnList) {
             rootNode = Validator.getValidatedJSON(configUrn.toString(), "engine:schemaSystemsConfig");
 
-            for (String s : rootNode.keySet()) {
-                if (!(rootNode.get(s) instanceof JSONObject)) {
+            for (String nodeValue : rootNode.keySet()) {
+                if (!(rootNode.get(nodeValue) instanceof JSONObject)) {
                     continue;
                 }
-                JSONObject node = rootNode.getJSONObject(s);
-                String name = s;
+                JSONObject node = rootNode.getJSONObject(nodeValue);
+                String name = nodeValue;
 
                 boolean hard = node.optBoolean("hard", false);
                 Map<String, BeltConfig> configsToLoad = hard ? hardConfigs : configs;
@@ -105,28 +106,42 @@ public class BeltConfigManager {
         }
     }
 
+    /**
+     * Retrieves the BeltConfig with the specified name.
+     * @param name name of the BeltConfig
+     * @return the BeltConfig
+     */
     public BeltConfig getBeltConfig(String name) {
-        BeltConfig res = configs.get(name);
-        if (res != null) {
-            return res;
+        BeltConfig beltConfig = configs.get(name);
+        if (beltConfig != null) {
+            return beltConfig;
         }
         return hardConfigs.get(name);
     }
 
+    /**
+     * This returns a random config for a Belt from among the configs available.
+     * @param hard whether or not the Belt is part of a hard SolarSystem
+     * @return Config for the Belt
+     */
     public BeltConfig getRandomBeltConfig(boolean hard) {
         Map<String, BeltConfig> config = hard ? hardConfigs : configs;
         return SolRandom.seededRandomElement(new ArrayList<>(config.values()));
     }
 
+    /**
+     * This adds all the ShipConfigs used in the BeltConfigs into the passed in shipConfigs list.
+     * @param shipConfigs list to add the ShipConfigs from BeltConfigs to
+     */
     public void addAllConfigs(ArrayList<ShipConfig> shipConfigs) {
-        for (BeltConfig sc : configs.values()) {
-            shipConfigs.addAll(sc.tempEnemies);
-            shipConfigs.addAll(sc.innerTempEnemies);
+        for (BeltConfig beltConfig : configs.values()) {
+            shipConfigs.addAll(beltConfig.tempEnemies);
+            shipConfigs.addAll(beltConfig.innerTempEnemies);
         }
 
-        for (BeltConfig sc : hardConfigs.values()) {
-            shipConfigs.addAll(sc.tempEnemies);
-            shipConfigs.addAll(sc.innerTempEnemies);
+        for (BeltConfig beltConfig : hardConfigs.values()) {
+            shipConfigs.addAll(beltConfig.tempEnemies);
+            shipConfigs.addAll(beltConfig.innerTempEnemies);
         }
     }
 }

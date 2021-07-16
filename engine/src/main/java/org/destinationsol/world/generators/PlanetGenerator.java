@@ -15,7 +15,8 @@
  */
 package org.destinationsol.world.generators;
 
-import org.destinationsol.Const;
+import org.destinationsol.game.planet.PlanetConfig;
+import org.destinationsol.game.planet.PlanetConfigs;
 
 /**
  * This class defines the general behavior for Planet generators (such as ground, sky, gravity, etc). Any Planet will be
@@ -26,22 +27,24 @@ public abstract class PlanetGenerator extends FeatureGenerator {
     public static final float PLANET_MAX_DIAMETER = 78f;
     protected static final float DEFAULT_MAX_GROUND_HEIGHT = 25f;
     protected static final float DEFAULT_ATMOSPHERE_HEIGHT = 14f;
+    PlanetConfigs planetConfigManager;
+    PlanetConfig planetConfig;
     float groundHeight;
     //distance from ground of planet to atmosphere
     float atmosphereHeight;
     float angleInSolarSystem;
     float distanceFromSolarSystemCenter;
 
-    public void setAtmosphereHeight(float aHeight) {
-        atmosphereHeight = aHeight;
+    public void setAtmosphereHeight(float atmosphereHeight) {
+        this.atmosphereHeight = atmosphereHeight;
     }
 
     public float getAtmosphereHeight() {
         return atmosphereHeight;
     }
 
-    public void setGroundHeight(float gHeight) {
-        groundHeight = gHeight;
+    public void setGroundHeight(float groundHeight) {
+        this.groundHeight = groundHeight;
     }
 
     public float getGroundHeight() {
@@ -52,16 +55,23 @@ public abstract class PlanetGenerator extends FeatureGenerator {
         setRadius(getGroundHeight() + getAtmosphereHeight());
     }
 
-    public void setAngleInSolarSystem(float angle) {
-        angleInSolarSystem = angle;
+    public void setAngleInSolarSystem(float angleInSolarSystem) {
+        this.angleInSolarSystem = angleInSolarSystem;
     }
 
-    public void setDistanceFromSolarSystemCenter(float distance) {
-        distanceFromSolarSystemCenter = distance;
+    public void setDistanceFromSolarSystemCenter(float distanceFromSolarSystemCenter) {
+        this.distanceFromSolarSystemCenter = distanceFromSolarSystemCenter;
     }
 
     public float getDistanceFromSolarSystemCenter() {
         return distanceFromSolarSystemCenter;
     }
 
+    public void setPlanetConfig(PlanetConfig planetConfig) {
+        this.planetConfig = planetConfig;
+    }
+
+    public PlanetConfig getPlanetConfig() {
+        return planetConfig;
+    }
 }

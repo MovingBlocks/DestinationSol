@@ -49,7 +49,7 @@ public class PlanetObjectsBuilder {
     private static final float TOP_TILE_SZ = 2f;
 
     private static final float MAX_CLOUD_PIECE_SZ = 1.5f;
-    private static final float MAX_CLOUT_PIECE_ROT_SPD = 5f;
+    private static final float MAX_CLOUD_PIECE_ROT_SPD = 5f;
     private static final int MAX_CLOUD_PIECE_COUNT = 30;
     private static final float MAX_CLOUD_PIECE_DIST_SHIFT = 1f;
     private static final float MAX_CLOUD_LINEAR_SPD = .1f;
@@ -213,7 +213,7 @@ public class PlanetObjectsBuilder {
         float size = .5f * (1 + distancePercentage) * MAX_CLOUD_PIECE_SZ;
 
         float relativeAngle = SolRandom.randomFloat(30);
-        float rotationSpeed = SolRandom.randomFloat(MAX_CLOUT_PIECE_ROT_SPD);
+        float rotationSpeed = SolRandom.randomFloat(MAX_CLOUD_PIECE_ROT_SPD);
         float angleShift = relativeAngleShift * maxAngleShift;
         float distanceShift = maxDistanceShift == 0 ? 0 : distancePercentage * SolRandom.randomFloat(0, maxDistanceShift);
         float distance = baseDistance + distanceShift;

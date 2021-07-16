@@ -36,7 +36,6 @@ import org.destinationsol.game.planet.Planet;
 import org.destinationsol.game.planet.PlanetManager;
 import org.destinationsol.game.planet.SolarSystem;
 import org.destinationsol.game.planet.SolarSystemConfig;
-import org.destinationsol.game.planet.SysConfig;
 import org.destinationsol.game.ship.FarShip;
 import org.destinationsol.game.ship.hulls.HullConfig;
 import org.destinationsol.world.generators.FeatureGenerator;

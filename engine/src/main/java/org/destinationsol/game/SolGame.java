@@ -47,6 +47,7 @@ import org.destinationsol.game.particle.EffectTypes;
 import org.destinationsol.game.particle.PartMan;
 import org.destinationsol.game.particle.SpecialEffects;
 import org.destinationsol.game.planet.Planet;
+import org.destinationsol.game.planet.PlanetConfigs;
 import org.destinationsol.game.planet.PlanetManager;
 import org.destinationsol.game.planet.SolarSystem;
 import org.destinationsol.game.planet.SolarSystemConfigManager;
@@ -102,6 +103,7 @@ public class SolGame {
     private final SolContactListener contactListener;
     private final WorldBuilder worldBuilder;
     private final SolarSystemConfigManager solarSystemConfigManager;
+    private final PlanetConfigs planetConfigManager;
     private Hero hero;
     private float timeStep;
     private float time;
@@ -180,6 +182,8 @@ public class SolGame {
         beaconHandler = new BeaconHandler();
         solarSystemConfigManager = new SolarSystemConfigManager(hullConfigManager, itemManager);
         context.put(SolarSystemConfigManager.class, solarSystemConfigManager);
+        planetConfigManager = new PlanetConfigs(hullConfigManager, gameColors,itemManager);
+        context.put(PlanetConfigs.class, planetConfigManager);
         worldBuilder = new WorldBuilder(context, worldConfig.getNumberOfSystems());
         context.put(WorldBuilder.class, worldBuilder);
         timeFactor = 1;
@@ -242,7 +246,7 @@ public class SolGame {
         SolRandom.setSeed(worldConfig.getSeed());
         //World Generation will be initiated from here
         worldBuilder.buildWithRandomSolarSystemGenerators();
-        //this is just temporarily loaded here so that current world-gen implementation works
+        //TODO: Remove the next two lines and associated classes when new world-gen system is running
         solarSystemConfigManager.loadDefaultSolarSystemConfigs();
         planetManager.fill(solNames, worldConfig.getNumberOfSystems());
         createGame(shipName, isNewGame);

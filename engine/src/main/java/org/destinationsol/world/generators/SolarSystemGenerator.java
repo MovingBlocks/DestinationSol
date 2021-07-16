@@ -23,11 +23,12 @@ import org.destinationsol.game.planet.SolarSystem;
 import org.destinationsol.game.planet.SolarSystemConfig;
 import org.destinationsol.game.planet.SolarSystemConfigManager;
 import org.destinationsol.world.Orbital;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import static org.destinationsol.world.generators.FeatureGenerator.ORBITAL_FEATURE_BUFFER;
 import static org.destinationsol.world.generators.SunGenerator.SUN_RADIUS;
 
 /**
@@ -37,6 +38,7 @@ import static org.destinationsol.world.generators.SunGenerator.SUN_RADIUS;
  * Particular implementations can decide which of those FeatureGenerators will be used to populate the SolarSystem.
  */
 public abstract class SolarSystemGenerator {
+    private static final Logger logger = LoggerFactory.getLogger(SolarSystemGenerator.class);
 
     /**
      * This enum represents the three available sizes of SolarSystems. They can have either 3, 5, or 7 orbital objects
@@ -64,7 +66,7 @@ public abstract class SolarSystemGenerator {
     private SolarSystemConfigManager solarSystemConfigManager;
     private SolarSystemConfig solarSystemConfig;
     private SolarSystemSize solarSystemSize;
-    private Vector2 position;
+    private Vector2 position = new Vector2();
     private String name;
     private float radius;
     private boolean positioned;
@@ -75,15 +77,15 @@ public abstract class SolarSystemGenerator {
     private int customFeaturesCount;
 
     public SolarSystemGenerator() {
-
-        position = Vector2.Zero;
         solarSystemSize = getSolarSystemSize();
+
         //There cannot be more custom features than orbitals available
         if (customFeaturesCount < solarSystemSize.getNumberOfOrbitals()) {
             customFeaturesCount = getCustomFeaturesCount();
         } else {
             customFeaturesCount = solarSystemSize.getNumberOfOrbitals();
         }
+
         if (solarSystemSize.equals(SolarSystemSize.SMALL) || solarSystemSize.equals(SolarSystemSize.MEDIUM)) {
             //Custom Features will replace planets, depending on how many are being used
             planetCount = solarSystemSize.getNumberOfOrbitals() - getCustomFeaturesCount();
@@ -94,11 +96,12 @@ public abstract class SolarSystemGenerator {
             possibleBeltCount = 2;
             mazeCount = 3;
         }
+
         for (int i = 0; i < solarSystemSize.getNumberOfOrbitals(); i++) {
             solarSystemOrbitals.add(new Orbital(i));
         }
         sizeSolarSystemOrbitals();
-        this.radius = calcSolarSystemRadius();
+        this.radius = calculateSolarSystemRadius();
     }
 
     /**
@@ -107,10 +110,10 @@ public abstract class SolarSystemGenerator {
      */
     private void sizeSolarSystemOrbitals() {
         float distanceFromSolarSystemCenter = SUN_RADIUS;
-        for (int i = 0; i < solarSystemOrbitals.size(); i++) {
-            solarSystemOrbitals.get(i).setStartingDistanceFromSystemCenter(distanceFromSolarSystemCenter);
-            solarSystemOrbitals.get(i).setWidth(Orbital.PLANET_ORBITAL_WIDTH);
-            distanceFromSolarSystemCenter += solarSystemOrbitals.get(i).getWidth();
+        for (Orbital solarSystemOrbital : solarSystemOrbitals) {
+            solarSystemOrbital.setStartingDistanceFromSystemCenter(distanceFromSolarSystemCenter);
+            solarSystemOrbital.setWidth(Orbital.PLANET_ORBITAL_WIDTH);
+            distanceFromSolarSystemCenter += solarSystemOrbital.getWidth();
         }
         //An extra Orbital is added to represent the Mazes
         solarSystemOrbitals.add(new Orbital(solarSystemOrbitals.size()));
@@ -143,11 +146,11 @@ public abstract class SolarSystemGenerator {
      * This method calculates the radius for this SolarSystem. It uses the Features that are included in this system
      * to determine what the radius should be.
      */
-    protected float calcSolarSystemRadius() {
+    protected float calculateSolarSystemRadius() {
         float solarSystemRadius = SUN_RADIUS;
         for (Orbital orbital : solarSystemOrbitals) {
             solarSystemRadius += orbital.getWidth();
-            System.out.println("Orbital " + orbital.getPositionInSolarSystem() + ", distance: " + orbital.getStartingDistanceFromSystemCenter() + ", width: " + orbital.getWidth());
+            logger.info("Orbital " + orbital.getPositionInSolarSystem() + ", distance: " + orbital.getStartingDistanceFromSystemCenter() + ", width: " + orbital.getWidth());
         }
         return solarSystemRadius;
     }
@@ -169,19 +172,20 @@ public abstract class SolarSystemGenerator {
      */
     private void calculateMazePositions() {
         for (FeatureGenerator generator : activeFeatureGenerators) {
-            Vector2 result = new Vector2();
+            Vector2 result = SolMath.getVec();
             List<Float> usedAnglesInSolarSystem = new ArrayList<>();
             if (generator.getClass().getSuperclass().equals(MazeGenerator.class)) {
                 //set the outermost orbital to have a MazeGenerator
                 solarSystemOrbitals.get(solarSystemOrbitals.size() - 1).setFeatureGenerator(generator);
                 float angle = SolRandom.seededRandomFloat(180);
                 SolMath.fromAl(result, angle, solarSystemOrbitals.get(solarSystemOrbitals.size() - 1).calculateDistanceFromCenterOfSystemForFeature());
-                if (isGoodAngle(usedAnglesInSolarSystem, angle, 15)) {
+                if (isGoodAngle(angle, usedAnglesInSolarSystem, 15)) {
                     result = result.add(position);
                     generator.setPosition(result);
                     usedAnglesInSolarSystem.add(angle);
                 }
             }
+            SolMath.free(result);
         }
     }
 
@@ -194,7 +198,7 @@ public abstract class SolarSystemGenerator {
     private void calculatePlanetPositions() {
         int orbitalPosition = 0;
         for (FeatureGenerator featureGenerator : activeFeatureGenerators) {
-            Vector2 result = new Vector2();
+            Vector2 result = SolMath.getVec();
             if (featureGenerator.getClass().getSuperclass().equals(PlanetGenerator.class)) {
                 PlanetGenerator generator = (PlanetGenerator) featureGenerator;
                 Orbital orbital = solarSystemOrbitals.get(orbitalPosition);
@@ -205,9 +209,10 @@ public abstract class SolarSystemGenerator {
                 result.add(position);
                 generator.setPosition(result);
 
-                System.out.println(generator + " distance from center: " + generator.distanceFromSolarSystemCenter);
+                logger.info(generator + " distance from center: " + generator.distanceFromSolarSystemCenter);
                 orbitalPosition++;
             }
+            SolMath.free(result);
         }
     }
 
@@ -231,7 +236,7 @@ public abstract class SolarSystemGenerator {
                 is placed, a planet is removed and a maze set in its place */
                 featureGeneratorsToRemove.add(solarSystemOrbitals.get(orbitInsertionPosition).getFeatureGenerator());
                 solarSystemOrbitals.get(orbitInsertionPosition).setFeatureGenerator(featureGenerator);
-                System.out.println("Distance for belt: " + distanceFromSolarSystemCenter);
+                logger.info("Distance for belt: " + distanceFromSolarSystemCenter);
 
                 //Belt position is equal to SolarSystem position as belts wrap around the entire SolarSystem
                 featureGenerator.setPosition(getPosition());
@@ -396,17 +401,17 @@ public abstract class SolarSystemGenerator {
     }
 
     /**
-     * This method checks if two angles are within a certain number of degrees of each other or not
+     * This method checks if an angle is not within a certain amount of degrees to any other angle in the passed in list
      *
-     * @param firstAngleToCheck  angle to check
-     * @param secondAngleToCheck angle to compare it to
+     * @param anglesToCheckAgainst  angles to compare to
+     * @param  angleToCheck angle to check
      * @param degrees how many degrees apart to ensure angles are between
      * @return whether angles are within specified amount of degrees or not
      */
-    private boolean isGoodAngle(List<Float> firstAngleToCheck, float secondAngleToCheck, int degrees) {
-        for (Float oldAngle : firstAngleToCheck) {
-            //This assures that mazes are placed at least 15 degrees apart
-            if (oldAngle - secondAngleToCheck < degrees || oldAngle - secondAngleToCheck > (360 - degrees)) {
+    private boolean isGoodAngle(float angleToCheck, List<Float> anglesToCheckAgainst, int degrees) {
+        for (Float oldAngle : anglesToCheckAgainst) {
+            //This assures that the angles are at least the specified degrees apart
+            if (oldAngle - angleToCheck < degrees || oldAngle - angleToCheck > (360 - degrees)) {
                 return false;
             }
         }
@@ -431,7 +436,8 @@ public abstract class SolarSystemGenerator {
     }
 
     public void setPosition(Vector2 position) {
-        this.position = position;
+        this.position = SolMath.getVec(position);
+        SolMath.free(position);
         setPositioned(true);
     }
 
@@ -467,8 +473,8 @@ public abstract class SolarSystemGenerator {
         return radius;
     }
 
-    public void setPositioned(boolean p) {
-        positioned = p;
+    public void setPositioned(boolean positioned) {
+        this.positioned = positioned;
     }
 
     public void setSolarSystemNumber(int solarSystemNumber) {

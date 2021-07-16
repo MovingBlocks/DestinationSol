@@ -16,6 +16,8 @@
 package org.destinationsol.world.generators;
 
 import org.destinationsol.common.SolRandom;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * This class is a concrete implementation of a PlanetGenerator and handles its creation. This class defines the
@@ -23,10 +25,11 @@ import org.destinationsol.common.SolRandom;
  * TODO: Implement the default behavior of a PlanetGenerator in this class (As it is implemented in the game currently)
  */
 public class PlanetGeneratorImpl extends PlanetGenerator {
+    private static final Logger logger = LoggerFactory.getLogger(PlanetGeneratorImpl.class);
 
     @Override
     public void build() {
-        System.out.println("Building a planet now!");
+        logger.info("Building a planet now!");
         setGroundHeight(SolRandom.seededRandomFloat(.5f, 1) * DEFAULT_MAX_GROUND_HEIGHT);
         setAtmosphereHeight(DEFAULT_ATMOSPHERE_HEIGHT);
         setRadius();

@@ -27,7 +27,6 @@ import org.destinationsol.game.maze.MazeConfig;
 import org.destinationsol.game.planet.BeltConfig;
 import org.destinationsol.game.planet.PlanetConfig;
 import org.destinationsol.game.planet.SolarSystemConfig;
-import org.destinationsol.game.planet.SysConfig;
 import org.destinationsol.game.projectile.ProjectileConfig;
 import org.destinationsol.game.ship.FarShip;
 import org.destinationsol.game.ship.SolShip;
