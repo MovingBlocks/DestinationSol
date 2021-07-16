@@ -29,6 +29,7 @@ public class UIShipControlsScreen extends NUIScreenLayer implements ShipUiContro
     public UIWarnButton abilityButton;
     private Keyboard.Key downKey;
     private boolean downKeyHeld;
+    private boolean controlsEnabled;
 
     @In
     private SolApplication solApplication;
@@ -78,17 +79,8 @@ public class UIShipControlsScreen extends NUIScreenLayer implements ShipUiContro
         boolean mainGameScreenVisible = solApplication.getInputManager().isScreenOn(solApplication.getGame().getScreens().mainGameScreen);
         ((AbstractWidget)contents).setVisible(mainGameScreenVisible);
         contents.setEnabled(mainGameScreenVisible);
-        super.update(delta);
-    }
 
-    /**
-     * Implementation of {@link ShipUiControl#update(SolApplication, boolean)}
-     * @param solApplication an instance of the game's {@link SolApplication}
-     * @param enabled are the UI controls currently enabled
-     */
-    @Override
-    public void update(SolApplication solApplication, boolean enabled) {
-        if (!enabled) {
+        if (!controlsEnabled) {
             leftButton.setEnabled(false);
             rightButton.setEnabled(false);
             forwardButton.setEnabled(false);
@@ -104,16 +96,31 @@ public class UIShipControlsScreen extends NUIScreenLayer implements ShipUiContro
         leftButton.setEnabled(hasEngine);
         rightButton.setEnabled(hasEngine);
 
-        Gun g1 = hero.isTranscendent() ? null : hero.getHull().getGun(false);
-        gun1Button.setEnabled(g1 != null && g1.ammo > 0);
-        Gun g2 = hero.isTranscendent() ? null : hero.getHull().getGun(true);
-        gun2Button.setEnabled(g2 != null && g2.ammo > 0);
+        Gun gun1 = hero.isTranscendent() ? null : hero.getHull().getGun(false);
+        boolean gun1Enabled = gun1 != null && gun1.ammo > 0;
+        gun1Button.setEnabled(gun1Enabled);
+
+        Gun gun2 = hero.isTranscendent() ? null : hero.getHull().getGun(true);
+        boolean gun2Enabled = gun2 != null && gun2.ammo > 0;
+        gun2Button.setEnabled(gun2Enabled);
 
         // The ability button needs to de-press before it is disabled,
         // as otherwise it causes the button to be pressed again when it is enabled.
         if (!abilityButton.getMode().equals(UIButton.DOWN_MODE)) {
             abilityButton.setEnabled(hero.isNonTranscendent() && hero.canUseAbility());
         }
+
+        super.update(delta);
+    }
+
+    /**
+     * Implementation of {@link ShipUiControl#update(SolApplication, boolean)}
+     * @param solApplication an instance of the game's {@link SolApplication}
+     * @param enabled are the UI controls currently enabled
+     */
+    @Override
+    public void update(SolApplication solApplication, boolean enabled) {
+        controlsEnabled = enabled;
     }
 
     @Override
