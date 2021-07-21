@@ -19,6 +19,9 @@ import com.badlogic.gdx.math.Vector2;
 import org.destinationsol.common.SolMath;
 import org.destinationsol.common.SolRandom;
 import org.destinationsol.game.SolNames;
+import org.destinationsol.game.context.Context;
+import org.destinationsol.game.planet.Planet;
+import org.destinationsol.game.planet.PlanetConfigs;
 import org.destinationsol.game.planet.SolarSystem;
 import org.destinationsol.game.planet.SolarSystemConfig;
 import org.destinationsol.game.planet.SolarSystemConfigManager;
@@ -61,6 +64,7 @@ public abstract class SolarSystemGenerator {
     protected ArrayList<Class<? extends FeatureGenerator>> featureGeneratorTypes = new ArrayList<>();
     ArrayList<FeatureGenerator> activeFeatureGenerators = new ArrayList<>();
     ArrayList<Orbital> solarSystemOrbitals = new ArrayList<>();
+    Context context;
     //This class is included to give access to the game's default names if desired
     protected SolNames solNames = new SolNames();
     private SolarSystemConfigManager solarSystemConfigManager;
@@ -204,12 +208,18 @@ public abstract class SolarSystemGenerator {
                 Orbital orbital = solarSystemOrbitals.get(orbitalPosition);
                 orbital.setFeatureGenerator(generator);
 
+                generator.setAngleInSolarSystem(SolRandom.seededRandomFloat(180));
+                generator.setInitialPlanetAngle(SolRandom.seededRandomFloat(180));
                 generator.setDistanceFromSolarSystemCenter(orbital.calculateDistanceFromCenterOfSystemForFeature());
-                SolMath.fromAl(result, generator.angleInSolarSystem, generator.getDistanceFromSolarSystemCenter());
+
+                SolMath.fromAl(result, generator.getAngleInSolarSystem(), generator.getDistanceFromSolarSystemCenter());
                 result.add(position);
                 generator.setPosition(result);
+                generator.setSolarSystemPosition(this.getPosition());
+                generator.setIsInnerPlanet(generator.getDistanceFromSolarSystemCenter() < this.radius / 2);
+                generator.setIsInFirstSolarSystem(getSolarSystemNumber() == 0);
 
-                logger.info(generator + " distance from center: " + generator.distanceFromSolarSystemCenter);
+                logger.info(generator + " distance from center: " + generator.getDistanceFromSolarSystemCenter());
                 orbitalPosition++;
             }
             SolMath.free(result);
@@ -289,6 +299,7 @@ public abstract class SolarSystemGenerator {
                 Class<? extends FeatureGenerator> newFeatureGeneratorType = featureGeneratorTypes.get(index);
                 try {
                     FeatureGenerator newFeatureGenerator = newFeatureGeneratorType.newInstance();
+                    ((PlanetGenerator) newFeatureGenerator).setPlanetConfigManager(context.get(PlanetConfigs.class));
                     activeFeatureGenerators.add(newFeatureGenerator);
                     planetsLeft--;
                 } catch (Exception e) {
@@ -383,6 +394,21 @@ public abstract class SolarSystemGenerator {
     }
 
     /**
+     * This method returns the Planet objects built by the PlanetGenerators of this SolarSystem. It is most useful
+     * after the build method is called
+     * @return List of Planets
+     */
+    ArrayList<Planet> getBuiltPlanets() {
+        ArrayList<Planet> planets = new ArrayList<>();
+        for (FeatureGenerator featureGenerator : activeFeatureGenerators) {
+            if (featureGenerator.getClass().getSuperclass().equals(PlanetGenerator.class)) {
+                planets.add(((PlanetGenerator) featureGenerator).getPlanet());
+            }
+        }
+        return planets;
+    }
+
+    /**
      * This method is used to choose a valid position to insert a belt into. It chooses a position that is between two planets
      * (not on the edge of the system and not previously used for a belt)
      *
@@ -457,8 +483,14 @@ public abstract class SolarSystemGenerator {
         return solarSystemConfig;
     }
 
-    public SolarSystem getBuiltSolarSystem() {
-        return new SolarSystem(getPosition(), getSolarSystemConfig(), getName(), getRadius());
+    /**
+     * This method creates a built SolarSystem object from the details set by the Generator.
+     * @return The SolarSystem object
+     */
+    public SolarSystem createBuiltSolarSystem() {
+        SolarSystem solarSystem = new SolarSystem(getPosition(), getSolarSystemConfig(), getName(), getRadius());
+        solarSystem.getPlanets().addAll(getBuiltPlanets());
+        return solarSystem;
     }
 
     public Vector2 getPosition() {
@@ -487,18 +519,6 @@ public abstract class SolarSystemGenerator {
 
     public ArrayList<FeatureGenerator> getActiveFeatureGenerators() {
         return activeFeatureGenerators;
-    }
-
-    public void setPlanetCount(int planetCount) {
-        this.planetCount = planetCount;
-    }
-
-    public void setPossibleBeltCount(int possibleBeltCount) {
-        this.possibleBeltCount = possibleBeltCount;
-    }
-
-    public void setMazeCount(int mazeCount) {
-        this.mazeCount = mazeCount;
     }
 
     public void setName(String name) {
@@ -531,5 +551,13 @@ public abstract class SolarSystemGenerator {
 
     public ArrayList<String> getDefaultSolarSystemNames() {
         return solNames.systems;
+    }
+
+    public void setContext(Context context) {
+        this.context = context;
+    }
+
+    public Context getContext() {
+        return context;
     }
 }

@@ -68,6 +68,11 @@ public class PlanetConfigs {
         return allConfigs.get(name);
     }
 
+    /**
+     * This determines whether the planet gets an easy, hard, or medium config. If easy is true, it will be an easy planet.
+     * If easy is false but hard is true, it will be a hard planet. Else, it will be a medium planet. If both are true,
+     * it will be easy
+     */
     public PlanetConfig getRandom(boolean easy, boolean hard) {
         List<PlanetConfig> cfg = easy ? this.easy : hard ? this.hard : medium;
         return SolRandom.seededRandomElement(cfg);
