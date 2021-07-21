@@ -396,7 +396,6 @@ public abstract class SolarSystemGenerator {
     /**
      * This method returns the Planet objects built by the PlanetGenerators of this SolarSystem. It is most useful
      * after the build method is called
-     *
      * @return List of Planets
      */
     ArrayList<Planet> getBuiltPlanets() {
@@ -486,7 +485,6 @@ public abstract class SolarSystemGenerator {
 
     /**
      * This method creates a built SolarSystem object from the details set by the Generator.
-     *
      * @return The SolarSystem object
      */
     public SolarSystem createBuiltSolarSystem() {

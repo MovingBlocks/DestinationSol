@@ -68,7 +68,6 @@ public abstract class PlanetGenerator extends FeatureGenerator {
      * (less than half the SolarSystem radius from the center of the system), and not in the starting system, is in
      * the starting system, it will be easy. If the Planet is in the inner part of its system, and it is not the first
      * system, it will be a hard planet. Otherwise, it will be a medium planet.
-     *
      * @return the PlanetConfig with the correct difficulty
      */
     protected PlanetConfig getPlanetConfigDefaultSettings() {
@@ -159,6 +158,8 @@ public abstract class PlanetGenerator extends FeatureGenerator {
     public void setSolarSystemPosition(Vector2 solarSystemPosition) {
         this.solarSystemPosition.set(solarSystemPosition);
     }
+
+
 
     public void setPlanetRotationSpeed(float planetRotationSpeed) {
         this.planetRotationSpeed = planetRotationSpeed;
