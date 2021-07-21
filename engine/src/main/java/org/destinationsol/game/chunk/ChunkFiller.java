@@ -151,6 +151,8 @@ public class ChunkFiller {
             }
             return Optional.of(system.getConfig().envConfig);
         }
+        //TODO: Uncomment this section when there are mazes added to the SolarSystem
+        /*
         Maze maze = planetManager.getNearestMaze(chunkCenter);
         float distanceToMaze = maze.getPos().dst(chunkCenter);
         float zoneRadius = maze.getRadius() + MAZE_ZONE_BORDER;
@@ -158,6 +160,8 @@ public class ChunkFiller {
             densityMultiplier[0] = 1 - distanceToMaze / zoneRadius;
             return Optional.of(maze.getConfig().envConfig);
         }
+        */
+
         return Optional.empty();
     }
 

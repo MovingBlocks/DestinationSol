@@ -43,7 +43,7 @@ import java.util.List;
 
 public class PlanetManager implements UpdateAwareSystem {
     private final ArrayList<SolarSystem> systems;
-    private final ArrayList<Planet> planets;
+    private ArrayList<Planet> planets;
     private final ArrayList<SystemBelt> belts;
     private final FlatPlaceFinder flatPlaceFinder;
     private final PlanetConfigs planetConfigs;
@@ -266,4 +266,5 @@ public class PlanetManager implements UpdateAwareSystem {
     public void drawPlanetCoreHack(SolGame game, GameDrawer drawer, Context context) {
         planetCoreSingleton.draw(game, drawer, context);
     }
+
 }

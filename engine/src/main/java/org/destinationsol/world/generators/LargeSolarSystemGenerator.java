@@ -1,5 +1,5 @@
 /*
- * Copyright 2021 The Terasology Foundation
+ * Copyright 2020 The Terasology Foundation
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -20,27 +20,8 @@ import org.destinationsol.game.planet.SolarSystem;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-/**
- * This class is a concrete implementation of a SolarSystemGenerator and handles creation of elements
- * specific to this type of SolarSystem (such as how many Planets to generate, how large to make
- * the SolarSystem, etc).
- * <p>
- * This class also has access to the featureGenerators list from {@link SolarSystemGenerator}.
- * This allows it to choose which FeatureGenerators to use in populating the SolarSystem.
- * TODO: Define the behavior of default SolarSystems in this class (As it is implemented in the game currently)
- */
-public class SolarSystemGeneratorImpl extends SolarSystemGenerator {
-    private static final Logger logger = LoggerFactory.getLogger(SolarSystemGeneratorImpl.class);
-
-    @Override
-    public SolarSystemSize getSolarSystemSize() {
-        return SolarSystemSize.MEDIUM;
-    }
-
-    @Override
-    public int getCustomFeaturesCount() {
-        return 0;
-    }
+public class LargeSolarSystemGenerator extends SolarSystemGenerator {
+    private static final Logger logger = LoggerFactory.getLogger(LargeSolarSystemGenerator.class);
 
     @Override
     public SolarSystem build() {
@@ -60,5 +41,15 @@ public class SolarSystemGeneratorImpl extends SolarSystemGenerator {
         }
 
         return createBuiltSolarSystem();
+    }
+
+    @Override
+    public SolarSystemSize getSolarSystemSize() {
+        return SolarSystemSize.LARGE;
+    }
+
+    @Override
+    public int getCustomFeaturesCount() {
+        return 0;
     }
 }

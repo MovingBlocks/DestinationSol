@@ -15,6 +15,7 @@
  */
 package org.destinationsol.world.generators;
 
+import org.destinationsol.common.SolMath;
 import org.destinationsol.common.SolRandom;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -29,10 +30,18 @@ public class PlanetGeneratorImpl extends PlanetGenerator {
 
     @Override
     public void build() {
-        logger.info("Building a planet now!");
+        //sets the PlanetConfig for either an easy, medium, or hard planet.
+        setPlanetConfig(getPlanetConfigDefaultSettings());
+
         setGroundHeight(SolRandom.seededRandomFloat(.5f, 1) * DEFAULT_MAX_GROUND_HEIGHT);
         setAtmosphereHeight(DEFAULT_ATMOSPHERE_HEIGHT);
-        setRadius();
-        setAngleInSolarSystem(SolRandom.seededRandomFloat(180));
+        calculateRadius();
+
+        setOrbitSolarSystemSpeed(SolMath.arcToAngle(PLANET_SPEED, getDistanceFromSolarSystemCenter()) * SolMath.toInt(SolRandom.seededTest(.5f)));
+        setPlanetRotationSpeed(SolMath.arcToAngle(PLANET_GROUND_SPEED, getGroundHeight()) * SolMath.toInt(SolRandom.seededTest(.5f)));
+        setName(SolRandom.seededRandomElement(solNames.planets.get(getPlanetConfig().moduleName)));
+        logger.info("Building a planet now. Planet name: " + getName() + ". Planet position: " + getPosition() + ". Planet Type: " + getPlanetConfig().configName);
+
+        createPlanet();
     }
 }

@@ -76,7 +76,7 @@ public class GalaxyFiller {
         float stationDist = planet.getDistance() + planet.getFullHeight() + FeatureGenerator.ORBITAL_FEATURE_BUFFER;
         Vector2 stationPos = new Vector2();
         SolMath.fromAl(stationPos, angleToSun, stationDist);
-        stationPos.add(planet.getSystem().getPosition());
+        stationPos.add(planet.getSolarSystemPosition());
         return stationPos;
     }
 
@@ -139,7 +139,7 @@ public class GalaxyFiller {
             return;
         }
         createStarPorts(game);
-        ArrayList<SolarSystem> systems = game.getPlanetManager().getSystems();
+        ArrayList<SolarSystem> systems = game.getWorldBuilder().getBuiltSolarSystems();
 
         JSONObject rootNode = Validator.getValidatedJSON(moduleName + ":startingStation", "engine:schemaStartingStation");
 
@@ -172,10 +172,9 @@ public class GalaxyFiller {
     }
 
     private void createStarPorts(SolGame game) {
-        PlanetManager planetManager = game.getPlanetManager();
         ArrayList<Planet> biggest = new ArrayList<>();
 
-        for (SolarSystem system : planetManager.getSystems()) {
+        for (SolarSystem system : game.getWorldBuilder().getBuiltSolarSystems()) {
             float minHeight = 0;
             Planet biggestPlanet = null;
             int biggestPlanetIndex = -1;
