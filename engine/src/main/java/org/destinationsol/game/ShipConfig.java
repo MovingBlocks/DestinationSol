@@ -33,7 +33,7 @@ public class ShipConfig {
     public final HullConfig hull;
     public final String items;
     public final int money;
-    public final float density;
+    public float density;
     public final ShipConfig guard;
     public final float dps;
     public Vector2 spawnPos;

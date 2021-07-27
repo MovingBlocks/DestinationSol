@@ -43,25 +43,15 @@ import java.util.List;
 
 public class PlanetManager implements UpdateAwareSystem {
     private final ArrayList<SolarSystem> systems;
-    private ArrayList<Planet> planets;
+    private final ArrayList<Planet> planets;
     private final ArrayList<SystemBelt> belts;
     private final FlatPlaceFinder flatPlaceFinder;
-    private final PlanetConfigs planetConfigs;
-    private final MazeConfigs mazeConfigs;
     private final ArrayList<Maze> mazes;
     private final SunSingleton sunSingleton;
-    private final SolarSystemConfigManager solarSystemConfigManager;
-    private final BeltConfigManager beltConfigManager;
     private final PlanetCoreSingleton planetCoreSingleton;
     private Planet nearestPlanet;
 
-    public PlanetManager(HullConfigManager hullConfigs, GameColors cols,
-                            ItemManager itemManager) {
-        planetConfigs = new PlanetConfigs(hullConfigs, cols, itemManager);
-        solarSystemConfigManager = new SolarSystemConfigManager(hullConfigs, itemManager);
-        beltConfigManager = new BeltConfigManager(hullConfigs, itemManager);
-        mazeConfigs = new MazeConfigs(hullConfigs, itemManager);
-
+    public PlanetManager() {
         systems = new ArrayList<>();
         mazes = new ArrayList<>();
         planets = new ArrayList<>();
@@ -69,11 +59,6 @@ public class PlanetManager implements UpdateAwareSystem {
         flatPlaceFinder = new FlatPlaceFinder();
         sunSingleton = new SunSingleton();
         planetCoreSingleton = new PlanetCoreSingleton();
-    }
-
-    public void fill(SolNames names, int numberOfSystems) {
-        new SystemsBuilder().build(systems, planets, belts, planetConfigs, mazeConfigs, mazes, solarSystemConfigManager,
-                beltConfigManager, names, numberOfSystems);
     }
 
     @Override

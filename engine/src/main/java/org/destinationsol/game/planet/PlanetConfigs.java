@@ -31,27 +31,51 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+/**
+ * This class manages loading config files in for Planets. It also allows for getting a random Planet config or a
+ * specific Planet config by name. It can either load the default Planet configs, or specified custom configs
+ */
 public class PlanetConfigs {
+    private HullConfigManager hullConfigManager;
+    private GameColors gameColors;
+    private ItemManager itemManager;
     private final Map<String, PlanetConfig> allConfigs;
     private final List<PlanetConfig> easy;
     private final List<PlanetConfig> medium;
     private final List<PlanetConfig> hard;
 
-    public PlanetConfigs(HullConfigManager hullConfigs, GameColors cols, ItemManager itemManager) {
+    public PlanetConfigs(HullConfigManager hullConfigManager, GameColors gameColors, ItemManager itemManager) {
+        this.hullConfigManager = hullConfigManager;
+        this.gameColors = gameColors;
+        this.itemManager = itemManager;
         allConfigs = new HashMap<>();
         easy = new ArrayList<>();
         medium = new ArrayList<>();
         hard = new ArrayList<>();
+    }
 
-        Set<ResourceUrn> planetJsonConfigs = Assets.getAssetHelper().listAssets(Json.class, "planetsConfig");
+    /**
+     * Load the default configs for Planets from the engine module
+     */
+    public void loadDefaultPlanetConfigs() {
+        load("planetsConfig", "engine:schemaPlanetsConfig");
+    }
+
+    /**
+     * Load specified configs for Planets
+     * @param asset The name of the asset type to load
+     * @param schemaPath the path of the schema to load
+     */
+    public void load(String asset, String schemaPath) {
+        Set<ResourceUrn> planetJsonConfigs = Assets.getAssetHelper().listAssets(Json.class, asset);
 
         for (ResourceUrn planetConfigJson : planetJsonConfigs) {
             String moduleName = planetConfigJson.getModuleName().toString();
-            JSONObject rootNode = Validator.getValidatedJSON(planetConfigJson.toString(), "engine:schemaPlanetsConfig");
+            JSONObject rootNode = Validator.getValidatedJSON(planetConfigJson.toString(), schemaPath);
 
             for (String s : rootNode.keySet()) {
                 JSONObject node = rootNode.getJSONObject(s);
-                PlanetConfig planetConfig = PlanetConfig.load(s, node, hullConfigs, cols, itemManager, moduleName);
+                PlanetConfig planetConfig = PlanetConfig.load(s, node, hullConfigManager, gameColors, itemManager, moduleName);
                 allConfigs.put(s, planetConfig);
                 if (planetConfig.hardOnly) {
                     hard.add(planetConfig);
@@ -64,6 +88,11 @@ public class PlanetConfigs {
         }
     }
 
+    /**
+     * Get a particular config from the configs already loaded in.
+     * @param name Name of the config to get
+     * @return the particular config
+     */
     public PlanetConfig getConfig(String name) {
         return allConfigs.get(name);
     }

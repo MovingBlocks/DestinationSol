@@ -161,7 +161,7 @@ public class SolGame {
         itemManager = new ItemManager(soundManager, effectTypes, gameColors);
         AbilityCommonConfigs abilityCommonConfigs = new AbilityCommonConfigs(effectTypes, gameColors, soundManager);
         hullConfigManager = new HullConfigManager(itemManager, abilityCommonConfigs);
-        planetManager = new PlanetManager(hullConfigManager, gameColors, itemManager);
+        planetManager = new PlanetManager();
 
         contactListener = new SolContactListener(this);
         factionManager = new FactionManager();
@@ -183,6 +183,7 @@ public class SolGame {
         solarSystemConfigManager = new SolarSystemConfigManager(hullConfigManager, itemManager);
         context.put(SolarSystemConfigManager.class, solarSystemConfigManager);
         planetConfigManager = new PlanetConfigs(hullConfigManager, gameColors, itemManager);
+        planetConfigManager.loadDefaultPlanetConfigs();
         context.put(PlanetConfigs.class, planetConfigManager);
         worldBuilder = new WorldBuilder(context, worldConfig.getNumberOfSystems());
         context.put(WorldBuilder.class, worldBuilder);

@@ -17,6 +17,8 @@ package org.destinationsol.world.generators;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.GL20;
+import com.badlogic.gdx.physics.box2d.Box2D;
+import com.badlogic.gdx.physics.box2d.PolygonShape;
 import org.destinationsol.assets.sound.OggSoundManager;
 import org.destinationsol.files.HullConfigManager;
 import org.destinationsol.game.AbilityCommonConfigs;
@@ -32,10 +34,13 @@ import org.destinationsol.testingUtilities.MockGL;
 import org.destinationsol.testsupport.AssetsHelperInitializer;
 import org.destinationsol.world.WorldBuilder;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 public class PlanetGeneratorTest implements AssetsHelperInitializer {
     private Context context;
@@ -57,7 +62,6 @@ public class PlanetGeneratorTest implements AssetsHelperInitializer {
 
         setupMockGL();
 
-        //TODO: Determine how to load in PlanetConfigs class without CollisionMeshLoader error
         setupConfigManagers();
 
         worldBuilder = new WorldBuilder(context, 1);
@@ -65,13 +69,14 @@ public class PlanetGeneratorTest implements AssetsHelperInitializer {
         ArrayList<SolarSystemGenerator> solarSystemGenerators = worldBuilder.initializeRandomSolarSystemGenerators();
         solarSystemGenerator = solarSystemGenerators.get(0);
         setupSolarSystemGenerator();
-        planetGenerator = (PlanetGeneratorImpl) solarSystemGenerators.get(0).getActiveFeatureGenerators().get(1);
+        planetGenerator = (PlanetGenerator) solarSystemGenerators.get(0).getActiveFeatureGenerators().get(1);
     }
 
     private void setupMockGL() {
         GL20 mockGL = new MockGL();
         Gdx.gl = mockGL;
         Gdx.gl20 = mockGL;
+        Box2D.init();
     }
 
     private void setupConfigManagers() {
@@ -79,6 +84,7 @@ public class PlanetGeneratorTest implements AssetsHelperInitializer {
         HullConfigManager hullConfigManager = setupHullConfigManager(itemManager);
 
         PlanetConfigs planetConfigManager = new PlanetConfigs(hullConfigManager, gameColors,itemManager);
+        planetConfigManager.loadDefaultPlanetConfigs();
         context.put(PlanetConfigs.class, planetConfigManager);
 
         SolarSystemConfigManager solarSystemConfigManager = new SolarSystemConfigManager(hullConfigManager, itemManager);
@@ -104,4 +110,33 @@ public class PlanetGeneratorTest implements AssetsHelperInitializer {
         solarSystemGenerator.getBuiltPlanets().get(0);
     }
 
+    @Test
+    void planetDiameterIsWithinRange() {
+        assertTrue(planetGenerator.getDiameter() < PlanetGenerator.PLANET_MAX_DIAMETER && planetGenerator.getDiameter() > 0);
+    }
+
+    @Test
+    void planetRadiusIsGroundHeightPlusAtmosphereHeight() {
+        assertEquals(planetGenerator.getRadius(), planetGenerator.getGroundHeight() + planetGenerator.getAtmosphereHeight());
+    }
+
+    @Test
+    void planetHasConfig() {
+        assertNotNull(planetGenerator.getPlanetConfig());
+    }
+
+    @Test
+    void planetHasName() {
+        assertTrue(planetGenerator.getName().length() > 0);
+    }
+
+    @Test
+    void planetHasPositiveRotationSpeed() {
+        assertTrue(planetGenerator.getPlanetRotationSpeed() > 0);
+    }
+
+    @Test
+    void planetHasPositiveOrbitSpeed() {
+        assertTrue(planetGenerator.getPlanetRotationSpeed() > 0);
+    }
 }
