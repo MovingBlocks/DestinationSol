@@ -1,5 +1,5 @@
 /*
- * Copyright 2020 The Terasology Foundation
+ * Copyright 2021 The Terasology Foundation
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -23,26 +23,27 @@ import java.util.List;
 /**
  * This class keeps track of the variables which are taken into account when placing various types of ships within the
  * orbit of a Planet. These values are used by {@link PlanetObjectsBuilder} to create the actual ships that are on
- * a Planet. This class keeps track specifically of variables which affect the entire category of Orbit Enemies. Other
+ * a Planet. This class keeps track specifically of variables which affect the entire category of Orbital Enemies. Other
  * variables, such ship density (how many of the ships are places), are dependent on the specific ShipConfig,
  * and so are held within the list of ShipConfigs.
  */
-public class OrbitEnemiesBuilder {
-    private ArrayList<ShipConfig> orbitEnemies = new ArrayList<>();
+public class OrbitalEnemiesBuilder {
+    private ArrayList<ShipConfig> orbitalEnemies = new ArrayList<>();
     //Offset Percentage represents how far apart enemies should be made, in terms of circumference of the planet
-    float offsetPercentage;
-    float atmospherePercentage;
-    float detectionDist;
+    private float offsetPercentage;
+    //TODO: Change atmosphere percentage to something more understandable, like height
+    private float atmospherePercentage;
+    private float detectionDistance;
 
-    public OrbitEnemiesBuilder(List<ShipConfig> orbitEnemies, float offsetPercentage, float atmospherePercentage, float detectionDistance) {
-        this.orbitEnemies.addAll(orbitEnemies);
+    public OrbitalEnemiesBuilder(List<ShipConfig> orbitalEnemies, float offsetPercentage, float atmospherePercentage, float detectionDistance) {
+        this.orbitalEnemies.addAll(orbitalEnemies);
         this.offsetPercentage = offsetPercentage;
         this.atmospherePercentage = atmospherePercentage;
-        this.detectionDist = detectionDistance;
+        this.detectionDistance = detectionDistance;
     }
 
-    public ArrayList<ShipConfig> getOrbitEnemies() {
-        return orbitEnemies;
+    public ArrayList<ShipConfig> getOrbitalEnemies() {
+        return orbitalEnemies;
     }
 
     public float getOffsetPercentage() {
@@ -61,11 +62,11 @@ public class OrbitEnemiesBuilder {
         this.atmospherePercentage = atmospherePercentage;
     }
 
-    public float getDetectionDist() {
-        return detectionDist;
+    public float getDetectionDistance() {
+        return detectionDistance;
     }
 
-    public void setDetectionDist(float detectionDist) {
-        this.detectionDist = detectionDist;
+    public void setDetectionDistance(float detectionDistance) {
+        this.detectionDistance = detectionDistance;
     }
 }

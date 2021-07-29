@@ -46,8 +46,8 @@ public class PlanetConfig {
     public final boolean hardOnly;
     public final boolean easyOnly;
     //These 'builder' classes allow custom World Generators to modify values used when placing objects on the planet
-    public final OrbitEnemiesBuilder lowOrbitEnemiesBuilder;
-    public final OrbitEnemiesBuilder highOrbitEnemiesBuilder;
+    public final OrbitalEnemiesBuilder lowOrbitalEnemiesBuilder;
+    public final OrbitalEnemiesBuilder highOrbitalEnemiesBuilder;
     public final CloudBuilder cloudBuilder;
 
     public PlanetConfig(String configName, float minGrav, float maxGrav, List<DecoConfig> deco, List<ShipConfig> groundEnemies,
@@ -72,8 +72,8 @@ public class PlanetConfig {
         this.easyOnly = easyOnly;
         this.moduleName = moduleName;
         this.cloudBuilder = new CloudBuilder(cloudTextures, .2f, 0f, 1f, .2f, 1f);
-        this.lowOrbitEnemiesBuilder = new OrbitEnemiesBuilder(lowOrbitEnemies, 0, .1f, Const.AUTO_SHOOT_SPACE);
-        this.highOrbitEnemiesBuilder = new OrbitEnemiesBuilder(highOrbitEnemies, .1f, .6f, Const.AI_DET_DIST);
+        this.lowOrbitalEnemiesBuilder = new OrbitalEnemiesBuilder(lowOrbitEnemies, 0, .1f, Const.AUTO_SHOOT_SPACE);
+        this.highOrbitalEnemiesBuilder = new OrbitalEnemiesBuilder(highOrbitEnemies, .1f, .6f, Const.AI_DET_DIST);
     }
 
     static PlanetConfig load(String name, JSONObject rootNode, HullConfigManager hullConfigs, GameColors cols, ItemManager itemManager, String moduleName) {

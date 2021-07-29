@@ -39,6 +39,8 @@ import org.destinationsol.game.input.StillGuard;
 import org.destinationsol.game.item.TradeConfig;
 import org.destinationsol.game.ship.FarShip;
 import org.destinationsol.game.ship.hulls.HullConfig;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -54,10 +56,13 @@ public class PlanetObjectsBuilder {
     private static final float MAX_CLOUD_PIECE_DIST_SHIFT = 1f;
     private static final float MAX_CLOUD_LINEAR_SPD = .1f;
     private static final float AVG_CLOUD_LINEAR_WIDTH = 3f;
-    private static final float CLOUD_DENSITY = .2f;
 
     private static final float DECO_PACK_SZ = 5f;
     private static final float DECO_PACK_ANGULAR_WIDTH = 360 * DECO_PACK_SZ / (2 * MathUtils.PI * Const.MAX_GROUND_HEIGHT);
+
+    private static final Logger logger = LoggerFactory.getLogger(PlanetObjectsBuilder.class);
+
+    private ArrayList<FarShip> groundShips = new ArrayList<>();
 
     public float createPlanetObjs(SolGame game, Planet planet) {
         if (DebugOptions.NO_OBJS) {
@@ -87,16 +92,19 @@ public class PlanetObjectsBuilder {
         PlanetConfig config = planet.getConfig();
         buildGroundEnemies(game, planet, takenAngles, groundHeight, config);
 
+        for (FarShip ship : groundShips) {
+            game.getObjectManager().addFarObjNow(ship);
+        }
+
         //Place enemies in the air
-        buildOrbitEnemies(game, planet, groundHeight, config.lowOrbitEnemiesBuilder);
-        buildOrbitEnemies(game, planet, groundHeight, config.highOrbitEnemiesBuilder);
+        buildOrbitEnemies(game, planet, groundHeight, config.lowOrbitalEnemiesBuilder);
+        buildOrbitEnemies(game, planet, groundHeight, config.highOrbitalEnemiesBuilder);
     }
 
     private void buildStation(SolGame game, Planet planet, ConsumedAngles takenAngles) {
         ShipConfig stationConfig = planet.getConfig().stationConfig;
         if (stationConfig != null) {
-            FarShip station = buildGroundShip(game, planet, stationConfig, planet.getConfig().tradeConfig, Faction.LAANI, takenAngles, "Station");
-            game.getObjectManager().addFarObjNow(station);
+            buildGroundShip(game, planet, stationConfig, planet.getConfig().tradeConfig, Faction.LAANI, takenAngles, "Station");
         }
     }
 
@@ -104,32 +112,31 @@ public class PlanetObjectsBuilder {
         for (ShipConfig groundEnemy : config.groundEnemies) {
             int count = (int) (groundEnemy.density * groundHeight);
             for (int i = 0; i < count; i++) {
-                FarShip enemy = buildGroundShip(game, planet, groundEnemy, null, Faction.EHAR, takenAngles, null);
-                game.getObjectManager().addFarObjNow(enemy);
+                buildGroundShip(game, planet, groundEnemy, null, Faction.EHAR, takenAngles, null);
             }
         }
     }
 
-    private void buildOrbitEnemies(SolGame game, Planet planet, float groundHeight, OrbitEnemiesBuilder orbitEnemiesBuilder) {
-        if (orbitEnemiesBuilder.getOrbitEnemies().isEmpty()) {
+    private void buildOrbitEnemies(SolGame game, Planet planet, float groundHeight, OrbitalEnemiesBuilder orbitalEnemiesBuilder) {
+        if (orbitalEnemiesBuilder.getOrbitalEnemies().isEmpty()) {
             return;
         }
 
         HashMap<ShipConfig, Integer> counts = new HashMap<>();
         int totalCount = 0;
-        for (ShipConfig oe : orbitEnemiesBuilder.getOrbitEnemies()) {
-            int count = (int) (orbitEnemiesBuilder.atmospherePercentage * oe.density * groundHeight * Const.ATM_HEIGHT);
+        for (ShipConfig oe : orbitalEnemiesBuilder.getOrbitalEnemies()) {
+            int count = (int) (orbitalEnemiesBuilder.getAtmospherePercentage() * oe.density * groundHeight * Const.ATM_HEIGHT);
             counts.put(oe, count);
             totalCount += count;
         }
 
-        float stepPercentage = orbitEnemiesBuilder.atmospherePercentage / totalCount;
-        float heightPercentage = orbitEnemiesBuilder.offsetPercentage;
+        float stepPercentage = orbitalEnemiesBuilder.getAtmospherePercentage() / totalCount;
+        float heightPercentage = orbitalEnemiesBuilder.getOffsetPercentage();
 
-        for (ShipConfig shipConfig : orbitEnemiesBuilder.getOrbitEnemies()) {
+        for (ShipConfig shipConfig : orbitalEnemiesBuilder.getOrbitalEnemies()) {
             int count = counts.get(shipConfig);
             for (int i = 0; i < count; i++) {
-                FarShip enemy = buildOrbitEnemy(game, planet, heightPercentage, shipConfig, orbitEnemiesBuilder.detectionDist);
+                FarShip enemy = buildOrbitEnemy(game, planet, heightPercentage, shipConfig, orbitalEnemiesBuilder.getDetectionDistance());
                 game.getObjectManager().addFarObjNow(enemy);
                 heightPercentage += stepPercentage;
             }
@@ -314,9 +321,10 @@ public class PlanetObjectsBuilder {
         }
     }
 
-    private FarShip buildGroundShip(SolGame game, Planet planet, ShipConfig shipConfig, TradeConfig tradeConfig,
+    private void buildGroundShip(SolGame game, Planet planet, ShipConfig shipConfig, TradeConfig tradeConfig,
                                    Faction faction, ConsumedAngles takenAngles, String mapHint) {
         Vector2 position = game.getPlanetManager().findFlatPlace(game, planet, takenAngles, shipConfig.hull.getApproxRadius());
+        boolean goodSpot = true;
         boolean station = shipConfig.hull.getType() == HullConfig.Type.STATION;
         String shipItems = shipConfig.items;
         boolean hasRepairer;
@@ -333,17 +341,26 @@ public class PlanetObjectsBuilder {
         SolMath.toWorld(position, position, planet.getAngle(), planet.getPosition());
 
         Vector2 distanceToPlanet = SolMath.getVec(planet.getPosition()).sub(position);
-        float angle = SolMath.angle(distanceToPlanet) - 180;
+        logger.info("Planet: " + planet.getName() + ", Station Vector: " + distanceToPlanet.toString());
+        float angle = 0;
+        //TODO: Determine why distanceToPlanet is occasionally equal to {NaN, NaN}
+        if (!distanceToPlanet.equals(new Vector2(Float.NaN, Float.NaN))) {
+            angle = SolMath.angle(distanceToPlanet) - 180;
+        } else {
+            goodSpot = false;
+        }
         if (station) {
             angle += 90;
         }
-        Vector2 velocity = new Vector2(distanceToPlanet).nor();
+
+        if (goodSpot) {
+            Vector2 velocity = new Vector2(distanceToPlanet).nor();
+
+            Pilot provider = new AiPilot(new StillGuard(position, game, shipConfig), false, faction, true, mapHint, Const.AI_DET_DIST);
+            groundShips.add(game.getShipBuilder().buildNewFar(game, position, velocity, angle, 0, provider, shipItems, shipConfig.hull,
+                    null, hasRepairer, money, tradeConfig, true));
+        }
         SolMath.free(distanceToPlanet);
-
-        Pilot provider = new AiPilot(new StillGuard(position, game, shipConfig), false, faction, true, mapHint, Const.AI_DET_DIST);
-
-        return game.getShipBuilder().buildNewFar(game, position, velocity, angle, 0, provider, shipItems, shipConfig.hull,
-                null, hasRepairer, money, tradeConfig, true);
     }
 
     private FarShip buildOrbitEnemy(SolGame game, Planet planet, float heightPercentage, ShipConfig shipConfig, float detectionDistance) {

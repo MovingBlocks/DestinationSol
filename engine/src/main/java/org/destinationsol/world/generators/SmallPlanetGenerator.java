@@ -1,5 +1,5 @@
 /*
- * Copyright 2020 The Terasology Foundation
+ * Copyright 2021 The Terasology Foundation
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -20,9 +20,9 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 /**
- * This class is a concrete implementation of a PlanetGenerator and handles its creation. This class creates planets
- * that are similar to the default Planets of Destination: Sol, but smaller, with different clouds, turrets,
- * and more high orbit enemies.
+ * This class is a concrete implementation of a PlanetGenerator and handles preparing a Planet to be built.
+ * This class creates planets that are similar to the default Planets of Destination: Sol, but smaller,
+ * with different clouds, turrets, and more high orbit enemies.
  */
 public class SmallPlanetGenerator extends PlanetGenerator {
     private static final Logger logger = LoggerFactory.getLogger(PlanetGeneratorImpl.class);
@@ -47,6 +47,6 @@ public class SmallPlanetGenerator extends PlanetGenerator {
         setCloudsEndingAtmospherePercentage(0.6f);
         setCloudsWidthEndingPercentage(5f);
         modifyGroundEnemiesDensity(1.3f);
-        createPlanet();
+        instantiatePlanet();
     }
 }

@@ -61,20 +61,17 @@ public abstract class PlanetGenerator extends FeatureGenerator {
     private PlanetConfigs planetConfigManager;
 
     /**
-     * This method sets the planet variable for the PlanetGenerator. It should be called at the end of the build() method,
-     * after the settings of the planet have been set.
+     * This method sets the Planet variable for the PlanetGenerator. It should be called at the end of the build() method,
+     * after the settings of the planet have been set. This Planet be used after the world-gen phase in the runtime code.
      */
-    protected void createPlanet() {
+    protected void instantiatePlanet() {
         planet = new Planet(getSolarSystemPosition(), getAngleInSolarSystem(), getDistanceFromSolarSystemCenter(),
                 getInitialPlanetAngle(), orbitSolarSystemSpeed, planetRotationSpeed, getGroundHeight(),
                 false, getPlanetConfig(), name);
     }
 
     /**
-     * The gets a planet config with the difficulty set in the way it is by default. If a planet is not an inner planet
-     * (less than half the SolarSystem radius from the center of the system), and not in the starting system, is in
-     * the starting system, it will be easy. If the Planet is in the inner part of its system, and it is not the first
-     * system, it will be a hard planet. Otherwise, it will be a medium planet.
+     * This returns a PlanetConfig using logic to determine Planet difficulty.
      * @return the PlanetConfig with the correct difficulty
      */
     protected PlanetConfig getPlanetConfigDefaultSettings() {
@@ -150,8 +147,8 @@ public abstract class PlanetGenerator extends FeatureGenerator {
      * @param atmospherePercentageMultiplier amount by which the current atmosphere percentage should be multiplied
      */
     protected void modifyLowOrbitShipsAtmospherePercentage(float atmospherePercentageMultiplier) {
-        getPlanetConfig().lowOrbitEnemiesBuilder.setAtmospherePercentage(
-                getPlanetConfig().lowOrbitEnemiesBuilder.getAtmospherePercentage() * atmospherePercentageMultiplier);
+        getPlanetConfig().lowOrbitalEnemiesBuilder.setAtmospherePercentage(
+                getPlanetConfig().lowOrbitalEnemiesBuilder.getAtmospherePercentage() * atmospherePercentageMultiplier);
     }
 
     /**
@@ -159,8 +156,8 @@ public abstract class PlanetGenerator extends FeatureGenerator {
      * @param atmospherePercentageMultiplier amount by which the current atmosphere percentage should be multiplied
      */
     protected void modifyHighOrbitShipsAtmospherePercentage(float atmospherePercentageMultiplier) {
-        getPlanetConfig().highOrbitEnemiesBuilder.setAtmospherePercentage(
-                getPlanetConfig().highOrbitEnemiesBuilder.getAtmospherePercentage() * atmospherePercentageMultiplier);
+        getPlanetConfig().highOrbitalEnemiesBuilder.setAtmospherePercentage(
+                getPlanetConfig().highOrbitalEnemiesBuilder.getAtmospherePercentage() * atmospherePercentageMultiplier);
     }
 
     /**
@@ -168,8 +165,8 @@ public abstract class PlanetGenerator extends FeatureGenerator {
      * @param detectionDistanceMultiplier amount by which the current detection distance should be multiplied
      */
     protected void modifyLowOrbitShipsDetectionDistance(float detectionDistanceMultiplier) {
-        getPlanetConfig().lowOrbitEnemiesBuilder.setDetectionDist(
-                getPlanetConfig().lowOrbitEnemiesBuilder.getDetectionDist() * detectionDistanceMultiplier);
+        getPlanetConfig().lowOrbitalEnemiesBuilder.setDetectionDistance(
+                getPlanetConfig().lowOrbitalEnemiesBuilder.getDetectionDistance() * detectionDistanceMultiplier);
     }
 
     /**
@@ -177,8 +174,8 @@ public abstract class PlanetGenerator extends FeatureGenerator {
      * @param detectionDistanceMultiplier amount by which the current detection distance should be multiplied
      */
     protected void modifyHighOrbitShipsDetectionDistance(float detectionDistanceMultiplier) {
-        getPlanetConfig().highOrbitEnemiesBuilder.setDetectionDist(
-                getPlanetConfig().highOrbitEnemiesBuilder.getDetectionDist() * detectionDistanceMultiplier);
+        getPlanetConfig().highOrbitalEnemiesBuilder.setDetectionDistance(
+                getPlanetConfig().highOrbitalEnemiesBuilder.getDetectionDistance() * detectionDistanceMultiplier);
     }
 
     /**

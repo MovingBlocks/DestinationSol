@@ -1,5 +1,5 @@
 /*
- * Copyright 2020 The Terasology Foundation
+ * Copyright 2021 The Terasology Foundation
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -27,15 +27,20 @@ import java.util.List;
  */
 public class CloudBuilder {
     private final List<TextureAtlas.AtlasRegion> cloudTextures = new ArrayList<>();
-    //Frequency at which clouds will generate
+
+    /** Frequency at which clouds will generate */
     private float cloudDensity;
-    //The lowest point (in terms of percentage of the atmosphere) that clouds will generate at
+
+    /** The lowest point (in terms of percentage of the atmosphere) that clouds will generate at */
     private float atmosphereStartingPercentage;
-    //The highest point (in terms of percentage of the atmosphere) that clouds will generate at
+
+    /** The highest point (in terms of percentage of the atmosphere) that clouds will generate at */
     private float atmosphereEndingPercentage;
-    //The smallest width (in terms of percentage of the default width) that a cloud will generate with
+
+    /** The smallest width (in terms of percentage of the default width) that a cloud will generate with */
     private float cloudWidthStartingPercentage;
-    //The largest width (in terms of percentage of the default width) that a cloud will generate with
+
+    /**The largest width (in terms of percentage of the default width) that a cloud will generate with */
     private float cloudWidthEndingPercentage;
 
     public CloudBuilder(List<TextureAtlas.AtlasRegion> cloudTextures, float cloudDensity,

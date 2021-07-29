@@ -41,6 +41,7 @@ import static org.destinationsol.world.generators.SunGenerator.SUN_RADIUS;
  * Particular implementations can decide which of those FeatureGenerators will be used to populate the SolarSystem.
  */
 public abstract class SolarSystemGenerator {
+    public static final float MAX_ANGLE_IN_SYSTEM = 180;
     private static final Logger logger = LoggerFactory.getLogger(SolarSystemGenerator.class);
 
     /**
@@ -181,7 +182,7 @@ public abstract class SolarSystemGenerator {
             if (generator.getClass().getSuperclass().equals(MazeGenerator.class)) {
                 //set the outermost orbital to have a MazeGenerator
                 solarSystemOrbitals.get(solarSystemOrbitals.size() - 1).setFeatureGenerator(generator);
-                float angle = SolRandom.seededRandomFloat(180);
+                float angle = SolRandom.seededRandomFloat(MAX_ANGLE_IN_SYSTEM);
                 SolMath.fromAl(result, angle, solarSystemOrbitals.get(solarSystemOrbitals.size() - 1).calculateDistanceFromCenterOfSystemForFeature());
                 if (isGoodAngle(angle, usedAnglesInSolarSystem, 15)) {
                     result = result.add(position);
@@ -208,8 +209,8 @@ public abstract class SolarSystemGenerator {
                 Orbital orbital = solarSystemOrbitals.get(orbitalPosition);
                 orbital.setFeatureGenerator(generator);
 
-                generator.setAngleInSolarSystem(SolRandom.seededRandomFloat(180));
-                generator.setInitialPlanetAngle(SolRandom.seededRandomFloat(180));
+                generator.setAngleInSolarSystem(SolRandom.seededRandomFloat(MAX_ANGLE_IN_SYSTEM));
+                generator.setInitialPlanetAngle(SolRandom.seededRandomFloat(MAX_ANGLE_IN_SYSTEM));
                 generator.setDistanceFromSolarSystemCenter(orbital.calculateDistanceFromCenterOfSystemForFeature());
 
                 SolMath.fromAl(result, generator.getAngleInSolarSystem(), generator.getDistanceFromSolarSystemCenter());
@@ -394,11 +395,11 @@ public abstract class SolarSystemGenerator {
     }
 
     /**
-     * This method returns the Planet objects built by the PlanetGenerators of this SolarSystem. It is most useful
-     * after the build method is called
+     * This method returns the Planet objects instantiated by the PlanetGenerators of this SolarSystem. It is most useful
+     * after the build() method is called on each PlanetGenerator
      * @return List of Planets
      */
-    ArrayList<Planet> getBuiltPlanets() {
+    ArrayList<Planet> getInstantiatedPlanets() {
         ArrayList<Planet> planets = new ArrayList<>();
         for (FeatureGenerator featureGenerator : activeFeatureGenerators) {
             if (featureGenerator.getClass().getSuperclass().equals(PlanetGenerator.class)) {
@@ -489,7 +490,7 @@ public abstract class SolarSystemGenerator {
      */
     public SolarSystem createBuiltSolarSystem() {
         SolarSystem solarSystem = new SolarSystem(getPosition(), getSolarSystemConfig(), getName(), getRadius());
-        solarSystem.getPlanets().addAll(getBuiltPlanets());
+        solarSystem.getPlanets().addAll(getInstantiatedPlanets());
         return solarSystem;
     }
 

@@ -18,7 +18,6 @@ package org.destinationsol.world.generators;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.physics.box2d.Box2D;
-import com.badlogic.gdx.physics.box2d.PolygonShape;
 import org.destinationsol.assets.sound.OggSoundManager;
 import org.destinationsol.files.HullConfigManager;
 import org.destinationsol.game.AbilityCommonConfigs;
@@ -107,7 +106,7 @@ public class PlanetGeneratorTest implements AssetsHelperInitializer {
         solarSystemGenerator.initializeRandomDefaultFeatureGenerators(1f);
         solarSystemGenerator.calculateFeaturePositions();
         solarSystemGenerator.buildFeatureGenerators();
-        solarSystemGenerator.getBuiltPlanets().get(0);
+        solarSystemGenerator.getInstantiatedPlanets().get(0);
     }
 
     @Test

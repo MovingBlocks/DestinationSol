@@ -1,5 +1,5 @@
 /*
- * Copyright 2020 The Terasology Foundation
+ * Copyright 2021 The Terasology Foundation
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -104,7 +104,7 @@ public class SolarSystemGeneratorTest implements AssetsHelperInitializer {
 
     private void setupSolarSystemGenerator() {
         solarSystemGenerator.initializeRandomDefaultFeatureGenerators(1f);
-        //solarSystemGenerator.buildFeatureGenerators();
+        solarSystemGenerator.buildFeatureGenerators();
         solarSystemGenerator.calculateFeaturePositions();
     }
 

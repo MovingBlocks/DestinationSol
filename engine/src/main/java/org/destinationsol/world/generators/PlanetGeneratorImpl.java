@@ -15,7 +15,6 @@
  */
 package org.destinationsol.world.generators;
 
-import org.destinationsol.common.SolMath;
 import org.destinationsol.common.SolRandom;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -41,6 +40,6 @@ public class PlanetGeneratorImpl extends PlanetGenerator {
         setName(SolRandom.seededRandomElement(solNames.planets.get(getPlanetConfig().moduleName)));
         logger.info("Building a planet now. Planet name: " + getName() + ". Planet position: " + getPosition() + ". Planet Type: " + getPlanetConfig().configName);
 
-        createPlanet();
+        instantiatePlanet();
     }
 }
