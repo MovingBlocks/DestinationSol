@@ -1,5 +1,5 @@
 /*
- * Copyright 2020 The Terasology Foundation
+ * Copyright 2021 The Terasology Foundation
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -17,6 +17,8 @@ package org.destinationsol.world.generators;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.GL20;
+import com.badlogic.gdx.physics.box2d.Box2D;
+import com.badlogic.gdx.physics.box2d.PolygonShape;
 import org.destinationsol.files.HullConfigManager;
 import org.destinationsol.game.AbilityCommonConfigs;
 import org.destinationsol.game.GameColors;
@@ -25,6 +27,7 @@ import org.destinationsol.game.context.internal.ContextImpl;
 import org.destinationsol.game.item.ItemManager;
 import org.destinationsol.game.particle.EffectTypes;
 import org.destinationsol.assets.sound.OggSoundManager;
+import org.destinationsol.game.planet.PlanetConfigs;
 import org.destinationsol.game.planet.SolarSystemConfigManager;
 import org.destinationsol.modules.ModuleManager;
 import org.destinationsol.testingUtilities.MockGL;
@@ -59,8 +62,7 @@ public class SolarSystemGeneratorTest implements AssetsHelperInitializer {
 
         setupMockGL();
 
-        SolarSystemConfigManager solarSystemConfigManager = setupSolarSystemConfigManager();
-        context.put(SolarSystemConfigManager.class, solarSystemConfigManager);
+        setupConfigManagers();
 
         worldBuilder = new WorldBuilder(context, 1);
 
@@ -73,12 +75,19 @@ public class SolarSystemGeneratorTest implements AssetsHelperInitializer {
         GL20 mockGL = new MockGL();
         Gdx.gl = mockGL;
         Gdx.gl20 = mockGL;
+        Box2D.init();
     }
 
-    private SolarSystemConfigManager setupSolarSystemConfigManager() {
+    private void setupConfigManagers() {
         ItemManager itemManager = setupItemManager();
         HullConfigManager hullConfigManager = setupHullConfigManager(itemManager);
-        return new SolarSystemConfigManager(hullConfigManager, itemManager);
+
+        PlanetConfigs planetConfigManager = new PlanetConfigs(hullConfigManager, gameColors,itemManager);
+        planetConfigManager.loadDefaultPlanetConfigs();
+        context.put(PlanetConfigs.class, planetConfigManager);
+
+        SolarSystemConfigManager solarSystemConfigManager = new SolarSystemConfigManager(hullConfigManager, itemManager);
+        context.put(SolarSystemConfigManager.class, solarSystemConfigManager);
     }
 
     private ItemManager setupItemManager() {

@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.destinationsol.world;
+package org.destinationsol.world.generators;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.GL20;
@@ -31,33 +31,44 @@ import org.destinationsol.game.planet.SolarSystemConfigManager;
 import org.destinationsol.modules.ModuleManager;
 import org.destinationsol.testingUtilities.MockGL;
 import org.destinationsol.testsupport.AssetsHelperInitializer;
+import org.destinationsol.world.WorldBuilder;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+
+import java.util.ArrayList;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
-public class WorldBuilderTest implements AssetsHelperInitializer {
+public class PlanetGeneratorTest implements AssetsHelperInitializer {
     private Context context;
     private ModuleManager moduleManager;
-    WorldBuilder worldBuilder;
+    private WorldBuilder worldBuilder;
     private GameColors gameColors;
     private EffectTypes effectTypes;
     private OggSoundManager soundManager;
     private AbilityCommonConfigs abilityCommonConfigs;
-
+    private SolarSystemGenerator solarSystemGenerator;
+    private PlanetGenerator planetGenerator;
 
     @BeforeEach
     public void setUp() throws Exception {
         context = new ContextImpl();
-        moduleManager = new ModuleManager();
+        moduleManager = getModuleManager();
         moduleManager.init();
         context.put(ModuleManager.class, moduleManager);
 
         setupMockGL();
 
         setupConfigManagers();
+
+        worldBuilder = new WorldBuilder(context, 1);
+
+        ArrayList<SolarSystemGenerator> solarSystemGenerators = worldBuilder.initializeRandomSolarSystemGenerators();
+        solarSystemGenerator = solarSystemGenerators.get(0);
+        setupSolarSystemGenerator();
+        planetGenerator = (PlanetGenerator) solarSystemGenerators.get(0).getActiveFeatureGenerators().get(1);
     }
 
     private void setupMockGL() {
@@ -91,44 +102,40 @@ public class WorldBuilderTest implements AssetsHelperInitializer {
         return new HullConfigManager(itemManager, abilityCommonConfigs);
     }
 
-    @Test
-    void populatesSolarSystemsList() {
-        int testNumberSystems = 2;
-        worldBuilder = new WorldBuilder(context, testNumberSystems);
-        worldBuilder.buildWithRandomSolarSystemGenerators();
-        assertTrue(worldBuilder.getSolarSystemGeneratorTypes().size() > 0);
-
+    private void setupSolarSystemGenerator() {
+        solarSystemGenerator.initializeRandomDefaultFeatureGenerators(1f);
+        solarSystemGenerator.calculateFeaturePositions();
+        solarSystemGenerator.buildFeatureGenerators();
+        solarSystemGenerator.getInstantiatedPlanets().get(0);
     }
 
     @Test
-    void populatesFeatureGeneratorsList() {
-        int testNumberSystems = 2;
-        worldBuilder = new WorldBuilder(context, testNumberSystems);
-        worldBuilder.buildWithRandomSolarSystemGenerators();
-        assertTrue(worldBuilder.getFeatureGeneratorTypes().size() > 0);
+    void planetDiameterIsWithinRange() {
+        assertTrue(planetGenerator.getDiameter() < PlanetGenerator.PLANET_MAX_DIAMETER && planetGenerator.getDiameter() > 0);
     }
 
     @Test
-    void createsCorrectNumberOfSolarSystemGenerators() {
-        int testNumberSystems = 2;
-        worldBuilder = new WorldBuilder(context, testNumberSystems);
-        worldBuilder.buildWithRandomSolarSystemGenerators();
-        assertEquals(worldBuilder.getActiveSolarSystemGenerators().size(), 2);
+    void planetRadiusIsGroundHeightPlusAtmosphereHeight() {
+        assertEquals(planetGenerator.getRadius(), planetGenerator.getGroundHeight() + planetGenerator.getAtmosphereHeight());
     }
 
     @Test
-    void createsCorrectNumberOfSolarSystems() {
-        int testNumberSystems = 2;
-        worldBuilder = new WorldBuilder(context, testNumberSystems);
-        worldBuilder.buildWithRandomSolarSystemGenerators();
-        assertEquals(worldBuilder.getBuiltSolarSystems().size(), 2);
+    void planetHasConfig() {
+        assertNotNull(planetGenerator.getPlanetConfig());
     }
 
     @Test
-    void setsContext() {
-        int testNumberSystems = 2;
-        worldBuilder = new WorldBuilder(context, testNumberSystems);
-        assertNotNull(worldBuilder.getContext());
+    void planetHasName() {
+        assertTrue(planetGenerator.getName().length() > 0);
     }
 
+    @Test
+    void planetHasPositiveRotationSpeed() {
+        assertTrue(planetGenerator.getPlanetRotationSpeed() > 0);
+    }
+
+    @Test
+    void planetHasPositiveOrbitSpeed() {
+        assertTrue(planetGenerator.getPlanetRotationSpeed() > 0);
+    }
 }

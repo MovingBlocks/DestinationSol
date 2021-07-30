@@ -161,7 +161,7 @@ public class SolGame {
         itemManager = new ItemManager(soundManager, effectTypes, gameColors);
         AbilityCommonConfigs abilityCommonConfigs = new AbilityCommonConfigs(effectTypes, gameColors, soundManager);
         hullConfigManager = new HullConfigManager(itemManager, abilityCommonConfigs);
-        planetManager = new PlanetManager(hullConfigManager, gameColors, itemManager);
+        planetManager = new PlanetManager();
 
         contactListener = new SolContactListener(this);
         factionManager = new FactionManager();
@@ -182,7 +182,8 @@ public class SolGame {
         beaconHandler = new BeaconHandler();
         solarSystemConfigManager = new SolarSystemConfigManager(hullConfigManager, itemManager);
         context.put(SolarSystemConfigManager.class, solarSystemConfigManager);
-        planetConfigManager = new PlanetConfigs(hullConfigManager, gameColors,itemManager);
+        planetConfigManager = new PlanetConfigs(hullConfigManager, gameColors, itemManager);
+        planetConfigManager.loadDefaultPlanetConfigs();
         context.put(PlanetConfigs.class, planetConfigManager);
         worldBuilder = new WorldBuilder(context, worldConfig.getNumberOfSystems());
         context.put(WorldBuilder.class, worldBuilder);
@@ -239,16 +240,18 @@ public class SolGame {
         }
     }
 
-    public void startGame(String shipName, boolean isNewGame, WorldConfig worldConfig, SolNames solNames, EntitySystemManager entitySystemManager) {
+    public void startGame(String shipName, boolean isNewGame, WorldConfig worldConfig, EntitySystemManager entitySystemManager) {
         this.entitySystemManager = entitySystemManager;
 
         respawnState = new RespawnState();
         SolRandom.setSeed(worldConfig.getSeed());
+
         //World Generation will be initiated from here
         worldBuilder.buildWithRandomSolarSystemGenerators();
-        //TODO: Remove the next two lines and associated classes when new world-gen system is running
-        solarSystemConfigManager.loadDefaultSolarSystemConfigs();
-        planetManager.fill(solNames, worldConfig.getNumberOfSystems());
+
+        //Add all the Planets in the game to the PlanetManager TODO: Add mazes, belts, etc. once the are implemented
+        addObjectsToPlanetManager();
+
         createGame(shipName, isNewGame);
 
         if (!isNewGame) {
@@ -265,6 +268,15 @@ public class SolGame {
             }
         }, 0, 30);
         gameScreens.consoleScreen.init(this);
+    }
+
+    private void addObjectsToPlanetManager() {
+        planetManager.getSystems().addAll(worldBuilder.getBuiltSolarSystems());
+        for (SolarSystem system : planetManager.getSystems()) {
+            for (Planet planet : system.getPlanets()) {
+                planetManager.getPlanets().add(planet);
+            }
+        }
     }
 
     public Context getContext() {
@@ -611,6 +623,10 @@ public class SolGame {
 
     public HullConfigManager getHullConfigManager() {
         return hullConfigManager;
+    }
+
+    public WorldBuilder getWorldBuilder() {
+        return worldBuilder;
     }
 
 }

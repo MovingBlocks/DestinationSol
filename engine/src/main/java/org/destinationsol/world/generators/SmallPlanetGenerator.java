@@ -20,10 +20,11 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 /**
- * This class is a concrete implementation of a PlanetGenerator and handles its creation. This class defines the
- * behavior specific to the default Planets of Destination: Sol.
+ * This class is a concrete implementation of a PlanetGenerator and handles preparing a Planet to be built.
+ * This class creates planets that are similar to the default Planets of Destination: Sol, but smaller,
+ * with different clouds, turrets, and more high orbit enemies.
  */
-public class PlanetGeneratorImpl extends PlanetGenerator {
+public class SmallPlanetGenerator extends PlanetGenerator {
     private static final Logger logger = LoggerFactory.getLogger(PlanetGeneratorImpl.class);
 
     @Override
@@ -31,7 +32,7 @@ public class PlanetGeneratorImpl extends PlanetGenerator {
         //sets the PlanetConfig for either an easy, medium, or hard planet.
         setPlanetConfig(getPlanetConfigDefaultSettings());
 
-        setGroundHeight(SolRandom.seededRandomFloat(.5f, 1) * DEFAULT_MAX_GROUND_HEIGHT);
+        setGroundHeight(SolRandom.seededRandomFloat(.5f, 1) * DEFAULT_MAX_GROUND_HEIGHT * .6f);
         setAtmosphereHeight(DEFAULT_ATMOSPHERE_HEIGHT);
         calculateRadius();
 
@@ -40,6 +41,12 @@ public class PlanetGeneratorImpl extends PlanetGenerator {
         setName(SolRandom.seededRandomElement(solNames.planets.get(getPlanetConfig().moduleName)));
         logger.info("Building a planet now. Planet name: " + getName() + ". Planet position: " + getPosition() + ". Planet Type: " + getPlanetConfig().configName);
 
+        modifyCloudDensity(1.7f);
+        modifyHighOrbitShipsDensity(1.35f);
+        setCloudsStartingAtmospherePercentage(0.25f);
+        setCloudsEndingAtmospherePercentage(0.6f);
+        setCloudsWidthEndingPercentage(5f);
+        modifyGroundEnemiesDensity(1.3f);
         instantiatePlanet();
     }
 }

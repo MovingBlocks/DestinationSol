@@ -38,7 +38,9 @@ import java.util.List;
  * retrieved: those that subclass SolarSystemGenerator and those that subclass FeatureGenerator.
  */
 public class WorldBuilder {
+    public static final float MAX_ANGLE_WITHIN_WORLD = 180;
     private static final Logger logger = LoggerFactory.getLogger(WorldBuilder.class);
+    private static float maxWorldRadius;
     //These ArrayLists hold class types of any class which extends SolarSystemGenerator or FeatureGenerator, respectively
     private ArrayList<Class<? extends SolarSystemGenerator>> solarSystemGeneratorTypes = new ArrayList<>();
     private ArrayList<Class<? extends FeatureGenerator>> featureGeneratorTypes = new ArrayList<>();
@@ -54,7 +56,15 @@ public class WorldBuilder {
         this.context = context;
         this.moduleManager = context.get(ModuleManager.class);
         this.solarSystemConfigManager = context.get(SolarSystemConfigManager.class);
+        solarSystemConfigManager.loadDefaultSolarSystemConfigs();
         numberOfSystems = numSystems;
+
+        /* The largest SolarSystems have a radius of 12 Sun Radii, so we will check 12 times the number of Systems out
+         * from the center of the world when placing a system. However, in order to ensure a place will be found, the
+         * number is multiplied by 100
+         */
+        maxWorldRadius = (12 * numberOfSystems * 100);
+
         populateSolarSystemGeneratorList();
         populateFeatureGeneratorList();
     }
@@ -108,6 +118,7 @@ public class WorldBuilder {
             Class<? extends SolarSystemGenerator> solarSystemGenerator = solarSystemGeneratorTypes.get(SolRandom.seededRandomInt(solarSystemGeneratorTypes.size()));
             try {
                 SolarSystemGenerator generator = solarSystemGenerator.newInstance();
+                generator.setContext(context);
                 generator.setFeatureGeneratorTypes(featureGeneratorTypes);
                 generator.setSolarSystemConfigManager(solarSystemConfigManager);
                 generator.setSolarSystemNumber(i);
@@ -125,7 +136,12 @@ public class WorldBuilder {
      */
     private void positionSolarSystems() {
         for (SolarSystemGenerator generator : activeSolarSystemGenerators) {
-            calculateSolarSystemPosition(activeSolarSystemGenerators, generator, generator.getRadius());
+            try {
+                calculateSolarSystemPosition(activeSolarSystemGenerators, generator, generator.getRadius());
+            } catch (RuntimeException e) {
+                e.printStackTrace();
+            }
+
             //Printout of generator position for testing (as these positions don't have a representation in the game yet)
             logger.info(generator + " position: " + generator.getPosition().x + ", " + generator.getPosition().y);
         }
@@ -146,12 +162,14 @@ public class WorldBuilder {
      * a SolarSystem there will not cause it to overlap with any others.
      * TODO Implement logic to allow system to be positioned within a particular annulus
      */
-    private void calculateSolarSystemPosition(List<SolarSystemGenerator> systems, SolarSystemGenerator solarSystemGenerator, float bodyRadius) {
+    private void calculateSolarSystemPosition(List<SolarSystemGenerator> systems, SolarSystemGenerator solarSystemGenerator, float bodyRadius) throws RuntimeException {
         Vector2 result = SolMath.getVec();
         float distance = 0;
-        int counter = 0;
-        //This loop should find a position for the SolarSystem well before the counter reaches 400
-        while (counter < 400) {
+        float counter = 0;
+        //This loop should find a position for the SolarSystem well before the counter reaches MAX_WORLD_RADIUS, which
+        //changes proportional to the nubmer of systems being generated.
+
+        while (counter < maxWorldRadius) {
             //test 20 spots at each radius
             for (int i = 0; i < 20; i++) {
                 calculateRandomWorldPositionAtDistance(result, distance);
@@ -167,6 +185,7 @@ public class WorldBuilder {
             counter++;
         }
         SolMath.free(result);
+        throw new RuntimeException("Could not find position for SolarSystem");
     }
 
     private boolean isPositionAvailable(List<SolarSystemGenerator> systems, float bodyRadius, Vector2 result) {
@@ -179,7 +198,7 @@ public class WorldBuilder {
     }
 
     private void calculateRandomWorldPositionAtDistance(Vector2 result, float distance) {
-        float angle = SolRandom.seededRandomFloat(180);
+        float angle = SolRandom.seededRandomFloat(MAX_ANGLE_WITHIN_WORLD);
         SolMath.fromAl(result, angle, distance);
     }
 
