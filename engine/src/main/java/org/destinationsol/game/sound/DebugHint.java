@@ -22,6 +22,8 @@ import org.destinationsol.game.GameDrawer;
 import org.destinationsol.game.SolCam;
 import org.destinationsol.game.SolGame;
 import org.destinationsol.game.SolObject;
+import org.destinationsol.location.components.Position;
+import org.terasology.gestalt.entitysystem.entity.EntityRef;
 
 import java.util.HashMap;
 import java.util.Iterator;
@@ -35,8 +37,11 @@ public class DebugHint {
     private SolObject myOwner;
     private String myMsg;
 
-    public DebugHint(SolObject owner, Vector2 position) {
+    private EntityRef entity;
+
+    public DebugHint(SolObject owner, EntityRef entity, Vector2 position) {
         myOwner = owner;
+        this.entity = entity;
         this.position = new Vector2(position);
         myMsgs = new HashMap<>();
     }
@@ -63,6 +68,16 @@ public class DebugHint {
                 myOwner = null;
             } else {
                 position.set(myOwner.getPosition());
+            }
+        }
+
+        if (entity != null) {
+            if (!entity.exists()) {
+                entity = null;
+            } else {
+                entity.getComponent(Position.class).ifPresent(entityPosition -> {
+                    position.set(entityPosition.position);
+                });
             }
         }
 

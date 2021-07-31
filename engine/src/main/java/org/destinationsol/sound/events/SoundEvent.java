@@ -13,33 +13,21 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.destinationsol.health.events;
+package org.destinationsol.sound.events;
 
-import org.destinationsol.game.DmgType;
+import org.destinationsol.assets.sound.PlayableSound;
 import org.terasology.gestalt.entitysystem.event.Event;
 
 /**
- * Event that contains information about the damage an entity receives.
+ * Plays a sound emitting from an entity.
  */
-public class DamageEvent implements Event {
+public class SoundEvent implements Event {
 
-    private float damage;
-    private DmgType damageType;
+    public final PlayableSound playableSound;
+    public final float volumeMultplier;
 
-    public DamageEvent(float damage) {
-        this.damage = damage;
-    }
-
-    public DamageEvent(float damage, DmgType damageType) {
-        this.damage = damage;
-        this.damageType = damageType;
-    }
-
-    public float getDamage() {
-        return damage;
-    }
-
-    public DmgType getDamageType() {
-        return damageType;
+    public SoundEvent(PlayableSound playableSound, float volumeMultplier) {
+        this.playableSound = playableSound;
+        this.volumeMultplier = volumeMultplier;
     }
 }

@@ -126,6 +126,7 @@ public class SolGame {
 
         //TODO this no longer needs to be instantiated in SolGame
         soundManager = solApplication.getSoundManager();
+        context.put(OggSoundManager.class, soundManager);
         SpecialSounds specialSounds = new SpecialSounds(soundManager);
         context.put(SpecialSounds.class, specialSounds);
 

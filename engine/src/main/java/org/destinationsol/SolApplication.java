@@ -41,6 +41,8 @@ import org.destinationsol.game.drawables.DrawableLevel;
 import org.destinationsol.health.components.Health;
 import org.destinationsol.location.components.Angle;
 import org.destinationsol.location.components.Velocity;
+import org.destinationsol.material.MaterialType;
+import org.destinationsol.material.components.Material;
 import org.destinationsol.moneyDropping.components.DropsMoneyOnDestruction;
 import org.destinationsol.rendering.RenderableElement;
 import org.destinationsol.rendering.components.Renderable;
@@ -271,7 +273,7 @@ public class SolApplication implements ApplicationListener {
             if (!entityCreated) {
 
                 Size size = new Size();
-                size.size = 2;
+                size.size = 1;
 
                 RenderableElement element = new RenderableElement();
                 element.texture = SolRandom.randomElement(Assets.listTexturesMatching("engine:asteroid_.*"));
@@ -285,13 +287,16 @@ public class SolApplication implements ApplicationListener {
 
                 Position position = new Position();
                 position.position = solGame.getHero().getShip().getPosition().cpy();
-                position.position.y += 3;
+                position.position.y += 1;
 
                 Health health = new Health();
                 health.currentHealth = 1;
+                Material material = new Material();
+                material.materialType = MaterialType.ROCK;
 
                 EntityRef entityRef = entitySystemManager.getEntityManager().createEntity(graphicsComponent, position, size,
-                        new Angle(), new Velocity(), new AsteroidMesh(), health, new DropsMoneyOnDestruction(), new CreatesRubbleOnDestruction());
+                        new Angle(), new Velocity(), new AsteroidMesh(), health, new DropsMoneyOnDestruction(),
+                        new CreatesRubbleOnDestruction(), material);
                 
                 entityRef.setComponent(new BodyLinked());
                 entityCreated = true;
