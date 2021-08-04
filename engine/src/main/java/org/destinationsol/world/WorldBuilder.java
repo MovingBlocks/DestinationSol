@@ -39,8 +39,8 @@ import java.util.List;
  */
 public class WorldBuilder {
     public static final float MAX_ANGLE_WITHIN_WORLD = 180;
+    public static final float MAX_WORLD_RADIUS = 100_000;
     private static final Logger logger = LoggerFactory.getLogger(WorldBuilder.class);
-    private static float maxWorldRadius;
     //These ArrayLists hold class types of any class which extends SolarSystemGenerator or FeatureGenerator, respectively
     private ArrayList<Class<? extends SolarSystemGenerator>> solarSystemGeneratorTypes = new ArrayList<>();
     private ArrayList<Class<? extends FeatureGenerator>> featureGeneratorTypes = new ArrayList<>();
@@ -58,12 +58,6 @@ public class WorldBuilder {
         this.solarSystemConfigManager = context.get(SolarSystemConfigManager.class);
         solarSystemConfigManager.loadDefaultSolarSystemConfigs();
         numberOfSystems = numSystems;
-
-        /* The largest SolarSystems have a radius of 12 Sun Radii, so we will check 12 times the number of Systems out
-         * from the center of the world when placing a system. However, in order to ensure a place will be found, the
-         * number is multiplied by 100
-         */
-        maxWorldRadius = (12 * numberOfSystems * 100);
 
         populateSolarSystemGeneratorList();
         populateFeatureGeneratorList();
@@ -166,10 +160,9 @@ public class WorldBuilder {
         Vector2 result = SolMath.getVec();
         float distance = 0;
         float counter = 0;
-        //This loop should find a position for the SolarSystem well before the counter reaches MAX_WORLD_RADIUS, which
-        //changes proportional to the nubmer of systems being generated.
 
-        while (counter < maxWorldRadius) {
+        //This loop should find a position for the SolarSystem well before the counter reaches MAX_WORLD_RADIUS
+        while (counter < MAX_WORLD_RADIUS) {
             //test 20 spots at each radius
             for (int i = 0; i < 20; i++) {
                 calculateRandomWorldPositionAtDistance(result, distance);
