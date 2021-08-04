@@ -44,7 +44,6 @@ public class MazeConfigs {
                 MazeConfig c = MazeConfig.load(s, mazeNode, hullConfigs, itemManager);
                 configs.add(c);
             }
-
         }
     }
 }

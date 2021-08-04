@@ -18,16 +18,16 @@ package org.destinationsol.world.generators;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-public class BeltGeneratorImpl extends BeltGenerator {
-    private static final Logger logger = LoggerFactory.getLogger(BeltGeneratorImpl.class);
+public class SmallMazeGenerator extends MazeGenerator {
+    private static final Logger logger = LoggerFactory.getLogger(SmallMazeGenerator.class);
 
     @Override
     public void build() {
-        logger.info("Building a belt now!");
-        setRadius(DEFAULT_BELT_HALF_WIDTH);
+        logger.info("Building a maze now!");
+        setRadius(calculateDefaultMazeSize() * 0.5f);
+        setMazeConfig(getRandomMazeConfig());
 
-        setBeltConfig(getBeltConfigManager().getRandomBeltConfig(getIsInFirstSolarSystem()));
-
-        instantiateSystemBelt();
+        modifyOuterEnemiesFrequency(1.21f);
+        instantiateMaze();
     }
 }

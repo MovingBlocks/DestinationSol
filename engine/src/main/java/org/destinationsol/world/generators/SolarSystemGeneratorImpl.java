@@ -45,7 +45,7 @@ public class SolarSystemGeneratorImpl extends SolarSystemGenerator {
     @Override
     public SolarSystem build() {
         getSolarSystemConfigManager().loadDefaultSolarSystemConfigs();
-        setSolarSystemConfig(getSolarSystemConfigManager().getRandomSolarSystemConfig(getSolarSystemNumber() < 1));
+        setSolarSystemConfig(getSolarSystemConfigManager().getRandomSolarSystemConfig(getSolarSystemNumber() > 0));
         setName(SolRandom.seededRandomElement(getDefaultSolarSystemNames()));
         initializeRandomDefaultFeatureGenerators(.8f);
         calculateFeaturePositions();
@@ -59,6 +59,6 @@ public class SolarSystemGeneratorImpl extends SolarSystemGenerator {
             logger.info(generator + ": " + generator.getPosition());
         }
 
-        return createBuiltSolarSystem();
+        return createInstantiatedSolarSystem();
     }
 }

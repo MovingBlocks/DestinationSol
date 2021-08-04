@@ -21,14 +21,14 @@ import org.destinationsol.game.HardnessCalc;
 public class SystemBelt {
     private final Float halfWidth;
     private final float radius;
-    private final SolarSystem system;
+    private final Vector2 solarSystemPosition = new Vector2();
     private final BeltConfig config;
     private final float damagePerSecond;
 
-    SystemBelt(Float halfWidth, float radius, SolarSystem s, BeltConfig config) {
+    public SystemBelt(Float halfWidth, float radius, Vector2 solarSystemPosition, BeltConfig config) {
         this.halfWidth = halfWidth;
         this.radius = radius;
-        system = s;
+        this.solarSystemPosition.set(solarSystemPosition);
         this.config = config;
         damagePerSecond = HardnessCalc.getBeltDps(config);
     }
@@ -42,7 +42,7 @@ public class SystemBelt {
     }
 
     public boolean contains(Vector2 position) {
-        float toCenter = system.getPosition().dst(position);
+        float toCenter = solarSystemPosition.dst(position);
         return radius - halfWidth < toCenter && toCenter < radius + halfWidth;
     }
 

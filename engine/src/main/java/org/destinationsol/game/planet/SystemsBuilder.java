@@ -171,7 +171,7 @@ public class SystemsBuilder {
                 system.getPlanets().add(planet);
             } else {
                 BeltConfig beltConfig = beltConfigs.getRandomBeltConfig(hard);
-                SystemBelt belt = new SystemBelt(-groundHeight, planetDist, system, beltConfig);
+                SystemBelt belt = new SystemBelt(-groundHeight, planetDist, system.getPosition(), beltConfig);
                 belts.add(belt);
                 system.addBelt(belt);
             }

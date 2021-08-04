@@ -15,14 +15,18 @@
  */
 package org.destinationsol.world.generators;
 
+import com.badlogic.gdx.math.Vector2;
+import com.google.gson.internal.bind.util.ISO8601Utils;
 import org.destinationsol.common.SolRandom;
+import org.destinationsol.game.ShipConfig;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import java.util.List;
 
 /**
  * This class is a concrete implementation of a MazeGenerator and handles its creation. This class defines the
  * behavior specific to the default Mazes in Destination: Sol.
- * TODO: Implement the behavior of default MazeGenerators in this class (As it is implemented in the game currently)
  */
 public class MazeGeneratorImpl extends MazeGenerator {
     private static final Logger logger = LoggerFactory.getLogger(MazeGeneratorImpl.class);
@@ -30,6 +34,9 @@ public class MazeGeneratorImpl extends MazeGenerator {
     @Override
     public void build() {
         logger.info("Building a maze now!");
-        setRadius(SolRandom.seededRandomFloat(.7f, 1) * MAX_MAZE_RADIUS);
+        setRadius(calculateDefaultMazeSize());
+        setMazeConfig(getRandomMazeConfig());
+
+        instantiateMaze();
     }
 }

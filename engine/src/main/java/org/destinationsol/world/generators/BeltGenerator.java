@@ -15,6 +15,10 @@
  */
 package org.destinationsol.world.generators;
 
+import org.destinationsol.game.planet.BeltConfig;
+import org.destinationsol.game.planet.BeltConfigManager;
+import org.destinationsol.game.planet.SystemBelt;
+
 /**
  * This class defines the general behavior for Belt generators (such as asteroid frequency). Any Belt will be
  * created from a concrete implementation of this class, with behavior specific to that Belt defined there.
@@ -23,6 +27,10 @@ package org.destinationsol.world.generators;
 public abstract class BeltGenerator extends FeatureGenerator {
     protected static final float DEFAULT_BELT_HALF_WIDTH = 20f;
     private float distanceFromCenterOfSolarSystem;
+    private SystemBelt systemBelt;
+    private BeltConfigManager beltConfigManager;
+    private BeltConfig beltConfig;
+    private boolean isInFirstSolarSystem;
 
     public float getDistanceFromCenterOfSolarSystem() {
         return distanceFromCenterOfSolarSystem;
@@ -30,6 +38,38 @@ public abstract class BeltGenerator extends FeatureGenerator {
 
     public void setDistanceFromCenterOfSolarSystem(float distance) {
         distanceFromCenterOfSolarSystem = distance;
+    }
+
+    public void setBeltConfigManager(BeltConfigManager beltConfigManager) {
+        this.beltConfigManager = beltConfigManager;
+    }
+
+    public BeltConfigManager getBeltConfigManager() {
+        return beltConfigManager;
+    }
+
+    public void setBeltConfig(BeltConfig beltConfig) {
+        this.beltConfig = beltConfig;
+    }
+
+    public BeltConfig getBeltConfig() {
+        return beltConfig;
+    }
+
+    protected void instantiateSystemBelt() {
+        systemBelt = new SystemBelt(getRadius(), getDistanceFromCenterOfSolarSystem(), getPosition(), getBeltConfig());
+    }
+
+    public SystemBelt getSystemBelt() {
+        return systemBelt;
+    }
+
+    public void setInFirstSolarSystem(boolean inFirstSolarSystem) {
+        isInFirstSolarSystem = inFirstSolarSystem;
+    }
+
+    public boolean getIsInFirstSolarSystem() {
+        return isInFirstSolarSystem;
     }
 }
 
