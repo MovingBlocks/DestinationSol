@@ -29,19 +29,39 @@ import java.util.Set;
 
 public class MazeConfigs {
     public final List<MazeConfig> configs;
+    HullConfigManager hullConfigManager;
+    ItemManager itemManager;
 
-    public MazeConfigs(HullConfigManager hullConfigs, ItemManager itemManager) {
+    public MazeConfigs(HullConfigManager hullConfigManager, ItemManager itemManager) {
         configs = new ArrayList<>();
-        final Set<ResourceUrn> configUrns = Assets.getAssetHelper().listAssets(Json.class, "mazesConfig");
+        this.hullConfigManager = hullConfigManager;
+        this.itemManager = itemManager;
+
+    }
+
+    /**
+     * Load the default MazeConfig JSON data from the engine module
+     */
+    public void loadDefaultMazeConfigs() {
+        load("mazesConfig", "engine:schemaMazesConfig");
+    }
+
+    /**
+     * Load in maze configs from JSON data using specified asset type and schema
+     * @param assetType type name of asset to load
+     * @param schema json schema
+     */
+    public void load(String assetType, String schema) {
+        final Set<ResourceUrn> configUrns = Assets.getAssetHelper().listAssets(Json.class, assetType);
         for (ResourceUrn configUrn : configUrns) {
-            JSONObject rootNode = Validator.getValidatedJSON(configUrn.toString(), "engine:schemaMazesConfig");
+            JSONObject rootNode = Validator.getValidatedJSON(configUrn.toString(), schema);
 
             for (String s : rootNode.keySet()) {
                 if (!(rootNode.get(s) instanceof JSONObject)) {
                     continue;
                 }
                 JSONObject mazeNode = rootNode.getJSONObject(s);
-                MazeConfig c = MazeConfig.load(s, mazeNode, hullConfigs, itemManager);
+                MazeConfig c = MazeConfig.load(s, mazeNode, hullConfigManager, itemManager);
                 configs.add(c);
             }
         }

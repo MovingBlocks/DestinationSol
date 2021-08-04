@@ -193,6 +193,7 @@ public class SolGame {
         planetConfigManager.loadDefaultPlanetConfigs();
         context.put(PlanetConfigs.class, planetConfigManager);
         mazeConfigManager = new MazeConfigs(hullConfigManager, itemManager);
+        mazeConfigManager.loadDefaultMazeConfigs();
         context.put(MazeConfigs.class, mazeConfigManager);
         beltConfigManager = new BeltConfigManager(hullConfigManager, itemManager);
         beltConfigManager.loadDefaultBeltConfigs();

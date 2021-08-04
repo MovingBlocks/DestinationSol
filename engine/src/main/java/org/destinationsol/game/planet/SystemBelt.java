@@ -24,12 +24,14 @@ public class SystemBelt {
     private final Vector2 solarSystemPosition = new Vector2();
     private final BeltConfig config;
     private final float damagePerSecond;
+    private final float asteroidFrequency;
 
-    public SystemBelt(Float halfWidth, float radius, Vector2 solarSystemPosition, BeltConfig config) {
+    public SystemBelt(Float halfWidth, float radius, Vector2 solarSystemPosition, BeltConfig config, float asteroidFrequency) {
         this.halfWidth = halfWidth;
         this.radius = radius;
         this.solarSystemPosition.set(solarSystemPosition);
         this.config = config;
+        this.asteroidFrequency = asteroidFrequency;
         damagePerSecond = HardnessCalc.getBeltDps(config);
     }
 
@@ -52,5 +54,9 @@ public class SystemBelt {
 
     public float getDps() {
         return damagePerSecond;
+    }
+
+    public float getAsteroidFrequency() {
+        return asteroidFrequency;
     }
 }

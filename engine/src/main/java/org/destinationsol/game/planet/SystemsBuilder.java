@@ -169,11 +169,6 @@ public class SystemsBuilder {
                 Planet planet = createPlanet(planetDist, system, groundHeight, planetConfig, names);
                 planets.add(planet);
                 system.getPlanets().add(planet);
-            } else {
-                BeltConfig beltConfig = beltConfigs.getRandomBeltConfig(hard);
-                SystemBelt belt = new SystemBelt(-groundHeight, planetDist, system.getPosition(), beltConfig);
-                belts.add(belt);
-                system.addBelt(belt);
             }
             planetDist += reserved;
         }

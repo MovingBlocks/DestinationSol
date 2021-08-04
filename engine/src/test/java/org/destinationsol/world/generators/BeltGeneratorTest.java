@@ -39,11 +39,9 @@ import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
-public class PlanetGeneratorTest implements AssetsHelperInitializer {
+public class BeltGeneratorTest implements AssetsHelperInitializer {
     private Context context;
     private ModuleManager moduleManager;
     private WorldBuilder worldBuilder;
@@ -52,7 +50,7 @@ public class PlanetGeneratorTest implements AssetsHelperInitializer {
     private OggSoundManager soundManager;
     private AbilityCommonConfigs abilityCommonConfigs;
     private SolarSystemGenerator solarSystemGenerator;
-    private PlanetGenerator planetGenerator;
+    private BeltGenerator beltGenerator;
 
     @BeforeEach
     public void setUp() throws Exception {
@@ -70,7 +68,8 @@ public class PlanetGeneratorTest implements AssetsHelperInitializer {
         ArrayList<SolarSystemGenerator> solarSystemGenerators = worldBuilder.initializeRandomSolarSystemGenerators();
         solarSystemGenerator = solarSystemGenerators.get(0);
         setupSolarSystemGenerator();
-        planetGenerator = (PlanetGenerator) solarSystemGenerators.get(0).getActiveFeatureGenerators().get(1);
+        ArrayList<FeatureGenerator> activeFeatureGenerators = solarSystemGenerators.get(0).getActiveFeatureGenerators();
+        beltGenerator = (BeltGenerator) activeFeatureGenerators.get(activeFeatureGenerators.size() - 1);
     }
 
     private void setupMockGL() {
@@ -119,32 +118,27 @@ public class PlanetGeneratorTest implements AssetsHelperInitializer {
     }
 
     @Test
-    void planetDiameterIsWithinRange() {
-        assertTrue(planetGenerator.getDiameter() < PlanetGenerator.PLANET_MAX_DIAMETER && planetGenerator.getDiameter() > 0);
+    void beltPositionIsSolarSystemPosition() {
+        assertTrue(beltGenerator.getPosition().equals(solarSystemGenerator.getPosition()));
     }
 
     @Test
-    void planetRadiusIsGroundHeightPlusAtmosphereHeight() {
-        assertEquals(planetGenerator.getRadius(), planetGenerator.getGroundHeight() + planetGenerator.getAtmosphereHeight());
+    void beltHasPositiveWidth() {
+        assertTrue(beltGenerator.getRadius() > 0);
     }
 
     @Test
-    void planetHasConfig() {
-        assertNotNull(planetGenerator.getPlanetConfig());
+    void beltBeginsWithinSolarSystem() {
+        assertTrue(beltGenerator.getDistanceFromCenterOfSolarSystem() < solarSystemGenerator.getRadius());
     }
 
     @Test
-    void planetHasName() {
-        assertTrue(planetGenerator.getName().length() > 0);
+    void beltHasNonNegativeAsteroidFrequency() {
+        assertTrue(beltGenerator.getAsteroidFrequency() >= 0);
     }
 
     @Test
-    void planetHasPositiveRotationSpeed() {
-        assertTrue(planetGenerator.getPlanetRotationSpeed() > 0);
-    }
-
-    @Test
-    void planetHasPositiveOrbitSpeed() {
-        assertTrue(planetGenerator.getPlanetRotationSpeed() > 0);
+    void beltHasConfigWithEnemies() {
+        assertTrue(beltGenerator.getBeltConfig().tempEnemies.size() > 0);
     }
 }
