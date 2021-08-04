@@ -147,9 +147,6 @@ public class SolApplication implements ApplicationListener {
 
     @Override
     public void create() {
-//        context = new ContextImpl();
-//        context.put(SolApplication.class, this);
-//        context.put(ModuleManager.class, moduleManager);
         isMobile = Gdx.app.getType() == Application.ApplicationType.Android || Gdx.app.getType() == Application.ApplicationType.iOS;
         if (isMobile) {
             DebugOptions.read(null);
@@ -166,7 +163,6 @@ public class SolApplication implements ApplicationListener {
         helper.init(appContext.getBean(ModuleManager.class).getEnvironment(), componentManager, isMobile);
         Assets.initialize(helper);
 
-        logger.info("\n\n ------------------------------------------------------------ \n");
         appContext.getBean(ModuleManager.class).printAvailableModules();
 
         appContext.inject(this);
