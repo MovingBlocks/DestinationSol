@@ -60,6 +60,7 @@ public class SolGameServiceRegistry extends ServiceRegistry {
             this.with(SerialisationManager.class).lifetime(Lifetime.Singleton);
 
 
+            this.with(TutorialManager.class).lifetime(Lifetime.Singleton);
             this.with(DrawableManager.class).lifetime(Lifetime.Singleton);
             this.with(PlanetManager.class).lifetime(Lifetime.Singleton);
             this.with(ChunkManager.class).lifetime(Lifetime.Singleton);
@@ -82,7 +83,6 @@ public class SolGameServiceRegistry extends ServiceRegistry {
             this.with(GameColors.class).lifetime(Lifetime.Singleton);
             this.with(BeaconHandler.class).lifetime(Lifetime.Singleton);
             this.with(MountDetectDrawer.class).lifetime(Lifetime.Singleton);
-            this.with(TutorialManager.class).lifetime(Lifetime.Singleton);
             this.with(GalaxyFiller.class).lifetime(Lifetime.Singleton);
             this.with(SolContactListener.class).lifetime(Lifetime.Singleton);
             this.with(GameScreens.class).lifetime(Lifetime.Singleton);
