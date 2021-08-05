@@ -63,6 +63,7 @@ public class SolGameServiceRegistry extends ServiceRegistry {
             this.with(SerialisationManager.class).lifetime(Lifetime.Singleton);
 
 
+            this.with(TutorialManager.class).lifetime(Lifetime.Singleton);
             this.with(DrawableManager.class).lifetime(Lifetime.Singleton);
             this.with(PlanetManager.class).lifetime(Lifetime.Singleton);
             this.with(ChunkManager.class).lifetime(Lifetime.Singleton);

@@ -6,10 +6,7 @@ apply plugin: 'java-library'
 buildscript {
     repositories {
         mavenCentral()
-        mavenLocal()
 
-        // HACK: Needed for NUI and gestalt entity-component reflections
-        mavenLocal()
         google()
         maven { url "http://artifactory.terasology.org/artifactory/virtual-repo-live" }
         // Needed for Jsemver, which is a gestalt dependency
