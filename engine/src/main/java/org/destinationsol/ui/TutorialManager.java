@@ -31,25 +31,35 @@ import org.destinationsol.game.screens.ShipKbControl;
 import org.destinationsol.game.screens.ShipMixedControl;
 
 import javax.inject.Inject;
+import javax.inject.Provider;
 import java.util.ArrayList;
 import java.util.List;
 
 public class TutorialManager implements UpdateAwareSystem {
-    private DisplayDimensions displayDimensions;
     private final Rectangle background;
     private final ArrayList<Step> steps;
+    private final GameScreens screens;
+    private final GameOptions gameOptions;
+    private final Provider<SolGame> game;
+    private final DisplayDimensions displayDimensions;
 
     private int stepIndex;
 
     @Inject
-    public TutorialManager(GameScreens screens, SolGame game, GameOptions gameOptions) {
-        displayDimensions = SolApplication.displayDimensions;
-        boolean isMobile = Gdx.app.getType() == Application.ApplicationType.Android || Gdx.app.getType() == Application.ApplicationType.iOS;
-
+    public TutorialManager(GameScreens screens, GameOptions gameOptions, Provider<SolGame> game, DisplayDimensions displayDimensions) {
+        this.screens = screens;
+        this.gameOptions = gameOptions;
+        this.game = game;
+        this.displayDimensions = displayDimensions;
         float backgroundW = displayDimensions.getRatio() * .5f;
         float backgroundH = .2f;
         background = new Rectangle(displayDimensions.getRatio() / 2 - backgroundW / 2, 1 - backgroundH, backgroundW, backgroundH);
         steps = new ArrayList<>();
+    }
+
+    public void init() {
+        boolean mobile = game.get().getSolApplication().isMobile();
+
         stepIndex = 0;
 
         MainGameScreen main = screens.mainGameScreen;
@@ -144,7 +154,7 @@ public class TutorialManager implements UpdateAwareSystem {
         if (screens.inventoryScreen.getSelectedItem() == null ||
                 (screens.inventoryScreen.getSelectedItem() != null && screens.inventoryScreen.getSelectedItem().isEquipped() == 0)) {
             addStep(new SelectEquippedItemStep(
-                    "Select an equipped item\n(note the text \"using\")", screens.inventoryScreen, game));
+                    "Select an equipped item\n(note the text \"using\")", screens.inventoryScreen, game.get()));
         }
 
         if (isMobile) {

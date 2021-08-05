@@ -22,6 +22,7 @@ import org.destinationsol.health.events.DamageEvent;
 import org.destinationsol.health.systems.DamageSystem;
 import org.destinationsol.modules.ModuleManager;
 import org.destinationsol.removal.systems.DestroyOnZeroHealthSystem;
+import org.destinationsol.testsupport.TestModuleConfig;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
@@ -46,7 +47,8 @@ public class NonNegativeHealthTest {
     @BeforeEach
     public void setUp() throws Exception {
         ModuleFactory moduleFactory = new ModuleFactory();
-        moduleManager = new ModuleManager(new DefaultBeanContext(), moduleFactory,new TableModuleRegistry(),new ModulePathScanner(moduleFactory));
+        moduleManager = new ModuleManager(new DefaultBeanContext(), moduleFactory, new TableModuleRegistry(),
+                new ModulePathScanner(moduleFactory), new TestModuleConfig());
         moduleManager.init();
         entitySystemManager = new EntitySystemManager(moduleManager, new ComponentManager(), Collections.singletonList(new DamageSystem()));
     }

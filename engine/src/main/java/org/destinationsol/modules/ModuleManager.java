@@ -146,7 +146,7 @@ public class ModuleManager {
             java.io.DataOutputStream.class,
             java.io.FilterOutputStream.class,
             java.io.PipedOutputStream.class,
-            /* Gestalt classes */
+            /* Gestalt entity-system classes */
             org.terasology.gestalt.entitysystem.component.Component.class,
             org.terasology.gestalt.entitysystem.component.EmptyComponent.class,
             org.terasology.gestalt.entitysystem.event.Event.class,
@@ -155,22 +155,37 @@ public class ModuleManager {
             org.terasology.gestalt.entitysystem.entity.EntityManager.class,
             org.terasology.gestalt.entitysystem.event.EventResult.class,
             org.terasology.gestalt.entitysystem.event.ReceiveEvent.class,
-            org.terasology.gestalt.entitysystem.prefab.GeneratedFromRecipeComponent.class
+            org.terasology.gestalt.entitysystem.prefab.GeneratedFromRecipeComponent.class,
+            /* Gestalt DI classes */
+            org.terasology.context.AbstractBeanDefinition.class,
+            org.terasology.context.BeanResolution.class,
+            org.terasology.context.Argument.class,
+            org.terasology.context.DefaultArgument.class,
+            org.terasology.context.AnnotationMetadata.class,
+            org.terasology.context.DefaultAnnotationMetadata.class,
+            org.terasology.context.AnnotationValue.class,
+            org.terasology.context.DefaultAnnotationValue.class,
+            org.terasology.gestalt.di.exceptions.DependencyResolutionException.class,
+            org.terasology.context.exception.DependencyInjectionException.class,
+            javax.inject.Inject.class
     };
 
     protected static ModuleEnvironment environment;
     private final ModuleFactory moduleFactory;
     private final ModulePathScanner scanner;
     private final BeanContext beanContext;
+    private final FacadeModuleConfig moduleConfig;
     protected ModuleRegistry registry;
     protected Module engineModule;
 
     @Inject
-    public ModuleManager(BeanContext beanContext, ModuleFactory moduleFactory, ModuleRegistry moduleRegistry, ModulePathScanner scanner) {
+    public ModuleManager(BeanContext beanContext, ModuleFactory moduleFactory, ModuleRegistry moduleRegistry,
+                         ModulePathScanner scanner, FacadeModuleConfig moduleConfig) {
         this.moduleFactory = moduleFactory;
         this.registry = moduleRegistry;
         this.scanner = scanner;
         this.beanContext = beanContext;
+        this.moduleConfig = moduleConfig;
     }
 
     public void init() throws Exception {
@@ -179,7 +194,7 @@ public class ModuleManager {
             Module nuiModule = moduleFactory.createPackageModule(new ModuleMetadata(new Name("nui"), new Version("2.0.0")),"org.terasology.nui");
 
             // scan for all standard modules
-            File modulesRoot = Paths.get(".").resolve("modules").toFile();
+            File modulesRoot = moduleConfig.getModulesPath();
             scanner.scan(registry, modulesRoot);
 
             Set<Module> requiredModules = Sets.newHashSet();
@@ -199,8 +214,11 @@ public class ModuleManager {
         for (String api : API_WHITELIST) {
             permissionFactory.getBasePermissionSet().addAPIPackage(api);
         }
-
         for (Class<?> apiClass : CLASS_WHITELIST) {
+            permissionFactory.getBasePermissionSet().addAPIClass(apiClass);
+        }
+
+        for (Class<?> apiClass : moduleConfig.getAPIClasses()) {
             permissionFactory.getBasePermissionSet().addAPIClass(apiClass);
         }
 
@@ -214,9 +232,13 @@ public class ModuleManager {
         for(Module module: modules){
             scanner.scan(module.getClassIndex());
         }
-        Policy.setPolicy(new ModuleSecurityPolicy());
-        System.setSecurityManager(new ModuleSecurityManager());
-        environment = new ModuleEnvironment(beanContext, modules, permissionFactory);
+
+        if (moduleConfig.useSecurityManager()) {
+            Policy.setPolicy(new ModuleSecurityPolicy());
+            System.setSecurityManager(new ModuleSecurityManager());
+        }
+
+        environment = new ModuleEnvironment(beanContext, modules, permissionFactory, moduleConfig.getClassLoaderSupplier());
     }
 
     public ModuleEnvironment getEnvironment() {

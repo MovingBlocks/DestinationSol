@@ -67,11 +67,11 @@ import javax.inject.Inject;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Optional;
 import java.util.SortedMap;
 import java.util.TreeMap;
 
 public class SolGame {
-    protected boolean isTutorial;
     @Inject
     protected GameScreens gameScreens;
     @Inject
@@ -129,9 +129,10 @@ public class SolGame {
     @Inject
     protected SolContactListener contactListener;
     @Inject
+    protected Optional<TutorialManager> tutorialManager;
+    @Inject
     BeanContext beanContext;
 
-    protected TutorialManager tutorialManager;
     private Hero hero;
     private float timeStep;
     private float time;
@@ -145,14 +146,8 @@ public class SolGame {
 
     @Inject
     public SolGame() {
-        this(false);
-    }
-
-    public SolGame(boolean isTutorial) {
-        // TODO: make this non-static
         FactionInfo.init();
         timeFactor = 1;
-
     }
 
     public void createUpdateSystems(Context context) {
@@ -162,8 +157,9 @@ public class SolGame {
         updateSystems = new TreeMap<Integer, List<UpdateAwareSystem>>();
         List<UpdateAwareSystem> defaultSystems = new ArrayList<UpdateAwareSystem>();
         defaultSystems.addAll(Arrays.asList(planetManager, context.get(SolCam.class), chunkManager, mountDetectDrawer, objectManager, mapDrawer, soundManager, beaconHandler, drawableDebugger));
-        if (tutorialManager != null) {
-            defaultSystems.add(tutorialManager);
+        if (tutorialManager.isPresent()) {
+            tutorialManager.get().init();
+            defaultSystems.add(tutorialManager.get());
         }
         updateSystems.put(0, defaultSystems);
 
@@ -270,7 +266,7 @@ public class SolGame {
         if (hero.isDead()) {
             respawn();
         }
-        if (!isTutorial) {
+        if (!isTutorial()) {
             //The ship should have been saved when it entered the star-port
             if (!hero.isTranscendent()) {
                 saveShip();
@@ -285,8 +281,6 @@ public class SolGame {
 
             // TODO: Remove this when context is reset after each game
             context.get(EntitySystemManager.class).getEntityManager().allEntities().forEach(EntityRef::delete);
-        } else {
-            context.remove(TutorialManager.class, tutorialManager);
         }
         FactionInfo.clearValues();
 //        objectManager.dispose();
@@ -533,7 +527,7 @@ public class SolGame {
     }
 
     public TutorialManager getTutMan() {
-        return tutorialManager;
+        return tutorialManager.orElse(null);
     }
 
     public EntitySystemManager getEntitySystemManager() {
@@ -565,7 +559,7 @@ public class SolGame {
     }
 
     public boolean isTutorial() {
-        return isTutorial;
+        return tutorialManager.isPresent();
     }
 
     public SolApplication getSolApplication() {

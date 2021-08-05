@@ -240,7 +240,7 @@ public class SolInputManager {
             screen.updateCustom(solApplication, inputPointers, clickedOutside);
         }
 
-        TutorialManager tutorialManager = game == null ? null : game.getContext().get(TutorialManager.class);
+        TutorialManager tutorialManager = game == null ? null : game.getTutMan();
         if (tutorialManager != null && tutorialManager.isFinished()) {
             solApplication.finishGame();
         }
@@ -351,8 +351,7 @@ public class SolInputManager {
         uiDrawer.setTextMode(null);
 
         SolGame game = solApplication.getGame();
-
-        TutorialManager tutorialManager = game == null ? null : game.getContext().get(TutorialManager.class);
+        TutorialManager tutorialManager = game == null ? null : game.getTutMan();
         if (tutorialManager != null && getTopScreen() != game.getScreens().menuScreen) {
             tutorialManager.draw(uiDrawer);
         }
