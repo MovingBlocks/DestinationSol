@@ -84,7 +84,7 @@ public class TutorialManager implements UpdateAwareSystem {
             upCtrl = kbControl.upCtrl;
             leftCtrl = kbControl.leftCtrl;
             abilityCtrl = kbControl.abilityCtrl;
-            if (isMobile) {
+            if (mobile) {
                 shootKey = "(GUN 1 button)";
                 shootKey2 = "(Press GUN 1 button)";
             } else {
@@ -96,14 +96,14 @@ public class TutorialManager implements UpdateAwareSystem {
         addStep("Hi! Shoot your main gun\n" + shootKey, shootCtrl);
 
         if (leftCtrl != null) {
-            if (isMobile) {
+            if (mobile) {
                 addStep("Great! Turn left.\nDon't fly away yet!", leftCtrl);
             } else {
                 addStep("Great! Turn left (" + gameOptions.getKeyLeftName() + " key). \nDon't fly away yet!", leftCtrl);
             }
         }
 
-        if (isMobile) {
+        if (mobile) {
             addStep("Have a look at the map", main.mapControl, true);
         } else {
             addStep("Have a look at the map\n(" + gameOptions.getKeyMapName() + " key)", main.mapControl, true);
@@ -111,39 +111,39 @@ public class TutorialManager implements UpdateAwareSystem {
 
         if (mouseCtrl) {
             addStep("Zoom in the map\n(mouse wheel UP)", screens.mapScreen.zoomInControl);
-        } else if (isMobile) {
+        } else if (mobile) {
             addStep("Zoom in the map", screens.mapScreen.zoomInControl);
         } else {
             addStep("Zoom in the map\n(" + gameOptions.getKeyZoomInName() + " key)", screens.mapScreen.zoomInControl);
         }
 
-        if (isMobile) {
+        if (mobile) {
             addStep("Close the map", screens.mapScreen.closeControl, true);
         } else {
             addStep("Close the map\n(" + gameOptions.getKeyMapName() + " or " + gameOptions.getKeyCloseName() + " keys)",
                     screens.mapScreen.closeControl, true);
         }
 
-        if (mouseCtrl || isMobile) {
+        if (mouseCtrl || mobile) {
             addStep("Have a look\nat your inventory", main.inventoryControl, true);
         } else {
             addStep("Have a look\nat your inventory (" + gameOptions.getKeyInventoryName() + " key)", main.inventoryControl, true);
         }
 
-        if (mouseCtrl || isMobile) {
+        if (mouseCtrl || mobile) {
             addStep("In the inventory,\nselect the second row", screens.inventoryScreen.itemControls[1]);
         } else {
             addStep("In the inventory,\nselect the next item (" + gameOptions.getKeyDownName() + " key)",
                     screens.inventoryScreen.downControl);
         }
 
-        if (mouseCtrl || isMobile) {
+        if (mouseCtrl || mobile) {
             addStep("Go to the next page", screens.inventoryScreen.nextControl, true);
         } else {
             addStep("Go to the next page\n(" + gameOptions.getKeyRightName() + " key)", screens.inventoryScreen.nextControl, true);
         }
 
-        if (mouseCtrl || isMobile) {
+        if (mouseCtrl || mobile) {
             addStep("Throw away some item\nyou don't use", screens.inventoryScreen.showInventory.dropControl);
         } else {
             addStep("Throw away some item\nyou don't use (" + gameOptions.getKeyDropName() + " key)",
@@ -157,20 +157,20 @@ public class TutorialManager implements UpdateAwareSystem {
                     "Select an equipped item\n(note the text \"using\")", screens.inventoryScreen, game.get()));
         }
 
-        if (isMobile) {
+        if (mobile) {
             addStep("Unequip the item\nthat is used now", screens.inventoryScreen.showInventory.eq1Control);
         } else {
             addStep("Unequip the item\nthat is used now (" + gameOptions.getKeyEquipName() + " key)",
                     screens.inventoryScreen.showInventory.eq1Control);
         }
 
-        if (isMobile) {
+        if (mobile) {
             addStep("Now equip it again", screens.inventoryScreen.showInventory.eq1Control);
         } else {
             addStep("Now equip it again\n(" + gameOptions.getKeyEquipName() + " key)", screens.inventoryScreen.showInventory.eq1Control);
         }
 
-        if (isMobile) {
+        if (mobile) {
             addStep("Close the inventory\n(Touch the screen outside inventory)", screens.inventoryScreen.closeControl, true);
         } else {
             addStep("Close the inventory (" + gameOptions.getKeyCloseName() + " key)", screens.inventoryScreen.closeControl, true);
@@ -178,31 +178,31 @@ public class TutorialManager implements UpdateAwareSystem {
 
         if (mouseCtrl) {
             addStep("Move forward (" + gameOptions.getKeyUpMouseName() + " key).\nThere's no stop!", upCtrl);
-        } else if (isMobile) {
+        } else if (mobile) {
             addStep("Move forward.\nThere's no stop!", upCtrl);
         } else {
             addStep("Move forward (" + gameOptions.getKeyUpName() + " key).\nThere's no stop!", upCtrl);
         }
 
-        if (isMobile) {
+        if (mobile) {
             addStep("Fly closer to the station\nand talk with it", main.talkControl, true);
         } else {
             addStep("Fly closer to the station\nand talk with it (" + gameOptions.getKeyTalkName() + " key)", main.talkControl, true);
         }
 
-        if (mouseCtrl || isMobile) {
+        if (mouseCtrl || mobile) {
             addStep("See what there is to buy", screens.talkScreen.buyControl, true);
         } else {
             addStep("See what there is to buy\n(" + gameOptions.getKeyBuyMenuName() + " key)", screens.talkScreen.buyControl, true);
         }
 
-        if (isMobile) {
+        if (mobile) {
             addStep("Buy some item", screens.inventoryScreen.buyItemsScreen.buyControl);
         } else {
             addStep("Buy some item\n(" + gameOptions.getKeyBuyItemName() + " key)", screens.inventoryScreen.buyItemsScreen.buyControl);
         }
 
-        if (isMobile) {
+        if (mobile) {
             addStep("Close the Buy screen\n(Touch the screen outside inventory)", screens.inventoryScreen.closeControl, true);
         } else {
             addStep("Close the Buy screen\n(" + gameOptions.getKeyCloseName() + " key)", screens.inventoryScreen.closeControl, true);
@@ -211,7 +211,7 @@ public class TutorialManager implements UpdateAwareSystem {
         if (mouseCtrl) {
             addStep("Use the ability of your ship\n(MIDDLE mouse button or " + gameOptions.getKeyAbilityName() + " key)",
                     abilityCtrl, true);
-        } else if (isMobile) {
+        } else if (mobile) {
             addStep("Use the ability of your ship", abilityCtrl, true);
         } else {
             addStep("Use the ability of your ship\n(" + gameOptions.getKeyAbilityName() + " key)", abilityCtrl, true);
