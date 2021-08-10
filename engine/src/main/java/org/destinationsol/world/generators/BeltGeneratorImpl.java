@@ -23,7 +23,6 @@ public class BeltGeneratorImpl extends BeltGenerator {
 
     @Override
     public void build() {
-        logger.info("Building a belt now!");
         setRadius(DEFAULT_BELT_HALF_WIDTH);
 
         setBeltConfig(getBeltConfigManager().getRandomBeltConfig(getIsInFirstSolarSystem()));

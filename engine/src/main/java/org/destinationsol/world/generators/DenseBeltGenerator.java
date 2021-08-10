@@ -23,7 +23,6 @@ public class DenseBeltGenerator extends BeltGenerator {
 
     @Override
     public void build() {
-        logger.info("Building a belt now!");
         setRadius(DEFAULT_BELT_HALF_WIDTH * 1.3f);
 
         setBeltConfig(getBeltConfigManager().getRandomBeltConfig(getIsInFirstSolarSystem()));

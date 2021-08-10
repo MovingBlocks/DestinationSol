@@ -27,12 +27,16 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
-public class MazeConfigs {
+/**
+ * This class manages loading config files in for Mazes. It also allows for getting a random Maze config or a
+ * specific Maze config by name. It can either load the default Maze configs, or specified custom configs
+ */
+public class MazeConfigManager {
     public final List<MazeConfig> configs;
     HullConfigManager hullConfigManager;
     ItemManager itemManager;
 
-    public MazeConfigs(HullConfigManager hullConfigManager, ItemManager itemManager) {
+    public MazeConfigManager(HullConfigManager hullConfigManager, ItemManager itemManager) {
         configs = new ArrayList<>();
         this.hullConfigManager = hullConfigManager;
         this.itemManager = itemManager;

@@ -27,10 +27,8 @@ import org.slf4j.LoggerFactory;
  * <p>
  * This class also has access to the featureGenerators list from {@link SolarSystemGenerator}.
  * This allows it to choose which FeatureGenerators to use in populating the SolarSystem.
- * TODO: Define the behavior of default SolarSystems in this class (As it is implemented in the game currently)
  */
 public class SolarSystemGeneratorImpl extends SolarSystemGenerator {
-    private static final Logger logger = LoggerFactory.getLogger(SolarSystemGeneratorImpl.class);
 
     @Override
     public SolarSystemSize getSolarSystemSize() {
@@ -45,19 +43,11 @@ public class SolarSystemGeneratorImpl extends SolarSystemGenerator {
     @Override
     public SolarSystem build() {
         getSolarSystemConfigManager().loadDefaultSolarSystemConfigs();
-        setSolarSystemConfig(getSolarSystemConfigManager().getRandomSolarSystemConfig(getSolarSystemNumber() > 0));
+        setSolarSystemConfigUsingDefault();
         setName(SolRandom.seededRandomElement(getDefaultSolarSystemNames()));
         initializeRandomDefaultFeatureGenerators(.8f);
         calculateFeaturePositions();
         buildFeatureGenerators();
-
-
-        logger.info(this + " radius: " + getRadius());
-
-        //TODO: remove once there is a visual representation of the SolarSystem in the game
-        for (FeatureGenerator generator : activeFeatureGenerators) {
-            logger.info(generator + ": " + generator.getPosition());
-        }
 
         return createInstantiatedSolarSystem();
     }

@@ -19,8 +19,7 @@ import org.destinationsol.common.SolRandom;
 import org.destinationsol.game.ShipConfig;
 import org.destinationsol.game.maze.Maze;
 import org.destinationsol.game.maze.MazeConfig;
-import org.destinationsol.game.maze.MazeConfigs;
-import org.destinationsol.game.maze.MazeTile;
+import org.destinationsol.game.maze.MazeConfigManager;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -33,7 +32,7 @@ public abstract class MazeGenerator extends FeatureGenerator {
     private static final Logger logger = LoggerFactory.getLogger(MazeGenerator.class);
     public static final float MAX_MAZE_DIAMETER = 80f;
     public static final float MAZE_BUFFER = 10f;
-    private MazeConfigs mazeConfigManager;
+    private MazeConfigManager mazeConfigManager;
     private MazeConfig mazeConfig;
     private Maze maze;
 
@@ -99,7 +98,7 @@ public abstract class MazeGenerator extends FeatureGenerator {
         maze = new Maze(getMazeConfig(), getPosition(), getRadius());
     }
 
-    public void setMazeConfigManager(MazeConfigs mazeConfigManager) {
+    public void setMazeConfigManager(MazeConfigManager mazeConfigManager) {
         this.mazeConfigManager = mazeConfigManager;
     }
 

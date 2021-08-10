@@ -25,21 +25,19 @@ import org.slf4j.LoggerFactory;
  * with different clouds, turrets, and more high orbit enemies.
  */
 public class SmallPlanetGenerator extends PlanetGenerator {
-    private static final Logger logger = LoggerFactory.getLogger(PlanetGeneratorImpl.class);
 
     @Override
     public void build() {
         //sets the PlanetConfig for either an easy, medium, or hard planet.
         setPlanetConfig(getPlanetConfigDefaultSettings());
 
-        setGroundHeight(SolRandom.seededRandomFloat(.5f, 1) * DEFAULT_MAX_GROUND_HEIGHT * .6f);
+        setGroundHeight(getGroundHeightUsingDefault() * .6f);
         setAtmosphereHeight(DEFAULT_ATMOSPHERE_HEIGHT);
         calculateRadius();
 
         setOrbitSolarSystemSpeed(calculateDefaultPlanetOrbitSpeed());
         setPlanetRotationSpeed(calculateDefaultPlanetRotationSpeed());
         setName(SolRandom.seededRandomElement(solNames.planets.get(getPlanetConfig().moduleName)));
-        logger.info("Building a planet now. Planet name: " + getName() + ". Planet position: " + getPosition() + ". Planet Type: " + getPlanetConfig().configName);
 
         modifyCloudDensity(1.4f);
         modifyHighOrbitShipsDensity(1.35f);

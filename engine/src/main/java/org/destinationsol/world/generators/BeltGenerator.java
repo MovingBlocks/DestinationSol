@@ -107,32 +107,32 @@ public abstract class BeltGenerator extends FeatureGenerator {
         this.asteroidFrequency = asteroidFrequency;
     }
 
-    public void setBeltConfigManager(BeltConfigManager beltConfigManager) {
-        this.beltConfigManager = beltConfigManager;
-    }
-
     public BeltConfigManager getBeltConfigManager() {
         return beltConfigManager;
     }
 
-    public void setBeltConfig(BeltConfig beltConfig) {
-        this.beltConfig = beltConfig;
+    public void setBeltConfigManager(BeltConfigManager beltConfigManager) {
+        this.beltConfigManager = beltConfigManager;
     }
 
     public BeltConfig getBeltConfig() {
         return beltConfig;
     }
 
+    public void setBeltConfig(BeltConfig beltConfig) {
+        this.beltConfig = beltConfig;
+    }
+
     public SystemBelt getSystemBelt() {
         return systemBelt;
     }
 
-    public void setInFirstSolarSystem(boolean inFirstSolarSystem) {
-        isInFirstSolarSystem = inFirstSolarSystem;
-    }
-
     public boolean getIsInFirstSolarSystem() {
         return isInFirstSolarSystem;
+    }
+
+    public void setInFirstSolarSystem(boolean inFirstSolarSystem) {
+        isInFirstSolarSystem = inFirstSolarSystem;
     }
 }
 

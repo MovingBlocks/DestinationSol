@@ -19,11 +19,9 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 public class SmallMazeGenerator extends MazeGenerator {
-    private static final Logger logger = LoggerFactory.getLogger(SmallMazeGenerator.class);
 
     @Override
     public void build() {
-        logger.info("Building a maze now!");
         setRadius(calculateDefaultMazeSize() * 0.5f);
         setMazeConfig(getRandomMazeConfig());
 

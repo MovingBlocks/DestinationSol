@@ -21,10 +21,10 @@ import org.destinationsol.common.SolRandom;
 import org.destinationsol.game.SolNames;
 import org.destinationsol.game.context.Context;
 import org.destinationsol.game.maze.Maze;
-import org.destinationsol.game.maze.MazeConfigs;
+import org.destinationsol.game.maze.MazeConfigManager;
 import org.destinationsol.game.planet.BeltConfigManager;
 import org.destinationsol.game.planet.Planet;
-import org.destinationsol.game.planet.PlanetConfigs;
+import org.destinationsol.game.planet.PlanetConfigManager;
 import org.destinationsol.game.planet.SolarSystem;
 import org.destinationsol.game.planet.SolarSystemConfig;
 import org.destinationsol.game.planet.SolarSystemConfigManager;
@@ -281,9 +281,8 @@ public abstract class SolarSystemGenerator {
         while (!sunInitialized) {
             int index = SolRandom.seededRandomInt(featureGeneratorTypes.size());
             if (featureGeneratorTypes.get(index).getSuperclass().equals(SunGenerator.class)) {
-                Class<? extends FeatureGenerator> newFeatureGeneratorType = featureGeneratorTypes.get(index);
                 try {
-                    FeatureGenerator newFeatureGenerator = newFeatureGeneratorType.newInstance();
+                    SunGenerator newFeatureGenerator = (SunGenerator) featureGeneratorTypes.get(index).newInstance();
                     activeFeatureGenerators.add(newFeatureGenerator);
                     sunInitialized = true;
                 } catch (Exception e) {
@@ -303,10 +302,9 @@ public abstract class SolarSystemGenerator {
         while (planetsLeft > 0) {
             int index = SolRandom.seededRandomInt(featureGeneratorTypes.size());
             if (featureGeneratorTypes.get(index).getSuperclass().equals(PlanetGenerator.class)) {
-                Class<? extends FeatureGenerator> newFeatureGeneratorType = featureGeneratorTypes.get(index);
                 try {
-                    FeatureGenerator newFeatureGenerator = newFeatureGeneratorType.newInstance();
-                    ((PlanetGenerator) newFeatureGenerator).setPlanetConfigManager(context.get(PlanetConfigs.class));
+                    PlanetGenerator newFeatureGenerator = (PlanetGenerator) featureGeneratorTypes.get(index).newInstance();
+                    newFeatureGenerator.setPlanetConfigManager(context.get(PlanetConfigManager.class));
                     activeFeatureGenerators.add(newFeatureGenerator);
                     planetsLeft--;
                 } catch (Exception e) {
@@ -327,10 +325,9 @@ public abstract class SolarSystemGenerator {
         while (mazesLeft > 0) {
             int index = SolRandom.seededRandomInt(featureGeneratorTypes.size());
             if (featureGeneratorTypes.get(index).getSuperclass().equals(MazeGenerator.class)) {
-                Class<? extends FeatureGenerator> newFeatureGeneratorType = featureGeneratorTypes.get(index);
                 try {
-                    FeatureGenerator newFeatureGenerator = newFeatureGeneratorType.newInstance();
-                    ((MazeGenerator) newFeatureGenerator).setMazeConfigManager(context.get(MazeConfigs.class));
+                    MazeGenerator newFeatureGenerator = (MazeGenerator) featureGeneratorTypes.get(index).newInstance();
+                    newFeatureGenerator.setMazeConfigManager(context.get(MazeConfigManager.class));
                     activeFeatureGenerators.add(newFeatureGenerator);
                     mazesLeft--;
                 } catch (Exception e) {
@@ -352,12 +349,11 @@ public abstract class SolarSystemGenerator {
         while (beltsLeft > 0) {
             int index = SolRandom.seededRandomInt(featureGeneratorTypes.size());
             if (featureGeneratorTypes.get(index).getSuperclass().equals(BeltGenerator.class)) {
-                Class<? extends FeatureGenerator> newFeatureGeneratorType = featureGeneratorTypes.get(index);
                 try {
                     if (SolRandom.seededTest(beltChance)) {
-                        FeatureGenerator newFeatureGenerator = newFeatureGeneratorType.newInstance();
-                        ((BeltGenerator) newFeatureGenerator).setBeltConfigManager(context.get(BeltConfigManager.class));
-                        ((BeltGenerator) newFeatureGenerator).setInFirstSolarSystem(getSolarSystemNumber() == 0);
+                        BeltGenerator newFeatureGenerator = (BeltGenerator) featureGeneratorTypes.get(index).newInstance();
+                        newFeatureGenerator.setBeltConfigManager(context.get(BeltConfigManager.class));
+                        newFeatureGenerator.setInFirstSolarSystem(getSolarSystemNumber() == 0);
                         activeFeatureGenerators.add(newFeatureGenerator);
                     }
                     beltsLeft--;
@@ -385,9 +381,8 @@ public abstract class SolarSystemGenerator {
         while (featuresLeft > 0) {
             int index = SolRandom.seededRandomInt(featureGeneratorTypes.size());
             if (isOtherGeneratorType(index)) {
-                Class<? extends FeatureGenerator> newFeatureGeneratorType = featureGeneratorTypes.get(index);
                 try {
-                    FeatureGenerator newFeatureGenerator = newFeatureGeneratorType.newInstance();
+                    FeatureGenerator newFeatureGenerator = featureGeneratorTypes.get(index).newInstance();
                     activeFeatureGenerators.add(newFeatureGenerator);
                     featuresLeft--;
                 } catch (Exception e) {
@@ -426,7 +421,7 @@ public abstract class SolarSystemGenerator {
     ArrayList<Maze> getInstantiatedMazes() {
         ArrayList<Maze> mazes = new ArrayList<>();
         for (FeatureGenerator featureGenerator : activeFeatureGenerators) {
-            if (featureGenerator.getClass().getSuperclass().equals(MazeGenerator.class)) {
+            if (MazeGenerator.class.isAssignableFrom(featureGenerator.getClass())) {
                 mazes.add(((MazeGenerator) featureGenerator).getMaze());
             }
         }
@@ -533,6 +528,10 @@ public abstract class SolarSystemGenerator {
         solarSystem.getMazes().addAll(getInstantiatedMazes());
         solarSystem.getBelts().addAll(getInstantiatedBelts());
         return solarSystem;
+    }
+
+    public void setSolarSystemConfigUsingDefault() {
+        setSolarSystemConfig(getSolarSystemConfigManager().getRandomSolarSystemConfig(getSolarSystemNumber() > 0));
     }
 
     public Vector2 getPosition() {

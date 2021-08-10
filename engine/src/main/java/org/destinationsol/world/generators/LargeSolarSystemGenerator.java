@@ -21,8 +21,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 public class LargeSolarSystemGenerator extends SolarSystemGenerator {
-    private static final Logger logger = LoggerFactory.getLogger(LargeSolarSystemGenerator.class);
-
     @Override
     public SolarSystem build() {
         getSolarSystemConfigManager().loadDefaultSolarSystemConfigs();
@@ -31,14 +29,6 @@ public class LargeSolarSystemGenerator extends SolarSystemGenerator {
         initializeRandomDefaultFeatureGenerators(.8f);
         calculateFeaturePositions();
         buildFeatureGenerators();
-
-
-        logger.info(this + " radius: " + getRadius());
-
-        //TODO: remove once there is a visual representation of the SolarSystem in the game
-        for (FeatureGenerator generator : activeFeatureGenerators) {
-            logger.info(generator + ": " + generator.getPosition());
-        }
 
         return createInstantiatedSolarSystem();
     }
