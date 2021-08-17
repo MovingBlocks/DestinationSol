@@ -273,26 +273,6 @@ public abstract class SolarSystemGenerator {
     }
 
     /**
-     * This will create a new instance of a SunGenerator implementation from the list of available feature generators.
-     * It will only choose FeatureGenerators which are subclasses of {@link SunGenerator}.
-     */
-    protected void initializeRandomSunGenerator() {
-        boolean sunInitialized = false;
-        while (!sunInitialized) {
-            int index = SolRandom.seededRandomInt(featureGeneratorTypes.size());
-            if (featureGeneratorTypes.get(index).getSuperclass().equals(SunGenerator.class)) {
-                try {
-                    SunGenerator newFeatureGenerator = (SunGenerator) featureGeneratorTypes.get(index).newInstance();
-                    activeFeatureGenerators.add(newFeatureGenerator);
-                    sunInitialized = true;
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
-            }
-        }
-    }
-
-    /**
      * This will create new instances of PlanetGenerator implementations from the list of available feature generators.
      * It will only choose FeatureGenerators which are subclasses of {@link PlanetGenerator}.
      * It will continue to make new instances until the correct number of Planets is reached
@@ -365,7 +345,6 @@ public abstract class SolarSystemGenerator {
     }
 
     protected void initializeRandomDefaultFeatureGenerators(float beltChance) {
-        initializeRandomSunGenerator();
         initializeRandomPlanetGenerators();
         initializeRandomMazeGenerators();
         initializeRandomBeltGenerators(beltChance);
