@@ -509,6 +509,9 @@ public abstract class SolarSystemGenerator {
         return solarSystem;
     }
 
+    /**
+     * Sets the SolarSystemConfig to a Config using default difficulty settings
+     */
     public void setSolarSystemConfigUsingDefault() {
         setSolarSystemConfig(getSolarSystemConfigManager().getRandomSolarSystemConfig(getSolarSystemNumber() > 0));
     }
