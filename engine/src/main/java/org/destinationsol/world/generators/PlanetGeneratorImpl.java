@@ -24,21 +24,19 @@ import org.slf4j.LoggerFactory;
  * behavior specific to the default Planets of Destination: Sol.
  */
 public class PlanetGeneratorImpl extends PlanetGenerator {
-    private static final Logger logger = LoggerFactory.getLogger(PlanetGeneratorImpl.class);
 
     @Override
     public void build() {
         //sets the PlanetConfig for either an easy, medium, or hard planet.
         setPlanetConfig(getPlanetConfigDefaultSettings());
 
-        setGroundHeight(SolRandom.seededRandomFloat(.5f, 1) * DEFAULT_MAX_GROUND_HEIGHT);
+        setGroundHeight(getGroundHeightUsingDefault());
         setAtmosphereHeight(DEFAULT_ATMOSPHERE_HEIGHT);
         calculateRadius();
 
         setOrbitSolarSystemSpeed(calculateDefaultPlanetOrbitSpeed());
         setPlanetRotationSpeed(calculateDefaultPlanetRotationSpeed());
         setName(SolRandom.seededRandomElement(solNames.planets.get(getPlanetConfig().moduleName)));
-        logger.info("Building a planet now. Planet name: " + getName() + ". Planet position: " + getPosition() + ". Planet Type: " + getPlanetConfig().configName);
 
         instantiatePlanet();
     }

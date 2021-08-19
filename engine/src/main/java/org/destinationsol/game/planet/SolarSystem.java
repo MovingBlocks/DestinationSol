@@ -17,6 +17,7 @@ package org.destinationsol.game.planet;
 
 import com.badlogic.gdx.math.Vector2;
 import org.destinationsol.game.HardnessCalc;
+import org.destinationsol.game.maze.Maze;
 
 import java.util.ArrayList;
 
@@ -25,6 +26,7 @@ public class SolarSystem {
     private final Vector2 position;
     private final ArrayList<Planet> planets;
     private final ArrayList<SystemBelt> belts;
+    private final ArrayList<Maze> mazes;
     private final SolarSystemConfig config;
     private final String name;
     private final float radius;
@@ -38,6 +40,7 @@ public class SolarSystem {
         this.position = new Vector2(position);
         planets = new ArrayList<>();
         belts = new ArrayList<>();
+        mazes = new ArrayList<>();
         radius = sysRadius;
         damagePerSecond = HardnessCalc.getSysDps(config, false);
         innerRadius = radius / 2;
@@ -50,6 +53,10 @@ public class SolarSystem {
 
     public ArrayList<SystemBelt> getBelts() {
         return belts;
+    }
+
+    public ArrayList<Maze> getMazes() {
+        return mazes;
     }
 
     public Vector2 getPosition() {

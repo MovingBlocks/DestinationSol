@@ -18,14 +18,17 @@ package org.destinationsol.world.generators;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-public class BeltGeneratorImpl extends BeltGenerator {
-    private static final Logger logger = LoggerFactory.getLogger(BeltGeneratorImpl.class);
+public class DenseBeltGenerator extends BeltGenerator {
+    private static final Logger logger = LoggerFactory.getLogger(DenseBeltGenerator.class);
 
     @Override
     public void build() {
-        setRadius(DEFAULT_BELT_HALF_WIDTH);
+        setRadius(DEFAULT_BELT_HALF_WIDTH * 1.3f);
 
         setBeltConfig(getBeltConfigManager().getRandomBeltConfig(getIsInFirstSolarSystem()));
+
+        modifyBeltAsteroidFrequency(5f);
+        modifyInnerEnemiesFrequency(2f);
 
         instantiateSystemBelt();
     }

@@ -68,7 +68,6 @@ public class ChunkFiller {
     private static final float ENEMY_MAX_ROT_SPD = 15f;
     private static final float DUST_SZ = .02f;
     private static final float MAX_A_SPD = .2f;
-    private static final float BELT_A_DENSITY = .04f;
     private static final float MAZE_ZONE_BORDER = 20;
     private final TextureAtlas.AtlasRegion dustTexture;
 
@@ -125,7 +124,7 @@ public class ChunkFiller {
             for (SystemBelt belt : system.getBelts()) {
                 if (belt.contains(chunkCenter)) {
                     if (!fillFarBackground) {
-                        fillAsteroids(game, removeController, true, chunkCenter);
+                        fillAsteroids(game, removeController, true, chunkCenter, belt.getAsteroidFrequency());
                     }
                     BeltConfig beltConfig = belt.getConfig();
                     for (ShipConfig enemyConfig : beltConfig.tempEnemies) {
@@ -171,7 +170,7 @@ public class ChunkFiller {
         Vector2 startPosition = mainStationPosition == null ? new Vector2() : mainStationPosition;
         float distanceToStartPosition = chunkCenter.dst(startPosition);
         if (Const.CHUNK_SIZE < distanceToStartPosition) {
-            fillAsteroids(game, removeController, false, chunkCenter);
+            fillAsteroids(game, removeController, false, chunkCenter, ASTEROID_DENSITY);
             ArrayList<ShipConfig> enemies = system.getPosition().dst(chunkCenter) < system.getInnerRadius() ? config.innerTempEnemies : config.tempEnemies;
             for (ShipConfig enemyConfig : enemies) {
                 fillEnemies(game, removeController, enemyConfig, chunkCenter);
@@ -207,8 +206,7 @@ public class ChunkFiller {
                 remover, false, money, null, true);
     }
 
-    private void fillAsteroids(SolGame game, RemoveController remover, boolean forBelt, Vector2 chunkCenter) {
-        float density = forBelt ? BELT_A_DENSITY : ASTEROID_DENSITY;
+    private void fillAsteroids(SolGame game, RemoveController remover, boolean forBelt, Vector2 chunkCenter, float density) {
         int count = getEntityCount(density);
         if (count == 0) {
             return;

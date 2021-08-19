@@ -23,7 +23,7 @@ import org.destinationsol.game.DebugOptions;
 import org.destinationsol.game.SolNames;
 import org.destinationsol.game.maze.Maze;
 import org.destinationsol.game.maze.MazeConfig;
-import org.destinationsol.game.maze.MazeConfigs;
+import org.destinationsol.game.maze.MazeConfigManager;
 import org.destinationsol.world.generators.FeatureGenerator;
 import org.destinationsol.world.generators.SunGenerator;
 
@@ -39,8 +39,8 @@ public class SystemsBuilder {
     private static final float MAZE_GAP = 10f;
     private static final float BELT_HALF_WIDTH = 20f;
 
-    public List<SolarSystem> build(List<SolarSystem> systems, List<Planet> planets, ArrayList<SystemBelt> belts, PlanetConfigs planetConfigs,
-                                   MazeConfigs mazeConfigs, ArrayList<Maze> mazes, SolarSystemConfigManager solarSystemConfigManager, BeltConfigManager beltConfigManager, SolNames names, int systemCount) {
+    public List<SolarSystem> build(List<SolarSystem> systems, List<Planet> planets, ArrayList<SystemBelt> belts, PlanetConfigManager planetConfigManager,
+                                   MazeConfigManager mazeConfigManager, ArrayList<Maze> mazes, SolarSystemConfigManager solarSystemConfigManager, BeltConfigManager beltConfigManager, SolNames names, int systemCount) {
         
         int sysLeft = systemCount;
         int mazesLeft = systemCount * 2;
@@ -53,11 +53,11 @@ public class SystemsBuilder {
                 List<Float> ghs = generatePlanetGhs();
                 float sysRadius = calcSysRadius(ghs);
                 Vector2 position = getBodyPos(systems, mazes, sysRadius);
-                SolarSystem s = createSystem(ghs, position, planets, belts, planetConfigs, sysRadius, solarSystemConfigManager, beltConfigManager , names, systems.isEmpty());
+                SolarSystem s = createSystem(ghs, position, planets, belts, planetConfigManager, sysRadius, solarSystemConfigManager, beltConfigManager , names, systems.isEmpty());
                 systems.add(s);
                 sysLeft--;
             } else {
-                MazeConfig mc = SolRandom.seededRandomElement(mazeConfigs.configs);
+                MazeConfig mc = SolRandom.seededRandomElement(mazeConfigManager.configs);
                 float mazeRadius = SolRandom.seededRandomFloat(.7f, 1) * MAX_MAZE_RADIUS;
                 Vector2 position = getBodyPos(systems, mazes, mazeRadius + MAZE_GAP);
                 Maze m = new Maze(mc, position, mazeRadius);
@@ -133,7 +133,7 @@ public class SystemsBuilder {
     }
 
     private SolarSystem createSystem(List<Float> groundHeights, Vector2 systemPosition, List<Planet> planets, ArrayList<SystemBelt> belts,
-                                     PlanetConfigs planetConfigs,
+                                     PlanetConfigManager planetConfigManager,
                                      float systemRadius, SolarSystemConfigManager solarSystemConfigs, BeltConfigManager beltConfigs,
                                      SolNames names, boolean firstSys) {
         solarSystemConfigs.loadDefaultSolarSystemConfigs();
@@ -162,18 +162,13 @@ public class SystemsBuilder {
                 PlanetConfig planetConfig;
                 if (pt.isEmpty()) {
                     boolean inner = planetDist < systemRadius / 2;
-                    planetConfig = planetConfigs.getRandom(!inner && !hard, inner && hard);
+                    planetConfig = planetConfigManager.getRandom(!inner && !hard, inner && hard);
                 } else {
-                    planetConfig = planetConfigs.getConfig(pt);
+                    planetConfig = planetConfigManager.getConfig(pt);
                 }
                 Planet planet = createPlanet(planetDist, system, groundHeight, planetConfig, names);
                 planets.add(planet);
                 system.getPlanets().add(planet);
-            } else {
-                BeltConfig beltConfig = beltConfigs.getRandomBeltConfig(hard);
-                SystemBelt belt = new SystemBelt(-groundHeight, planetDist, system, beltConfig);
-                belts.add(belt);
-                system.addBelt(belt);
             }
             planetDist += reserved;
         }

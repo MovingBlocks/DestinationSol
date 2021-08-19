@@ -43,15 +43,19 @@ import org.destinationsol.game.item.ItemManager;
 import org.destinationsol.game.item.LootBuilder;
 import org.destinationsol.game.item.MercItem;
 import org.destinationsol.game.item.SolItem;
+import org.destinationsol.game.maze.Maze;
+import org.destinationsol.game.maze.MazeConfigManager;
 import org.destinationsol.game.particle.EffectTypes;
 import org.destinationsol.game.particle.PartMan;
 import org.destinationsol.game.particle.SpecialEffects;
+import org.destinationsol.game.planet.BeltConfigManager;
 import org.destinationsol.game.planet.Planet;
-import org.destinationsol.game.planet.PlanetConfigs;
+import org.destinationsol.game.planet.PlanetConfigManager;
 import org.destinationsol.game.planet.PlanetManager;
 import org.destinationsol.game.planet.SolarSystem;
 import org.destinationsol.game.planet.SolarSystemConfigManager;
 import org.destinationsol.game.planet.SunSingleton;
+import org.destinationsol.game.planet.SystemBelt;
 import org.destinationsol.game.screens.GameScreens;
 import org.destinationsol.game.ship.ShipAbility;
 import org.destinationsol.game.ship.ShipBuilder;
@@ -103,7 +107,9 @@ public class SolGame {
     private final SolContactListener contactListener;
     private final WorldBuilder worldBuilder;
     private final SolarSystemConfigManager solarSystemConfigManager;
-    private final PlanetConfigs planetConfigManager;
+    private final PlanetConfigManager planetConfigManager;
+    private final MazeConfigManager mazeConfigManager;
+    private final BeltConfigManager beltConfigManager;
     private Hero hero;
     private float timeStep;
     private float time;
@@ -180,15 +186,22 @@ public class SolGame {
         drawableDebugger = new DrawableDebugger();
         mountDetectDrawer = new MountDetectDrawer();
         beaconHandler = new BeaconHandler();
+
         solarSystemConfigManager = new SolarSystemConfigManager(hullConfigManager, itemManager);
         context.put(SolarSystemConfigManager.class, solarSystemConfigManager);
-        planetConfigManager = new PlanetConfigs(hullConfigManager, gameColors, itemManager);
+        planetConfigManager = new PlanetConfigManager(hullConfigManager, gameColors, itemManager);
         planetConfigManager.loadDefaultPlanetConfigs();
-        context.put(PlanetConfigs.class, planetConfigManager);
+        context.put(PlanetConfigManager.class, planetConfigManager);
+        mazeConfigManager = new MazeConfigManager(hullConfigManager, itemManager);
+        mazeConfigManager.loadDefaultMazeConfigs();
+        context.put(MazeConfigManager.class, mazeConfigManager);
+        beltConfigManager = new BeltConfigManager(hullConfigManager, itemManager);
+        beltConfigManager.loadDefaultBeltConfigs();
+        context.put(BeltConfigManager.class, beltConfigManager);
         worldBuilder = new WorldBuilder(context, worldConfig.getNumberOfSystems());
         context.put(WorldBuilder.class, worldBuilder);
-        timeFactor = 1;
 
+        timeFactor = 1;
     }
 
     public void createUpdateSystems(Context context) {
@@ -275,6 +288,12 @@ public class SolGame {
         for (SolarSystem system : planetManager.getSystems()) {
             for (Planet planet : system.getPlanets()) {
                 planetManager.getPlanets().add(planet);
+            }
+            for (Maze maze : system.getMazes()) {
+                planetManager.getMazes().add(maze);
+            }
+            for (SystemBelt belt : system.getBelts()) {
+                planetManager.getBelts().add(belt);
             }
         }
     }

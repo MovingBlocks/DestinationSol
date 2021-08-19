@@ -26,7 +26,7 @@ import org.destinationsol.game.context.Context;
 import org.destinationsol.game.context.internal.ContextImpl;
 import org.destinationsol.game.item.ItemManager;
 import org.destinationsol.game.particle.EffectTypes;
-import org.destinationsol.game.planet.PlanetConfigs;
+import org.destinationsol.game.planet.PlanetConfigManager;
 import org.destinationsol.game.planet.SolarSystemConfigManager;
 import org.destinationsol.modules.ModuleManager;
 import org.destinationsol.testingUtilities.MockGL;
@@ -71,9 +71,9 @@ public class WorldBuilderTest implements AssetsHelperInitializer {
         ItemManager itemManager = setupItemManager();
         HullConfigManager hullConfigManager = setupHullConfigManager(itemManager);
 
-        PlanetConfigs planetConfigManager = new PlanetConfigs(hullConfigManager, gameColors,itemManager);
+        PlanetConfigManager planetConfigManager = new PlanetConfigManager(hullConfigManager, gameColors,itemManager);
         planetConfigManager.loadDefaultPlanetConfigs();
-        context.put(PlanetConfigs.class, planetConfigManager);
+        context.put(PlanetConfigManager.class, planetConfigManager);
 
         SolarSystemConfigManager solarSystemConfigManager = new SolarSystemConfigManager(hullConfigManager, itemManager);
         context.put(SolarSystemConfigManager.class, solarSystemConfigManager);

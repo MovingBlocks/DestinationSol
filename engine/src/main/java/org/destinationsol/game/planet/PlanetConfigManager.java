@@ -35,7 +35,7 @@ import java.util.Set;
  * This class manages loading config files in for Planets. It also allows for getting a random Planet config or a
  * specific Planet config by name. It can either load the default Planet configs, or specified custom configs
  */
-public class PlanetConfigs {
+public class PlanetConfigManager {
     private HullConfigManager hullConfigManager;
     private GameColors gameColors;
     private ItemManager itemManager;
@@ -44,7 +44,7 @@ public class PlanetConfigs {
     private final List<PlanetConfig> medium;
     private final List<PlanetConfig> hard;
 
-    public PlanetConfigs(HullConfigManager hullConfigManager, GameColors gameColors, ItemManager itemManager) {
+    public PlanetConfigManager(HullConfigManager hullConfigManager, GameColors gameColors, ItemManager itemManager) {
         this.hullConfigManager = hullConfigManager;
         this.gameColors = gameColors;
         this.itemManager = itemManager;

@@ -18,7 +18,6 @@ package org.destinationsol.world.generators;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.physics.box2d.Box2D;
-import com.badlogic.gdx.physics.box2d.PolygonShape;
 import org.destinationsol.files.HullConfigManager;
 import org.destinationsol.game.AbilityCommonConfigs;
 import org.destinationsol.game.GameColors;
@@ -27,7 +26,7 @@ import org.destinationsol.game.context.internal.ContextImpl;
 import org.destinationsol.game.item.ItemManager;
 import org.destinationsol.game.particle.EffectTypes;
 import org.destinationsol.assets.sound.OggSoundManager;
-import org.destinationsol.game.planet.PlanetConfigs;
+import org.destinationsol.game.planet.PlanetConfigManager;
 import org.destinationsol.game.planet.SolarSystemConfigManager;
 import org.destinationsol.modules.ModuleManager;
 import org.destinationsol.testingUtilities.MockGL;
@@ -82,9 +81,9 @@ public class SolarSystemGeneratorTest implements AssetsHelperInitializer {
         ItemManager itemManager = setupItemManager();
         HullConfigManager hullConfigManager = setupHullConfigManager(itemManager);
 
-        PlanetConfigs planetConfigManager = new PlanetConfigs(hullConfigManager, gameColors,itemManager);
+        PlanetConfigManager planetConfigManager = new PlanetConfigManager(hullConfigManager, gameColors,itemManager);
         planetConfigManager.loadDefaultPlanetConfigs();
-        context.put(PlanetConfigs.class, planetConfigManager);
+        context.put(PlanetConfigManager.class, planetConfigManager);
 
         SolarSystemConfigManager solarSystemConfigManager = new SolarSystemConfigManager(hullConfigManager, itemManager);
         context.put(SolarSystemConfigManager.class, solarSystemConfigManager);

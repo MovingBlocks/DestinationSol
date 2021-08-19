@@ -23,7 +23,7 @@ import org.destinationsol.game.SolNames;
 import org.destinationsol.game.planet.DecoConfig;
 import org.destinationsol.game.planet.Planet;
 import org.destinationsol.game.planet.PlanetConfig;
-import org.destinationsol.game.planet.PlanetConfigs;
+import org.destinationsol.game.planet.PlanetConfigManager;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -58,7 +58,7 @@ public abstract class PlanetGenerator extends FeatureGenerator {
     //This is the speed the Planet spins around it's axis at
     private float planetRotationSpeed;
 
-    private PlanetConfigs planetConfigManager;
+    private PlanetConfigManager planetConfigManager;
 
     /**
      * This method sets the Planet variable for the PlanetGenerator. It should be called at the end of the build() method,
@@ -251,6 +251,10 @@ public abstract class PlanetGenerator extends FeatureGenerator {
         return planetConfig.deco;
     }
 
+    public float getGroundHeightUsingDefault() {
+        return SolRandom.seededRandomFloat(.5f, 1) * DEFAULT_MAX_GROUND_HEIGHT;
+    }
+
     public void setAtmosphereHeight(float atmosphereHeight) {
         this.atmosphereHeight = atmosphereHeight;
     }
@@ -267,7 +271,7 @@ public abstract class PlanetGenerator extends FeatureGenerator {
         return groundHeight;
     }
 
-    void calculateRadius() {
+    protected void calculateRadius() {
         setRadius(getGroundHeight() + getAtmosphereHeight());
     }
 
@@ -295,11 +299,11 @@ public abstract class PlanetGenerator extends FeatureGenerator {
         return planetConfig;
     }
 
-    public PlanetConfigs getPlanetConfigManager() {
+    public PlanetConfigManager getPlanetConfigManager() {
         return planetConfigManager;
     }
 
-    public void setPlanetConfigManager(PlanetConfigs planetConfigManager) {
+    public void setPlanetConfigManager(PlanetConfigManager planetConfigManager) {
         this.planetConfigManager = planetConfigManager;
     }
 
