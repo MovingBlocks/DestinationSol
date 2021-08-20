@@ -24,7 +24,7 @@ public class LargeSolarSystemGenerator extends SolarSystemGenerator {
     @Override
     public SolarSystem build() {
         getSolarSystemConfigManager().loadDefaultSolarSystemConfigs();
-        setSolarSystemConfig(getSolarSystemConfigManager().getRandomSolarSystemConfig(getSolarSystemNumber() > 0));
+        setSolarSystemConfigUsingDefault();
         setName(SolRandom.seededRandomElement(getDefaultSolarSystemNames()));
         initializeRandomDefaultFeatureGenerators(.8f);
         calculateFeaturePositions();
