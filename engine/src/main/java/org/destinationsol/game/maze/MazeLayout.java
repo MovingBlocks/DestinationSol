@@ -17,10 +17,13 @@
 package org.destinationsol.game.maze;
 
 public class MazeLayout {
+    /** This 2D array determines where MazeTiles will or will not be placed. The other arrays are created based off of
+     * inners*/
     public final boolean[][] inners;
     public final boolean[][] holes;
     public final boolean[][] right;
     public final boolean[][] down;
+    public String name = "";
 
     public MazeLayout(boolean[][] inners, boolean[][] holes, boolean[][] right, boolean[][] down) {
         this.inners = inners;
@@ -29,4 +32,15 @@ public class MazeLayout {
         this.down = down;
     }
 
+    public MazeLayout(boolean[][] inners, boolean[][] holes, boolean[][] right, boolean[][] down, String name) {
+        this.inners = inners;
+        this.holes = holes;
+        this.right = right;
+        this.down = down;
+        this.name = name;
+    }
+
+    public String getName() {
+        return name;
+    }
 }

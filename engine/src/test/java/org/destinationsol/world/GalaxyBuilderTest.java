@@ -38,10 +38,10 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
-public class WorldBuilderTest implements AssetsHelperInitializer {
+public class GalaxyBuilderTest implements AssetsHelperInitializer {
     private Context context;
     private ModuleManager moduleManager;
-    WorldBuilder worldBuilder;
+    GalaxyBuilder galaxyBuilder;
     private GameColors gameColors;
     private EffectTypes effectTypes;
     private OggSoundManager soundManager;
@@ -94,41 +94,41 @@ public class WorldBuilderTest implements AssetsHelperInitializer {
     @Test
     void populatesSolarSystemsList() {
         int testNumberSystems = 2;
-        worldBuilder = new WorldBuilder(context, testNumberSystems);
-        worldBuilder.buildWithRandomSolarSystemGenerators();
-        assertTrue(worldBuilder.getSolarSystemGeneratorTypes().size() > 0);
+        galaxyBuilder = new GalaxyBuilder(context, testNumberSystems);
+        galaxyBuilder.buildWithRandomSolarSystemGenerators();
+        assertTrue(galaxyBuilder.getSolarSystemGeneratorTypes().size() > 0);
 
     }
 
     @Test
     void populatesFeatureGeneratorsList() {
         int testNumberSystems = 2;
-        worldBuilder = new WorldBuilder(context, testNumberSystems);
-        worldBuilder.buildWithRandomSolarSystemGenerators();
-        assertTrue(worldBuilder.getFeatureGeneratorTypes().size() > 0);
+        galaxyBuilder = new GalaxyBuilder(context, testNumberSystems);
+        galaxyBuilder.buildWithRandomSolarSystemGenerators();
+        assertTrue(galaxyBuilder.getFeatureGeneratorTypes().size() > 0);
     }
 
     @Test
     void createsCorrectNumberOfSolarSystemGenerators() {
         int testNumberSystems = 2;
-        worldBuilder = new WorldBuilder(context, testNumberSystems);
-        worldBuilder.buildWithRandomSolarSystemGenerators();
-        assertEquals(worldBuilder.getActiveSolarSystemGenerators().size(), 2);
+        galaxyBuilder = new GalaxyBuilder(context, testNumberSystems);
+        galaxyBuilder.buildWithRandomSolarSystemGenerators();
+        assertEquals(galaxyBuilder.getActiveSolarSystemGenerators().size(), 2);
     }
 
     @Test
     void createsCorrectNumberOfSolarSystems() {
         int testNumberSystems = 2;
-        worldBuilder = new WorldBuilder(context, testNumberSystems);
-        worldBuilder.buildWithRandomSolarSystemGenerators();
-        assertEquals(worldBuilder.getBuiltSolarSystems().size(), 2);
+        galaxyBuilder = new GalaxyBuilder(context, testNumberSystems);
+        galaxyBuilder.buildWithRandomSolarSystemGenerators();
+        assertEquals(galaxyBuilder.getBuiltSolarSystems().size(), 2);
     }
 
     @Test
     void setsContext() {
         int testNumberSystems = 2;
-        worldBuilder = new WorldBuilder(context, testNumberSystems);
-        assertNotNull(worldBuilder.getContext());
+        galaxyBuilder = new GalaxyBuilder(context, testNumberSystems);
+        assertNotNull(galaxyBuilder.getContext());
     }
 
 }

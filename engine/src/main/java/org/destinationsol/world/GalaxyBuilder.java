@@ -37,10 +37,10 @@ import java.util.List;
  * all Generator classes and then initiates each SolarSystem's build process. Two types of world generation classes are
  * retrieved: those that subclass SolarSystemGenerator and those that subclass FeatureGenerator.
  */
-public class WorldBuilder {
+public class GalaxyBuilder {
     public static final float MAX_ANGLE_WITHIN_WORLD = 180;
     public static final float MAX_WORLD_RADIUS = 100_000;
-    private static final Logger logger = LoggerFactory.getLogger(WorldBuilder.class);
+    private static final Logger logger = LoggerFactory.getLogger(GalaxyBuilder.class);
     //These ArrayLists hold class types of any class which extends SolarSystemGenerator or FeatureGenerator, respectively
     private ArrayList<Class<? extends SolarSystemGenerator>> solarSystemGeneratorTypes = new ArrayList<>();
     private ArrayList<Class<? extends FeatureGenerator>> featureGeneratorTypes = new ArrayList<>();
@@ -52,7 +52,7 @@ public class WorldBuilder {
     private SolarSystemConfigManager solarSystemConfigManager;
     private final int numberOfSystems;
 
-    public WorldBuilder(Context context, int numSystems) {
+    public GalaxyBuilder(Context context, int numSystems) {
         this.context = context;
         this.moduleManager = context.get(ModuleManager.class);
         this.solarSystemConfigManager = context.get(SolarSystemConfigManager.class);

@@ -31,6 +31,7 @@ import java.util.Set;
  * This class manages loading config files in for Mazes. It also allows for getting a random Maze config or a
  * specific Maze config by name. It can either load the default Maze configs, or specified custom configs
  */
+
 public class MazeConfigManager {
     public final List<MazeConfig> configs;
     HullConfigManager hullConfigManager;

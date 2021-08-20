@@ -68,7 +68,7 @@ import org.destinationsol.ui.TutorialManager;
 import org.destinationsol.ui.UiDrawer;
 import org.destinationsol.ui.Waypoint;
 import org.destinationsol.util.InjectionHelper;
-import org.destinationsol.world.WorldBuilder;
+import org.destinationsol.world.GalaxyBuilder;
 import org.terasology.gestalt.entitysystem.entity.EntityRef;
 
 import java.util.ArrayList;
@@ -105,7 +105,7 @@ public class SolGame {
     private final TutorialManager tutorialManager;
     private final GalaxyFiller galaxyFiller;
     private final SolContactListener contactListener;
-    private final WorldBuilder worldBuilder;
+    private final GalaxyBuilder galaxyBuilder;
     private final SolarSystemConfigManager solarSystemConfigManager;
     private final PlanetConfigManager planetConfigManager;
     private final MazeConfigManager mazeConfigManager;
@@ -198,8 +198,8 @@ public class SolGame {
         beltConfigManager = new BeltConfigManager(hullConfigManager, itemManager);
         beltConfigManager.loadDefaultBeltConfigs();
         context.put(BeltConfigManager.class, beltConfigManager);
-        worldBuilder = new WorldBuilder(context, worldConfig.getNumberOfSystems());
-        context.put(WorldBuilder.class, worldBuilder);
+        galaxyBuilder = new GalaxyBuilder(context, worldConfig.getNumberOfSystems());
+        context.put(GalaxyBuilder.class, galaxyBuilder);
 
         timeFactor = 1;
     }
@@ -260,7 +260,7 @@ public class SolGame {
         SolRandom.setSeed(worldConfig.getSeed());
 
         //World Generation will be initiated from here
-        worldBuilder.buildWithRandomSolarSystemGenerators();
+        galaxyBuilder.buildWithRandomSolarSystemGenerators();
 
         //Add all the Planets in the game to the PlanetManager TODO: Add mazes, belts, etc. once the are implemented
         addObjectsToPlanetManager();
@@ -284,7 +284,7 @@ public class SolGame {
     }
 
     private void addObjectsToPlanetManager() {
-        planetManager.getSystems().addAll(worldBuilder.getBuiltSolarSystems());
+        planetManager.getSystems().addAll(galaxyBuilder.getBuiltSolarSystems());
         for (SolarSystem system : planetManager.getSystems()) {
             for (Planet planet : system.getPlanets()) {
                 planetManager.getPlanets().add(planet);
@@ -644,8 +644,8 @@ public class SolGame {
         return hullConfigManager;
     }
 
-    public WorldBuilder getWorldBuilder() {
-        return worldBuilder;
+    public GalaxyBuilder getGalaxyBuilder() {
+        return galaxyBuilder;
     }
 
 }

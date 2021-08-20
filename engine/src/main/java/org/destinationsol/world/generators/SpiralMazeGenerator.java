@@ -15,14 +15,15 @@
  */
 package org.destinationsol.world.generators;
 
-public class SmallMazeGenerator extends MazeGenerator {
+public class SpiralMazeGenerator extends MazeGenerator {
 
     @Override
     public void build() {
-        setRadius(calculateDefaultMazeSize() * 0.6f);
+        setRadius(20f);
+        getMazeLayoutManager().load("spiralMazeLayout");
+        setMazeLayout(getMazeLayoutManager().getLayout("spiral"));
         setMazeConfig(getRandomMazeConfig());
 
-        modifyOuterEnemiesFrequency(1.21f);
         instantiateMaze();
     }
 }
