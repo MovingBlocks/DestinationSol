@@ -1,0 +1,71 @@
+{
+  "type": "engine:SolButtonsTestScreen",
+  "skin": "engine:default",
+  "contents": {
+    "type": "RelativeLayout",
+    "contents": [
+      {
+        "type": "RowLayout",
+        "layoutInfo": {
+          "position-top": {
+            "target": "MIDDLE"
+          }
+        },
+        "contents": [
+          {
+            "type": "UISpace",
+            "size": [1, 1]
+          },
+          {
+            "type": "ColumnLayout",
+            "id": "menuList",
+            "layoutInfo": {
+              "position-vertical-center": {
+                "offset": -100
+              },
+              "position-right": {}
+            },
+            "columns": 1,
+            "verticalSpacing": 8,
+            "contents": [
+              {
+                "type": "UIWarnButton",
+                "text": "P",
+                "id": "menuButton",
+                "key": "P"
+              },
+              {
+                "type": "UIWarnButton",
+                "text": "N",
+                "id": "mapButton",
+                "key": "N"
+              },
+              {
+                "type": "UIWarnButton",
+                "text": "I",
+                "id": "itemsButton",
+                "key": "I"
+              },
+              {
+                "type": "UIWarnButton",
+                "text": "T",
+                "id": "talkButton",
+                "key": "T"
+              },
+              {
+                "type": "UIWarnButton",
+                "text": "M",
+                "id": "mercsButton",
+                "key": "M"
+              }
+            ]
+          },
+          {
+            "type": "UISpace",
+            "size": [1, 1]
+          }
+        ]
+      }
+    ]
+  }
+}
