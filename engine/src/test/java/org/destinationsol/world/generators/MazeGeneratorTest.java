@@ -69,7 +69,11 @@ public class MazeGeneratorTest implements AssetsHelperInitializer {
         solarSystemGenerator = solarSystemGenerators.get(0);
         setupSolarSystemGenerator();
         ArrayList<FeatureGenerator> activeFeatureGenerators = solarSystemGenerators.get(0).getActiveFeatureGenerators();
-        mazeGenerator = (MazeGenerator) activeFeatureGenerators.get(activeFeatureGenerators.size() - 2);
+        for (FeatureGenerator featureGenerator : activeFeatureGenerators) {
+            if (MazeGenerator.class.isAssignableFrom(featureGenerator.getClass())) {
+                mazeGenerator = (MazeGenerator) featureGenerator;
+            }
+        }
     }
 
     private void setupMockGL() {

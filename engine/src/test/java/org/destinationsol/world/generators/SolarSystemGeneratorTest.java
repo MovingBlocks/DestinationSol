@@ -24,8 +24,10 @@ import org.destinationsol.game.GameColors;
 import org.destinationsol.game.context.Context;
 import org.destinationsol.game.context.internal.ContextImpl;
 import org.destinationsol.game.item.ItemManager;
+import org.destinationsol.game.maze.MazeConfigManager;
 import org.destinationsol.game.particle.EffectTypes;
 import org.destinationsol.assets.sound.OggSoundManager;
+import org.destinationsol.game.planet.BeltConfigManager;
 import org.destinationsol.game.planet.PlanetConfigManager;
 import org.destinationsol.game.planet.SolarSystemConfigManager;
 import org.destinationsol.modules.ModuleManager;
@@ -84,6 +86,14 @@ public class SolarSystemGeneratorTest implements AssetsHelperInitializer {
         PlanetConfigManager planetConfigManager = new PlanetConfigManager(hullConfigManager, gameColors,itemManager);
         planetConfigManager.loadDefaultPlanetConfigs();
         context.put(PlanetConfigManager.class, planetConfigManager);
+
+        MazeConfigManager mazeConfigManager = new MazeConfigManager(hullConfigManager, itemManager);
+        mazeConfigManager.loadDefaultMazeConfigs();
+        context.put(MazeConfigManager.class, mazeConfigManager);
+
+        BeltConfigManager beltConfigManager = new BeltConfigManager(hullConfigManager, itemManager);
+        beltConfigManager.loadDefaultBeltConfigs();
+        context.put(BeltConfigManager.class, beltConfigManager);
 
         SolarSystemConfigManager solarSystemConfigManager = new SolarSystemConfigManager(hullConfigManager, itemManager);
         context.put(SolarSystemConfigManager.class, solarSystemConfigManager);

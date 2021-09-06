@@ -139,12 +139,12 @@ public class PlanetGeneratorTest implements AssetsHelperInitializer {
     }
 
     @Test
-    void planetHasPositiveRotationSpeed() {
-        assertTrue(planetGenerator.getPlanetRotationSpeed() > 0);
+    void planetHasNonzeroRotationSpeed() {
+        assertTrue(planetGenerator.getPlanetRotationSpeed() != 0);
     }
 
     @Test
-    void planetHasPositiveOrbitSpeed() {
-        assertTrue(planetGenerator.getPlanetRotationSpeed() > 0);
+    void planetHasNonzeroOrbitSpeed() {
+        assertTrue(planetGenerator.getPlanetRotationSpeed() != 0);
     }
 }
