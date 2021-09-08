@@ -97,6 +97,10 @@ public class NUIManager {
      * The current game context used to initialise UI screens.
      */
     private Context context;
+    /**
+     * The baseline UI scale used on Android.
+     */
+    private final float baseUIScale;
 
     /**
      * The UI stack. The elements are rendered from most recently added to least recent, so a stack-like structure
@@ -107,6 +111,7 @@ public class NUIManager {
     private static final String WHITE_TEXTURE_URN = "engine:uiWhiteTex";
     private static final String DEFAULT_SKIN_URN = "engine:default";
     private static final String BUTTON_CLICK_URN = "engine:uiHover";
+    private static final float MOBILE_UI_DENSITY = 1.5f;
     /**
      * The value 0.9 was found from {@link org.destinationsol.ui.SolInputManager#playClick}, so it was copied here to
      * retain the same click sound as the built-in UI.
@@ -150,16 +155,17 @@ public class NUIManager {
         // NOTE: SolApplication::addResizeSubscriber is not intended to be static, so use the instance form for compatibility
         solApplication.addResizeSubscriber(() -> resize(Gdx.graphics.getBackBufferWidth(), Gdx.graphics.getBackBufferHeight()));
 
-        setUiScale(options.getNuiUiScale());
-
-        // TODO: This is a temporary work-around until the NUI UI scales properly.
-        //       Use RelativeLayout to scale the controls instead of scaling based
-        //       on a reference resolution for mobile.
+        // Mobile screen densities can vary considerably, so a large digital resolution can be displayed
+        // on a very small screen. Due to this, it makes sense to scale the UI roughly proportionally
+        // to form a more sensible default. Otherwise, the UI may appear to be too big/small.
+        // On very large mobile screens, such as tablets, you may need to adjust the UI scale further in the game options.
         if (solApplication.isMobile()) {
-            if (Gdx.graphics.getBackBufferWidth() > 1024) {
-                setUiScale(Gdx.graphics.getBackBufferWidth() / 1024.0f);
-            }
+            baseUIScale = Gdx.graphics.getDensity() / MOBILE_UI_DENSITY;
+        } else {
+            baseUIScale = 1.0f;
         }
+
+        setUiScale(options.getNuiUiScale());
     }
 
     /**
@@ -397,8 +403,9 @@ public class NUIManager {
      * @param scale the new UI scale to use
      */
     public void setUiScale(float scale) {
-        canvas.setUiScale(scale);
-        canvasRenderer.setUiScale(1.0f / scale);
+        float actualScale = scale * baseUIScale;
+        canvas.setUiScale(actualScale);
+        canvasRenderer.setUiScale(1.0f / actualScale);
     }
 
     private class SolCanvas extends CanvasImpl {

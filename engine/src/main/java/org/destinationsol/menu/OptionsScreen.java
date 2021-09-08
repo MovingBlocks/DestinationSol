@@ -43,7 +43,7 @@ public class OptionsScreen extends SolUiBaseScreen {
 
     OptionsScreen(boolean mobile, MenuLayout menuLayout, GameOptions gameOptions) {
         displayDimensions = SolApplication.displayDimensions;
-        int rowNo = mobile ? 0 : -3;
+        int rowNo = mobile ? -1 : -3;
         musicVolumeControl = new SolUiControl(menuLayout.buttonRect(-1, rowNo++), true);
         musicVolumeControl.setDisplayName("Music Volume");
         controls.add(musicVolumeControl);
@@ -52,8 +52,8 @@ public class OptionsScreen extends SolUiBaseScreen {
         soundVolumeControl.setDisplayName("Sound Volume");
         controls.add(soundVolumeControl);
 
-        // Mobile platforms always run in fullscreen, so the resolution cannot be changed
-        resolutionControl = new SolUiControl(mobile ? null : menuLayout.buttonRect(-1, rowNo++), true);
+        // Mobile platforms always run in fullscreen but the NUI UI scale can be changed
+        resolutionControl = new SolUiControl(menuLayout.buttonRect(-1, rowNo++), true);
         resolutionControl.setDisplayName("Resolution");
         controls.add(resolutionControl);
 

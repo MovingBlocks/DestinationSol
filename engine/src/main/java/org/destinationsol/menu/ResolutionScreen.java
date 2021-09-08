@@ -43,22 +43,23 @@ public class ResolutionScreen extends SolUiBaseScreen {
     private final SolUiControl fullscreenControl;
     private final SolUiControl nuiUIScaleControl;
 
-    ResolutionScreen(MenuLayout menuLayout, GameOptions gameOptions) {
+    ResolutionScreen(boolean mobile, MenuLayout menuLayout, GameOptions gameOptions) {
         displayDimensions = SolApplication.displayDimensions;
+        int rowNo = mobile ? 0 : 1;
 
-        resolutionControl = new SolUiControl(menuLayout.buttonRect(-1, 1), true);
+        resolutionControl = new SolUiControl(mobile ? null : menuLayout.buttonRect(-1, rowNo++), true);
         resolutionControl.setDisplayName("Resolution");
         controls.add(resolutionControl);
 
-        fullscreenControl = new SolUiControl(menuLayout.buttonRect(-1, 2), true);
+        fullscreenControl = new SolUiControl(mobile ? null : menuLayout.buttonRect(-1, rowNo++), true);
         fullscreenControl.setDisplayName("Fullscreen");
         controls.add(fullscreenControl);
 
-        nuiUIScaleControl = new SolUiControl(menuLayout.buttonRect(-1, 3), true);
+        nuiUIScaleControl = new SolUiControl(menuLayout.buttonRect(-1, rowNo++), true);
         nuiUIScaleControl.setDisplayName("NUI UI scale");
         controls.add(nuiUIScaleControl);
 
-        closeControl = new SolUiControl(menuLayout.buttonRect(-1, 4), true, gameOptions.getKeyEscape());
+        closeControl = new SolUiControl(menuLayout.buttonRect(-1, rowNo++), true, gameOptions.getKeyEscape());
         closeControl.setDisplayName("Back");
         controls.add(closeControl);
 
@@ -71,26 +72,30 @@ public class ResolutionScreen extends SolUiBaseScreen {
         GameOptions options = solApplication.getOptions();
 
         if (closeControl.isJustOff()) {
-            if (options.fullscreen) {
-                Graphics.DisplayMode mode = null;
-                //HACK: Gdx.graphics.getDisplayMode() always returns the native desktop resolution.
-                //See https://github.com/libgdx/libgdx/blob/5398d46aa082489052fccfaaaff7440e137ba5dc/backends/gdx-backend-lwjgl/src/com/badlogic/gdx/backends/lwjgl/LwjglGraphics.java#L555
-                //and http://legacy.lwjgl.org/javadoc/org/lwjgl/opengl/Display.html#getDisplayMode()
-                //for more details.
-                for (Graphics.DisplayMode displayMode : Gdx.graphics.getDisplayModes()) {
-                    if (displayMode.width == options.x && displayMode.height == options.y) {
-                        mode = displayMode;
+            // Mobile only ever runs at one resolution: the entire screen.
+            // Changing the screen resolution does not work.
+            if (!solApplication.isMobile()) {
+                if (options.fullscreen) {
+                    Graphics.DisplayMode mode = null;
+                    //HACK: Gdx.graphics.getDisplayMode() always returns the native desktop resolution.
+                    //See https://github.com/libgdx/libgdx/blob/5398d46aa082489052fccfaaaff7440e137ba5dc/backends/gdx-backend-lwjgl/src/com/badlogic/gdx/backends/lwjgl/LwjglGraphics.java#L555
+                    //and http://legacy.lwjgl.org/javadoc/org/lwjgl/opengl/Display.html#getDisplayMode()
+                    //for more details.
+                    for (Graphics.DisplayMode displayMode : Gdx.graphics.getDisplayModes()) {
+                        if (displayMode.width == options.x && displayMode.height == options.y) {
+                            mode = displayMode;
+                        }
                     }
-                }
-                if (mode != null) {
-                    Gdx.graphics.setFullscreenMode(mode);
-                    solApplication.getNuiManager().resize(mode.width, mode.height);
+                    if (mode != null) {
+                        Gdx.graphics.setFullscreenMode(mode);
+                        solApplication.getNuiManager().resize(mode.width, mode.height);
+                    } else {
+                        logger.warn("The resolution {}x{} is not supported in fullscreen mode!", options.x, options.y);
+                    }
                 } else {
-                    logger.warn("The resolution {}x{} is not supported in fullscreen mode!", options.x, options.y);
+                    Gdx.graphics.setWindowedMode(options.x, options.y);
+                    solApplication.getNuiManager().resize(options.x, options.y);
                 }
-            } else {
-                Gdx.graphics.setWindowedMode(options.x, options.y);
-                solApplication.getNuiManager().resize(options.x, options.y);
             }
             inputManager.setScreen(solApplication, solApplication.getMenuScreens().options);
             return;

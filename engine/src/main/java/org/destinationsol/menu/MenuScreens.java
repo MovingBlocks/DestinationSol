@@ -33,7 +33,7 @@ public class MenuScreens {
         main = new MainMenuScreen(mobile, gameOptions);
         options = new OptionsScreen(mobile, menuLayout, gameOptions);
         inputMapScreen = new InputMapScreen(gameOptions);
-        resolutionScreen = new ResolutionScreen(menuLayout, gameOptions);
+        resolutionScreen = new ResolutionScreen(mobile, menuLayout, gameOptions);
         credits = new CreditsScreen(gameOptions);
         loading = new LoadingScreen();
         newGame = new NewGameScreen(menuLayout, gameOptions);
