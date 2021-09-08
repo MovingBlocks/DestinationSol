@@ -1,7 +1,20 @@
+/*
+ * Copyright 2021 The Terasology Foundation
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
 package org.destinationsol.ui.nui.widgets;
 
-import org.terasology.input.ButtonState;
-import org.terasology.input.Input;
 import org.terasology.input.Keyboard;
 import org.terasology.nui.LayoutConfig;
 import org.terasology.nui.databinding.Binding;
@@ -17,7 +30,7 @@ public class KeyActivatedButton extends UIButton {
      * The {@code Binding} containing the key that activates this button.
      */
     @LayoutConfig
-    private Binding<String> key = new DefaultBinding<>(Keyboard.Key.NONE.getName());
+    private Binding<Keyboard.Key> key = new DefaultBinding<>(Keyboard.Key.NONE);
 
     /**
      * The {@code Binding} stating if the button should still activate on key presses when invisible.
@@ -30,12 +43,21 @@ public class KeyActivatedButton extends UIButton {
     private Binding<Boolean> activateWhenInvisible = new DefaultBinding<>(false);
 
     /**
+     * Binds the key used to activate this {@code KeyActivatedButton}.
+     *
+     * @param key The {@code Binding} containing the key used to activate this {@code KeyActivatedButton}.
+     */
+    public void bindKey(Binding<Keyboard.Key> key) {
+        this.key = key;
+    }
+
+    /**
      * Retrieves the key used to activate this {@code KeyActivatedButton}.
      *
      * @return The key used to activate this {@code KeyActivatedButton}
      */
-    public Input getKey() {
-        return Keyboard.Key.find(key.get());
+    public Keyboard.Key getKey() {
+        return this.key.get();
     }
 
     /**
@@ -44,7 +66,7 @@ public class KeyActivatedButton extends UIButton {
      * @param key The key used to activate this {@code KeyActivatedButton}
      */
     public void setKey(Keyboard.Key key) {
-        this.key.set(key.getName());
+        this.key.set(key);
     }
 
     /**
