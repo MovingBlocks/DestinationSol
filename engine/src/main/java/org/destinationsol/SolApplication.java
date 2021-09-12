@@ -176,7 +176,7 @@ public class SolApplication implements ApplicationListener {
     @Override
     public void resize(int newWidth, int newHeight) {
         //To prevent application crashing, dont resize the height and width to 0 s, this condition checks it
-        if(newWidth==0 && newHeight==0){
+        if (newWidth == 0 && newHeight == 0) {
             return;
         }
         displayDimensions.set(newWidth, newHeight);
@@ -296,7 +296,7 @@ public class SolApplication implements ApplicationListener {
 
                 EntityRef entityRef = entitySystemManager.getEntityManager().createEntity(graphicsComponent, position, size,
                         new Angle(), new Velocity(), new AsteroidMesh(), health, new DropsMoneyOnDestruction(), new CreatesRubbleOnDestruction());
-                
+
                 entityRef.setComponent(new BodyLinked());
                 entityCreated = true;
             }
@@ -420,7 +420,7 @@ public class SolApplication implements ApplicationListener {
     public Context getContext() {
         return context;
     }
-  
+
     public NUIManager getNuiManager() {
         return nuiManager;
     }
