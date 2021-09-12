@@ -145,7 +145,7 @@ public abstract class SolarSystemGenerator {
     public abstract SolarSystemSize getSolarSystemSize();
 
     /**
-     * Override this method to tell the WorldBuilder how many non-default Features you want your SolarSystem to generate.
+     * Override this method to tell the GalaxyBuilder how many non-default Features you want your SolarSystem to generate.
      *
      * @return number of custom features
      */

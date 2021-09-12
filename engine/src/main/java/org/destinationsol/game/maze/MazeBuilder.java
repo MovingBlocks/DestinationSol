@@ -39,19 +39,25 @@ public class MazeBuilder {
     private Vector2 mazePosition;
     private float mazeAngle;
     private float innerRadius;
+    MazeLayout mazeLayout;
 
     public void build(SolGame game, Maze maze) {
         innerRadius = maze.getRadius() - BORDER;
         size = (int) (innerRadius * 2 / TILE_SZ);
         mazePosition = maze.getPos();
         mazeAngle = SolRandom.seededRandomFloat(180);
-
-        MazeLayout layout = buildMaze(game, maze);
-        buildEnemies(game, maze, layout);
+        mazeLayout = buildMaze(game, maze);
+        buildEnemies(game, maze, mazeLayout);
     }
 
     private MazeLayout buildMaze(SolGame game, Maze maze) {
-        MazeLayout layout = new MazeLayoutBuilder(size).build();
+        MazeLayout layout;
+        if (maze.hasLayoutSet()) {
+            layout = new MazeLayoutBuilder(size).build(maze.getMazeLayout().inners);
+        } else {
+            layout = new MazeLayoutBuilder(size).build();
+        }
+
         new MazeTileObject.Builder();
         MazeConfig config = maze.getConfig();
         for (int col = 0; col < size; col++) {

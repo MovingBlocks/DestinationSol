@@ -20,6 +20,8 @@ import org.destinationsol.game.ShipConfig;
 import org.destinationsol.game.maze.Maze;
 import org.destinationsol.game.maze.MazeConfig;
 import org.destinationsol.game.maze.MazeConfigManager;
+import org.destinationsol.game.maze.MazeLayout;
+import org.destinationsol.game.maze.MazeLayoutManager;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -35,6 +37,9 @@ public abstract class MazeGenerator extends FeatureGenerator {
     private MazeConfigManager mazeConfigManager;
     private MazeConfig mazeConfig;
     private Maze maze;
+    private MazeLayoutManager mazeLayoutManager = new MazeLayoutManager();
+    private MazeLayout mazeLayout;
+    private boolean hasSetLayout;
 
     /**
      * This method modifies how often inner maze enemies will spawn.
@@ -95,7 +100,11 @@ public abstract class MazeGenerator extends FeatureGenerator {
      * at the end of the build() method in any MazeGenerator implementation.
      */
     protected void instantiateMaze() {
-        maze = new Maze(getMazeConfig(), getPosition(), getRadius());
+        if (layoutIsSet()) {
+            maze = new Maze(getMazeConfig(), getPosition(), getRadius(), getMazeLayout());
+        } else {
+            maze = new Maze(getMazeConfig(), getPosition(), getRadius());
+        }
     }
 
     public void setMazeConfigManager(MazeConfigManager mazeConfigManager) {
@@ -106,7 +115,24 @@ public abstract class MazeGenerator extends FeatureGenerator {
         return maze;
     }
 
+    protected MazeLayoutManager getMazeLayoutManager() {
+        return mazeLayoutManager;
+    }
+
     protected float calculateDefaultMazeSize() {
         return SolRandom.seededRandomFloat(.7f, 1) * MAX_MAZE_RADIUS;
+    }
+
+    protected void setMazeLayout(MazeLayout mazeLayout) {
+        this.mazeLayout = mazeLayout;
+        hasSetLayout = true;
+    }
+
+    public MazeLayout getMazeLayout() {
+        return mazeLayout;
+    }
+
+    protected boolean layoutIsSet() {
+        return hasSetLayout;
     }
 }

@@ -25,7 +25,9 @@ import org.destinationsol.game.GameColors;
 import org.destinationsol.game.context.Context;
 import org.destinationsol.game.context.internal.ContextImpl;
 import org.destinationsol.game.item.ItemManager;
+import org.destinationsol.game.maze.MazeConfigManager;
 import org.destinationsol.game.particle.EffectTypes;
+import org.destinationsol.game.planet.BeltConfigManager;
 import org.destinationsol.game.planet.PlanetConfigManager;
 import org.destinationsol.game.planet.SolarSystemConfigManager;
 import org.destinationsol.modules.ModuleManager;
@@ -38,10 +40,10 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
-public class WorldBuilderTest implements AssetsHelperInitializer {
+public class GalaxyBuilderTest implements AssetsHelperInitializer {
     private Context context;
     private ModuleManager moduleManager;
-    WorldBuilder worldBuilder;
+    GalaxyBuilder galaxyBuilder;
     private GameColors gameColors;
     private EffectTypes effectTypes;
     private OggSoundManager soundManager;
@@ -75,6 +77,14 @@ public class WorldBuilderTest implements AssetsHelperInitializer {
         planetConfigManager.loadDefaultPlanetConfigs();
         context.put(PlanetConfigManager.class, planetConfigManager);
 
+        MazeConfigManager mazeConfigManager = new MazeConfigManager(hullConfigManager, itemManager);
+        mazeConfigManager.loadDefaultMazeConfigs();
+        context.put(MazeConfigManager.class, mazeConfigManager);
+
+        BeltConfigManager beltConfigManager = new BeltConfigManager(hullConfigManager, itemManager);
+        beltConfigManager.loadDefaultBeltConfigs();
+        context.put(BeltConfigManager.class, beltConfigManager);
+
         SolarSystemConfigManager solarSystemConfigManager = new SolarSystemConfigManager(hullConfigManager, itemManager);
         context.put(SolarSystemConfigManager.class, solarSystemConfigManager);
     }
@@ -94,41 +104,41 @@ public class WorldBuilderTest implements AssetsHelperInitializer {
     @Test
     void populatesSolarSystemsList() {
         int testNumberSystems = 2;
-        worldBuilder = new WorldBuilder(context, testNumberSystems);
-        worldBuilder.buildWithRandomSolarSystemGenerators();
-        assertTrue(worldBuilder.getSolarSystemGeneratorTypes().size() > 0);
+        galaxyBuilder = new GalaxyBuilder(context, testNumberSystems);
+        galaxyBuilder.buildWithRandomSolarSystemGenerators();
+        assertTrue(galaxyBuilder.getSolarSystemGeneratorTypes().size() > 0);
 
     }
 
     @Test
     void populatesFeatureGeneratorsList() {
         int testNumberSystems = 2;
-        worldBuilder = new WorldBuilder(context, testNumberSystems);
-        worldBuilder.buildWithRandomSolarSystemGenerators();
-        assertTrue(worldBuilder.getFeatureGeneratorTypes().size() > 0);
+        galaxyBuilder = new GalaxyBuilder(context, testNumberSystems);
+        galaxyBuilder.buildWithRandomSolarSystemGenerators();
+        assertTrue(galaxyBuilder.getFeatureGeneratorTypes().size() > 0);
     }
 
     @Test
     void createsCorrectNumberOfSolarSystemGenerators() {
         int testNumberSystems = 2;
-        worldBuilder = new WorldBuilder(context, testNumberSystems);
-        worldBuilder.buildWithRandomSolarSystemGenerators();
-        assertEquals(worldBuilder.getActiveSolarSystemGenerators().size(), 2);
+        galaxyBuilder = new GalaxyBuilder(context, testNumberSystems);
+        galaxyBuilder.buildWithRandomSolarSystemGenerators();
+        assertEquals(galaxyBuilder.getActiveSolarSystemGenerators().size(), 2);
     }
 
     @Test
     void createsCorrectNumberOfSolarSystems() {
         int testNumberSystems = 2;
-        worldBuilder = new WorldBuilder(context, testNumberSystems);
-        worldBuilder.buildWithRandomSolarSystemGenerators();
-        assertEquals(worldBuilder.getBuiltSolarSystems().size(), 2);
+        galaxyBuilder = new GalaxyBuilder(context, testNumberSystems);
+        galaxyBuilder.buildWithRandomSolarSystemGenerators();
+        assertEquals(galaxyBuilder.getBuiltSolarSystems().size(), 2);
     }
 
     @Test
     void setsContext() {
         int testNumberSystems = 2;
-        worldBuilder = new WorldBuilder(context, testNumberSystems);
-        assertNotNull(worldBuilder.getContext());
+        galaxyBuilder = new GalaxyBuilder(context, testNumberSystems);
+        assertNotNull(galaxyBuilder.getContext());
     }
 
 }

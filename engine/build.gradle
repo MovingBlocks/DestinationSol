@@ -119,4 +119,5 @@ test {
     useJUnitPlatform()
     // showStandardStreams: makes the standard streams (err and out) visible at console when running tests
     testLogging.showStandardStreams = true
+    workingDir = rootProject.projectDir
 }

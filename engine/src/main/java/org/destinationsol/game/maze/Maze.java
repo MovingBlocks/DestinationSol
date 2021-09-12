@@ -28,11 +28,22 @@ public class Maze {
     private final float radius;
     private final float damagePerSecond;
     private boolean areObjectsCreated;
+    private MazeLayout mazeLayout;
+    private boolean hasLayout;
 
     public Maze(MazeConfig config, Vector2 position, float radius) {
         this.config = config;
         this.position = position;
         this.radius = radius;
+        damagePerSecond = HardnessCalc.getMazeDps(config);
+    }
+
+    public Maze(MazeConfig config, Vector2 position, float radius, MazeLayout mazeLayout) {
+        this.config = config;
+        this.position = position;
+        this.radius = radius;
+        this.mazeLayout = mazeLayout;
+        hasLayout = true;
         damagePerSecond = HardnessCalc.getMazeDps(config);
     }
 
@@ -62,5 +73,18 @@ public class Maze {
 
     public float getDps() {
         return damagePerSecond;
+    }
+
+    public void setMazeLayout(MazeLayout mazeLayout) {
+        this.mazeLayout = mazeLayout;
+        hasLayout = true;
+    }
+
+    public boolean hasLayoutSet() {
+        return hasLayout;
+    }
+
+    public MazeLayout getMazeLayout() {
+        return mazeLayout;
     }
 }

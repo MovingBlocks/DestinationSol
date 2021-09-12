@@ -139,7 +139,7 @@ public class GalaxyFiller {
             return;
         }
         createStarPorts(game);
-        ArrayList<SolarSystem> systems = game.getWorldBuilder().getBuiltSolarSystems();
+        ArrayList<SolarSystem> systems = game.getGalaxyBuilder().getBuiltSolarSystems();
 
         JSONObject rootNode = Validator.getValidatedJSON(moduleName + ":startingStation", "engine:schemaStartingStation");
 
@@ -174,7 +174,7 @@ public class GalaxyFiller {
     private void createStarPorts(SolGame game) {
         ArrayList<Planet> biggest = new ArrayList<>();
 
-        for (SolarSystem system : game.getWorldBuilder().getBuiltSolarSystems()) {
+        for (SolarSystem system : game.getGalaxyBuilder().getBuiltSolarSystems()) {
             float minHeight = 0;
             Planet biggestPlanet = null;
             int biggestPlanetIndex = -1;

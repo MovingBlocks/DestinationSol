@@ -33,7 +33,7 @@ import org.destinationsol.game.planet.SolarSystemConfigManager;
 import org.destinationsol.modules.ModuleManager;
 import org.destinationsol.testingUtilities.MockGL;
 import org.destinationsol.testsupport.AssetsHelperInitializer;
-import org.destinationsol.world.WorldBuilder;
+import org.destinationsol.world.GalaxyBuilder;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -44,7 +44,7 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 public class MazeGeneratorTest implements AssetsHelperInitializer {
     private Context context;
     private ModuleManager moduleManager;
-    private WorldBuilder worldBuilder;
+    private GalaxyBuilder galaxyBuilder;
     private GameColors gameColors;
     private EffectTypes effectTypes;
     private OggSoundManager soundManager;
@@ -63,13 +63,17 @@ public class MazeGeneratorTest implements AssetsHelperInitializer {
 
         setupConfigManagers();
 
-        worldBuilder = new WorldBuilder(context, 1);
+        galaxyBuilder = new GalaxyBuilder(context, 1);
 
-        ArrayList<SolarSystemGenerator> solarSystemGenerators = worldBuilder.initializeRandomSolarSystemGenerators();
+        ArrayList<SolarSystemGenerator> solarSystemGenerators = galaxyBuilder.initializeRandomSolarSystemGenerators();
         solarSystemGenerator = solarSystemGenerators.get(0);
         setupSolarSystemGenerator();
         ArrayList<FeatureGenerator> activeFeatureGenerators = solarSystemGenerators.get(0).getActiveFeatureGenerators();
-        mazeGenerator = (MazeGenerator) activeFeatureGenerators.get(activeFeatureGenerators.size() - 2);
+        for (FeatureGenerator featureGenerator : activeFeatureGenerators) {
+            if (MazeGenerator.class.isAssignableFrom(featureGenerator.getClass())) {
+                mazeGenerator = (MazeGenerator) featureGenerator;
+            }
+        }
     }
 
     private void setupMockGL() {
