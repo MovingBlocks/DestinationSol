@@ -26,7 +26,7 @@ public final class Health implements Component<Health> {
     public float currentHealth = 30;
 
     @Override
-    public void copy(Health other) {
+    public void copyFrom(Health other) {
         this.maxHealth = other.maxHealth;
         this.currentHealth = other.currentHealth;
     }

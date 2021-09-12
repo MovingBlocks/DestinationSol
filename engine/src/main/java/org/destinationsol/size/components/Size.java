@@ -15,6 +15,7 @@
  */
 package org.destinationsol.size.components;
 
+
 import org.terasology.gestalt.entitysystem.component.Component;
 
 /**
@@ -25,7 +26,7 @@ public class Size implements Component<Size> {
     public float size;
 
     @Override
-    public void copy(Size other) {
+    public void copyFrom(Size other) {
         this.size = other.size;
     }
 }

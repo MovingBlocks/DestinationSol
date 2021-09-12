@@ -47,7 +47,7 @@ public class BodyLinked implements Component<BodyLinked> {
     }
 
     @Override
-    public void copy(BodyLinked other) {
-        this.mass = other.getMass();
+    public void copyFrom(BodyLinked other) {
+        this.mass = other.mass;
     }
 }
