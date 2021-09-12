@@ -173,8 +173,13 @@ public class SolApplication implements ApplicationListener {
         nuiManager = new NUIManager(this, context, commonDrawer, options);
     }
 
+    @SuppressWarnings("checkstyle:ParameterAssignment")
     @Override
     public void resize(int newWidth, int newHeight) {
+        if(newWidth==0 && newHeight==0){
+            newWidth=1366;
+            newHeight=768;
+        }
         displayDimensions.set(newWidth, newHeight);
 
         for (ResizeSubscriber resizeSubscriber : resizeSubscribers) {
