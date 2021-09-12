@@ -1,0 +1,3 @@
+path_classifiers:
+  ignore:
+    - exclude: launcher
