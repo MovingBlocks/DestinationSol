@@ -295,7 +295,7 @@
             ]
         },
         {
-            "name": "engine:shard_0",
+            "name": "engine:rubble_0",
             "origin": {
                 "x": 0,
                 "y": 0
@@ -338,7 +338,7 @@
             ]
         },
         {
-            "name": "engine:shard_1",
+            "name": "engine:rubble_1",
             "origin": {
                 "x": 0,
                 "y": 0
@@ -368,7 +368,7 @@
             ]
         },
         {
-            "name": "engine:shard_2",
+            "name": "engine:rubble_2",
             "origin": {
                 "x": 0,
                 "y": 0

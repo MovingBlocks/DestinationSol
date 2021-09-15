@@ -45,7 +45,7 @@ public class RubbleCreationSystem implements EventReceiver {
     @In
     private SolGame solGame;
 
-    //TODO once Shards are entities, this needs to be refactored to replace ShardBuilder
+    //TODO once Rubbles are entities, this needs to be refactored to replace RubbleBuilder
 
     /**
      * When an entity with a {@link CreatesRubbleOnDestruction} component is destroyed, this creates {@link Rubble}s where
@@ -63,7 +63,7 @@ public class RubbleCreationSystem implements EventReceiver {
                 velocity = new Vector2();
             }
             float size = entity.getComponent(Size.class).get().size;
-            rubbleBuilder.buildExplosionShards(solGame, position, velocity, size);
+            rubbleBuilder.buildExplosionRubbles(solGame, position, velocity, size);
         }
         return EventResult.CONTINUE;
     }

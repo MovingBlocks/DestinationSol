@@ -32,7 +32,7 @@ import java.util.List;
 public class RubbleBuilder {
     public static final float MIN_SCALE = .07f;
     public static final float MAX_SCALE = .12f;
-    public static final float SIZE_TO_SHARD_COUNT = 13f;
+    public static final float SIZE_TO_RUBBLE_COUNT = 13f;
     private static final float MAX_ROT_SPD = 5f;
     private static final float MAX_SPD = 4f;
     private final CollisionMeshLoader myCollisionMeshLoader;
@@ -40,11 +40,11 @@ public class RubbleBuilder {
 
     public RubbleBuilder() {
         myCollisionMeshLoader = new CollisionMeshLoader("engine:miscCollisionMeshes");
-        myTextures = Assets.listTexturesMatching("engine:shard_.*");
+        myTextures = Assets.listTexturesMatching("engine:rubble_.*");
     }
 
-    public void buildExplosionShards(SolGame game, Vector2 position, Vector2 baseVelocity, float size) {
-        int count = (int) (size * SIZE_TO_SHARD_COUNT);
+    public void buildExplosionRubbles(SolGame game, Vector2 position, Vector2 baseVelocity, float size) {
+        int count = (int) (size * SIZE_TO_RUBBLE_COUNT);
         for (int i = 0; i < count; i++) {
             Rubble s = build(game, position, baseVelocity, size);
             game.getObjectManager().addObjDelayed(s);
