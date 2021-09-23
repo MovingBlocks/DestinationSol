@@ -19,7 +19,7 @@ import com.badlogic.gdx.math.Vector2;
 import org.destinationsol.common.SolMath;
 import org.destinationsol.game.planet.Planet;
 import org.destinationsol.game.planet.SolarSystem;
-import org.destinationsol.world.generators.SunGenerator;
+import org.destinationsol.world.generators.SolarSystemGenerator;
 
 public interface CamRotStrategy {
     float getRotation(Vector2 position, SolGame game);
@@ -44,7 +44,7 @@ public interface CamRotStrategy {
             }
             SolarSystem sys = game.getPlanetManager().getNearestSystem(position);
             Vector2 sysPos = sys.getPosition();
-            if (sysPos.dst(position) < SunGenerator.SUN_RADIUS) {
+            if (sysPos.dst(position) < SolarSystemGenerator.SUN_RADIUS) {
                 return SolMath.angle(position, sysPos) - 90;
             }
             return 0;

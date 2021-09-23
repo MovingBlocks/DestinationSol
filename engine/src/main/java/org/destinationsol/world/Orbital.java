@@ -35,7 +35,6 @@ public class Orbital {
     float width;
     float startingDistanceFromSystemCenter;
     FeatureGenerator featureGenerator;
-    String superTypeName;
 
 
     public Orbital(int position) {
@@ -56,7 +55,6 @@ public class Orbital {
 
     public void setFeatureGenerator(FeatureGenerator featureGenerator) {
         this.featureGenerator = featureGenerator;
-        superTypeName = featureGenerator.getClass().getSuperclass().getTypeName();
     }
 
     public int getPositionInSolarSystem() {
@@ -81,9 +79,5 @@ public class Orbital {
      */
     public float calculateDistanceFromCenterOfSystemForFeature() {
         return getStartingDistanceFromSystemCenter() + (getWidth() / 2);
-    }
-
-    public String getSuperTypeName() {
-        return superTypeName;
     }
 }

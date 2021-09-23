@@ -51,6 +51,12 @@ public class MazeLayoutBuilder {
         return new MazeLayout(inners, holes, right, down);
     }
 
+    /**
+     * This method iterates through the 'inner' array in the the MazeLayout. If inner is true, the maze should exist
+     * in that location. If also will place wall to the right of and below the tile.
+     * @param innerPreset 2D array representing layout.
+     * @return new Maze layout
+     */
     public MazeLayout build(boolean[][] innerPreset) {
         inners = innerPreset;
         for (int col = 0; col < size; col++) {

@@ -38,7 +38,6 @@ import org.destinationsol.game.input.AiPilot;
 import org.destinationsol.game.input.MoveDestProvider;
 import org.destinationsol.game.input.Pilot;
 import org.destinationsol.game.input.StillGuard;
-import org.destinationsol.game.maze.Maze;
 import org.destinationsol.game.planet.BeltConfig;
 import org.destinationsol.game.planet.Planet;
 import org.destinationsol.game.planet.PlanetManager;
@@ -47,7 +46,7 @@ import org.destinationsol.game.planet.SolarSystemConfig;
 import org.destinationsol.game.planet.SystemBelt;
 import org.destinationsol.game.ship.FarShip;
 import org.destinationsol.game.ship.hulls.HullConfig;
-import org.destinationsol.world.generators.SunGenerator;
+import org.destinationsol.world.generators.SolarSystemGenerator;
 
 import java.util.ArrayList;
 import java.util.Optional;
@@ -118,7 +117,7 @@ public class ChunkFiller {
         SolarSystem system = planetManager.getNearestSystem(chunkCenter);
         float distanceToSystem = system.getPosition().dst(chunkCenter);
         if (distanceToSystem < system.getRadius()) {
-            if (distanceToSystem < SunGenerator.SUN_RADIUS) {
+            if (distanceToSystem < SolarSystemGenerator.SUN_RADIUS) {
                 return Optional.empty();
             }
             for (SystemBelt belt : system.getBelts()) {
