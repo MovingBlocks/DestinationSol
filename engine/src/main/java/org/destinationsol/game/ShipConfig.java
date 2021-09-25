@@ -33,7 +33,8 @@ public class ShipConfig {
     public final HullConfig hull;
     public final String items;
     public final int money;
-    public final float density;
+    //TODO: Consider refactoring 'density' to some other name, as it more accurately reflects a probability of ship spawning
+    public float density;
     public final ShipConfig guard;
     public final float dps;
     public Vector2 spawnPos;

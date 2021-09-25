@@ -1,5 +1,5 @@
 /*
- * Copyright 2018 MovingBlocks
+ * Copyright 2021 The Terasology Foundation
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -13,24 +13,20 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+package org.destinationsol.world.generators;
 
-package org.destinationsol.save;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
-import org.destinationsol.game.FarObject;
-import org.destinationsol.game.planet.Planet;
-import org.destinationsol.game.planet.SolarSystem;
+public class BeltGeneratorImpl extends BeltGenerator {
+    private static final Logger logger = LoggerFactory.getLogger(BeltGeneratorImpl.class);
 
-import java.util.ArrayList;
-import java.util.List;
+    @Override
+    public void build() {
+        setRadius(DEFAULT_BELT_HALF_WIDTH);
 
-public class SaveData {
-    public final List<FarObject> farObjects;
-    public final List<SolarSystem> systems;
-    public final List<Planet> planets;
+        setBeltConfig(getBeltConfigManager().getRandomBeltConfig(getIsInFirstSolarSystem()));
 
-    public SaveData() {
-        farObjects = new ArrayList<>();
-        planets = new ArrayList<>();
-        systems = new ArrayList<>();
+        instantiateSystemBelt();
     }
 }

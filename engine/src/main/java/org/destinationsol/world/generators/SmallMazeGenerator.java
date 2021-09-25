@@ -1,5 +1,5 @@
 /*
- * Copyright 2018 MovingBlocks
+ * Copyright 2021 The Terasology Foundation
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -13,24 +13,16 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+package org.destinationsol.world.generators;
 
-package org.destinationsol.save;
+public class SmallMazeGenerator extends MazeGenerator {
 
-import org.destinationsol.game.FarObject;
-import org.destinationsol.game.planet.Planet;
-import org.destinationsol.game.planet.SolarSystem;
+    @Override
+    public void build() {
+        setRadius(calculateDefaultMazeSize() * 0.6f);
+        setMazeConfig(getRandomMazeConfig());
 
-import java.util.ArrayList;
-import java.util.List;
-
-public class SaveData {
-    public final List<FarObject> farObjects;
-    public final List<SolarSystem> systems;
-    public final List<Planet> planets;
-
-    public SaveData() {
-        farObjects = new ArrayList<>();
-        planets = new ArrayList<>();
-        systems = new ArrayList<>();
+        modifyOuterEnemiesFrequency(1.21f);
+        instantiateMaze();
     }
 }

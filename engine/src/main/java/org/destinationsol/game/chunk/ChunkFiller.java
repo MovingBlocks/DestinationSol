@@ -38,14 +38,15 @@ import org.destinationsol.game.input.AiPilot;
 import org.destinationsol.game.input.MoveDestProvider;
 import org.destinationsol.game.input.Pilot;
 import org.destinationsol.game.input.StillGuard;
-import org.destinationsol.game.maze.Maze;
+import org.destinationsol.game.planet.BeltConfig;
 import org.destinationsol.game.planet.Planet;
 import org.destinationsol.game.planet.PlanetManager;
-import org.destinationsol.game.planet.SolSystem;
-import org.destinationsol.game.planet.SysConfig;
+import org.destinationsol.game.planet.SolarSystem;
+import org.destinationsol.game.planet.SolarSystemConfig;
 import org.destinationsol.game.planet.SystemBelt;
 import org.destinationsol.game.ship.FarShip;
 import org.destinationsol.game.ship.hulls.HullConfig;
+import org.destinationsol.world.generators.SolarSystemGenerator;
 
 import java.util.ArrayList;
 import java.util.Optional;
@@ -66,7 +67,6 @@ public class ChunkFiller {
     private static final float ENEMY_MAX_ROT_SPD = 15f;
     private static final float DUST_SZ = .02f;
     private static final float MAX_A_SPD = .2f;
-    private static final float BELT_A_DENSITY = .04f;
     private static final float MAZE_ZONE_BORDER = 20;
     private final TextureAtlas.AtlasRegion dustTexture;
 
@@ -114,18 +114,18 @@ public class ChunkFiller {
     private Optional<SpaceEnvConfig> getConfig(SolGame game, Vector2 chunkCenter, float[] densityMultiplier,
                                      RemoveController removeController, boolean fillFarBackground) {
         PlanetManager planetManager = game.getPlanetManager();
-        SolSystem system = planetManager.getNearestSystem(chunkCenter);
+        SolarSystem system = planetManager.getNearestSystem(chunkCenter);
         float distanceToSystem = system.getPosition().dst(chunkCenter);
         if (distanceToSystem < system.getRadius()) {
-            if (distanceToSystem < Const.SUN_RADIUS) {
+            if (distanceToSystem < SolarSystemGenerator.SUN_RADIUS) {
                 return Optional.empty();
             }
             for (SystemBelt belt : system.getBelts()) {
                 if (belt.contains(chunkCenter)) {
                     if (!fillFarBackground) {
-                        fillAsteroids(game, removeController, true, chunkCenter);
+                        fillAsteroids(game, removeController, true, chunkCenter, belt.getAsteroidFrequency());
                     }
-                    SysConfig beltConfig = belt.getConfig();
+                    BeltConfig beltConfig = belt.getConfig();
                     for (ShipConfig enemyConfig : beltConfig.tempEnemies) {
                         if (!fillFarBackground) {
                             fillEnemies(game, removeController, enemyConfig, chunkCenter);
@@ -149,6 +149,8 @@ public class ChunkFiller {
             }
             return Optional.of(system.getConfig().envConfig);
         }
+        //TODO: Uncomment this section when there are mazes added to the SolarSystem
+        /*
         Maze maze = planetManager.getNearestMaze(chunkCenter);
         float distanceToMaze = maze.getPos().dst(chunkCenter);
         float zoneRadius = maze.getRadius() + MAZE_ZONE_BORDER;
@@ -156,16 +158,18 @@ public class ChunkFiller {
             densityMultiplier[0] = 1 - distanceToMaze / zoneRadius;
             return Optional.of(maze.getConfig().envConfig);
         }
+        */
+
         return Optional.empty();
     }
 
-    private void fillForSys(SolGame game, Vector2 chunkCenter, RemoveController removeController, SolSystem system) {
-        SysConfig config = system.getConfig();
+    private void fillForSys(SolGame game, Vector2 chunkCenter, RemoveController removeController, SolarSystem system) {
+        SolarSystemConfig config = system.getConfig();
         Vector2 mainStationPosition = game.getGalaxyFiller().getMainStationPosition();
         Vector2 startPosition = mainStationPosition == null ? new Vector2() : mainStationPosition;
         float distanceToStartPosition = chunkCenter.dst(startPosition);
         if (Const.CHUNK_SIZE < distanceToStartPosition) {
-            fillAsteroids(game, removeController, false, chunkCenter);
+            fillAsteroids(game, removeController, false, chunkCenter, ASTEROID_DENSITY);
             ArrayList<ShipConfig> enemies = system.getPosition().dst(chunkCenter) < system.getInnerRadius() ? config.innerTempEnemies : config.tempEnemies;
             for (ShipConfig enemyConfig : enemies) {
                 fillEnemies(game, removeController, enemyConfig, chunkCenter);
@@ -201,8 +205,7 @@ public class ChunkFiller {
                 remover, false, money, null, true);
     }
 
-    private void fillAsteroids(SolGame game, RemoveController remover, boolean forBelt, Vector2 chunkCenter) {
-        float density = forBelt ? BELT_A_DENSITY : ASTEROID_DENSITY;
+    private void fillAsteroids(SolGame game, RemoveController remover, boolean forBelt, Vector2 chunkCenter, float density) {
         int count = getEntityCount(density);
         if (count == 0) {
             return;

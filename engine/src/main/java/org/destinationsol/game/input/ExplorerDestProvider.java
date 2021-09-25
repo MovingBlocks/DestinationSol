@@ -22,7 +22,7 @@ import org.destinationsol.common.SolMath;
 import org.destinationsol.common.SolRandom;
 import org.destinationsol.game.SolGame;
 import org.destinationsol.game.planet.Planet;
-import org.destinationsol.game.planet.SolSystem;
+import org.destinationsol.game.planet.SolarSystem;
 import org.destinationsol.game.ship.SolShip;
 import org.destinationsol.game.ship.hulls.HullConfig;
 
@@ -38,14 +38,14 @@ public class ExplorerDestProvider implements MoveDestProvider {
     private final Vector2 destination;
     private final boolean isAggressive;
     private final float desiredSpeed;
-    private final SolSystem system;
+    private final SolarSystem system;
     private Vector2 relativeDestination;
     private Planet planet;
     private float awaitOnPlanet;
     private boolean landInDestination;
     private Vector2 destinationVelocity;
 
-    public ExplorerDestProvider(Vector2 position, boolean aggressive, HullConfig config, SolSystem system) {
+    public ExplorerDestProvider(Vector2 position, boolean aggressive, HullConfig config, SolarSystem system) {
         this.system = system;
         destination = new Vector2();
         float minDistance = Float.MAX_VALUE;

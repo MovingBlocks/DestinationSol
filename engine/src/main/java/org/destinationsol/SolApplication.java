@@ -338,7 +338,7 @@ public class SolApplication implements ApplicationListener {
 
         solGame.createUpdateSystems(context);
 
-        solGame.startGame(shipName, isNewGame, worldConfig, new SolNames(), entitySystemManager);
+        solGame.startGame(shipName, isNewGame, worldConfig, entitySystemManager);
 
         // Big, fat, ugly HACK to get a working classloader
         // Serialisation and thus a classloader is not needed when there are no components
