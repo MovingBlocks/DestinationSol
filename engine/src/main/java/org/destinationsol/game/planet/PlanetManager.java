@@ -31,7 +31,7 @@ import org.destinationsol.game.maze.Maze;
 import org.destinationsol.game.ship.SolShip;
 import org.destinationsol.game.ship.hulls.Hull;
 import org.destinationsol.game.ship.hulls.HullConfig;
-import org.destinationsol.world.generators.SunGenerator;
+import org.destinationsol.world.generators.SolarSystemGenerator;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -114,7 +114,7 @@ public class PlanetManager implements UpdateAwareSystem {
                 srcPos = npPos;
                 gravConst = npGravConst;
                 onPlanet = true;
-            } else if (toSys < SunGenerator.SUN_RADIUS) {
+            } else if (toSys < SolarSystemGenerator.SUN_RADIUS) {
                 minDist = SunSingleton.SUN_HOT_RAD;
                 srcPos = sysPos;
                 gravConst = SunSingleton.GRAV_CONST;

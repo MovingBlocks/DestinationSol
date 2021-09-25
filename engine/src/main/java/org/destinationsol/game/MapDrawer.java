@@ -43,7 +43,7 @@ import org.destinationsol.game.ship.SolShip;
 import org.destinationsol.ui.DisplayDimensions;
 import org.destinationsol.ui.UiDrawer;
 import org.destinationsol.ui.Waypoint;
-import org.destinationsol.world.generators.SunGenerator;
+import org.destinationsol.world.generators.SolarSystemGenerator;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -200,7 +200,7 @@ public class MapDrawer implements UpdateAwareSystem{
         for (SolarSystem sys : systems) {
             float dangerRad = HardnessCalc.isDangerous(heroDmgCap, sys.getDps()) ? sys.getRadius() : 0;
             Vector2 sysPos = sys.getPosition();
-            float rad = SunGenerator.SUN_RADIUS;
+            float rad = SolarSystemGenerator.SUN_RADIUS;
             if (camPos.dst(sysPos) - rad < viewDist) {
                 drawer.draw(starTexture, 2 * rad, 2 * rad, rad, rad, sysPos.x, sysPos.y, 0, SolColor.WHITE);
             }

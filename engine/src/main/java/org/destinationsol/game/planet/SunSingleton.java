@@ -28,10 +28,10 @@ import org.destinationsol.game.SolCam;
 import org.destinationsol.game.SolGame;
 import org.destinationsol.game.SolObject;
 import org.destinationsol.game.context.Context;
-import org.destinationsol.world.generators.SunGenerator;
+import org.destinationsol.world.generators.SolarSystemGenerator;
 
 public class SunSingleton {
-    public static final float SUN_HOT_RAD = .75f * SunGenerator.SUN_RADIUS;
+    public static final float SUN_HOT_RAD = .75f * SolarSystemGenerator.SUN_RADIUS;
     public static final float GRAV_CONST = 2000;
     private static final float SUN_DMG = 4f;
     private final TextureAtlas.AtlasRegion gradatingTexture;
@@ -53,8 +53,8 @@ public class SunSingleton {
         Vector2 toCam = SolMath.getVec(camPos);
         toCam.sub(sys.getPosition());
         float toCamLen = toCam.len();
-        if (toCamLen < SunGenerator.SUN_RADIUS) {
-            float closeness = 1 - toCamLen / SunGenerator.SUN_RADIUS;
+        if (toCamLen < SolarSystemGenerator.SUN_RADIUS) {
+            float closeness = 1 - toCamLen / SolarSystemGenerator.SUN_RADIUS;
             gradatingTint.a = MathUtils.clamp(closeness * 4, (float) 0, (float) 1);
             fillTint.a = MathUtils.clamp((closeness - .25f) * 4, (float) 0, (float) 1);
 

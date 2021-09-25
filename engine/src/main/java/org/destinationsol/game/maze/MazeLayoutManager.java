@@ -56,10 +56,14 @@ public class MazeLayoutManager {
                     continue;
                 }
                 JSONArray mazeNode = rootNode.getJSONArray(s);
-                ArrayList<Object> arrayList = new ArrayList<>(mazeNode.toList());
                 if (s.equals("inner")) {
-                    for (int i = 0; i < arrayList.size(); i++) {
-                        inners.add((ArrayList<Boolean>) arrayList.get(i));
+                    for (int i = 0; i < mazeNode.length(); i++) {
+                        ArrayList<Boolean> innerList = new ArrayList<>();
+                        JSONArray innerMazeNode = mazeNode.getJSONArray(i);
+                        for (int j = 0; j < mazeNode.length(); j++) {
+                            innerList.add(innerMazeNode.getBoolean(j));
+                        }
+                        inners.add(innerList);
                     }
                 }
             }

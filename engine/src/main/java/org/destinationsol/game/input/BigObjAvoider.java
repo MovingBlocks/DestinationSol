@@ -20,7 +20,7 @@ import org.destinationsol.Const;
 import org.destinationsol.common.SolMath;
 import org.destinationsol.game.SolGame;
 import org.destinationsol.game.planet.Planet;
-import org.destinationsol.world.generators.SunGenerator;
+import org.destinationsol.world.generators.SolarSystemGenerator;
 
 public class BigObjAvoider {
 
@@ -53,7 +53,7 @@ public class BigObjAvoider {
             }
         }
         Vector2 sunPos = planet.getSolarSystemPosition();
-        float sunRad = SunGenerator.SUN_RADIUS;
+        float sunRad = SolarSystemGenerator.SUN_RADIUS;
         myProj.set(sunPos);
         myProj.sub(from);
         SolMath.rotate(myProj, -angleToDestination);

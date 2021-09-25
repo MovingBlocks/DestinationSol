@@ -25,7 +25,7 @@ import org.destinationsol.game.maze.Maze;
 import org.destinationsol.game.maze.MazeConfig;
 import org.destinationsol.game.maze.MazeConfigManager;
 import org.destinationsol.world.generators.FeatureGenerator;
-import org.destinationsol.world.generators.SunGenerator;
+import org.destinationsol.world.generators.SolarSystemGenerator;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -87,7 +87,7 @@ public class SystemsBuilder {
 
     private float calcSysRadius(List<Float> ghs) {
         float r = 0;
-        r += SunGenerator.SUN_RADIUS;
+        r += SolarSystemGenerator.SUN_RADIUS;
         for (Float groundHeight : ghs) {
             r += FeatureGenerator.ORBITAL_FEATURE_BUFFER;
             if (groundHeight > 0) {
@@ -128,7 +128,7 @@ public class SystemsBuilder {
                     return res;
                 }
             }
-            dist += SunGenerator.SUN_RADIUS;
+            dist += SolarSystemGenerator.SUN_RADIUS;
         }
     }
 
@@ -148,7 +148,7 @@ public class SystemsBuilder {
         }
         String name = firstSys ? SolRandom.seededRandomElement(names.systems) : "Sol"; //hack
         SolarSystem system = new SolarSystem(systemPosition, solarSystemConfig, name, systemRadius);
-        float planetDist = SunGenerator.SUN_RADIUS;
+        float planetDist = SolarSystemGenerator.SUN_RADIUS;
         for (Float groundHeight : groundHeights) {
             float reserved;
             if (groundHeight > 0) {

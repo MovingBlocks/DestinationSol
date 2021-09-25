@@ -33,13 +33,12 @@ import org.destinationsol.game.item.TradeConfig;
 import org.destinationsol.game.maze.Maze;
 import org.destinationsol.game.planet.ConsumedAngles;
 import org.destinationsol.game.planet.Planet;
-import org.destinationsol.game.planet.PlanetManager;
 import org.destinationsol.game.planet.SolarSystem;
 import org.destinationsol.game.planet.SolarSystemConfig;
 import org.destinationsol.game.ship.FarShip;
 import org.destinationsol.game.ship.hulls.HullConfig;
 import org.destinationsol.world.generators.FeatureGenerator;
-import org.destinationsol.world.generators.SunGenerator;
+import org.destinationsol.world.generators.SolarSystemGenerator;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
@@ -248,7 +247,7 @@ public class GalaxyFiller {
     }
 
     public Vector2 getPlayerSpawnPos(SolGame game) {
-        Vector2 position = new Vector2(SunGenerator.SUN_RADIUS * 2, 0);
+        Vector2 position = new Vector2(SolarSystemGenerator.SUN_RADIUS * 2, 0);
 
         if ("planet".equals(DebugOptions.SPAWN_PLACE)) {
             Planet planet = game.getPlanetManager().getPlanets().get(0);

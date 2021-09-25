@@ -24,7 +24,6 @@ import org.destinationsol.game.planet.SolarSystemConfigManager;
 import org.destinationsol.modules.ModuleManager;
 import org.destinationsol.world.generators.FeatureGenerator;
 import org.destinationsol.world.generators.SolarSystemGenerator;
-import org.destinationsol.world.generators.SunGenerator;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -174,7 +173,7 @@ public class GalaxyBuilder {
                     return;
                 }
             }
-            distance += SunGenerator.SUN_RADIUS;
+            distance += SolarSystemGenerator.SUN_RADIUS;
             counter++;
         }
         SolMath.free(result);

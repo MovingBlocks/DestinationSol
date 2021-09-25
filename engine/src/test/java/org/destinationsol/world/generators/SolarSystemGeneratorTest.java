@@ -141,7 +141,7 @@ public class SolarSystemGeneratorTest implements AssetsHelperInitializer {
     @Test
     void hasCorrectRadius() {
         float radiusFromFeatures = 0;
-        radiusFromFeatures += SunGenerator.SUN_RADIUS;
+        radiusFromFeatures += SolarSystemGenerator.SUN_RADIUS;
         for (FeatureGenerator featureGenerator : solarSystemGenerator.getActiveFeatureGenerators()) {
             if (!featureGenerator.getClass().getSuperclass().equals(MazeGenerator.class)) {
                 radiusFromFeatures += FeatureGenerator.ORBITAL_FEATURE_BUFFER;
@@ -175,15 +175,6 @@ public class SolarSystemGeneratorTest implements AssetsHelperInitializer {
     void beltPositionEqualsSolarSystemPosition() {
         for (FeatureGenerator featureGenerator : solarSystemGenerator.getActiveFeatureGenerators()) {
             if (featureGenerator.getClass().getSuperclass().equals(BeltGenerator.class)) {
-                assertEquals(featureGenerator.getPosition(), solarSystemGenerator.getPosition());
-            }
-        }
-    }
-
-    @Test
-    void sunPositionEqualsSolarSystemPosition() {
-        for (FeatureGenerator featureGenerator : solarSystemGenerator.getActiveFeatureGenerators()) {
-            if (featureGenerator.getClass().getSuperclass().equals(SunGenerator.class)) {
                 assertEquals(featureGenerator.getPosition(), solarSystemGenerator.getPosition());
             }
         }

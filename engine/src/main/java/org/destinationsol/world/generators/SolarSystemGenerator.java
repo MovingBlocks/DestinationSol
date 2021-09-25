@@ -16,6 +16,7 @@
 package org.destinationsol.world.generators;
 
 import com.badlogic.gdx.math.Vector2;
+import org.destinationsol.Const;
 import org.destinationsol.common.SolMath;
 import org.destinationsol.common.SolRandom;
 import org.destinationsol.game.SolNames;
@@ -36,8 +37,6 @@ import org.slf4j.LoggerFactory;
 import java.util.ArrayList;
 import java.util.List;
 
-import static org.destinationsol.world.generators.SunGenerator.SUN_RADIUS;
-
 /**
  * This class defines the general behavior for Planet generators (such as belts, radius etc). Any SolarSystem in the game
  * will be created from a concrete implementation of this class, with its specific implementation defined there.
@@ -46,6 +45,7 @@ import static org.destinationsol.world.generators.SunGenerator.SUN_RADIUS;
  */
 public abstract class SolarSystemGenerator {
     public static final float MAX_ANGLE_IN_SYSTEM = 180;
+    public static final float SUN_RADIUS = 2f * (Const.MAX_GROUND_HEIGHT + Const.ATM_HEIGHT);
     private static final Logger logger = LoggerFactory.getLogger(SolarSystemGenerator.class);
 
     /**
@@ -165,17 +165,6 @@ public abstract class SolarSystemGenerator {
     }
 
     /**
-     * This method assigns a position to the sun, equal to the SolarSystem position.
-     */
-    private void calculateSunPosition() {
-        for (FeatureGenerator generator : activeFeatureGenerators) {
-            if (generator.getClass().getSuperclass().equals(SunGenerator.class)) {
-                generator.setPosition(position);
-            }
-        }
-    }
-
-    /**
      * This places mazes within the outer orbital of the solar system. It checks to make sure they are placed at least 15
      * degrees apart so they do not overlap
      */
@@ -183,7 +172,7 @@ public abstract class SolarSystemGenerator {
         for (FeatureGenerator generator : activeFeatureGenerators) {
             Vector2 result = SolMath.getVec();
             List<Float> usedAnglesInSolarSystem = new ArrayList<>();
-            if (generator.getClass().getSuperclass().equals(MazeGenerator.class)) {
+            if (MazeGenerator.class.isAssignableFrom(generator.getClass())) {
                 //set the outermost orbital to have a MazeGenerator
                 solarSystemOrbitals.get(solarSystemOrbitals.size() - 1).setFeatureGenerator(generator);
                 float angle = SolRandom.seededRandomFloat(MAX_ANGLE_IN_SYSTEM);
@@ -210,7 +199,7 @@ public abstract class SolarSystemGenerator {
         int orbitalPosition = 0;
         for (FeatureGenerator featureGenerator : activeFeatureGenerators) {
             Vector2 result = SolMath.getVec();
-            if (featureGenerator.getClass().getSuperclass().equals(PlanetGenerator.class)) {
+            if (PlanetGenerator.class.isAssignableFrom(featureGenerator.getClass())) {
                 PlanetGenerator generator = (PlanetGenerator) featureGenerator;
                 Orbital orbital = solarSystemOrbitals.get(orbitalPosition);
                 orbital.setFeatureGenerator(generator);
@@ -243,7 +232,7 @@ public abstract class SolarSystemGenerator {
         //this list is necessary to keep track of which planets are replaced. They cannot be removed while iterating through the list of generators
         ArrayList<FeatureGenerator> featureGeneratorsToRemove = new ArrayList<>();
         for (FeatureGenerator featureGenerator : activeFeatureGenerators) {
-            if (featureGenerator.getClass().getSuperclass().equals(BeltGenerator.class) && beltsPlaced < (getPlanetCount() - 1)) {
+            if (BeltGenerator.class.isAssignableFrom(featureGenerator.getClass()) && beltsPlaced < (getPlanetCount() - 1)) {
                 int orbitInsertionPosition = chooseOrbitInsertionPosition();
                 float distanceFromSolarSystemCenter = solarSystemOrbitals.get(orbitInsertionPosition).calculateDistanceFromCenterOfSystemForFeature();
                 ((BeltGenerator) featureGenerator).setDistanceFromCenterOfSolarSystem(distanceFromSolarSystemCenter);
@@ -266,7 +255,6 @@ public abstract class SolarSystemGenerator {
      * Call this method to position all of the default objects in the game.
      */
     protected void calculateFeaturePositions() {
-        calculateSunPosition();
         calculateMazePositions();
         calculatePlanetPositions();
         calculateBeltPositions();
@@ -281,7 +269,7 @@ public abstract class SolarSystemGenerator {
         int planetsLeft = getPlanetCount();
         while (planetsLeft > 0) {
             int index = SolRandom.seededRandomInt(featureGeneratorTypes.size());
-            if (featureGeneratorTypes.get(index).getSuperclass().equals(PlanetGenerator.class)) {
+            if ((PlanetGenerator.class.isAssignableFrom(featureGeneratorTypes.get(index)))) {
                 try {
                     PlanetGenerator newFeatureGenerator = (PlanetGenerator) featureGeneratorTypes.get(index).newInstance();
                     newFeatureGenerator.setPlanetConfigManager(context.get(PlanetConfigManager.class));
@@ -304,7 +292,7 @@ public abstract class SolarSystemGenerator {
         int mazesLeft = Math.min(getMazeCount(), 12);
         while (mazesLeft > 0) {
             int index = SolRandom.seededRandomInt(featureGeneratorTypes.size());
-            if (featureGeneratorTypes.get(index).getSuperclass().equals(MazeGenerator.class)) {
+            if (MazeGenerator.class.isAssignableFrom(featureGeneratorTypes.get(index))) {
                 try {
                     MazeGenerator newFeatureGenerator = (MazeGenerator) featureGeneratorTypes.get(index).newInstance();
                     newFeatureGenerator.setMazeConfigManager(context.get(MazeConfigManager.class));
@@ -328,7 +316,7 @@ public abstract class SolarSystemGenerator {
         int beltsLeft = getPossibleBeltCount();
         while (beltsLeft > 0) {
             int index = SolRandom.seededRandomInt(featureGeneratorTypes.size());
-            if (featureGeneratorTypes.get(index).getSuperclass().equals(BeltGenerator.class)) {
+            if ((BeltGenerator.class.isAssignableFrom(featureGeneratorTypes.get(index)))) {
                 try {
                     if (SolRandom.seededTest(beltChance)) {
                         BeltGenerator newFeatureGenerator = (BeltGenerator) featureGeneratorTypes.get(index).newInstance();
@@ -385,7 +373,7 @@ public abstract class SolarSystemGenerator {
     ArrayList<Planet> getInstantiatedPlanets() {
         ArrayList<Planet> planets = new ArrayList<>();
         for (FeatureGenerator featureGenerator : activeFeatureGenerators) {
-            if (featureGenerator.getClass().getSuperclass().equals(PlanetGenerator.class)) {
+            if (PlanetGenerator.class.isAssignableFrom(featureGenerator.getClass())) {
                 planets.add(((PlanetGenerator) featureGenerator).getPlanet());
             }
         }
@@ -415,7 +403,7 @@ public abstract class SolarSystemGenerator {
     ArrayList<SystemBelt> getInstantiatedBelts() {
         ArrayList<SystemBelt> belts = new ArrayList<>();
         for (FeatureGenerator featureGenerator : activeFeatureGenerators) {
-            if (featureGenerator.getClass().getSuperclass().equals(BeltGenerator.class)) {
+            if (BeltGenerator.class.isAssignableFrom(featureGenerator.getClass())) {
                 belts.add(((BeltGenerator) featureGenerator).getSystemBelt());
             }
         }
@@ -433,7 +421,7 @@ public abstract class SolarSystemGenerator {
         boolean positionChosen = false;
         while (!positionChosen) {
             orbitPosition = SolRandom.seededRandomInt(1, solarSystemOrbitals.size() - 1);
-            if (!solarSystemOrbitals.get(orbitPosition).getSuperTypeName().equals(BeltGenerator.class.getTypeName())) {
+            if (!BeltGenerator.class.isAssignableFrom(solarSystemOrbitals.get(orbitPosition).getFeatureGenerator().getClass())) {
                 positionChosen = true;
             }
         }
@@ -465,10 +453,9 @@ public abstract class SolarSystemGenerator {
      * @return true if not one of the default types
      */
     private boolean isOtherGeneratorType(int index) {
-        return !featureGeneratorTypes.get(index).getSuperclass().equals(BeltGenerator.class)
-                && !featureGeneratorTypes.get(index).getSuperclass().equals(MazeGenerator.class)
-                && !featureGeneratorTypes.get(index).getSuperclass().equals(PlanetGenerator.class)
-                && !featureGeneratorTypes.get(index).getSuperclass().equals(SunGenerator.class);
+        return !BeltGenerator.class.isAssignableFrom(featureGeneratorTypes.get(index))
+                && !MazeGenerator.class.isAssignableFrom(featureGeneratorTypes.get(index))
+                && !PlanetGenerator.class.isAssignableFrom(featureGeneratorTypes.get(index));
     }
 
     public void setFeatureGeneratorTypes(ArrayList<Class<? extends FeatureGenerator>> generators) {
