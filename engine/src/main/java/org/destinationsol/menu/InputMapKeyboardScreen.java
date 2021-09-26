@@ -19,6 +19,7 @@ package org.destinationsol.menu;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.InputAdapter;
+import com.badlogic.gdx.InputProcessor;
 import org.destinationsol.GameOptions;
 import org.destinationsol.SolApplication;
 import org.destinationsol.ui.SolInputManager;
@@ -33,6 +34,7 @@ public class InputMapKeyboardScreen extends InputMapOperations {
     private boolean isEnterNewKey;
     private List<InputConfigItem> itemsList = new ArrayList<>();
     private int selectedIndex;
+    private InputProcessor inputProcessor;
 
     private void InitialiseList(GameOptions gameOptions) {
         itemsList.clear();
@@ -214,8 +216,9 @@ public class InputMapKeyboardScreen extends InputMapOperations {
 
         // Cancel the key input
         if (!isEnterNewKey) {
-            Gdx.input.setInputProcessor(null);
+            Gdx.input.setInputProcessor(inputProcessor);
         } else {
+            inputProcessor = Gdx.input.getInputProcessor();
             // Capture the new key input
             Gdx.input.setInputProcessor(new InputAdapter() {
                 @Override
@@ -229,7 +232,7 @@ public class InputMapKeyboardScreen extends InputMapOperations {
                     InputConfigItem item = itemsList.get(selectedIndex);
                     item.setInputKey(Input.Keys.toString(keycode));
                     itemsList.set(selectedIndex, item);
-                    Gdx.input.setInputProcessor(null);
+                    Gdx.input.setInputProcessor(inputProcessor);
 
                     isEnterNewKey = false;
                     return true; // return true to indicate the event was handled
