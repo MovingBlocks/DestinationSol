@@ -24,8 +24,10 @@ import org.destinationsol.assets.Assets;
 import org.destinationsol.assets.sound.OggSound;
 import org.destinationsol.game.context.Context;
 import org.destinationsol.util.InjectionHelper;
-import org.terasology.gestalt.assets.ResourceUrn;
+import org.terasology.joml.geom.Rectanglei;
+import org.joml.Vector2i;
 import org.terasology.input.InputType;
+import org.terasology.input.Keyboard;
 import org.terasology.input.MouseInput;
 import org.terasology.input.device.CharKeyboardAction;
 import org.terasology.input.device.RawKeyboardAction;
@@ -42,16 +44,20 @@ import org.terasology.nui.backends.libgdx.LibGDXMouseDevice;
 import org.terasology.nui.backends.libgdx.NUIInputProcessor;
 import org.terasology.nui.canvas.CanvasImpl;
 import org.terasology.nui.events.NUICharEvent;
+import org.terasology.nui.canvas.CanvasRenderer;
 import org.terasology.nui.events.NUIKeyEvent;
 import org.terasology.nui.events.NUIMouseButtonEvent;
 import org.terasology.nui.events.NUIMouseWheelEvent;
 import org.terasology.nui.skin.UISkin;
+import org.terasology.nui.util.RectUtility;
 import org.terasology.nui.widgets.UIButton;
 import org.terasology.nui.widgets.UIText;
 
 import java.util.Deque;
 import java.util.Iterator;
 import java.util.LinkedList;
+import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  *  The NUI Manager is responsible for the initialisation and interaction between the NUI library and the game.
@@ -66,7 +72,7 @@ public class NUIManager {
     /**
      * The game's canvas, which is used for all NUI rendering operations. See also {@link NUIManager#canvasRenderer}.
      */
-    private CanvasImpl canvas;
+    private SolCanvas canvas;
     /**
      * A blank white texture, used by-default for the text cursor.
      */
@@ -91,6 +97,10 @@ public class NUIManager {
      * The current game context used to initialise UI screens.
      */
     private Context context;
+    /**
+     * The baseline UI scale used on Android.
+     */
+    private final float baseUIScale;
 
     /**
      * The UI stack. The elements are rendered from most recently added to least recent, so a stack-like structure
@@ -101,6 +111,7 @@ public class NUIManager {
     private static final String WHITE_TEXTURE_URN = "engine:uiWhiteTex";
     private static final String DEFAULT_SKIN_URN = "engine:default";
     private static final String BUTTON_CLICK_URN = "engine:uiHover";
+    private static final float MOBILE_UI_DENSITY = 1.5f;
     /**
      * The value 0.9 was found from {@link org.destinationsol.ui.SolInputManager#playClick}, so it was copied here to
      * retain the same click sound as the built-in UI.
@@ -118,6 +129,11 @@ public class NUIManager {
         NUIInputProcessor.CONSUME_INPUT = true;
         this.context = context;
 
+        // TODO: Re-enable tabbing when it works
+        TabbingManager.tabForwardInput = Keyboard.Key.NONE;
+        TabbingManager.tabBackInputModifier = Keyboard.Key.NONE;
+        TabbingManager.activateInput = Keyboard.Key.NONE;
+
         mouse = new LibGDXMouseDevice();
         keyboard = new LibGDXKeyboardDevice();
         canvasRenderer = new LibGDXCanvasRenderer(Gdx.graphics.getWidth(), Gdx.graphics.getHeight(),
@@ -126,7 +142,7 @@ public class NUIManager {
         whiteTexture = Assets.getDSTexture(WHITE_TEXTURE_URN).getUiTexture();
         skin = Assets.getSkin(DEFAULT_SKIN_URN);
 
-        canvas = new CanvasImpl(canvasRenderer, focusManager, keyboard, mouse, whiteTexture, skin, 100);
+        canvas = new SolCanvas(canvasRenderer, focusManager, keyboard, mouse, whiteTexture, skin, 100);
         TabbingManager.setFocusManager(focusManager);
 
         OggSound sound = Assets.getSound(BUTTON_CLICK_URN);
@@ -139,6 +155,16 @@ public class NUIManager {
         // NOTE: SolApplication::addResizeSubscriber is not intended to be static, so use the instance form for compatibility
         solApplication.addResizeSubscriber(() -> resize(Gdx.graphics.getBackBufferWidth(), Gdx.graphics.getBackBufferHeight()));
 
+        // Mobile screen densities can vary considerably, so a large digital resolution can be displayed
+        // on a very small screen. Due to this, it makes sense to scale the UI roughly proportionally
+        // to form a more sensible default. Otherwise, the UI may appear to be too big/small.
+        // On very large mobile screens, such as tablets, you may need to adjust the UI scale further in the game options.
+        if (solApplication.isMobile()) {
+            baseUIScale = Gdx.graphics.getDensity() / MOBILE_UI_DENSITY;
+        } else {
+            baseUIScale = 1.0f;
+        }
+
         setUiScale(options.getNuiUiScale());
     }
 
@@ -147,7 +173,10 @@ public class NUIManager {
      * @param solApplication the application to use
      */
     public void update(SolApplication solApplication) {
-        canvas.processMousePosition(mouse.getPosition());
+        for (int pointer = 0; pointer < mouse.getMaxPointers(); pointer++) {
+            canvas.processMousePosition(mouse.getPosition(pointer), pointer);
+        }
+
         canvas.setGameTime(System.currentTimeMillis());
 
         for (RawKeyboardAction action : keyboard.getInputQueue()) {
@@ -181,9 +210,9 @@ public class NUIManager {
         for (MouseAction action : mouse.getInputQueue()) {
             if (action.getInput().getType() == InputType.MOUSE_BUTTON) {
                 if (action.getState().isDown()) {
-                    canvas.processMouseClick((MouseInput) action.getInput(), action.getMousePosition());
+                    canvas.processMouseClick((MouseInput) action.getInput(), action.getMousePosition(), action.getPointer());
                 } else {
-                    canvas.processMouseRelease((MouseInput) action.getInput(), action.getMousePosition());
+                    canvas.processMouseRelease((MouseInput) action.getInput(), action.getMousePosition(), action.getPointer());
                 }
 
                 NUIMouseButtonEvent event = new NUIMouseButtonEvent((MouseInput) action.getInput(), action.getState(), action.getMousePosition());
@@ -318,6 +347,16 @@ public class NUIManager {
     }
 
     /**
+     * Removes all of the UI screens currently on UI stack.
+     */
+    public void clearScreens() {
+        for (NUIScreenLayer uiScreen : uiScreens) {
+            uiScreen.onRemoved();
+        }
+        uiScreens.clear();
+    }
+
+    /**
      * Returns the default {@link UISkin} for widgets.
      * @return the default {@link UISkin}
      */
@@ -331,6 +370,21 @@ public class NUIManager {
      */
     public void setContext(Context context) {
         this.context = context;
+    }
+
+    /**
+     * Returns if the mouse is currently over an interactive UI element.
+     * @return true, if the mouse is currently over an interactive UI element, otherwise false
+     */
+    public boolean isMouseOnUi() {
+        // TODO: Find better way of doing this.
+        Vector2i mousePosition = mouse.getPosition();
+        for (Rectanglei interactionRegion : canvas.getInteractionRegions()) {
+            if (RectUtility.contains(interactionRegion, mousePosition)) {
+                return true;
+            }
+        }
+        return false;
     }
 
     /**
@@ -349,7 +403,18 @@ public class NUIManager {
      * @param scale the new UI scale to use
      */
     public void setUiScale(float scale) {
-        canvas.setUiScale(scale);
-        canvasRenderer.setUiScale(1.0f / scale);
+        float actualScale = scale * baseUIScale;
+        canvas.setUiScale(actualScale);
+        canvasRenderer.setUiScale(1.0f / actualScale);
+    }
+
+    private class SolCanvas extends CanvasImpl {
+        public SolCanvas(CanvasRenderer renderer, FocusManager focusManager, KeyboardDevice keyboard, MouseDevice mouse, UITextureRegion whiteTexture, UISkin defaultSkin, int uiScale) {
+            super(renderer, focusManager, keyboard, mouse, whiteTexture, defaultSkin, uiScale);
+        }
+
+        public List<Rectanglei> getInteractionRegions() {
+            return interactionRegions.stream().map(region -> region.region).collect(Collectors.toList());
+        }
     }
 }

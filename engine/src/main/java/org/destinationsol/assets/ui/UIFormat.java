@@ -36,6 +36,7 @@ import org.terasology.gestalt.assets.format.AbstractAssetFileFormat;
 import org.terasology.gestalt.assets.format.AssetDataFile;
 import org.terasology.gestalt.assets.management.AssetManager;
 import org.terasology.gestalt.assets.module.annotations.RegisterAssetFileFormat;
+import org.terasology.input.Keyboard;
 import org.terasology.nui.Color;
 import org.terasology.nui.LayoutHint;
 import org.terasology.nui.UILayout;
@@ -112,6 +113,7 @@ public class UIFormat extends AbstractAssetFileFormat<UIData> {
                 .registerTypeAdapter(Font.class, new UISkinFormat.FontTypeAdapter())
                 .registerTypeAdapter(Color.class, new UISkinFormat.ColorTypeHandler())
                 .registerTypeAdapter(Vector2i.class, new Vector2iTypeAdaptor())
+                .registerTypeAdapter(Keyboard.Key.class, new KeyboardKeyTypeAdapter())
                 .registerTypeHierarchyAdapter(UIWidget.class, new UIWidgetTypeAdapter());
         Gson gson = gsonBuilder.create();
         return gson.fromJson(element, UIData.class);

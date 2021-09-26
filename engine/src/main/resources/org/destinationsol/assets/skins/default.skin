@@ -311,8 +311,11 @@
           "text-color": "FFFF00FF"
         },
         "disabled": {
-          "background": "button",
+          "background": "buttonDisabled",
           "text-color": "BBBBBBFF"
+        },
+        "warn": {
+          "background": "buttonWarn"
         }
       }
     },
