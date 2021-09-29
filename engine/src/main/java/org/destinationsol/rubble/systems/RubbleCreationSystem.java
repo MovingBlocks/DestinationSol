@@ -51,7 +51,7 @@ import org.terasology.gestalt.entitysystem.event.ReceiveEvent;
  */
 public class RubbleCreationSystem implements EventReceiver {
 
-    public static final float SIZE_TO_SHARD_COUNT = 13f;
+    public static final float SIZE_TO_RUBBLE_COUNT = 13f;
     public static final float MIN_SCALE = .07f;
     public static final float MAX_SCALE = .12f;
     private static final float MAX_SPD = 40f;
@@ -104,13 +104,13 @@ public class RubbleCreationSystem implements EventReceiver {
      * @param size Size component of parent entity, used to determine amount of rubble to generate
      */
     private void buildRubblePieces(Position pos, Velocity vel, Angle angle, Size size) {
-        int count = (int) (size.size * SIZE_TO_SHARD_COUNT);
+        int count = (int) (size.size * SIZE_TO_RUBBLE_COUNT);
         Vector2 basePos = pos.position;
         for (int i = 0; i < count; i++) {
 
             //Create graphics component
             RenderableElement element = new RenderableElement();
-            element.texture = SolRandom.randomElement(Assets.listTexturesMatching("engine:shard_.*"));
+            element.texture = SolRandom.randomElement(Assets.listTexturesMatching("engine:rubble.*"));
             element.drawableLevel = DrawableLevel.PROJECTILES;
             element.graphicsOffset = new Vector2();
 
