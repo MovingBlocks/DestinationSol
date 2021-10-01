@@ -84,7 +84,7 @@ public class Sky implements SolObject {
             distPercentage = 1;
         }
 
-        Vector2 sysPos = planet.getSystem().getPosition();
+        Vector2 sysPos = planet.getSolarSystemPosition();
         float angleToCam = SolMath.angle(planetPos, camPos);
         float angleToSun = SolMath.angle(planetPos, sysPos);
         float dayPercentage = 1 - SolMath.angleDiff(angleToCam, angleToSun) / 180;

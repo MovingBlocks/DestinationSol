@@ -28,7 +28,7 @@ allprojects {
         gdxVersion = '1.9.8'
         roboVMVersion = '2.3.3'
         gestaltVersion = '8.0.0-SNAPSHOT'
-        nuiVersion = '3.0.0-SNAPSHOT'
+        nuiVersion = '3.1.0-SNAPSHOT'
     }
 }
 

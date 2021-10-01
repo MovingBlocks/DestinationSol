@@ -33,7 +33,7 @@ import org.destinationsol.game.maze.Maze;
 import org.destinationsol.game.maze.MazeBuilder;
 import org.destinationsol.game.planet.FarTileObject;
 import org.destinationsol.game.planet.Planet;
-import org.destinationsol.game.planet.SolSystem;
+import org.destinationsol.game.planet.SolarSystem;
 import org.destinationsol.game.planet.SurfaceDirection;
 import org.destinationsol.game.planet.SystemBelt;
 import org.destinationsol.game.planet.Tile;
@@ -43,6 +43,7 @@ import org.destinationsol.game.ship.SolShip;
 import org.destinationsol.ui.DisplayDimensions;
 import org.destinationsol.ui.UiDrawer;
 import org.destinationsol.ui.Waypoint;
+import org.destinationsol.world.generators.SolarSystemGenerator;
 
 import javax.inject.Inject;
 import java.util.ArrayList;
@@ -191,17 +192,17 @@ public class MapDrawer implements UpdateAwareSystem{
 
     private void drawPlanets(GameDrawer drawer, SolGame game, float viewDist, Planet np, Vector2 camPos, float heroDmgCap,
                              float camAngle, Context context) {
-        ArrayList<SolSystem> systems = game.getPlanetManager().getSystems();
+        ArrayList<SolarSystem> systems = game.getPlanetManager().getSystems();
         SolCam cam = context.get(SolCam.class);
         float circleWidth = cam.getRealLineWidth() * 6;
         float vh = cam.getViewHeight(zoom);
-        for (SolSystem sys : systems) {
+        for (SolarSystem sys : systems) {
             drawer.drawCircle(lineTexture, sys.getPosition(), sys.getRadius(), SolColor.UI_MED, circleWidth, vh);
         }
-        for (SolSystem sys : systems) {
+        for (SolarSystem sys : systems) {
             float dangerRad = HardnessCalc.isDangerous(heroDmgCap, sys.getDps()) ? sys.getRadius() : 0;
             Vector2 sysPos = sys.getPosition();
-            float rad = Const.SUN_RADIUS;
+            float rad = SolarSystemGenerator.SUN_RADIUS;
             if (camPos.dst(sysPos) - rad < viewDist) {
                 drawer.draw(starTexture, 2 * rad, 2 * rad, rad, rad, sysPos.x, sysPos.y, 0, SolColor.WHITE);
             }

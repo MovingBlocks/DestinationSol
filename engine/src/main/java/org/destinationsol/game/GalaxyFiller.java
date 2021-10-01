@@ -33,11 +33,12 @@ import org.destinationsol.game.item.TradeConfig;
 import org.destinationsol.game.maze.Maze;
 import org.destinationsol.game.planet.ConsumedAngles;
 import org.destinationsol.game.planet.Planet;
-import org.destinationsol.game.planet.PlanetManager;
-import org.destinationsol.game.planet.SolSystem;
-import org.destinationsol.game.planet.SysConfig;
+import org.destinationsol.game.planet.SolarSystem;
+import org.destinationsol.game.planet.SolarSystemConfig;
 import org.destinationsol.game.ship.FarShip;
 import org.destinationsol.game.ship.hulls.HullConfig;
+import org.destinationsol.world.generators.FeatureGenerator;
+import org.destinationsol.world.generators.SolarSystemGenerator;
 import org.json.JSONObject;
 
 import javax.inject.Inject;
@@ -54,7 +55,7 @@ public class GalaxyFiller {
         this.hullConfigManager = hullConfigManager;
     }
 
-    private Vector2 getPosForStation(SolSystem sys, boolean mainStation, ConsumedAngles angles) {
+    private Vector2 getPosForStation(SolarSystem sys, boolean mainStation, ConsumedAngles angles) {
         Planet planet;
         ArrayList<Planet> planets = sys.getPlanets();
         float angleToSun;
@@ -73,14 +74,14 @@ public class GalaxyFiller {
             }
         }
         angles.add(angleToSun, STATION_CONSUME_SECTOR);
-        float stationDist = planet.getDistance() + planet.getFullHeight() + Const.PLANET_GAP;
+        float stationDist = planet.getDistance() + planet.getFullHeight() + FeatureGenerator.ORBITAL_FEATURE_BUFFER;
         Vector2 stationPos = new Vector2();
         SolMath.fromAl(stationPos, angleToSun, stationDist);
-        stationPos.add(planet.getSystem().getPosition());
+        stationPos.add(planet.getSolarSystemPosition());
         return stationPos;
     }
 
-    private FarShip build(SolGame game, ShipConfig config, Faction faction, boolean mainStation, SolSystem system,
+    private FarShip build(SolGame game, ShipConfig config, Faction faction, boolean mainStation, SolarSystem system,
                           ConsumedAngles angles) {
         HullConfig hullConf = config.hull;
 
@@ -139,7 +140,7 @@ public class GalaxyFiller {
             return;
         }
         createStarPorts(game);
-        ArrayList<SolSystem> systems = game.getPlanetManager().getSystems();
+        ArrayList<SolarSystem> systems = game.getGalaxyBuilder().getBuiltSolarSystems();
 
         JSONObject rootNode = Validator.getValidatedJSON(moduleName + ":startingStation", "engine:schemaStartingStation");
 
@@ -150,17 +151,17 @@ public class GalaxyFiller {
         mainStationPos.set(mainStation.getPosition());
         mainStationHc = mainStation.getHullConfig();
 
-        for (SolSystem system : systems) {
-            SysConfig sysConfig = system.getConfig();
+        for (SolarSystem system : systems) {
+            SolarSystemConfig solarSystemConfig = system.getConfig();
 
-            for (ShipConfig shipConfig : sysConfig.constAllies) {
+            for (ShipConfig shipConfig : solarSystemConfig.constAllies) {
                 int count = (int) (shipConfig.density);
                 for (int i = 0; i < count; i++) {
                     build(game, shipConfig, Faction.LAANI, false, system, angles);
                 }
             }
 
-            for (ShipConfig shipConfig : sysConfig.constEnemies) {
+            for (ShipConfig shipConfig : solarSystemConfig.constEnemies) {
                 int count = (int) (shipConfig.density);
                 for (int i = 0; i < count; i++) {
                     build(game, shipConfig, Faction.EHAR, false, system, angles);
@@ -172,10 +173,9 @@ public class GalaxyFiller {
     }
 
     private void createStarPorts(SolGame game) {
-        PlanetManager planetManager = game.getPlanetManager();
         ArrayList<Planet> biggest = new ArrayList<>();
 
-        for (SolSystem system : planetManager.getSystems()) {
+        for (SolarSystem system : game.getGalaxyBuilder().getBuiltSolarSystems()) {
             float minHeight = 0;
             Planet biggestPlanet = null;
             int biggestPlanetIndex = -1;
@@ -233,7 +233,7 @@ public class GalaxyFiller {
         game.getObjectManager().addFarObjNow(enemy);
     }
 
-    private Vector2 getEmptySpace(SolGame game, SolSystem system) {
+    private Vector2 getEmptySpace(SolGame game, SolarSystem system) {
         Vector2 result = new Vector2();
         Vector2 systemPosition = system.getPosition();
         float systemRadius = system.getConfig().hard ? system.getRadius() : system.getInnerRadius();
@@ -249,7 +249,7 @@ public class GalaxyFiller {
     }
 
     public Vector2 getPlayerSpawnPos(SolGame game) {
-        Vector2 position = new Vector2(Const.SUN_RADIUS * 2, 0);
+        Vector2 position = new Vector2(SolarSystemGenerator.SUN_RADIUS * 2, 0);
 
         if ("planet".equals(DebugOptions.SPAWN_PLACE)) {
             Planet planet = game.getPlanetManager().getPlanets().get(0);

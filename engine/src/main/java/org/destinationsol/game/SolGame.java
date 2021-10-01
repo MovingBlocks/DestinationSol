@@ -22,6 +22,7 @@ import org.destinationsol.Const;
 import org.destinationsol.ContextWrapper;
 import org.destinationsol.GameOptions;
 import org.destinationsol.SolApplication;
+import org.destinationsol.assets.Assets;
 import org.destinationsol.assets.sound.OggSoundManager;
 import org.destinationsol.assets.sound.SpecialSounds;
 import org.destinationsol.common.DebugCol;
@@ -42,12 +43,19 @@ import org.destinationsol.game.item.ItemManager;
 import org.destinationsol.game.item.LootBuilder;
 import org.destinationsol.game.item.MercItem;
 import org.destinationsol.game.item.SolItem;
+import org.destinationsol.game.maze.Maze;
+import org.destinationsol.game.maze.MazeConfigManager;
+import org.destinationsol.game.particle.EffectTypes;
 import org.destinationsol.game.particle.PartMan;
 import org.destinationsol.game.particle.SpecialEffects;
+import org.destinationsol.game.planet.BeltConfigManager;
 import org.destinationsol.game.planet.Planet;
+import org.destinationsol.game.planet.PlanetConfigManager;
 import org.destinationsol.game.planet.PlanetManager;
-import org.destinationsol.game.planet.SolSystem;
+import org.destinationsol.game.planet.SolarSystem;
+import org.destinationsol.game.planet.SolarSystemConfigManager;
 import org.destinationsol.game.planet.SunSingleton;
+import org.destinationsol.game.planet.SystemBelt;
 import org.destinationsol.game.screens.GameScreens;
 import org.destinationsol.game.ship.ShipAbility;
 import org.destinationsol.game.ship.ShipBuilder;
@@ -59,9 +67,13 @@ import org.destinationsol.ui.DebugCollector;
 import org.destinationsol.ui.TutorialManager;
 import org.destinationsol.ui.UiDrawer;
 import org.destinationsol.ui.Waypoint;
+import org.destinationsol.ui.nui.screens.MainGameScreen;
 import org.destinationsol.util.InjectionHelper;
 import org.terasology.gestalt.di.BeanContext;
+import org.destinationsol.world.GalaxyBuilder;
+import org.terasology.gestalt.assets.ResourceUrn;
 import org.terasology.gestalt.entitysystem.entity.EntityRef;
+import org.terasology.nui.asset.UIElement;
 
 import javax.inject.Inject;
 import java.util.ArrayList;
@@ -72,14 +84,15 @@ import java.util.SortedMap;
 import java.util.TreeMap;
 
 public class SolGame {
+    private static final String NUI_MAIN_GAME_SCREEN_DESKTOP_URI = "engine:mainGameScreen_desktop";
+    private static final String NUI_MAIN_GAME_SCREEN_MOBILE_URI = "engine:mainGameScreen_mobile";
+
     @Inject
     protected GameScreens gameScreens;
     @Inject
     protected SolCam camera;
     @Inject
     protected ObjectManager objectManager;
-    @Inject
-    protected SolApplication solApplication;
     @Inject
     protected DrawableManager drawableManager;
     @Inject
@@ -132,7 +145,10 @@ public class SolGame {
     protected Optional<TutorialManager> tutorialManager;
     @Inject
     BeanContext beanContext;
+    @Inject
+    GalaxyBuilder galaxyBuilder;
 
+    protected SolApplication solApplication;
     private Hero hero;
     private float timeStep;
     private float time;
@@ -143,10 +159,22 @@ public class SolGame {
     private SortedMap<Integer, List<UpdateAwareSystem>> updateSystems;
 
     private EntitySystemManager entitySystemManager;
+    private final MainGameScreen mainGameScreen;
+
+    public MainGameScreen getMainGameScreen() {
+        return mainGameScreen;
+    }
 
     @Inject
-    public SolGame() {
+    public SolGame(SolApplication solApplication) {
         FactionInfo.init();
+        this.solApplication = solApplication;
+        boolean isMobile = solApplication.isMobile();
+        if (!isMobile) {
+            mainGameScreen = (MainGameScreen) Assets.getAssetHelper().get(new ResourceUrn(NUI_MAIN_GAME_SCREEN_DESKTOP_URI), UIElement.class).get().getRootWidget();
+        } else {
+            mainGameScreen = (MainGameScreen) Assets.getAssetHelper().get(new ResourceUrn(NUI_MAIN_GAME_SCREEN_MOBILE_URI), UIElement.class).get().getRootWidget();
+        }
         timeFactor = 1;
     }
 
@@ -200,13 +228,20 @@ public class SolGame {
         }
     }
 
-    public void startGame(String shipName, boolean isNewGame, WorldConfig worldConfig, SolNames solNames, EntitySystemManager entitySystemManager) {
+    public void startGame(String shipName, boolean isNewGame, WorldConfig worldConfig, EntitySystemManager entitySystemManager) {
         this.entitySystemManager = entitySystemManager;
 
         respawnState = new RespawnState();
         SolRandom.setSeed(worldConfig.getSeed());
-        planetManager.fill(solNames, worldConfig.getNumberOfSystems());
+
+        //World Generation will be initiated from here
+        galaxyBuilder.buildWithRandomSolarSystemGenerators();
+
+        //Add all the Planets in the game to the PlanetManager TODO: Add mazes, belts, etc. once the are implemented
+        addObjectsToPlanetManager();
+
         createGame(shipName, isNewGame);
+
         if (!isNewGame) {
             createAndSpawnMercenariesFromSave();
         }
@@ -221,6 +256,23 @@ public class SolGame {
             }
         }, 0, 30);
         gameScreens.consoleScreen.init(this);
+        solApplication.getNuiManager().pushScreen(mainGameScreen);
+        tutorialManager.ifPresent(TutorialManager::start);
+    }
+
+    private void addObjectsToPlanetManager() {
+        planetManager.getSystems().addAll(galaxyBuilder.getBuiltSolarSystems());
+        for (SolarSystem system : planetManager.getSystems()) {
+            for (Planet planet : system.getPlanets()) {
+                planetManager.getPlanets().add(planet);
+            }
+            for (Maze maze : system.getMazes()) {
+                planetManager.getMazes().add(maze);
+            }
+            for (SystemBelt belt : system.getBelts()) {
+                planetManager.getBelts().add(belt);
+            }
+        }
     }
 
     public Context getContext() {
@@ -284,6 +336,7 @@ public class SolGame {
         }
         FactionInfo.clearValues();
 //        objectManager.dispose();
+        solApplication.getNuiManager().clearScreens();
     }
 
     private void saveShip() {
@@ -443,7 +496,7 @@ public class SolGame {
             }
         }
 
-        SolSystem ns = planetManager.getNearestSystem(position);
+        SolarSystem ns = planetManager.getNearestSystem(position);
         if (ns.getPosition().dst(position) < SunSingleton.SUN_HOT_RAD) {
             return false;
         }
@@ -568,6 +621,10 @@ public class SolGame {
 
     public HullConfigManager getHullConfigManager() {
         return hullConfigManager;
+    }
+
+    public GalaxyBuilder getGalaxyBuilder() {
+        return galaxyBuilder;
     }
 
 }

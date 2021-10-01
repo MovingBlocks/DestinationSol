@@ -27,7 +27,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Planet {
-    private final SolSystem system;
+    private final Vector2 solarSystemPosition;
     private final Vector2 position;
     private final float distance;
     private final float rotationSpeedInSystem;
@@ -46,9 +46,9 @@ public class Planet {
     private float minGroundHeight;
     private Vector2 velocity;
 
-    public Planet(SolSystem sys, float angleToSys, float dist, float angle, float toSysRotationSpeed, float rotationSpeed,
+    public Planet(Vector2 solarSystemPosition, float angleToSys, float dist, float angle, float toSysRotationSpeed, float rotationSpeed,
                   float groundHeight, boolean objsCreated, PlanetConfig config, String name) {
-        system = sys;
+        this.solarSystemPosition = solarSystemPosition;
         angleInSystem = angleToSys;
         distance = dist;
         this.angle = angle;
@@ -84,7 +84,7 @@ public class Planet {
 
     private void setSecondaryParams() {
         SolMath.fromAl(position, angleInSystem, distance);
-        position.add(system.getPosition());
+        position.add(solarSystemPosition);
         float speed = SolMath.angleToArc(rotationSpeedInSystem, distance);
         float velocityAngle = angleInSystem + 90;
         SolMath.fromAl(velocity, velocityAngle, speed);
@@ -113,8 +113,8 @@ public class Planet {
         return groundHeight;
     }
 
-    public SolSystem getSystem() {
-        return system;
+    public Vector2 getSolarSystemPosition() {
+        return solarSystemPosition;
     }
 
     @Bound

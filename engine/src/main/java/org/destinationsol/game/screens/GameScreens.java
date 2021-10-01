@@ -43,4 +43,9 @@ public class GameScreens {
         consoleScreen = new ConsoleScreen(context);
     }
 
+    // This was added for PlayerCreatorTest.java (used in PlayerCreator)
+    // so that it can successfully mock the returned result.
+    public MainGameScreen getMainGameScreen() {
+        return mainGameScreen;
+    }
 }

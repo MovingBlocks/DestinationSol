@@ -23,7 +23,7 @@ public class MazeLayoutBuilder {
     private static final float HOLE_PERCENTAGE = 0.2f;
     private static final float WALL_PERCENTAGE = 0.5f;
     private final int size;
-    private final boolean[][] inners;
+    private boolean[][] inners;
     private final boolean[][] holes;
     private final boolean[][] right;
     private final boolean[][] down;
@@ -38,6 +38,27 @@ public class MazeLayoutBuilder {
 
     public MazeLayout build() {
         setInners();
+        for (int col = 0; col < size; col++) {
+            for (int row = 0; row < size; row++) {
+                boolean inner = inners[col][row];
+                boolean rInner = col < size - 1 && inners[col + 1][row];
+                boolean dInner = row < size - 1 && inners[col][row + 1];
+                right[col][row] = (inner || rInner) && SolRandom.test(WALL_PERCENTAGE);
+                down[col][row] = (inner || dInner) && SolRandom.test(WALL_PERCENTAGE);
+            }
+        }
+        makeAllAccessible();
+        return new MazeLayout(inners, holes, right, down);
+    }
+
+    /**
+     * This method iterates through the 'inner' array in the the MazeLayout. If inner is true, the maze should exist
+     * in that location. If also will place wall to the right of and below the tile.
+     * @param innerPreset 2D array representing layout.
+     * @return new Maze layout
+     */
+    public MazeLayout build(boolean[][] innerPreset) {
+        inners = innerPreset;
         for (int col = 0; col < size; col++) {
             for (int row = 0; row < size; row++) {
                 boolean inner = inners[col][row];

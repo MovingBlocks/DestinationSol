@@ -19,6 +19,7 @@ package org.destinationsol.menu;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.InputAdapter;
+import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.controllers.Controller;
 import com.badlogic.gdx.controllers.ControllerListener;
 import com.badlogic.gdx.controllers.Controllers;
@@ -39,6 +40,7 @@ public class InputMapControllerScreen extends InputMapOperations {
     private List<InputConfigItem> itemsList = new ArrayList<>();
     private int selectedIndex;
     private int controllerItems;
+    private InputProcessor inputProcessor;
 
     private InputConfigItem InitItem(int axis, int button, String displayName) {
         String inputName;
@@ -237,11 +239,12 @@ public class InputMapControllerScreen extends InputMapOperations {
 
         // Cancel the key input
         if (!isEnterNewKey) {
-            Gdx.input.setInputProcessor(null);
+            Gdx.input.setInputProcessor(inputProcessor);
             Controllers.clearListeners();
         } else {
             // Capture the new key input
             // Keyboard items
+            inputProcessor = Gdx.input.getInputProcessor();
             Gdx.input.setInputProcessor(new InputAdapter() {
                 @Override
                 public boolean keyUp(int keycode) {
@@ -257,7 +260,7 @@ public class InputMapControllerScreen extends InputMapOperations {
                         itemsList.set(selectedIndex, item);
                     }
 
-                    Gdx.input.setInputProcessor(null);
+                    Gdx.input.setInputProcessor(inputProcessor);
                     Controllers.clearListeners();
 
                     isEnterNewKey = false;
@@ -299,7 +302,7 @@ public class InputMapControllerScreen extends InputMapOperations {
                         itemsList.set(selectedIndex, item);
                     }
 
-                    Gdx.input.setInputProcessor(null);
+                    Gdx.input.setInputProcessor(inputProcessor);
                     Controllers.clearListeners();
 
                     isEnterNewKey = false;
@@ -319,7 +322,7 @@ public class InputMapControllerScreen extends InputMapOperations {
                             itemsList.set(selectedIndex, item);
                         }
 
-                        Gdx.input.setInputProcessor(null);
+                        Gdx.input.setInputProcessor(inputProcessor);
                         Controllers.clearListeners();
 
                         isEnterNewKey = false;

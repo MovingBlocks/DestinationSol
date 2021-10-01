@@ -18,49 +18,40 @@ package org.destinationsol.game.planet;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
-import org.destinationsol.Const;
 import org.destinationsol.common.SolColor;
 import org.destinationsol.common.SolMath;
-import org.destinationsol.files.HullConfigManager;
 import org.destinationsol.game.DebugOptions;
-import org.destinationsol.game.GameColors;
 import org.destinationsol.game.GameDrawer;
 import org.destinationsol.game.SolCam;
 import org.destinationsol.game.SolGame;
-import org.destinationsol.game.SolNames;
 import org.destinationsol.game.SolObject;
 import org.destinationsol.game.UpdateAwareSystem;
 import org.destinationsol.game.context.Context;
-import org.destinationsol.game.item.ItemManager;
 import org.destinationsol.game.maze.Maze;
-import org.destinationsol.game.maze.MazeConfigs;
 import org.destinationsol.game.ship.SolShip;
 import org.destinationsol.game.ship.hulls.Hull;
 import org.destinationsol.game.ship.hulls.HullConfig;
+import org.destinationsol.world.generators.SolarSystemGenerator;
 
 import javax.inject.Inject;
 import java.util.ArrayList;
 import java.util.List;
 
 public class PlanetManager implements UpdateAwareSystem {
-    private final ArrayList<SolSystem> systems;
+    private final ArrayList<SolarSystem> systems;
     private final ArrayList<Planet> planets;
     private final ArrayList<SystemBelt> belts;
     private final FlatPlaceFinder flatPlaceFinder;
-    private final PlanetConfigs planetConfigs;
-    private final MazeConfigs mazeConfigs;
     private final ArrayList<Maze> mazes;
     private final SunSingleton sunSingleton;
-    private final SysConfigs sysConfigs;
     private final PlanetCoreSingleton planetCoreSingleton;
     private Planet nearestPlanet;
 
     @Inject
-    public PlanetManager(HullConfigManager hullConfigs, GameColors cols,
-                            ItemManager itemManager) {
-        planetConfigs = new PlanetConfigs(hullConfigs, cols, itemManager);
-        sysConfigs = new SysConfigs(hullConfigs, itemManager);
-        mazeConfigs = new MazeConfigs(hullConfigs, itemManager);
+    public PlanetManager() {
+//        sysConfigs = new SysConfigs(hullConfigs, itemManager);
+//        mazeConfigs = new MazeConfigs(hullConfigs, itemManager);
+
 
         systems = new ArrayList<>();
         mazes = new ArrayList<>();
@@ -69,10 +60,6 @@ public class PlanetManager implements UpdateAwareSystem {
         flatPlaceFinder = new FlatPlaceFinder();
         sunSingleton = new SunSingleton();
         planetCoreSingleton = new PlanetCoreSingleton();
-    }
-
-    public void fill(SolNames names, int numberOfSystems) {
-        new SystemsBuilder().build(systems, planets, belts, planetConfigs, mazeConfigs, mazes, sysConfigs, names, numberOfSystems);
     }
 
     @Override
@@ -87,7 +74,7 @@ public class PlanetManager implements UpdateAwareSystem {
 
         nearestPlanet = getNearestPlanet(camPos);
 
-        SolSystem nearestSys = getNearestSystem(camPos);
+        SolarSystem nearestSys = getNearestSystem(camPos);
         applyGrav(game, nearestSys);
     }
 
@@ -104,7 +91,7 @@ public class PlanetManager implements UpdateAwareSystem {
         return res;
     }
 
-    private void applyGrav(SolGame game, SolSystem nearestSys) {
+    private void applyGrav(SolGame game, SolarSystem nearestSys) {
         float npGh = nearestPlanet.getGroundHeight();
         float npFh = nearestPlanet.getFullHeight();
         float npMinH = nearestPlanet.getMinGroundHeight();
@@ -133,7 +120,7 @@ public class PlanetManager implements UpdateAwareSystem {
                 srcPos = npPos;
                 gravConst = npGravConst;
                 onPlanet = true;
-            } else if (toSys < Const.SUN_RADIUS) {
+            } else if (toSys < SolarSystemGenerator.SUN_RADIUS) {
                 minDist = SunSingleton.SUN_HOT_RAD;
                 srcPos = sysPos;
                 gravConst = SunSingleton.GRAV_CONST;
@@ -219,7 +206,7 @@ public class PlanetManager implements UpdateAwareSystem {
         return belts;
     }
 
-    public ArrayList<SolSystem> getSystems() {
+    public ArrayList<SolarSystem> getSystems() {
         return systems;
     }
 
@@ -232,10 +219,10 @@ public class PlanetManager implements UpdateAwareSystem {
         return mazes;
     }
 
-    public SolSystem getNearestSystem(Vector2 position) {
+    public SolarSystem getNearestSystem(Vector2 position) {
         float minDst = Float.MAX_VALUE;
-        SolSystem res = null;
-        for (SolSystem system : systems) {
+        SolarSystem res = null;
+        for (SolarSystem system : systems) {
             float dst = position.dst(system.getPosition());
             if (dst < minDst) {
                 minDst = dst;
@@ -265,4 +252,5 @@ public class PlanetManager implements UpdateAwareSystem {
     public void drawPlanetCoreHack(SolGame game, GameDrawer drawer, Context context) {
         planetCoreSingleton.draw(game, drawer, context);
     }
+
 }

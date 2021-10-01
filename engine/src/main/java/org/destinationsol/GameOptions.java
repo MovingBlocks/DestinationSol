@@ -269,6 +269,7 @@ public class GameOptions {
         if (mapScrollSpeed > 15) {
             mapScrollSpeed = 1;
         }
+        save();
     }
 
     public void advanceNuiUiScale() {
@@ -276,6 +277,7 @@ public class GameOptions {
         if (nuiUiScale > 2.0f) {
             nuiUiScale = 0.25f;
         }
+        save();
     }
 
     /**

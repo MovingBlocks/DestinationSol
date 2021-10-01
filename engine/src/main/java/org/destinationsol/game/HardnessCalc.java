@@ -24,8 +24,9 @@ import org.destinationsol.game.item.ItemManager;
 import org.destinationsol.game.item.Shield;
 import org.destinationsol.game.item.SolItem;
 import org.destinationsol.game.maze.MazeConfig;
+import org.destinationsol.game.planet.BeltConfig;
 import org.destinationsol.game.planet.PlanetConfig;
-import org.destinationsol.game.planet.SysConfig;
+import org.destinationsol.game.planet.SolarSystemConfig;
 import org.destinationsol.game.projectile.ProjectileConfig;
 import org.destinationsol.game.ship.FarShip;
 import org.destinationsol.game.ship.SolShip;
@@ -190,11 +191,11 @@ public class HardnessCalc {
         return res * 1.25f;
     }
 
-    public static float getBeltDps(SysConfig c) {
+    public static float getBeltDps(BeltConfig c) {
         return 1.2f * getShipConfListDps(c.tempEnemies);
     }
 
-    public static float getSysDps(SysConfig c, boolean inner) {
+    public static float getSysDps(SolarSystemConfig c, boolean inner) {
         return getShipConfListDps(inner ? c.innerTempEnemies : c.tempEnemies);
     }
 

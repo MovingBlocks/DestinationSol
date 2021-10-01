@@ -1,0 +1,104 @@
+{
+  "type": "UIShipControlsScreen",
+  "skin": "engine:mainGameScreen",
+  "family": "controlsUIButton",
+  "contents": {
+    "type": "relativeLayout",
+    "contents": [
+      {
+        "type": "UIWarnButton",
+        "text": "Right",
+        "clickSound": null,
+        "activateWhenInvisible": true,
+        "id": "rightButton",
+        "layoutInfo": {
+          "position-bottom": {},
+          "position-right": {},
+          "width": 100,
+          "height": 100
+        }
+      },
+      {
+        "type": "UIWarnButton",
+        "text": "Left",
+        "clickSound": null,
+        "activateWhenInvisible": true,
+        "id": "leftButton",
+        "layoutInfo": {
+          "position-bottom": {},
+          "position-right": {
+            "widget": "rightButton",
+            "target": "LEFT",
+            "offset": 10
+          },
+          "width": 100,
+          "height": 100
+        }
+      },
+      {
+        "type": "UIWarnButton",
+        "text": "Ability",
+        "clickSound": null,
+        "activateWhenInvisible": true,
+        "id": "abilityButton",
+        "layoutInfo": {
+          "position-bottom": {
+            "widget": "rightButton",
+            "target": "TOP",
+            "offset": 10
+          },
+          "position-right": {},
+          "width": 100,
+          "height": 100
+        }
+      },
+      {
+        "type": "UIWarnButton",
+        "text": "Fwd",
+        "clickSound": null,
+        "activateWhenInvisible": true,
+        "id": "forwardButton",
+        "layoutInfo": {
+          "position-bottom": {},
+          "position-left": {},
+          "width": 100,
+          "height": 100
+        }
+      },
+      {
+        "type": "UIWarnButton",
+        "text": "Gun2",
+        "clickSound": null,
+        "activateWhenInvisible": true,
+        "id": "gun2Button",
+        "layoutInfo": {
+          "position-bottom": {},
+          "position-left": {
+            "widget": "forwardButton",
+            "target": "RIGHT",
+            "offset": 10
+          },
+          "width": 100,
+          "height": 100
+        }
+      },
+      {
+        "type": "UIWarnButton",
+        "text": "Gun1",
+        "clickSound": null,
+        "activateWhenInvisible": true,
+        "id": "gun1Button",
+        "layoutInfo": {
+          "position-bottom": {
+            "widget": "forwardButton",
+            "target": "TOP",
+            "offset": 10
+          },
+          "position-left": {},
+          "width": 100,
+          "height": 100
+        }
+      }
+    ]
+  }
+}

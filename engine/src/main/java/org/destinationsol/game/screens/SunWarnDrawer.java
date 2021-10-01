@@ -16,9 +16,9 @@
 package org.destinationsol.game.screens;
 
 import com.badlogic.gdx.math.Vector2;
-import org.destinationsol.Const;
 import org.destinationsol.game.Hero;
 import org.destinationsol.game.SolGame;
+import org.destinationsol.world.generators.SolarSystemGenerator;
 
 public class SunWarnDrawer extends WarnDrawer {
 
@@ -33,6 +33,6 @@ public class SunWarnDrawer extends WarnDrawer {
         }
         Vector2 position = hero.getPosition();
         float toCenter = game.getPlanetManager().getNearestSystem(position).getPosition().dst(position);
-        return toCenter < Const.SUN_RADIUS;
+        return toCenter < SolarSystemGenerator.SUN_RADIUS;
     }
 }

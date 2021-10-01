@@ -183,6 +183,10 @@ public class SolApplication implements ApplicationListener {
 
     @Override
     public void resize(int newWidth, int newHeight) {
+        //To prevent application crashing, dont resize the height and width to 0 s, this condition checks it
+        if (newWidth == 0 && newHeight == 0) {
+            return;
+        }
         displayDimensions.set(newWidth, newHeight);
 
         for (ResizeSubscriber resizeSubscriber : resizeSubscribers) {
@@ -334,8 +338,7 @@ public class SolApplication implements ApplicationListener {
         gameContext.getBean(ComponentSystemManager.class).preBegin();
         entitySystemManager = gameContext.getBean(EntitySystemManager.class);
 
-        solGame.createUpdateSystems(gameContext.getBean(Context.class));
-        solGame.startGame(shipName, isNewGame, worldConfig, new SolNames(), entitySystemManager);
+        solGame.startGame(shipName, isNewGame, worldConfig, entitySystemManager);
 
         if (!isNewGame) {
             try {
