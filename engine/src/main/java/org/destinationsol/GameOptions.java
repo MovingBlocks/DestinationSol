@@ -117,6 +117,8 @@ public class GameOptions {
     public static final String DEFAULT_HIRE_SHIP = "H";
     public static final String DEFAULT_MERCENARY_INTERACTION = "M";
     public static final String DEFAULT_FREE_CAMERA_MOVEMENT = "V";
+    public static final String DEFAULT_ZOOM_IN = "Page Up";
+    public static final String DEFAULT_ZOOM_OUT = "Page Down";
     public static final int DEFAULT_AXIS_SHOOT = 1;
     public static final int DEFAULT_AXIS_SHOOT2 = 0;
     public static final int DEFAULT_AXIS_ABILITY = -1;
@@ -163,6 +165,8 @@ public class GameOptions {
     private String keyHireShipMenuName;
     private String keyMercenaryInteractionName;
     private String keyFreeCameraMovementName;
+    private String keyZoomInName;
+    private String keyZoomOutName;
     private int controllerAxisShoot;
     private int controllerAxisShoot2;
     private int controllerAxisAbility;
@@ -212,6 +216,8 @@ public class GameOptions {
         keyHireShipMenuName = reader.getString("keyHireShipMenu", DEFAULT_HIRE_SHIP);
         keyMercenaryInteractionName = reader.getString("keyMercenaryInteraction", DEFAULT_MERCENARY_INTERACTION);
         keyFreeCameraMovementName = reader.getString("keyFreeCameraMovement", DEFAULT_FREE_CAMERA_MOVEMENT);
+        keyZoomInName = reader.getString("keyZoomIn", DEFAULT_ZOOM_IN);
+        keyZoomOutName = reader.getString("keyZoomOut", DEFAULT_ZOOM_OUT);
         controllerAxisShoot = reader.getInt("controllerAxisShoot", DEFAULT_AXIS_SHOOT);
         controllerAxisShoot2 = reader.getInt("controllerAxisShoot2", DEFAULT_AXIS_SHOOT2);
         controllerAxisAbility = reader.getInt("controllerAxisAbility", DEFAULT_AXIS_ABILITY);
@@ -291,6 +297,7 @@ public class GameOptions {
                 "keyAbility", getKeyAbilityName(), "keyEscape", getKeyEscapeName(), "keyMap", keyMapName, "keyInventory", keyInventoryName,
                 "keyTalk", getKeyTalkName(), "keyPause", getKeyPauseName(), "keyDrop", getKeyDropName(), "keySellMenu", getKeySellMenuName(),
                 "keyBuyMenu", getKeyBuyMenuName(), "keyChangeShipMenu", getKeyChangeShipMenuName(), "keyHireShipMenu", getKeyHireShipMenuName(),
+                "keyZoomIn", getKeyZoomInName(), "keyZoomOut", getKeyZoomOutName(),
                 "controllerAxisShoot", getControllerAxisShoot(), "controllerAxisShoot2", getControllerAxisShoot2(),
                 "controllerAxisAbility", getControllerAxisAbility(), "controllerAxisLeftRight", getControllerAxisLeftRight(),
                 "isControllerAxisLeftRightInverted", isControllerAxisLeftRightInverted(), "controllerAxisUpDown", getControllerAxisUpDown(),
@@ -637,33 +644,43 @@ public class GameOptions {
     }
 
     /**
-     * Get the defined key for zooming out on the map.
-     * This is currently set to the same key as KeyUp
+     * Get the defined key for zooming in on the map.
+     * This is currently set to Page Up
      *
      * @return int The keycode as defined in Input.Keys
      */
     public int getKeyZoomIn() {
-        return getKeyUp();
+        return Input.Keys.valueOf(keyZoomInName);
     }
 
     /**
-     * Get the readable name of the defined key for zooming out on the map.
-     * This is currently set to the same key as KeyUp
+     * Get the readable name of the defined key for zooming in on the map.
+     * This is currently set to Page Up
      *
      * @return String The readable name as defined in Input.Keys
      */
     public String getKeyZoomInName() {
-        return getKeyUpName();
+        return keyZoomInName;
     }
 
     /**
      * Get the defined key for zooming out on the map.
-     * This is currently set to the same key as KeyDown
+     * This is currently set to Page Down
      *
      * @return int The keycode as defined in Input.Keys
      */
     public int getKeyZoomOut() {
-        return getKeyDown();
+        return Input.Keys.valueOf(keyZoomOutName);
+    }
+
+    /**
+     * Get the readable name of the defined key for zooming out on the map.
+     * This is currently set to Page Down
+     *
+     * @return String The readable name as defined in Input.Keys
+     */
+    public String getKeyZoomOutName() {
+        return keyZoomOutName;
     }
 
     /**
