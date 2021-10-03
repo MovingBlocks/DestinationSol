@@ -126,7 +126,7 @@ public class NUIManager {
      * @param options used to initialise the UI scale with its previously-saved value
      */
     public NUIManager(SolApplication solApplication, Context context, CommonDrawer commonDrawer, GameOptions options) {
-        NUIInputProcessor.CONSUME_INPUT = true;
+        NUIInputProcessor.CONSUME_INPUT = false;
         this.context = context;
 
         // TODO: Re-enable tabbing when it works
