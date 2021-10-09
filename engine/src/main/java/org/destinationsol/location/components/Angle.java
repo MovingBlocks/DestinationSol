@@ -27,7 +27,7 @@ public class Angle implements Component<Angle> {
     private float angle;
 
     @Override
-    public void copy(Angle other) {
+    public void copyFrom(Angle other) {
         this.angle = other.angle;
     }
 

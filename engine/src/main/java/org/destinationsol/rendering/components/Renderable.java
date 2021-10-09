@@ -30,7 +30,7 @@ public final class Renderable implements Component<Renderable> {
     public boolean isInvisible;
 
     @Override
-    public void copy(Renderable other) {
+    public void copyFrom(Renderable other) {
         ArrayList<RenderableElement> newElements = new ArrayList<>();
         for (int index = 0; index < other.elements.size(); index++) {
             RenderableElement data = new RenderableElement();

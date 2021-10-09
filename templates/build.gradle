@@ -183,9 +183,7 @@ task createSkeleton() {
 
 task cacheReflections {
     description = 'Caches reflection output to make regular startup faster. May go stale and need cleanup at times.'
-    inputs.files sourceSets.main.output.classesDirs,
-            // getClassesDir from all sourceSets (for any jvm (seems) language)
-            configurations."${sourceSets.main.runtimeClasspathConfigurationName}"
+    inputs.files sourceSets.main.output.classesDirs
 
     outputs.upToDateWhen {classes.state.upToDate}
     outputs.file("$buildDir/classes/reflections.cache")

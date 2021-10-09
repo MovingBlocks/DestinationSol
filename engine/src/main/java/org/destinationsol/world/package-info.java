@@ -1,5 +1,5 @@
 /*
- * Copyright 2020 The Terasology Foundation
+ * Copyright 2021 The Terasology Foundation
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -13,21 +13,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.destinationsol.health.components;
+@API package org.destinationsol.world;
 
-import org.terasology.gestalt.entitysystem.component.Component;
-
-/**
- * Contains information about the health of an entity.
- */
-public final class Health implements Component<Health> {
-
-    public float maxHealth = 30;
-    public float currentHealth = 30;
-
-    @Override
-    public void copyFrom(Health other) {
-        this.maxHealth = other.maxHealth;
-        this.currentHealth = other.currentHealth;
-    }
-}
+import org.terasology.gestalt.module.sandbox.API;
