@@ -27,7 +27,7 @@ buildscript {
         classpath 'dom4j:dom4j:1.6.1'
 
         // HACK: Needed for NUI and gestalt entity-component reflections
-        classpath group: 'org.terasology.nui', name: 'nui', version: '2.0.0-SNAPSHOT'
+        classpath group: 'org.terasology.nui', name: 'nui', version: '3.1.0-SNAPSHOT'
         classpath group: 'javax.servlet', name: 'javax.servlet-api', version: '3.0.1'
         classpath group: 'org.terasology.gestalt', name: 'gestalt-entity-system', version: '7.0.6-SNAPSHOT'
     }
@@ -89,6 +89,7 @@ task cacheReflections {
         // Without the .mkdirs() we might hit a scenario where the classes dir doesn't exist yet
         Reflections reflections = new Reflections(new ConfigurationBuilder()
                 .addUrls(inputs.files.collect { it.toURI().toURL() })
+                .filterInputsBy({ it.startsWith("org.destinationsol") || it.startsWith("org.terasology.nui") })
                 .setScanners(new TypeAnnotationsScanner(), new SubTypesScanner()))
         reflections.save("$buildDir/classes/reflections.cache")
     }
