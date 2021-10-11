@@ -25,7 +25,6 @@ import org.destinationsol.common.SolRandom;
 import org.destinationsol.entitysystem.EntitySystemManager;
 import org.destinationsol.entitysystem.EventReceiver;
 import org.destinationsol.game.Rubble;
-import org.destinationsol.game.RubbleBuilder;
 import org.destinationsol.game.SolGame;
 import org.destinationsol.game.drawables.DrawableLevel;
 import org.destinationsol.health.components.Health;
@@ -55,9 +54,6 @@ public class RubbleCreationSystem implements EventReceiver {
     public static final float MIN_SCALE = .07f;
     public static final float MAX_SCALE = .12f;
     private static final float MAX_SPD = 40f;
-
-    @In
-    private RubbleBuilder rubbleBuilder;
 
     @In
     private SolGame solGame;
@@ -147,7 +143,10 @@ public class RubbleCreationSystem implements EventReceiver {
             EntityRef entityRef = entitySystemManager.getEntityManager().createEntity(graphicsComponent, positionComponent,
                     velocityComponent, angle, sizeComponent, new RubbleMesh());
             SolMath.free(velocity);
-            entityRef.setComponent(new BodyLinked());
+            BodyLinked bodyLinked = new BodyLinked();
+            bodyLinked.setJsonSchemaFileName("engine:schemaCollisionMesh");
+            bodyLinked.setJsonPath("engine:miscCollisionMeshes");
+            entityRef.setComponent(bodyLinked);
         }
     }
 }
