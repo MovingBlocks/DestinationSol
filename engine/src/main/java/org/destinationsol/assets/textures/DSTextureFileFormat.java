@@ -18,7 +18,6 @@ package org.destinationsol.assets.textures;
 import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.graphics.Texture;
 import org.destinationsol.assets.AssetDataFileHandle;
-import org.destinationsol.assets.Assets;
 import org.terasology.gestalt.assets.ResourceUrn;
 import org.terasology.gestalt.assets.format.AbstractAssetFileFormat;
 import org.terasology.gestalt.assets.format.AssetDataFile;

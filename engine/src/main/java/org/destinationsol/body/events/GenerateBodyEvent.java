@@ -16,7 +16,6 @@
 package org.destinationsol.body.events;
 
 import com.badlogic.gdx.physics.box2d.Body;
-import org.destinationsol.body.events.BodyCreatedEvent;
 import org.terasology.gestalt.entitysystem.event.Event;
 
 /**

@@ -15,10 +15,11 @@
  */
 package org.destinationsol.game.particle;
 
+import java.util.List;
+
 import com.badlogic.gdx.graphics.Color;
-import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.math.Vector2;
-import org.destinationsol.assets.Assets;
+
 import org.destinationsol.common.SolColorUtil;
 import org.destinationsol.common.SolMath;
 import org.destinationsol.common.SolRandom;
@@ -27,8 +28,6 @@ import org.destinationsol.game.drawables.Drawable;
 import org.destinationsol.game.drawables.DrawableLevel;
 import org.destinationsol.game.drawables.RectSprite;
 import org.destinationsol.game.drawables.SpriteManager;
-
-import java.util.List;
 
 public class LightSource {
     public static final float DEFAULT_FADE_TIME = .1f;

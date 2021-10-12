@@ -32,7 +32,6 @@ import org.destinationsol.game.console.CyclingTabCompletionEngine;
 import org.destinationsol.game.console.Message;
 import org.destinationsol.game.console.TabCompletionEngine;
 import org.destinationsol.game.context.Context;
-import org.destinationsol.modules.ModuleManager;
 import org.destinationsol.ui.SolInputManager;
 import org.destinationsol.ui.SolUiControl;
 import org.destinationsol.ui.SolUiScreen;

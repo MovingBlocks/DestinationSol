@@ -24,8 +24,6 @@ import org.terasology.gestalt.entitysystem.entity.EntityRef;
 import org.terasology.gestalt.entitysystem.event.EventResult;
 import org.terasology.gestalt.entitysystem.event.ReceiveEvent;
 
-import java.util.HashSet;
-
 /**
  * When an entity receives a {@link ShouldBeDestroyedEvent} or a {@link RemovalForOptimizationEvent}, this system adds a
  * {@link SlatedForDeletion} component. Any system that should respond to the destruction of an entity before it happens

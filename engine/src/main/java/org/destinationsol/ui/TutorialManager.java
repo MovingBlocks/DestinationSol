@@ -28,7 +28,6 @@ import org.destinationsol.game.screens.MainGameScreen;
 import org.destinationsol.game.screens.ShipMixedControl;
 import org.destinationsol.ui.nui.screens.UIShipControlsScreen;
 import org.destinationsol.ui.nui.widgets.UIWarnButton;
-import org.terasology.nui.widgets.UIButton;
 
 import java.util.ArrayList;
 import java.util.List;

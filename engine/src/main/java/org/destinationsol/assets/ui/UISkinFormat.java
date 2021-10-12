@@ -23,7 +23,6 @@ import org.terasology.nui.Color;
 import org.terasology.nui.UITextureRegion;
 import org.terasology.nui.UIWidget;
 import org.terasology.nui.asset.font.Font;
-import org.terasology.nui.skin.UISkin;
 import org.terasology.nui.skin.UISkinAsset;
 import org.terasology.nui.skin.UISkinBuilder;
 import org.terasology.nui.skin.UISkinData;

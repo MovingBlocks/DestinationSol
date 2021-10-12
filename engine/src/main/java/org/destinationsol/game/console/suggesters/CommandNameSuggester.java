@@ -18,7 +18,6 @@ package org.destinationsol.game.console.suggesters;
 import com.google.common.collect.Sets;
 import org.destinationsol.game.SolGame;
 import org.destinationsol.game.console.CommandParameterSuggester;
-import org.destinationsol.game.console.Console;
 import org.destinationsol.game.console.ConsoleCommand;
 
 import java.util.Collection;

@@ -18,7 +18,6 @@ package org.destinationsol.rendering;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.math.Vector2;
-import org.destinationsol.common.SolMath;
 import org.destinationsol.game.drawables.DrawableLevel;
 import org.destinationsol.size.components.Size;
 

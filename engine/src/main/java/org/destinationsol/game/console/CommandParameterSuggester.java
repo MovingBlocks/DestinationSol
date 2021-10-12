@@ -16,7 +16,6 @@
 package org.destinationsol.game.console;
 
 import org.destinationsol.game.SolGame;
-import org.destinationsol.game.ship.SolShip;
 
 import java.util.Set;
 

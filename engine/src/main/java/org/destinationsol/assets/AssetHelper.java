@@ -41,7 +41,6 @@ import org.terasology.gestalt.naming.Name;
 import org.terasology.nui.UIWidget;
 import org.terasology.nui.asset.UIElement;
 import org.terasology.nui.reflection.WidgetLibrary;
-import org.terasology.nui.skin.UISkin;
 import org.terasology.nui.skin.UISkinAsset;
 import org.terasology.reflection.copy.CopyStrategyLibrary;
 import org.terasology.reflection.reflect.ReflectFactory;

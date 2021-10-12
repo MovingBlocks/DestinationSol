@@ -17,8 +17,6 @@ package org.destinationsol.world.generators;
 
 import org.destinationsol.common.SolRandom;
 import org.destinationsol.game.planet.SolarSystem;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 /**
  * This class is a concrete implementation of a SolarSystemGenerator and handles creation of elements

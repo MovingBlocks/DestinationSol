@@ -22,7 +22,6 @@ import org.destinationsol.game.Hero;
 import org.destinationsol.game.item.Gun;
 import org.destinationsol.game.screens.ShipUiControl;
 import org.destinationsol.ui.nui.NUIScreenLayer;
-import org.destinationsol.ui.nui.widgets.KeyActivatedButton;
 import org.destinationsol.ui.nui.widgets.UIWarnButton;
 import org.terasology.input.ButtonState;
 import org.terasology.input.Keyboard;

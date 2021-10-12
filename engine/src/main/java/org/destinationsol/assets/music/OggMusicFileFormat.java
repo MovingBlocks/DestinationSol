@@ -18,7 +18,6 @@ package org.destinationsol.assets.music;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.files.FileHandle;
 import org.destinationsol.assets.AssetDataFileHandle;
-import org.destinationsol.assets.Assets;
 import org.terasology.gestalt.assets.ResourceUrn;
 import org.terasology.gestalt.assets.format.AbstractAssetFileFormat;
 import org.terasology.gestalt.assets.format.AssetDataFile;

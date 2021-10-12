@@ -15,8 +15,6 @@
  */
 package org.destinationsol.assets.sound;
 
-import org.destinationsol.assets.sound.OggSound;
-
 import org.terasology.nui.asset.Sound;
 
 /**

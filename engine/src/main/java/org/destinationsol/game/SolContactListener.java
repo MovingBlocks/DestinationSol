@@ -21,7 +21,6 @@ import com.badlogic.gdx.physics.box2d.ContactImpulse;
 import com.badlogic.gdx.physics.box2d.ContactListener;
 import com.badlogic.gdx.physics.box2d.Manifold;
 import org.destinationsol.assets.sound.SpecialSounds;
-import org.destinationsol.common.Immutable;
 import org.destinationsol.common.In;
 import org.destinationsol.common.SolMath;
 import org.destinationsol.entitysystem.EntitySystemManager;

@@ -16,8 +16,6 @@
 package org.destinationsol.world.generators;
 
 import org.destinationsol.common.SolRandom;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 /**
  * This class is a concrete implementation of a PlanetGenerator and handles its creation. This class defines the

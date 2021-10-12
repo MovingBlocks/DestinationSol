@@ -28,7 +28,6 @@ import org.destinationsol.game.screens.TalkScreen;
 import org.destinationsol.game.ship.SolShip;
 import org.destinationsol.ui.SolInputManager;
 import org.destinationsol.ui.nui.NUIScreenLayer;
-import org.destinationsol.ui.nui.widgets.KeyActivatedButton;
 import org.destinationsol.ui.nui.widgets.UIWarnButton;
 import org.terasology.gestalt.assets.ResourceUrn;
 import org.terasology.input.ButtonState;

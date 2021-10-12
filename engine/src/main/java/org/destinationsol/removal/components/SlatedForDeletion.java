@@ -19,7 +19,6 @@ import com.badlogic.gdx.physics.box2d.Body;
 import org.destinationsol.removal.events.DeletionEvent;
 import org.destinationsol.removal.systems.DeletionUpdateSystem;
 import org.destinationsol.removal.systems.DestructionSystem;
-import org.terasology.gestalt.entitysystem.component.Component;
 import org.terasology.gestalt.entitysystem.component.EmptyComponent;
 
 /**
