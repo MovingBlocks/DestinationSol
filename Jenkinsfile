@@ -24,7 +24,7 @@ node ("android") {
     stage('Build Android') {
         sh 'echo sdk.dir=/opt/android-sdk > local.properties'
         dir('android') {
-            checkout changelog: false, poll: false, scm: [$class: 'GitSCM', branches: [[name: '*/sdk-version-fixes']], extensions: [[$class: 'RelativeTargetDirectory', relativeTargetDir: '']], userRemoteConfigs: [[url: 'https://github.com/BenjaminAmos/DestSolAndroid.git']]]
+            checkout scm: [$class: 'GitSCM', branches: [[name: '*/master']], extensions: [], userRemoteConfigs: [[url: 'https://github.com/MovingBlocks/DestSolAndroid.git']]]
         }
         sh './gradlew --console=plain :android:assembleDebug'
         archiveArtifacts 'android/build/outputs/apk/debug/android-debug.apk'
