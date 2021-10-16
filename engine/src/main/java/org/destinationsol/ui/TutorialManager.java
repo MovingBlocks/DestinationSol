@@ -186,10 +186,13 @@ public class TutorialManager implements UpdateAwareSystem {
 
         if (mouseCtrl) {
             addStep("Move forward (" + gameOptions.getKeyUpMouseName() + " key).\nThere's no stop!", upCtrl);
+            addStep("Note that the view zooms\nout at high speeds!", upCtrl);
         } else if (mobile) {
             addStep("Move forward.\nThere's no stop!", nuiUpCtrl);
+            addStep("Note that the view zooms\nout at high speeds!", nuiUpCtrl);
         } else {
             addStep("Move forward (" + gameOptions.getKeyUpName() + " key).\nThere's no stop!", nuiUpCtrl);
+            addStep("Note that the view zooms\nout at high speeds!", nuiUpCtrl);
         }
 
         UIWarnButton talkButton = nuiMain.getTalkButton();
