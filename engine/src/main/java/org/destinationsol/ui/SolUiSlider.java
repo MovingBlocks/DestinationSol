@@ -18,26 +18,28 @@ package org.destinationsol.ui;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
-import org.destinationsol.assets.Assets;
 import org.destinationsol.common.SolColor;
 import org.destinationsol.common.SolMath;
 
 public class SolUiSlider {
     private static final float HANDLE_SCALE = 0.0125f;
 
-    private static final TextureAtlas.AtlasRegion sliderTexture = Assets.getAtlasRegion("engine:ui/slider");
-    private static final TextureAtlas.AtlasRegion sliderMarkerTexture = Assets.getAtlasRegion("engine:ui/sliderMarker");
+    private final TextureAtlas.AtlasRegion sliderTexture;
+    private final TextureAtlas.AtlasRegion sliderMarkerTexture;
 
     private final Rectangle rectangle;
     private float value;
     private String text;
     private final int trimAt;
 
-    public SolUiSlider(Rectangle sliderRectangle, String text, float startingValue, int trimAt) {
+    public SolUiSlider(Rectangle sliderRectangle, String text, float startingValue, int trimAt,
+                       TextureAtlas.AtlasRegion sliderTexture, TextureAtlas.AtlasRegion sliderMarkerTexture) {
         rectangle = sliderRectangle;
         value = SolMath.clamp(value);
         this.text = text;
         this.trimAt = trimAt;
+        this.sliderTexture = sliderTexture;
+        this.sliderMarkerTexture = sliderMarkerTexture;
     }
 
     public void draw(UiDrawer uiDrawer) {

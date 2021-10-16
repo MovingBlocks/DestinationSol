@@ -16,10 +16,12 @@
 package org.destinationsol.game.screens;
 
 import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import org.destinationsol.GameOptions;
 import org.destinationsol.SolApplication;
+import org.destinationsol.assets.Assets;
 import org.destinationsol.common.SolColor;
 import org.destinationsol.menu.MenuLayout;
 import org.destinationsol.ui.SolInputManager;
@@ -58,9 +60,12 @@ public class WaypointCreationScreen extends SolUiBaseScreen {
         previewRect = menuLayout.buttonRect(-1, -1);
         outcomeColor = Color.BLACK.cpy();
 
-        sliderRed = new SolUiSlider(menuLayout.buttonRect(-1, 0), "Red: ", 1, 2);
-        sliderGreen = new SolUiSlider(menuLayout.buttonRect(-1, 1), "Green: ", 1, 2);
-        sliderBlue = new SolUiSlider(menuLayout.buttonRect(-1, 2), "Blue:", 1, 2);
+        TextureAtlas.AtlasRegion sliderTexture = Assets.getAtlasRegion("engine:ui/slider");
+        TextureAtlas.AtlasRegion sliderMarkerTexture = Assets.getAtlasRegion("engine:ui/sliderMarker");
+
+        sliderRed = new SolUiSlider(menuLayout.buttonRect(-1, 0), "Red: ", 1, 2,sliderTexture, sliderMarkerTexture);
+        sliderGreen = new SolUiSlider(menuLayout.buttonRect(-1, 1), "Green: ", 1, 2, sliderTexture, sliderMarkerTexture);
+        sliderBlue = new SolUiSlider(menuLayout.buttonRect(-1, 2), "Blue:", 1, 2, sliderTexture, sliderMarkerTexture);
 
         background = menuLayout.background(-1, -1, 6);
     }
