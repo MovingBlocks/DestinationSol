@@ -19,6 +19,7 @@ package org.destinationsol.game.input;
 import org.destinationsol.Const;
 import org.destinationsol.game.Faction;
 import org.destinationsol.game.SolGame;
+import org.destinationsol.game.screens.MenuScreen;
 import org.destinationsol.game.screens.ShipUiControl;
 import org.destinationsol.game.ship.FarShip;
 import org.destinationsol.game.ship.SolShip;
@@ -26,6 +27,7 @@ import org.destinationsol.game.ship.SolShip;
 public class UiControlledPilot implements Pilot {
 
     private final ShipUiControl uiControls;
+    private boolean hasFocus;
 
     public UiControlledPilot(ShipUiControl controls) {
         uiControls = controls;
@@ -33,31 +35,32 @@ public class UiControlledPilot implements Pilot {
 
     @Override
     public void update(SolGame game, SolShip ship, SolShip nearestEnemy) {
+        hasFocus = game.getSolApplication().getInputManager().isScreenOn(game.getScreens().mainGameScreen);
     }
 
     @Override
     public boolean isUp() {
-        return uiControls.isUp();
+        return uiControls.isUp() && hasFocus;
     }
 
     @Override
     public boolean isLeft() {
-        return uiControls.isLeft();
+        return uiControls.isLeft() && hasFocus;
     }
 
     @Override
     public boolean isRight() {
-        return uiControls.isRight();
+        return uiControls.isRight() && hasFocus;
     }
 
     @Override
     public boolean isShoot() {
-        return uiControls.isShoot();
+        return uiControls.isShoot() && hasFocus;
     }
 
     @Override
     public boolean isShoot2() {
-        return uiControls.isShoot2();
+        return uiControls.isShoot2() && hasFocus;
     }
 
     @Override
