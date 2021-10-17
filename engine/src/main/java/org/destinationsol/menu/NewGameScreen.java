@@ -68,7 +68,7 @@ public class NewGameScreen extends SolUiBaseScreen {
         SolInputManager inputManager = solApplication.getInputManager();
 
         if (backControl.isJustOff()) {
-            inputManager.setScreen(solApplication, screens.main);
+            solApplication.getNuiManager().pushScreen(screens.main);
             return;
         }
         if (continueControl.isJustOff()) {

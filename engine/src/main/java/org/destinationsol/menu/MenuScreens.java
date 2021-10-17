@@ -16,10 +16,14 @@
 package org.destinationsol.menu;
 
 import org.destinationsol.GameOptions;
+import org.destinationsol.assets.Assets;
 import org.destinationsol.ui.SolLayouts;
+import org.destinationsol.ui.nui.screens.mainMenu.MainMenuScreen;
+import org.terasology.gestalt.assets.ResourceUrn;
+import org.terasology.nui.asset.UIElement;
 
 public class MenuScreens {
-    public final MainMenuScreen main;
+    public final org.destinationsol.ui.nui.screens.mainMenu.MainMenuScreen main;
     public final OptionsScreen options;
     public final InputMapScreen inputMapScreen;
     public final ResolutionScreen resolutionScreen;
@@ -30,7 +34,7 @@ public class MenuScreens {
 
     public MenuScreens(SolLayouts layouts, boolean mobile, GameOptions gameOptions) {
         MenuLayout menuLayout = layouts.menuLayout;
-        main = new MainMenuScreen(mobile, gameOptions);
+        main = (MainMenuScreen) Assets.getAssetHelper().get(new ResourceUrn("engine:mainMenuScreen"), UIElement.class).get().getRootWidget();
         options = new OptionsScreen(mobile, menuLayout, gameOptions);
         inputMapScreen = new InputMapScreen(gameOptions);
         resolutionScreen = new ResolutionScreen(mobile, menuLayout, gameOptions);

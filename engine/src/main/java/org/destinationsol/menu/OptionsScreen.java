@@ -97,7 +97,7 @@ public class OptionsScreen extends SolUiBaseScreen {
         }
 
         if (backControl.isJustOff()) {
-            inputManager.setScreen(solApplication, screens.main);
+            solApplication.getNuiManager().pushScreen(screens.main);
         }
 
         if (inputMapControl.isJustOff()) {

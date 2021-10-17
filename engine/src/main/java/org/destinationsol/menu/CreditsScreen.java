@@ -138,7 +138,7 @@ public class CreditsScreen extends SolUiBaseScreen {
     @Override
     public void updateCustom(SolApplication solApplication, SolInputManager.InputPointer[] inputPointers, boolean clickedOutside) {
         if (closeControl.isJustOff()) {
-            solApplication.getInputManager().setScreen(solApplication, solApplication.getMenuScreens().main);
+            solApplication.getNuiManager().pushScreen(solApplication.getMenuScreens().main);
             return;
         }
         pageProgressPercent += Const.REAL_TIME_STEP / MAX_AWAIT;

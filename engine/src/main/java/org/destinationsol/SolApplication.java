@@ -68,6 +68,7 @@ import org.destinationsol.ui.FontSize;
 import org.destinationsol.ui.ResizeSubscriber;
 import org.destinationsol.ui.SolInputManager;
 import org.destinationsol.ui.SolLayouts;
+import org.destinationsol.ui.SolUiBaseScreen;
 import org.destinationsol.ui.UiDrawer;
 import org.destinationsol.ui.nui.NUIManager;
 import org.destinationsol.util.FramerateLimiter;
@@ -168,10 +169,10 @@ public class SolApplication implements ApplicationListener {
         menuBackgroundManager = new MenuBackgroundManager(displayDimensions);
         menuScreens = new MenuScreens(layouts, isMobile(), options);
 
-        inputManager.setScreen(this, menuScreens.main);
         parameterAdapterManager = ParameterAdapterManager.createCore(this);
 
-        nuiManager = new NUIManager(this, context, commonDrawer, options);
+        nuiManager = new NUIManager(this, context, commonDrawer, options, uiDrawer);
+        nuiManager.pushScreen(menuScreens.main);
     }
 
     @Override
@@ -401,7 +402,9 @@ public class SolApplication implements ApplicationListener {
     public void finishGame() {
         solGame.onGameEnd(context);
         solGame = null;
-        inputManager.setScreen(this, menuScreens.main);
+        // TODO: remove the following line when all screens have been ported to use NUI
+        inputManager.setScreen(this, new SolUiBaseScreen() {});
+        nuiManager.pushScreen(menuScreens.main);
     }
 
     public boolean isMobile() {

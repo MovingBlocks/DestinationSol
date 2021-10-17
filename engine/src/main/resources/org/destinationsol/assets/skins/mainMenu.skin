@@ -1,0 +1,35 @@
+{
+    "inherit": "engine:default",
+    "elements": {
+        "NUIScreenLayer": {
+            "background-scale-mode": "scale_fill",
+            "background": "engine:mainMenuBg"
+        }
+    },
+    "families": {
+        "logo": {
+            "elements": {
+                "UIImage": {
+                    "min-width": 200,
+                    "min-height": 109,
+                    "max-width": 400,
+                    "max-height": 218
+                }
+            }
+        },
+        "menuButtons": {
+            "elements": {
+                "UIButton": {
+                    "min-width": 400,
+                    "min-height": 25,
+                    "max-width": 800,
+                    "max-height": 200
+                }
+            },
+            "font": "engine:main#1"
+        },
+        "creditsButton": {
+            "font": "engine:main#0.60"
+        }
+    }
+}

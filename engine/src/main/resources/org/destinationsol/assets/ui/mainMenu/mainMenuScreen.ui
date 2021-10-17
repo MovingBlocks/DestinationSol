@@ -1,0 +1,85 @@
+{
+    "type": "MainMenuScreen",
+    "skin": "engine:mainMenu",
+    "contents": {
+        "type": "RelativeLayout",
+        "contents": [
+            {
+                "type": "UIImage",
+                "image": "engine:mainMenuLogo",
+                "ignoreAspectRatio": true,
+                "id": "mainMenuLogo",
+                "family": "logo",
+                "layoutInfo": {
+                    "position-horizontal-center": {},
+                    "position-top": {
+                        "offset": 32
+                    },
+                    "position-bottom": {
+                        "widget": "menuButtons",
+                        "target": "TOP"
+                    },
+                    "position-left": {
+                        "offset": 32
+                    },
+                    "position-right": {
+                        "offset": 32
+                    }
+                }
+            },
+            {
+                "type": "ColumnLayout",
+                "id": "menuButtons",
+                "family": "menuButtons",
+                "columns": 1,
+                "verticalSpacing": 10,
+                "contents": [
+                    {
+                        "type": "UIButton",
+                        "id": "tutorialButton",
+                        "text": "Tutorial"
+                    },
+                    {
+                        "type": "UIButton",
+                        "id": "playGameButton",
+                        "text": "Play Game"
+                    },
+                    {
+                        "type": "UIButton",
+                        "id": "optionsButton",
+                        "text": "Options"
+                    },
+                    {
+                        "type": "UIButton",
+                        "id": "exitButton",
+                        "text": "Exit"
+                    }
+                ],
+                "layoutInfo": {
+                    "position-horizontal-center": {},
+                    "position-bottom": {
+                        "offset": 32
+                    },
+                    "position-top": {
+                        "target": "MIDDLE",
+                        "offset": 64
+                    },
+                    "use-content-height": true,
+                    "use-content-width": true
+                }
+            },
+            {
+                "type": "UIButton",
+                "id": "creditsButton",
+                "family": "creditsButton",
+                "text": "Credits",
+                "layoutInfo": {
+                    "position-right": {},
+                    "position-bottom": {},
+                    "width": 100,
+                    "height": 50
+                }
+            }
+        ]
+    }
+}
