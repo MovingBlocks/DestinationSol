@@ -138,9 +138,16 @@ public abstract class NUIScreenLayer extends AbstractWidget {
 
     /**
      * Called to initialise the UI screen, allowing it to register widget callbacks and assign widget values
-     * programmatically. This is called whenever the UI screen becomes visible.
+     * programmatically.
      */
     public void initialise() {
+    }
+
+    /**
+     * Called when the UI screen is added to the UI stack.
+     * This method can be called multiple times, so initialisation should only occur in {@link #initialise()}.
+     */
+    public void onAdded() {
     }
 
     /**

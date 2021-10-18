@@ -40,6 +40,8 @@ import org.terasology.nui.FocusManager;
 import org.terasology.nui.FocusManagerImpl;
 import org.terasology.nui.TabbingManager;
 import org.terasology.nui.UITextureRegion;
+import org.terasology.nui.UIWidget;
+import org.terasology.nui.asset.UIElement;
 import org.terasology.nui.backends.libgdx.LibGDXCanvasRenderer;
 import org.terasology.nui.backends.libgdx.LibGDXKeyboardDevice;
 import org.terasology.nui.backends.libgdx.LibGDXMouseDevice;
@@ -195,7 +197,10 @@ public class NUIManager {
                 focusManager.getFocus().onKeyEvent(event);
             }
 
-            for (NUIScreenLayer uiScreen : uiScreens) {
+            // Create a copy of the list, as screens may be removed in response to key events.
+            // This does not happen for most key events, however it may occur with KeyActivatedButton instances,
+            // which already have special handling in the NUIScreenLayer class.
+            for (NUIScreenLayer uiScreen : new LinkedList<>(uiScreens)) {
                 if (uiScreen.onKeyEvent(event) || uiScreen.isBlockingInput() || event.isConsumed()) {
                     break;
                 }
@@ -290,17 +295,39 @@ public class NUIManager {
     }
 
     /**
+     * Loads a UI screen from the specified asset and returns it.
+     * If the screen has not been previously loaded, then it is initialised.
+     *
+     * If the screen cannot be loaded, then the method may throw a RuntimeException.
+     * If the UI element loaded is not a UI screen itself, then the method may throw an IllegalArgumentException.
+     * @param uri the screen to load
+     * @return the loaded screen
+     */
+    public NUIScreenLayer createScreen(String uri) {
+        boolean alreadyLoaded = Assets.isLoaded(uri, UIElement.class);
+        UIWidget rootWidget = Assets.getUIElement(uri).getRootWidget();
+        if (rootWidget instanceof NUIScreenLayer) {
+            NUIScreenLayer screen = (NUIScreenLayer) rootWidget;
+            if (!alreadyLoaded) {
+                // Populate all @In annotated fields in the screen class with values from the context.
+                InjectionHelper.inject(screen, context);
+                screen.setFocusManager(focusManager);
+                screen.setNuiManager(this);
+                screen.initialise();
+            }
+            return screen;
+        } else {
+            throw new IllegalArgumentException("Asset " + uri + " is not a UI screen!");
+        }
+    }
+
+    /**
      * Pushes a screen onto the UI stack.
      * @param layer the screen to add
      */
     public void pushScreen(NUIScreenLayer layer) {
         uiScreens.push(layer);
-
-        // Populate all @In annotated fields in the layer class with values from the context.
-        InjectionHelper.inject(layer, context);
-        layer.setFocusManager(focusManager);
-        layer.setNuiManager(this);
-        layer.initialise();
+        layer.onAdded();
     }
 
     /**

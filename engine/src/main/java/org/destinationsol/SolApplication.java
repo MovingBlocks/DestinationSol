@@ -68,7 +68,6 @@ import org.destinationsol.ui.FontSize;
 import org.destinationsol.ui.ResizeSubscriber;
 import org.destinationsol.ui.SolInputManager;
 import org.destinationsol.ui.SolLayouts;
-import org.destinationsol.ui.SolUiBaseScreen;
 import org.destinationsol.ui.UiDrawer;
 import org.destinationsol.ui.nui.NUIManager;
 import org.destinationsol.util.FramerateLimiter;
@@ -166,12 +165,13 @@ public class SolApplication implements ApplicationListener {
 
         musicManager.playMusic(OggMusicManager.MENU_MUSIC_SET, options);
 
-        menuBackgroundManager = new MenuBackgroundManager(displayDimensions);
-        menuScreens = new MenuScreens(layouts, isMobile(), options);
-
         parameterAdapterManager = ParameterAdapterManager.createCore(this);
 
         nuiManager = new NUIManager(this, context, commonDrawer, options, uiDrawer);
+
+        menuBackgroundManager = new MenuBackgroundManager(displayDimensions);
+        menuScreens = new MenuScreens(layouts, isMobile(), options, nuiManager);
+
         nuiManager.pushScreen(menuScreens.main);
     }
 
@@ -403,7 +403,7 @@ public class SolApplication implements ApplicationListener {
         solGame.onGameEnd(context);
         solGame = null;
         // TODO: remove the following line when all screens have been ported to use NUI
-        inputManager.setScreen(this, new SolUiBaseScreen() {});
+        inputManager.setScreen(this, null);
         nuiManager.pushScreen(menuScreens.main);
     }
 

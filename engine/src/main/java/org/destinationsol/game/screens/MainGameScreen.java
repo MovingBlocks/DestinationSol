@@ -107,8 +107,7 @@ public class MainGameScreen extends SolUiBaseScreen {
         switch (gameOptions.controlType) {
             case KEYBOARD:
                 UIShipControlsScreen shipControlsScreen =
-                        (UIShipControlsScreen) Assets.getAssetHelper().get(
-                                new ResourceUrn("engine:uiShipControlsScreen"), UIElement.class).get().getRootWidget();
+                        (UIShipControlsScreen) solApplication.getNuiManager().createScreen("engine:uiShipControlsScreen");
                 solApplication.getNuiManager().pushScreen(shipControlsScreen);
                 shipControl = shipControlsScreen;
                 break;

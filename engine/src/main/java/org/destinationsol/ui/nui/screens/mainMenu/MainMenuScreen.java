@@ -50,7 +50,7 @@ public class MainMenuScreen extends NUIScreenLayer {
 
         UIButton playGameButton = find("playGameButton", UIButton.class);
         playGameButton.subscribe(button -> {
-            solApplication.getInputManager().setScreen(solApplication, solApplication.getMenuScreens().newGame);
+            nuiManager.pushScreen(solApplication.getMenuScreens().newGame);
             nuiManager.removeScreen(this);
         });
 

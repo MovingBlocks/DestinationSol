@@ -16,14 +16,14 @@
 package org.destinationsol.menu;
 
 import org.destinationsol.GameOptions;
-import org.destinationsol.assets.Assets;
 import org.destinationsol.ui.SolLayouts;
+import org.destinationsol.ui.nui.NUIManager;
 import org.destinationsol.ui.nui.screens.mainMenu.MainMenuScreen;
-import org.terasology.gestalt.assets.ResourceUrn;
-import org.terasology.nui.asset.UIElement;
+import org.destinationsol.ui.nui.screens.mainMenu.NewGameScreen;
+import org.destinationsol.ui.nui.screens.mainMenu.NewShipScreen;
 
 public class MenuScreens {
-    public final org.destinationsol.ui.nui.screens.mainMenu.MainMenuScreen main;
+    public final MainMenuScreen main;
     public final OptionsScreen options;
     public final InputMapScreen inputMapScreen;
     public final ResolutionScreen resolutionScreen;
@@ -32,15 +32,15 @@ public class MenuScreens {
     public final NewGameScreen newGame;
     public final NewShipScreen newShip;
 
-    public MenuScreens(SolLayouts layouts, boolean mobile, GameOptions gameOptions) {
+    public MenuScreens(SolLayouts layouts, boolean mobile, GameOptions gameOptions, NUIManager nuiManager) {
         MenuLayout menuLayout = layouts.menuLayout;
-        main = (MainMenuScreen) Assets.getAssetHelper().get(new ResourceUrn("engine:mainMenuScreen"), UIElement.class).get().getRootWidget();
+        main = (MainMenuScreen) nuiManager.createScreen("engine:mainMenuScreen");
         options = new OptionsScreen(mobile, menuLayout, gameOptions);
         inputMapScreen = new InputMapScreen(gameOptions);
         resolutionScreen = new ResolutionScreen(mobile, menuLayout, gameOptions);
         credits = new CreditsScreen(gameOptions);
         loading = new LoadingScreen();
-        newGame = new NewGameScreen(menuLayout, gameOptions);
-        newShip = new NewShipScreen(menuLayout, gameOptions);
+        newGame = (NewGameScreen) nuiManager.createScreen("engine:newGameScreen");
+        newShip = (NewShipScreen) nuiManager.createScreen("engine:newShipScreen");
     }
 }

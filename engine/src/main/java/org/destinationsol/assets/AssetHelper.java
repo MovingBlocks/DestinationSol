@@ -128,4 +128,8 @@ public class AssetHelper {
             logger.error("Error closing assetTypeManager", e);
         }
     }
+
+    public boolean isAssetLoaded(ResourceUrn urn, Class<? extends Asset<?>> type) {
+        return assetTypeManager.getAssetManager().isLoaded(urn, type);
+    }
 }
