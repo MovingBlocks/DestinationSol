@@ -259,7 +259,8 @@ public class NUIManager {
             }
         }
 
-        for (NUIScreenLayer uiScreen : uiScreens) {
+        // Create a copy of the list, as screens may be removed during update.
+        for (NUIScreenLayer uiScreen : new LinkedList<>(uiScreens)) {
             uiScreen.update(Gdx.graphics.getDeltaTime());
         }
     }

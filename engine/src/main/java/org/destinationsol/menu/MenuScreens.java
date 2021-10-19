@@ -18,6 +18,7 @@ package org.destinationsol.menu;
 import org.destinationsol.GameOptions;
 import org.destinationsol.ui.SolLayouts;
 import org.destinationsol.ui.nui.NUIManager;
+import org.destinationsol.ui.nui.screens.mainMenu.LoadingScreen;
 import org.destinationsol.ui.nui.screens.mainMenu.MainMenuScreen;
 import org.destinationsol.ui.nui.screens.mainMenu.NewGameScreen;
 import org.destinationsol.ui.nui.screens.mainMenu.NewShipScreen;
@@ -39,7 +40,7 @@ public class MenuScreens {
         inputMapScreen = new InputMapScreen(gameOptions);
         resolutionScreen = new ResolutionScreen(mobile, menuLayout, gameOptions);
         credits = new CreditsScreen(gameOptions);
-        loading = new LoadingScreen();
+        loading = (LoadingScreen) nuiManager.createScreen("engine:loadingScreen");
         newGame = (NewGameScreen) nuiManager.createScreen("engine:newGameScreen");
         newShip = (NewShipScreen) nuiManager.createScreen("engine:newShipScreen");
     }

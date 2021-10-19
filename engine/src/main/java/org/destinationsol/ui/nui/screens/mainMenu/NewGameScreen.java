@@ -43,9 +43,9 @@ public class NewGameScreen extends NUIScreenLayer {
         continueButton.setKey(GDXInputUtil.GDXToNuiKey(solApplication.getOptions().getKeyShoot()));
         continueButton.setEnabled(SaveManager.hasPreviousCompatibleShip());
         continueButton.subscribe(button -> {
-            solApplication.getInputManager().setScreen(solApplication, solApplication.getMenuScreens().loading);
             solApplication.getMenuScreens().loading.setMode(false, null, false,
                     SaveManager.loadWorld().orElseGet(WorldConfig::new));
+            nuiManager.pushScreen(solApplication.getMenuScreens().loading);
             nuiManager.removeScreen(this);
         });
 

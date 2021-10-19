@@ -30,6 +30,9 @@
         },
         "creditsButton": {
             "font": "engine:main#0.60"
+        },
+        "loadingScreenText": {
+            "font": "engine:main#1.0"
         }
     }
 }

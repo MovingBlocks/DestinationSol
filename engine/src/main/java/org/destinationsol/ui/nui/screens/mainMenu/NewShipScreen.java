@@ -71,8 +71,8 @@ public class NewShipScreen extends NUIScreenLayer {
             WorldConfig worldConfig = new WorldConfig();
             worldConfig.setNumberOfSystems(numberOfSystems);
 
-            solApplication.getInputManager().setScreen(solApplication, solApplication.getMenuScreens().loading);
             solApplication.getMenuScreens().loading.setMode(false, playerSpawnConfigNames.get(playerSpawnConfigIndex), true, worldConfig);
+            nuiManager.pushScreen(solApplication.getMenuScreens().loading);
             solApplication.getNuiManager().removeScreen(this);
         });
 

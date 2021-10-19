@@ -43,8 +43,8 @@ public class MainMenuScreen extends NUIScreenLayer {
         UIButton tutorialButton = find("tutorialButton", UIButton.class);
         tutorialButton.setEnabled(solApplication.getOptions().controlType != GameOptions.ControlType.CONTROLLER);
         tutorialButton.subscribe(button -> {
-            solApplication.getInputManager().setScreen(solApplication, solApplication.getMenuScreens().loading);
             solApplication.getMenuScreens().loading.setMode(true, "Imperial Small", true, new WorldConfig());
+            nuiManager.pushScreen(solApplication.getMenuScreens().loading);
             nuiManager.removeScreen(this);
         });
 
