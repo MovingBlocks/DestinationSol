@@ -60,7 +60,7 @@ public class MainGameScreen extends NUIScreenLayer {
 
     @Override
     public void initialise() {
-        consoleScreen = (ConsoleScreen) Assets.getAssetHelper().get(new ResourceUrn("engine:console"), UIElement.class).get().getRootWidget();
+        consoleScreen = (ConsoleScreen) nuiManager.createScreen("engine:console");
 
         GameOptions gameOptions = solApplication.getOptions();
 

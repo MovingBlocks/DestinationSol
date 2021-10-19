@@ -1,5 +1,5 @@
 /*
- * Copyright 2018 MovingBlocks
+ * Copyright 2021 The Terasology Foundation
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -13,47 +13,40 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.destinationsol.menu;
+package org.destinationsol.ui.nui.screens.mainMenu;
 
-import com.badlogic.gdx.graphics.Color;
-import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import org.destinationsol.Const;
-import org.destinationsol.GameOptions;
 import org.destinationsol.SolApplication;
-import org.destinationsol.assets.Assets;
-import org.destinationsol.common.SolColor;
-import org.destinationsol.common.SolMath;
-import org.destinationsol.ui.DisplayDimensions;
-import org.destinationsol.ui.FontSize;
-import org.destinationsol.ui.SolInputManager;
-import org.destinationsol.ui.SolUiBaseScreen;
-import org.destinationsol.ui.SolUiControl;
-import org.destinationsol.ui.UiDrawer;
+import org.destinationsol.common.In;
+import org.destinationsol.ui.nui.NUIManager;
+import org.destinationsol.ui.nui.NUIScreenLayer;
+import org.destinationsol.ui.nui.widgets.KeyActivatedButton;
+import org.joml.Math;
+import org.terasology.nui.Canvas;
+import org.terasology.nui.Color;
+import org.terasology.nui.backends.libgdx.GDXInputUtil;
+import org.terasology.nui.skin.UISkin;
+import org.terasology.nui.skin.UISkinBuilder;
+import org.terasology.nui.widgets.UILabel;
 
 import java.util.ArrayList;
 
-public class CreditsScreen extends SolUiBaseScreen {
+public class CreditsScreen extends NUIScreenLayer {
     private static final float MAX_AWAIT = 6f;
-    private final TextureAtlas.AtlasRegion backgroundTexture;
-    private final SolUiControl closeControl;
-
-    private DisplayDimensions displayDimensions;
-
-    private final ArrayList<String> myPages = new ArrayList<>();
-    private final Color myColor;
+    @In
+    private SolApplication solApplication;
+    private UILabel creditsText;
+    private ArrayList<String> myPages = new ArrayList<>();
+    private UISkin textSkin;
+    private Color textColor;
     private int pageIndex;
     private float pageProgressPercent;
 
-    CreditsScreen(GameOptions gameOptions) {
-        displayDimensions = SolApplication.displayDimensions;
+    @Override
+    public void initialise() {
+        textColor = new Color(Color.white);
 
-        closeControl = new SolUiControl(MenuLayout.bottomRightFloatingButton(displayDimensions), true, gameOptions.getKeyEscape());
-        closeControl.setDisplayName("Close");
-        controls.add(closeControl);
-        myColor = SolColor.col(1, 1);
-
-        String[][] sss = {
+        String[][] creditsSections = {
                 {
                         "A game from",
                         "",
@@ -117,31 +110,45 @@ public class CreditsScreen extends SolUiBaseScreen {
                         "Steveygos93",
                 },
         };
-        for (String[] ss : sss) {
+
+        for (String[] creditsSection : creditsSections) {
             StringBuilder page = new StringBuilder();
-            for (String s : ss) {
-                page.append(s).append("\n");
+            for (String creditsLine : creditsSection) {
+                page.append(creditsLine).append("\n");
             }
             myPages.add(page.toString());
         }
 
-        backgroundTexture = Assets.getAtlasRegion("engine:mainMenuBg", Texture.TextureFilter.Linear);
+        creditsText = find("creditsText", UILabel.class);
+        textSkin = new UISkinBuilder()
+                .setBaseSkin(getSkin())
+                .setFamily(creditsText.getFamily())
+                .setTextColor(textColor)
+                .setTextShadowColor(new Color(Color.transparent))
+                .build();
+        creditsText.setSkin(textSkin);
+
+        KeyActivatedButton cancelButton = find("cancelButton", KeyActivatedButton.class);
+        cancelButton.setKey(GDXInputUtil.GDXToNuiKey(solApplication.getOptions().getKeyEscape()));
+        cancelButton.subscribe(button -> {
+            nuiManager.pushScreen(solApplication.getMenuScreens().main);
+            nuiManager.removeScreen(this);
+        });
     }
 
     @Override
-    public void onAdd(SolApplication solApplication) {
+    public void onAdded() {
         pageIndex = 0;
         pageProgressPercent = 0;
-        myColor.a = 0;
+        textColor.setAlpha(0.0f);
+
+        creditsText.setText(myPages.get(pageIndex));
     }
 
     @Override
-    public void updateCustom(SolApplication solApplication, SolInputManager.InputPointer[] inputPointers, boolean clickedOutside) {
-        if (closeControl.isJustOff()) {
-            solApplication.getInputManager().setScreen(solApplication, null);
-            solApplication.getNuiManager().pushScreen(solApplication.getMenuScreens().main);
-            return;
-        }
+    public void update(float delta) {
+        super.update(delta);
+
         pageProgressPercent += Const.REAL_TIME_STEP / MAX_AWAIT;
         if (pageProgressPercent > 1) {
             pageProgressPercent = 0;
@@ -149,25 +156,31 @@ public class CreditsScreen extends SolUiBaseScreen {
             if (pageIndex >= myPages.size()) {
                 pageIndex = 0;
             }
+            creditsText.setText(myPages.get(pageIndex));
         }
-        float a = pageProgressPercent * 2;
-        if (a > 1) {
-            a = 2 - a;
+        float alpha = pageProgressPercent * 2;
+        if (alpha > 1) {
+            alpha = 2 - alpha;
         }
-        a *= 3;
-        myColor.a = SolMath.clamp(a);
+        alpha *= 3;
+        textColor.setAlpha(Math.clamp(0.0f, 1.0f, alpha));
+        textSkin.getDefaultStyleFor(creditsText.getFamily()).setTextColor(textColor);
 
         solApplication.getMenuBackgroundManager().update();
     }
 
     @Override
-    public void drawBackground(UiDrawer uiDrawer, SolApplication solApplication) {
-        uiDrawer.draw(backgroundTexture, displayDimensions.getRatio(), 1, displayDimensions.getRatio() / 2, 0.5f, displayDimensions.getRatio() / 2, 0.5f, 0, SolColor.WHITE);
-        solApplication.getMenuBackgroundManager().draw(uiDrawer);
+    public void onDraw(Canvas canvas) {
+        try (NUIManager.LegacyUiDrawerWrapper wrapper = nuiManager.getLegacyUiDrawer()) {
+            solApplication.getMenuBackgroundManager().draw(wrapper.getUiDrawer());
+        }
+
+        super.onDraw(canvas);
     }
 
     @Override
-    public void drawText(UiDrawer uiDrawer, SolApplication solApplication) {
-        uiDrawer.drawString(myPages.get(pageIndex), displayDimensions.getRatio() / 2, .5f, FontSize.MENU, true, myColor);
+    protected boolean escapeCloses() {
+        return false;
     }
+
 }

@@ -71,7 +71,7 @@ public class MainMenuScreen extends NUIScreenLayer {
 
         UIButton creditsButton = find("creditsButton", UIButton.class);
         creditsButton.subscribe(button -> {
-            solApplication.getInputManager().setScreen(solApplication, solApplication.getMenuScreens().credits);
+            nuiManager.pushScreen(solApplication.getMenuScreens().credits);
             nuiManager.removeScreen(this);
         });
     }

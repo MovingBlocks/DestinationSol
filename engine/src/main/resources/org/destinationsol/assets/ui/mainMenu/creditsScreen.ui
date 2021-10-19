@@ -1,0 +1,33 @@
+{
+    "type": "CreditsScreen",
+    "skin": "engine:mainMenu",
+    "contents": {
+        "type": "RelativeLayout",
+        "contents": [
+            {
+                "type": "UILabel",
+                "id": "creditsText",
+                "family": "creditsText",
+                "text": "[Credits go here...]",
+                "layoutInfo": {
+                    "position-horizontal-center": {},
+                    "position-vertical-center": {},
+                    "use-content-width": true,
+                    "use-content-height": true
+                }
+            },
+            {
+                "type": "KeyActivatedButton",
+                "id": "cancelButton",
+                "family": "creditsButton",
+                "text": "Cancel",
+                "layoutInfo": {
+                    "position-right": {},
+                    "position-bottom": {},
+                    "width": 100,
+                    "height": 50
+                }
+            }
+        ]
+    }
+}

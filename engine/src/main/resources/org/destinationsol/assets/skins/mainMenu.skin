@@ -33,6 +33,11 @@
         },
         "loadingScreenText": {
             "font": "engine:main#1.0"
+        },
+        "creditsText": {
+            "font": "engine:main#0.8",
+            "text-align-vertical": "middle",
+            "text-align-horizontal": "center"
         }
     }
 }
