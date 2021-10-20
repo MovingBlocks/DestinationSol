@@ -1,0 +1,58 @@
+{
+    "type": "ResolutionScreen",
+    "skin": "engine:mainMenu",
+    "contents": {
+        "type": "RelativeLayout",
+        "contents": [
+            {
+                "type": "UILabel",
+                "family": "menuHeaderText",
+                "text": "Click 'Back' to apply changes",
+                "layoutInfo": {
+                    "position-horizontal-center": {},
+                    "position-top": {
+                        "target": "MIDDLE",
+                        "offset": -64
+                    }
+                }
+            },
+            {
+                "type": "ColumnLayout",
+                "id": "menuButtons",
+                "family": "menuButtons",
+                "columns": 1,
+                "verticalSpacing": 10,
+                "contents": [
+                    {
+                        "type": "UIButton",
+                        "id": "resolutionButton",
+                        "text": "Resolution"
+                    },
+                    {
+                        "type": "UIButton",
+                        "id": "fullScreenButton",
+                        "text": "Full Screen"
+                    },
+                    {
+                        "type": "UIButton",
+                        "id": "nuiUIScaleButton",
+                        "text": "NUI UI Scale"
+                    },
+                    {
+                        "type": "KeyActivatedButton",
+                        "id": "cancelButton",
+                        "text": "Back"
+                    }
+                ],
+                "layoutInfo": {
+                    "position-horizontal-center": {},
+                    "position-bottom": {
+                        "offset": 32
+                    },
+                    "use-content-height": true,
+                    "use-content-width": true
+                }
+            }
+        ]
+    }
+}

@@ -56,7 +56,7 @@ public class MainMenuScreen extends NUIScreenLayer {
 
         UIButton optionsButton = find("optionsButton", UIButton.class);
         optionsButton.subscribe(button -> {
-            solApplication.getInputManager().setScreen(solApplication, solApplication.getMenuScreens().options);
+            nuiManager.pushScreen(solApplication.getMenuScreens().options);
             nuiManager.removeScreen(this);
         });
 

@@ -45,9 +45,9 @@ public class InputMapScreen extends SolUiBaseScreen {
     private static final float SMALL_GAP = .004f;
     private static final float HEADER_TEXT_OFFSET = .005f;
     private static final int BUTTON_ROWS = 4;
-    final InputMapKeyboardScreen inputMapKeyboardScreen;
-    final InputMapControllerScreen inputMapControllerScreen;
-    final InputMapMixedScreen inputMapMixedScreen;
+    private final InputMapKeyboardScreen inputMapKeyboardScreen;
+    private final InputMapControllerScreen inputMapControllerScreen;
+    private final InputMapMixedScreen inputMapMixedScreen;
     private final TextureAtlas.AtlasRegion backgroundTexture;
     private final SolUiControl[] itemControls;
     private final SolUiControl previousControl;
@@ -146,7 +146,8 @@ public class InputMapScreen extends SolUiBaseScreen {
         // Save - saves new settings and returns to the options screen
         if (saveControl.isJustOff()) {
             operations.save(gameOptions);
-            im.setScreen(cmp, screens.options);
+            im.setScreen(cmp, null);
+            cmp.getNuiManager().pushScreen(screens.options);
         }
 
         if (cancelControl.isJustOff()) {
@@ -155,7 +156,8 @@ public class InputMapScreen extends SolUiBaseScreen {
                 operations.setEnterNewKey(false);
             } else {
                 // Cancel - return to options screen without saving
-                im.setScreen(cmp, screens.options);
+                im.setScreen(cmp, null);
+                cmp.getNuiManager().pushScreen(screens.options);
             }
         }
 
@@ -307,7 +309,19 @@ public class InputMapScreen extends SolUiBaseScreen {
         return new Rectangle(itemControlsArea.x, itemControlsArea.y + (h + SMALL_GAP) * row, itemControlsArea.width, h);
     }
 
-    void setOperations(InputMapOperations operations) {
+    public void setOperations(InputMapOperations operations) {
         this.operations = operations;
+    }
+
+    public InputMapKeyboardScreen getInputMapKeyboardScreen() {
+        return inputMapKeyboardScreen;
+    }
+
+    public InputMapControllerScreen getInputMapControllerScreen() {
+        return inputMapControllerScreen;
+    }
+
+    public InputMapMixedScreen getInputMapMixedScreen() {
+        return inputMapMixedScreen;
     }
 }

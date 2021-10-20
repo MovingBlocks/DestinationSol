@@ -31,7 +31,7 @@
         "creditsButton": {
             "font": "engine:main#0.60"
         },
-        "loadingScreenText": {
+        "menuHeaderText": {
             "font": "engine:main#1.0"
         },
         "creditsText": {

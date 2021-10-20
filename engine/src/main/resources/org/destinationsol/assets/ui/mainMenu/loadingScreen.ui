@@ -6,7 +6,7 @@
         "contents": [
             {
                 "type": "UILabel",
-                "family": "loadingScreenText",
+                "family": "menuHeaderText",
                 "text": "Loading...",
                 "layoutInfo": {
                     "position-horizontal-center": {},

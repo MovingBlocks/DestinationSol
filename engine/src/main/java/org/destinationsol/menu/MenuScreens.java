@@ -23,6 +23,8 @@ import org.destinationsol.ui.nui.screens.mainMenu.LoadingScreen;
 import org.destinationsol.ui.nui.screens.mainMenu.MainMenuScreen;
 import org.destinationsol.ui.nui.screens.mainMenu.NewGameScreen;
 import org.destinationsol.ui.nui.screens.mainMenu.NewShipScreen;
+import org.destinationsol.ui.nui.screens.mainMenu.OptionsScreen;
+import org.destinationsol.ui.nui.screens.mainMenu.ResolutionScreen;
 
 public class MenuScreens {
     public final MainMenuScreen main;
@@ -37,9 +39,9 @@ public class MenuScreens {
     public MenuScreens(SolLayouts layouts, boolean mobile, GameOptions gameOptions, NUIManager nuiManager) {
         MenuLayout menuLayout = layouts.menuLayout;
         main = (MainMenuScreen) nuiManager.createScreen("engine:mainMenuScreen");
-        options = new OptionsScreen(mobile, menuLayout, gameOptions);
+        options = (OptionsScreen) nuiManager.createScreen("engine:optionsScreen");
         inputMapScreen = new InputMapScreen(gameOptions);
-        resolutionScreen = new ResolutionScreen(mobile, menuLayout, gameOptions);
+        resolutionScreen = (ResolutionScreen) nuiManager.createScreen("engine:resolutionScreen");
         credits = (CreditsScreen) nuiManager.createScreen("engine:creditsScreen");
         loading = (LoadingScreen) nuiManager.createScreen("engine:loadingScreen");
         newGame = (NewGameScreen) nuiManager.createScreen("engine:newGameScreen");
