@@ -35,7 +35,7 @@ public class UiControlledPilot implements Pilot {
 
     @Override
     public void update(SolGame game, SolShip ship, SolShip nearestEnemy) {
-        hasFocus = game.getSolApplication().getInputManager().isScreenOn(game.getScreens().mainGameScreen);
+        hasFocus = game.getSolApplication().getInputManager().getTopScreen() == game.getScreens().mainGameScreen;
     }
 
     @Override
