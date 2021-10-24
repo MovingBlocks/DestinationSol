@@ -11,7 +11,7 @@
       "font": "engine:main#1"
     },
     "controlsUIButton": {
-      "font": "engine:main#1"
+      "font": "engine:main#0.95"
     }
   }
 }
