@@ -21,12 +21,42 @@
             "elements": {
                 "UIButton": {
                     "min-width": 400,
-                    "min-height": 25,
+                    "min-height": 50,
                     "max-width": 800,
-                    "max-height": 200
+                    "max-height": 400
                 }
             },
             "font": "engine:main#1"
+        },
+        "inputMapHeader": {
+            "elements": {
+                "UILabel": {
+                    "min-height": 25,
+                    "font": "engine:main#0.6",
+                    "text-align-vertical": "middle",
+                    "text-align-horizontal": "center"
+                },
+                "UIButton": {
+                    "min-width": 10,
+                    "min-height": 25
+                }
+            },
+            "font": "engine:main#0.7"
+        },
+        "inputMapRow": {
+            "font": "engine:main#0.675",
+            "text-align-vertical": "middle",
+            "text-align-horizontal": "center",
+            "min-height": 30
+        },
+        "inputMapOptions": {
+            "elements": {
+                "UIButton": {
+                    "min-width": 200,
+                    "min-height": 25
+                }
+            },
+            "font": "engine:main#0.7"
         },
         "creditsButton": {
             "font": "engine:main#0.60"
@@ -36,6 +66,11 @@
         },
         "creditsText": {
             "font": "engine:main#0.8",
+            "text-align-vertical": "middle",
+            "text-align-horizontal": "center"
+        },
+        "keyPressMessage": {
+            "font": "engine:main#2",
             "text-align-vertical": "middle",
             "text-align-horizontal": "center"
         }

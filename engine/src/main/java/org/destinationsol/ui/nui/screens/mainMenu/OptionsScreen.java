@@ -24,7 +24,6 @@ import org.destinationsol.ui.nui.widgets.KeyActivatedButton;
 import org.terasology.nui.Canvas;
 import org.terasology.nui.backends.libgdx.GDXInputUtil;
 import org.terasology.nui.layouts.ColumnLayout;
-import org.terasology.nui.layouts.relative.RelativeLayout;
 import org.terasology.nui.widgets.UIButton;
 
 /**
@@ -95,7 +94,7 @@ public class OptionsScreen extends NUIScreenLayer {
                     case CONTROLLER:
                         screens.inputMapScreen.setOperations(screens.inputMapScreen.getInputMapControllerScreen());
                 }
-                solApplication.getInputManager().setScreen(solApplication, screens.inputMapScreen);
+                nuiManager.pushScreen(screens.inputMapScreen);
             });
         }
 

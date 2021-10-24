@@ -19,6 +19,7 @@ import org.destinationsol.GameOptions;
 import org.destinationsol.ui.SolLayouts;
 import org.destinationsol.ui.nui.NUIManager;
 import org.destinationsol.ui.nui.screens.mainMenu.CreditsScreen;
+import org.destinationsol.ui.nui.screens.mainMenu.InputMapScreen;
 import org.destinationsol.ui.nui.screens.mainMenu.LoadingScreen;
 import org.destinationsol.ui.nui.screens.mainMenu.MainMenuScreen;
 import org.destinationsol.ui.nui.screens.mainMenu.NewGameScreen;
@@ -40,7 +41,7 @@ public class MenuScreens {
         MenuLayout menuLayout = layouts.menuLayout;
         main = (MainMenuScreen) nuiManager.createScreen("engine:mainMenuScreen");
         options = (OptionsScreen) nuiManager.createScreen("engine:optionsScreen");
-        inputMapScreen = new InputMapScreen(gameOptions);
+        inputMapScreen = (InputMapScreen) nuiManager.createScreen("engine:inputMapScreen");
         resolutionScreen = (ResolutionScreen) nuiManager.createScreen("engine:resolutionScreen");
         credits = (CreditsScreen) nuiManager.createScreen("engine:creditsScreen");
         loading = (LoadingScreen) nuiManager.createScreen("engine:loadingScreen");

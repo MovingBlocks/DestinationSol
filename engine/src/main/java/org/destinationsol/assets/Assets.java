@@ -283,7 +283,7 @@ public abstract class Assets {
             return optionalUIElement.get();
         }
 
-        throw new RuntimeException("NUIScreenLayer " + path + " not found!");
+        throw new RuntimeException("UIElement " + path + " not found!");
     }
 
     /**
