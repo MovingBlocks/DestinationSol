@@ -69,7 +69,7 @@ public class ResolutionScreen extends NUIScreenLayer {
         nuiUIScaleButton.setText("NUI UI Scale: " + solApplication.getOptions().getNuiUiScale());
         nuiUIScaleButton.subscribe(button -> {
             solApplication.getOptions().advanceNuiUiScale();
-            solApplication.getNuiManager().setUiScale(solApplication.getOptions().getNuiUiScale());
+            nuiManager.setUiScale(solApplication.getOptions().getNuiUiScale());
             nuiUIScaleButton.setText("NUI UI Scale: " + solApplication.getOptions().getNuiUiScale());
         });
 
@@ -93,18 +93,17 @@ public class ResolutionScreen extends NUIScreenLayer {
                     }
                     if (mode != null) {
                         Gdx.graphics.setFullscreenMode(mode);
-                        solApplication.getNuiManager().resize(mode.width, mode.height);
+                        nuiManager.resize(mode.width, mode.height);
                     } else {
                         logger.warn("The resolution {}x{} is not supported in fullscreen mode!", solApplication.getOptions().x, solApplication.getOptions().y);
                     }
                 } else {
                     Gdx.graphics.setWindowedMode(width, height);
-                    solApplication.getNuiManager().resize(width, height);
+                    nuiManager.resize(width, height);
                 }
             }
 
-            nuiManager.removeScreen(this);
-            nuiManager.pushScreen(solApplication.getMenuScreens().main);
+            nuiManager.setScreen(solApplication.getMenuScreens().options);
         });
     }
 

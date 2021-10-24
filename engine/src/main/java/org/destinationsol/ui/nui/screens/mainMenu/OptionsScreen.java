@@ -55,8 +55,7 @@ public class OptionsScreen extends NUIScreenLayer {
 
         UIButton resolutionButton = find("resolutionButton", UIButton.class);
         resolutionButton.subscribe(button -> {
-            nuiManager.removeScreen(this);
-            nuiManager.pushScreen(solApplication.getMenuScreens().resolutionScreen);
+            nuiManager.setScreen(solApplication.getMenuScreens().resolutionScreen);
         });
 
         UIButton mapPanSpeedButton = find("mapPanSpeedButton", UIButton.class);
@@ -82,27 +81,25 @@ public class OptionsScreen extends NUIScreenLayer {
             menuButtonsLayout.removeWidget(controlsButton);
         } else {
             controlsButton.subscribe(button -> {
-                nuiManager.removeScreen(this);
-                MenuScreens screens = solApplication.getMenuScreens();
+                InputMapScreen inputMapScreen = solApplication.getMenuScreens().inputMapScreen;
                 switch (solApplication.getOptions().controlType) {
                     case KEYBOARD:
-                        screens.inputMapScreen.setOperations(screens.inputMapScreen.getInputMapKeyboardScreen());
+                        inputMapScreen.setOperations(inputMapScreen.getInputMapKeyboardScreen());
                         break;
                     case MIXED:
-                        screens.inputMapScreen.setOperations(screens.inputMapScreen.getInputMapMixedScreen());
+                        inputMapScreen.setOperations(inputMapScreen.getInputMapMixedScreen());
                         break;
                     case CONTROLLER:
-                        screens.inputMapScreen.setOperations(screens.inputMapScreen.getInputMapControllerScreen());
+                        inputMapScreen.setOperations(inputMapScreen.getInputMapControllerScreen());
                 }
-                nuiManager.pushScreen(screens.inputMapScreen);
+                nuiManager.setScreen(inputMapScreen);
             });
         }
 
         KeyActivatedButton cancelButton = find("cancelButton", KeyActivatedButton.class);
         cancelButton.setKey(GDXInputUtil.GDXToNuiKey(solApplication.getOptions().getKeyEscape()));
         cancelButton.subscribe(button -> {
-            nuiManager.removeScreen(this);
-            nuiManager.pushScreen(solApplication.getMenuScreens().main);
+            nuiManager.setScreen(solApplication.getMenuScreens().main);
         });
     }
 

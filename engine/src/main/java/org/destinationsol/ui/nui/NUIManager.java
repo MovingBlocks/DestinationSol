@@ -332,6 +332,23 @@ public class NUIManager {
     }
 
     /**
+     * Replaces the entire UI stack with the specified screen.
+     *
+     * This is generally not desirable behaviour, however, it can be useful for flows
+     * where only one screen is shown at a time, such as in the main menu.
+     * @param layer the screen to add
+     */
+    public void setScreen(NUIScreenLayer layer) {
+        Iterator<NUIScreenLayer> screenIterator = uiScreens.descendingIterator();
+        while (screenIterator.hasNext()) {
+            screenIterator.next().onRemoved();
+            screenIterator.remove();
+        }
+
+        pushScreen(layer);
+    }
+
+    /**
      * Removes the topmost screen from the UI stack and returns it.
      * @return the topmost screen
      */

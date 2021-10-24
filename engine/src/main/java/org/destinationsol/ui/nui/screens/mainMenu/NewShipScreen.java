@@ -71,16 +71,15 @@ public class NewShipScreen extends NUIScreenLayer {
             WorldConfig worldConfig = new WorldConfig();
             worldConfig.setNumberOfSystems(numberOfSystems);
 
-            solApplication.getMenuScreens().loading.setMode(false, playerSpawnConfigNames.get(playerSpawnConfigIndex), true, worldConfig);
-            nuiManager.pushScreen(solApplication.getMenuScreens().loading);
-            solApplication.getNuiManager().removeScreen(this);
+            LoadingScreen loadingScreen = solApplication.getMenuScreens().loading;
+            loadingScreen.setMode(false, playerSpawnConfigNames.get(playerSpawnConfigIndex), true, worldConfig);
+            nuiManager.setScreen(loadingScreen);
         });
 
         KeyActivatedButton cancelButton = find("cancelButton", KeyActivatedButton.class);
         cancelButton.setKey(GDXInputUtil.GDXToNuiKey(solApplication.getOptions().getKeyEscape()));
         cancelButton.subscribe(button -> {
-            solApplication.getNuiManager().removeScreen(this);
-            solApplication.getNuiManager().pushScreen(solApplication.getMenuScreens().newGame);
+            nuiManager.setScreen(solApplication.getMenuScreens().newGame);
         });
     }
 

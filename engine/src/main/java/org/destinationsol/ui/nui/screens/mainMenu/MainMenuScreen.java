@@ -44,14 +44,12 @@ public class MainMenuScreen extends NUIScreenLayer {
         tutorialButton = find("tutorialButton", UIButton.class);
         tutorialButton.subscribe(button -> {
             solApplication.getMenuScreens().loading.setMode(true, "Imperial Small", true, new WorldConfig());
-            nuiManager.pushScreen(solApplication.getMenuScreens().loading);
-            nuiManager.removeScreen(this);
+            nuiManager.setScreen(solApplication.getMenuScreens().loading);
         });
 
         UIButton playGameButton = find("playGameButton", UIButton.class);
         playGameButton.subscribe(button -> {
-            nuiManager.pushScreen(solApplication.getMenuScreens().newGame);
-            nuiManager.removeScreen(this);
+            nuiManager.setScreen(solApplication.getMenuScreens().newGame);
         });
 
         UIButton optionsButton = find("optionsButton", UIButton.class);
@@ -71,8 +69,7 @@ public class MainMenuScreen extends NUIScreenLayer {
 
         UIButton creditsButton = find("creditsButton", UIButton.class);
         creditsButton.subscribe(button -> {
-            nuiManager.pushScreen(solApplication.getMenuScreens().credits);
-            nuiManager.removeScreen(this);
+            nuiManager.setScreen(solApplication.getMenuScreens().credits);
         });
     }
 

@@ -106,8 +106,7 @@ public class InputMapScreen extends NUIScreenLayer {
         UIButton saveButton = find("saveButton", UIButton.class);
         saveButton.subscribe(button -> {
             inputOperations.save(solApplication.getOptions());
-            nuiManager.removeScreen(this);
-            nuiManager.pushScreen(solApplication.getMenuScreens().options);
+            nuiManager.setScreen(solApplication.getMenuScreens().options);
         });
 
         KeyActivatedButton cancelButton = find("cancelButton", KeyActivatedButton.class);
@@ -119,8 +118,7 @@ public class InputMapScreen extends NUIScreenLayer {
                 return;
             }
 
-            nuiManager.removeScreen(this);
-            nuiManager.pushScreen(solApplication.getMenuScreens().options);
+            nuiManager.setScreen(solApplication.getMenuScreens().options);
         });
 
         keyPressOverlay = find("keyPressOverlay", RelativeLayout.class);
@@ -135,8 +133,7 @@ public class InputMapScreen extends NUIScreenLayer {
     public void onAdded() {
         if (inputOperations == null) {
             logger.error("You must call setOperations before adding InputMapScreen!");
-            nuiManager.removeScreen(this);
-            nuiManager.pushScreen(solApplication.getMenuScreens().main);
+            nuiManager.setScreen(solApplication.getMenuScreens().options);
             return;
         }
 

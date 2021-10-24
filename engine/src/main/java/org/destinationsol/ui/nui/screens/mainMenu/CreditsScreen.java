@@ -131,8 +131,7 @@ public class CreditsScreen extends NUIScreenLayer {
         KeyActivatedButton cancelButton = find("cancelButton", KeyActivatedButton.class);
         cancelButton.setKey(GDXInputUtil.GDXToNuiKey(solApplication.getOptions().getKeyEscape()));
         cancelButton.subscribe(button -> {
-            nuiManager.pushScreen(solApplication.getMenuScreens().main);
-            nuiManager.removeScreen(this);
+            nuiManager.setScreen(solApplication.getMenuScreens().main);
         });
     }
 

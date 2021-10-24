@@ -45,21 +45,18 @@ public class NewGameScreen extends NUIScreenLayer {
         continueButton.subscribe(button -> {
             solApplication.getMenuScreens().loading.setMode(false, null, false,
                     SaveManager.loadWorld().orElseGet(WorldConfig::new));
-            nuiManager.pushScreen(solApplication.getMenuScreens().loading);
-            nuiManager.removeScreen(this);
+            nuiManager.setScreen(solApplication.getMenuScreens().loading);
         });
 
         newGameButton = find("newGameButton", UIButton.class);
         newGameButton.subscribe(button -> {
-            nuiManager.removeScreen(this);
-            nuiManager.pushScreen(solApplication.getMenuScreens().newShip);
+            nuiManager.setScreen(solApplication.getMenuScreens().newShip);
         });
 
         cancelButton = find("cancelButton", KeyActivatedButton.class);
         cancelButton.setKey(GDXInputUtil.GDXToNuiKey(solApplication.getOptions().getKeyEscape()));
         cancelButton.subscribe(button -> {
-            nuiManager.removeScreen(this);
-            nuiManager.pushScreen(solApplication.getMenuScreens().main);
+            nuiManager.setScreen(solApplication.getMenuScreens().main);
         });
     }
 
