@@ -36,11 +36,6 @@ public class MainMenuScreen extends NUIScreenLayer {
 
     @Override
     public void initialise() {
-        final OggMusicManager musicManager = solApplication.getMusicManager();
-        if (!musicManager.getCurrentMusicSet().equals(OggMusicManager.MENU_MUSIC_SET)) {
-            musicManager.playMusic(OggMusicManager.MENU_MUSIC_SET, solApplication.getOptions());
-        }
-
         tutorialButton = find("tutorialButton", UIButton.class);
         tutorialButton.subscribe(button -> {
             solApplication.getMenuScreens().loading.setMode(true, "Imperial Small", true, new WorldConfig());
@@ -75,6 +70,11 @@ public class MainMenuScreen extends NUIScreenLayer {
 
     @Override
     public void onAdded() {
+        final OggMusicManager musicManager = solApplication.getMusicManager();
+        if (!musicManager.getCurrentMusicSet().equals(OggMusicManager.MENU_MUSIC_SET)) {
+            musicManager.playMusic(OggMusicManager.MENU_MUSIC_SET, solApplication.getOptions());
+        }
+
         tutorialButton.setEnabled(solApplication.getOptions().controlType != GameOptions.ControlType.CONTROLLER);
     }
 
