@@ -12,6 +12,8 @@ modules/*
 modules/**/build.gradle
 !modules/core
 !modules/subprojects.gradle
+libs/*
+!libs/subprojects.gradle
 
 ## GWT
 war/
