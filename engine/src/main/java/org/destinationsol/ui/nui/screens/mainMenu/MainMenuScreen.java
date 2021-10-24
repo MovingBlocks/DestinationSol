@@ -32,6 +32,7 @@ import org.terasology.nui.widgets.UIButton;
 public class MainMenuScreen extends NUIScreenLayer {
     @In
     private SolApplication solApplication;
+    private UIButton tutorialButton;
 
     @Override
     public void initialise() {
@@ -40,8 +41,7 @@ public class MainMenuScreen extends NUIScreenLayer {
             musicManager.playMusic(OggMusicManager.MENU_MUSIC_SET, solApplication.getOptions());
         }
 
-        UIButton tutorialButton = find("tutorialButton", UIButton.class);
-        tutorialButton.setEnabled(solApplication.getOptions().controlType != GameOptions.ControlType.CONTROLLER);
+        tutorialButton = find("tutorialButton", UIButton.class);
         tutorialButton.subscribe(button -> {
             solApplication.getMenuScreens().loading.setMode(true, "Imperial Small", true, new WorldConfig());
             nuiManager.pushScreen(solApplication.getMenuScreens().loading);
@@ -74,6 +74,11 @@ public class MainMenuScreen extends NUIScreenLayer {
             nuiManager.pushScreen(solApplication.getMenuScreens().credits);
             nuiManager.removeScreen(this);
         });
+    }
+
+    @Override
+    public void onAdded() {
+        tutorialButton.setEnabled(solApplication.getOptions().controlType != GameOptions.ControlType.CONTROLLER);
     }
 
     @Override
