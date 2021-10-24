@@ -5,6 +5,18 @@
         "type": "RelativeLayout",
         "contents": [
             {
+                "type": "UILabel",
+                "family": "menuHeaderText",
+                "text": "Warning: This will erase any old ship you might have had!",
+                "layoutInfo": {
+                    "position-horizontal-center": {},
+                    "position-top": {
+                        "target": "MIDDLE",
+                        "offset": -64
+                    }
+                }
+            },
+            {
                 "type": "ColumnLayout",
                 "id": "menuButtons",
                 "family": "menuButtons",
