@@ -64,7 +64,7 @@ configurations.all {
     resolutionStrategy.cacheChangingModulesFor 0, 'seconds'
 }
 
-// Set dependencies. Note that the dependency information from module.txt is used for other Terasology modules
+// Set dependencies. Note that the dependency information from module.json is used for other DestinationSol modules
 dependencies {
     // Check to see if this module is not the root Gradle project - if so we are in a multi-project workspace
     if (project.name != project(':').name) {
@@ -138,7 +138,7 @@ dependencies {
         // TODO: Only use engine, engine-tests, and maybe core for compilation, but remove when publishing?
         compile(group: 'org.destinationsol.engine', name: 'engine', version: '+', changing: true)
 
-        // To get Terasology module dependencies we simply declare them against Artifactory
+        // To get DestinationSol module dependencies we simply declare them against Artifactory
         moduleDepends.each {
             println "*** Attempting to fetch dependency module from Artifactory for " + project.name + ": " + it
             // The '+' is satisfied by any version

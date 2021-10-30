@@ -38,14 +38,15 @@ excludedItems = common.excludedItems
 targetDirectory = common.targetDirectory
 
 def recurse = false
-switch(cleanerArgs[0]) {
+switch (cleanerArgs[0]) {
     case "recurse":
         recurse = true
         println "We're retrieving recursively (all the things depended on too)"
-    // We just fall through here to the get logic after setting a boolean
-    //noinspection GroovyFallthrough
+// We just fall through here to the get logic after setting a boolean
+//noinspection GroovyFallthrough
     case "get":
         println "Preparing to get $itemType"
+        //println "cleanerArgs is $cleanerArgs"
         if (cleanerArgs.length == 1) {
             def itemString = common.getUserString("Enter what to get - separate multiple with spaces, CapiTaliZation MatterS): ")
             println "User wants: $itemString"
@@ -56,20 +57,30 @@ switch(cleanerArgs[0]) {
             cleanerArgs = common.processCustomRemote(cleanerArgs)
             ArrayList<String> selectedItems = new ArrayList<String>()
 
-            common.cacheItemList()
             for (String arg : cleanerArgs) {
+                //println "Checking arg $arg"
                 if (!arg.contains('*') && !arg.contains('?')) {
+                    println "Got into the non-wilcard option to fetch a fully specified item for $arg"
                     selectedItems.add(arg)
                 } else {
+                    println "Got into the wildcard option to fetch something matching a pattern for $arg, may need to cache first"
+                    common.cacheItemList()
                     selectedItems.addAll(common.retrieveAvalibleItemsWithWildcardMatch(arg));
                 }
             }
             common.unCacheItemList()
 
-            common.retrieve(((String[])selectedItems.toArray()), recurse)
+            common.retrieve(((String[]) selectedItems.toArray()), recurse)
         }
         break
-
+    case "get-all":
+        println "Preparing to get all modules"
+        ArrayList<String> selectedItems = new ArrayList<String>()
+        common.cacheItemList()
+        selectedItems.addAll(common.retrieveAvalibleItemsWithWildcardMatch("*"));
+        common.unCacheItemList()
+        common.retrieve(((String[]) selectedItems.toArray()), recurse)
+        break
     case "create":
         println "We're doing a create"
         String name
@@ -106,8 +117,9 @@ switch(cleanerArgs[0]) {
     case "update-all":
         println "We're updating every $itemType"
         println "List of local entries: ${common.retrieveLocalItems()}"
-        for(item in common.retrieveLocalItems()){
-            common.updateItem(item)
+        def skipRecentlyUpdated = cleanerArgs.contains("-skip-recently-updated")
+        for (item in common.retrieveLocalItems()) {
+            common.updateItem(item, skipRecentlyUpdated)
         }
         break
 
@@ -142,31 +154,82 @@ switch(cleanerArgs[0]) {
         break
 
     case "list":
-        ListFormat listFormat  = determineListFormat(cleanerArgs)
         String[] availableItems = common.retrieveAvailableItems()
         String[] localItems = common.retrieveLocalItems()
         String[] downloadableItems = availableItems.minus(localItems)
-        println "The following items are available for download:"
-        if (availableItems.size() == 0) {
-            println "No items available for download."
-        } else if (downloadableItems.size() == 0) {
-            println "All items are already downloaded."
-        } else {
-            printListItems(downloadableItems, listFormat)
-        }
-        println "\nThe following items are already downloaded:"
-        if(localItems.size() == 0) {
-            println "No items downloaded."
-        } else {
+
+        ListFormat listFormat = determineListFormat(cleanerArgs)
+
+        if (cleanerArgs.contains("--local")) {
             printListItems(localItems, listFormat)
+        } else {
+            println "The following items are available for download:"
+            if (availableItems.size() == 0) {
+                println "No items available for download."
+            } else if (downloadableItems.size() == 0) {
+                println "All items are already downloaded."
+            } else {
+                printListItems(downloadableItems, listFormat)
+            }
+            println "\nThe following items are already downloaded:"
+            if (localItems.size() == 0) {
+                println "No items downloaded."
+            } else {
+                printListItems(localItems, listFormat)
+            }
         }
+        break
+
+    case "refresh":
+        println "We're refreshing Gradle for every $itemType"
+        common.refreshGradle()
+        break
+
+    case "createDependencyDotFile":
+        if (itemType != "module") {
+            println "Dependency dot file can only be created for modules"
+            break
+        }
+        String source = ""
+        if (cleanerArgs.length == 1 || cleanerArgs[1] == "*") {
+            // getting dependency dot file for all modules
+            source = "all"
+        } else if (cleanerArgs.length > 2) {
+            println "Please enter only one module or none to create a dependency dot file showing all modules"
+        } else if (cleanerArgs[1].contains('*') || cleanerArgs[1].contains('?')) {
+            println "Please enter a fully specified item instead of " + cleanerArgs[1] + " - CapiTaliZation MatterS"
+        } else {
+            // getting dependency dot file for specified module only
+            source = cleanerArgs[1]
+        }
+
+        if (source != "") {
+            def dependencyFile = new File("dependency.dot")
+            dependencyFile.write "digraph moduleDependencies {\n"
+            if (source == "all") {
+                println "Creating the dependency dot file for all modules as \"dependencies.dot\""
+                def modules = new File("modules")
+                modules.eachFile {
+                    common.writeDependencyDotFileForModule(dependencyFile, it)
+                }
+            } else {
+                println "Creating the dependency dot file for module \"$source\" as \"dependencies.dot\""
+                common.writeDependencyDotFileForModule(dependencyFile, new File("modules/$source"))
+            }
+            dependencyFile.append("}")
+        }
+
         break
 
     default:
         println "UNRECOGNIZED COMMAND '" + cleanerArgs[0] + "' - please try again or use 'groovyw usage' for help"
 }
 
-enum ListFormat { DEFAULT, SIMPLE, CONDENSED };
+enum ListFormat {
+    DEFAULT, SIMPLE, CONDENSED
+}
+
+;
 
 private ListFormat determineListFormat(String[] args) {
     for (listFormat in ListFormat.values()) {
@@ -182,19 +245,19 @@ private void printListItems(String[] items, ListFormat listFormat) {
         case ListFormat.SIMPLE: printListItemsSimple(items); break;
         case ListFormat.CONDENSED: printListItemsCondensed(items); break;
         default: items.size() < DEFAULT_FORMAT_CONDENSATION_THRESHOLD ?
-            printListItemsSimple(items) :
-            printListItemsCondensed(items)
+                printListItemsSimple(items) :
+                printListItemsCondensed(items)
     }
 }
 
 private void printListItemsSimple(String[] items) {
     for (item in items.sort()) {
-        println "--$item"
+        println "$item"
     }
 }
 
 private void printListItemsCondensed(String[] items) {
-    for (group in items.groupBy {it[0].toUpperCase()}) {
+    for (group in items.groupBy { it[0].toUpperCase() }) {
         println "--" + group.key + ": " + group.value.sort().join(", ")
     }
 }
@@ -203,42 +266,47 @@ private void printListItemsCondensed(String[] items) {
  * Simply prints usage information.
  */
 def printUsage() {
-    println ""
-    println "Utility script for interacting with project items. General syntax:"
-    println "  groovyw (type) (sub-command)"
-    println "- 'type' may be module, meta, lib or facade - but so far for DestSol only module is supported"
-    println ""
-    println "Available sub-commands:"
-    println "- 'get' - retrieves one or more items in source form (separate with spaces)"
-    println "- 'recurse' - retrieves the given item(s) *and* their dependencies in source form (really only for modules)"
-    println "- 'list' - lists items that are available for download or downloaded already."
-    println "- 'create' - creates a new item of the given type."
-    println "- 'update' - updates an item (git pulls latest from current origin, if workspace is clean"
-    println "- 'update-all' - updates all local items of the given type."
-    println "- 'add-remote (item) (name)' - adds a remote (name) to (item) with the default URL."
-    println "- 'add-remote (item) (name) (URL)' - adds a remote with the given URL"
-    println "- 'list-remotes (item)' - lists all remotes for (item) "
-    println ""
-    println "Available flags:"
-    println "'-remote [someRemote]' to clone from an alternative remote, also adding the upstream org (like MovingBlocks) repo as 'origin'"
-    println "       Note: 'get' + 'recurse' only. This will override an alternativeGithubHome set via gradle.properties."
-    println "'-simple-list-format' to print one item per row for the 'list' sub-command, even for large numbers of items"
-    println "'-condensed-list-format' to group items by starting letter for the 'list' sub-command (default with many items)"
-    println ""
-    println "Example: 'groovyw module create MySpaceShips' - would create that module"
-    println "Example: 'groovyw module get caution - remote vampcat - would retrieve caution module from vampcat's account on github.'"
-    println "Example: 'groovyw module get *' - would retrieve all the modules in the DestinationSol organisation on GitHub."
-    println "Example: 'groovyw module get ?r*' - would retrieve all the modules in the DestinationSol organisation on GitHub" +
-            " that start with any single character, then an \"r\" and then end with anything else." +
-            " This should retrieve the draconic, organic and tribe repositories from the DestinationSol organisation on GitHub."
-    println ""
-    println "*NOTE*: On UNIX platforms (MacOS and Linux), the wildcard arguments must be escaped with single quotes e.g. groovyw module get '*'."
-    println ""
-    println "*NOTE*: Item names are case sensitive. If you add items then `gradlew idea` or similar may be needed to refresh your IDE"
-    println ""
-    println "If you omit further arguments beyond the sub command you'll be prompted for details"
-    println ""
-    println "For advanced usage see project documentation. For instance you can provide an alternative GitHub home"
-    println "A gradle.properties file (one exists under '/templates' in an engine workspace) can provide such overrides"
-    println ""
+
+    println("""
+    Utility script for interacting with Destination Sol. General syntax:
+      groovyw (type) (sub-command)
+    - 'type' may be module or lib (Destination Sol still only supports a subset vs Terasology)
+    
+    Available sub-commands:
+    - 'get' - retrieves one or more items in source form (separate with spaces)
+    - 'get-all' - retrieves all modules that can be found on the configured remote locations
+    - 'recurse' - retrieves the given item(s) *and* their dependencies in source form (really only for modules)
+    - 'list' - lists items that are available for download or downloaded already.
+    - 'create' - creates a new item of the given type.
+    - 'update' - updates an item (git pulls latest from current origin, if workspace is clean
+    - 'update-all' - updates all local items of the given type.
+    - 'add-remote (item) (name)' - adds a remote (name) to (item) with the default URL.
+    - 'add-remote (item) (name) (URL)' - adds a remote with the given URL
+    - 'list-remotes (item)' - lists all remotes for (item) 
+    - 'refresh' - replaces the Gradle build file for all items of the given type from the latest template
+    - 'createDependencyDotFile' - creates a dot file recursively listing dependencies of given locally available module, can be visualized with e.g. graphviz
+    
+    Available flags:
+    '-remote [someRemote]' to clone from an alternative remote, also adding the upstream org (like MovingBlocks) repo as 'origin'
+           Note: 'get' + 'recurse' only. This will override an alternativeGithubHome set via gradle.properties.
+    '-simple-list-format' to print one item per row for the 'list' sub-command, even for large numbers of items
+    '-condensed-list-format' to group items by starting letter for the 'list' sub-command (default with many items)
+    '-skip-recently-updated' (Only for update-all) to skip updating modules that have already been updated within 10 minutes
+    
+    Example: 'groovyw module create MySpaceShips' - would create that module
+    Example: 'groovyw module get caution - remote vampcat - would retrieve caution module from vampcat's account on github.'
+    Example: 'groovyw module get *' - would retrieve all the modules in the DestinationSol organisation on GitHub.
+    Example: 'groovyw module get ?r*' - would retrieve all the modules in the DestinationSol organisation on GitHub
+        that start with any single character, then an \\"r\\" and then end with anything else.
+        This should retrieve the draconic, organic and tribe repositories from the DestinationSol organisation on GitHub.
+ 
+    *NOTE*: On UNIX platforms (MacOS and Linux), the wildcard arguments must be escaped with single quotes e.g. groovyw module get '*'.
+    
+    *NOTE*: Item names are case sensitive. If you add items then `gradlew idea` or similar may be needed to refresh your IDE
+    
+    If you omit further arguments beyond the sub-command you'll be prompted for details
+    
+    For advanced usage see project documentation. For instance you can provide an alternative GitHub home
+    A gradle.properties file (one exists under '/templates' in an engine workspace) can provide such overrides
+    """.stripIndent())
 }
