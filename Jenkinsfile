@@ -1,4 +1,4 @@
-node ("default-java || heavy-java") {
+node ("android") {
     stage('Checkout') {
         echo "Going to check out the things !"
         checkout scm
@@ -20,6 +20,18 @@ node ("default-java || heavy-java") {
         recordIssues tool: findBugs(pattern: '**/build/reports/findbugs/*.xml', useRankAsPriority: true)
         recordIssues tool: pmdParser(pattern: '**/build/reports/pmd/*.xml')
         recordIssues tool: taskScanner(includePattern: '**/*.java,**/*.groovy,**/*.gradle', lowTags: 'WIBNIF', normalTags: 'TODO', highTags: 'ASAP')
+    }
+    stage('Build Android') {
+        sh 'echo sdk.dir=/opt/android-sdk > local.properties'
+        dir('android') {
+            checkout scm: [$class: 'GitSCM', branches: [[name: '*/master']], extensions: [], userRemoteConfigs: [[url: 'https://github.com/MovingBlocks/DestSolAndroid.git']]]
+        }
+        sh './gradlew --console=plain :android:assembleDebug'
+        archiveArtifacts 'android/build/outputs/apk/debug/android-debug.apk'
+    }
+    stage('Record Android') {
+       sh './gradlew --console=plain :android:lint'
+       recordIssues tool: androidLintParser(pattern: 'android/build/reports/lint-results.xml')
     }
     stage('Notify') {
         withCredentials([string(credentialsId: 'destsolDiscordWebhook', variable: 'WEBHOOK')]) {
