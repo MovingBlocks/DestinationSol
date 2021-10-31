@@ -24,7 +24,16 @@ node ("android") {
     stage('Build Android') {
         sh 'echo sdk.dir=/opt/android-sdk > local.properties'
         dir('android') {
-            checkout scm: [$class: 'GitSCM', branches: [[name: '*/master']], extensions: [], userRemoteConfigs: [[url: 'https://github.com/MovingBlocks/DestSolAndroid.git']]]
+            // Allow varying from the default Android repo path for easier development. Assume same Android branch as engine branch.
+            def androidGitPath = "https://github.com/MovingBlocks/DestSolAndroid.git"
+            if (env.PUBLISH_ORG) {
+                androidGitPath = androidGitPath.replace("MovingBlocks", env.PUBLISH_ORG)
+                println "Updated target Android Git path to: " + androidGitPath
+                println "And going to use branch " + env.BRANCH_NAME
+            } else {
+                println "Not varying the Android path from default " + androidGitPath
+            }
+            checkout scm: [$class: 'GitSCM', branches: [[name: env.BRANCH_NAME]], extensions: [], userRemoteConfigs: [[url: androidGitPath]]]
         }
         sh './gradlew --console=plain :android:assembleDebug'
         archiveArtifacts 'android/build/outputs/apk/debug/android-debug.apk'
