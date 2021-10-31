@@ -49,7 +49,7 @@ public class Durability implements Component<Durability> {
     }
 
     @Override
-    public void copy(Durability other) {
+    public void copyFrom(Durability other) {
         this.durability = other.durability;
     }
 }

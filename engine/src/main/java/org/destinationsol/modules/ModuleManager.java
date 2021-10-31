@@ -106,7 +106,34 @@ public class ModuleManager {
             "com.badlogic.gdx.graphics.g2d",
             // The hull config exposes a box2d body instance
             "com.badlogic.gdx.physics",
-            "com.badlogic.gdx.physics.box2d"
+            "com.badlogic.gdx.physics.box2d",
+            // NUI doesn't use gestalt's @API annotations anymore, so they are replicated here
+            "org.terasology.input",
+            "org.terasology.input.device",
+            "org.terasology.input.device.nulldevices",
+            "org.terasology.nui",
+            "org.terasology.nui.asset",
+            "org.terasology.nui.asset.font",
+            "org.terasology.nui.canvas",
+            "org.terasology.nui.databinding",
+            "org.terasology.nui.events",
+            "org.terasology.nui.itemRendering",
+            "org.terasology.nui.layouts",
+            "org.terasology.nui.layouts.miglayout",
+            "org.terasology.nui.layouts.relative",
+            "org.terasology.nui.properties",
+            "org.terasology.nui.reflection",
+            "org.terasology.nui.skin",
+            "org.terasology.nui.translate",
+            "org.terasology.nui.util",
+            "org.terasology.nui.widgets",
+            "org.terasology.nui.widgets.treeView",
+            "org.terasology.nui.widgets.types",
+            "org.terasology.nui.widgets.types.builtin",
+            "org.terasology.nui.widgets.types.builtin.object",
+            "org.terasology.nui.widgets.types.builtin.util",
+            "org.terasology.nui.widgets.types.math",
+            "org.terasology.reflection.metadata"
     };
     protected static final Class<?>[] CLASS_WHITELIST = new Class<?>[]{
             InvocationTargetException.class,
@@ -162,7 +189,14 @@ public class ModuleManager {
             org.terasology.gestalt.entitysystem.entity.EntityManager.class,
             org.terasology.gestalt.entitysystem.event.EventResult.class,
             org.terasology.gestalt.entitysystem.event.ReceiveEvent.class,
-            org.terasology.gestalt.entitysystem.prefab.GeneratedFromRecipeComponent.class
+            org.terasology.gestalt.entitysystem.prefab.Prefab.class,
+            org.terasology.gestalt.entitysystem.prefab.GeneratedFromRecipeComponent.class,
+            /* NUI classes */
+            org.terasology.input.device.InputDevice.class,
+            org.terasology.input.device.KeyboardDevice.class,
+            org.terasology.input.device.MouseDevice.class,
+            org.terasology.reflection.MappedContainer.class,
+            org.terasology.reflection.TypeInfo.class
     };
 
     protected static ModuleEnvironment environment;
@@ -229,7 +263,7 @@ public class ModuleManager {
         scanner.scan(reflections);
         Policy.setPolicy(new ModuleSecurityPolicy());
         System.setSecurityManager(new ModuleSecurityManager());
-        environment = new ModuleEnvironment(modules,permissionFactory);
+        environment = new ModuleEnvironment(modules, permissionFactory);
     }
 
     public ModuleEnvironment getEnvironment() {

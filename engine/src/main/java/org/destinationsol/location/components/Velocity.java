@@ -27,7 +27,7 @@ public class Velocity implements Component<Velocity> {
     public Vector2 velocity = new Vector2();
 
     @Override
-    public void copy(Velocity other) {
+    public void copyFrom(Velocity other) {
         velocity = other.velocity.cpy();
     }
 }

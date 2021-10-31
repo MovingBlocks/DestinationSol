@@ -16,13 +16,11 @@
 package org.destinationsol.assets.music;
 
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.files.FileHandle;
 import org.terasology.gestalt.assets.ResourceUrn;
 import org.terasology.gestalt.assets.format.AbstractAssetFileFormat;
 import org.terasology.gestalt.assets.format.AssetDataFile;
 
 import java.io.IOException;
-import java.io.InputStream;
 import java.util.List;
 
 public class AndroidOggMusicFileFormat extends AbstractAssetFileFormat<OggMusicData> {
@@ -33,15 +31,26 @@ public class AndroidOggMusicFileFormat extends AbstractAssetFileFormat<OggMusicD
     @Override
     public OggMusicData load(ResourceUrn urn, List<AssetDataFile> inputs) throws IOException {
         // HACK: LibGDX will only accept an AndroidFileHandle (it casts to one internally). The class has a private
-        //       constructor, so we cannot use the same workaround as with AssetDataFileHandle. The only plausible way
-        //        to do this appears to be to save the data out to a file and point LibGDX at that.
+        //       constructor, so we cannot use the same workaround as with AssetDataFileHandle.
+        //       Android also doesn't seem to support playing media directly form InputStreams directly either.
+        //       The only way I've found to get around this is to bypass gestalt using the information it provides
+        //       on the source path for the asset.
+        //       Android will be forced to use directory modules exclusively because of this.
         AssetDataFile asset = inputs.get(0);
-        FileHandle outFile = Gdx.files.local("music/" + urn.toString().replace(":", "_") + "." + inputs.get(0).getFileExtension());
-        if (!outFile.exists()) {
-            InputStream fileStream = asset.openStream();
-            outFile.write(fileStream, false);
-        }
 
-        return new OggMusicData(Gdx.audio.newMusic(outFile));
+        StringBuilder pathStringBuilder = new StringBuilder();
+        if (urn.getModuleName().compareTo("engine") != 0) {
+            pathStringBuilder.append("modules/");
+        }
+        pathStringBuilder.append(urn.getModuleName());
+        pathStringBuilder.append("/");
+
+        for (int pathNo = 0; pathNo < asset.getPath().size(); pathNo++) {
+            pathStringBuilder.append(asset.getPath().get(pathNo));
+            pathStringBuilder.append('/');
+        }
+        pathStringBuilder.append(asset.getFilename());
+
+        return new OggMusicData(Gdx.audio.newMusic(Gdx.files.internal(pathStringBuilder.toString())));
     }
 }

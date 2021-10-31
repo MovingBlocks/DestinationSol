@@ -25,7 +25,7 @@ public class Size implements Component<Size> {
     public float size;
 
     @Override
-    public void copy(Size other) {
+    public void copyFrom(Size other) {
         this.size = other.size;
     }
 }

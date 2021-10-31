@@ -27,9 +27,9 @@ buildscript {
         classpath 'dom4j:dom4j:1.6.1'
 
         // HACK: Needed for NUI and gestalt entity-component reflections
-        classpath group: 'org.terasology.nui', name: 'nui', version: '2.0.0-SNAPSHOT'
+        classpath group: 'org.terasology.nui', name: 'nui', version: '3.1.0-SNAPSHOT'
         classpath group: 'javax.servlet', name: 'javax.servlet-api', version: '3.0.1'
-        classpath group: 'org.terasology.gestalt', name: 'gestalt-entity-system', version: '7.0.6-SNAPSHOT'
+        classpath group: 'org.terasology.gestalt', name: 'gestalt-entity-system', version: '7.2.0-SNAPSHOT'
     }
 }
 
@@ -42,10 +42,10 @@ dependencies {
     api "com.badlogicgames.gdx:gdx-box2d:$gdxVersion"
     api "com.badlogicgames.gdx:gdx-controllers:$gdxVersion"
 
-    api(group: 'org.terasology.gestalt', name: 'gestalt-asset-core', version: '7.0.6-SNAPSHOT')
-    api(group: 'org.terasology.gestalt', name: 'gestalt-entity-system', version: '7.0.6-SNAPSHOT')
-    api(group: 'org.terasology.gestalt', name: 'gestalt-module', version: '7.0.6-SNAPSHOT')
-    api(group: 'org.terasology.gestalt', name: 'gestalt-util', version: '7.0.6-SNAPSHOT')
+    api(group: 'org.terasology.gestalt', name: 'gestalt-asset-core', version: '7.2.0-SNAPSHOT')
+    api(group: 'org.terasology.gestalt', name: 'gestalt-entity-system', version: '7.2.0-SNAPSHOT')
+    api(group: 'org.terasology.gestalt', name: 'gestalt-module', version: '7.2.0-SNAPSHOT')
+    api(group: 'org.terasology.gestalt', name: 'gestalt-util', version: '7.2.0-SNAPSHOT')
 
     api group: 'org.terasology.nui', name: 'nui', version: nuiVersion
     api group: 'org.terasology.nui', name: 'nui-libgdx', version: nuiVersion
@@ -82,15 +82,16 @@ task cacheReflections {
             configurations."${sourceSets.main.runtimeClasspathConfigurationName}"
 
     outputs.upToDateWhen {classes.state.upToDate}
-    outputs.file("$buildDir/classes/reflections.cache")
+    outputs.file("$buildDir/resources/main/org/destinationsol/reflections.cache")
     dependsOn classes
 
     doLast {
         // Without the .mkdirs() we might hit a scenario where the classes dir doesn't exist yet
         Reflections reflections = new Reflections(new ConfigurationBuilder()
                 .addUrls(inputs.files.collect { it.toURI().toURL() })
+                .filterInputsBy({ it.startsWith("org.destinationsol") || it.startsWith("org.terasology.nui") })
                 .setScanners(new TypeAnnotationsScanner(), new SubTypesScanner()))
-        reflections.save("$buildDir/classes/reflections.cache")
+        reflections.save("$buildDir/resources/main/org/destinationsol/reflections.cache")
     }
 }
 

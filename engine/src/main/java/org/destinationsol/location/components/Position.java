@@ -27,7 +27,7 @@ public class Position implements Component<Position> {
     public Vector2 position = new Vector2();
 
     @Override
-    public void copy(Position other) {
+    public void copyFrom(Position other) {
         position = other.position.cpy();
     }
 }
