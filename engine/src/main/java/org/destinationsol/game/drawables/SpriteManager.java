@@ -227,4 +227,8 @@ public final class SpriteManager {
 
         return regions;
     }
+
+    public static void clearCache() {
+        sprites.clear();
+    }
 }

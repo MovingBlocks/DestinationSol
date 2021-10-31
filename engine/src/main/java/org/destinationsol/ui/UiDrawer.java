@@ -39,7 +39,7 @@ public class UiDrawer implements ResizeSubscriber {
     private Matrix4 straightMtx;
     private final float uiLineWidth;
 
-    public static final TextureRegion whiteTexture = Assets.getAtlasRegion("engine:uiWhiteTex");
+    public final TextureRegion whiteTexture;
     public final Rectangle filler;
     private final CommonDrawer drawer;
     //TODO WTF is `isTextMode` for? discuss and potentially (=probably) remove
@@ -52,6 +52,7 @@ public class UiDrawer implements ResizeSubscriber {
     public UiDrawer(CommonDrawer commonDrawer) {
         displayDimensions = SolApplication.displayDimensions;
         drawer = commonDrawer;
+        whiteTexture = Assets.getAtlasRegion("engine:uiWhiteTex");
 
         uiLineWidth = 1.0f / displayDimensions.getHeight();
 

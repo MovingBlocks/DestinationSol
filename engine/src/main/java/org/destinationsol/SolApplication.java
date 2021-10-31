@@ -38,6 +38,7 @@ import org.destinationsol.game.SolGame;
 import org.destinationsol.game.SolNames;
 import org.destinationsol.game.WorldConfig;
 import org.destinationsol.game.drawables.DrawableLevel;
+import org.destinationsol.game.drawables.SpriteManager;
 import org.destinationsol.health.components.Health;
 import org.destinationsol.location.components.Angle;
 import org.destinationsol.location.components.Velocity;
@@ -377,6 +378,12 @@ public class SolApplication implements ApplicationListener {
         }
 
         inputManager.dispose();
+
+        SpriteManager.clearCache();
+
+        Assets.getAssetHelper().dispose();
+
+        moduleManager.dispose();
     }
 
     public SolGame getGame() {

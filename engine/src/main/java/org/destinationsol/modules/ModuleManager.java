@@ -280,4 +280,8 @@ public class ModuleManager {
             logger.info("Module Discovered: {}", module);
         }
     }
+
+    public void dispose() {
+        environment.close();
+    }
 }

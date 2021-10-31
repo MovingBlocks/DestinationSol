@@ -23,6 +23,6 @@ public class DSTextureFactory implements AssetFactory<DSTexture, DSTextureData> 
 
     @Override
     public DSTexture build(ResourceUrn urn, AssetType<DSTexture, DSTextureData> type, DSTextureData data) {
-        return new DSTexture(urn, type, data);
+        return DSTexture.create(urn, type, data);
     }
 }
