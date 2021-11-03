@@ -29,11 +29,18 @@ node ("android") {
             if (env.PUBLISH_ORG) {
                 androidGitPath = androidGitPath.replace("MovingBlocks", env.PUBLISH_ORG)
                 println "Updated target Android Git path to: " + androidGitPath
-                println "And going to use branch " + env.BRANCH_NAME
             } else {
                 println "Not varying the Android path from default " + androidGitPath
             }
-            checkout scm: [$class: 'GitSCM', branches: [[name: env.BRANCH_NAME]], extensions: [], userRemoteConfigs: [[url: androidGitPath]]]
+            // Figure out a suitable target brand in the Android repo
+            def androidBranch = "develop"
+            if (env.BRANCH_NAME.equalsIgnoreCase("master") || env.BRANCH_NAME.startsWith("android/")) {
+                println "Going to use target unusual Android branch " + env.BRANCH_NAME
+                androidBranch = env.BRANCH_NAME
+            } else {
+                println "Going to use target Android branch 'develop' - not building 'master' nor anything starting with 'android/'"
+            }
+            checkout scm: [$class: 'GitSCM', branches: [[name: androidBranch]], extensions: [], userRemoteConfigs: [[credentialsId: 'GooeyHub', url: androidGitPath]]]
         }
         sh './gradlew --console=plain :android:assembleDebug'
         archiveArtifacts 'android/build/outputs/apk/debug/android-debug.apk'
