@@ -16,7 +16,6 @@
 package org.destinationsol.game.screens;
 
 import com.badlogic.gdx.math.Vector2;
-import org.destinationsol.GameOptions;
 import org.destinationsol.SolApplication;
 import org.destinationsol.game.Hero;
 import org.destinationsol.game.SolGame;
@@ -29,16 +28,31 @@ import org.destinationsol.game.ship.ShipRepairer;
 import org.destinationsol.game.ship.SolShip;
 import org.destinationsol.game.ship.hulls.Hull;
 import org.destinationsol.game.ship.hulls.HullConfig;
-import org.destinationsol.ui.SolInputManager;
-import org.destinationsol.ui.SolUiControl;
+import org.destinationsol.ui.nui.screens.InventoryScreen;
+import org.destinationsol.ui.nui.widgets.KeyActivatedButton;
+import org.terasology.nui.backends.libgdx.GDXInputUtil;
+import org.terasology.nui.widgets.UIButton;
 
+/**
+ * This screen allows you to purchase a new ship for the hero.
+ * The hero's previous ship will be replaced with the purchased ship and the cost deducted from the hero's money.
+ */
 public class ChangeShipScreen extends InventoryOperationsScreen {
-    private final SolUiControl changeControl;
+    private final UIButton[] actionButtons = new UIButton[1];
 
-    ChangeShipScreen(InventoryScreen inventoryScreen, GameOptions gameOptions) {
-        changeControl = new SolUiControl(inventoryScreen.itemCtrl(0), true, gameOptions.getKeyChangeShip());
-        changeControl.setDisplayName("Change");
-        controls.add(changeControl);
+    @Override
+    public void initialise(SolApplication solApplication, InventoryScreen inventoryScreen) {
+        KeyActivatedButton changeButton = new KeyActivatedButton("changeButton", "Change");
+        changeButton.setKey(GDXInputUtil.GDXToNuiKey(solApplication.getOptions().getKeyChangeShip()));
+        changeButton.subscribe(button -> {
+            SolGame game = solApplication.getGame();
+            Hero hero = game.getHero();
+            SolItem selectedItem = inventoryScreen.getSelectedItem();
+
+            hero.setMoney(hero.getMoney() - selectedItem.getPrice());
+            changeShip(game, hero, (ShipItem) selectedItem);
+        });
+        actionButtons[0] = changeButton;
     }
 
     @Override
@@ -52,38 +66,39 @@ public class ChangeShipScreen extends InventoryOperationsScreen {
     }
 
     @Override
-    public void updateCustom(SolApplication solApplication, SolInputManager.InputPointer[] inputPointers, boolean clickedOutside) {
+    public UIButton[] getActionButtons() {
+        return actionButtons;
+    }
+
+    @Override
+    public void update(SolApplication solApplication, InventoryScreen inventoryScreen) {
         SolGame game = solApplication.getGame();
-        InventoryScreen is = game.getScreens().inventoryScreen;
         Hero hero = game.getHero();
         TalkScreen talkScreen = game.getScreens().talkScreen;
         if (talkScreen.isTargetFar(hero)) {
             solApplication.getInputManager().setScreen(solApplication, game.getScreens().mainGameScreen);
             return;
         }
-        SolItem selItem = is.getSelectedItem();
+
+        UIButton changeButton = actionButtons[0];
+
+        SolItem selItem = inventoryScreen.getSelectedItem();
         if (selItem == null) {
-            changeControl.setDisplayName("---");
-            changeControl.setEnabled(false);
+            changeButton.setText("---");
+            changeButton.setEnabled(false);
             return;
         }
         boolean enabled = hasMoneyToBuyShip(hero, selItem);
         boolean sameShip = isSameShip(hero, selItem);
         if (enabled && !sameShip) {
-            changeControl.setDisplayName("Change");
-            changeControl.setEnabled(true);
+            changeButton.setText("Change");
+            changeButton.setEnabled(true);
         } else if (enabled && sameShip) {
-            changeControl.setDisplayName("Have it");
-            changeControl.setEnabled(false);
-            return;
+            changeButton.setText("Have it");
+            changeButton.setEnabled(false);
         } else {
-            changeControl.setDisplayName("---");
-            changeControl.setEnabled(false);
-            return;
-        }
-        if (changeControl.isJustOff()) {
-            hero.setMoney(hero.getMoney() - selItem.getPrice());
-            changeShip(game, hero, (ShipItem) selItem);
+            changeButton.setText("---");
+            changeButton.setEnabled(false);
         }
     }
 

@@ -42,6 +42,17 @@ public class KeyActivatedButton extends UIButton {
     @LayoutConfig
     private Binding<Boolean> activateWhenInvisible = new DefaultBinding<>(false);
 
+    public KeyActivatedButton(){
+    }
+
+    public KeyActivatedButton(String id) {
+        super(id);
+    }
+
+    public KeyActivatedButton(String id, String text) {
+        super(id, text);
+    }
+
     /**
      * Binds the key used to activate this {@code KeyActivatedButton}.
      *
@@ -104,6 +115,11 @@ public class KeyActivatedButton extends UIButton {
             return true;
         }
 
+        // WidgetWithOrder contains some logic that consumed all UP key and DOWN key events, even when it does nothing
+        // with them. This might be worthwhile for scrolling lists but shouldn't do anything otherwise.
+        if (parent == null) {
+            return false;
+        }
         return super.onKeyEvent(event);
     }
 }

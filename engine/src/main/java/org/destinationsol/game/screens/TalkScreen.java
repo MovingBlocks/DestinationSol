@@ -28,6 +28,7 @@ import org.destinationsol.ui.SolInputManager;
 import org.destinationsol.ui.SolUiBaseScreen;
 import org.destinationsol.ui.SolUiControl;
 import org.destinationsol.ui.UiDrawer;
+import org.destinationsol.ui.nui.screens.InventoryScreen;
 
 public class TalkScreen extends SolUiBaseScreen {
     public static final float MAX_TALK_DIST = 1f;
@@ -88,10 +89,21 @@ public class TalkScreen extends SolUiBaseScreen {
         boolean buy = buyControl.isJustOff();
         boolean sellShips = shipsControl.isJustOff();
         boolean hire = hireControl.isJustOff();
-        if (sell || buy || sellShips || hire) {
-            inventoryScreen.setOperations(sell ? inventoryScreen.sellItems : buy ? inventoryScreen.buyItemsScreen : sellShips ? inventoryScreen.changeShipScreen : inventoryScreen.hireShipsScreen);
+        InventoryOperationsScreen inventoryOperations = null;
+        if (buy) {
+            inventoryOperations = inventoryScreen.getBuyItemsScreen();
+        } else if (sell) {
+            inventoryOperations = inventoryScreen.getSellItems();
+        } else if (sellShips) {
+            inventoryOperations = inventoryScreen.getChangeShipScreen();
+        } else if (hire) {
+            inventoryOperations = inventoryScreen.getHireShipsScreen();
+        }
+
+        if (inventoryOperations != null) {
+            inventoryScreen.setOperations(inventoryOperations);
             inputManager.setScreen(solApplication, game.getScreens().mainGameScreen);
-            inputManager.addScreen(solApplication, inventoryScreen);
+            solApplication.getNuiManager().pushScreen(inventoryScreen);
         }
     }
 

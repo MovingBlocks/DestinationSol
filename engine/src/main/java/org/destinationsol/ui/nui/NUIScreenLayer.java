@@ -122,15 +122,19 @@ public abstract class NUIScreenLayer extends AbstractWidget {
      */
     @Override
     public boolean onKeyEvent(NUIKeyEvent event) {
-        if (escapeCloses() && event.getState() == ButtonState.UP && event.getKey() == Keyboard.Key.ESCAPE) {
-            nuiManager.removeScreen(this);
-            return true;
-        }
-
         // Send key events to all KeyActivatedButton sub-widgets. These buttons are supposed to react to key events
         // even when they are not in-focus.
         for (UIWidget widget : contents.findAll(KeyActivatedButton.class)) {
-            widget.onKeyEvent(event);
+            if (widget.onKeyEvent(event)) {
+                return true;
+            }
+        }
+
+        // Process escape key handling after KeyActivatedButton key events, since some screens might implement
+        // a close button bound to the escape key.
+        if (escapeCloses() && event.getState() == ButtonState.UP && event.getKey() == Keyboard.Key.ESCAPE) {
+            nuiManager.removeScreen(this);
+            return true;
         }
 
         return super.onKeyEvent(event);

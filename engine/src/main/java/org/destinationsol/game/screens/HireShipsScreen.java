@@ -15,7 +15,6 @@
  */
 package org.destinationsol.game.screens;
 
-import org.destinationsol.GameOptions;
 import org.destinationsol.SolApplication;
 import org.destinationsol.game.Hero;
 import org.destinationsol.game.SolGame;
@@ -23,16 +22,32 @@ import org.destinationsol.game.item.ItemContainer;
 import org.destinationsol.game.item.MercItem;
 import org.destinationsol.game.item.SolItem;
 import org.destinationsol.mercenary.MercenaryUtils;
-import org.destinationsol.ui.SolInputManager;
-import org.destinationsol.ui.SolUiControl;
+import org.destinationsol.ui.nui.screens.InventoryScreen;
+import org.destinationsol.ui.nui.widgets.KeyActivatedButton;
+import org.terasology.nui.backends.libgdx.GDXInputUtil;
+import org.terasology.nui.widgets.UIButton;
 
 public class HireShipsScreen extends InventoryOperationsScreen {
-    private final SolUiControl hireControl;
+    private final UIButton[] actionButtons = new UIButton[1];
 
-    HireShipsScreen(InventoryScreen inventoryScreen, GameOptions gameOptions) {
-        hireControl = new SolUiControl(inventoryScreen.itemCtrl(0), true, gameOptions.getKeyHireShip());
-        hireControl.setDisplayName("Hire");
-        controls.add(hireControl);
+    public HireShipsScreen() {
+    }
+
+    @Override
+    public void initialise(SolApplication solApplication, InventoryScreen inventoryScreen) {
+        KeyActivatedButton hireButton = new KeyActivatedButton();
+        hireButton.setKey(GDXInputUtil.GDXToNuiKey(solApplication.getOptions().getKeyHireShip()));
+        hireButton.subscribe(button -> {
+            SolGame game = solApplication.getGame();
+            Hero hero = game.getHero();
+            SolItem selectedItem = inventoryScreen.getSelectedItem();
+
+            boolean hired = MercenaryUtils.createMerc(game, hero, (MercItem) selectedItem);
+            if (hired) {
+                hero.setMoney(hero.getMoney() - selectedItem.getPrice());
+            }
+        });
+        actionButtons[0] = hireButton;
     }
 
     @Override
@@ -46,27 +61,24 @@ public class HireShipsScreen extends InventoryOperationsScreen {
     }
 
     @Override
-    public void updateCustom(SolApplication solApplication, SolInputManager.InputPointer[] inputPointers, boolean clickedOutside) {
+    public UIButton[] getActionButtons() {
+        return actionButtons;
+    }
+
+    @Override
+    public void update(SolApplication solApplication, InventoryScreen inventoryScreen) {
         SolGame game = solApplication.getGame();
-        InventoryScreen is = game.getScreens().inventoryScreen;
         Hero hero = game.getHero();
         TalkScreen talkScreen = game.getScreens().talkScreen;
         if (talkScreen.isTargetFar(hero)) {
             solApplication.getInputManager().setScreen(solApplication, game.getScreens().mainGameScreen);
             return;
         }
-        SolItem selItem = is.getSelectedItem();
+
+        UIButton hireButton = actionButtons[0];
+        SolItem selItem = inventoryScreen.getSelectedItem();
         boolean enabled = selItem != null && hero.getMoney() >= selItem.getPrice();
-        hireControl.setDisplayName(enabled ? "Hire" : "---");
-        hireControl.setEnabled(enabled);
-        if (!enabled) {
-            return;
-        }
-        if (hireControl.isJustOff()) {
-            boolean hired = MercenaryUtils.createMerc(game, hero, (MercItem) selItem);
-            if (hired) {
-                hero.setMoney(hero.getMoney() - selItem.getPrice());
-            }
-        }
+        hireButton.setText(enabled ? "Hire" : "---");
+        hireButton.setEnabled(enabled);
     }
 }

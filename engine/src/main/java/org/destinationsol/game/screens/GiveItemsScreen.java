@@ -22,17 +22,36 @@ import org.destinationsol.game.SolGame;
 import org.destinationsol.game.item.ItemContainer;
 import org.destinationsol.game.item.SolItem;
 import org.destinationsol.game.ship.SolShip;
-import org.destinationsol.ui.SolInputManager;
-import org.destinationsol.ui.SolUiControl;
+import org.destinationsol.ui.nui.screens.InventoryScreen;
+import org.destinationsol.ui.nui.widgets.KeyActivatedButton;
+import org.terasology.nui.backends.libgdx.GDXInputUtil;
+import org.terasology.nui.widgets.UIButton;
 
+/**
+ * This screen allows the hero to gift items from their inventory to the targeted mercenary.
+ */
 public class GiveItemsScreen extends InventoryOperationsScreen {
-    private final SolUiControl giveControl;
+    private final UIButton[] actionButtons = new UIButton[1];
     private SolShip target;
 
-    GiveItemsScreen(InventoryScreen inventoryScreen, GameOptions gameOptions) {
-        giveControl = new SolUiControl(inventoryScreen.itemCtrl(0), true, gameOptions.getKeySellItem());
-        giveControl.setDisplayName("Give");
-        controls.add(giveControl);
+    public GiveItemsScreen() {
+    }
+
+    @Override
+    public void initialise(SolApplication solApplication, InventoryScreen inventoryScreen) {
+        KeyActivatedButton giveButton = new KeyActivatedButton("giveButton", "Give");
+        giveButton.setKey(GDXInputUtil.GDXToNuiKey(solApplication.getOptions().getKeySellItem()));
+        giveButton.subscribe(button -> {
+            Hero hero = solApplication.getGame().getHero();
+            SolItem selectedItem = inventoryScreen.getSelectedItem();
+
+            ItemContainer itemContainer = hero.getItemContainer();
+            inventoryScreen.setSelected(itemContainer.getSelectionAfterRemove(inventoryScreen.getSelected()));
+            itemContainer.remove(selectedItem);
+            target.getItemContainer().add(selectedItem);
+            inventoryScreen.updateItemRows();
+        });
+        actionButtons[0] = giveButton;
     }
 
     @Override
@@ -53,40 +72,36 @@ public class GiveItemsScreen extends InventoryOperationsScreen {
     }
 
     @Override
-    public void updateCustom(SolApplication solApplication, SolInputManager.InputPointer[] inputPointers, boolean clickedOutside) {
+    public UIButton[] getActionButtons() {
+        return actionButtons;
+    }
+
+    @Override
+    public void update(SolApplication solApplication, InventoryScreen inventoryScreen) {
         SolGame game = solApplication.getGame();
-        InventoryScreen inventoryScreen = game.getScreens().inventoryScreen;
         Hero hero = game.getHero();
 
-        SolItem selItem = inventoryScreen.getSelectedItem();
-        if (selItem == null) {
-            giveControl.setDisplayName("----");
-            giveControl.setEnabled(false);
+        UIButton giveButton = actionButtons[0];
+
+        SolItem selectedItem = inventoryScreen.getSelectedItem();
+        if (selectedItem == null) {
+            giveButton.setText("----");
+            giveButton.setEnabled(false);
             return;
         }
 
-        boolean isWornAndCanBeGiven = isItemEquippedAndGiveable(selItem, solApplication.getOptions());
-        boolean enabled = isItemGiveable(selItem, target);
+        boolean isWornAndCanBeGiven = isItemEquippedAndGiveable(selectedItem, solApplication.getOptions());
+        boolean enabled = isItemGiveable(selectedItem, target);
 
         if (enabled && isWornAndCanBeGiven) {
-            giveControl.setDisplayName("Give");
-            giveControl.setEnabled(true);
+            giveButton.setText("Give");
+            giveButton.setEnabled(true);
         } else if (enabled) {
-            giveControl.setDisplayName("Unequip it!");
-            giveControl.setEnabled(false);
+            giveButton.setText("Unequip it!");
+            giveButton.setEnabled(false);
         } else {
-            giveControl.setDisplayName("----");
-            giveControl.setEnabled(false);
-        }
-
-        if (!enabled || !isWornAndCanBeGiven) {
-            return;
-        }
-        if (giveControl.isJustOff()) {
-            ItemContainer itemContainer = hero.getItemContainer();
-            inventoryScreen.setSelected(itemContainer.getSelectionAfterRemove(inventoryScreen.getSelected()));
-            itemContainer.remove(selItem);
-            target.getItemContainer().add(selItem);
+            giveButton.setText("----");
+            giveButton.setEnabled(false);
         }
     }
 

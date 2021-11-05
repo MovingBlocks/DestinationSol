@@ -184,6 +184,8 @@ public class NUIManager {
      * @param solApplication the application to use
      */
     public void update(SolApplication solApplication) {
+        mouse.update();
+
         for (int pointer = 0; pointer < mouse.getMaxPointers(); pointer++) {
             canvas.processMousePosition(mouse.getPosition(pointer), pointer);
         }

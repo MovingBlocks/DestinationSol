@@ -15,6 +15,8 @@
  */
 package org.destinationsol.ui;
 
+import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Input;
 import com.badlogic.gdx.math.Rectangle;
 import org.destinationsol.GameOptions;
 import org.destinationsol.SolApplication;
@@ -23,12 +25,10 @@ import org.destinationsol.game.SolGame;
 import org.destinationsol.game.UpdateAwareSystem;
 import org.destinationsol.game.item.SolItem;
 import org.destinationsol.game.screens.GameScreens;
-import org.destinationsol.game.screens.InventoryScreen;
 import org.destinationsol.game.screens.MainGameScreen;
 import org.destinationsol.game.screens.ShipMixedControl;
 import org.destinationsol.ui.nui.screens.UIShipControlsScreen;
 import org.destinationsol.ui.nui.widgets.UIWarnButton;
-import org.terasology.nui.widgets.UIButton;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -139,23 +139,22 @@ public class TutorialManager implements UpdateAwareSystem {
         }
 
         if (mouseCtrl || mobile) {
-            addStep("In the inventory,\nselect the second row", screens.inventoryScreen.itemControls[1]);
+            addStep("In the inventory,\nselect the second row", screens.inventoryScreen.getRowButton(1));
         } else {
-            addStep("In the inventory,\nselect the next item (" + gameOptions.getKeyDownName() + " key)",
-                    screens.inventoryScreen.downControl);
+            addStep("In the inventory,\nselect the next item (" + gameOptions.getKeyDownName() + " key)", gameOptions.getKeyDown());
         }
 
         if (mouseCtrl || mobile) {
-            addStep("Go to the next page", screens.inventoryScreen.nextControl, true);
+            addStep("Go to the next page", screens.inventoryScreen.getNextButton(), true);
         } else {
-            addStep("Go to the next page\n(" + gameOptions.getKeyRightName() + " key)", screens.inventoryScreen.nextControl, true);
+            addStep("Go to the next page\n(" + gameOptions.getKeyRightName() + " key)", screens.inventoryScreen.getNextButton(), true);
         }
 
         if (mouseCtrl || mobile) {
-            addStep("Throw away some item\nyou don't use", screens.inventoryScreen.showInventory.dropControl);
+            addStep("Throw away some item\nyou don't use", screens.inventoryScreen.getShowInventory().getDropControl());
         } else {
             addStep("Throw away some item\nyou don't use (" + gameOptions.getKeyDropName() + " key)",
-                    screens.inventoryScreen.showInventory.dropControl);
+                    screens.inventoryScreen.getShowInventory().getDropControl());
         }
 
         // Extra step to make sure an equipped item is selected before asking player to unequip
@@ -166,22 +165,22 @@ public class TutorialManager implements UpdateAwareSystem {
         }
 
         if (mobile) {
-            addStep("Unequip the item\nthat is used now", screens.inventoryScreen.showInventory.eq1Control);
+            addStep("Unequip the item\nthat is used now", screens.inventoryScreen.getShowInventory().getEq1Control());
         } else {
             addStep("Unequip the item\nthat is used now (" + gameOptions.getKeyEquipName() + " key)",
-                    screens.inventoryScreen.showInventory.eq1Control);
+                    screens.inventoryScreen.getShowInventory().getEq1Control());
         }
 
         if (mobile) {
-            addStep("Now equip it again", screens.inventoryScreen.showInventory.eq1Control);
+            addStep("Now equip it again", screens.inventoryScreen.getShowInventory().getEq1Control());
         } else {
-            addStep("Now equip it again\n(" + gameOptions.getKeyEquipName() + " key)", screens.inventoryScreen.showInventory.eq1Control);
+            addStep("Now equip it again\n(" + gameOptions.getKeyEquipName() + " key)", screens.inventoryScreen.getShowInventory().getEq1Control());
         }
 
         if (mobile) {
-            addStep("Close the inventory\n(Touch the screen outside inventory)", screens.inventoryScreen.closeControl, true);
+            addStep("Close the inventory\n(Touch the screen outside inventory)", screens.inventoryScreen.getCloseButton(), true);
         } else {
-            addStep("Close the inventory (" + gameOptions.getKeyCloseName() + " key)", screens.inventoryScreen.closeControl, true);
+            addStep("Close the inventory (" + gameOptions.getKeyCloseName() + " key)", screens.inventoryScreen.getCloseButton(), true);
         }
 
         if (mouseCtrl) {
@@ -206,15 +205,15 @@ public class TutorialManager implements UpdateAwareSystem {
         }
 
         if (mobile) {
-            addStep("Buy some item", screens.inventoryScreen.buyItemsScreen.buyControl);
+            addStep("Buy some item", screens.inventoryScreen.getBuyItemsScreen().getBuyControl());
         } else {
-            addStep("Buy some item\n(" + gameOptions.getKeyBuyItemName() + " key)", screens.inventoryScreen.buyItemsScreen.buyControl);
+            addStep("Buy some item\n(" + gameOptions.getKeyBuyItemName() + " key)", screens.inventoryScreen.getBuyItemsScreen().getBuyControl());
         }
 
         if (mobile) {
-            addStep("Close the Buy screen\n(Touch the screen outside inventory)", screens.inventoryScreen.closeControl, true);
+            addStep("Close the Buy screen\n(Touch the screen outside inventory)", screens.inventoryScreen.getCloseButton(), true);
         } else {
-            addStep("Close the Buy screen\n(" + gameOptions.getKeyCloseName() + " key)", screens.inventoryScreen.closeControl, true);
+            addStep("Close the Buy screen\n(" + gameOptions.getKeyCloseName() + " key)", screens.inventoryScreen.getCloseButton(), true);
         }
 
         if (mouseCtrl) {
@@ -251,6 +250,10 @@ public class TutorialManager implements UpdateAwareSystem {
 
     private void addStep(String text, SolUiControl ctrl) {
         addStep(text, ctrl, false);
+    }
+
+    private void addStep(String text, int key) {
+        steps.add(new KeyPressedStep(text, key));
     }
 
     private void addStep(String text, UIWarnButton ctrl) {
@@ -367,10 +370,10 @@ public class TutorialManager implements UpdateAwareSystem {
     }
 
     public static class SelectEquippedItemStep extends Step {
-        InventoryScreen inventoryScreen;
+        org.destinationsol.ui.nui.screens.InventoryScreen inventoryScreen;
         SolGame game;
 
-        public SelectEquippedItemStep(String text, InventoryScreen inventoryScreen, SolGame game) {
+        public SelectEquippedItemStep(String text, org.destinationsol.ui.nui.screens.InventoryScreen inventoryScreen, SolGame game) {
             super(text, null, true);
             this.inventoryScreen = inventoryScreen;
             this.game = game;
@@ -388,10 +391,24 @@ public class TutorialManager implements UpdateAwareSystem {
         // Highlight all equipped items on opened inventory page
         @Override
         public void highlight() {
-            List<SolUiControl> equippedItemControls = inventoryScreen.getEquippedItemUIControlsForTutorial(game);
-            for (SolUiControl control : equippedItemControls) {
+            List<UIWarnButton> equippedItemControls = inventoryScreen.getEquippedItemUIControlsForTutorial();
+            for (UIWarnButton control : equippedItemControls) {
                 control.enableWarn();
             }
+        }
+    }
+
+    public static class KeyPressedStep extends Step {
+        private final int key;
+
+        public KeyPressedStep(String text, int key) {
+            super(text, null, false);
+            this.key = key;
+        }
+
+        @Override
+        public boolean canProgressToNextStep() {
+            return Gdx.input.isKeyJustPressed(key);
         }
     }
 }
