@@ -37,11 +37,11 @@ import org.destinationsol.entitysystem.SerialisationManager;
 import org.destinationsol.game.DebugOptions;
 import org.destinationsol.game.SolCam;
 import org.destinationsol.game.SolGame;
-import org.destinationsol.game.SolNames;
 import org.destinationsol.game.WorldConfig;
 import org.destinationsol.game.console.adapter.ParameterAdapterManager;
 import org.destinationsol.game.context.Context;
 import org.destinationsol.game.drawables.DrawableLevel;
+import org.destinationsol.game.drawables.SpriteManager;
 import org.destinationsol.health.components.Health;
 import org.destinationsol.location.components.Angle;
 import org.destinationsol.location.components.Position;
@@ -332,11 +332,13 @@ public class SolApplication implements ApplicationListener {
 
     public void play(boolean tut, String shipName, boolean isNewGame, WorldConfig worldConfig) {
 
-        gameContext = appContext.getNestedContainer(new SolGameServiceRegistry(tut), new ContextWrapperService());
+        gameContext = appContext.getNestedContainer(new GameConfigurationServiceRegistry(worldConfig), new SolGameServiceRegistry(tut), new ContextWrapperService());
         appContext.getBean(ComponentSystemManager.class).preBegin();
         solGame = gameContext.getBean(SolGame.class);
         gameContext.getBean(ComponentSystemManager.class).preBegin();
         entitySystemManager = gameContext.getBean(EntitySystemManager.class);
+
+        solGame.createUpdateSystems();
 
         solGame.startGame(shipName, isNewGame, worldConfig, entitySystemManager);
 
@@ -360,6 +362,7 @@ public class SolApplication implements ApplicationListener {
         return menuScreens;
     }
 
+    @Override
     public void dispose() {
         commonDrawer.dispose();
 
@@ -368,6 +371,10 @@ public class SolApplication implements ApplicationListener {
         }
 
         inputManager.dispose();
+
+        SpriteManager.clearCache();
+
+        Assets.getAssetHelper().dispose();
     }
 
     public SolGame getGame() {
@@ -408,7 +415,6 @@ public class SolApplication implements ApplicationListener {
     public MenuBackgroundManager getMenuBackgroundManager() {
         return menuBackgroundManager;
     }
-
 
     public NUIManager getNuiManager() {
         return nuiManager;

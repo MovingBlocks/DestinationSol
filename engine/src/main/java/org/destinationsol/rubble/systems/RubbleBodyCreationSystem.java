@@ -22,14 +22,11 @@ import com.badlogic.gdx.physics.box2d.BodyDef;
 import com.badlogic.gdx.physics.box2d.FixtureDef;
 import com.badlogic.gdx.physics.box2d.World;
 import org.destinationsol.Const;
-import org.destinationsol.asteroids.components.AsteroidMesh;
 import org.destinationsol.body.events.BodyCreatedEvent;
 import org.destinationsol.body.events.GenerateBodyEvent;
-import org.destinationsol.common.In;
 import org.destinationsol.entitysystem.EntitySystemManager;
 import org.destinationsol.entitysystem.EventReceiver;
 import org.destinationsol.game.CollisionMeshLoader;
-import org.destinationsol.game.UpdateAwareSystem;
 import org.destinationsol.location.components.Angle;
 import org.destinationsol.location.components.Position;
 import org.destinationsol.rendering.RenderableElement;
@@ -40,6 +37,7 @@ import org.terasology.gestalt.entitysystem.entity.EntityRef;
 import org.terasology.gestalt.entitysystem.event.EventResult;
 import org.terasology.gestalt.entitysystem.event.ReceiveEvent;
 
+import javax.inject.Inject;
 import java.util.ArrayList;
 
 /**
@@ -49,13 +47,18 @@ public class RubbleBodyCreationSystem implements EventReceiver {
 
     private static final float DENSITY = 3f;
 
-    @In
-    private EntitySystemManager entitySystemManager;
+    @Inject
+    protected EntitySystemManager entitySystemManager;
 
-    @In
-    private World world;
+    @Inject
+    protected World world;
 
     private final CollisionMeshLoader collisionMeshLoader = new CollisionMeshLoader("engine:miscCollisionMeshes");
+
+    @Inject
+    public RubbleBodyCreationSystem() {
+
+    }
 
     @ReceiveEvent(components = {RubbleMesh.class, Size.class, Position.class, Angle.class, Renderable.class})
     public EventResult onGenerateBody(GenerateBodyEvent event, EntityRef entity) {

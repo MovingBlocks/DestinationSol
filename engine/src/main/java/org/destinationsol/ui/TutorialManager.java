@@ -247,7 +247,6 @@ public class TutorialManager implements UpdateAwareSystem {
             addStep("Buy new ships, hire mercenaries\n" + shootKey2, nuiShootCtrl);
             addStep("Tutorial is complete and will exit now!\n" + shootKey2, nuiShootCtrl);
         }
-
         steps.get(0).start();
     }
 

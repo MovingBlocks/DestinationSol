@@ -20,7 +20,6 @@ import org.destinationsol.Const;
 import org.destinationsol.common.SolMath;
 import org.destinationsol.common.SolRandom;
 import org.destinationsol.game.SolNames;
-import org.destinationsol.game.context.Context;
 import org.destinationsol.game.maze.Maze;
 import org.destinationsol.game.maze.MazeConfigManager;
 import org.destinationsol.game.planet.BeltConfigManager;
@@ -33,7 +32,9 @@ import org.destinationsol.game.planet.SystemBelt;
 import org.destinationsol.world.Orbital;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.terasology.context.annotation.IndexInherited;
 
+import javax.inject.Inject;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -43,6 +44,7 @@ import java.util.List;
  * Every SolarSystem is given access to all the available FeatureGenerators (PlanetGenerators, MazeGenerators, etc).
  * Particular implementations can decide which of those FeatureGenerators will be used to populate the SolarSystem.
  */
+@IndexInherited
 public abstract class SolarSystemGenerator {
     public static final float MAX_ANGLE_IN_SYSTEM = 180;
     public static final float SUN_RADIUS = 2f * (Const.MAX_GROUND_HEIGHT + Const.ATM_HEIGHT);
@@ -69,7 +71,6 @@ public abstract class SolarSystemGenerator {
     protected ArrayList<Class<? extends FeatureGenerator>> featureGeneratorTypes = new ArrayList<>();
     ArrayList<FeatureGenerator> activeFeatureGenerators = new ArrayList<>();
     ArrayList<Orbital> solarSystemOrbitals = new ArrayList<>();
-    Context context;
     //This class is included to give access to the game's default names if desired
     protected SolNames solNames = new SolNames();
     private SolarSystemConfigManager solarSystemConfigManager;
@@ -84,6 +85,13 @@ public abstract class SolarSystemGenerator {
     private int possibleBeltCount;
     private int mazeCount;
     private int customFeaturesCount;
+
+    @Inject
+    protected PlanetConfigManager planetConfigManager;
+    @Inject
+    protected MazeConfigManager mazeConfigManager;
+    @Inject
+    protected BeltConfigManager beltConfigManager;
 
     public SolarSystemGenerator() {
         solarSystemSize = getSolarSystemSize();
@@ -272,7 +280,7 @@ public abstract class SolarSystemGenerator {
             if ((PlanetGenerator.class.isAssignableFrom(featureGeneratorTypes.get(index)))) {
                 try {
                     PlanetGenerator newFeatureGenerator = (PlanetGenerator) featureGeneratorTypes.get(index).newInstance();
-                    newFeatureGenerator.setPlanetConfigManager(context.get(PlanetConfigManager.class));
+                    newFeatureGenerator.setPlanetConfigManager(planetConfigManager);
                     activeFeatureGenerators.add(newFeatureGenerator);
                     planetsLeft--;
                 } catch (Exception e) {
@@ -295,7 +303,7 @@ public abstract class SolarSystemGenerator {
             if (MazeGenerator.class.isAssignableFrom(featureGeneratorTypes.get(index))) {
                 try {
                     MazeGenerator newFeatureGenerator = (MazeGenerator) featureGeneratorTypes.get(index).newInstance();
-                    newFeatureGenerator.setMazeConfigManager(context.get(MazeConfigManager.class));
+                    newFeatureGenerator.setMazeConfigManager(mazeConfigManager);
                     activeFeatureGenerators.add(newFeatureGenerator);
                     mazesLeft--;
                 } catch (Exception e) {
@@ -320,7 +328,7 @@ public abstract class SolarSystemGenerator {
                 try {
                     if (SolRandom.seededTest(beltChance)) {
                         BeltGenerator newFeatureGenerator = (BeltGenerator) featureGeneratorTypes.get(index).newInstance();
-                        newFeatureGenerator.setBeltConfigManager(context.get(BeltConfigManager.class));
+                        newFeatureGenerator.setBeltConfigManager(beltConfigManager);
                         newFeatureGenerator.setInFirstSolarSystem(getSolarSystemNumber() == 0);
                         activeFeatureGenerators.add(newFeatureGenerator);
                     }
@@ -563,11 +571,4 @@ public abstract class SolarSystemGenerator {
         return solNames.systems;
     }
 
-    public void setContext(Context context) {
-        this.context = context;
-    }
-
-    public Context getContext() {
-        return context;
-    }
 }

@@ -17,10 +17,13 @@ package org.destinationsol.world.generators;
 
 import org.destinationsol.common.SolRandom;
 import org.destinationsol.game.planet.SolarSystem;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 public class LargeSolarSystemGenerator extends SolarSystemGenerator {
+
+
+    public LargeSolarSystemGenerator() {
+    }
+
     @Override
     public SolarSystem build() {
         getSolarSystemConfigManager().loadDefaultSolarSystemConfigs();

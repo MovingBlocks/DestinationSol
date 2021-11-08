@@ -20,9 +20,11 @@ import com.google.common.collect.Maps;
 import org.destinationsol.SolApplication;
 import org.destinationsol.game.console.commands.PositionCommandHandler;
 import org.destinationsol.game.ship.hulls.HullConfig;
+import org.terasology.context.annotation.API;
 
 import java.util.Map;
 
+@API
 public class ParameterAdapterManager {
     private final Map<Class<?>, ParameterAdapter> adapters = Maps.newHashMap();
 

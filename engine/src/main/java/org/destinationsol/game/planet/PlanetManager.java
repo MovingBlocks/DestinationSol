@@ -49,10 +49,6 @@ public class PlanetManager implements UpdateAwareSystem {
 
     @Inject
     public PlanetManager() {
-//        sysConfigs = new SysConfigs(hullConfigs, itemManager);
-//        mazeConfigs = new MazeConfigs(hullConfigs, itemManager);
-
-
         systems = new ArrayList<>();
         mazes = new ArrayList<>();
         planets = new ArrayList<>();

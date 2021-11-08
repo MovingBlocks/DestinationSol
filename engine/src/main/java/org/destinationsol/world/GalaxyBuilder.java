@@ -18,6 +18,7 @@ package org.destinationsol.world;
 import com.badlogic.gdx.math.Vector2;
 import org.destinationsol.common.SolMath;
 import org.destinationsol.common.SolRandom;
+import org.destinationsol.game.WorldConfig;
 import org.destinationsol.game.context.Context;
 import org.destinationsol.game.planet.SolarSystem;
 import org.destinationsol.game.planet.SolarSystemConfigManager;
@@ -26,7 +27,10 @@ import org.destinationsol.world.generators.FeatureGenerator;
 import org.destinationsol.world.generators.SolarSystemGenerator;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.terasology.gestalt.di.BeanContext;
+import org.terasology.gestalt.di.DefaultBeanContext;
 
+import javax.inject.Inject;
 import java.lang.reflect.Modifier;
 import java.util.ArrayList;
 import java.util.List;
@@ -46,17 +50,18 @@ public class GalaxyBuilder {
     private ArrayList<SolarSystemGenerator> activeSolarSystemGenerators = new ArrayList<>();
     //This ArrayList will hold the final SolarSystem objects that each SolarSystemGenerator will return
     private ArrayList<SolarSystem> builtSolarSystems = new ArrayList<>();
-    private Context context;
     private ModuleManager moduleManager;
     private SolarSystemConfigManager solarSystemConfigManager;
     private final int numberOfSystems;
+    private BeanContext beanContext;
 
-    public GalaxyBuilder(Context context, int numSystems) {
-        this.context = context;
-        this.moduleManager = context.get(ModuleManager.class);
-        this.solarSystemConfigManager = context.get(SolarSystemConfigManager.class);
+    @Inject
+    public GalaxyBuilder(WorldConfig worldConfig, ModuleManager moduleManager, SolarSystemConfigManager solarSystemConfigManager, BeanContext beanContext) {
+        this.moduleManager = moduleManager;
+        this.solarSystemConfigManager = solarSystemConfigManager;
+        this.beanContext = beanContext;
         solarSystemConfigManager.loadDefaultSolarSystemConfigs();
-        numberOfSystems = numSystems;
+        numberOfSystems = worldConfig.getNumberOfSystems();
 
         populateSolarSystemGeneratorList();
         populateFeatureGeneratorList();
@@ -111,7 +116,7 @@ public class GalaxyBuilder {
             Class<? extends SolarSystemGenerator> solarSystemGenerator = solarSystemGeneratorTypes.get(SolRandom.seededRandomInt(solarSystemGeneratorTypes.size()));
             try {
                 SolarSystemGenerator generator = solarSystemGenerator.newInstance();
-                generator.setContext(context);
+                beanContext.inject(generator);
                 generator.setFeatureGeneratorTypes(featureGeneratorTypes);
                 generator.setSolarSystemConfigManager(solarSystemConfigManager);
                 generator.setSolarSystemNumber(i);
@@ -204,10 +209,6 @@ public class GalaxyBuilder {
 
     public ArrayList<Class<? extends FeatureGenerator>> getFeatureGeneratorTypes() {
         return featureGeneratorTypes;
-    }
-
-    public Context getContext() {
-        return context;
     }
 
     public ArrayList<SolarSystem> getBuiltSolarSystems() {

@@ -19,7 +19,6 @@ import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.math.Vector2;
 import org.destinationsol.assets.Assets;
 import org.destinationsol.body.components.BodyLinked;
-import org.destinationsol.common.In;
 import org.destinationsol.common.SolMath;
 import org.destinationsol.common.SolRandom;
 import org.destinationsol.entitysystem.EntitySystemManager;
@@ -58,15 +57,14 @@ public class RubbleCreationSystem implements EventReceiver {
     private static final float MAX_SPD = 40f;
 
     @Inject
-    private RubbleBuilder rubbleBuilder;
+    protected RubbleBuilder rubbleBuilder;
+
+    @Inject
+    protected EntitySystemManager entitySystemManager;
 
     @Inject
     public RubbleCreationSystem() {
-
     }
-
-    @In
-    private EntitySystemManager entitySystemManager;
 
     /**
      * When an entity with a {@link CreatesRubbleOnDestruction} component is destroyed, this creates {@link Rubble} where

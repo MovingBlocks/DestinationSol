@@ -23,6 +23,8 @@ import org.destinationsol.assets.music.OggMusic;
 import org.destinationsol.assets.sound.OggSound;
 import org.destinationsol.assets.ui.UIFormat;
 import org.destinationsol.assets.ui.UISkinFormat;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.terasology.gestalt.assets.Asset;
 import org.terasology.gestalt.assets.AssetData;
 import org.terasology.gestalt.assets.AssetType;
@@ -47,10 +49,12 @@ import org.terasology.reflection.copy.CopyStrategyLibrary;
 import org.terasology.reflection.reflect.ReflectFactory;
 import org.terasology.reflection.reflect.ReflectionReflectFactory;
 
+import java.io.IOException;
 import java.util.Optional;
 import java.util.Set;
 
 public class AssetHelper {
+    private static final Logger logger = LoggerFactory.getLogger(AssetHelper.class);
     private ModuleAwareAssetTypeManager assetTypeManager;
 
     public AssetHelper() {
@@ -114,5 +118,14 @@ public class AssetHelper {
             return false;
         });
         return list;
+    }
+
+    public void dispose() {
+        try {
+            assetTypeManager.unloadEnvironment();
+            assetTypeManager.close();
+        } catch (IOException e) {
+            logger.error("Error closing assetTypeManager", e);
+        }
     }
 }

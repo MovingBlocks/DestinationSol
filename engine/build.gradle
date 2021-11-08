@@ -17,7 +17,7 @@ buildscript {
         classpath 'dom4j:dom4j:1.6.1'
 
         // HACK: Needed for NUI and gestalt entity-component reflections
-        classpath group: 'org.terasology.nui', name: 'nui', version: '2.0.0-SNAPSHOT'
+        classpath group: 'org.terasology.nui', name: 'nui', version: '3.1.0-SNAPSHOT'
         classpath group: 'javax.servlet', name: 'javax.servlet-api', version: '3.0.1'
         classpath "org.terasology.gestalt:gestalt-entity-system:$gestaltVersion"
     }
@@ -72,7 +72,6 @@ dependencies {
     testCompile group: 'org.jboss.shrinkwrap', name: 'shrinkwrap-depchain-java7', version: '1.1.3'
     testCompile group: 'org.assertj', name: 'assertj-core', version: '3.9.0'
 }
-
 
 // Adds Resources as parameter for AnnotationProcessor (gather ResourceIndex,
 // also add resource as input for compilejava, for re-gathering ResourceIndex, when resource was changed.

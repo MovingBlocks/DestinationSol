@@ -15,6 +15,9 @@
  */
 package org.destinationsol.game.console.adapter;
 
+import org.terasology.context.annotation.API;
+
+@API
 public interface ParameterAdapter<T> {
     T parse(String raw);
 

@@ -18,10 +18,12 @@ package org.destinationsol.world.generators;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.physics.box2d.Box2D;
+import com.badlogic.gdx.physics.box2d.World;
 import org.destinationsol.assets.sound.OggSoundManager;
 import org.destinationsol.files.HullConfigManager;
 import org.destinationsol.game.AbilityCommonConfigs;
 import org.destinationsol.game.GameColors;
+import org.destinationsol.game.WorldConfig;
 import org.destinationsol.game.context.Context;
 import org.destinationsol.game.context.internal.ContextImpl;
 import org.destinationsol.game.item.ItemManager;
@@ -36,16 +38,20 @@ import org.destinationsol.testsupport.AssetsHelperInitializer;
 import org.destinationsol.world.GalaxyBuilder;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.terasology.context.Lifetime;
+import org.terasology.gestalt.di.DefaultBeanContext;
+import org.terasology.gestalt.di.ServiceRegistry;
 
 import java.util.ArrayList;
+import java.util.function.Supplier;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 public class PlanetGeneratorTest implements AssetsHelperInitializer {
-    private Context context;
-    private ModuleManager moduleManager;
+
+//    private ModuleManager moduleManager;
     private GalaxyBuilder galaxyBuilder;
     private GameColors gameColors;
     private EffectTypes effectTypes;
@@ -56,16 +62,30 @@ public class PlanetGeneratorTest implements AssetsHelperInitializer {
 
     @BeforeEach
     public void setUp() throws Exception {
-        context = new ContextImpl();
-        moduleManager = getModuleManager();
-        moduleManager.init();
-        context.put(ModuleManager.class, moduleManager);
+        ServiceRegistry registry = new ServiceRegistry();
+
+        ItemManager itemManager = setupItemManager();
+        HullConfigManager hullConfigManager = setupHullConfigManager(itemManager);
+        registry.with(ItemManager.class).use(() -> itemManager).lifetime(Lifetime.Singleton);
+        registry.with(HullConfigManager.class).use(() -> hullConfigManager).lifetime(Lifetime.Singleton);
+        registry.with(PlanetConfigManager.class).lifetime(Lifetime.Singleton);
+        registry.with(PlanetConfigManager.class).lifetime(Lifetime.Singleton);
+        registry.with(SolarSystemConfigManager.class).lifetime(Lifetime.Singleton);
+        registry.with(MazeConfigManager.class).lifetime(Lifetime.Singleton);
+        registry.with(BeltConfigManager.class).lifetime(Lifetime.Singleton);
+        registry.with(ModuleManager.class).use(this::getModuleManager).lifetime(Lifetime.Singleton);
+        registry.with(WorldConfig.class).use(WorldConfig::new).lifetime(Lifetime.Singleton);
+        registry.with(GalaxyBuilder.class).lifetime(Lifetime.Singleton);
+
+
+        DefaultBeanContext context = new DefaultBeanContext(registry);
+        context.getBean(MazeConfigManager.class).loadDefaultMazeConfigs();
+        context.getBean(PlanetConfigManager.class).loadDefaultPlanetConfigs();
+        context.getBean(ModuleManager.class).init();
 
         setupMockGL();
 
-        setupConfigManagers();
-
-        galaxyBuilder = new GalaxyBuilder(context, 1);
+        galaxyBuilder = context.getBean(GalaxyBuilder.class);
 
         ArrayList<SolarSystemGenerator> solarSystemGenerators = galaxyBuilder.initializeRandomSolarSystemGenerators();
         solarSystemGenerator = solarSystemGenerators.get(0);
@@ -80,30 +100,11 @@ public class PlanetGeneratorTest implements AssetsHelperInitializer {
         Box2D.init();
     }
 
-    private void setupConfigManagers() {
-        ItemManager itemManager = setupItemManager();
-        HullConfigManager hullConfigManager = setupHullConfigManager(itemManager);
-
-        PlanetConfigManager planetConfigManager = new PlanetConfigManager(hullConfigManager, gameColors,itemManager);
-        planetConfigManager.loadDefaultPlanetConfigs();
-        context.put(PlanetConfigManager.class, planetConfigManager);
-
-        SolarSystemConfigManager solarSystemConfigManager = new SolarSystemConfigManager(hullConfigManager, itemManager);
-        context.put(SolarSystemConfigManager.class, solarSystemConfigManager);
-
-        MazeConfigManager mazeConfigManager = new MazeConfigManager(hullConfigManager, itemManager);
-        mazeConfigManager.loadDefaultMazeConfigs();
-        context.put(MazeConfigManager.class, mazeConfigManager);
-
-        BeltConfigManager beltConfigManager = new BeltConfigManager(hullConfigManager, itemManager);
-        beltConfigManager.loadDefaultBeltConfigs();
-        context.put(BeltConfigManager.class, beltConfigManager);
-    }
 
     private ItemManager setupItemManager() {
         gameColors = new GameColors();
         effectTypes = new EffectTypes();
-        soundManager = new OggSoundManager(context);
+//        soundManager = new OggSoundManager(context);
         return new ItemManager(soundManager, effectTypes, gameColors);
     }
 

@@ -63,7 +63,7 @@ public class MazeGeneratorTest implements AssetsHelperInitializer {
 
         setupConfigManagers();
 
-        galaxyBuilder = new GalaxyBuilder(context, 1);
+//        galaxyBuilder = new GalaxyBuilder(context, 1);
 
         ArrayList<SolarSystemGenerator> solarSystemGenerators = galaxyBuilder.initializeRandomSolarSystemGenerators();
         solarSystemGenerator = solarSystemGenerators.get(0);
@@ -106,7 +106,7 @@ public class MazeGeneratorTest implements AssetsHelperInitializer {
     private ItemManager setupItemManager() {
         gameColors = new GameColors();
         effectTypes = new EffectTypes();
-        soundManager = new OggSoundManager(context);
+//        soundManager = new OggSoundManager(context);
         return new ItemManager(soundManager, effectTypes, gameColors);
     }
 

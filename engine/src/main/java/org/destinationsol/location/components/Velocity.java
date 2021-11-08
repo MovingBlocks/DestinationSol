@@ -28,6 +28,6 @@ public class Velocity implements Component<Velocity> {
 
     @Override
     public void copyFrom(Velocity other) {
-        this.velocity.set(other.velocity);
+        velocity = other.velocity.cpy();
     }
 }

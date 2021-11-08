@@ -71,7 +71,7 @@ public class MainMenuScreen extends SolUiBaseScreen {
         optionsControl.setDisplayName("Options");
         controls.add(optionsControl);
 
-        exitControl = new SolUiControl(buttonWidth, buttonHeight, UiDrawer.positions.get("bottom"), 0, calculateButtonOffsetFromBottom(0), true, gameOptions.getKeyEscape());
+        exitControl = new SolUiControl(buttonWidth, buttonHeight, UiDrawer.positions.get("bottom"), 0, calculateButtonOffsetFromBottom(0), true);
         exitControl.setDisplayName("Exit");
         controls.add(exitControl);
 

@@ -26,6 +26,11 @@ public class Angle implements Component<Angle> {
      */
     private float angle;
 
+    @Override
+    public void copyFrom(Angle other) {
+        this.angle = other.angle;
+    }
+
     public float getAngle() {
         return angle;
     }
@@ -34,8 +39,4 @@ public class Angle implements Component<Angle> {
         this.angle = SolMath.norm(angle);
     }
 
-    @Override
-    public void copyFrom(Angle other) {
-        this.angle = other.angle;
-    }
 }

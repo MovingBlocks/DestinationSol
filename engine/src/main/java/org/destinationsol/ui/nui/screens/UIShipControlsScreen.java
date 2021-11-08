@@ -17,12 +17,10 @@ package org.destinationsol.ui.nui.screens;
 
 import org.destinationsol.GameOptions;
 import org.destinationsol.SolApplication;
-import org.destinationsol.common.In;
 import org.destinationsol.game.Hero;
 import org.destinationsol.game.item.Gun;
 import org.destinationsol.game.screens.ShipUiControl;
 import org.destinationsol.ui.nui.NUIScreenLayer;
-import org.destinationsol.ui.nui.widgets.KeyActivatedButton;
 import org.destinationsol.ui.nui.widgets.UIWarnButton;
 import org.terasology.input.ButtonState;
 import org.terasology.input.Keyboard;
@@ -30,6 +28,8 @@ import org.terasology.nui.AbstractWidget;
 import org.terasology.nui.backends.libgdx.GDXInputUtil;
 import org.terasology.nui.events.NUIKeyEvent;
 import org.terasology.nui.widgets.UIButton;
+
+import javax.inject.Inject;
 
 /**
  * This screen contains the touchscreen controls used when playing the game on mobile platforms.
@@ -46,8 +46,12 @@ public class UIShipControlsScreen extends NUIScreenLayer implements ShipUiContro
     private boolean downKeyHeld;
     private boolean controlsEnabled;
 
-    @In
-    private SolApplication solApplication;
+    @Inject
+    protected SolApplication solApplication;
+    @Inject
+    public UIShipControlsScreen() {
+
+    }
 
     @Override
     public void initialise() {

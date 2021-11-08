@@ -144,9 +144,13 @@ public class SolGame {
     @Inject
     protected Optional<TutorialManager> tutorialManager;
     @Inject
-    BeanContext beanContext;
+    protected BeanContext beanContext;
     @Inject
-    GalaxyBuilder galaxyBuilder;
+    protected GalaxyBuilder galaxyBuilder;
+    @Inject
+    protected SolCam solCam;
+    @Inject
+    protected ModuleManager moduleManager;
 
     protected SolApplication solApplication;
     private Hero hero;
@@ -170,21 +174,22 @@ public class SolGame {
         FactionInfo.init();
         this.solApplication = solApplication;
         boolean isMobile = solApplication.isMobile();
+
         if (!isMobile) {
             mainGameScreen = (MainGameScreen) Assets.getAssetHelper().get(new ResourceUrn(NUI_MAIN_GAME_SCREEN_DESKTOP_URI), UIElement.class).get().getRootWidget();
         } else {
             mainGameScreen = (MainGameScreen) Assets.getAssetHelper().get(new ResourceUrn(NUI_MAIN_GAME_SCREEN_MOBILE_URI), UIElement.class).get().getRootWidget();
         }
+
         timeFactor = 1;
     }
 
-    public void createUpdateSystems(Context context) {
-        ModuleManager moduleManager = context.get(ModuleManager.class);
+    public void createUpdateSystems() {
 
         // the ordering of update aware systems is very important, switching them up can cause bugs!
         updateSystems = new TreeMap<Integer, List<UpdateAwareSystem>>();
         List<UpdateAwareSystem> defaultSystems = new ArrayList<UpdateAwareSystem>();
-        defaultSystems.addAll(Arrays.asList(planetManager, context.get(SolCam.class), chunkManager, mountDetectDrawer, objectManager, mapDrawer, soundManager, beaconHandler, drawableDebugger));
+        defaultSystems.addAll(Arrays.asList(planetManager, solCam, chunkManager, mountDetectDrawer, objectManager, mapDrawer, soundManager, beaconHandler, drawableDebugger));
         if (tutorialManager.isPresent()) {
             tutorialManager.get().init();
             defaultSystems.add(tutorialManager.get());
@@ -192,7 +197,7 @@ public class SolGame {
         updateSystems.put(0, defaultSystems);
 
         List<UpdateAwareSystem> defaultPausedSystems = new ArrayList<UpdateAwareSystem>();
-        defaultPausedSystems.addAll(Arrays.asList(mapDrawer, context.get(SolCam.class), drawableDebugger));
+        defaultPausedSystems.addAll(Arrays.asList(mapDrawer, solCam, drawableDebugger));
 
         onPausedUpdateSystems = new TreeMap<Integer, List<UpdateAwareSystem>>();
         onPausedUpdateSystems.put(0, defaultPausedSystems);
@@ -204,7 +209,7 @@ public class SolGame {
                 }
                 RegisterUpdateSystem registerAnnotation = updateSystemClass.getDeclaredAnnotation(RegisterUpdateSystem.class);
                 UpdateAwareSystem system = (UpdateAwareSystem) updateSystemClass.newInstance();
-                InjectionHelper.inject(system, context);
+                beanContext.inject(system);
                 if (!registerAnnotation.paused()) {
                     if (!updateSystems.containsKey(registerAnnotation.priority())) {
                         ArrayList<UpdateAwareSystem> systems = new ArrayList<UpdateAwareSystem>();
@@ -335,7 +340,11 @@ public class SolGame {
             context.get(EntitySystemManager.class).getEntityManager().allEntities().forEach(EntityRef::delete);
         }
         FactionInfo.clearValues();
-//        objectManager.dispose();
+        try {
+            objectManager.close();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
         solApplication.getNuiManager().clearScreens();
     }
 

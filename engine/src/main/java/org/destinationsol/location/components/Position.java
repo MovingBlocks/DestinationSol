@@ -28,6 +28,6 @@ public class Position implements Component<Position> {
 
     @Override
     public void copyFrom(Position other) {
-        this.position.set(other.position);
+        position = other.position.cpy();
     }
 }

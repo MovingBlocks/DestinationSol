@@ -15,7 +15,6 @@
  */
 package org.destinationsol.removal.systems;
 
-import org.destinationsol.common.In;
 import org.destinationsol.entitysystem.EntitySystemManager;
 import org.destinationsol.game.SolGame;
 import org.destinationsol.game.UpdateAwareSystem;
@@ -23,14 +22,20 @@ import org.destinationsol.game.attributes.RegisterUpdateSystem;
 import org.destinationsol.removal.components.SlatedForDeletion;
 import org.destinationsol.removal.events.DeletionEvent;
 
+import javax.inject.Inject;
+
 /**
  * Every tick, this sends a {@link DeletionEvent} to each entity with a {@link SlatedForDeletion} component.
  */
 @RegisterUpdateSystem
 public class DeletionUpdateSystem implements UpdateAwareSystem {
 
-    @In
-    private EntitySystemManager entitySystemManager;
+    @Inject
+    protected EntitySystemManager entitySystemManager;
+
+    @Inject
+    public DeletionUpdateSystem() {
+    }
 
     @Override
     public void update(SolGame game, float timeStep) {

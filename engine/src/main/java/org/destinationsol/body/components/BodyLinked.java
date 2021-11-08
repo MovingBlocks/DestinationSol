@@ -48,6 +48,6 @@ public class BodyLinked implements Component<BodyLinked> {
 
     @Override
     public void copyFrom(BodyLinked other) {
-        this.mass = other.mass;
+        this.mass = other.getMass();
     }
 }

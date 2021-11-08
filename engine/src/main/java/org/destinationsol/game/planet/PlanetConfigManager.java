@@ -25,6 +25,7 @@ import org.destinationsol.game.item.ItemManager;
 import org.json.JSONObject;
 import org.terasology.gestalt.assets.ResourceUrn;
 
+import javax.inject.Inject;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -44,6 +45,7 @@ public class PlanetConfigManager {
     private final List<PlanetConfig> medium;
     private final List<PlanetConfig> hard;
 
+    @Inject
     public PlanetConfigManager(HullConfigManager hullConfigManager, GameColors gameColors, ItemManager itemManager) {
         this.hullConfigManager = hullConfigManager;
         this.gameColors = gameColors;

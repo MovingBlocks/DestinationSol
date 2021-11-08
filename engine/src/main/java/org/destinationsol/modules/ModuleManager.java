@@ -36,14 +36,13 @@ import javax.inject.Inject;
 import java.io.File;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.ReflectPermission;
-import java.nio.file.Paths;
 import java.security.Policy;
 import java.util.Set;
 
 /**
  * A class used for loading and managing modules in Destination Sol.
  */
-public class ModuleManager {
+public class ModuleManager implements AutoCloseable {
     private static final Logger logger = LoggerFactory.getLogger(ModuleManager.class);
     // The API whitelist is based off Terasology's
     // https://github.com/MovingBlocks/Terasology/blob/948676050a7827dac5e04927087832ffc462da41/engine/src/main/java/org/terasology/engine/module/ExternalApiWhitelist.java
@@ -99,7 +98,34 @@ public class ModuleManager {
             "com.badlogic.gdx.graphics.g2d",
             // The hull config exposes a box2d body instance
             "com.badlogic.gdx.physics",
-            "com.badlogic.gdx.physics.box2d"
+            "com.badlogic.gdx.physics.box2d",
+            // NUI doesn't use gestalt's @API annotations anymore, so they are replicated here
+            "org.terasology.input",
+            "org.terasology.input.device",
+            "org.terasology.input.device.nulldevices",
+            "org.terasology.nui",
+            "org.terasology.nui.asset",
+            "org.terasology.nui.asset.font",
+            "org.terasology.nui.canvas",
+            "org.terasology.nui.databinding",
+            "org.terasology.nui.events",
+            "org.terasology.nui.itemRendering",
+            "org.terasology.nui.layouts",
+            "org.terasology.nui.layouts.miglayout",
+            "org.terasology.nui.layouts.relative",
+            "org.terasology.nui.properties",
+            "org.terasology.nui.reflection",
+            "org.terasology.nui.skin",
+            "org.terasology.nui.translate",
+            "org.terasology.nui.util",
+            "org.terasology.nui.widgets",
+            "org.terasology.nui.widgets.treeView",
+            "org.terasology.nui.widgets.types",
+            "org.terasology.nui.widgets.types.builtin",
+            "org.terasology.nui.widgets.types.builtin.object",
+            "org.terasology.nui.widgets.types.builtin.util",
+            "org.terasology.nui.widgets.types.math",
+            "org.terasology.reflection.metadata"
     };
     protected static final Class<?>[] CLASS_WHITELIST = new Class<?>[]{
             InvocationTargetException.class,
@@ -167,7 +193,15 @@ public class ModuleManager {
             org.terasology.context.DefaultAnnotationValue.class,
             org.terasology.gestalt.di.exceptions.DependencyResolutionException.class,
             org.terasology.context.exception.DependencyInjectionException.class,
-            javax.inject.Inject.class
+            javax.inject.Inject.class,
+            org.terasology.gestalt.entitysystem.prefab.Prefab.class,
+            org.terasology.gestalt.entitysystem.prefab.GeneratedFromRecipeComponent.class,
+            /* NUI classes */
+            org.terasology.input.device.InputDevice.class,
+            org.terasology.input.device.KeyboardDevice.class,
+            org.terasology.input.device.MouseDevice.class,
+            org.terasology.reflection.MappedContainer.class,
+            org.terasology.reflection.TypeInfo.class
     };
 
     protected static ModuleEnvironment environment;
@@ -254,5 +288,14 @@ public class ModuleManager {
         for (Module module : registry) {
             logger.info("Module Discovered: {}", module);
         }
+    }
+
+    public void dispose() {
+        environment.close();
+    }
+
+    @Override
+    public void close() throws Exception {
+        this.dispose();
     }
 }
