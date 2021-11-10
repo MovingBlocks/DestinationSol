@@ -34,10 +34,14 @@ import org.terasology.gestalt.assets.ResourceUrn;
 import org.terasology.input.ButtonState;
 import org.terasology.input.Keyboard;
 import org.terasology.nui.AbstractWidget;
+import org.terasology.nui.BaseInteractionListener;
+import org.terasology.nui.Canvas;
+import org.terasology.nui.InteractionListener;
 import org.terasology.nui.UIWidget;
 import org.terasology.nui.asset.UIElement;
 import org.terasology.nui.backends.libgdx.GDXInputUtil;
 import org.terasology.nui.events.NUIKeyEvent;
+import org.terasology.nui.events.NUIMouseClickEvent;
 
 import java.util.List;
 
@@ -57,6 +61,18 @@ public class MainGameScreen extends NUIScreenLayer {
 
     @In
     private SolApplication solApplication;
+
+    private final InteractionListener interactionListener = new BaseInteractionListener() {
+        @Override
+        public boolean onMouseClick(NUIMouseClickEvent event) {
+            NUIScreenLayer topScreen = nuiManager.getTopScreen();
+            if (topScreen != MainGameScreen.this && !(topScreen instanceof UIShipControlsScreen)) {
+                nuiManager.popScreen();
+                return true;
+            }
+            return false;
+        }
+    };
 
     @Override
     public void initialise() {
@@ -156,6 +172,12 @@ public class MainGameScreen extends NUIScreenLayer {
         if (consoleScreen.isConsoleJustClosed()) {
             game.setPaused(false);
         }
+    }
+
+    @Override
+    public void onDraw(Canvas canvas) {
+        canvas.addInteractionRegion(interactionListener);
+        super.onDraw(canvas);
     }
 
     @Override

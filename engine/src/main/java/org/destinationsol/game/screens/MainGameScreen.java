@@ -48,6 +48,7 @@ import org.destinationsol.ui.SolUiBaseScreen;
 import org.destinationsol.ui.SolUiControl;
 import org.destinationsol.ui.SolUiScreen;
 import org.destinationsol.ui.UiDrawer;
+import org.destinationsol.ui.nui.NUIScreenLayer;
 import org.destinationsol.ui.nui.screens.ConsoleScreen;
 import org.destinationsol.ui.nui.screens.UIShipControlsScreen;
 import org.terasology.gestalt.assets.ResourceUrn;
@@ -225,7 +226,9 @@ public class MainGameScreen extends SolUiBaseScreen {
 
         zoneNameAnnouncer.update(game, context);
 
-        boolean controlsEnabled = inputMan.getTopScreen() == this;
+        NUIScreenLayer topScreen = solApplication.getNuiManager().getTopScreen();
+        boolean controlsEnabled = inputMan.getTopScreen() == this &&
+                (topScreen instanceof org.destinationsol.ui.nui.screens.MainGameScreen || topScreen instanceof UIShipControlsScreen);
         shipControl.update(solApplication, controlsEnabled);
 
         SolCam.DIRECT_CAM_CONTROL = freeCamControl.isOn();

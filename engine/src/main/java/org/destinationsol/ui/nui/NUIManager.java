@@ -436,7 +436,7 @@ public class NUIManager {
         // TODO: Find better way of doing this.
         Vector2i mousePosition = mouse.getPosition();
         for (Rectanglei interactionRegion : canvas.getInteractionRegions()) {
-            if (RectUtility.contains(interactionRegion, mousePosition)) {
+            if (!interactionRegion.equals(canvas.getRegion()) && interactionRegion.containsPoint(mousePosition)) {
                 return true;
             }
         }

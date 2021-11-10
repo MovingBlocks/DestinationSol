@@ -5,7 +5,7 @@
         "type": "RelativeLayout",
         "contents": [
             {
-                "type": "UIBox",
+                "type": "UIBackingBox",
                 "family": "menuBox",
                 "content": {
                     "type": "RelativeLayout",
