@@ -304,13 +304,12 @@ public class InventoryScreen extends NUIScreenLayer {
         ItemContainer items = inventoryOperations.getItems(solApplication.getGame());
         if (!items.containsGroup(itemGroup)) {
             selectedIndex = 0;
-            return;
-        }
-
-        for (int groupNo = 0; groupNo < items.groupCount(); groupNo++) {
-            if (items.getGroup(groupNo) == itemGroup) {
-                page = groupNo / Const.ITEM_GROUPS_PER_PAGE;
-                selectedIndex = groupNo % Const.ITEM_GROUPS_PER_PAGE;
+        } else {
+            for (int groupNo = 0; groupNo < items.groupCount(); groupNo++) {
+                if (items.getGroup(groupNo) == itemGroup) {
+                    page = groupNo / Const.ITEM_GROUPS_PER_PAGE;
+                    selectedIndex = groupNo % Const.ITEM_GROUPS_PER_PAGE;
+                }
             }
         }
 
