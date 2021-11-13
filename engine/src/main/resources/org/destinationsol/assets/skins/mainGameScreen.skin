@@ -13,6 +13,22 @@
     "controlsUIButton": {
       "font": "engine:main#0.95"
     },
+    "unrestrictedMenuBox": {
+      "elements": {
+        "UIBox": {
+          "background": "engine:background"
+        }
+      }
+    },
+    "menuUIButton": {
+      "elements": {
+        "UIButton": {
+          "max-width": 640,
+          "max-height": 128
+        }
+      },
+      "font": "engine:main#1"
+    },
     "menuBox": {
       "max-width": 800,
       "max-height": 600,

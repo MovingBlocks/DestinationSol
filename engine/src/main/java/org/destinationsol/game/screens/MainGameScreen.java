@@ -48,6 +48,7 @@ import org.destinationsol.ui.SolUiBaseScreen;
 import org.destinationsol.ui.SolUiControl;
 import org.destinationsol.ui.SolUiScreen;
 import org.destinationsol.ui.UiDrawer;
+import org.destinationsol.ui.nui.NUIManager;
 import org.destinationsol.ui.nui.NUIScreenLayer;
 import org.destinationsol.ui.nui.screens.ConsoleScreen;
 import org.destinationsol.ui.nui.screens.UIShipControlsScreen;
@@ -217,6 +218,7 @@ public class MainGameScreen extends SolUiBaseScreen {
         }
         SolGame game = solApplication.getGame();
         SolInputManager inputMan = solApplication.getInputManager();
+        NUIManager nuiManager = solApplication.getNuiManager();
         GameScreens screens = game.getScreens();
         Hero hero = game.getHero();
 
@@ -226,7 +228,7 @@ public class MainGameScreen extends SolUiBaseScreen {
 
         zoneNameAnnouncer.update(game, context);
 
-        NUIScreenLayer topScreen = solApplication.getNuiManager().getTopScreen();
+        NUIScreenLayer topScreen = nuiManager.getTopScreen();
         boolean controlsEnabled = inputMan.getTopScreen() == this &&
                 (topScreen instanceof org.destinationsol.ui.nui.screens.MainGameScreen || topScreen instanceof UIShipControlsScreen);
         shipControl.update(solApplication, controlsEnabled);
@@ -235,7 +237,7 @@ public class MainGameScreen extends SolUiBaseScreen {
 
         if (solApplication.getNuiManager().hasScreenOfType(ConsoleScreen.class)) {
             controls.forEach(x -> x.setEnabled(false));
-        } else if (!inputMan.isScreenOn(screens.menuScreen)) {
+        } else if (!nuiManager.hasScreen(screens.menuScreen)) {
             game.setPaused(false);
             controls.forEach(x -> x.setEnabled(true));
         }
