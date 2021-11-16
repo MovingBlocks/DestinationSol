@@ -53,7 +53,6 @@ import org.terasology.nui.events.NUIKeyEvent;
 import org.terasology.nui.events.NUIMouseButtonEvent;
 import org.terasology.nui.events.NUIMouseWheelEvent;
 import org.terasology.nui.skin.UISkin;
-import org.terasology.nui.util.RectUtility;
 import org.terasology.nui.widgets.UIButton;
 import org.terasology.nui.widgets.UIText;
 
@@ -226,9 +225,13 @@ public class NUIManager {
         for (MouseAction action : mouse.getInputQueue()) {
             if (action.getInput().getType() == InputType.MOUSE_BUTTON) {
                 if (action.getState().isDown()) {
-                    canvas.processMouseClick((MouseInput) action.getInput(), action.getMousePosition(), action.getPointer());
+                    if (canvas.processMouseClick((MouseInput) action.getInput(), action.getMousePosition(), action.getPointer())) {
+                        continue;
+                    }
                 } else {
-                    canvas.processMouseRelease((MouseInput) action.getInput(), action.getMousePosition(), action.getPointer());
+                    if (canvas.processMouseRelease((MouseInput) action.getInput(), action.getMousePosition(), action.getPointer())) {
+                        continue;
+                    }
                 }
 
                 NUIMouseButtonEvent event = new NUIMouseButtonEvent((MouseInput) action.getInput(), action.getState(), action.getMousePosition());
@@ -433,10 +436,9 @@ public class NUIManager {
      * @return true, if the mouse is currently over an interactive UI element, otherwise false
      */
     public boolean isMouseOnUi() {
-        // TODO: Find better way of doing this.
         Vector2i mousePosition = mouse.getPosition();
         for (Rectanglei interactionRegion : canvas.getInteractionRegions()) {
-            if (!interactionRegion.equals(canvas.getRegion()) && interactionRegion.containsPoint(mousePosition)) {
+            if (interactionRegion.containsPoint(mousePosition)) {
                 return true;
             }
         }

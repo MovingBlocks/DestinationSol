@@ -177,6 +177,14 @@ public class InventoryScreen extends NUIScreenLayer {
     }
 
     /**
+     * Returns the current {@link InventoryOperationsScreen operations screen} being applied to this screen.
+     * @return the current operations screen
+     */
+    public InventoryOperationsScreen getOperations() {
+        return inventoryOperations;
+    }
+
+    /**
      * Assigns the specified {@link InventoryOperationsScreen operations screen} to this screen.
      * @param operations the operations that can be performed
      */
