@@ -24,7 +24,6 @@ import org.destinationsol.game.Hero;
 import org.destinationsol.game.SolGame;
 import org.destinationsol.game.SolObject;
 import org.destinationsol.game.screens.GameScreens;
-import org.destinationsol.game.screens.TalkScreen;
 import org.destinationsol.game.ship.SolShip;
 import org.destinationsol.ui.SolInputManager;
 import org.destinationsol.ui.nui.NUIScreenLayer;
@@ -279,9 +278,11 @@ public class MainGameScreen extends NUIScreenLayer {
         GameScreens gameScreens = solApplication.getGame().getScreens();
 
         solInputManager.setScreen(solApplication, gameScreens.mainGameScreen);
-        if (!solInputManager.isScreenOn(gameScreens.talkScreen)) {
+        if (!nuiManager.hasScreen(gameScreens.talkScreen)) {
             gameScreens.talkScreen.setTarget(talkTarget);
-            solInputManager.addScreen(solApplication, gameScreens.talkScreen);
+            nuiManager.pushScreen(gameScreens.talkScreen);
+        } else {
+            nuiManager.removeScreen(gameScreens.talkScreen);
         }
     }
 

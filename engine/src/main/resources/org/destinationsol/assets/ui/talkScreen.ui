@@ -1,0 +1,63 @@
+{
+    "type": "TalkScreen",
+    "skin": "engine:mainGameScreen",
+    "contents": {
+        "type": "RelativeLayout",
+        "contents": [
+            {
+                "type": "UIBackingBox",
+                "family": "talkScreenMenuBox",
+                "layoutInfo": {
+                    "position-top": {
+                        "target": "MIDDLE",
+                        "offset": 32
+                    },
+                    "position-bottom": {
+                        "offset": 32
+                    },
+                    "position-left": {
+                        "offset": 64
+                    },
+                    "position-right": {
+                        "offset": 64
+                    },
+                    "position-horizontal-center": {}
+                },
+                "content": {
+                    "type": "ColumnLayout",
+                    "id": "menuButtons",
+                    "family": "talkScreenButton",
+                    "columns": 1,
+                    "verticalSpacing": 10,
+                    "contents": [
+                        {
+                            "type": "KeyActivatedButton",
+                            "id": "sellButton",
+                            "text": "Sell"
+                        },
+                        {
+                            "type": "UIWarnButton",
+                            "id": "buyButton",
+                            "text": "Buy"
+                        },
+                        {
+                            "type": "KeyActivatedButton",
+                            "id": "changeShipButton",
+                            "text": "Change Ship"
+                        },
+                        {
+                            "type": "KeyActivatedButton",
+                            "id": "hireButton",
+                            "text": "Hire"
+                        },
+                        {
+                            "type": "KeyActivatedButton",
+                            "id": "closeButton",
+                            "text": "Close"
+                        }
+                    ]
+                }
+            }
+        ]
+    }
+}

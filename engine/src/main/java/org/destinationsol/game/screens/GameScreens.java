@@ -18,8 +18,10 @@ package org.destinationsol.game.screens;
 import org.destinationsol.SolApplication;
 import org.destinationsol.game.context.Context;
 import org.destinationsol.ui.SolLayouts;
+import org.destinationsol.ui.nui.NUIManager;
 import org.destinationsol.ui.nui.screens.InventoryScreen;
 import org.destinationsol.ui.nui.screens.MenuScreen;
+import org.destinationsol.ui.nui.screens.TalkScreen;
 
 public class GameScreens {
     public final MainGameScreen mainGameScreen;
@@ -33,11 +35,13 @@ public class GameScreens {
     public GameScreens(SolApplication cmp, Context context) {
         SolLayouts layouts = cmp.getLayouts();
         RightPaneLayout rightPaneLayout = layouts.rightPaneLayout;
+        NUIManager nuiManager = cmp.getNuiManager();
+
         mainGameScreen = new MainGameScreen(rightPaneLayout, context);
         mapScreen = new MapScreen(rightPaneLayout, cmp.isMobile(), cmp.getOptions());
-        menuScreen = (MenuScreen) cmp.getNuiManager().createScreen("engine:menuScreen");
-        inventoryScreen = (org.destinationsol.ui.nui.screens.InventoryScreen) cmp.getNuiManager().createScreen("engine:inventoryScreen");
-        talkScreen = new TalkScreen(layouts.menuLayout, cmp.getOptions());
+        menuScreen = (MenuScreen) nuiManager.createScreen("engine:menuScreen");
+        inventoryScreen = (InventoryScreen) nuiManager.createScreen("engine:inventoryScreen");
+        talkScreen = (TalkScreen) nuiManager.createScreen("engine:talkScreen");
         waypointCreationScreen = new WaypointCreationScreen(layouts.menuLayout, cmp.getOptions(), mapScreen);
         consoleScreen = new ConsoleScreen(context);
     }
