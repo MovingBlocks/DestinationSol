@@ -52,41 +52,41 @@ import org.terasology.gestalt.di.ServiceRegistry;
 
 public class SolGameServiceRegistry extends ServiceRegistry {
     public SolGameServiceRegistry(boolean isTutorial) {
-            this.with(SolGame.class).lifetime(Lifetime.Singleton);
-            if (isTutorial) {
-                    this.with(TutorialManager.class).lifetime(Lifetime.Singleton);
-            }
+        this.with(SolGame.class).lifetime(Lifetime.Singleton);
+        if (isTutorial) {
+            this.with(TutorialManager.class).lifetime(Lifetime.Singleton);
+        }
 
-            this.with(EntitySystemManager.class);
-            this.with(SerialisationManager.class).lifetime(Lifetime.Singleton);
+        this.with(EntitySystemManager.class);
+        this.with(SerialisationManager.class).lifetime(Lifetime.Singleton);
 
-            this.with(DrawableManager.class).lifetime(Lifetime.Singleton);
-            this.with(PlanetManager.class).lifetime(Lifetime.Singleton);
-            this.with(ChunkManager.class).lifetime(Lifetime.Singleton);
-            this.with(PartMan.class).lifetime(Lifetime.Singleton);
-            this.with(AsteroidBuilder.class).lifetime(Lifetime.Singleton);
-            this.with(LootBuilder.class).lifetime(Lifetime.Singleton);
-            this.with(ShipBuilder.class).lifetime(Lifetime.Singleton);
-            this.with(GridDrawer.class).lifetime(Lifetime.Singleton);
-            this.with(FarBackgroundManagerOld.class).lifetime(Lifetime.Singleton);
-            this.with(FactionManager.class).lifetime(Lifetime.Singleton);
-            this.with(MapDrawer.class).lifetime(Lifetime.Singleton);
-            this.with(RubbleBuilder.class).lifetime(Lifetime.Singleton);
-            this.with(ItemManager.class).lifetime(Lifetime.Singleton);
-            this.with(EffectTypes.class).lifetime(Lifetime.Singleton);
-            this.with(StarPort.Builder.class).lifetime(Lifetime.Singleton);
-            this.with(DrawableDebugger.class).lifetime(Lifetime.Singleton);
-            this.with(SpecialSounds.class).lifetime(Lifetime.Singleton);
-            this.with(SpecialEffects.class).lifetime(Lifetime.Singleton);
-            this.with(GameColors.class).lifetime(Lifetime.Singleton);
-            this.with(BeaconHandler.class).lifetime(Lifetime.Singleton);
-            this.with(MountDetectDrawer.class).lifetime(Lifetime.Singleton);
-            this.with(GalaxyFiller.class).lifetime(Lifetime.Singleton);
-            this.with(SolContactListener.class).lifetime(Lifetime.Singleton);
-            this.with(GameScreens.class).lifetime(Lifetime.Singleton);
-            this.with(SolCam.class).lifetime(Lifetime.Singleton);
-            this.with(ObjectManager.class).lifetime(Lifetime.Singleton);
-            this.with(GameDrawer.class).lifetime(Lifetime.Singleton);
-            this.with(AbilityCommonConfigs.class).lifetime(Lifetime.Singleton);
+        this.with(DrawableManager.class).lifetime(Lifetime.Singleton);
+        this.with(PlanetManager.class).lifetime(Lifetime.Singleton);
+        this.with(ChunkManager.class).lifetime(Lifetime.Singleton);
+        this.with(PartMan.class).lifetime(Lifetime.Singleton);
+        this.with(AsteroidBuilder.class).lifetime(Lifetime.Singleton);
+        this.with(LootBuilder.class).lifetime(Lifetime.Singleton);
+        this.with(ShipBuilder.class).lifetime(Lifetime.Singleton);
+        this.with(GridDrawer.class).lifetime(Lifetime.Singleton);
+        this.with(FarBackgroundManagerOld.class).lifetime(Lifetime.Singleton);
+        this.with(FactionManager.class).lifetime(Lifetime.Singleton);
+        this.with(MapDrawer.class).lifetime(Lifetime.Singleton);
+        this.with(RubbleBuilder.class).lifetime(Lifetime.Singleton);
+        this.with(ItemManager.class).lifetime(Lifetime.Singleton);
+        this.with(EffectTypes.class).lifetime(Lifetime.Singleton);
+        this.with(StarPort.Builder.class).lifetime(Lifetime.Singleton);
+        this.with(DrawableDebugger.class).lifetime(Lifetime.Singleton);
+        this.with(SpecialSounds.class).lifetime(Lifetime.Singleton);
+        this.with(SpecialEffects.class).lifetime(Lifetime.Singleton);
+        this.with(GameColors.class).lifetime(Lifetime.Singleton);
+        this.with(BeaconHandler.class).lifetime(Lifetime.Singleton);
+        this.with(MountDetectDrawer.class).lifetime(Lifetime.Singleton);
+        this.with(GalaxyFiller.class).lifetime(Lifetime.Singleton);
+        this.with(SolContactListener.class).lifetime(Lifetime.Singleton);
+        this.with(GameScreens.class).lifetime(Lifetime.Singleton);
+        this.with(SolCam.class).lifetime(Lifetime.Singleton);
+        this.with(ObjectManager.class).lifetime(Lifetime.Singleton);
+        this.with(GameDrawer.class).lifetime(Lifetime.Singleton);
+        this.with(AbilityCommonConfigs.class).lifetime(Lifetime.Singleton);
     }
 }

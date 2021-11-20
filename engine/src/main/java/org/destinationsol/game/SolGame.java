@@ -170,7 +170,7 @@ public class SolGame {
     }
 
     @Inject
-    public SolGame(SolApplication solApplication) {
+    public SolGame(SolApplication solApplication, PlanetConfigManager planetConfigManager, MazeConfigManager mazeConfigManager, BeltConfigManager beltConfigManager) {
         FactionInfo.init();
         this.solApplication = solApplication;
         boolean isMobile = solApplication.isMobile();
@@ -180,6 +180,12 @@ public class SolGame {
         } else {
             mainGameScreen = (MainGameScreen) Assets.getAssetHelper().get(new ResourceUrn(NUI_MAIN_GAME_SCREEN_MOBILE_URI), UIElement.class).get().getRootWidget();
         }
+        // TODO: resolve hack to set solApplication
+        mainGameScreen.setSolApplication(solApplication);
+
+        planetConfigManager.loadDefaultPlanetConfigs();
+        mazeConfigManager.loadDefaultMazeConfigs();
+        beltConfigManager.loadDefaultBeltConfigs();
 
         timeFactor = 1;
     }

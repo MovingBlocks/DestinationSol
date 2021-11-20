@@ -61,6 +61,10 @@ public class MainGameScreen extends NUIScreenLayer {
 
     }
 
+    public void setSolApplication(SolApplication application) {
+        this.solApplication = application;
+    }
+
     @Override
     public void initialise() {
         consoleScreen = (ConsoleScreen) Assets.getAssetHelper().get(new ResourceUrn("engine:console"), UIElement.class).get().getRootWidget();

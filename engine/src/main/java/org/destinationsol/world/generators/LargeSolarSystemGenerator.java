@@ -18,9 +18,11 @@ package org.destinationsol.world.generators;
 import org.destinationsol.common.SolRandom;
 import org.destinationsol.game.planet.SolarSystem;
 
+import javax.inject.Inject;
+
 public class LargeSolarSystemGenerator extends SolarSystemGenerator {
 
-
+    @Inject
     public LargeSolarSystemGenerator() {
     }
 
