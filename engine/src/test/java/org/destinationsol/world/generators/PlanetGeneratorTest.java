@@ -38,6 +38,7 @@ import org.destinationsol.testsupport.AssetsHelperInitializer;
 import org.destinationsol.world.GalaxyBuilder;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.mockito.Mockito;
 import org.terasology.context.Lifetime;
 import org.terasology.gestalt.di.DefaultBeanContext;
 import org.terasology.gestalt.di.ServiceRegistry;
@@ -64,8 +65,11 @@ public class PlanetGeneratorTest implements AssetsHelperInitializer {
     public void setUp() throws Exception {
         ServiceRegistry registry = new ServiceRegistry();
 
+        setupMockGL();
+
         ItemManager itemManager = setupItemManager();
         HullConfigManager hullConfigManager = setupHullConfigManager(itemManager);
+        registry.with(GameColors.class).use(() -> gameColors).lifetime(Lifetime.Singleton);
         registry.with(ItemManager.class).use(() -> itemManager).lifetime(Lifetime.Singleton);
         registry.with(HullConfigManager.class).use(() -> hullConfigManager).lifetime(Lifetime.Singleton);
         registry.with(PlanetConfigManager.class).lifetime(Lifetime.Singleton);
@@ -81,9 +85,8 @@ public class PlanetGeneratorTest implements AssetsHelperInitializer {
         DefaultBeanContext context = new DefaultBeanContext(registry);
         context.getBean(MazeConfigManager.class).loadDefaultMazeConfigs();
         context.getBean(PlanetConfigManager.class).loadDefaultPlanetConfigs();
+        context.getBean(BeltConfigManager.class).loadDefaultBeltConfigs();
         context.getBean(ModuleManager.class).init();
-
-        setupMockGL();
 
         galaxyBuilder = context.getBean(GalaxyBuilder.class);
 
@@ -104,7 +107,7 @@ public class PlanetGeneratorTest implements AssetsHelperInitializer {
     private ItemManager setupItemManager() {
         gameColors = new GameColors();
         effectTypes = new EffectTypes();
-//        soundManager = new OggSoundManager(context);
+        soundManager = Mockito.mock(OggSoundManager.class);
         return new ItemManager(soundManager, effectTypes, gameColors);
     }
 

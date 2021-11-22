@@ -35,6 +35,7 @@ import org.destinationsol.testingUtilities.MockGL;
 import org.destinationsol.testsupport.AssetsHelperInitializer;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.mockito.Mockito;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
@@ -53,8 +54,7 @@ public class GalaxyBuilderTest implements AssetsHelperInitializer {
     @BeforeEach
     public void setUp() throws Exception {
         context = new ContextImpl();
-//        moduleManager = new ModuleManager();
-        moduleManager.init();
+        moduleManager = getModuleManager();
         context.put(ModuleManager.class, moduleManager);
 
         setupMockGL();
@@ -92,7 +92,7 @@ public class GalaxyBuilderTest implements AssetsHelperInitializer {
     private ItemManager setupItemManager() {
         gameColors = new GameColors();
         effectTypes = new EffectTypes();
-//        soundManager = new OggSoundManager(context);
+        soundManager = Mockito.mock(OggSoundManager.class);
         return new ItemManager(soundManager, effectTypes, gameColors);
     }
 

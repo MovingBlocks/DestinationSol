@@ -17,6 +17,7 @@ package org.destinationsol.game;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
 import org.destinationsol.assets.Assets;
@@ -24,9 +25,14 @@ import org.destinationsol.game.drawables.Drawable;
 import org.destinationsol.game.drawables.DrawableLevel;
 import org.destinationsol.game.drawables.RectSprite;
 import org.destinationsol.testingUtilities.BodyUtilities;
-import org.destinationsol.testingUtilities.InitializationUtilities;
+import org.destinationsol.testingUtilities.MockGL;
+import org.destinationsol.testsupport.AssetsHelperInitializer;
+import org.destinationsol.testsupport.Box2DInitializer;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
+import org.mockito.Mockito;
 
 import java.util.ArrayList;
 
@@ -36,20 +42,25 @@ import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.junit.jupiter.api.Assertions.fail;
 
-public class RubbleTest {
+public class RubbleTest implements AssetsHelperInitializer, Box2DInitializer {
 
     private static ArrayList<Drawable> drawables;
 
-    private static final SolObject RUBBLE_CONSTANT;
+    private static SolObject RUBBLE_CONSTANT;
+    private SolGame game;
 
-    static {
-        InitializationUtilities.init();
+    @BeforeEach
+    public void setUp() {
+        GL20 mockGL = new MockGL();
+        Gdx.gl = mockGL;
+        Gdx.gl20 = mockGL;
+        game = Mockito.mock(SolGame.class);
         RUBBLE_CONSTANT = createRubble();
     }
 
     private static SolObject createRubble() {
         drawables = new ArrayList<>(1);
-        Gdx.app.postRunnable(() -> drawables.add(new RectSprite(Assets.listTexturesMatching("engine:rubble_.*").get(0), 1, 1, 1, new Vector2(), DrawableLevel.PART_FG_0, 0, 0, Color.WHITE, false)));
+        drawables.add(new RectSprite(Assets.listTexturesMatching("engine:rubble_.*").get(0), 1, 1, 1, new Vector2(), DrawableLevel.PART_FG_0, 0, 0, Color.WHITE, false));
         return new Rubble(BodyUtilities.createDummyBody(), drawables);
     }
 
@@ -90,7 +101,7 @@ public class RubbleTest {
     @Test
     public void handleContact() {
         // Rubbles are not big enough to cause damage or get damage or anything, so this just shouldn't crash
-        RUBBLE_CONSTANT.handleContact(new Rubble(BodyUtilities.createDummyBody(), drawables), 10f, InitializationUtilities.game, new Vector2(0f, 0f));
+        RUBBLE_CONSTANT.handleContact(new Rubble(BodyUtilities.createDummyBody(), drawables), 10f, game, new Vector2(0f, 0f));
     }
 
     @Test
@@ -107,26 +118,26 @@ public class RubbleTest {
     @Test
     public void update() {
         // Just should not throw exception - all the moving and stuff is handled by body, this has just to exist
-        RUBBLE_CONSTANT.update(InitializationUtilities.game);
+        RUBBLE_CONSTANT.update(game);
     }
 
     @Test
     public void shouldBeRemoved() {
         // This should persist for as long as seen/loaded
-        assertFalse(RUBBLE_CONSTANT.shouldBeRemoved(InitializationUtilities.game));
+        assertFalse(RUBBLE_CONSTANT.shouldBeRemoved(game));
     }
 
     @Test
     public void onRemove() {
         // TODO onRemove() should free its resources. How to test that?
         // I guess this just should not crash
-        new Rubble(BodyUtilities.createDummyBody(), drawables).onRemove(InitializationUtilities.game);
+        new Rubble(BodyUtilities.createDummyBody(), drawables).onRemove(game);
     }
 
     @Test
     public void receiveDmg() {
         // Rubbles have no health, and thus receiveDamage() just should not crash
-        RUBBLE_CONSTANT.receiveDmg(100, InitializationUtilities.game, null, DmgType.BULLET);
+        RUBBLE_CONSTANT.receiveDmg(100, game, null, DmgType.BULLET);
     }
 
     @Test
@@ -140,5 +151,10 @@ public class RubbleTest {
     public void receiveForce() {
         // TODO I don't quite know what does this even do, so better leave this for sb else
         fail("Implement this test!");
+    }
+
+    @AfterEach
+    public void finish() {
+        RUBBLE_CONSTANT.onRemove(game);
     }
 }
