@@ -63,7 +63,6 @@ public class ShipMixedControl implements ShipUiControl {
 
     @Override
     public void update(SolApplication solApplication, boolean enabled) {
-//        Context context = solApplication.getContext();
         GameOptions gameOptions = solApplication.getOptions();
         blur();
         SolGame game = solApplication.getGame();

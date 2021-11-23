@@ -15,11 +15,6 @@ buildscript {
 
     dependencies {
         classpath 'dom4j:dom4j:1.6.1'
-
-        // HACK: Needed for NUI and gestalt entity-component reflections
-        classpath group: 'org.terasology.nui', name: 'nui', version: '3.1.0-SNAPSHOT'
-        classpath group: 'javax.servlet', name: 'javax.servlet-api', version: '3.0.1'
-        classpath "org.terasology.gestalt:gestalt-entity-system:$gestaltVersion"
     }
 }
 
@@ -44,10 +39,10 @@ dependencies {
 
     implementation "net.jcip:jcip-annotations:1.0"
 
-    api group: 'org.terasology.nui', name: 'nui', version: '4.0.0-SNAPSHOT'
-    api group: 'org.terasology.nui', name: 'nui-libgdx', version: '4.0.0-SNAPSHOT'
-    api group: 'org.terasology.nui', name: 'nui-gestalt', version: '4.0.0-SNAPSHOT'
-    api group: 'org.terasology.nui', name: 'nui-reflect', version: '4.0.0-SNAPSHOT'
+    api "org.terasology.nui:nui:$nuiVersion"
+    api "org.terasology.nui:nui-libgdx:$nuiVersion"
+    api "org.terasology.nui:nui-gestalt:$nuiVersion"
+    api "org.terasology.nui:nui-reflect:$nuiVersion"
 
     implementation group: 'com.google.protobuf', name: 'protobuf-java', version: '3.4.0'
 

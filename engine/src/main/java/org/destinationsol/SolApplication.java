@@ -113,7 +113,6 @@ public class SolApplication implements ApplicationListener {
     private SolGame solGame;
     private ParameterAdapterManager parameterAdapterManager;
     private NUIManager nuiManager;
-//    private Context context;
 
     // TODO: Make this non-static.
     public static DisplayDimensions displayDimensions;
@@ -131,7 +130,7 @@ public class SolApplication implements ApplicationListener {
 
     @Inject
     protected SolApplication() {
-        throw  new RuntimeException("Unimplemented");
+        throw new RuntimeException("Can't be instantiated from the Context");
     }
 
     public SolApplication(float targetFPS, ServiceRegistry platformServices) {

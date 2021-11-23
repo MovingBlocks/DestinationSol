@@ -57,10 +57,6 @@ public class TutorialManager implements UpdateAwareSystem {
         stepIndex = 0;
     }
 
-    public void init() {
-
-    }
-
     public void start() {
         boolean mobile = game.get().getSolApplication().isMobile();
         MainGameScreen main = screens.mainGameScreen;

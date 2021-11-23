@@ -44,7 +44,6 @@ public class ShipMouseControl implements ShipUiControl {
 
     @Override
     public void update(SolApplication solApplication, boolean enabled) {
-//        Context context = solApplication.getContext();
         SolGame game = solApplication.getGame();
         Hero hero = game.getHero();
         myCursor = null;

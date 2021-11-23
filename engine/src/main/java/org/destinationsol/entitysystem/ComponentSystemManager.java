@@ -15,14 +15,7 @@
  */
 package org.destinationsol.entitysystem;
 
-import com.google.common.collect.Lists;
-import org.destinationsol.game.context.Context;
-import org.destinationsol.modules.ModuleManager;
-import org.destinationsol.util.InjectionHelper;
-import org.terasology.gestalt.module.ModuleEnvironment;
-
 import javax.inject.Inject;
-import java.util.ArrayList;
 import java.util.List;
 
 public class ComponentSystemManager {

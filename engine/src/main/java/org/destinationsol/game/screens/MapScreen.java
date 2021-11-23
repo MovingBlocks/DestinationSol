@@ -78,7 +78,6 @@ public class MapScreen extends SolUiBaseScreen {
 
     @Override
     public void updateCustom(SolApplication solApplication, SolInputManager.InputPointer[] inputPointers, boolean clickedOutside) {
-//        Context context = solApplication.getContext();
         SolGame game = solApplication.getGame();
         GameOptions gameOptions = solApplication.getOptions();
         boolean justClosed = closeControl.isJustOff();
@@ -124,7 +123,6 @@ public class MapScreen extends SolUiBaseScreen {
 
         if (isPickingWaypointSpot) {
             if (inputPointers[0].isJustUnPressed() && !addWaypointControl.isJustOff()) {
-//                SolCam camera = context.get(SolCam.class);
                 float camAngle = game.getCam().getAngle();
                 Vector2 mapCamPos = game.getCam().getPosition().add(mapDrawer.getMapDrawPositionAdditive());
                 Vector2 clickPosition = new Vector2(inputPointers[0].x, inputPointers[0].y);

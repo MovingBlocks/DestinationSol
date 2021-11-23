@@ -193,13 +193,9 @@ public class SolGame {
     public void createUpdateSystems() {
 
         // the ordering of update aware systems is very important, switching them up can cause bugs!
-        updateSystems = new TreeMap<Integer, List<UpdateAwareSystem>>();
-        List<UpdateAwareSystem> defaultSystems = new ArrayList<UpdateAwareSystem>();
-        defaultSystems.addAll(Arrays.asList(planetManager, solCam, chunkManager, mountDetectDrawer, objectManager, mapDrawer, soundManager, beaconHandler, drawableDebugger));
-        if (tutorialManager.isPresent()) {
-            tutorialManager.get().init();
-            defaultSystems.add(tutorialManager.get());
-        }
+        updateSystems = new TreeMap<>();
+        List<UpdateAwareSystem> defaultSystems = new ArrayList<>(Arrays.asList(planetManager, solCam, chunkManager, mountDetectDrawer, objectManager, mapDrawer, soundManager, beaconHandler, drawableDebugger));
+        tutorialManager.ifPresent(defaultSystems::add);
         updateSystems.put(0, defaultSystems);
 
         List<UpdateAwareSystem> defaultPausedSystems = new ArrayList<UpdateAwareSystem>();

@@ -23,6 +23,7 @@ import org.terasology.gestalt.di.exceptions.BeanResolutionException;
 
 import javax.inject.Inject;
 
+@Deprecated
 public class ContextWrapper implements Context {
 
     private static final Logger logger = LoggerFactory.getLogger(ContextWrapper.class);
@@ -38,18 +39,18 @@ public class ContextWrapper implements Context {
         try {
             return (T) context.getBean(type);
         } catch (BeanResolutionException e){
-            logger.warn("Bean [{}] no found",type);
+            logger.warn("Bean [{}] not found",type);
             return null;
         }
     }
 
     @Override
     public <T, U extends T> void put(Class<T> type, U object) {
-        throw new RuntimeException("Unsupported");
+        throw new RuntimeException("Cannot insert values into wrapped context: please use the BeanContext directly");
     }
 
     @Override
     public <T, U extends T> void remove(Class<T> type, U object) {
-        throw new RuntimeException("Unsupported");
+        throw new RuntimeException("Cannot insert values into wrapped context: please use the BeanContext directly");
     }
 }
