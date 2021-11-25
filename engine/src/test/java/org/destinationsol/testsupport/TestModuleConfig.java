@@ -1,7 +1,9 @@
 package org.destinationsol.testsupport;
 
 import org.destinationsol.modules.FacadeModuleConfig;
+import org.terasology.gestalt.module.Module;
 import org.terasology.gestalt.module.ModuleEnvironment;
+import org.terasology.gestalt.module.ModuleFactory;
 import org.terasology.gestalt.module.sandbox.JavaModuleClassLoader;
 
 import java.io.File;
@@ -27,6 +29,11 @@ public class TestModuleConfig implements FacadeModuleConfig {
     @Override
     public ModuleEnvironment.ClassLoaderSupplier getClassLoaderSupplier() {
         return JavaModuleClassLoader::create;
+    }
+
+    @Override
+    public Module createEngineModule() {
+        return new ModuleFactory().createPackageModule("org.destinationsol");
     }
 
     @Override

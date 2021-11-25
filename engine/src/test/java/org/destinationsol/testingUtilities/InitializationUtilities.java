@@ -58,6 +58,9 @@ public final class InitializationUtilities {
                 .with(FacadeModuleConfig.class)
                 .lifetime(Lifetime.Singleton)
                 .use(TestModuleConfig::new);
+        serviceRegistry
+                .with(ModulePathScanner.class)
+                .lifetime(Lifetime.Singleton);
 
         final HeadlessApplication application = new HeadlessApplication(new SolApplication(100, serviceRegistry), new HeadlessApplicationConfiguration());
         game = ((SolApplication) application.getApplicationListener()).getGame();
