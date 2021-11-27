@@ -16,6 +16,7 @@
 package org.destinationsol.modules;
 
 import com.google.common.collect.Sets;
+import org.destinationsol.entitysystem.ComponentSystem;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.terasology.gestalt.di.BeanContext;
@@ -37,6 +38,7 @@ import java.io.File;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.ReflectPermission;
 import java.security.Policy;
+import java.util.List;
 import java.util.Set;
 
 /**
@@ -284,6 +286,11 @@ public class ModuleManager implements AutoCloseable {
 
     public ModuleEnvironment getEnvironment() {
         return environment;
+    }
+
+    public void preBegin() {
+        List<? extends ComponentSystem> componentSystems = getEnvironment().getBeans(ComponentSystem.class);
+        componentSystems.forEach(ComponentSystem::preBegin);
     }
 
     //TODO: REMOVE THIS

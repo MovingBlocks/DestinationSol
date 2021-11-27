@@ -5,7 +5,6 @@ import com.badlogic.gdx.Gdx;
 import org.destinationsol.assets.AssetHelper;
 import org.destinationsol.assets.music.OggMusicManager;
 import org.destinationsol.assets.sound.OggSoundManager;
-import org.destinationsol.entitysystem.ComponentSystemManager;
 import org.destinationsol.game.DebugOptions;
 import org.destinationsol.game.screens.RightPaneLayout;
 import org.destinationsol.menu.MenuLayout;
@@ -30,7 +29,6 @@ public class CoreService extends ServiceRegistry {
             return new GameOptions(isMobile, null);
         });
         this.with(ModuleManager.class).lifetime(Lifetime.Singleton);
-        this.with(ComponentSystemManager.class).lifetime(Lifetime.Singleton);
 
         this.with(OggMusicManager.class).lifetime(Lifetime.Singleton);
         this.with(OggSoundManager.class).lifetime(Lifetime.Singleton);

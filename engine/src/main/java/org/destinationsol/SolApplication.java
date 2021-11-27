@@ -31,7 +31,6 @@ import org.destinationsol.body.components.BodyLinked;
 import org.destinationsol.common.SolColor;
 import org.destinationsol.common.SolMath;
 import org.destinationsol.common.SolRandom;
-import org.destinationsol.entitysystem.ComponentSystemManager;
 import org.destinationsol.entitysystem.EntitySystemManager;
 import org.destinationsol.entitysystem.SerialisationManager;
 import org.destinationsol.game.DebugOptions;
@@ -332,9 +331,9 @@ public class SolApplication implements ApplicationListener {
     public void play(boolean tut, String shipName, boolean isNewGame, WorldConfig worldConfig) {
 
         gameContext = appContext.getNestedContainer(new GameConfigurationServiceRegistry(worldConfig), new SolGameServiceRegistry(tut), new ContextWrapperService());
-        appContext.getBean(ComponentSystemManager.class).preBegin();
+        ModuleManager moduleManager = appContext.getBean(ModuleManager.class);
         solGame = gameContext.getBean(SolGame.class);
-        gameContext.getBean(ComponentSystemManager.class).preBegin();
+        moduleManager.preBegin();
         entitySystemManager = gameContext.getBean(EntitySystemManager.class);
 
         solGame.createUpdateSystems();
