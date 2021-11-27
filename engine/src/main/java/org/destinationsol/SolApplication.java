@@ -22,6 +22,7 @@ import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Box2D;
+import com.google.common.collect.Sets;
 import org.destinationsol.assets.AssetHelper;
 import org.destinationsol.assets.Assets;
 import org.destinationsol.assets.music.OggMusicManager;
@@ -31,6 +32,7 @@ import org.destinationsol.body.components.BodyLinked;
 import org.destinationsol.common.SolColor;
 import org.destinationsol.common.SolMath;
 import org.destinationsol.common.SolRandom;
+import org.destinationsol.entitysystem.ComponentSystem;
 import org.destinationsol.entitysystem.EntitySystemManager;
 import org.destinationsol.entitysystem.SerialisationManager;
 import org.destinationsol.game.DebugOptions;
@@ -78,6 +80,7 @@ import javax.inject.Inject;
 import java.io.PrintWriter;
 import java.io.StringWriter;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 @API
@@ -333,7 +336,13 @@ public class SolApplication implements ApplicationListener {
         gameContext = appContext.getNestedContainer(new GameConfigurationServiceRegistry(worldConfig), new SolGameServiceRegistry(tut), new ContextWrapperService());
         ModuleManager moduleManager = appContext.getBean(ModuleManager.class);
         solGame = gameContext.getBean(SolGame.class);
-        moduleManager.preBegin();
+
+        //TODO: rework how system will trigger preBegin
+        Set<ComponentSystem> systems = Sets.newHashSet();
+        systems.addAll(gameContext.getBeans(ComponentSystem.class));
+        systems.addAll(moduleManager.getEnvironment().getBeans(ComponentSystem.class));
+        systems.forEach(ComponentSystem::preBegin);
+
         entitySystemManager = gameContext.getBean(EntitySystemManager.class);
 
         solGame.createUpdateSystems();

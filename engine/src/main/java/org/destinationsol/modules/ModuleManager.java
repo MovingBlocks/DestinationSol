@@ -288,11 +288,6 @@ public class ModuleManager implements AutoCloseable {
         return environment;
     }
 
-    public void preBegin() {
-        List<? extends ComponentSystem> componentSystems = getEnvironment().getBeans(ComponentSystem.class);
-        componentSystems.forEach(ComponentSystem::preBegin);
-    }
-
     //TODO: REMOVE THIS
     public static ModuleEnvironment getEnvironmentStatic() {
         return environment;
