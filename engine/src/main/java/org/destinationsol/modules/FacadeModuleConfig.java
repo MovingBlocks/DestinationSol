@@ -1,5 +1,6 @@
 package org.destinationsol.modules;
 
+import org.terasology.gestalt.module.Module;
 import org.terasology.gestalt.module.ModuleEnvironment;
 
 import java.io.File;
@@ -27,6 +28,12 @@ public interface FacadeModuleConfig {
      * @return the class loader supplier method.
      */
     ModuleEnvironment.ClassLoaderSupplier getClassLoaderSupplier();
+
+    /**
+     * Constructs the engine module from the base classpath and returns it.
+     * @return the constructed engine module.
+     */
+    Module createEngineModule();
 
     /**
      * Returns a list of classes that should be accessible from within the sandbox.

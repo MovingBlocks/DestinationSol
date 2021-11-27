@@ -33,7 +33,10 @@ import org.slf4j.LoggerFactory;
 import org.terasology.context.Lifetime;
 import org.terasology.crashreporter.CrashReporter;
 import org.terasology.gestalt.di.ServiceRegistry;
+import org.terasology.gestalt.module.Module;
 import org.terasology.gestalt.module.ModuleEnvironment;
+import org.terasology.gestalt.module.ModuleFactory;
+import org.terasology.gestalt.module.ModulePathScanner;
 import org.terasology.gestalt.module.sandbox.JavaModuleClassLoader;
 
 import java.awt.Graphics2D;
@@ -220,6 +223,7 @@ public final class SolDesktop {
     private static class DesktopServices extends ServiceRegistry {
         public DesktopServices() {
             this.with(FacadeModuleConfig.class).lifetime(Lifetime.Singleton).use(DesktopModuleConfig::new);
+            this.with(ModulePathScanner.class).lifetime(Lifetime.Singleton);
         }
     }
 
@@ -237,6 +241,11 @@ public final class SolDesktop {
         @Override
         public ModuleEnvironment.ClassLoaderSupplier getClassLoaderSupplier() {
             return JavaModuleClassLoader::create;
+        }
+
+        @Override
+        public Module createEngineModule() {
+            return new ModuleFactory().createPackageModule("org.destinationsol");
         }
 
         @Override

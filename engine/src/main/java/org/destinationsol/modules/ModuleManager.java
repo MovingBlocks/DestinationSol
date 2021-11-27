@@ -191,6 +191,13 @@ public class ModuleManager implements AutoCloseable {
             org.terasology.context.DefaultAnnotationMetadata.class,
             org.terasology.context.AnnotationValue.class,
             org.terasology.context.DefaultAnnotationValue.class,
+            org.terasology.context.annotation.Index.class,
+            org.terasology.context.annotation.IndexInherited.class,
+            org.terasology.context.annotation.RegisterSystem.class,
+            org.terasology.context.annotation.UsedByGeneratedCode.class,
+            org.terasology.context.annotation.Service.class,
+            org.terasology.context.annotation.Scoped.class,
+            org.terasology.context.annotation.Transient.class,
             org.terasology.gestalt.di.exceptions.DependencyResolutionException.class,
             org.terasology.context.exception.DependencyInjectionException.class,
             javax.inject.Inject.class,
@@ -224,7 +231,7 @@ public class ModuleManager implements AutoCloseable {
 
     public void init() throws Exception {
         try {
-            engineModule = moduleFactory.createPackageModule("org.destinationsol");
+            engineModule = moduleConfig.createEngineModule();
             Module nuiModule = moduleFactory.createPackageModule(new ModuleMetadata(new Name("nui"), new Version("2.0.0")),"org.terasology.nui");
 
             // scan for all standard modules
