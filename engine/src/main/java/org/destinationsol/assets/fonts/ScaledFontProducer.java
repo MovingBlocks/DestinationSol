@@ -70,16 +70,15 @@ public class ScaledFontProducer implements AssetDataProducer<FontData> {
             return Optional.empty();
         }
 
-        // The 1/scale value is due to the rendering scaling performed in UIFont.java, which uses the existing scale.
-        // Without this, large values would be displayed as smaller and smaller values as larger.
-        float scale = 1.0f / Float.parseFloat(urn.getFragmentName().toString());
+        float scale = Float.parseFloat(urn.getFragmentName().toString());
         Optional<Font> fontAsset = assetManager.getAsset(urn.getRootUrn(), Font.class);
         if (!fontAsset.isPresent()) {
             return Optional.empty();
         }
 
         BitmapFont bitmapFont = fontAsset.get().getBitmapFont();
-        BitmapFont.BitmapFontData fontData = new BitmapFont.BitmapFontData(bitmapFont.getData().getFontFile(), bitmapFont.getData().flipped);
+        // Invert the flip value because the original font may be already flipped.
+        BitmapFont.BitmapFontData fontData = new BitmapFont.BitmapFontData(bitmapFont.getData().getFontFile(), !bitmapFont.getData().flipped);
         fontData.setScale(scale);
 
         return Optional.of(new FontData(new BitmapFont(fontData, bitmapFont.getRegions(), bitmapFont.isFlipped())));

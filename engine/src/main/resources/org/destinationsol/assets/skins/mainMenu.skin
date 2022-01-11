@@ -1,0 +1,78 @@
+{
+    "inherit": "engine:default",
+    "elements": {
+        "NUIScreenLayer": {
+            "background-scale-mode": "scale_fill",
+            "background": "engine:mainMenuBg"
+        }
+    },
+    "families": {
+        "logo": {
+            "elements": {
+                "UIImage": {
+                    "min-width": 200,
+                    "min-height": 109,
+                    "max-width": 400,
+                    "max-height": 218
+                }
+            }
+        },
+        "menuButtons": {
+            "elements": {
+                "UIButton": {
+                    "min-width": 400,
+                    "min-height": 50,
+                    "max-width": 800,
+                    "max-height": 400
+                }
+            },
+            "font": "engine:main#1"
+        },
+        "inputMapHeader": {
+            "elements": {
+                "UILabel": {
+                    "min-height": 25,
+                    "font": "engine:main#0.6",
+                    "text-align-vertical": "middle",
+                    "text-align-horizontal": "center"
+                },
+                "UIButton": {
+                    "min-width": 10,
+                    "min-height": 25
+                }
+            },
+            "font": "engine:main#0.7"
+        },
+        "inputMapRow": {
+            "font": "engine:main#0.675",
+            "text-align-vertical": "middle",
+            "text-align-horizontal": "center",
+            "min-height": 30
+        },
+        "inputMapOptions": {
+            "elements": {
+                "UIButton": {
+                    "min-width": 200,
+                    "min-height": 25
+                }
+            },
+            "font": "engine:main#0.7"
+        },
+        "creditsButton": {
+            "font": "engine:main#0.60"
+        },
+        "menuHeaderText": {
+            "font": "engine:main#1.0"
+        },
+        "creditsText": {
+            "font": "engine:main#0.8",
+            "text-align-vertical": "middle",
+            "text-align-horizontal": "center"
+        },
+        "keyPressMessage": {
+            "font": "engine:main#2",
+            "text-align-vertical": "middle",
+            "text-align-horizontal": "center"
+        }
+    }
+}

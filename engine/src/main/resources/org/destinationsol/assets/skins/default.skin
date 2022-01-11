@@ -1,6 +1,6 @@
 {
   "text-shadowed": true,
-  "font": "engine:main",
+  "font": "engine:main#0.42",
   "elements": {
     "UILabel": {
       "text-align-vertical": "top",
@@ -286,6 +286,7 @@
       }
     },
     "UIButton": {
+      "font": "engine:main#1",
       "text-align-horizontal": "center",
       "text-align-vertical": "middle",
       "background": "button",

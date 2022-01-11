@@ -248,8 +248,9 @@ public class InputMapControllerScreen extends InputMapOperations {
             Gdx.input.setInputProcessor(new InputAdapter() {
                 @Override
                 public boolean keyUp(int keycode) {
-                    // Don't capture the escape key
+                    // Don't capture the escape key - cancel the key input instead
                     if (keycode == Input.Keys.ESCAPE) {
+                        setEnterNewKey(false);
                         return true;
                     }
 
@@ -357,6 +358,11 @@ public class InputMapControllerScreen extends InputMapOperations {
     @Override
     public List<InputConfigItem> getItems(GameOptions gameOptions) {
         return itemsList;
+    }
+
+    @Override
+    public int getSelectedIndex() {
+        return selectedIndex;
     }
 
     @Override

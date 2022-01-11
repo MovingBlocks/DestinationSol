@@ -1,0 +1,20 @@
+{
+    "type": "LoadingScreen",
+    "skin": "engine:mainMenu",
+    "contents": {
+        "type": "RelativeLayout",
+        "contents": [
+            {
+                "type": "UILabel",
+                "family": "menuHeaderText",
+                "text": "Loading...",
+                "layoutInfo": {
+                    "position-horizontal-center": {},
+                    "position-vertical-center": {},
+                    "use-content-width": true,
+                    "use-content-height": true
+                }
+            }
+        ]
+    }
+}

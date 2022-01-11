@@ -165,13 +165,14 @@ public class SolApplication implements ApplicationListener {
 
         musicManager.playMusic(OggMusicManager.MENU_MUSIC_SET, options);
 
-        menuBackgroundManager = new MenuBackgroundManager(displayDimensions);
-        menuScreens = new MenuScreens(layouts, isMobile(), options);
-
-        inputManager.setScreen(this, menuScreens.main);
         parameterAdapterManager = ParameterAdapterManager.createCore(this);
 
-        nuiManager = new NUIManager(this, context, commonDrawer, options);
+        nuiManager = new NUIManager(this, context, commonDrawer, options, uiDrawer);
+
+        menuBackgroundManager = new MenuBackgroundManager(displayDimensions);
+        menuScreens = new MenuScreens(layouts, isMobile(), options, nuiManager);
+
+        nuiManager.pushScreen(menuScreens.main);
     }
 
     @Override
@@ -359,6 +360,7 @@ public class SolApplication implements ApplicationListener {
         }
 
         factionDisplay = new FactionDisplay(context.get(SolCam.class));
+        nuiManager.removeScreen(menuScreens.loading);
         inputManager.setScreen(this, solGame.getScreens().mainGameScreen);
     }
 
@@ -401,7 +403,9 @@ public class SolApplication implements ApplicationListener {
     public void finishGame() {
         solGame.onGameEnd(context);
         solGame = null;
-        inputManager.setScreen(this, menuScreens.main);
+        // TODO: remove the following line when all screens have been ported to use NUI
+        inputManager.setScreen(this, null);
+        nuiManager.pushScreen(menuScreens.main);
     }
 
     public boolean isMobile() {

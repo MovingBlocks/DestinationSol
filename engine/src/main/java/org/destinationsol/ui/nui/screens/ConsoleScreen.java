@@ -55,50 +55,46 @@ public class ConsoleScreen extends NUIScreenLayer {
 
     @Override
     public void initialise() {
-        screenClosed = false;
+        console = ConsoleImpl.instance;
 
-        if (!welcomePrinted) {
-            console = ConsoleImpl.instance;
+        final ScrollableArea scrollArea = find("scrollArea", ScrollableArea.class);
+        scrollArea.moveToBottom();
 
-            final ScrollableArea scrollArea = find("scrollArea", ScrollableArea.class);
+        commandLine = find("commandLine", UICommandEntry.class);
+        commandLine.setTabCompletionEngine(new CyclingTabCompletionEngine(console));
+        commandLine.bindCommandHistory(new ReadOnlyBinding<List<String>>() {
+            @Override
+            public List<String> get() {
+                return console.getPreviousCommands();
+            }
+        });
+        commandLine.subscribe(widget -> {
+            String text = commandLine.getText();
+            if (!text.isEmpty()) {
+                console.execute(text);
+            }
             scrollArea.moveToBottom();
+        });
 
-            commandLine = find("commandLine", UICommandEntry.class);
-            commandLine.setTabCompletionEngine(new CyclingTabCompletionEngine(console));
-            commandLine.bindCommandHistory(new ReadOnlyBinding<List<String>>() {
-                @Override
-                public List<String> get() {
-                    return console.getPreviousCommands();
+        final UIText history = find("messageHistory", UIText.class);
+        history.bindText(new ReadOnlyBinding<String>() {
+            @Override
+            public String get() {
+                StringBuilder messageList = new StringBuilder();
+                for (Message message : console.getMessages()) {
+                    messageList.append(FontColor.getColored(message.getMessage(), new org.terasology.nui.Color(message.getType().getColor().toIntBits())));
+                    messageList.append(Console.NEW_LINE);
                 }
-            });
-            commandLine.subscribe(widget -> {
-                String text = commandLine.getText();
-                if (!text.isEmpty()) {
-                    console.execute(text);
-                }
-                scrollArea.moveToBottom();
-            });
+                return messageList.toString();
+            }
+        });
 
-            final UIText history = find("messageHistory", UIText.class);
-            history.bindText(new ReadOnlyBinding<String>() {
-                @Override
-                public String get() {
-                    StringBuilder messageList = new StringBuilder();
-                    for (Message message : console.getMessages()) {
-                        messageList.append(FontColor.getColored(message.getMessage(), new org.terasology.nui.Color(message.getType().getColor().toIntBits())));
-                        messageList.append(Console.NEW_LINE);
-                    }
-                    return messageList.toString();
-                }
-            });
-
-            onOpened();
-        }
-
-        focusManager.setFocus(commandLine);
+        welcomePrinted = false;
     }
 
-    public void onOpened() {
+    @Override
+    public void onAdded() {
+        screenClosed = false;
         if (!welcomePrinted) {
             console.addMessage("Welcome to the world of Destination Sol! Your journey begins!" + Console.NEW_LINE +
                     "Type 'help' to see a list with available commands or 'help <commandName>' for command details." + Console.NEW_LINE +
@@ -110,6 +106,11 @@ public class ConsoleScreen extends NUIScreenLayer {
                     "gM + [tab] => 'godMode' (camel casing abbreviated commands)" + Console.NEW_LINE);
             welcomePrinted = true;
         }
+
+        final ScrollableArea scrollArea = find("scrollArea", ScrollableArea.class);
+        scrollArea.moveToBottom();
+
+        focusManager.setFocus(commandLine);
     }
 
     @Override

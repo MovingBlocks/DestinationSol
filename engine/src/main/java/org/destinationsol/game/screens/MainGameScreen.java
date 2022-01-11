@@ -107,9 +107,7 @@ public class MainGameScreen extends SolUiBaseScreen {
         switch (gameOptions.controlType) {
             case KEYBOARD:
                 UIShipControlsScreen shipControlsScreen =
-                        (UIShipControlsScreen) Assets.getAssetHelper().get(
-                                new ResourceUrn("engine:uiShipControlsScreen"), UIElement.class).get().getRootWidget();
-                solApplication.getNuiManager().pushScreen(shipControlsScreen);
+                        (UIShipControlsScreen) solApplication.getNuiManager().createScreen("engine:uiShipControlsScreen");
                 shipControl = shipControlsScreen;
                 break;
             case MOUSE:
@@ -160,6 +158,17 @@ public class MainGameScreen extends SolUiBaseScreen {
         myG2AmmoExcessTp = new TextPlace(SolColor.WHITE);
         myChargesExcessTp = new TextPlace(SolColor.WHITE);
         myMoneyExcessTp = new TextPlace(SolColor.WHITE);
+    }
+
+    @Override
+    public void onAdd(SolApplication solApplication) {
+        super.onAdd(solApplication);
+        if (solApplication.getOptions().controlType == GameOptions.ControlType.KEYBOARD) {
+            UIShipControlsScreen uiControls = (UIShipControlsScreen) shipControl;
+            if (!solApplication.getNuiManager().hasScreen(uiControls)) {
+                solApplication.getNuiManager().pushScreen(uiControls);
+            }
+        }
     }
 
     public static Rectangle btn(float x, float y, boolean halfHeight) {

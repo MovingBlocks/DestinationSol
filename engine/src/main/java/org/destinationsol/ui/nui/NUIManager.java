@@ -23,6 +23,7 @@ import org.destinationsol.SolApplication;
 import org.destinationsol.assets.Assets;
 import org.destinationsol.assets.sound.OggSound;
 import org.destinationsol.game.context.Context;
+import org.destinationsol.ui.UiDrawer;
 import org.destinationsol.util.InjectionHelper;
 import org.terasology.joml.geom.Rectanglei;
 import org.joml.Vector2i;
@@ -34,10 +35,13 @@ import org.terasology.input.device.RawKeyboardAction;
 import org.terasology.input.device.KeyboardDevice;
 import org.terasology.input.device.MouseAction;
 import org.terasology.input.device.MouseDevice;
+import org.terasology.nui.Canvas;
 import org.terasology.nui.FocusManager;
 import org.terasology.nui.FocusManagerImpl;
 import org.terasology.nui.TabbingManager;
 import org.terasology.nui.UITextureRegion;
+import org.terasology.nui.UIWidget;
+import org.terasology.nui.asset.UIElement;
 import org.terasology.nui.backends.libgdx.LibGDXCanvasRenderer;
 import org.terasology.nui.backends.libgdx.LibGDXKeyboardDevice;
 import org.terasology.nui.backends.libgdx.LibGDXMouseDevice;
@@ -53,6 +57,7 @@ import org.terasology.nui.util.RectUtility;
 import org.terasology.nui.widgets.UIButton;
 import org.terasology.nui.widgets.UIText;
 
+import java.io.Closeable;
 import java.util.Deque;
 import java.util.Iterator;
 import java.util.LinkedList;
@@ -108,6 +113,11 @@ public class NUIManager {
      */
     private Deque<NUIScreenLayer> uiScreens = new LinkedList<>();
 
+    /**
+     * An {@link UiDrawer} instance that can be used to interact with legacy UI screens that require it.
+     */
+    private final UiDrawer uiDrawer;
+
     private static final String WHITE_TEXTURE_URN = "engine:uiWhiteTex";
     private static final String DEFAULT_SKIN_URN = "engine:default";
     private static final String BUTTON_CLICK_URN = "engine:uiHover";
@@ -125,9 +135,10 @@ public class NUIManager {
      * @param commonDrawer used to directly access the game's LibGDX {@link com.badlogic.gdx.graphics.g2d.SpriteBatch}
      * @param options used to initialise the UI scale with its previously-saved value
      */
-    public NUIManager(SolApplication solApplication, Context context, CommonDrawer commonDrawer, GameOptions options) {
+    public NUIManager(SolApplication solApplication, Context context, CommonDrawer commonDrawer, GameOptions options, UiDrawer uiDrawer) {
         NUIInputProcessor.CONSUME_INPUT = false;
         this.context = context;
+        this.uiDrawer = uiDrawer;
 
         // TODO: Re-enable tabbing when it works
         TabbingManager.tabForwardInput = Keyboard.Key.NONE;
@@ -186,7 +197,10 @@ public class NUIManager {
                 focusManager.getFocus().onKeyEvent(event);
             }
 
-            for (NUIScreenLayer uiScreen : uiScreens) {
+            // Create a copy of the list, as screens may be removed in response to key events.
+            // This does not happen for most key events, however it may occur with KeyActivatedButton instances,
+            // which already have special handling in the NUIScreenLayer class.
+            for (NUIScreenLayer uiScreen : new LinkedList<>(uiScreens)) {
                 if (uiScreen.onKeyEvent(event) || uiScreen.isBlockingInput() || event.isConsumed()) {
                     break;
                 }
@@ -245,7 +259,8 @@ public class NUIManager {
             }
         }
 
-        for (NUIScreenLayer uiScreen : uiScreens) {
+        // Create a copy of the list, as screens may be removed during update.
+        for (NUIScreenLayer uiScreen : new LinkedList<>(uiScreens)) {
             uiScreen.update(Gdx.graphics.getDeltaTime());
         }
     }
@@ -281,17 +296,56 @@ public class NUIManager {
     }
 
     /**
+     * Loads a UI screen from the specified asset and returns it.
+     * If the screen has not been previously loaded, then it is initialised.
+     *
+     * If the screen cannot be loaded, then the method may throw a RuntimeException.
+     * If the UI element loaded is not a UI screen itself, then the method may throw an IllegalArgumentException.
+     * @param uri the screen to load
+     * @return the loaded screen
+     */
+    public NUIScreenLayer createScreen(String uri) {
+        boolean alreadyLoaded = Assets.isLoaded(uri, UIElement.class);
+        UIWidget rootWidget = Assets.getUIElement(uri).getRootWidget();
+        if (rootWidget instanceof NUIScreenLayer) {
+            NUIScreenLayer screen = (NUIScreenLayer) rootWidget;
+            if (!alreadyLoaded) {
+                // Populate all @In annotated fields in the screen class with values from the context.
+                InjectionHelper.inject(screen, context);
+                screen.setFocusManager(focusManager);
+                screen.setNuiManager(this);
+                screen.initialise();
+            }
+            return screen;
+        } else {
+            throw new IllegalArgumentException("Asset " + uri + " is not a UI screen!");
+        }
+    }
+
+    /**
      * Pushes a screen onto the UI stack.
      * @param layer the screen to add
      */
     public void pushScreen(NUIScreenLayer layer) {
         uiScreens.push(layer);
+        layer.onAdded();
+    }
 
-        // Populate all @In annotated fields in the layer class with values from the context.
-        InjectionHelper.inject(layer, context);
-        layer.setFocusManager(focusManager);
-        layer.setNuiManager(this);
-        layer.initialise();
+    /**
+     * Replaces the entire UI stack with the specified screen.
+     *
+     * This is generally not desirable behaviour, however, it can be useful for flows
+     * where only one screen is shown at a time, such as in the main menu.
+     * @param layer the screen to add
+     */
+    public void setScreen(NUIScreenLayer layer) {
+        Iterator<NUIScreenLayer> screenIterator = uiScreens.descendingIterator();
+        while (screenIterator.hasNext()) {
+            screenIterator.next().onRemoved();
+            screenIterator.remove();
+        }
+
+        pushScreen(layer);
     }
 
     /**
@@ -406,6 +460,44 @@ public class NUIManager {
         float actualScale = scale * baseUIScale;
         canvas.setUiScale(actualScale);
         canvasRenderer.setUiScale(1.0f / actualScale);
+    }
+
+    /**
+     * Returns a wrapper that allows safe usage of {@link UiDrawer} code with widget draw calls.
+     * @return a {@link UiDrawer} wrapper for accessing legacy UI screens
+     */
+    public LegacyUiDrawerWrapper getLegacyUiDrawer() {
+        return new LegacyUiDrawerWrapper(uiDrawer, canvasRenderer);
+    }
+
+    /**
+     * This class acts as a wrapper to safely allow {@link UiDrawer} code to be called in {@link org.terasology.nui.UIWidget#onDraw(Canvas)} methods.
+     * The wrapper must be closed after use and no NUI canvas methods can be used before closing the wrapper.
+     * Example usage:
+     * <code>
+     * try (NUIManager.LegacyUiDrawerWrapper wrapper = nuiManager.getLegacyUiDrawer()) {
+     *     legacyUiScreen.draw(wrapper.getUiDrawer());
+     * }
+     * </code>
+     */
+    public static class LegacyUiDrawerWrapper implements Closeable {
+        private final UiDrawer uiDrawer;
+        private final CanvasRenderer canvasRenderer;
+
+        public LegacyUiDrawerWrapper(UiDrawer uiDrawer, CanvasRenderer canvasRenderer) {
+            this.uiDrawer = uiDrawer;
+            this.canvasRenderer = canvasRenderer;
+            canvasRenderer.postRender();
+        }
+
+        public UiDrawer getUiDrawer() {
+            return uiDrawer;
+        }
+
+        @Override
+        public void close() {
+            canvasRenderer.preRender();
+        }
     }
 
     private class SolCanvas extends CanvasImpl {

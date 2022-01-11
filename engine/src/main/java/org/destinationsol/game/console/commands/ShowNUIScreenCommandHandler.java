@@ -35,7 +35,7 @@ public class ShowNUIScreenCommandHandler {
     @Command(shortDescription = "Displays a NUI screen")
     public String showNUIScreen(@Game SolGame game, @CommandParam(value = "screen", suggester = NUIScreenSuggester.class) String screen) {
         NUIManager nuiManager = game.getSolApplication().getNuiManager();
-        nuiManager.pushScreen((NUIScreenLayer) Assets.getAssetHelper().get(new ResourceUrn(screen), UIElement.class).get().getRootWidget());
+        nuiManager.pushScreen(nuiManager.createScreen(screen));
         return "Screen displayed.";
     }
 }

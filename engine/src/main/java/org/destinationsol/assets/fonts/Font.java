@@ -38,4 +38,8 @@ public class Font extends Asset<FontData> {
     public BitmapFont getBitmapFont() {
         return fontData.getBitmapFont();
     }
+
+    public FontData getFontData() {
+        return fontData;
+    }
 }

@@ -26,7 +26,7 @@ public abstract class InputMapOperations extends SolUiBaseScreen {
      *
      * @return String The header title
      */
-    abstract String getHeader();
+    public abstract String getHeader();
 
     /**
      * Get the key mappings to display on the input mapping screen.
@@ -34,47 +34,54 @@ public abstract class InputMapOperations extends SolUiBaseScreen {
      * @param gameOptions The options object that contains the key mapping
      * @return List&lt;InputConfigItem&gt List of input config items
      */
-    abstract List<InputConfigItem> getItems(GameOptions gameOptions);
+    public abstract List<InputConfigItem> getItems(GameOptions gameOptions);
 
     /**
      * Get the text to display in the detail are
      *
      * @return String The text to display
      */
-    abstract String getDisplayDetail();
+    public abstract String getDisplayDetail();
 
     /**
      * Determines if the user is entering a new input key
      *
      * @return boolean True if user is entering a new key
      */
-    abstract boolean isEnterNewKey();
+    public abstract boolean isEnterNewKey();
 
     /**
      * Enter a new input key
      *
      * @param newKey The value to set
      */
-    abstract void setEnterNewKey(boolean newKey);
+    public abstract void setEnterNewKey(boolean newKey);
 
     /**
      * States which item in the list is currently selected
      *
      * @param index The index
      */
-    abstract void setSelectedIndex(int index);
+    public abstract void setSelectedIndex(int index);
+
+    /**
+     * Returns which item in the list is currently selected
+     *
+     * @return The index
+     */
+    public abstract int getSelectedIndex();
 
     /**
      * Save the new configuration settings
      *
      * @param gameOptions The options object that contains the key mapping
      */
-    abstract void save(GameOptions gameOptions);
+    public abstract void save(GameOptions gameOptions);
 
     /**
      * Reset the input mappings back to the defaults
      *
      * @param gameOptions The options object that contains the key mapping
      */
-    abstract void resetToDefaults(GameOptions gameOptions);
+    public abstract void resetToDefaults(GameOptions gameOptions);
 }
