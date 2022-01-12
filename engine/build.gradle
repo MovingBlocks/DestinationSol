@@ -27,20 +27,19 @@ buildscript {
         classpath 'dom4j:dom4j:1.6.1'
 
         // HACK: Needed for NUI and gestalt entity-component reflections
-        classpath group: 'org.terasology.nui', name: 'nui', version: '3.1.0-SNAPSHOT'
+        classpath group: 'org.terasology.nui', name: 'nui', version: nuiVersion
         classpath group: 'javax.servlet', name: 'javax.servlet-api', version: '3.0.1'
         classpath group: 'org.terasology.gestalt', name: 'gestalt-entity-system', version: '7.2.0-SNAPSHOT'
     }
 }
 
 dependencies {
-
     api group: 'org.slf4j', name: 'slf4j-api', version: '1.7.25'
     api group: 'com.google.code.gson', name: 'gson', version: '2.6.2'
 
     api "com.badlogicgames.gdx:gdx:$gdxVersion"
     api "com.badlogicgames.gdx:gdx-box2d:$gdxVersion"
-    api "com.badlogicgames.gdx:gdx-controllers:$gdxVersion"
+    api "com.badlogicgames.gdx-controllers:gdx-controllers-core:$gdxControllersVersion"
 
     api(group: 'org.terasology.gestalt', name: 'gestalt-asset-core', version: '7.2.0-SNAPSHOT')
     api(group: 'org.terasology.gestalt', name: 'gestalt-entity-system', version: '7.2.0-SNAPSHOT')
@@ -62,8 +61,7 @@ dependencies {
     testImplementation "com.badlogicgames.gdx:gdx-backend-headless:$gdxVersion"
     testImplementation "com.badlogicgames.gdx:gdx-platform:$gdxVersion:natives-desktop"
     testImplementation "com.badlogicgames.gdx:gdx-box2d-platform:$gdxVersion:natives-desktop"
-    testImplementation "com.badlogicgames.gdx:gdx-controllers-desktop:$gdxVersion"
-    testImplementation "com.badlogicgames.gdx:gdx-controllers-platform:$gdxVersion:natives-desktop"
+    testImplementation "com.badlogicgames.gdx-controllers:gdx-controllers-desktop:$gdxControllersVersion"
 
     // Test lib dependencies
     testCompile("org.junit.jupiter:junit-jupiter-api:5.5.2")
