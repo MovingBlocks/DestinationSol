@@ -22,7 +22,7 @@ allprojects {
     apply plugin: 'eclipse'
     apply plugin: 'idea'
 
-    version = '2.0.1'
+    version = '2.1.0'
     ext {
         appName = 'DestinationSol'
         gdxVersion = '1.9.14'
@@ -30,7 +30,7 @@ allprojects {
         // See https://github.com/libgdx/gdx-controllers/wiki/Compatibility for compatible versions.
         gdxControllersVersion = '2.1.0'
         roboVMVersion = '2.3.3'
-        nuiVersion = '3.1.0-SNAPSHOT'
+        nuiVersion = '3.1.0'
     }
 }
 
