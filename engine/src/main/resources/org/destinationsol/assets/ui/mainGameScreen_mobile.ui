@@ -6,12 +6,56 @@
     "contents": [
       {
         "type": "ColumnLayout",
+        "id": "statsBars",
+        "family": "statsBars",
+        "layoutInfo": {
+          "position-left": {
+            "offset": 16
+          },
+          "position-right": {
+            "target": "CENTER"
+          },
+          "position-top": {
+            "offset": 16
+          }
+        },
+        "column-widths": [0.6],
+        "verticalSpacing": 8,
+        "fillVerticalSpace": false,
+        "contents": [
+        ]
+      },
+      {
+        "type": "FlowLayout",
+        "id": "warnDrawers",
+        "family": "warnDrawers",
+        "horizontalSpacing": 8,
+        "verticalSpacing": 8,
+        "contents": [
+        ],
+        "layoutInfo": {
+          "position-left": {
+            "widget": "statsBars",
+            "target": "RIGHT"
+          },
+          "position-right": {
+            "widget": "rightMenuList",
+            "target": "LEFT"
+          },
+          "position-top": {},
+          "position-bottom": {
+            "target": "MIDDLE"
+          }
+        }
+      },
+      {
+        "type": "ColumnLayout",
         "id": "leftMenuList",
         "layoutInfo": {
           "use-content-width": true,
           "use-content-height": true,
           "position-vertical-center": {
-            "offset": -100
+            "offset": 16
           },
           "position-left": {}
         },
@@ -20,9 +64,9 @@
         "family": "sideUIButton",
         "contents": [
           {
-          "type": "UIWarnButton",
-          "text": "Menu",
-          "id": "menuButton"
+            "type": "UIWarnButton",
+            "text": "Menu",
+            "id": "menuButton"
           },
           {
             "type": "UIWarnButton",
@@ -37,8 +81,9 @@
         "layoutInfo": {
           "use-content-width": true,
           "use-content-height": true,
-          "position-vertical-center": {
-            "offset": -100
+          "position-bottom": {
+            "widget": "leftMenuList",
+            "target": "BOTTOM"
           },
           "position-right": {}
         },

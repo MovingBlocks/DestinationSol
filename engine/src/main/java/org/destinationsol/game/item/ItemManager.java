@@ -178,8 +178,36 @@ public class ItemManager {
         return result;
     }
 
+    /**
+     * Returns a sample for the specified item. The name should be in the {@link org.terasology.gestalt.assets.ResourceUrn} format.
+     * @param name the name of the item to sample.
+     * @return the sample, if present, or null.
+     */
     public SolItem getExample(String name) {
-        return myM.get(name);
+        SolItem example = myM.get(name);
+        if (example == null) {
+            // TODO: Temporary hacky way!
+            try {
+                if (name.endsWith("Charge")) {
+                    AbilityCharge.Config.load(name, this, myTypes);
+                } else if (name.endsWith("Armor")) {
+                    Armor.Config.load(name, this, soundManager, myTypes);
+                } else if (name.endsWith("Clip")) {
+                    Clip.Config.load(name, this, myTypes);
+                } else if (name.endsWith("Shield") || name.endsWith("shield")) {
+                    Shield.Config.load(name, this, soundManager, myTypes);
+                } else {
+                    Gun.Config.load(name, this, soundManager, myTypes);
+                }
+            } catch (IllegalArgumentException e) {
+                throw new IllegalArgumentException("The JSON of " + name + " is missing, or has malformed, a required parameter" + e.getMessage().split(":")[1]);
+            } catch (SerializationException e) {
+                throw new SerializationException("The JSON of " + name + " has invalid syntax at " + e.getMessage().split(" near")[0].split("on ")[1]);
+            }
+
+            example = myM.get(name);
+        }
+        return example;
     }
 
     public Engine.Config getEngineConfig(String engineName) {
@@ -192,7 +220,7 @@ public class ItemManager {
 
     public void registerItem(SolItem example) {
         String code = example.getCode();
-        SolItem existing = getExample(code);
+        SolItem existing = myM.get(code);
         if (existing != null) {
             throw new AssertionError("2 item types registered for item code " + code + ":\n" + existing + " and " + example);
         }

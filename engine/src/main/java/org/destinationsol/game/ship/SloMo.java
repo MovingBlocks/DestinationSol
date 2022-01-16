@@ -86,7 +86,7 @@ public class SloMo implements ShipAbility {
         public static AbilityConfig load(JSONObject abNode, ItemManager itemManager, AbilityCommonConfig cc) {
             float factor = (float) abNode.getDouble("factor");
             float rechargeTime = (float) abNode.getDouble("rechargeTime");
-            SolItem chargeExample = itemManager.getExample("sloMoCharge");
+            SolItem chargeExample = itemManager.getExample("core:sloMoCharge");
             return new SloMoConfig(factor, rechargeTime, chargeExample, cc);
         }
 

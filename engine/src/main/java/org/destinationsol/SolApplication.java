@@ -361,7 +361,7 @@ public class SolApplication implements ApplicationListener {
 
         factionDisplay = new FactionDisplay(context.get(SolCam.class));
         nuiManager.removeScreen(menuScreens.loading);
-        inputManager.setScreen(this, solGame.getScreens().mainGameScreen);
+        inputManager.setScreen(this, solGame.getScreens().oldMainGameScreen);
     }
 
     public SolInputManager getInputManager() {

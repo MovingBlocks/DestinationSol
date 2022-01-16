@@ -91,7 +91,7 @@ public class UIShipControlsScreen extends NUIScreenLayer implements ShipUiContro
     @Override
     public void update(float delta) {
         // Hide and disable controls if the main game screen is not visible.
-        boolean mainGameScreenVisible = solApplication.getInputManager().isScreenOn(solApplication.getGame().getScreens().mainGameScreen);
+        boolean mainGameScreenVisible = solApplication.getInputManager().isScreenOn(solApplication.getGame().getScreens().oldMainGameScreen);
         ((AbstractWidget)contents).setVisible(mainGameScreenVisible);
         contents.setEnabled(mainGameScreenVisible);
 

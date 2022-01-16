@@ -159,7 +159,7 @@ public class ConsoleScreen implements SolUiScreen, ConsoleSubscriber {
     @Override
     public void updateCustom(SolApplication solApplication, SolInputManager.InputPointer[] inputPointers, boolean clickedOutside) {
         if (exitControl.isJustOff()) {
-            solApplication.getInputManager().setScreen(solApplication, solApplication.getGame().getScreens().mainGameScreen);
+            solApplication.getInputManager().setScreen(solApplication, solApplication.getGame().getScreens().oldMainGameScreen);
         }
         if (commandHistoryUpControl.isJustOff()) {
             if (commandHistoryIndex > 0) {

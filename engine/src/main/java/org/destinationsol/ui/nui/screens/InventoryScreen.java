@@ -127,7 +127,7 @@ public class InventoryScreen extends NUIScreenLayer {
                 SolInputManager inputMan = solApplication.getInputManager();
                 GameScreens screens = solApplication.getGame().getScreens();
 
-                inputMan.setScreen(solApplication, screens.mainGameScreen);
+                inputMan.setScreen(solApplication, screens.oldMainGameScreen);
                 onRemoved();
                 setOperations(chooseMercenaryScreen);
                 onAdded();

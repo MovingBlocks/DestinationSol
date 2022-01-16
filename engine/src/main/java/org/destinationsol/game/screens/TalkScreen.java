@@ -76,7 +76,7 @@ public class TalkScreen extends SolUiBaseScreen {
         Hero hero = game.getHero();
         SolInputManager inputManager = solApplication.getInputManager();
         if (closeControl.isJustOff() || isTargetFar(hero)) {
-            inputManager.setScreen(solApplication, game.getScreens().mainGameScreen);
+            inputManager.setScreen(solApplication, game.getScreens().oldMainGameScreen);
             return;
         }
 
@@ -102,7 +102,7 @@ public class TalkScreen extends SolUiBaseScreen {
 
         if (inventoryOperations != null) {
             inventoryScreen.setOperations(inventoryOperations);
-            inputManager.setScreen(solApplication, game.getScreens().mainGameScreen);
+            inputManager.setScreen(solApplication, game.getScreens().oldMainGameScreen);
             solApplication.getNuiManager().pushScreen(inventoryScreen);
         }
     }

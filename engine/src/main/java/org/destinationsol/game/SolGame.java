@@ -23,7 +23,6 @@ import org.destinationsol.CommonDrawer;
 import org.destinationsol.Const;
 import org.destinationsol.GameOptions;
 import org.destinationsol.SolApplication;
-import org.destinationsol.assets.Assets;
 import org.destinationsol.assets.sound.OggSoundManager;
 import org.destinationsol.assets.sound.SpecialSounds;
 import org.destinationsol.common.DebugCol;
@@ -68,12 +67,9 @@ import org.destinationsol.ui.DebugCollector;
 import org.destinationsol.ui.TutorialManager;
 import org.destinationsol.ui.UiDrawer;
 import org.destinationsol.ui.Waypoint;
-import org.destinationsol.ui.nui.screens.MainGameScreen;
 import org.destinationsol.util.InjectionHelper;
 import org.destinationsol.world.GalaxyBuilder;
-import org.terasology.gestalt.assets.ResourceUrn;
 import org.terasology.gestalt.entitysystem.entity.EntityRef;
-import org.terasology.nui.asset.UIElement;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -82,9 +78,6 @@ import java.util.SortedMap;
 import java.util.TreeMap;
 
 public class SolGame {
-    private static final String NUI_MAIN_GAME_SCREEN_DESKTOP_URI = "engine:mainGameScreen_desktop";
-    private static final String NUI_MAIN_GAME_SCREEN_MOBILE_URI = "engine:mainGameScreen_mobile";
-
     private final GameScreens gameScreens;
     private final SolCam solCamReference;
     private final ObjectManager objectManager;
@@ -117,7 +110,6 @@ public class SolGame {
     private final PlanetConfigManager planetConfigManager;
     private final MazeConfigManager mazeConfigManager;
     private final BeltConfigManager beltConfigManager;
-    private final MainGameScreen mainGameScreen;
     private Hero hero;
     private float timeStep;
     private float time;
@@ -163,14 +155,8 @@ public class SolGame {
         gameScreens = new GameScreens(solApplication, context);
 
         boolean isMobile = solApplication.isMobile();
-        if (!isMobile) {
-            mainGameScreen = (MainGameScreen) solApplication.getNuiManager().createScreen(NUI_MAIN_GAME_SCREEN_DESKTOP_URI);
-        } else {
-            mainGameScreen = (MainGameScreen) solApplication.getNuiManager().createScreen(NUI_MAIN_GAME_SCREEN_MOBILE_URI);
-        }
-
         if (isTutorial) {
-            tutorialManager = new TutorialManager(gameScreens, mainGameScreen, isMobile, solApplication.getOptions(), this);
+            tutorialManager = new TutorialManager(gameScreens, gameScreens.mainGameScreen, isMobile, solApplication.getOptions(), this);
             context.put(TutorialManager.class, tutorialManager);
         } else {
             tutorialManager = null;
@@ -296,7 +282,7 @@ public class SolGame {
             }
         }, 0, 30);
         gameScreens.consoleScreen.init(this);
-        solApplication.getNuiManager().pushScreen(mainGameScreen);
+        solApplication.getNuiManager().pushScreen(gameScreens.mainGameScreen);
         if (isTutorial) {
             tutorialManager.start();
         }

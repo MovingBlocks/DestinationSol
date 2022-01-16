@@ -93,7 +93,7 @@ public class EmWave implements ShipAbility {
         public static AbilityConfig load(JSONObject abNode, ItemManager itemManager, AbilityCommonConfig cc) {
             float rechargeTime = (float) abNode.getDouble("rechargeTime");
             float duration = (float) abNode.getDouble("duration");
-            SolItem chargeExample = itemManager.getExample("emWaveCharge");
+            SolItem chargeExample = itemManager.getExample("core:emWaveCharge");
             return new EmWaveConfig(rechargeTime, chargeExample, duration, cc);
         }
 

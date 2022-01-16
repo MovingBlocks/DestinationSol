@@ -107,7 +107,7 @@ public class KnockBack implements ShipAbility {
         public static AbilityConfig load(JSONObject abNode, ItemManager itemManager, AbilityCommonConfig cc) {
             float rechargeTime = (float) abNode.getDouble("rechargeTime");
             float force = (float) abNode.getDouble("force");
-            SolItem chargeExample = itemManager.getExample("knockBackCharge");
+            SolItem chargeExample = itemManager.getExample("core:knockBackCharge");
             return new KnockBackConfig(rechargeTime, chargeExample, force, cc);
         }
 

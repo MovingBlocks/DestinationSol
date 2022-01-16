@@ -175,7 +175,7 @@ public class SolCam implements UpdateAwareSystem {
     }
 
     private void applyInput(SolGame game) {
-        MainGameScreen screen = game.getScreens().mainGameScreen;
+        MainGameScreen screen = game.getScreens().oldMainGameScreen;
         boolean d = screen.isCameraDown();
         boolean u = screen.isCameraUp();
         boolean l = screen.isCameraLeft();

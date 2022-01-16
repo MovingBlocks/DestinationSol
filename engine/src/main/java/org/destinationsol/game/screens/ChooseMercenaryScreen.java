@@ -49,7 +49,7 @@ public class ChooseMercenaryScreen extends InventoryOperationsScreen {
             NUIManager nuiManager = solApplication.getNuiManager();
 
             SolShip solship = ((MercItem) selectedItem).getSolShip();
-            inputManager.setScreen(solApplication, solApplication.getGame().getScreens().mainGameScreen);
+            inputManager.setScreen(solApplication, solApplication.getGame().getScreens().oldMainGameScreen);
             nuiManager.removeScreen(inventoryScreen);
             inventoryScreen.getGiveItems().setTarget(solship);
             inventoryScreen.setOperations(inventoryScreen.getGiveItems());
@@ -65,7 +65,7 @@ public class ChooseMercenaryScreen extends InventoryOperationsScreen {
             NUIManager nuiManager = solApplication.getNuiManager();
 
             SolShip solship = ((MercItem) selectedItem).getSolShip();
-            inputManager.setScreen(solApplication, solApplication.getGame().getScreens().mainGameScreen);
+            inputManager.setScreen(solApplication, solApplication.getGame().getScreens().oldMainGameScreen);
             inventoryScreen.getTakeItems().setTarget(solship);
             nuiManager.removeScreen(inventoryScreen);
             inventoryScreen.setOperations(inventoryScreen.getTakeItems());
@@ -81,7 +81,7 @@ public class ChooseMercenaryScreen extends InventoryOperationsScreen {
             NUIManager nuiManager = solApplication.getNuiManager();
 
             SolShip solship = ((MercItem) selectedItem).getSolShip();
-            inputManager.setScreen(solApplication, solApplication.getGame().getScreens().mainGameScreen);
+            inputManager.setScreen(solApplication, solApplication.getGame().getScreens().oldMainGameScreen);
             nuiManager.removeScreen(inventoryScreen);
             inventoryScreen.getShowInventory().setTarget(solship);
             inventoryScreen.setOperations(inventoryScreen.getShowInventory());

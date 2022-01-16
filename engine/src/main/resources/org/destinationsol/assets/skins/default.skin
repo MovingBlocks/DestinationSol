@@ -115,7 +115,7 @@
       }
     },
     "UILoadBar": {
-      "background": "engine:area",
+      "background": "engine:boxLight",
       "background-border": {
         "top": 4,
         "bottom": 4,
@@ -127,10 +127,7 @@
         "bottom": 4,
         "left": 4,
         "right": 4
-      },
-      "min-width": 256,
-      "max-width": 512,
-      "fixed-height": 20
+      }
     },
     "UIList": {
       "parts": {
@@ -585,6 +582,44 @@
               "text-color": "888888FF"
             }
           }
+        }
+      }
+    }
+  },
+  "families": {
+    "centerAlignedLabel": {
+      "elements": {
+        "UILabel": {
+          "text-align-horizontal": "center",
+          "text-align-vertical": "middle"
+        },
+        "UILabelledIcon": {
+          "text-align-horizontal": "center",
+          "text-align-vertical": "middle"
+        }
+      }
+    },
+    "topLeftAlignedLabel": {
+      "elements": {
+        "UILabel": {
+          "text-align-horizontal": "left",
+          "text-align-vertical": "top"
+        },
+        "UILabelledIcon": {
+          "text-align-horizontal": "left",
+          "text-align-vertical": "top"
+        }
+      }
+    },
+    "centerLeftAlignedLabel": {
+      "elements": {
+        "UILabel": {
+          "text-align-horizontal": "left",
+          "text-align-vertical": "center"
+        },
+        "UILabelledIcon": {
+          "text-align-horizontal": "left",
+          "text-align-vertical": "center"
         }
       }
     }

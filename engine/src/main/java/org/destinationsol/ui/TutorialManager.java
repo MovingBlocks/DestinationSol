@@ -62,7 +62,7 @@ public class TutorialManager implements UpdateAwareSystem {
     }
 
     public void start() {
-        MainGameScreen main = screens.mainGameScreen;
+        MainGameScreen main = screens.oldMainGameScreen;
         boolean mouseCtrl = main.getShipControl() instanceof ShipMixedControl;
         SolUiControl shootCtrl = null;
         String shootKey;
