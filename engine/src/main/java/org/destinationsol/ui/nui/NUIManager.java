@@ -465,6 +465,14 @@ public class NUIManager {
     }
 
     /**
+     * Returns the current UI scale. This can be useful when converting from UI co-ordinates to screen co-ordinates.
+     * @return the current UI scale
+     */
+    public float getUiScale() {
+        return canvas.getUiScale();
+    }
+
+    /**
      * Returns a wrapper that allows safe usage of {@link UiDrawer} code with widget draw calls.
      * @return a {@link UiDrawer} wrapper for accessing legacy UI screens
      */

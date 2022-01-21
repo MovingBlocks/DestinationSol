@@ -30,6 +30,7 @@ import org.destinationsol.ui.SolUiControl;
 import org.destinationsol.ui.SolUiSlider;
 import org.destinationsol.ui.UiDrawer;
 import org.destinationsol.ui.Waypoint;
+import org.destinationsol.ui.nui.screens.MapScreen;
 
 public class WaypointCreationScreen extends SolUiBaseScreen {
 
@@ -96,12 +97,12 @@ public class WaypointCreationScreen extends SolUiBaseScreen {
             Waypoint waypoint = new Waypoint(waypointPos, outcomeColor, solApplication.getGame().getMapDrawer().getWaypointTexture());
             solApplication.getGame().getHero().addWaypoint(waypoint);
             solApplication.getGame().getObjectManager().addObjDelayed(waypoint);
-            solApplication.getInputManager().setScreen(solApplication, solApplication.getGame().getScreens().mapScreen);
+            solApplication.getInputManager().setScreen(solApplication, null);
             mapScreen.setWaypointButtonsEnabled(true);
         }
         
         if (cancelControl.isJustOff()) {
-            solApplication.getInputManager().setScreen(solApplication, solApplication.getGame().getScreens().mapScreen);
+            solApplication.getInputManager().setScreen(solApplication, null);
             mapScreen.setWaypointButtonsEnabled(true);
         }
 

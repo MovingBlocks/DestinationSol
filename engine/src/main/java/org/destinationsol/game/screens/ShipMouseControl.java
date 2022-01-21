@@ -26,6 +26,7 @@ import org.destinationsol.game.SolCam;
 import org.destinationsol.game.SolGame;
 import org.destinationsol.game.context.Context;
 import org.destinationsol.ui.SolInputManager;
+import org.destinationsol.ui.nui.NUIManager;
 
 public class ShipMouseControl implements ShipUiControl {
     private final TextureAtlas.AtlasRegion myMoveCursor;
@@ -45,6 +46,7 @@ public class ShipMouseControl implements ShipUiControl {
     @Override
     public void update(SolApplication solApplication, boolean enabled) {
         Context context = solApplication.getContext();
+        NUIManager nuiManager = solApplication.getNuiManager();
         SolGame game = solApplication.getGame();
         Hero hero = game.getHero();
         myCursor = null;
@@ -53,7 +55,7 @@ public class ShipMouseControl implements ShipUiControl {
             context.get(SolCam.class).screenToWorld(myMouseWorldPos);
             SolInputManager im = solApplication.getInputManager();
             boolean clicked = im.getPtrs()[0].pressed;
-            boolean onMap = im.isScreenOn(game.getScreens().mapScreen);
+            boolean onMap = nuiManager.hasScreen(game.getScreens().mapScreen);
             BeaconHandler.Action a = game.getBeaconHandler().processMouse(game, myMouseWorldPos, clicked, onMap);
             if (a == BeaconHandler.Action.ATTACK) {
                 myCursor = myAttackCursor;

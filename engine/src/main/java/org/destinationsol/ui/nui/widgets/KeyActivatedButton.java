@@ -122,4 +122,13 @@ public class KeyActivatedButton extends UIButton {
         }
         return super.onKeyEvent(event);
     }
+
+    /**
+     * Simulates a button press, activating the widget immediately.
+     * This can be used for unconventional input triggers, such as mouse wheel moves,
+     * which are mapped as auxiliary triggers for the button.
+     */
+    public void simulatePress() {
+        activateWidget();
+    }
 }

@@ -106,8 +106,7 @@ public class MainGameScreen extends NUIScreenLayer {
         super.update(delta);
         SolInputManager solInputManager = solApplication.getInputManager();
         GameScreens gameScreens = solApplication.getGame().getScreens();
-        if (!solInputManager.isScreenOn(gameScreens.menuScreen) &&
-                !solInputManager.isScreenOn(gameScreens.mapScreen)) {
+        if (!solInputManager.isScreenOn(gameScreens.menuScreen) && !nuiManager.hasScreenOfType(MapScreen.class)) {
             ((AbstractWidget) contents).setVisible(true);
         } else {
             ((AbstractWidget) contents).setVisible(false);
@@ -267,10 +266,9 @@ public class MainGameScreen extends NUIScreenLayer {
     }
 
     private void onMapButtonClicked(UIWidget widget) {
-        SolInputManager solInputManager = solApplication.getInputManager();
         GameScreens gameScreens = solApplication.getGame().getScreens();
-
-        solInputManager.setScreen(solApplication, gameScreens.mapScreen);
+        solApplication.getInputManager().setScreen(solApplication, null);
+        nuiManager.pushScreen(gameScreens.mapScreen);
     }
 
     private void onItemsButtonClicked(UIWidget widget) {

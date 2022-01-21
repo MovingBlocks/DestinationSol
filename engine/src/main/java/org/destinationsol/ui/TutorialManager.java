@@ -117,18 +117,18 @@ public class TutorialManager implements UpdateAwareSystem {
         }
 
         if (mouseCtrl) {
-            addStep("Zoom in the map\n(mouse wheel UP)", screens.mapScreen.zoomInControl);
+            addStep("Zoom in the map\n(mouse wheel UP)", screens.mapScreen.getZoomInButton());
         } else if (mobile) {
-            addStep("Zoom in the map", screens.mapScreen.zoomInControl);
+            addStep("Zoom in the map", screens.mapScreen.getZoomInButton());
         } else {
-            addStep("Zoom in the map\n(" + gameOptions.getKeyZoomInName() + " key)", screens.mapScreen.zoomInControl);
+            addStep("Zoom in the map\n(" + gameOptions.getKeyZoomInName() + " key)", screens.mapScreen.getZoomInButton());
         }
 
         if (mobile) {
-            addStep("Close the map", screens.mapScreen.closeControl, true);
+            addStep("Close the map", screens.mapScreen.getCloseButton(), true);
         } else {
             addStep("Close the map\n(" + gameOptions.getKeyMapName() + " or " + gameOptions.getKeyCloseName() + " keys)",
-                    screens.mapScreen.closeControl, true);
+                    screens.mapScreen.getCloseButton(), true);
         }
 
         UIWarnButton inventoryButton = nuiMain.getInventoryButton();

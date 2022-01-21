@@ -27,6 +27,7 @@ import org.destinationsol.game.SolObject;
 import org.destinationsol.game.ship.SolShip;
 import org.destinationsol.ui.SolInputManager;
 import org.destinationsol.ui.UiDrawer;
+import org.destinationsol.ui.nui.NUIManager;
 
 /**
  * Acquires faction information fromm all the ships and draws it above them.
@@ -43,8 +44,11 @@ public class FactionDisplay {
         if (Gdx.input.isKeyJustPressed(Input.Keys.Z)) {
             isPressed = !isPressed;
         }
+
+        NUIManager nuiManager = game.getSolApplication().getNuiManager();
+
         // angle must be zero as the camera angles on planets mess up the text display
-        if (isPressed && camera.getAngle() == 0 && !inputManager.isScreenOn(game.getScreens().mapScreen)) {
+        if (isPressed && camera.getAngle() == 0 && !nuiManager.hasScreen(game.getScreens().mapScreen)) {
             for (SolObject obj : objManager.getObjects()) {
                 if (obj instanceof SolShip) {
                     SolShip ship = (SolShip) obj;

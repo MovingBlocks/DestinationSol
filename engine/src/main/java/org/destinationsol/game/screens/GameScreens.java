@@ -19,6 +19,7 @@ import org.destinationsol.SolApplication;
 import org.destinationsol.game.context.Context;
 import org.destinationsol.ui.SolLayouts;
 import org.destinationsol.ui.nui.screens.InventoryScreen;
+import org.destinationsol.ui.nui.screens.MapScreen;
 
 public class GameScreens {
     public final MainGameScreen mainGameScreen;
@@ -33,7 +34,11 @@ public class GameScreens {
         SolLayouts layouts = cmp.getLayouts();
         RightPaneLayout rightPaneLayout = layouts.rightPaneLayout;
         mainGameScreen = new MainGameScreen(rightPaneLayout, context);
-        mapScreen = new MapScreen(rightPaneLayout, cmp.isMobile(), cmp.getOptions());
+        if (!cmp.isMobile()) {
+            mapScreen = (MapScreen) cmp.getNuiManager().createScreen("engine:mapScreen_desktop");
+        } else {
+            mapScreen = (MapScreen) cmp.getNuiManager().createScreen("engine:mapScreen_mobile");
+        }
         menuScreen = new MenuScreen(layouts.menuLayout, cmp.getOptions());
         inventoryScreen = (org.destinationsol.ui.nui.screens.InventoryScreen) cmp.getNuiManager().createScreen("engine:inventoryScreen");
         talkScreen = new TalkScreen(layouts.menuLayout, cmp.getOptions());
