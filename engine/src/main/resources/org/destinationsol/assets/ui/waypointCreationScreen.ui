@@ -1,0 +1,114 @@
+{
+  "type": "WaypointCreationScreen",
+  "skin": "engine:mapScreen",
+  "contents": {
+    "type": "relativeLayout",
+    "contents": [
+      {
+        "type": "UIBackingBox",
+        "family": "waypointScreenMenuBox",
+        "layoutInfo": {
+          "position-top": {
+            "target": "MIDDLE",
+            "offset": 32
+          },
+          "position-bottom": {
+            "offset": 32
+          },
+          "position-left": {
+            "offset": 64
+          },
+          "position-right": {
+            "offset": 64
+          },
+          "position-horizontal-center": {}
+        },
+        "content": {
+          "type": "ColumnLayout",
+          "verticalSpacing": 8,
+          "contents": [
+            {
+              "type": "UIImage",
+              "id": "colourPreview",
+              "family": "waypointColourPreview",
+              "image": "engine:uiWhiteTex"
+            },
+            {
+              "type": "RowLayout",
+              "contents": [
+                {
+                  "type": "UILabel",
+                  "text": "Red",
+                  "layoutInfo": {
+                    "relativeWidth": 0.3
+                  }
+                },
+                {
+                  "type": "UISlider",
+                  "id": "redSlider",
+                  "precision": 0,
+                  "minimum": 0,
+                  "range": 255,
+                  "value": 255,
+                  "increment": 1
+                }
+              ]
+            },
+            {
+              "type": "RowLayout",
+              "contents": [
+                {
+                  "type": "UILabel",
+                  "text": "Green",
+                  "layoutInfo": {
+                    "relativeWidth": 0.3
+                  }
+                },
+                {
+                  "type": "UISlider",
+                  "id": "greenSlider",
+                  "precision": 0,
+                  "minimum": 0,
+                  "range": 255,
+                  "value": 255,
+                  "increment": 1
+                }
+              ]
+            },
+            {
+              "type": "RowLayout",
+              "contents": [
+                {
+                  "type": "UILabel",
+                  "text": "Blue",
+                  "layoutInfo": {
+                    "relativeWidth": 0.3
+                  }
+                },
+                {
+                  "type": "UISlider",
+                  "id": "blueSlider",
+                  "precision": 0,
+                  "minimum": 0,
+                  "range": 255,
+                  "value": 255,
+                  "increment": 1
+                }
+              ]
+            },
+            {
+              "type": "KeyActivatedButton",
+              "id": "doneButton",
+              "text": "Done"
+            },
+            {
+              "type": "KeyActivatedButton",
+              "id": "cancelButton",
+              "text": "Cancel"
+            }
+          ]
+        }
+      }
+    ]
+  }
+}

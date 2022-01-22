@@ -10,15 +10,6 @@
       },
       "font": "engine:main#1"
     },
-    "mapUIButton": {
-      "elements": {
-        "UIButton": {
-          "min-width": 100,
-          "min-height": 100
-        }
-      },
-      "font": "engine:main#0.95"
-    },
     "controlsUIButton": {
       "font": "engine:main#0.95"
     },

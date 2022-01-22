@@ -1,6 +1,6 @@
 {
   "type": "MapScreen",
-  "skin": "engine:mainGameScreen",
+  "skin": "engine:mapScreen",
   "contents": {
     "type": "relativeLayout",
     "family": "mapUIButton",

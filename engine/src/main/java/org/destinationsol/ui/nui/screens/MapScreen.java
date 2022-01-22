@@ -27,7 +27,6 @@ import org.destinationsol.game.SolGame;
 import org.destinationsol.game.screens.ScreenToWorldMapper;
 import org.destinationsol.game.screens.ShipMouseControl;
 import org.destinationsol.game.screens.ShipUiControl;
-import org.destinationsol.game.screens.WaypointCreationScreen;
 import org.destinationsol.ui.Waypoint;
 import org.destinationsol.ui.nui.NUIScreenLayer;
 import org.destinationsol.ui.nui.widgets.KeyActivatedButton;
@@ -108,9 +107,9 @@ public class MapScreen extends NUIScreenLayer {
                         addWaypointButton.setEnabled(true);
                         removeWaypointButton.setEnabled(true);
                         WaypointCreationScreen waypointCreationScreen = game.getScreens().waypointCreationScreen;
-                        waypointCreationScreen.setWaypointPos(worldPosition);
+                        waypointCreationScreen.setWaypointPosition(worldPosition);
 
-                        solApplication.getInputManager().addScreen(solApplication, waypointCreationScreen);
+                        nuiManager.pushScreen(waypointCreationScreen);
                     }
                     removeWaypointButton.setEnabled(true);
                     addWaypointButton.setText(NEW_WAYPOINT_TEXT);
@@ -138,11 +137,6 @@ public class MapScreen extends NUIScreenLayer {
 
         @Override
         public void onMouseDrag(NUIMouseDragEvent event) {
-            if (solApplication.getInputManager().isScreenOn(solApplication.getGame().getScreens().waypointCreationScreen)) {
-                // Don't pan the map if the waypoint creation screen is open.
-                return;
-            }
-
             MapDrawer mapDrawer = solApplication.getGame().getMapDrawer();
             GameOptions gameOptions = solApplication.getOptions();
             SolCam solCam = solApplication.getContext().get(SolCam.class);
@@ -162,7 +156,7 @@ public class MapScreen extends NUIScreenLayer {
         closeButton = find("closeButton", UIWarnButton.class);
         closeButton.setKey(GDXInputUtil.GDXToNuiKey(solApplication.getOptions().getKeyMap()));
         closeButton.subscribe(button -> {
-            if (solApplication.getInputManager().isScreenOn(solApplication.getGame().getScreens().waypointCreationScreen)) {
+            if (nuiManager.hasScreen(solApplication.getGame().getScreens().waypointCreationScreen)) {
                 // Don't exit if the waypoint creation screen is open.
                 return;
             }

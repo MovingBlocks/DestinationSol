@@ -20,6 +20,7 @@ import org.destinationsol.game.context.Context;
 import org.destinationsol.ui.SolLayouts;
 import org.destinationsol.ui.nui.screens.InventoryScreen;
 import org.destinationsol.ui.nui.screens.MapScreen;
+import org.destinationsol.ui.nui.screens.WaypointCreationScreen;
 
 public class GameScreens {
     public final MainGameScreen mainGameScreen;
@@ -42,7 +43,7 @@ public class GameScreens {
         menuScreen = new MenuScreen(layouts.menuLayout, cmp.getOptions());
         inventoryScreen = (org.destinationsol.ui.nui.screens.InventoryScreen) cmp.getNuiManager().createScreen("engine:inventoryScreen");
         talkScreen = new TalkScreen(layouts.menuLayout, cmp.getOptions());
-        waypointCreationScreen = new WaypointCreationScreen(layouts.menuLayout, cmp.getOptions(), mapScreen);
+        waypointCreationScreen = (WaypointCreationScreen) cmp.getNuiManager().createScreen("engine:waypointCreationScreen");
         consoleScreen = new ConsoleScreen(context);
     }
 
