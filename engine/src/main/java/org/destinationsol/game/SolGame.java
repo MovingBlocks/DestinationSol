@@ -522,7 +522,7 @@ public class SolGame {
         respawnState.setPlayerRespawned(true);
         if (hero.isAlive()) {
             setRespawnState();
-            objectManager.removeObjDelayed(hero.getShip());
+            objectManager.removeObjDelayed(hero.isNonTranscendent() ? hero.getShip() : hero.getTranscendentHero());
         }
         createGame(null, true);
     }
@@ -634,8 +634,12 @@ public class SolGame {
 
     public void setRespawnState() {
         respawnState.setRespawnMoney(.75f * hero.getMoney());
-        hero.setMoney(respawnState.getRespawnMoney()); // to update the display while the camera waits for respawn if the player died
-        respawnState.setRespawnHull(hero.isNonTranscendent() ? hero.getHull().getHullConfig() : hero.getTranscendentHero().getShip().getHullConfig());
+        if (hero.isNonTranscendent()) {
+            hero.setMoney(respawnState.getRespawnMoney()); // to update the display while the camera waits for respawn if the player died
+            respawnState.setRespawnHull(hero.getHull().getHullConfig());
+        } else {
+            respawnState.setRespawnHull(hero.getTranscendentHero().getShip().getHullConfig());
+        }
         respawnState.getRespawnItems().clear();
         respawnState.getRespawnWaypoints().clear();
         respawnState.setPlayerRespawned(true);
