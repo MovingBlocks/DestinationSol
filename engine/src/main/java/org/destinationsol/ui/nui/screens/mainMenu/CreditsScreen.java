@@ -83,7 +83,12 @@ public class CreditsScreen extends NUIScreenLayer {
                         "Sigma-One, vampcat, malanius",
                         "AonoZan, ererbe, SurajDutta",
                         "jasyohuang, Steampunkery",
-                        "Graviton48, Adrijaned, MaxBorsch",
+                        "Graviton48, Adrijaned"
+                },
+                {
+                        "Contributors on GitHub",
+                        "",
+                        "MaxBorsch",
                         "sohil123, FieryPheonix909",
                         "digitalripperynr, NicholasBatesNZ",
                         "Pendi, Torpedo99, AndyTechGuy",
