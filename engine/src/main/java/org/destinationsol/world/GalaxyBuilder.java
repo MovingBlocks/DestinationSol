@@ -52,8 +52,8 @@ public class GalaxyBuilder {
     private ArrayList<SolarSystem> builtSolarSystems = new ArrayList<>();
     private ModuleManager moduleManager;
     private SolarSystemConfigManager solarSystemConfigManager;
-    private final int numberOfSystems;
     private BeanContext beanContext;
+    private WorldConfig worldConfig;
 
     @Inject
     public GalaxyBuilder(WorldConfig worldConfig, ModuleManager moduleManager, SolarSystemConfigManager solarSystemConfigManager, BeanContext beanContext) {
@@ -61,10 +61,29 @@ public class GalaxyBuilder {
         this.solarSystemConfigManager = solarSystemConfigManager;
         this.beanContext = beanContext;
         solarSystemConfigManager.loadDefaultSolarSystemConfigs();
-        numberOfSystems = worldConfig.getNumberOfSystems();
+        this.worldConfig = worldConfig;
 
-        populateSolarSystemGeneratorList();
-        populateFeatureGeneratorList();
+        if (worldConfig.getSolarSystemGenerators().isEmpty()) {
+            populateSolarSystemGeneratorList();
+        } else {
+            for (String typeName : worldConfig.getSolarSystemGenerators()) {
+                for (Class<? extends SolarSystemGenerator> possibleGeneratorType :
+                        moduleManager.getEnvironment().getSubtypesOf(SolarSystemGenerator.class, type -> type.getName().equals(typeName))) {
+                    solarSystemGeneratorTypes.add(possibleGeneratorType);
+                }
+            }
+        }
+
+        if (worldConfig.getFeatureGenerators().isEmpty()) {
+            populateFeatureGeneratorList();
+        } else {
+            for (String typeName : worldConfig.getFeatureGenerators()) {
+                for (Class<? extends FeatureGenerator> possibleGeneratorType :
+                        moduleManager.getEnvironment().getSubtypesOf(FeatureGenerator.class, type -> type.getName().equals(typeName))) {
+                    featureGeneratorTypes.add(possibleGeneratorType);
+                }
+            }
+        }
     }
 
     /**
@@ -72,8 +91,12 @@ public class GalaxyBuilder {
      * of SolarSystemGenerators.
      */
     private void populateSolarSystemGeneratorList() {
-        //It is necessary to use an iterator as getSubtypesOf() returns an Iterable
-        moduleManager.getEnvironment().getSubtypesOf(SolarSystemGenerator.class).iterator().forEachRemaining(solarSystemGeneratorTypes::add);
+        List<String> systemGeneratorTypeNames = new ArrayList<>();
+        for (Class<? extends SolarSystemGenerator> systemGeneratorType : moduleManager.getEnvironment().getSubtypesOf(SolarSystemGenerator.class)) {
+            solarSystemGeneratorTypes.add(systemGeneratorType);
+            systemGeneratorTypeNames.add(systemGeneratorType.getName());
+        }
+        worldConfig.setSolarSystemGenerators(systemGeneratorTypeNames);
     }
 
     /**
@@ -81,12 +104,14 @@ public class GalaxyBuilder {
      * of FeatureGenerators.
      */
     private void populateFeatureGeneratorList() {
-
+        List<String> featureGeneratorTypeNames = new ArrayList<>();
         for (Class<? extends FeatureGenerator> generator : moduleManager.getEnvironment().getSubtypesOf(FeatureGenerator.class)) {
             if (!Modifier.isAbstract(generator.getModifiers())) {
                 featureGeneratorTypes.add(generator);
+                featureGeneratorTypeNames.add(generator.getName());
             }
         }
+        worldConfig.setFeatureGenerators(featureGeneratorTypeNames);
     }
 
     /**
@@ -112,7 +137,7 @@ public class GalaxyBuilder {
      */
     public ArrayList<SolarSystemGenerator> initializeRandomSolarSystemGenerators() {
         ArrayList<SolarSystemGenerator> generatorArrayList = new ArrayList<>();
-        for (int i = 0; i < numberOfSystems; i++) {
+        for (int i = 0; i < worldConfig.getNumberOfSystems(); i++) {
             Class<? extends SolarSystemGenerator> solarSystemGenerator = solarSystemGeneratorTypes.get(SolRandom.seededRandomInt(solarSystemGeneratorTypes.size()));
             try {
                 SolarSystemGenerator generator = solarSystemGenerator.newInstance();
@@ -199,19 +224,19 @@ public class GalaxyBuilder {
         SolMath.fromAl(result, angle, distance);
     }
 
-    public ArrayList<Class<? extends SolarSystemGenerator>> getSolarSystemGeneratorTypes() {
+    public List<Class<? extends SolarSystemGenerator>> getSolarSystemGeneratorTypes() {
         return solarSystemGeneratorTypes;
     }
 
-    public ArrayList<SolarSystemGenerator> getActiveSolarSystemGenerators() {
+    public List<SolarSystemGenerator> getActiveSolarSystemGenerators() {
         return activeSolarSystemGenerators;
     }
 
-    public ArrayList<Class<? extends FeatureGenerator>> getFeatureGeneratorTypes() {
+    public List<Class<? extends FeatureGenerator>> getFeatureGeneratorTypes() {
         return featureGeneratorTypes;
     }
 
-    public ArrayList<SolarSystem> getBuiltSolarSystems() {
+    public List<SolarSystem> getBuiltSolarSystems() {
         return builtSolarSystems;
     }
 }

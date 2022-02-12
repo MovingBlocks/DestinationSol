@@ -67,8 +67,10 @@ public class MazeGeneratorTest implements AssetsHelperInitializer {
 
         setupConfigManagers();
 
+        WorldConfig worldConfig = new WorldConfig();
+        worldConfig.setNumberOfSystems(1);
         context = new DefaultBeanContext(registry);
-        galaxyBuilder = new GalaxyBuilder(new WorldConfig(), moduleManager, context.getBean(SolarSystemConfigManager.class), context);
+        galaxyBuilder = new GalaxyBuilder(worldConfig, moduleManager, context.getBean(SolarSystemConfigManager.class), context);
 
         ArrayList<SolarSystemGenerator> solarSystemGenerators = galaxyBuilder.initializeRandomSolarSystemGenerators();
         solarSystemGenerator = solarSystemGenerators.get(0);

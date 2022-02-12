@@ -20,6 +20,8 @@ import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.math.Vector2;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import com.google.gson.JsonArray;
+import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import com.google.gson.stream.JsonReader;
@@ -232,16 +234,29 @@ public class SaveManager {
     }
 
     /**
-     * Saves the world to a file. Currently stores the seed used to generate the world and the number of systems
-     * @param numberOfSystems
+     * Saves the world to a file. Currently stores the seed used to generate the world,
+     * the number of systems and the generators used.
+     * @param worldConfig the current world configuration.
      */
-    public static void saveWorld(int numberOfSystems) {
+    public static void saveWorld(WorldConfig worldConfig) {
         Long seed = SolRandom.getSeed();
         String fileName = SaveManager.getResourcePath(Const.WORLD_SAVE_FILE_NAME);
 
         JsonObject world = new JsonObject();
         world.addProperty("seed", seed);
-        world.addProperty("systems", numberOfSystems);
+        world.addProperty("systems", worldConfig.getNumberOfSystems());
+
+        JsonArray solarSystemGenerators = new JsonArray();
+        for (String solarSystemGenerator : worldConfig.getSolarSystemGenerators()) {
+            solarSystemGenerators.add(solarSystemGenerator);
+        }
+        world.add("solarSystemGenerators", solarSystemGenerators);
+
+        JsonArray featureGenerators = new JsonArray();
+        for (String featureGenerator : worldConfig.getFeatureGenerators()) {
+            featureGenerators.add(featureGenerator);
+        }
+        world.add("featureGenerators", featureGenerators);
 
         Gson gson = new GsonBuilder().setPrettyPrinting().create();
         String stringToWrite = gson.toJson(world);
@@ -270,6 +285,26 @@ public class SaveManager {
 
                 if (world.has("systems")) {
                     config.setNumberOfSystems(world.get("systems").getAsInt());
+                }
+
+                if (world.has("solarSystemGenerators")) {
+                    List<String> solarSystemGenerators = new ArrayList<>();
+                    for (JsonElement value : world.getAsJsonArray("solarSystemGenerators")) {
+                        if (value.isJsonPrimitive() && value.getAsJsonPrimitive().isString()) {
+                            solarSystemGenerators.add(value.getAsString());
+                        }
+                    }
+                    config.setSolarSystemGenerators(solarSystemGenerators);
+                }
+
+                if (world.has("featureGenerators")) {
+                    List<String> featureGenerators = new ArrayList<>();
+                    for (JsonElement value : world.getAsJsonArray("featureGenerators")) {
+                        if (value.isJsonPrimitive() && value.getAsJsonPrimitive().isString()) {
+                            featureGenerators.add(value.getAsString());
+                        }
+                    }
+                    config.setFeatureGenerators(featureGenerators);
                 }
 
                 logger.debug("Successfully loaded the world file");
