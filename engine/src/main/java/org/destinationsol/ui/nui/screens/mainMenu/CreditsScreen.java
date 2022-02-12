@@ -96,7 +96,14 @@ public class CreditsScreen extends NUIScreenLayer {
                         "msteiger, oniatus, arpitkamboj",
                         "manas96, IsaacLic, Mpcs, ZPendi",
                         "nailorcngci, FearlessTobi, ujjman",
-                        "ThisIsPIRI"
+                        "ThisIsPIRI, IsaiahBlanks"
+                },
+                {
+                        "Contributors on GitHub",
+                        "",
+                        "DarkWeird, Mystic-Slice",
+                        "superusercode, AdamJonsson",
+                        "Esnardo, sagarg22, jankeromnes"
                 },
                 {
                         "Soundtrack by NeonInsect"
