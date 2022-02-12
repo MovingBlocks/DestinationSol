@@ -67,9 +67,15 @@ public class GalaxyBuilder {
             populateSolarSystemGeneratorList();
         } else {
             for (String typeName : worldConfig.getSolarSystemGenerators()) {
-                for (Class<? extends SolarSystemGenerator> possibleGeneratorType :
-                        moduleManager.getEnvironment().getSubtypesOf(SolarSystemGenerator.class, type -> type.getName().equals(typeName))) {
-                    solarSystemGeneratorTypes.add(possibleGeneratorType);
+                Iterable<Class<? extends SolarSystemGenerator>> generatorTypes =
+                        moduleManager.getEnvironment().getSubtypesOf(SolarSystemGenerator.class, type -> type.getName().equals(typeName));
+                if (!generatorTypes.iterator().hasNext()) {
+                    logger.error("Unable to find SolarSystemGenerator type {}! World generation will likely be incorrect.", typeName);
+                    continue;
+                }
+
+                for (Class<? extends SolarSystemGenerator> generatorType : generatorTypes) {
+                    solarSystemGeneratorTypes.add(generatorType);
                 }
             }
         }
@@ -78,9 +84,15 @@ public class GalaxyBuilder {
             populateFeatureGeneratorList();
         } else {
             for (String typeName : worldConfig.getFeatureGenerators()) {
-                for (Class<? extends FeatureGenerator> possibleGeneratorType :
-                        moduleManager.getEnvironment().getSubtypesOf(FeatureGenerator.class, type -> type.getName().equals(typeName))) {
-                    featureGeneratorTypes.add(possibleGeneratorType);
+                Iterable<Class<? extends FeatureGenerator>> generatorTypes =
+                        moduleManager.getEnvironment().getSubtypesOf(FeatureGenerator.class, type -> type.getName().equals(typeName));
+                if (!generatorTypes.iterator().hasNext()) {
+                    logger.error("Unable to find FeatureGenerator type {}! World generation will likely be incorrect.", typeName);
+                    continue;
+                }
+
+                for (Class<? extends FeatureGenerator> generatorType : generatorTypes) {
+                    featureGeneratorTypes.add(generatorType);
                 }
             }
         }
