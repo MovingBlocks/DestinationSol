@@ -24,6 +24,7 @@ import org.destinationsol.menu.Resolution;
 import org.destinationsol.menu.ResolutionProvider;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.terasology.context.annotation.API;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -34,6 +35,7 @@ import java.util.Set;
 
 import static java.util.Arrays.asList;
 
+@API
 public class GameOptions {
     public enum ControlType {
         KEYBOARD("Keyboard"),

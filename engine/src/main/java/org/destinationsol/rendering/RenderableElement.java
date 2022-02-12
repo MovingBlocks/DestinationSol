@@ -21,10 +21,12 @@ import com.badlogic.gdx.math.Vector2;
 import org.destinationsol.common.SolMath;
 import org.destinationsol.game.drawables.DrawableLevel;
 import org.destinationsol.size.components.Size;
+import org.terasology.gestalt.module.sandbox.API;
 
 /**
  * Contains a {@link TextureAtlas.AtlasRegion} (an image), along with information about how it should be drawn.
  */
+@API
 public class RenderableElement {
 
     /** Represents the image of this element. */
