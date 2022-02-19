@@ -104,6 +104,15 @@ public class OptionsScreen extends NUIScreenLayer {
     }
 
     @Override
+    public void onAdded() {
+        UIButton musicVolumeButton = find("musicVolumeButton", UIButton.class);
+        musicVolumeButton.setText("Music Volume: " + solApplication.getOptions().musicVolume.getName());
+
+        UIButton soundVolumeButton = find("soundVolumeButton", UIButton.class);
+        soundVolumeButton.setText("Sound Volume: " + solApplication.getOptions().sfxVolume.getName());
+    }
+
+    @Override
     public void update(float delta) {
         super.update(delta);
         solApplication.getMenuBackgroundManager().update();
