@@ -49,7 +49,7 @@ public class OptionsScreen extends NUIScreenLayer {
         UIButton soundVolumeButton = find("soundVolumeButton", UIButton.class);
         soundVolumeButton.setText("Sound Volume: " + solApplication.getOptions().sfxVolume.getName());
         soundVolumeButton.subscribe(button -> {
-            solApplication.getOptions().advanceMusicVolMul();
+            solApplication.getOptions().advanceSoundVolMul();
             soundVolumeButton.setText("Sound Volume: " + solApplication.getOptions().sfxVolume.getName());
         });
 
