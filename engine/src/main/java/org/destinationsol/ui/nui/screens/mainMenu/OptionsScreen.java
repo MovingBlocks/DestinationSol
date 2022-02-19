@@ -49,7 +49,7 @@ public class OptionsScreen extends NUIScreenLayer {
         UIButton soundVolumeButton = find("soundVolumeButton", UIButton.class);
         soundVolumeButton.setText("Sound Volume: " + solApplication.getOptions().sfxVolume.getName());
         soundVolumeButton.subscribe(button -> {
-            solApplication.getOptions().advanceMusicVolMul();
+            solApplication.getOptions().advanceSoundVolMul();
             soundVolumeButton.setText("Sound Volume: " + solApplication.getOptions().sfxVolume.getName());
         });
 
@@ -101,6 +101,15 @@ public class OptionsScreen extends NUIScreenLayer {
         cancelButton.subscribe(button -> {
             nuiManager.setScreen(solApplication.getMenuScreens().main);
         });
+    }
+
+    @Override
+    public void onAdded() {
+        UIButton musicVolumeButton = find("musicVolumeButton", UIButton.class);
+        musicVolumeButton.setText("Music Volume: " + solApplication.getOptions().musicVolume.getName());
+
+        UIButton soundVolumeButton = find("soundVolumeButton", UIButton.class);
+        soundVolumeButton.setText("Sound Volume: " + solApplication.getOptions().sfxVolume.getName());
     }
 
     @Override
