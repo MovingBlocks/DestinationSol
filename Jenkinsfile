@@ -75,11 +75,16 @@ pipeline {
             }
         }
         stage('Publish to Play Store') {
+            when {
+                // Example: v2.1.0
+                tag pattern: 'v\\d+\\.\\d+\\.\\d+.*', comparator: "REGEXP"
+            }
             environment {
                 DESTSOL_ANDROID_SIGNING_KEYSTORE=credentials('destsol-signing-keystore')
                 DESTSOL_ANDROID_SIGNING_STORE_PASS=credentials('destsol-keystore-pass')
                 DESTSOL_ANDROID_SIGNING_KEY_ALIAS=credentials('destsol-signing-alias')
                 DESTSOL_ANDROID_SINGING_KEY_PASS=credentials('destsol-signing-pass')
+                DESTSOL_PLAYSTORE_SECRET=credentials('destsol-playstore-secret')
                 WEBHOOK = credentials('destsolDiscordWebhook')
             }
             stages {
@@ -87,6 +92,7 @@ pipeline {
                     steps {
                         dir('android') {
                             sh 'bundle install'
+                            sh 'cp $DESTSOL_PLAYSTORE_SECRET playstore_secret.json'
                         }
                     }
                 }
