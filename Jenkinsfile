@@ -74,11 +74,7 @@ pipeline {
                 discordSend title: env.BRANCH_NAME, link: env.BUILD_URL, result: currentBuild.currentResult, webhookURL: env.WEBHOOK
             }
         }
-        stage('Publish Beta To Play Store') {
-            when {
-                // Example: v2.1.0-beta
-                tag pattern: 'v\\d+\\.\\d+\\.\\d+-beta$', comparator: "REGEXP"
-            }
+        stage('Publish to Play Store') {
             environment {
                 DESTSOL_ANDROID_SIGNING_KEYSTORE=credentials('destsol-signing-keystore')
                 DESTSOL_ANDROID_SIGNING_STORE_PASS=credentials('destsol-keystore-pass')
@@ -86,35 +82,50 @@ pipeline {
                 DESTSOL_ANDROID_SINGING_KEY_PASS=credentials('destsol-signing-pass')
                 WEBHOOK = credentials('destsolDiscordWebhook')
             }
-            steps {
-                dir('android') {
-                    sh 'bundle install'
-                    sh 'bundle exec fastlane buildRelease'
-                    sh 'bundle exec fastlane deployBeta'
+            stages {
+                stage('Prepare Fastlane') {
+                    steps {
+                        dir('android') {
+                            sh 'bundle install'
+                        }
+                    }
                 }
-                discordSend title: "Beta ${env.GIT_TAG} published to Play Store", result: currentBuild.currentResult, webhookURL: env.WEBHOOK
-            }
-        }
-        stage('Publish Release To Play Store') {
-            when {
-                // Example: v2.1.0
-                // This intentionally does not include things like v2.1.0-beta
-                tag pattern: 'v\\d+\\.\\d+\\.\\d+$', comparator: "REGEXP"
-            }
-            environment {
-                DESTSOL_ANDROID_SIGNING_KEYSTORE=credentials('destsol-signing-keystore')
-                DESTSOL_ANDROID_SIGNING_STORE_PASS=credentials('destsol-keystore-pass')
-                DESTSOL_ANDROID_SIGNING_KEY_ALIAS=credentials('destsol-signing-alias')
-                DESTSOL_ANDROID_SINGING_KEY_PASS=credentials('destsol-signing-pass')
-                WEBHOOK = credentials('destsolDiscordWebhook')
-            }
-            steps {
-                dir('android') {
-                    sh 'bundle update'
-                    sh 'bundle exec fastlane buildRelease'
-                    sh 'bundle exec fastlane deployProduction'
+                stage('Publish Alpha To Play Store') {
+                    when {
+                        // Example: v2.1.0-alpha
+                        tag pattern: 'v\\d+\\.\\d+\\.\\d+-alpha$', comparator: "REGEXP"
+                    }
+                    steps {
+                        dir('android') {
+                            sh 'bundle exec fastlane deployAlpha'
+                        }
+                    }
                 }
-                discordSend title: "Release ${env.GIT_TAG} published to Play Store", result: currentBuild.currentResult, webhookURL: env.WEBHOOK
+                stage('Publish Beta To Play Store') {
+                    when {
+                        // Example: v2.1.0-beta
+                        tag pattern: 'v\\d+\\.\\d+\\.\\d+-beta$', comparator: "REGEXP"
+                    }
+                    steps {
+                        dir('android') {
+                            sh 'bundle exec fastlane deployBeta'
+                        }
+                        discordSend title: "Beta ${env.GIT_TAG} published to Play Store", result: currentBuild.currentResult, webhookURL: env.WEBHOOK
+                    }
+                }
+                stage('Publish Release To Play Store') {
+                    when {
+                        // Example: v2.1.0
+                        // This intentionally does not include things like v2.1.0-beta
+                        tag pattern: 'v\\d+\\.\\d+\\.\\d+$', comparator: "REGEXP"
+                    }
+                    steps {
+                        dir('android') {
+                            sh 'bundle exec fastlane deployProduction'
+                        }
+                        discordSend title: "Release ${env.GIT_TAG} published to Play Store", result: currentBuild.currentResult, webhookURL: env.WEBHOOK
+                    }
+                }
             }
         }
     }
