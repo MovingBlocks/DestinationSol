@@ -91,8 +91,7 @@ pipeline {
                 stage('Prepare Fastlane') {
                     steps {
                         dir('android') {
-                            sh 'bundle install'
-                            sh 'cp $DESTSOL_PLAYSTORE_SECRET playstore_secret.json'
+                            sh 'ln -s $DESTSOL_PLAYSTORE_SECRET playstore_secret.json'
                         }
                     }
                 }
@@ -103,7 +102,7 @@ pipeline {
                     }
                     steps {
                         dir('android') {
-                            sh 'bundle exec fastlane deployAlpha'
+                            sh 'fastlane deployAlpha'
                         }
                     }
                 }
@@ -114,7 +113,7 @@ pipeline {
                     }
                     steps {
                         dir('android') {
-                            sh 'bundle exec fastlane deployBeta'
+                            sh 'fastlane deployBeta'
                         }
                         discordSend title: "Beta ${env.GIT_TAG} published to Play Store", result: currentBuild.currentResult, webhookURL: env.WEBHOOK
                     }
@@ -127,7 +126,7 @@ pipeline {
                     }
                     steps {
                         dir('android') {
-                            sh 'bundle exec fastlane deployProduction'
+                            sh 'fastlane deployProduction'
                         }
                         discordSend title: "Release ${env.GIT_TAG} published to Play Store", result: currentBuild.currentResult, webhookURL: env.WEBHOOK
                     }
