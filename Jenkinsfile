@@ -47,7 +47,7 @@ pipeline {
                         }
                         // Figure out a suitable target branch in the Android repo
                         def androidBranch = "develop"
-                        if (env.TAG_NAME != null && env.TAG_NAME ==~ /v\\d+\\.\\d+\\.\\d+.*/) {
+                        if (env.TAG_NAME != null && env.TAG_NAME ==~ /v\d+\.\d+\.\d+.*/) {
                             println "Going to use target Android tag " + env.TAG_NAME
                             androidBranch = "refs/tags/" + env.TAG_NAME
                         } else if (env.BRANCH_NAME.equalsIgnoreCase("master") || env.BRANCH_NAME.startsWith("android/")) {
