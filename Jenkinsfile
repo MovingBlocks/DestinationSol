@@ -45,9 +45,12 @@ pipeline {
                         } else {
                             println "Not varying the Android path from default " + androidGitPath
                         }
-                        // Figure out a suitable target brand in the Android repo
+                        // Figure out a suitable target branch in the Android repo
                         def androidBranch = "develop"
-                        if (env.BRANCH_NAME.equalsIgnoreCase("master") || env.BRANCH_NAME.startsWith("android/")) {
+                        if (env.TAG_NAME != null && env.TAG_NAME ==~ /v\\d+\\.\\d+\\.\\d+.*/) {
+                            println "Going to use target Android tag " + env.TAG_NAME
+                            androidBranch = "refs/tags/" + env.TAG_NAME
+                        } else if (env.BRANCH_NAME.equalsIgnoreCase("master") || env.BRANCH_NAME.startsWith("android/")) {
                             println "Going to use target unusual Android branch " + env.BRANCH_NAME
                             androidBranch = env.BRANCH_NAME
                         } else {
