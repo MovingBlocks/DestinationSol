@@ -100,8 +100,10 @@ pipeline {
                 }
                 stage('Create Release APK') {
                     steps {
-                        sh 'fastlane buildRelease'
-                        archiveArtifacts 'android/build/outputs/apk/release/android-release.apk'
+                        dir('android') {
+                            sh 'fastlane buildRelease'
+                            archiveArtifacts 'build/outputs/apk/release/android-release.apk'
+                        }
                     }
                 }
                 stage('Publish Alpha To Play Store') {
