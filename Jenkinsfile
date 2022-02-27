@@ -11,14 +11,13 @@ pipeline {
         }
         stage('Build') {
             steps {
-                // Jenkins sometimes doesn't run Gradle automatically in plain console mode, so make it explicit
-                sh './gradlew --console=plain clean distZipBundleJres'
+                sh './gradlew clean distZipBundleJres'
                 archiveArtifacts 'desktop/build/distributions/DestinationSol.zip'
             }
         }
         stage('Analytics') {
             steps {
-                sh "./gradlew --console=plain check javadoc"
+                sh "./gradlew check javadoc"
             }
         }
         stage('Record') {
@@ -45,8 +44,9 @@ pipeline {
                         } else {
                             println "Not varying the Android path from default " + androidGitPath
                         }
-                        // Figure out a suitable target branch in the Android repo
+                        // Figure out a suitable target branch in the Android repo, default is the develop branch
                         def androidBranch = "develop"
+                        // Check to see if Jenkins is building a tag, branch, or other (including PRs)
                         if (env.TAG_NAME != null && env.TAG_NAME ==~ /v\d+\.\d+\.\d+.*/) {
                             println "Going to use target Android tag " + env.TAG_NAME
                             androidBranch = "refs/tags/" + env.TAG_NAME
@@ -59,13 +59,13 @@ pipeline {
                         checkout scm: [$class: 'GitSCM', branches: [[name: androidBranch]], extensions: [], userRemoteConfigs: [[credentialsId: 'GooeyHub', url: androidGitPath]]]
                     }
                 }
-                sh './gradlew --console=plain :android:assembleDebug'
+                sh './gradlew :android:assembleDebug'
                 archiveArtifacts 'android/build/outputs/apk/debug/android-debug.apk'
             }
         }
         stage('Record Android') {
             steps {
-               sh './gradlew --console=plain :android:lint'
+               sh './gradlew :android:lint'
                recordIssues tool: androidLintParser(pattern: 'android/build/reports/lint-results.xml')
            }
         }
@@ -106,40 +106,45 @@ pipeline {
                         }
                     }
                 }
-                stage('Publish Alpha To Play Store') {
-                    when {
-                        // Example: v2.1.0-alpha
-                        tag pattern: 'v\\d+\\.\\d+\\.\\d+-alpha$', comparator: "REGEXP"
-                    }
-                    steps {
-                        dir('android') {
-                            sh 'fastlane deployAlpha'
+                // Leaving this stage inside a parallel as only one can ever be true at once (pipeline visualization aesthetics!)
+                stage('Target release channel') {
+                    parallel {
+                        stage('Publish Alpha To Play Store') {
+                            when {
+                                // Example: v2.1.0-alpha
+                                tag pattern: 'v\\d+\\.\\d+\\.\\d+-alpha$', comparator: "REGEXP"
+                            }
+                            steps {
+                                dir('android') {
+                                    sh 'fastlane deployAlpha'
+                                }
+                            }
                         }
-                    }
-                }
-                stage('Publish Beta To Play Store') {
-                    when {
-                        // Example: v2.1.0-beta
-                        tag pattern: 'v\\d+\\.\\d+\\.\\d+-beta$', comparator: "REGEXP"
-                    }
-                    steps {
-                        dir('android') {
-                            sh 'fastlane deployBeta'
+                        stage('Publish Beta To Play Store') {
+                            when {
+                                // Example: v2.1.0-beta
+                                tag pattern: 'v\\d+\\.\\d+\\.\\d+-beta$', comparator: "REGEXP"
+                            }
+                            steps {
+                                dir('android') {
+                                    sh 'fastlane deployBeta'
+                                }
+                                discordSend title: "Beta ${env.GIT_TAG} published to Play Store", result: currentBuild.currentResult, webhookURL: env.WEBHOOK
+                            }
                         }
-                        discordSend title: "Beta ${env.GIT_TAG} published to Play Store", result: currentBuild.currentResult, webhookURL: env.WEBHOOK
-                    }
-                }
-                stage('Publish Release To Play Store') {
-                    when {
-                        // Example: v2.1.0
-                        // This intentionally does not include things like v2.1.0-beta
-                        tag pattern: 'v\\d+\\.\\d+\\.\\d+$', comparator: "REGEXP"
-                    }
-                    steps {
-                        dir('android') {
-                            sh 'fastlane deployProduction'
+                        stage('Publish Live To Play Store') {
+                            when {
+                                // Example: v2.1.0
+                                // This intentionally does not include things like v2.1.0-beta
+                                tag pattern: 'v\\d+\\.\\d+\\.\\d+$', comparator: "REGEXP"
+                            }
+                            steps {
+                                dir('android') {
+                                    sh 'fastlane deployProduction'
+                                }
+                                discordSend title: "Release ${env.GIT_TAG} published to Play Store", result: currentBuild.currentResult, webhookURL: env.WEBHOOK
+                            }
                         }
-                        discordSend title: "Release ${env.GIT_TAG} published to Play Store", result: currentBuild.currentResult, webhookURL: env.WEBHOOK
                     }
                 }
             }
