@@ -145,7 +145,8 @@ public class RubbleCreationSystem implements EventReceiver {
             velocityComponent.velocity = velocity;
 
             EntityRef entityRef = entitySystemManager.getEntityManager().createEntity(graphicsComponent, positionComponent,
-                    velocityComponent, angle, sizeComponent, new RubbleMesh());
+                    sizeComponent, angle, velocityComponent, new RubbleMesh(), health);
+
             SolMath.free(velocity);
             entityRef.setComponent(new BodyLinked());
         }
