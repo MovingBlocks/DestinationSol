@@ -32,6 +32,7 @@ import org.destinationsol.health.components.Health;
 import org.destinationsol.location.components.Angle;
 import org.destinationsol.location.components.Position;
 import org.destinationsol.location.components.Velocity;
+import org.destinationsol.moneyDropping.components.DropsMoneyOnDestruction;
 import org.destinationsol.removal.events.DeletionEvent;
 import org.destinationsol.removal.systems.DestructionSystem;
 import org.destinationsol.rendering.RenderableElement;
@@ -51,9 +52,9 @@ import org.terasology.gestalt.entitysystem.event.ReceiveEvent;
  */
 public class RubbleCreationSystem implements EventReceiver {
 
-    public static final float SIZE_TO_RUBBLE_COUNT = 13f;
-    public static final float MIN_SCALE = .07f;
-    public static final float MAX_SCALE = .12f;
+    public static final float SIZE_TO_RUBBLE_COUNT = 8f;
+    public static final float MIN_SCALE = .1f;
+    public static final float MAX_SCALE = .3f;
     private static final float MAX_SPD = 40f;
 
     @In
@@ -115,7 +116,7 @@ public class RubbleCreationSystem implements EventReceiver {
             element.graphicsOffset = new Vector2();
 
             float scale = SolRandom.randomFloat(MIN_SCALE, MAX_SCALE);
-            element.setSize(scale);
+            element.setSize(scale * size.size);
 
             element.relativePosition = new Vector2();
             element.tint = Color.WHITE;
@@ -136,7 +137,7 @@ public class RubbleCreationSystem implements EventReceiver {
 
             //Create size component
             Size sizeComponent = new Size();
-            sizeComponent.size = scale;
+            sizeComponent.size = scale * size.size;
 
             //Create velocity component
             Velocity velocityComponent = new Velocity();
@@ -146,6 +147,11 @@ public class RubbleCreationSystem implements EventReceiver {
 
             EntityRef entityRef = entitySystemManager.getEntityManager().createEntity(graphicsComponent, positionComponent,
                     sizeComponent, angle, velocityComponent, new RubbleMesh(), health);
+
+            if (sizeComponent.size > 0.1) {
+                entityRef.setComponent(new CreatesRubbleOnDestruction());
+                entityRef.setComponent(new DropsMoneyOnDestruction());
+            }
 
             SolMath.free(velocity);
             entityRef.setComponent(new BodyLinked());
