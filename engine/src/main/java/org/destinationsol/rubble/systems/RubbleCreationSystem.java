@@ -53,6 +53,7 @@ import org.terasology.gestalt.entitysystem.event.ReceiveEvent;
 public class RubbleCreationSystem implements EventReceiver {
 
     public static final float SIZE_TO_RUBBLE_COUNT = 8f;
+    public static final float MIN_DIVISIBLE_SIZE = .1f;
     public static final float MIN_SCALE = .1f;
     public static final float MAX_SCALE = .3f;
     private static final float MAX_SPD = 40f;
@@ -116,7 +117,8 @@ public class RubbleCreationSystem implements EventReceiver {
             element.graphicsOffset = new Vector2();
 
             float scale = SolRandom.randomFloat(MIN_SCALE, MAX_SCALE);
-            element.setSize(scale * size.size);
+            float scaledSize = scale * size.size;
+            element.setSize(scaledSize);
 
             element.relativePosition = new Vector2();
             element.tint = Color.WHITE;
@@ -126,7 +128,7 @@ public class RubbleCreationSystem implements EventReceiver {
             //Create position component
             float velocityAngle = SolRandom.randomFloat(180);
             Vector2 position = new Vector2();
-            SolMath.fromAl(position, velocityAngle, SolRandom.randomFloat(size.size));
+            SolMath.fromAl(position, velocityAngle, SolRandom.randomFloat(scaledSize));
             position.add(basePos);
             Position positionComponent = new Position();
             positionComponent.position = position;
@@ -137,7 +139,7 @@ public class RubbleCreationSystem implements EventReceiver {
 
             //Create size component
             Size sizeComponent = new Size();
-            sizeComponent.size = scale * size.size;
+            sizeComponent.size = scaledSize;
 
             //Create velocity component
             Velocity velocityComponent = new Velocity();
@@ -148,7 +150,7 @@ public class RubbleCreationSystem implements EventReceiver {
             EntityRef entityRef = entitySystemManager.getEntityManager().createEntity(graphicsComponent, positionComponent,
                     sizeComponent, angle, velocityComponent, new RubbleMesh(), health);
 
-            if (sizeComponent.size > 0.1) {
+            if (scaledSize > MIN_DIVISIBLE_SIZE) {
                 entityRef.setComponent(new CreatesRubbleOnDestruction());
                 entityRef.setComponent(new DropsMoneyOnDestruction());
             }
