@@ -18,8 +18,17 @@ package org.destinationsol;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.google.common.base.Enums;
+import org.destinationsol.input.DefaultControls;
+import org.destinationsol.input.InputControls;
 import org.destinationsol.menu.Resolution;
 import org.destinationsol.menu.ResolutionProvider;
+
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
 
 import static java.util.Arrays.asList;
 
@@ -96,29 +105,6 @@ public class GameOptions {
     }
 
     public static final String FILE_NAME = "settings.ini";
-    public static final String DEFAULT_MOUSE_UP = "W";
-    public static final String DEFAULT_MOUSE_DOWN = "S";
-    public static final String DEFAULT_UP = "Up";
-    public static final String DEFAULT_DOWN = "Down";
-    public static final String DEFAULT_LEFT = "Left";
-    public static final String DEFAULT_RIGHT = "Right";
-    public static final String DEFAULT_SHOOT = "Space";
-    public static final String DEFAULT_SHOOT2 = "L-Ctrl";
-    public static final String DEFAULT_ABILITY = "L-Shift";
-    public static final String DEFAULT_ESCAPE = "Escape";
-    public static final String DEFAULT_MAP = "Tab";
-    public static final String DEFAULT_INVENTORY = "I";
-    public static final String DEFAULT_TALK = "T";
-    public static final String DEFAULT_PAUSE = "P";
-    public static final String DEFAULT_DROP = "D";
-    public static final String DEFAULT_SELL = "S";
-    public static final String DEFAULT_BUY = "B";
-    public static final String DEFAULT_CHANGE_SHIP = "C";
-    public static final String DEFAULT_HIRE_SHIP = "H";
-    public static final String DEFAULT_MERCENARY_INTERACTION = "M";
-    public static final String DEFAULT_FREE_CAMERA_MOVEMENT = "V";
-    public static final String DEFAULT_ZOOM_IN = "Page Up";
-    public static final String DEFAULT_ZOOM_OUT = "Page Down";
     public static final int DEFAULT_AXIS_SHOOT = 1;
     public static final int DEFAULT_AXIS_SHOOT2 = 0;
     public static final int DEFAULT_AXIS_ABILITY = -1;
@@ -144,29 +130,6 @@ public class GameOptions {
     public Volume sfxVolume;
     public Volume musicVolume;
     public boolean canSellEquippedItems;
-    private String keyUpMouseName;
-    private String keyDownMouseName;
-    private String keyUpName;
-    private String keyDownName;
-    private String keyLeftName;
-    private String keyRightName;
-    private String keyShootName;
-    private String keyShoot2Name;
-    private String keyAbilityName;
-    private String keyEscapeName;
-    private String keyMapName;
-    private String keyInventoryName;
-    private String keyTalkName;
-    private String keyPauseName;
-    private String keyDropName;
-    private String keySellMenuName;
-    private String keyBuyMenuName;
-    private String keyChangeShipMenuName;
-    private String keyHireShipMenuName;
-    private String keyMercenaryInteractionName;
-    private String keyFreeCameraMovementName;
-    private String keyZoomInName;
-    private String keyZoomOutName;
     private int controllerAxisShoot;
     private int controllerAxisShoot2;
     private int controllerAxisAbility;
@@ -183,41 +146,29 @@ public class GameOptions {
     private int controllerButtonDown;
     private int mapScrollSpeed;
     public float nuiUiScale;
+    private Map<InputControls, int[]> controls;
 
     private ResolutionProvider resolutionProvider;
 
     public GameOptions(boolean mobile, SolFileReader solFileReader) {
+        controls = new HashMap<>();
 
         IniReader reader = new IniReader(FILE_NAME, solFileReader);
+        for (DefaultControls control : DefaultControls.values()) {
+            String controlValue = reader.getString(control.getControlName(), "");
+            if (controlValue.isEmpty()) {
+                controls.put(control, control.getDefaultInputs());
+            } else {
+                controls.put(control, parseKeyboardControl(controlValue));
+            }
+        }
+
         x = reader.getInt("x", 1366);
         y = reader.getInt("y", 768);
         fullscreen = reader.getBoolean("fullscreen", false);
         controlType = mobile ? ControlType.KEYBOARD : Enums.getIfPresent(ControlType.class,  reader.getString("controlType", "MIXED")).or(ControlType.MIXED);
         sfxVolume = Enums.getIfPresent(Volume.class, reader.getString("sfxVolume", "MAX")).or(Volume.MAX);
         musicVolume = Enums.getIfPresent(Volume.class, reader.getString("musicVolume", "MAX")).or(Volume.MAX);
-        keyUpMouseName = reader.getString("keyUpMouse", DEFAULT_MOUSE_UP);
-        keyDownMouseName = reader.getString("keyDownMouse", DEFAULT_MOUSE_DOWN);
-        keyUpName = reader.getString("keyUp", DEFAULT_UP);
-        keyDownName = reader.getString("keyDown", DEFAULT_DOWN);
-        keyLeftName = reader.getString("keyLeft", DEFAULT_LEFT);
-        keyRightName = reader.getString("keyRight", DEFAULT_RIGHT);
-        keyShootName = reader.getString("keyShoot", DEFAULT_SHOOT);
-        keyShoot2Name = reader.getString("keyShoot2", DEFAULT_SHOOT2);
-        keyAbilityName = reader.getString("keyAbility", DEFAULT_ABILITY);
-        keyEscapeName = reader.getString("keyEscape", DEFAULT_ESCAPE);
-        keyMapName = reader.getString("keyMap", DEFAULT_MAP);
-        keyInventoryName = reader.getString("keyInventory", DEFAULT_INVENTORY);
-        keyTalkName = reader.getString("keyTalk", DEFAULT_TALK);
-        keyPauseName = reader.getString("keyPause", DEFAULT_PAUSE);
-        keyDropName = reader.getString("keyDrop", DEFAULT_DROP);
-        keySellMenuName = reader.getString("keySellMenu", DEFAULT_SELL);
-        keyBuyMenuName = reader.getString("keyBuyMenu", DEFAULT_BUY);
-        keyChangeShipMenuName = reader.getString("keyChangeShipMenu", DEFAULT_CHANGE_SHIP);
-        keyHireShipMenuName = reader.getString("keyHireShipMenu", DEFAULT_HIRE_SHIP);
-        keyMercenaryInteractionName = reader.getString("keyMercenaryInteraction", DEFAULT_MERCENARY_INTERACTION);
-        keyFreeCameraMovementName = reader.getString("keyFreeCameraMovement", DEFAULT_FREE_CAMERA_MOVEMENT);
-        keyZoomInName = reader.getString("keyZoomIn", DEFAULT_ZOOM_IN);
-        keyZoomOutName = reader.getString("keyZoomOut", DEFAULT_ZOOM_OUT);
         controllerAxisShoot = reader.getInt("controllerAxisShoot", DEFAULT_AXIS_SHOOT);
         controllerAxisShoot2 = reader.getInt("controllerAxisShoot2", DEFAULT_AXIS_SHOOT2);
         controllerAxisAbility = reader.getInt("controllerAxisAbility", DEFAULT_AXIS_ABILITY);
@@ -235,6 +186,15 @@ public class GameOptions {
         canSellEquippedItems = reader.getBoolean("canSellEquippedItems", false);
         mapScrollSpeed = reader.getInt("mapScrollSpeed", mobile ? DEFAULT_MOBILE_MAP_SCROLL_SPEED : DEFAULT_MAP_SCROLL_SPEED);
         nuiUiScale = reader.getFloat("nuiUiScale", DEFAULT_NUI_UI_SCALE);
+    }
+
+    private int[] parseKeyboardControl(String controlString) {
+        String[] inputNames = controlString.split(",");
+        int[] inputKeys = new int[inputNames.length];
+        for (int inputNo = 0; inputNo < inputNames.length; inputNo++) {
+            inputKeys[inputNo] = Input.Keys.valueOf(inputNames[inputNo]);
+        }
+        return inputKeys;
     }
 
     public void advanceResolution() {
@@ -290,14 +250,9 @@ public class GameOptions {
      * Save the configuration settings to file.
      */
     public void save() {
-        IniReader.write(FILE_NAME, "x", x, "y", y, "fullscreen", fullscreen, "controlType", controlType,
+        List<Object> iniValues = new ArrayList<>();
+        Collections.addAll(iniValues, "x", x, "y", y, "fullscreen", fullscreen, "controlType", controlType,
                 "sfxVolume", sfxVolume, "musicVolume", musicVolume, "canSellEquippedItems", canSellEquippedItems,
-                "keyUpMouse", getKeyUpMouseName(), "keyDownMouse", getKeyDownMouseName(), "keyUp", getKeyUpName(), "keyDown", keyDownName,
-                "keyLeft", keyLeftName, "keyRight", keyRightName, "keyShoot", keyShootName, "keyShoot2", getKeyShoot2Name(),
-                "keyAbility", getKeyAbilityName(), "keyEscape", getKeyEscapeName(), "keyMap", keyMapName, "keyInventory", keyInventoryName,
-                "keyTalk", getKeyTalkName(), "keyPause", getKeyPauseName(), "keyDrop", getKeyDropName(), "keySellMenu", getKeySellMenuName(),
-                "keyBuyMenu", getKeyBuyMenuName(), "keyChangeShipMenu", getKeyChangeShipMenuName(), "keyHireShipMenu", getKeyHireShipMenuName(),
-                "keyZoomIn", getKeyZoomInName(), "keyZoomOut", getKeyZoomOutName(),
                 "controllerAxisShoot", getControllerAxisShoot(), "controllerAxisShoot2", getControllerAxisShoot2(),
                 "controllerAxisAbility", getControllerAxisAbility(), "controllerAxisLeftRight", getControllerAxisLeftRight(),
                 "isControllerAxisLeftRightInverted", isControllerAxisLeftRightInverted(), "controllerAxisUpDown", getControllerAxisUpDown(),
@@ -306,6 +261,22 @@ public class GameOptions {
                 "controllerButtonLeft", getControllerButtonLeft(), "controllerButtonRight", getControllerButtonRight(),
                 "controllerButtonUp", getControllerButtonUp(), "controllerButtonDown", getControllerButtonDown(),
                 "mapScrollSpeed", getMapScrollSpeed(), "nuiUiScale", getNuiUiScale());
+
+        StringBuilder inputsStringBuilder = new StringBuilder();
+        for (Map.Entry<InputControls, int[]> control : controls.entrySet()) {
+            iniValues.add(control.getKey().getControlName());
+
+            int[] inputs = control.getValue();
+            for (int inputNo = 0; inputNo < inputs.length - 1; inputNo++) {
+                inputsStringBuilder.append(Input.Keys.toString(inputs[inputNo]));
+                inputsStringBuilder.append(",");
+            }
+            inputsStringBuilder.append(Input.Keys.toString(inputs[inputs.length - 1]));
+            iniValues.add(inputsStringBuilder.toString());
+
+            inputsStringBuilder.delete(0, inputsStringBuilder.length());
+        }
+        IniReader.write(FILE_NAME, iniValues.toArray(new Object[0]));
     }
 
     /**
@@ -314,7 +285,7 @@ public class GameOptions {
      * @return int The keycode as defined in Input.Keys
      */
     public int getKeyUpMouse() {
-        return Input.Keys.valueOf(getKeyUpMouseName());
+        return getControl(DefaultControls.MOUSE_UP)[0];
     }
 
     /**
@@ -324,7 +295,7 @@ public class GameOptions {
      * @return int The keycode as defined in Input.Keys
      */
     public int getKeyDownMouse() {
-        return Input.Keys.valueOf(getKeyDownMouseName());
+        return getControl(DefaultControls.MOUSE_DOWN)[0];
     }
 
     /**
@@ -334,11 +305,11 @@ public class GameOptions {
      * @return String The readable name as defined in Input.Keys
      */
     public String getKeyUpMouseName() {
-        return keyUpMouseName;
+        return Input.Keys.toString(getKeyUpMouse());
     }
 
     public void setKeyUpMouseName(String keyUpMouseName) {
-        this.keyUpMouseName = keyUpMouseName;
+        setControl(DefaultControls.MOUSE_UP, new int[] { Input.Keys.valueOf(keyUpMouseName) });
     }
 
     /**
@@ -348,11 +319,11 @@ public class GameOptions {
      * @return String The readable name as defined in Input.Keys
      */
     public String getKeyDownMouseName() {
-        return keyDownMouseName;
+        return Input.Keys.toString(getKeyDownMouse());
     }
 
     public void setKeyDownMouseName(String keyDownMouseName) {
-        this.keyDownMouseName = keyDownMouseName;
+        setControl(DefaultControls.MOUSE_DOWN, new int[] { Input.Keys.valueOf(keyDownMouseName) });
     }
 
     /**
@@ -361,7 +332,7 @@ public class GameOptions {
      * @return int The keycode as defined in Input.Keys
      */
     public int getKeyUp() {
-        return Input.Keys.valueOf(getKeyUpName());
+        return getControl(DefaultControls.UP)[0];
     }
 
     /**
@@ -371,11 +342,11 @@ public class GameOptions {
      * @return String The readable name as defined in Input.Keys
      */
     public String getKeyUpName() {
-        return keyUpName;
+        return Input.Keys.toString(getKeyUp());
     }
 
     public void setKeyUpName(String keyUpName) {
-        this.keyUpName = keyUpName;
+        setControl(DefaultControls.UP, new int[] { Input.Keys.valueOf(keyUpName) });
     }
 
     /**
@@ -384,7 +355,7 @@ public class GameOptions {
      * @return int The keycode as defined in Input.Keys
      */
     public int getKeyDown() {
-        return Input.Keys.valueOf(keyDownName);
+        return getControl(DefaultControls.DOWN)[0];
     }
 
     /**
@@ -393,11 +364,11 @@ public class GameOptions {
      * @return String The readable name as defined in Input.Keys
      */
     public String getKeyDownName() {
-        return keyDownName;
+        return Input.Keys.toString(getKeyDown());
     }
 
     public void setKeyDownName(String keyDownName) {
-        this.keyDownName = keyDownName;
+        setControl(DefaultControls.DOWN, new int[] { Input.Keys.valueOf(keyDownName) });
     }
 
     /**
@@ -406,7 +377,7 @@ public class GameOptions {
      * @return int The keycode as defined in Input.Keys
      */
     public int getKeyLeft() {
-        return Input.Keys.valueOf(keyLeftName);
+        return getControl(DefaultControls.LEFT)[0];
     }
 
     /**
@@ -415,11 +386,11 @@ public class GameOptions {
      * @return String The readable name as defined in Input.Keys
      */
     public String getKeyLeftName() {
-        return keyLeftName;
+        return Input.Keys.toString(getKeyLeft());
     }
 
     public void setKeyLeftName(String keyLeftName) {
-        this.keyLeftName = keyLeftName;
+        setControl(DefaultControls.LEFT, new int[] { Input.Keys.valueOf(keyLeftName) });
     }
 
     /**
@@ -428,7 +399,7 @@ public class GameOptions {
      * @return int The keycode as defined in Input.Keys
      */
     public int getKeyRight() {
-        return Input.Keys.valueOf(keyRightName);
+        return getControl(DefaultControls.RIGHT)[0];
     }
 
     /**
@@ -437,11 +408,11 @@ public class GameOptions {
      * @return String The readable name as defined in Input.Keys
      */
     public String getKeyRightName() {
-        return keyRightName;
+        return Input.Keys.toString(getKeyRight());
     }
 
     public void setKeyRightName(String keyRightName) {
-        this.keyRightName = keyRightName;
+        setControl(DefaultControls.RIGHT, new int[] { Input.Keys.valueOf(keyRightName) });
     }
 
     /**
@@ -450,7 +421,7 @@ public class GameOptions {
      * @return int The keycode as defined in Input.Keys
      */
     public int getKeyShoot() {
-        return Input.Keys.valueOf(keyShootName);
+        return getControl(DefaultControls.SHOOT)[0];
     }
 
     /**
@@ -459,11 +430,11 @@ public class GameOptions {
      * @return String The readable name as defined in Input.Keys
      */
     public String getKeyShootName() {
-        return keyShootName;
+        return Input.Keys.toString(getKeyShoot());
     }
 
     public void setKeyShootName(String keyShootName) {
-        this.keyShootName = keyShootName;
+        setControl(DefaultControls.SHOOT, new int[] { Input.Keys.valueOf(keyShootName) });
     }
 
     /**
@@ -472,7 +443,7 @@ public class GameOptions {
      * @return int The keycode as defined in Input.Keys
      */
     public int getKeyShoot2() {
-        return Input.Keys.valueOf(getKeyShoot2Name());
+        return getControl(DefaultControls.SHOOT2)[0];
     }
 
     /**
@@ -481,11 +452,11 @@ public class GameOptions {
      * @return String The readable name as defined in Input.Keys
      */
     public String getKeyShoot2Name() {
-        return keyShoot2Name;
+        return Input.Keys.toString(getKeyShoot2());
     }
 
     public void setKeyShoot2Name(String keyShoot2Name) {
-        this.keyShoot2Name = keyShoot2Name;
+        setControl(DefaultControls.SHOOT2, new int[] { Input.Keys.valueOf(keyShoot2Name) });
     }
 
     /**
@@ -495,7 +466,7 @@ public class GameOptions {
      * @return int The keycode as defined in Input.Keys
      */
     public int getKeyEquip() {
-        return Input.Keys.valueOf(keyShootName);
+        return getKeyShoot();
     }
 
     /**
@@ -524,7 +495,7 @@ public class GameOptions {
      * @return int The keycode as defined in Input.Keys
      */
     public int getKeyAbility() {
-        return Input.Keys.valueOf(getKeyAbilityName());
+        return getControl(DefaultControls.ABILITY)[0];
     }
 
     /**
@@ -533,11 +504,11 @@ public class GameOptions {
      * @return String The readable name as defined in Input.Keys
      */
     public String getKeyAbilityName() {
-        return keyAbilityName;
+        return Input.Keys.toString(getKeyAbility());
     }
 
     public void setKeyAbilityName(String keyAbilityName) {
-        this.keyAbilityName = keyAbilityName;
+        setControl(DefaultControls.ABILITY, new int[] { Input.Keys.valueOf(keyAbilityName) });
     }
 
     /**
@@ -546,7 +517,7 @@ public class GameOptions {
      * @return int The keycode as defined in Input.Keys
      */
     public int getKeyEscape() {
-        return Input.Keys.valueOf(getKeyEscapeName());
+        return getControl(DefaultControls.ESCAPE)[0];
     }
 
     /**
@@ -556,11 +527,11 @@ public class GameOptions {
      * @return String The readable name as defined in Input.Keys
      */
     public String getKeyEscapeName() {
-        return keyEscapeName;
+        return Input.Keys.toString(getKeyEscape());
     }
 
     public void setKeyEscapeName(String keyEscapeName) {
-        this.keyEscapeName = keyEscapeName;
+        setControl(DefaultControls.ESCAPE, new int[] { Input.Keys.valueOf(keyEscapeName) });
     }
 
     /**
@@ -650,7 +621,7 @@ public class GameOptions {
      * @return int The keycode as defined in Input.Keys
      */
     public int getKeyZoomIn() {
-        return Input.Keys.valueOf(keyZoomInName);
+        return getControl(DefaultControls.ZOOM_IN)[0];
     }
 
     /**
@@ -660,7 +631,7 @@ public class GameOptions {
      * @return String The readable name as defined in Input.Keys
      */
     public String getKeyZoomInName() {
-        return keyZoomInName;
+        return Input.Keys.toString(getKeyZoomIn());
     }
 
     /**
@@ -670,7 +641,7 @@ public class GameOptions {
      * @return int The keycode as defined in Input.Keys
      */
     public int getKeyZoomOut() {
-        return Input.Keys.valueOf(keyZoomOutName);
+        return getControl(DefaultControls.ZOOM_OUT)[0];
     }
 
     /**
@@ -680,7 +651,7 @@ public class GameOptions {
      * @return String The readable name as defined in Input.Keys
      */
     public String getKeyZoomOutName() {
-        return keyZoomOutName;
+        return Input.Keys.toString(getKeyZoomOut());
     }
 
     /**
@@ -689,7 +660,7 @@ public class GameOptions {
      * @return int The keycode as defined in Input.Keys
      */
     public int getKeyMap() {
-        return Input.Keys.valueOf(keyMapName);
+        return getControl(DefaultControls.MAP)[0];
     }
 
     /**
@@ -698,11 +669,11 @@ public class GameOptions {
      * @return String The readable name as defined in Input.Keys
      */
     public String getKeyMapName() {
-        return keyMapName;
+        return Input.Keys.toString(getKeyMap());
     }
 
     public void setKeyMapName(String keyMapName) {
-        this.keyMapName = keyMapName;
+        setControl(DefaultControls.MAP, new int[] { Input.Keys.valueOf(keyMapName) });
     }
 
     /**
@@ -711,7 +682,7 @@ public class GameOptions {
      * @return int The keycode as defined in Input.Keys
      */
     public int getKeyInventory() {
-        return Input.Keys.valueOf(keyInventoryName);
+        return getControl(DefaultControls.INVENTORY)[0];
     }
 
     /**
@@ -720,11 +691,11 @@ public class GameOptions {
      * @return String The readable name as defined in Input.Keys
      */
     public String getKeyInventoryName() {
-        return keyInventoryName;
+        return Input.Keys.toString(getKeyInventory());
     }
 
     public void setKeyInventoryName(String keyInventoryName) {
-        this.keyInventoryName = keyInventoryName;
+        setControl(DefaultControls.INVENTORY, new int[] { Input.Keys.valueOf(keyInventoryName) });
     }
 
     /**
@@ -733,7 +704,7 @@ public class GameOptions {
      * @return int The keycode as defined in Input.Keys
      */
     public int getKeyMercenaryInteraction() {
-        return Input.Keys.valueOf(keyMercenaryInteractionName);
+        return getControl(DefaultControls.MERCENARY_INTERACTION)[0];
     }
 
     /**
@@ -742,23 +713,23 @@ public class GameOptions {
      * @return String The readable name as defined in Input.Keys
      */
     public String getKeyMercenaryInterationName() {
-        return keyMercenaryInteractionName;
+        return Input.Keys.toString(getKeyMercenaryInteraction());
     }
 
     public void setKeyMercenaryInteractionName(String keyMercenaryInteractionName) {
-        this.keyMercenaryInteractionName = keyMercenaryInteractionName;
+        setControl(DefaultControls.MERCENARY_INTERACTION, new int[] { Input.Keys.valueOf(keyMercenaryInteractionName) });
     }
 
     public int getKeyFreeCameraMovement() {
-        return Input.Keys.valueOf(getKeyFreeCameraMovementName());
+        return getControl(DefaultControls.FREE_CAMERA_MOVEMENT)[0];
     }
 
     public String getKeyFreeCameraMovementName() {
-        return keyFreeCameraMovementName;
+        return Input.Keys.toString(getKeyFreeCameraMovement());
     }
 
     public void setKeyFreeCameraMovementName(String keyFreeCameraMovementName) {
-        this.keyFreeCameraMovementName = keyFreeCameraMovementName;
+        setControl(DefaultControls.FREE_CAMERA_MOVEMENT, new int[] { Input.Keys.valueOf(keyFreeCameraMovementName) });
     }
 
     /**
@@ -767,7 +738,7 @@ public class GameOptions {
      * @return int The keycode as defined in Input.Keys
      */
     public int getKeyTalk() {
-        return Input.Keys.valueOf(getKeyTalkName());
+        return getControl(DefaultControls.TALK)[0];
     }
 
     /**
@@ -776,11 +747,11 @@ public class GameOptions {
      * @return String The readable name as defined in Input.Keys
      */
     public String getKeyTalkName() {
-        return keyTalkName;
+        return Input.Keys.toString(getKeyTalk());
     }
 
     public void setKeyTalkName(String keyTalkName) {
-        this.keyTalkName = keyTalkName;
+        setControl(DefaultControls.TALK, new int[] { Input.Keys.valueOf(keyTalkName) });
     }
 
     /**
@@ -789,7 +760,7 @@ public class GameOptions {
      * @return int The keycode as defined in Input.Keys
      */
     public int getKeyPause() {
-        return Input.Keys.valueOf(getKeyPauseName());
+        return getControl(DefaultControls.PAUSE)[0];
     }
 
     /**
@@ -798,11 +769,11 @@ public class GameOptions {
      * @return String The readable name as defined in Input.Keys
      */
     public String getKeyPauseName() {
-        return keyPauseName;
+        return Input.Keys.toString(getKeyPause());
     }
 
     public void setKeyPauseName(String keyPauseName) {
-        this.keyPauseName = keyPauseName;
+        setControl(DefaultControls.PAUSE, new int[] { Input.Keys.valueOf(keyPauseName) });
     }
 
     /**
@@ -811,7 +782,7 @@ public class GameOptions {
      * @return int The keycode as defined in Input.Keys
      */
     public int getKeyDrop() {
-        return Input.Keys.valueOf(getKeyDropName());
+        return getControl(DefaultControls.DROP)[0];
     }
 
     /**
@@ -820,11 +791,11 @@ public class GameOptions {
      * @return String The readable name as defined in Input.Keys
      */
     public String getKeyDropName() {
-        return keyDropName;
+        return Input.Keys.toString(getKeyDrop());
     }
 
     public void setKeyDropName(String keyDropName) {
-        this.keyDropName = keyDropName;
+        setControl(DefaultControls.DROP, new int[] { Input.Keys.valueOf(keyDropName) });
     }
 
     /**
@@ -833,7 +804,7 @@ public class GameOptions {
      * @return int The keycode as defined in Input.Keys
      */
     public int getKeySellMenu() {
-        return Input.Keys.valueOf(getKeySellMenuName());
+        return getControl(DefaultControls.SELL)[0];
     }
 
     /**
@@ -842,11 +813,11 @@ public class GameOptions {
      * @return String The readable name as defined in Input.Keys
      */
     public String getKeySellMenuName() {
-        return keySellMenuName;
+        return Input.Keys.toString(getKeySellMenu());
     }
 
     public void setKeySellMenuName(String keySellMenuName) {
-        this.keySellMenuName = keySellMenuName;
+        setControl(DefaultControls.SELL, new int[] { Input.Keys.valueOf(keySellMenuName) });
     }
 
     /**
@@ -855,7 +826,7 @@ public class GameOptions {
      * @return int The keycode as defined in Input.Keys
      */
     public int getKeyBuyMenu() {
-        return Input.Keys.valueOf(getKeyBuyMenuName());
+        return getControl(DefaultControls.BUY)[0];
     }
 
     /**
@@ -864,11 +835,11 @@ public class GameOptions {
      * @return String The readable name as defined in Input.Keys
      */
     public String getKeyBuyMenuName() {
-        return keyBuyMenuName;
+        return Input.Keys.toString(getKeyBuyMenu());
     }
 
     public void setKeyBuyMenuName(String keyBuyMenuName) {
-        this.keyBuyMenuName = keyBuyMenuName;
+        setControl(DefaultControls.BUY, new int[] { Input.Keys.valueOf(keyBuyMenuName) });
     }
 
     /**
@@ -877,7 +848,7 @@ public class GameOptions {
      * @return int The keycode as defined in Input.Keys
      */
     public int getKeyChangeShipMenu() {
-        return Input.Keys.valueOf(getKeyChangeShipMenuName());
+        return getControl(DefaultControls.CHANGE_SHIP)[0];
     }
 
     /**
@@ -886,11 +857,11 @@ public class GameOptions {
      * @return String The readable name as defined in Input.Keys
      */
     public String getKeyChangeShipMenuName() {
-        return keyChangeShipMenuName;
+        return Input.Keys.toString(getKeyChangeShipMenu());
     }
 
     public void setKeyChangeShipMenuName(String keyChangeShipMenuName) {
-        this.keyChangeShipMenuName = keyChangeShipMenuName;
+        setControl(DefaultControls.CHANGE_SHIP, new int[] { Input.Keys.valueOf(keyChangeShipMenuName) });
     }
 
     /**
@@ -899,7 +870,7 @@ public class GameOptions {
      * @return int The keycode as defined in Input.Keys
      */
     public int getKeyHireShipMenu() {
-        return Input.Keys.valueOf(getKeyHireShipMenuName());
+        return getControl(DefaultControls.HIRE_SHIP)[0];
     }
 
     /**
@@ -908,11 +879,23 @@ public class GameOptions {
      * @return String The readable name as defined in Input.Keys
      */
     public String getKeyHireShipMenuName() {
-        return keyHireShipMenuName;
+        return Input.Keys.toString(getKeyHireShipMenu());
     }
 
     public void setKeyHireShipMenuName(String keyHireShipMenuName) {
-        this.keyHireShipMenuName = keyHireShipMenuName;
+        setControl(DefaultControls.HIRE_SHIP, new int[] { Input.Keys.valueOf(keyHireShipMenuName) });
+    }
+
+    public Set<Map.Entry<InputControls, int[]>> getControls() {
+        return controls.entrySet();
+    }
+
+    public int[] getControl(InputControls control) {
+        return controls.get(control);
+    }
+
+    public void setControl(InputControls control, int[] keys) {
+        controls.put(control, keys);
     }
 
     public int getControllerAxisShoot() {
