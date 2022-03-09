@@ -33,6 +33,7 @@ public class DebugOptions {
     public static String FORCE_PLANET_TYPE = "";
     public static String FORCE_SYSTEM_TYPE = "";
     public static boolean NO_OBJS = false;
+    public static boolean SPAWN_ECS_ASTEROID = false;
 
     // Presentation
     public static boolean NO_DRAS = false;
@@ -65,6 +66,7 @@ public class DebugOptions {
         FORCE_PLANET_TYPE = r.getString("forcePlanetType", FORCE_PLANET_TYPE);
         FORCE_SYSTEM_TYPE = r.getString("forceSystemType", FORCE_SYSTEM_TYPE);
         NO_OBJS = r.getBoolean("noObjs", NO_OBJS);
+        SPAWN_ECS_ASTEROID = r.getBoolean("spawnECSAsteroid", SPAWN_ECS_ASTEROID);
         NO_DRAS = r.getBoolean("noDras", NO_DRAS);
         ZOOM_OVERRIDE = r.getFloat("zoomOverride", ZOOM_OVERRIDE);
         GRID_SZ = r.getFloat("gridSz", GRID_SZ);
