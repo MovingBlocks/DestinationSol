@@ -1,0 +1,62 @@
+{
+    "type": "NewShipScreen",
+    "skin": "engine:mainMenu",
+    "contents": {
+        "type": "RelativeLayout",
+        "contents": [
+            {
+                "type": "UILabel",
+                "family": "menuHeaderText",
+                "text": "Warning: This will erase any old ship you might have had!",
+                "layoutInfo": {
+                    "position-horizontal-center": {},
+                    "position-top": {
+                        "target": "MIDDLE",
+                        "offset": -64
+                    }
+                }
+            },
+            {
+                "type": "ColumnLayout",
+                "id": "menuButtons",
+                "family": "menuButtons",
+                "columns": 1,
+                "verticalSpacing": 10,
+                "contents": [
+                    {
+                        "type": "UIButton",
+                        "id": "systemsButton",
+                        "text": "Systems"
+                    },
+                    {
+                        "type": "UIButton",
+                        "id": "startingShipButton",
+                        "text": "Starting Ship"
+                    },
+                    {
+                        "type": "KeyActivatedButton",
+                        "id": "okButton",
+                        "text": "OK"
+                    },
+                    {
+                        "type": "KeyActivatedButton",
+                        "id": "cancelButton",
+                        "text": "Cancel"
+                    }
+                ],
+                "layoutInfo": {
+                    "position-horizontal-center": {},
+                    "position-bottom": {
+                        "offset": 32
+                    },
+                    "position-top": {
+                        "target": "MIDDLE",
+                        "offset": 64
+                    },
+                    "use-content-height": true,
+                    "use-content-width": true
+                }
+            }
+        ]
+    }
+}

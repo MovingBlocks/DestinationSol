@@ -71,8 +71,8 @@ public class SolInputProcessor implements InputProcessor {
     }
 
     @Override
-    public boolean scrolled(int amount) {
-        inputManager.scrolled(amount > 0);
+    public boolean scrolled(float amountX, float amountY) {
+        inputManager.scrolled(amountY > 0);
         return false;
     }
 }

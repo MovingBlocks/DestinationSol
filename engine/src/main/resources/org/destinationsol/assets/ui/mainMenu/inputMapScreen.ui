@@ -1,0 +1,141 @@
+{
+    "type": "InputMapScreen",
+    "skin": "engine:mainMenu",
+    "contents": {
+        "type": "RelativeLayout",
+        "contents": [
+            {
+                "type": "ColumnLayout",
+                "id": "inputMapRows",
+                "verticalSpacing": 8,
+                "contents": [
+                    {
+                        "type": "RowLayout",
+                        "id": "header",
+                        "family": "inputMapHeader",
+                        "horizontalSpacing": 8,
+                        "contents": [
+                            {
+                                "type": "UILabel",
+                                "id": "title",
+                                "text": "Keyboard and Mouse Inputs",
+                                "layoutInfo": {
+                                    "relativeWidth": 0.6
+                                }
+                            },
+                            {
+                                "type": "KeyActivatedButton",
+                                "id": "previousButton",
+                                "text": "<"
+                            },
+                            {
+                                "type": "KeyActivatedButton",
+                                "id": "nextButton",
+                                "text": ">"
+                            }
+                        ]
+                    }
+                ],
+                "layoutInfo": {
+                    "position-horizontal-center": {},
+                    "position-top": {
+                        "offset": 64
+                    },
+                    "position-bottom": {
+                        "widget": "actionButtons",
+                        "target": "TOP",
+                        "offset": 16
+                    },
+                    "position-left": {
+                        "offset": 64
+                    },
+                    "position-right": {
+                        "offset": 64
+                    }
+                }
+            },
+            {
+                "type": "ColumnLayout",
+                "id": "actionButtons",
+                "family": "inputMapOptions",
+                "verticalSpacing": 8,
+                "contents": [
+                    {
+                        "type": "UIButton",
+                        "id": "defaultsButton",
+                        "text": "Defaults"
+                    },
+                    {
+                        "type": "UIButton",
+                        "id": "saveButton",
+                        "text": "Save"
+                    },
+                    {
+                        "type": "KeyActivatedButton",
+                        "id": "cancelButton",
+                        "text": "Cancel"
+                    }
+                ],
+                "layoutInfo": {
+                    "position-bottom": {
+                        "offset": 32
+                    },
+                    "position-left": {
+                        "offset": 64
+                    },
+                    "position-right": {
+                        "offset": 64
+                    },
+                    "use-content-height": true
+                }
+            },
+            {
+                "type": "RelativeLayout",
+                "id": "keyPressOverlay",
+                "contents": [
+                    {
+                        "type": "UIImage",
+                        "image": "engine:uiWhiteTex",
+                        "tint": [0, 0, 0, 0.8],
+                        "ignoreAspectRatio": true,
+                        "layoutInfo": {
+                            "position-top": {},
+                            "position-bottom": {},
+                            "position-left": {},
+                            "position-right": {}
+                        }
+                    },
+                    {
+                        "type": "UIBox",
+                        "content": {
+                            "type": "UILabel",
+                            "id": "keyPressMessage",
+                            "family": "keyPressMessage",
+                            "text": "Press Any Key"
+                        },
+                        "layoutInfo": {
+                            "position-top": {
+                                "offset": 128
+                            },
+                            "position-bottom": {
+                                "offset": 128
+                            },
+                            "position-left": {
+                                "offset": 128
+                            },
+                            "position-right": {
+                                "offset": 128
+                            }
+                        }
+                    }
+                ],
+                "layoutInfo": {
+                    "position-top": {},
+                    "position-bottom": {},
+                    "position-left": {},
+                    "position-right": {}
+                }
+            }
+        ]
+    }
+}

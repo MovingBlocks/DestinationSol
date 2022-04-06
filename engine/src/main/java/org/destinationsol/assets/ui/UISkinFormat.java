@@ -12,7 +12,6 @@ import com.google.gson.JsonParseException;
 import com.google.gson.JsonSyntaxException;
 import com.google.gson.stream.JsonReader;
 import org.destinationsol.assets.Assets;
-import org.destinationsol.assets.fonts.UIFont;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.terasology.gestalt.assets.ResourceUrn;
@@ -210,7 +209,7 @@ public class UISkinFormat extends AbstractAssetFileFormat<UISkinData> {
             if (!name.contains(":")) {
                 name = "engine:" + name;
             }
-            return new UIFont(Assets.getFont(name));
+            return Assets.getFont(name).getFontData();
         }
     }
 

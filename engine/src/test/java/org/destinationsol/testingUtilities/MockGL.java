@@ -424,12 +424,12 @@ public class MockGL implements GL20 {
     }
 
     @Override
-    public String glGetActiveAttrib(int program, int index, IntBuffer size, Buffer type) {
+    public String glGetActiveAttrib(int program, int index, IntBuffer size, IntBuffer type) {
         return "NULL";
     }
 
     @Override
-    public String glGetActiveUniform(int program, int index, IntBuffer size, Buffer type) {
+    public String glGetActiveUniform(int program, int index, IntBuffer size, IntBuffer type) {
         return "NULL";
     }
 

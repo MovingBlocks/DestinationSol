@@ -173,9 +173,9 @@ public class SolGame {
         boolean isMobile = solApplication.isMobile();
 
         if (!isMobile) {
-            mainGameScreen = (MainGameScreen) Assets.getAssetHelper().get(new ResourceUrn(NUI_MAIN_GAME_SCREEN_DESKTOP_URI), UIElement.class).get().getRootWidget();
+            mainGameScreen = (MainGameScreen) solApplication.getNuiManager().createScreen(NUI_MAIN_GAME_SCREEN_DESKTOP_URI);
         } else {
-            mainGameScreen = (MainGameScreen) Assets.getAssetHelper().get(new ResourceUrn(NUI_MAIN_GAME_SCREEN_MOBILE_URI), UIElement.class).get().getRootWidget();
+            mainGameScreen = (MainGameScreen) solApplication.getNuiManager().createScreen(NUI_MAIN_GAME_SCREEN_MOBILE_URI);
         }
         // TODO: resolve hack to set solApplication
         mainGameScreen.setSolApplication(solApplication);

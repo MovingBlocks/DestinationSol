@@ -29,8 +29,10 @@ import org.destinationsol.game.drawables.SpriteManager;
 import org.json.JSONObject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.terasology.gestalt.assets.Asset;
 import org.terasology.gestalt.assets.ResourceUrn;
 import org.terasology.gestalt.entitysystem.prefab.Prefab;
+import org.terasology.nui.asset.UIElement;
 import org.terasology.nui.skin.UISkin;
 import org.terasology.nui.skin.UISkinAsset;
 
@@ -265,6 +267,33 @@ public abstract class Assets {
         animationInfoJson.dispose();
         Animation<TextureAtlas.AtlasRegion> animation = new Animation<TextureAtlas.AtlasRegion>(1.0f / framesPerSecond, frames);
         return animation;
+    }
+
+    /**
+     * Retrieves the specified UIElement asset, if it exists. Otherwise, throws a RuntimeException.
+     * NOTE: It is the caller's responsibility for initialising the retrieved element, if needed.
+     * @see org.destinationsol.ui.nui.NUIManager#createScreen
+     * @param path the asset path, in the {@link ResourceUrn} format.
+     * @return the retrieved asset
+     */
+    public static UIElement getUIElement(String path) {
+        Optional<UIElement> optionalUIElement = assetHelper.get(new ResourceUrn(path), UIElement.class);
+
+        if (optionalUIElement.isPresent()) {
+            return optionalUIElement.get();
+        }
+
+        throw new RuntimeException("UIElement " + path + " not found!");
+    }
+
+    /**
+     * Returns true if the asset specified has already been loaded.
+     * @param path the asset urn
+     * @param type the asset type
+     * @return true, if the asset has been loaded yet, otherwise false
+     */
+    public static boolean isLoaded(String path, Class<? extends Asset<?>> type) {
+        return assetHelper.isAssetLoaded(new ResourceUrn(path), type);
     }
 
     public static void cacheLists() {

@@ -22,10 +22,13 @@ allprojects {
     apply plugin: 'eclipse'
     apply plugin: 'idea'
 
-    version = '2.0.1'
+    version = '2.1.0'
     ext {
         appName = 'DestinationSol'
-        gdxVersion = '1.9.8'
+        gdxVersion = '1.9.14'
+        // The LibGDX controllers library is versioned differently to the main LibGDX versions.
+        // See https://github.com/libgdx/gdx-controllers/wiki/Compatibility for compatible versions.
+        gdxControllersVersion = '2.1.0'
         roboVMVersion = '2.3.3'
         gestaltVersion = '8.0.0-SNAPSHOT'
         nuiVersion = '4.0.0-SNAPSHOT'

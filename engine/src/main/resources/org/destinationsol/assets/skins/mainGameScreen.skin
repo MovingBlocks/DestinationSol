@@ -8,10 +8,10 @@
           "min-height": 64
         }
       },
-      "font": "engine:main#2"
+      "font": "engine:main#1"
     },
     "controlsUIButton": {
-      "font": "engine:main#2"
+      "font": "engine:main#0.95"
     }
   }
 }

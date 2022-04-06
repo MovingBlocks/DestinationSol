@@ -154,11 +154,20 @@ public class SolInputManager {
         lastTouchDragPosition.set(x, y);
     }
 
+    /**
+     * Sets the current UI screen, removing all other screens currently displayed.
+     * The screen value can be null, which represents clearing all screens.
+     * @param solApplication a {@link SolApplication} instance
+     * @param screen the screen to display, or null for no screen
+     */
     public void setScreen(SolApplication solApplication, SolUiScreen screen) {
         for (SolUiScreen oldScreen : screens) {
             removeScreen(oldScreen, solApplication);
         }
-        addScreen(solApplication, screen);
+
+        if (screen != null) {
+            addScreen(solApplication, screen);
+        }
     }
 
     public void addScreen(SolApplication solApplication, SolUiScreen screen) {

@@ -17,6 +17,15 @@ package org.destinationsol.menu;
 
 import org.destinationsol.GameOptions;
 import org.destinationsol.ui.SolLayouts;
+import org.destinationsol.ui.nui.NUIManager;
+import org.destinationsol.ui.nui.screens.mainMenu.CreditsScreen;
+import org.destinationsol.ui.nui.screens.mainMenu.InputMapScreen;
+import org.destinationsol.ui.nui.screens.mainMenu.LoadingScreen;
+import org.destinationsol.ui.nui.screens.mainMenu.MainMenuScreen;
+import org.destinationsol.ui.nui.screens.mainMenu.NewGameScreen;
+import org.destinationsol.ui.nui.screens.mainMenu.NewShipScreen;
+import org.destinationsol.ui.nui.screens.mainMenu.OptionsScreen;
+import org.destinationsol.ui.nui.screens.mainMenu.ResolutionScreen;
 
 public class MenuScreens {
     public final MainMenuScreen main;
@@ -28,15 +37,15 @@ public class MenuScreens {
     public final NewGameScreen newGame;
     public final NewShipScreen newShip;
 
-    public MenuScreens(SolLayouts layouts, boolean mobile, GameOptions gameOptions) {
+    public MenuScreens(SolLayouts layouts, boolean mobile, GameOptions gameOptions, NUIManager nuiManager) {
         MenuLayout menuLayout = layouts.menuLayout;
-        main = new MainMenuScreen(mobile, gameOptions);
-        options = new OptionsScreen(mobile, menuLayout, gameOptions);
-        inputMapScreen = new InputMapScreen(gameOptions);
-        resolutionScreen = new ResolutionScreen(mobile, menuLayout, gameOptions);
-        credits = new CreditsScreen(gameOptions);
-        loading = new LoadingScreen();
-        newGame = new NewGameScreen(menuLayout, gameOptions);
-        newShip = new NewShipScreen(menuLayout, gameOptions);
+        main = (MainMenuScreen) nuiManager.createScreen("engine:mainMenuScreen");
+        options = (OptionsScreen) nuiManager.createScreen("engine:optionsScreen");
+        inputMapScreen = (InputMapScreen) nuiManager.createScreen("engine:inputMapScreen");
+        resolutionScreen = (ResolutionScreen) nuiManager.createScreen("engine:resolutionScreen");
+        credits = (CreditsScreen) nuiManager.createScreen("engine:creditsScreen");
+        loading = (LoadingScreen) nuiManager.createScreen("engine:loadingScreen");
+        newGame = (NewGameScreen) nuiManager.createScreen("engine:newGameScreen");
+        newShip = (NewShipScreen) nuiManager.createScreen("engine:newShipScreen");
     }
 }
