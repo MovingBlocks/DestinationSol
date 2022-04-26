@@ -35,6 +35,7 @@ import org.destinationsol.game.sound.DebugHintDrawer;
 
 import javax.inject.Inject;
 import javax.inject.Provider;
+import javax.inject.Singleton;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -57,6 +58,7 @@ import java.util.Map;
  * sound will be accepted only when loopTime time units has passed since the beginning of the sound's prior playback, or
  * the request is from different object.
  */
+@Singleton
 public class OggSoundManager implements UpdateAwareSystem {
     /**
      * A container for all the sounds that have been so far loaded in the game. Sounds are loaded on as needed basis,

@@ -19,20 +19,26 @@ import com.badlogic.gdx.Gdx;
 import org.destinationsol.GameOptions;
 import org.destinationsol.SolApplication;
 import org.destinationsol.assets.music.OggMusicManager;
-import org.destinationsol.common.In;
 import org.destinationsol.game.WorldConfig;
 import org.destinationsol.ui.nui.NUIManager;
 import org.destinationsol.ui.nui.NUIScreenLayer;
 import org.terasology.nui.Canvas;
 import org.terasology.nui.widgets.UIButton;
 
+import javax.inject.Inject;
+
 /**
  * The main menu screen. This is the first screen shown when you open the game.
  */
 public class MainMenuScreen extends NUIScreenLayer {
-    @In
-    private SolApplication solApplication;
+
+    private final SolApplication solApplication;
     private UIButton tutorialButton;
+
+    @Inject
+    public MainMenuScreen(SolApplication solApplication) {
+        this.solApplication = solApplication;
+    }
 
     @Override
     public void initialise() {

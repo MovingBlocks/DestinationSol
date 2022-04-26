@@ -57,6 +57,7 @@ import org.terasology.nui.util.RectUtility;
 import org.terasology.nui.widgets.UIButton;
 import org.terasology.nui.widgets.UIText;
 
+import javax.inject.Inject;
 import java.io.Closeable;
 import java.util.Deque;
 import java.util.Iterator;
@@ -69,6 +70,7 @@ import java.util.stream.Collectors;
  *  It manages the rendering and update cycles of NUI widgets, which are contained in {@link NUIScreenLayer}
  *  containers. Each NUIScreenLayer manages its own UI-specific logic and rendering.
  */
+
 public class NUIManager {
     /**
      * This LibGDX renderer used for NUI. It shares a SpriteBatch with the main game, although not a ShapeRenderer.
@@ -135,6 +137,7 @@ public class NUIManager {
      * @param commonDrawer used to directly access the game's LibGDX {@link com.badlogic.gdx.graphics.g2d.SpriteBatch}
      * @param options used to initialise the UI scale with its previously-saved value
      */
+    @Inject
     public NUIManager(SolApplication solApplication, Context context, CommonDrawer commonDrawer, GameOptions options, UiDrawer uiDrawer) {
         NUIInputProcessor.CONSUME_INPUT = false;
         this.context = context;

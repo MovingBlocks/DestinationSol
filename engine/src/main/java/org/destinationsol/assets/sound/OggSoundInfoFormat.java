@@ -21,12 +21,14 @@ import org.terasology.gestalt.assets.format.AbstractAssetAlterationFileFormat;
 import org.terasology.gestalt.assets.format.AssetDataFile;
 import org.terasology.gestalt.assets.module.annotations.RegisterAssetSupplementalFileFormat;
 
+import javax.inject.Inject;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 
 @RegisterAssetSupplementalFileFormat
 public class OggSoundInfoFormat extends AbstractAssetAlterationFileFormat<OggSoundData> {
+    @Inject
     public OggSoundInfoFormat() {
         super("soundinfo");
     }

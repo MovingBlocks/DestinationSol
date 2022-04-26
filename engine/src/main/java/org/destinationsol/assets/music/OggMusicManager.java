@@ -26,6 +26,7 @@ import org.slf4j.LoggerFactory;
 import org.terasology.gestalt.assets.ResourceUrn;
 
 import javax.inject.Inject;
+import javax.inject.Singleton;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -38,15 +39,17 @@ import java.util.Set;
  * This class does not rely on external updates; once a music set is set to be played, it will play, even looping,
  * until another is chosen. By default, music does not play concurrently.
  */
+@Singleton
 public class OggMusicManager {
     public static final String NO_MUSIC = "";
     public static final String MENU_MUSIC_SET = "menu";
     public static final String GAME_MUSIC_SET = "game";
-    private final Map<String, List<Music>> musicMap;
+    private final Map<String, List<Music>> musicMap = new HashMap<>();;
     private Music currentlyPlaying;
     private String currentlyRegisteredModule;
     private String currentMusicSet = NO_MUSIC;
     private Logger logger = LoggerFactory.getLogger(OggMusicManager.class);
+    private final GameOptions options;
 
     /**
      * Registers engine music.
@@ -54,7 +57,8 @@ public class OggMusicManager {
      */
     @Inject
     public OggMusicManager(GameOptions options) {
-        musicMap = new HashMap<>();
+        this.options = options;
+
         registerMusic(GAME_MUSIC_SET, "engine:cimmerianDawn");
         registerMusic(GAME_MUSIC_SET, "engine:intoTheDark");
         registerMusic(GAME_MUSIC_SET, "engine:spaceTheatre");

@@ -16,18 +16,24 @@
 package org.destinationsol.ui.nui.screens.mainMenu;
 
 import org.destinationsol.SolApplication;
-import org.destinationsol.common.In;
 import org.destinationsol.game.WorldConfig;
 import org.destinationsol.ui.nui.NUIScreenLayer;
 
+import javax.inject.Inject;
+
 public class LoadingScreen extends NUIScreenLayer {
-    @In
+
     private SolApplication solApplication;
     private boolean loadTutorial;
     private boolean isNewGame;
     private String shipName;
     private WorldConfig worldConfig;
     private boolean firstUpdate;
+
+    @Inject
+    public LoadingScreen(SolApplication solApplication) {
+        this.solApplication = solApplication;
+    }
 
     @Override
     public void onAdded() {

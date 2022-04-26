@@ -15,11 +15,18 @@
  */
 package org.destinationsol.assets.fonts;
 
+import org.terasology.context.annotation.Service;
 import org.terasology.gestalt.assets.AssetFactory;
 import org.terasology.gestalt.assets.AssetType;
 import org.terasology.gestalt.assets.ResourceUrn;
 
+import javax.inject.Inject;
+
 public class FontFactory implements AssetFactory<Font, FontData> {
+
+    @Inject
+    public FontFactory() {
+    }
 
     @Override
     public Font build(ResourceUrn urn, AssetType<Font, FontData> type, FontData data) {

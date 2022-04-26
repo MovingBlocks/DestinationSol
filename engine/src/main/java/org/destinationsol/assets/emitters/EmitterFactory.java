@@ -15,10 +15,12 @@
  */
 package org.destinationsol.assets.emitters;
 
+import org.terasology.context.annotation.Service;
 import org.terasology.gestalt.assets.AssetFactory;
 import org.terasology.gestalt.assets.AssetType;
 import org.terasology.gestalt.assets.ResourceUrn;
 
+@Service
 public class EmitterFactory implements AssetFactory<Emitter, EmitterData> {
 
     @Override

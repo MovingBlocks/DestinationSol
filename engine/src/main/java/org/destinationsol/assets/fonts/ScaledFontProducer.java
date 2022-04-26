@@ -16,12 +16,13 @@
 package org.destinationsol.assets.fonts;
 
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
+import org.destinationsol.assets.AssetHelper;
 import org.terasology.gestalt.assets.AssetDataProducer;
 import org.terasology.gestalt.assets.ResourceUrn;
-import org.terasology.gestalt.assets.management.AssetManager;
 import org.terasology.gestalt.assets.module.annotations.RegisterAssetDataProducer;
 import org.terasology.gestalt.naming.Name;
 
+import javax.inject.Inject;
 import java.io.IOException;
 import java.util.Collections;
 import java.util.Optional;
@@ -39,14 +40,15 @@ public class ScaledFontProducer implements AssetDataProducer<FontData> {
     /**
      * The asset manager used to obtain the base font data.
      */
-    private final AssetManager assetManager;
+    private final AssetHelper assetHelper;
 
     /**
      * Creates a new {@link ScaledFontProducer} to produce scaled fonts assets depending on the ResourceUrn provided.
-     * @param assetManager the asset manager to use when obtaining base font data
+     * @param assetHelper the asset manager to use when obtaining base font data
      */
-    public ScaledFontProducer(AssetManager assetManager) {
-        this.assetManager = assetManager;
+    @Inject
+    public ScaledFontProducer(AssetHelper assetHelper) {
+        this.assetHelper = assetHelper; // TODO provide AssetManager
     }
 
     @Override
@@ -71,7 +73,7 @@ public class ScaledFontProducer implements AssetDataProducer<FontData> {
         }
 
         float scale = Float.parseFloat(urn.getFragmentName().toString());
-        Optional<Font> fontAsset = assetManager.getAsset(urn.getRootUrn(), Font.class);
+        Optional<Font> fontAsset = assetHelper.get(urn.getRootUrn(), Font.class);
         if (!fontAsset.isPresent()) {
             return Optional.empty();
         }

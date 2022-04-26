@@ -17,7 +17,6 @@ package org.destinationsol.ui.nui.screens;
 
 import org.destinationsol.GameOptions;
 import org.destinationsol.SolApplication;
-import org.destinationsol.common.In;
 import org.destinationsol.game.Hero;
 import org.destinationsol.game.item.Gun;
 import org.destinationsol.game.screens.ShipUiControl;
@@ -47,13 +46,12 @@ public class UIShipControlsScreen extends NUIScreenLayer implements ShipUiContro
     private boolean downKeyHeld;
     private boolean controlsEnabled;
 
-    @Inject
-    @In // TODO: Remove the @In annotation when gestalt-di works with UI screens.
-    protected SolApplication solApplication;
+
+    private final SolApplication solApplication;
 
     @Inject
-    public UIShipControlsScreen() {
-
+    public UIShipControlsScreen(SolApplication solApplication) {
+        this.solApplication = solApplication;
     }
 
     @Override

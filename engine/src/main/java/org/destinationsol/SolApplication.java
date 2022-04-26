@@ -68,6 +68,7 @@ import org.destinationsol.util.FramerateLimiter;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.terasology.context.annotation.API;
+import org.terasology.gestalt.assets.module.ModuleAwareAssetTypeManagerImpl;
 import org.terasology.gestalt.di.BeanContext;
 import org.terasology.gestalt.di.DefaultBeanContext;
 import org.terasology.gestalt.di.ServiceRegistry;
@@ -75,22 +76,22 @@ import org.terasology.gestalt.entitysystem.component.management.ComponentManager
 import org.terasology.gestalt.entitysystem.entity.EntityRef;
 import org.terasology.gestalt.module.ModuleServiceRegistry;
 import org.terasology.gestalt.module.sandbox.StandardPermissionProviderFactory;
+import org.terasology.nui.reflection.WidgetLibrary;
 
 import javax.inject.Inject;
 import java.io.PrintWriter;
 import java.io.StringWriter;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
 
 @API
 public class SolApplication implements ApplicationListener {
     private static final Logger logger = LoggerFactory.getLogger(SolApplication.class);
-
+    // TODO: Make this non-static.
+    public static DisplayDimensions displayDimensions;
+    // TODO: Make this non-static.
+    private static Set<ResizeSubscriber> resizeSubscribers;
     private final float targetFPS;
-
-    private EntitySystemManager entitySystemManager;
-
     @Inject
     protected OggMusicManager musicManager;
     @Inject
@@ -103,10 +104,8 @@ public class SolApplication implements ApplicationListener {
     protected CommonDrawer commonDrawer;
     @Inject
     protected SolLayouts layouts;
-
+    private EntitySystemManager entitySystemManager;
     private MenuBackgroundManager menuBackgroundManager;
-
-
     private FactionDisplay factionDisplay;
     private MenuScreens menuScreens;
     private GameOptions options;
@@ -115,20 +114,13 @@ public class SolApplication implements ApplicationListener {
     private SolGame solGame;
     private ParameterAdapterManager parameterAdapterManager;
     private NUIManager nuiManager;
-
-    // TODO: Make this non-static.
-    public static DisplayDimensions displayDimensions;
-
     private float timeAccumulator = 0;
     private boolean isMobile;
-
     private ComponentManager componentManager;
-
     private BeanContext appContext;
     private BeanContext gameContext;
-
-    // TODO: Make this non-static.
-    private static Set<ResizeSubscriber> resizeSubscribers;
+    //TODO remove this line - it is for debugging purposes
+    private boolean entityCreated = false;
 
     @Inject
     protected SolApplication() {
@@ -148,23 +140,34 @@ public class SolApplication implements ApplicationListener {
                 new ContextWrapperService());
     }
 
+    // TODO: Make this non-static.
+    public static void addResizeSubscriber(ResizeSubscriber resizeSubscriber) {
+        resizeSubscribers.add(resizeSubscriber);
+    }
+
     @Override
     public void create() {
         isMobile = Gdx.app.getType() == Application.ApplicationType.Android || Gdx.app.getType() == Application.ApplicationType.iOS;
         if (isMobile) {
             DebugOptions.read(null);
         }
-        options = new GameOptions(isMobile(), null);
+        options = appContext.getBean(GameOptions.class);
 
         componentManager = appContext.getBean(ComponentManager.class);
         try {
             appContext.getBean(ModuleManager.class).init();
         } catch (Exception e) {
-           logger.error("Cannot initialize modules");
+            logger.error("Cannot initialize modules");
         }
         AssetHelper helper = appContext.getBean(AssetHelper.class);
-        helper.init(appContext.getBean(ModuleManager.class).getEnvironment(), componentManager, isMobile);
-        Assets.initialize(helper);
+
+        helper.init(appContext.getBean(ModuleManager.class).getEnvironment(),
+                appContext.getBean(WidgetLibrary.class),
+                new ModuleAwareAssetTypeManagerImpl(
+                        new BeanClassFactory(() -> this.appContext)
+                ),
+                componentManager,
+                isMobile);
 
         appContext.getBean(ModuleManager.class).printAvailableModules();
 
@@ -175,8 +178,8 @@ public class SolApplication implements ApplicationListener {
 
         parameterAdapterManager = ParameterAdapterManager.createCore(this);
 
-        nuiManager = new NUIManager(this, appContext.getBean(Context.class), commonDrawer, options);
-        menuBackgroundManager = new MenuBackgroundManager(displayDimensions);
+        nuiManager = appContext.getBean(NUIManager.class);
+        menuBackgroundManager = appContext.getBean(MenuBackgroundManager.class);
         menuScreens = new MenuScreens(layouts, isMobile(), options, nuiManager);
 
         nuiManager.pushScreen(menuScreens.main);
@@ -267,15 +270,12 @@ public class SolApplication implements ApplicationListener {
         SolMath.checkVectorsTaken(null);
     }
 
-    //TODO remove this line - it is for debugging purposes
-    private boolean entityCreated = false;
-
     private void draw() {
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
         commonDrawer.begin();
 
         if (solGame != null) {
-            solGame.getDrawableManager().draw(solGame, new ContextWrapper(gameContext) );
+            solGame.getDrawableManager().draw(solGame, new ContextWrapper(gameContext));
 
             //This event causes each entity with a `Renderable` component to be rendered onscreen
             entitySystemManager.sendEvent(new RenderEvent(), new Renderable(), new Position());
@@ -333,7 +333,10 @@ public class SolApplication implements ApplicationListener {
 
     public void play(boolean tut, String shipName, boolean isNewGame, WorldConfig worldConfig) {
 
-        gameContext = appContext.getNestedContainer(new GameConfigurationServiceRegistry(worldConfig), new SolGameServiceRegistry(tut), new ContextWrapperService());
+        gameContext = appContext.getNestedContainer(
+                new GameConfigurationServiceRegistry(worldConfig),
+                new SolGameServiceRegistry(tut),
+                new ContextWrapperService());
         ModuleManager moduleManager = appContext.getBean(ModuleManager.class);
         solGame = gameContext.getBean(SolGame.class);
 
@@ -427,10 +430,5 @@ public class SolApplication implements ApplicationListener {
 
     public NUIManager getNuiManager() {
         return nuiManager;
-    }
-
-    // TODO: Make this non-static.
-    public static void addResizeSubscriber(ResizeSubscriber resizeSubscriber) {
-        resizeSubscribers.add(resizeSubscriber);
     }
 }

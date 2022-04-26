@@ -24,10 +24,12 @@ import org.terasology.gestalt.assets.format.AbstractAssetFileFormat;
 import org.terasology.gestalt.assets.format.AssetDataFile;
 import org.terasology.gestalt.assets.module.annotations.RegisterAssetFileFormat;
 
+import javax.inject.Inject;
 import java.util.List;
 
 @RegisterAssetFileFormat
 public class DSTextureFileFormat extends AbstractAssetFileFormat<DSTextureData> {
+    @Inject
     public DSTextureFileFormat() {
         super("png");
     }

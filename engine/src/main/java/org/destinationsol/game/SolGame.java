@@ -177,8 +177,6 @@ public class SolGame {
         } else {
             mainGameScreen = (MainGameScreen) solApplication.getNuiManager().createScreen(NUI_MAIN_GAME_SCREEN_MOBILE_URI);
         }
-        // TODO: resolve hack to set solApplication
-        mainGameScreen.setSolApplication(solApplication);
 
         planetConfigManager.loadDefaultPlanetConfigs();
         mazeConfigManager.loadDefaultMazeConfigs();

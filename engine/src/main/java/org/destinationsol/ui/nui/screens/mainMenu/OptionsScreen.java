@@ -16,8 +16,6 @@
 package org.destinationsol.ui.nui.screens.mainMenu;
 
 import org.destinationsol.SolApplication;
-import org.destinationsol.common.In;
-import org.destinationsol.menu.MenuScreens;
 import org.destinationsol.ui.nui.NUIManager;
 import org.destinationsol.ui.nui.NUIScreenLayer;
 import org.destinationsol.ui.nui.widgets.KeyActivatedButton;
@@ -26,13 +24,20 @@ import org.terasology.nui.backends.libgdx.GDXInputUtil;
 import org.terasology.nui.layouts.ColumnLayout;
 import org.terasology.nui.widgets.UIButton;
 
+import javax.inject.Inject;
+
 /**
  * The options screen allows the user to change configurable game settings through the UI.
  * It is accessible via the {@link MainMenuScreen}.
  */
 public class OptionsScreen extends NUIScreenLayer {
-    @In
-    private SolApplication solApplication;
+
+    private final SolApplication solApplication;
+
+    @Inject
+    public OptionsScreen(SolApplication solApplication) {
+        this.solApplication = solApplication;
+    }
 
     @Override
     public void initialise() {

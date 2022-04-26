@@ -22,6 +22,7 @@ import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import org.destinationsol.SolApplication;
 import org.destinationsol.assets.Assets;
+import org.destinationsol.common.In;
 import org.destinationsol.common.SolColor;
 import org.destinationsol.game.SolGame;
 import org.destinationsol.game.console.Console;
@@ -40,6 +41,7 @@ import org.destinationsol.ui.UiDrawer;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import javax.inject.Inject;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
@@ -102,10 +104,11 @@ public class ConsoleScreen implements SolUiScreen, ConsoleSubscriber {
     private TabCompletionEngine completionEngine;
     private StringBuilder inputLine;
 
+    @Inject
     public ConsoleScreen(Context context) {
         font = Assets.getFont("engine:main").getBitmapFont();
 
-        this.console = new ConsoleImpl(font, context);
+        this.console = new ConsoleImpl( context);
 
         exitControl = new SolUiControl(null, true, Input.Keys.ESCAPE);
         commandHistoryUpControl = new SolUiControl(null, true, Input.Keys.UP);

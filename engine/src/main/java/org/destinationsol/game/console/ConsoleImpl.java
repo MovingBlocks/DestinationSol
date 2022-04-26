@@ -22,6 +22,7 @@ import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import com.google.common.collect.Sets;
+import org.destinationsol.assets.Assets;
 import org.destinationsol.game.SolGame;
 import org.destinationsol.game.console.annotations.RegisterCommands;
 import org.destinationsol.game.console.exceptions.CommandExecutionException;
@@ -32,6 +33,8 @@ import org.destinationsol.util.InjectionHelper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import javax.inject.Inject;
+import javax.inject.Singleton;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
@@ -49,8 +52,6 @@ public class ConsoleImpl implements Console {
     private static final int MAX_COMMAND_HISTORY = 30;
     private static final Logger logger = LoggerFactory.getLogger(ConsoleImpl.class);
 
-    public static Console instance;
-
     private final CircularBuffer<Message> messageHistory = CircularBuffer.create(MAX_MESSAGE_HISTORY);
     private final CircularBuffer<String> localCommandHistory = CircularBuffer.create(MAX_COMMAND_HISTORY);
     private final Map<String, ConsoleCommand> commandRegistry = Maps.newHashMap();
@@ -59,10 +60,10 @@ public class ConsoleImpl implements Console {
 
     private BitmapFont font;
 
-    public ConsoleImpl(BitmapFont font, Context context) {
-        this.font = font;
+    @Inject
+    public ConsoleImpl(Context context) {
+        this.font = Assets.getFont("engine:main").getBitmapFont();
         this.context = context;
-        instance = this;
     }
 
     private static String cleanCommand(String rawCommand) {

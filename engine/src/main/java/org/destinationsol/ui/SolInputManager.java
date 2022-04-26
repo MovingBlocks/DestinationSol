@@ -35,11 +35,13 @@ import org.destinationsol.game.SolGame;
 import org.destinationsol.game.context.Context;
 
 import javax.inject.Inject;
+import javax.inject.Singleton;
 import java.util.ArrayList;
 import java.util.List;
 
 import static com.badlogic.gdx.graphics.Pixmap.Format.RGBA8888;
 
+@Singleton
 public class SolInputManager {
     private static final float CURSOR_SZ = .07f;
     private static final float WARN_PERC_GROWTH_TIME = 1f;
@@ -69,11 +71,13 @@ public class SolInputManager {
     private float warnPercentage;
     private boolean warnPercGrows;
     private Boolean scrolledUp;
+    private OggSoundManager soundManager;
     public boolean touchDragged;
 
     @Inject
     public SolInputManager(OggSoundManager soundManager, Context context) {
         this.context = context;
+        this.soundManager =soundManager;
         inputPointers = new InputPointer[POINTER_COUNT];
         for (int i = 0; i < POINTER_COUNT; i++) {
             inputPointers[i] = new InputPointer();

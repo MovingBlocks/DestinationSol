@@ -24,10 +24,12 @@ import org.terasology.gestalt.assets.format.AbstractAssetAlterationFileFormat;
 import org.terasology.gestalt.assets.format.AssetDataFile;
 import org.terasology.gestalt.assets.module.annotations.RegisterAssetDeltaFileFormat;
 
+import javax.inject.Inject;
 import java.io.IOException;
 
 @RegisterAssetDeltaFileFormat
 public class JsonDeltaFileFormat extends AbstractAssetAlterationFileFormat<JsonData> {
+    @Inject
     public JsonDeltaFileFormat() {
         super("json");
     }

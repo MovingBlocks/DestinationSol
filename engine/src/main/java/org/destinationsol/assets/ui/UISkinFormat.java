@@ -22,7 +22,7 @@ import org.terasology.nui.Color;
 import org.terasology.nui.UITextureRegion;
 import org.terasology.nui.UIWidget;
 import org.terasology.nui.asset.font.Font;
-import org.terasology.nui.skin.UISkin;
+import org.terasology.nui.reflection.WidgetLibrary;
 import org.terasology.nui.skin.UISkinAsset;
 import org.terasology.nui.skin.UISkinBuilder;
 import org.terasology.nui.skin.UISkinData;
@@ -30,6 +30,7 @@ import org.terasology.nui.skin.UIStyleFragment;
 import org.terasology.reflection.metadata.ClassLibrary;
 import org.terasology.reflection.metadata.ClassMetadata;
 
+import javax.inject.Inject;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.lang.reflect.Type;
@@ -45,9 +46,10 @@ public class UISkinFormat extends AbstractAssetFileFormat<UISkinData> {
 
     private static final Logger logger = LoggerFactory.getLogger(UISkinFormat.class);
     private Gson gson;
-    private static ClassLibrary<UIWidget> widgetClassLibrary;
+    private ClassLibrary<UIWidget> widgetClassLibrary;
 
-    public UISkinFormat(ClassLibrary<UIWidget> widgetClassLibrary) {
+    @Inject
+    public UISkinFormat(WidgetLibrary widgetClassLibrary) {
         super("skin");
         gson = new GsonBuilder()
                 .registerTypeAdapter(UISkinData.class, new UISkinTypeAdapter())
@@ -59,7 +61,7 @@ public class UISkinFormat extends AbstractAssetFileFormat<UISkinData> {
                 .enableComplexMapKeySerialization()
                 .serializeNulls()
                 .create();
-        UISkinFormat.widgetClassLibrary = widgetClassLibrary;
+        this.widgetClassLibrary = widgetClassLibrary;
     }
 
     @Override
@@ -102,7 +104,7 @@ public class UISkinFormat extends AbstractAssetFileFormat<UISkinData> {
         }
     }
 
-    private static class DefaultInfo extends FamilyInfo {
+    private class DefaultInfo extends FamilyInfo {
         public String inherit;
         public Map<String, FamilyInfo> families;
 
@@ -124,7 +126,7 @@ public class UISkinFormat extends AbstractAssetFileFormat<UISkinData> {
         }
     }
 
-    private static class FamilyInfo extends StyleInfo {
+    private class FamilyInfo extends StyleInfo {
         public Map<String, ElementInfo> elements;
 
         public void apply(UISkinBuilder builder) {
