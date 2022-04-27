@@ -39,7 +39,6 @@ repositories {
 
     // Good ole Maven central
     mavenCentral()
-    mavenLocal()
 
     // Repos for LibGDX
     maven { url "https://oss.sonatype.org/content/repositories/snapshots/" }

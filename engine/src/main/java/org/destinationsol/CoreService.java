@@ -52,7 +52,6 @@ public class CoreService extends ServiceRegistry {
         this.with(NUIManager.class).lifetime(Lifetime.Singleton);
         this.with(MenuBackgroundManager.class).lifetime(Lifetime.Singleton);
 
-
         this.with(ReflectFactory.class).lifetime(Lifetime.Singleton).use(ReflectionReflectFactory.class);
         this.with(CopyStrategyLibrary.class).lifetime(Lifetime.Singleton);
 
