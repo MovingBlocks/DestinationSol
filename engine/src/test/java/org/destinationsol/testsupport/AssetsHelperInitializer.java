@@ -9,11 +9,17 @@ import org.destinationsol.modules.ModuleManager;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.parallel.ResourceLock;
+import org.terasology.gestalt.assets.module.ModuleAwareAssetTypeManagerImpl;
+import org.terasology.gestalt.di.BeanContext;
 import org.terasology.gestalt.di.DefaultBeanContext;
 import org.terasology.gestalt.entitysystem.component.management.ComponentManager;
 import org.terasology.gestalt.module.ModuleFactory;
 import org.terasology.gestalt.module.ModulePathScanner;
 import org.terasology.gestalt.module.TableModuleRegistry;
+import org.terasology.nui.reflection.WidgetLibrary;
+import org.terasology.reflection.copy.CopyStrategyLibrary;
+import org.terasology.reflection.reflect.ReflectFactory;
+import org.terasology.reflection.reflect.ReflectionReflectFactory;
 
 /**
  * Create partial game instance with {@link ModuleManager}, {@link Assets}, {@link ComponentManager}, {@link HeadlessApplication}
@@ -48,14 +54,20 @@ public interface AssetsHelperInitializer {
         ComponentManager componentManager = new ComponentManager();
         stateObject.setComponentManager(componentManager);
 
+        BeanContext beanContext = new DefaultBeanContext();
+
         ModuleFactory moduleFactory = new ModuleFactory();
-        ModuleManager moduleManager = new ModuleManager(new DefaultBeanContext(), moduleFactory, new TableModuleRegistry(),
+        ModuleManager moduleManager = new ModuleManager(beanContext, moduleFactory, new TableModuleRegistry(),
                                                         new ModulePathScanner(moduleFactory), new TestModuleConfig());
         moduleManager.init();
         stateObject.setModuleManager(moduleManager);
 
-        AssetHelper helper = new AssetHelper();
-        helper.init(moduleManager.getEnvironment(), componentManager, false);
+        AssetHelper helper = new AssetHelper(beanContext);
+        ReflectFactory reflectFactory = new ReflectionReflectFactory();
+        helper.init(moduleManager.getEnvironment(), new WidgetLibrary(moduleManager::getEnvironment, reflectFactory,
+                new CopyStrategyLibrary(reflectFactory)),
+                new ModuleAwareAssetTypeManagerImpl(),
+                componentManager, false);
         Assets.initialize(helper);
     }
 

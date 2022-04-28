@@ -349,7 +349,6 @@ public class SolApplication implements ApplicationListener {
         entitySystemManager = gameContext.getBean(EntitySystemManager.class);
 
         solGame.createUpdateSystems();
-
         solGame.startGame(shipName, isNewGame, worldConfig, entitySystemManager);
 
         if (!isNewGame) {

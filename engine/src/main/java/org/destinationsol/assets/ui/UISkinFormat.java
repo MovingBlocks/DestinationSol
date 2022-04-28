@@ -52,7 +52,7 @@ public class UISkinFormat extends AbstractAssetFileFormat<UISkinData> {
     public UISkinFormat(WidgetLibrary widgetClassLibrary) {
         super("skin");
         gson = new GsonBuilder()
-                .registerTypeAdapter(UISkinData.class, new UISkinTypeAdapter())
+                .registerTypeAdapter(UISkinData.class, new UISkinTypeAdapter(widgetClassLibrary))
                 .registerTypeAdapterFactory(new CaseInsensitiveEnumTypeAdapterFactory())
                 .registerTypeAdapter(UITextureRegion.class, new TextureRegionTypeAdapter())
                 .registerTypeAdapter(Optional.class, new OptionalTextureRegionTypeAdapter())
@@ -91,12 +91,19 @@ public class UISkinFormat extends AbstractAssetFileFormat<UISkinData> {
     }
 
     private static class UISkinTypeAdapter implements JsonDeserializer<UISkinData> {
+        private WidgetLibrary widgetLibrary;
+
+        public UISkinTypeAdapter(WidgetLibrary widgetLibrary) {
+            this.widgetLibrary = widgetLibrary;
+        }
+
         @Override
         public UISkinData deserialize(JsonElement json, Type typeOfT, JsonDeserializationContext context) throws JsonParseException {
             if (json.isJsonObject()) {
                 UISkinBuilder builder = new UISkinBuilder();
                 DefaultInfo defaultInfo = null;
                 defaultInfo = context.deserialize(json, DefaultInfo.class);
+                defaultInfo.setWidgetLibrary(widgetLibrary);
                 defaultInfo.apply(builder);
                 return new UISkinData(builder.build());
             }
@@ -104,7 +111,7 @@ public class UISkinFormat extends AbstractAssetFileFormat<UISkinData> {
         }
     }
 
-    private class DefaultInfo extends FamilyInfo {
+    private static class DefaultInfo extends FamilyInfo {
         public String inherit;
         public Map<String, FamilyInfo> families;
 
@@ -120,21 +127,22 @@ public class UISkinFormat extends AbstractAssetFileFormat<UISkinData> {
             if (families != null) {
                 for (Map.Entry<String, FamilyInfo> entry : families.entrySet()) {
                     builder.setFamily(entry.getKey());
+                    entry.getValue().setWidgetLibrary(widgetLibrary);
                     entry.getValue().apply(builder);
                 }
             }
         }
     }
 
-    private class FamilyInfo extends StyleInfo {
+    private static class FamilyInfo extends StyleInfo {
         public Map<String, ElementInfo> elements;
+        protected ClassLibrary<UIWidget> widgetLibrary;
 
         public void apply(UISkinBuilder builder) {
             super.apply(builder);
             if (elements != null) {
                 for (Map.Entry<String, ElementInfo> entry : elements.entrySet()) {
-                    ClassLibrary<UIWidget> library = widgetClassLibrary;
-                    ClassMetadata<? extends UIWidget, ?> metadata = library.resolve(entry.getKey());
+                    ClassMetadata<? extends UIWidget, ?> metadata = widgetLibrary.resolve(entry.getKey());
                     if (metadata != null) {
                         builder.setElementClass(metadata.getType());
                         entry.getValue().apply(builder);
@@ -144,6 +152,10 @@ public class UISkinFormat extends AbstractAssetFileFormat<UISkinData> {
 
                 }
             }
+        }
+
+        public void setWidgetLibrary(ClassLibrary<UIWidget> widgetLibrary) {
+            this.widgetLibrary = widgetLibrary;
         }
     }
 
