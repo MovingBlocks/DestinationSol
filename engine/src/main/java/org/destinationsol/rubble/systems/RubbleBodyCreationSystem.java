@@ -27,6 +27,7 @@ import org.destinationsol.body.events.GenerateBodyEvent;
 import org.destinationsol.entitysystem.EntitySystemManager;
 import org.destinationsol.entitysystem.EventReceiver;
 import org.destinationsol.game.CollisionMeshLoader;
+import org.destinationsol.game.ObjectManager;
 import org.destinationsol.location.components.Angle;
 import org.destinationsol.location.components.Position;
 import org.destinationsol.rendering.RenderableElement;
@@ -51,7 +52,7 @@ public class RubbleBodyCreationSystem implements EventReceiver {
     protected EntitySystemManager entitySystemManager;
 
     @Inject
-    protected World world;
+    protected ObjectManager objectManager;
 
     private final CollisionMeshLoader collisionMeshLoader = new CollisionMeshLoader("engine:miscCollisionMeshes");
 
@@ -75,7 +76,7 @@ public class RubbleBodyCreationSystem implements EventReceiver {
         bd.angularDamping = 0;
         bd.position.set(position);
         bd.linearDamping = 0;
-        Body body = world.createBody(bd);
+        Body body = objectManager.getWorld().createBody(bd);
 
         //This sets a reference to an entity in the Body, so that the entity can be retrieved from the body during collision handling.
         body.setUserData(entity);

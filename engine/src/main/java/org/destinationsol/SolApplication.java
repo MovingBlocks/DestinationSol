@@ -332,12 +332,12 @@ public class SolApplication implements ApplicationListener {
     }
 
     public void play(boolean tut, String shipName, boolean isNewGame, WorldConfig worldConfig) {
-
+        ModuleManager moduleManager = appContext.getBean(ModuleManager.class);
         gameContext = appContext.getNestedContainer(
                 new GameConfigurationServiceRegistry(worldConfig),
+                new EventReceiverServiceRegistry(moduleManager.getEnvironment()),
                 new SolGameServiceRegistry(tut),
                 new ContextWrapperService());
-        ModuleManager moduleManager = appContext.getBean(ModuleManager.class);
         solGame = gameContext.getBean(SolGame.class);
 
         //TODO: rework how system will trigger preBegin
@@ -347,6 +347,7 @@ public class SolApplication implements ApplicationListener {
         systems.forEach(ComponentSystem::preBegin);
 
         entitySystemManager = gameContext.getBean(EntitySystemManager.class);
+        entitySystemManager.initialise();
 
         solGame.createUpdateSystems();
         solGame.startGame(shipName, isNewGame, worldConfig, entitySystemManager);

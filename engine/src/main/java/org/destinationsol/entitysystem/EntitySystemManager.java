@@ -17,6 +17,7 @@ package org.destinationsol.entitysystem;
 
 import com.google.common.collect.Lists;
 import org.destinationsol.modules.ModuleManager;
+import org.terasology.gestalt.di.BeanContext;
 import org.terasology.gestalt.entitysystem.component.Component;
 import org.terasology.gestalt.entitysystem.component.management.ComponentManager;
 import org.terasology.gestalt.entitysystem.component.store.ArrayComponentStore;
@@ -40,10 +41,11 @@ public class EntitySystemManager {
 
     private static EntityManager entityManager;
     private final EventSystem eventSystem = new EventSystemImpl();
+    private final BeanContext context;
     private static final EventReceiverMethodSupport eventReceiverMethodSupport = new EventReceiverMethodSupport();
 
     @Inject
-    public EntitySystemManager(ModuleManager moduleManager, ComponentManager componentManager, List<EventReceiver> eventReceivers) {
+    public EntitySystemManager(ModuleManager moduleManager, ComponentManager componentManager, BeanContext context) {
         List<ComponentStore<?>> stores = Lists.newArrayList();
         for (Class<? extends Component> componentType : moduleManager.getEnvironment().getSubtypesOf(Component.class)) {
             //This filters out abstract components, which would create exceptions
@@ -54,7 +56,11 @@ public class EntitySystemManager {
         }
         entityManager = new CoreEntityManager(stores);
 
-        for (EventReceiver eventReceiver : eventReceivers) {
+        this.context = context;
+    }
+
+    public void initialise() {
+        for (EventReceiver eventReceiver : context.getBeans(EventReceiver.class)) {
             eventReceiverMethodSupport.register(eventReceiver, eventSystem);
         }
     }

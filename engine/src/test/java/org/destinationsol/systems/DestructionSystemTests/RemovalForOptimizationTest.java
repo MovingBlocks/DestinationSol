@@ -26,9 +26,9 @@ import org.destinationsol.testsupport.AssetsHelperInitializer;
 import org.destinationsol.testsupport.Box2DInitializer;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.terasology.gestalt.di.DefaultBeanContext;
+import org.terasology.gestalt.di.ServiceRegistry;
 import org.terasology.gestalt.entitysystem.entity.EntityRef;
-
-import java.util.Collections;
 
 import static org.junit.jupiter.api.Assertions.assertFalse;
 
@@ -41,7 +41,12 @@ public class RemovalForOptimizationTest implements Box2DInitializer, AssetsHelpe
 
     @BeforeEach
     public void setUp() throws Exception {
-        entitySystemManager = new EntitySystemManager(getModuleManager(), getComponentManager(), Collections.singletonList(new DestructionSystem()));
+        ServiceRegistry systemsRegistry = new ServiceRegistry();
+        systemsRegistry.with(DestructionSystem.class);
+        systemsRegistry.with(EntitySystemManager.class).use(() -> entitySystemManager);
+        entitySystemManager = new EntitySystemManager(getModuleManager(), getComponentManager(),
+                new DefaultBeanContext(systemsRegistry));
+        entitySystemManager.initialise();
     }
 
     @Test

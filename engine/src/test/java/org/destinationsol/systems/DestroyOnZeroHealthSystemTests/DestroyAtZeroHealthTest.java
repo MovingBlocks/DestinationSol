@@ -21,14 +21,14 @@ import org.destinationsol.removal.components.SlatedForDeletion;
 import org.destinationsol.removal.events.DeletionEvent;
 import org.destinationsol.removal.events.ZeroHealthEvent;
 import org.destinationsol.removal.systems.DestroyOnZeroHealthSystem;
+import org.destinationsol.removal.systems.DestructionSystem;
 import org.destinationsol.testsupport.AssetsHelperInitializer;
 import org.destinationsol.testsupport.Box2DInitializer;
 import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
+import org.terasology.gestalt.di.DefaultBeanContext;
+import org.terasology.gestalt.di.ServiceRegistry;
 import org.terasology.gestalt.entitysystem.entity.EntityRef;
-
-import java.util.Collections;
 
 import static org.junit.jupiter.api.Assertions.assertFalse;
 
@@ -38,11 +38,16 @@ public class DestroyAtZeroHealthTest implements Box2DInitializer, AssetsHelperIn
 
     @BeforeEach
     public void setUp() throws Exception {
-        entitySystemManager = new EntitySystemManager(getModuleManager(), getComponentManager(), Collections.singletonList(new DestroyOnZeroHealthSystem()));
+        ServiceRegistry systemsRegistry = new ServiceRegistry();
+        systemsRegistry.with(DestroyOnZeroHealthSystem.class);
+        systemsRegistry.with(DestructionSystem.class);
+        systemsRegistry.with(EntitySystemManager.class).use(() -> entitySystemManager);
+        entitySystemManager = new EntitySystemManager(getModuleManager(), getComponentManager(),
+                new DefaultBeanContext(systemsRegistry));
+        entitySystemManager.initialise();
     }
 
     @Test
-    @Disabled("Reimplement with test-di... DamageSystems using entity manager for sending events")
     public void testZeroHealthCausesDestruction() {
         EntityRef entity = entitySystemManager.getEntityManager().createEntity();
 

@@ -21,6 +21,7 @@ import org.destinationsol.health.components.Health;
 import org.destinationsol.removal.events.ShouldBeDestroyedEvent;
 import org.destinationsol.removal.events.ZeroHealthEvent;
 import org.terasology.gestalt.entitysystem.entity.EntityRef;
+import org.terasology.gestalt.entitysystem.event.EventResult;
 import org.terasology.gestalt.entitysystem.event.ReceiveEvent;
 
 import javax.inject.Inject;
@@ -38,7 +39,8 @@ public class DestroyOnZeroHealthSystem implements EventReceiver {
     }
 
     @ReceiveEvent
-    public void onZeroHealth(ZeroHealthEvent event, EntityRef entity) {
+    public EventResult onZeroHealth(ZeroHealthEvent event, EntityRef entity) {
         entitySystemManager.sendEvent(new ShouldBeDestroyedEvent(), entity);
+        return EventResult.COMPLETE;
     }
 }

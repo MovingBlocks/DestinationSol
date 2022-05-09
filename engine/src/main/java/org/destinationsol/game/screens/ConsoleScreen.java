@@ -105,10 +105,10 @@ public class ConsoleScreen implements SolUiScreen, ConsoleSubscriber {
     private StringBuilder inputLine;
 
     @Inject
-    public ConsoleScreen(Context context) {
+    public ConsoleScreen(Console console) {
         font = Assets.getFont("engine:main").getBitmapFont();
 
-        this.console = new ConsoleImpl( context);
+        this.console = console;
 
         exitControl = new SolUiControl(null, true, Input.Keys.ESCAPE);
         commandHistoryUpControl = new SolUiControl(null, true, Input.Keys.UP);

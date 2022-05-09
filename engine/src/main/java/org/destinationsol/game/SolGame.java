@@ -67,6 +67,7 @@ import org.destinationsol.ui.UiDrawer;
 import org.destinationsol.ui.Waypoint;
 import org.destinationsol.ui.nui.screens.MainGameScreen;
 import org.destinationsol.world.GalaxyBuilder;
+import org.terasology.context.exception.BeanNotFoundException;
 import org.terasology.gestalt.assets.ResourceUrn;
 import org.terasology.gestalt.di.BeanContext;
 import org.terasology.gestalt.entitysystem.entity.EntityRef;
@@ -206,7 +207,12 @@ public class SolGame {
                 }
                 RegisterUpdateSystem registerAnnotation = updateSystemClass.getDeclaredAnnotation(RegisterUpdateSystem.class);
                 UpdateAwareSystem system = (UpdateAwareSystem) updateSystemClass.newInstance();
-                beanContext.inject(system);
+                try {
+                    beanContext.inject(system);
+                } catch (BeanNotFoundException e) {
+                    e.printStackTrace();
+                    continue;
+                }
                 if (!registerAnnotation.paused()) {
                     if (!updateSystems.containsKey(registerAnnotation.priority())) {
                         ArrayList<UpdateAwareSystem> systems = new ArrayList<UpdateAwareSystem>();

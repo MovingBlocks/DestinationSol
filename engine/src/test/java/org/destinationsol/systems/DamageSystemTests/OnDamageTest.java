@@ -25,13 +25,12 @@ import org.destinationsol.testsupport.TestModuleConfig;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.terasology.gestalt.di.DefaultBeanContext;
+import org.terasology.gestalt.di.ServiceRegistry;
 import org.terasology.gestalt.entitysystem.component.management.ComponentManager;
 import org.terasology.gestalt.entitysystem.entity.EntityRef;
 import org.terasology.gestalt.module.ModuleFactory;
 import org.terasology.gestalt.module.ModulePathScanner;
 import org.terasology.gestalt.module.TableModuleRegistry;
-
-import java.util.Collections;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
@@ -49,7 +48,12 @@ public class OnDamageTest {
         moduleManager = new ModuleManager(new DefaultBeanContext(), moduleFactory, new TableModuleRegistry(),
                 new ModulePathScanner(moduleFactory), new TestModuleConfig());
         moduleManager.init();
-        entitySystemManager = new EntitySystemManager(moduleManager, new ComponentManager(), Collections.singletonList(new DamageSystem()));
+        ServiceRegistry systemsRegistry = new ServiceRegistry();
+        systemsRegistry.with(DamageSystem.class);
+        systemsRegistry.with(EntitySystemManager.class).use(() -> entitySystemManager);
+        entitySystemManager = new EntitySystemManager(moduleManager, new ComponentManager(),
+                new DefaultBeanContext(systemsRegistry));
+        entitySystemManager.initialise();
     }
 
     @Test
