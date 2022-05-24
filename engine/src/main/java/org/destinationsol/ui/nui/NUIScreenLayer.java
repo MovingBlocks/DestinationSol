@@ -26,6 +26,7 @@ import org.terasology.nui.LayoutConfig;
 import org.terasology.nui.UIWidget;
 import org.terasology.nui.events.NUIKeyEvent;
 
+import javax.inject.Inject;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.Iterator;
@@ -177,7 +178,8 @@ public abstract class NUIScreenLayer extends AbstractWidget {
      * Primary usage is in {@link NUIManager#pushScreen}
      * @param focusManager the focus manager to use.
      */
-    void setFocusManager(FocusManager focusManager) {
+    @Inject
+    public void setFocusManager(FocusManager focusManager) {
         this.focusManager = focusManager;
     }
 
@@ -193,7 +195,8 @@ public abstract class NUIScreenLayer extends AbstractWidget {
      * Sets the game's NUI Manager.
      * @param nuiManager the game's NUI Manager
      */
-    void setNuiManager(NUIManager nuiManager) {
+    @Inject
+    public void setNuiManager(NUIManager nuiManager) {
         this.nuiManager = nuiManager;
     }
 

@@ -46,7 +46,7 @@ public class UISkinFormat extends AbstractAssetFileFormat<UISkinData> {
 
     private static final Logger logger = LoggerFactory.getLogger(UISkinFormat.class);
     private Gson gson;
-    private ClassLibrary<UIWidget> widgetClassLibrary;
+    private static ClassLibrary<UIWidget> widgetClassLibrary;
 
     @Inject
     public UISkinFormat(WidgetLibrary widgetClassLibrary) {

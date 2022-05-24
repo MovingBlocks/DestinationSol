@@ -21,6 +21,8 @@ import org.terasology.context.Lifetime;
 import org.terasology.gestalt.di.ServiceRegistry;
 import org.terasology.gestalt.di.scanners.StandardScanner;
 import org.terasology.gestalt.entitysystem.component.management.ComponentManager;
+import org.terasology.nui.FocusManager;
+import org.terasology.nui.FocusManagerImpl;
 import org.terasology.nui.reflection.WidgetLibrary;
 import org.terasology.reflection.copy.CopyStrategyLibrary;
 import org.terasology.reflection.reflect.ReflectFactory;
@@ -50,6 +52,7 @@ public class CoreService extends ServiceRegistry {
         this.with(MenuLayout.class).lifetime(Lifetime.Singleton);
 
         this.with(NUIManager.class).lifetime(Lifetime.Singleton);
+        this.with(FocusManager.class).lifetime(Lifetime.Singleton).use(FocusManagerImpl.class);
         this.with(MenuBackgroundManager.class).lifetime(Lifetime.Singleton);
 
         this.with(ReflectFactory.class).lifetime(Lifetime.Singleton).use(ReflectionReflectFactory.class);
@@ -57,8 +60,9 @@ public class CoreService extends ServiceRegistry {
 
         this.with(WidgetLibrary.class).lifetime(Lifetime.Singleton);
         this.with(SolInputManager.class).lifetime(Lifetime.Singleton);
+
         this.registerScanner(new StandardScanner("org.destinationsol.assets"));
-        this.registerScanner(new StandardScanner("org.destinationsol.ui.nui"));
+        this.registerScanner(new StandardScanner("org.destinationsol.ui.nui.screens"));
 
         // TODO seems this is should be GameService before game
         this.with(Console.class).lifetime(Lifetime.Singleton).use(ConsoleImpl.class);
