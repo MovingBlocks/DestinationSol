@@ -28,13 +28,14 @@ import org.destinationsol.game.drawables.DrawableManager;
 import org.destinationsol.game.drawables.FarDrawable;
 import org.destinationsol.game.ship.FarShip;
 
+import javax.inject.Inject;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.function.Consumer;
 
-public class ObjectManager implements UpdateAwareSystem {
+public class ObjectManager implements UpdateAwareSystem, AutoCloseable{
     private static final float MAX_RADIUS_RECALC_AWAIT = 1f;
     private final List<SolObject> myObjs;
     private final List<SolObject> myToRemove;
@@ -45,13 +46,16 @@ public class ObjectManager implements UpdateAwareSystem {
     private final World myWorld;
     private final Box2DDebugRenderer myDr;
     private final HashMap<SolObject, Float> myRadii;
-    private final Context context;
 
     private float myFarEndDist;
     private float myFarBeginDist;
     private float myRadiusRecalcAwait;
 
-    public ObjectManager(SolContactListener contactListener, FactionManager factionManager, Context context) {
+    private final DrawableManager drawableManager;
+    private final SolCam solCam;
+
+    @Inject
+    public ObjectManager(SolContactListener contactListener, FactionManager factionManager, DrawableManager drawableManager, SolCam solCam) {
         myObjs = new ArrayList<>();
         myToRemove = new ArrayList<>();
         myToAdd = new ArrayList<>();
@@ -63,7 +67,9 @@ public class ObjectManager implements UpdateAwareSystem {
         myWorld.setContactFilter(new SolContactFilter(factionManager));
         myDr = new Box2DDebugRenderer();
         myRadii = new HashMap<>();
-        this.context = context;
+
+        this.drawableManager = drawableManager;
+        this.solCam = solCam;
     }
 
     public boolean containsFarObj(FarObject fo) {
@@ -81,9 +87,8 @@ public class ObjectManager implements UpdateAwareSystem {
 
         myWorld.step(timeStep, 6, 2);
 
-        SolCam cam = context.get(SolCam.class);
-        Vector2 camPos = cam.getPosition();
-        myFarEndDist = 1.5f * cam.getViewDistance();
+        Vector2 camPos = solCam.getPosition();
+        myFarEndDist = 1.5f * solCam.getViewDistance();
         myFarBeginDist = 1.33f * myFarEndDist;
 
         boolean recalcRad = false;
@@ -192,7 +197,7 @@ public class ObjectManager implements UpdateAwareSystem {
         myObjs.remove(o);
         myRadii.remove(o);
         o.onRemove(game);
-        context.get(DrawableManager.class).removeObject(o);
+        drawableManager.removeObject(o);
     }
 
     public void addObjNow(SolGame game, SolObject o) {
@@ -201,7 +206,7 @@ public class ObjectManager implements UpdateAwareSystem {
         }
         myObjs.add(o);
         recalcRadius(o);
-        context.get(DrawableManager.class).addObject(o);
+        drawableManager.addObject(o);
     }
 
     private boolean isNear(FarObjData fod, Vector2 camPos, float ts) {
@@ -239,13 +244,13 @@ public class ObjectManager implements UpdateAwareSystem {
 
         if (DebugOptions.DRAW_PHYSIC_BORDERS) {
             drawer.end();
-            myDr.render(myWorld, context.get(SolCam.class).getMtx());
+            myDr.render(myWorld, solCam.getMtx());
             drawer.begin();
         }
     }
 
     private void drawDebugStrings(GameDrawer drawer) {
-        float fontSize = context.get(SolCam.class).getDebugFontSize();
+        float fontSize = solCam.getDebugFontSize();
         for (SolObject o : myObjs) {
             Vector2 position = o.getPosition();
             String ds = o.toDebugString();
@@ -264,9 +269,8 @@ public class ObjectManager implements UpdateAwareSystem {
     }
 
     private void drawDebug0(GameDrawer drawer) {
-        SolCam cam = context.get(SolCam.class);
-        float lineWidth = cam.getRealLineWidth();
-        float vh = cam.getViewHeight();
+        float lineWidth = solCam.getRealLineWidth();
+        float vh = solCam.getViewHeight();
         for (SolObject o : myObjs) {
             Vector2 position = o.getPosition();
             float r = getRadius(o);
@@ -277,8 +281,8 @@ public class ObjectManager implements UpdateAwareSystem {
             FarObject fo = fod.fo;
             drawer.drawCircle(drawer.debugWhiteTexture, fo.getPosition(), fo.getRadius(), DebugCol.OBJ_FAR, lineWidth, vh);
         }
-        drawer.drawCircle(drawer.debugWhiteTexture, cam.getPosition(), myFarBeginDist, SolColor.WHITE, lineWidth, vh);
-        drawer.drawCircle(drawer.debugWhiteTexture, cam.getPosition(), myFarEndDist, SolColor.WHITE, lineWidth, vh);
+        drawer.drawCircle(drawer.debugWhiteTexture, solCam.getPosition(), myFarBeginDist, SolColor.WHITE, lineWidth, vh);
+        drawer.drawCircle(drawer.debugWhiteTexture, solCam.getPosition(), myFarEndDist, SolColor.WHITE, lineWidth, vh);
     }
 
     public List<SolObject> getObjects() {
@@ -356,7 +360,8 @@ public class ObjectManager implements UpdateAwareSystem {
         return myFarPorts;
     }
 
-    public void dispose() {
+    @Override
+    public void close() throws Exception {
         myWorld.dispose();
     }
 }

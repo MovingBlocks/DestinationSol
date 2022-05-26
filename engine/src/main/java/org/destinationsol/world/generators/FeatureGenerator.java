@@ -17,6 +17,7 @@ package org.destinationsol.world.generators;
 
 import com.badlogic.gdx.math.Vector2;
 import org.destinationsol.world.Orbital;
+import org.terasology.context.annotation.IndexInherited;
 
 /**
  * This class represents the abstract version of any feature which will populate the game's SolarSystems, such as Planets,
@@ -24,6 +25,7 @@ import org.destinationsol.world.Orbital;
  * general Feature, or extend the child {@link PlanetGenerator} or {@link MazeGenerator} classes to create custom
  * versions of those elements.
 */
+@IndexInherited
 public abstract class FeatureGenerator {
     public static final float ORBITAL_FEATURE_BUFFER = 8f;
     private Vector2 position = new Vector2();

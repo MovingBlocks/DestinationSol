@@ -24,6 +24,7 @@ import org.terasology.gestalt.assets.format.AbstractAssetFileFormat;
 import org.terasology.gestalt.assets.format.AssetDataFile;
 import org.terasology.gestalt.assets.module.annotations.RegisterAssetFileFormat;
 
+import javax.inject.Inject;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -31,6 +32,7 @@ import java.util.List;
 
 @RegisterAssetFileFormat
 public class EmitterFileFormat extends AbstractAssetFileFormat<EmitterData> {
+    @Inject
     public EmitterFileFormat() {
         super("emitter");
     }

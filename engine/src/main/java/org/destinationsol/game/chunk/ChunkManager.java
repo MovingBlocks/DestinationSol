@@ -23,6 +23,7 @@ import org.destinationsol.game.RemoveController;
 import org.destinationsol.game.SolGame;
 import org.destinationsol.game.UpdateAwareSystem;
 
+import javax.inject.Inject;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -41,6 +42,7 @@ public class ChunkManager implements UpdateAwareSystem {
     private int x;
     private int y;
 
+    @Inject
     public ChunkManager() {
         filledChunks = new HashSet<>();
         backgroundFilledChunks = new HashSet<>();

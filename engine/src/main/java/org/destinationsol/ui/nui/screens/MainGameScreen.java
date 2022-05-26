@@ -17,8 +17,6 @@ package org.destinationsol.ui.nui.screens;
 
 import org.destinationsol.GameOptions;
 import org.destinationsol.SolApplication;
-import org.destinationsol.assets.Assets;
-import org.destinationsol.common.In;
 import org.destinationsol.game.FactionManager;
 import org.destinationsol.game.Hero;
 import org.destinationsol.game.SolGame;
@@ -28,17 +26,15 @@ import org.destinationsol.game.screens.TalkScreen;
 import org.destinationsol.game.ship.SolShip;
 import org.destinationsol.ui.SolInputManager;
 import org.destinationsol.ui.nui.NUIScreenLayer;
-import org.destinationsol.ui.nui.widgets.KeyActivatedButton;
 import org.destinationsol.ui.nui.widgets.UIWarnButton;
-import org.terasology.gestalt.assets.ResourceUrn;
 import org.terasology.input.ButtonState;
 import org.terasology.input.Keyboard;
 import org.terasology.nui.AbstractWidget;
 import org.terasology.nui.UIWidget;
-import org.terasology.nui.asset.UIElement;
 import org.terasology.nui.backends.libgdx.GDXInputUtil;
 import org.terasology.nui.events.NUIKeyEvent;
 
+import javax.inject.Inject;
 import java.util.List;
 
 /**
@@ -55,8 +51,12 @@ public class MainGameScreen extends NUIScreenLayer {
     private UIWarnButton mercsButton;
     private ConsoleScreen consoleScreen;
 
-    @In
-    private SolApplication solApplication;
+    private final SolApplication solApplication;
+
+    @Inject
+    public MainGameScreen(SolApplication solApplication) {
+        this.solApplication = solApplication;
+    }
 
     @Override
     public void initialise() {

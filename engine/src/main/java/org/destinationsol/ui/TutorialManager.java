@@ -17,7 +17,6 @@ package org.destinationsol.ui;
 
 import com.badlogic.gdx.math.Rectangle;
 import org.destinationsol.GameOptions;
-import org.destinationsol.SolApplication;
 import org.destinationsol.common.SolColor;
 import org.destinationsol.game.SolGame;
 import org.destinationsol.game.UpdateAwareSystem;
@@ -28,31 +27,28 @@ import org.destinationsol.game.screens.MainGameScreen;
 import org.destinationsol.game.screens.ShipMixedControl;
 import org.destinationsol.ui.nui.screens.UIShipControlsScreen;
 import org.destinationsol.ui.nui.widgets.UIWarnButton;
-import org.terasology.nui.widgets.UIButton;
 
+import javax.inject.Inject;
+import javax.inject.Provider;
 import java.util.ArrayList;
 import java.util.List;
 
 public class TutorialManager implements UpdateAwareSystem {
-    private DisplayDimensions displayDimensions;
     private final Rectangle background;
-    private ArrayList<Step> steps;
+    private final ArrayList<Step> steps;
     private final GameScreens screens;
-    private final org.destinationsol.ui.nui.screens.MainGameScreen nuiMain;
-    private final boolean mobile;
     private final GameOptions gameOptions;
-    private final SolGame game;
+    private final Provider<SolGame> game;
+    private final DisplayDimensions displayDimensions;
 
     private int stepIndex;
 
-    public TutorialManager(GameScreens screens, org.destinationsol.ui.nui.screens.MainGameScreen nuiMain, boolean mobile, GameOptions gameOptions, SolGame game) {
+    @Inject
+    public TutorialManager(GameScreens screens, GameOptions gameOptions, Provider<SolGame> game, DisplayDimensions displayDimensions) {
         this.screens = screens;
-        this.nuiMain = nuiMain;
-        this.mobile = mobile;
         this.gameOptions = gameOptions;
         this.game = game;
-
-        displayDimensions = SolApplication.displayDimensions;
+        this.displayDimensions = displayDimensions;
 
         float backgroundW = displayDimensions.getRatio() * .5f;
         float backgroundH = .2f;
@@ -62,8 +58,10 @@ public class TutorialManager implements UpdateAwareSystem {
     }
 
     public void start() {
+        boolean mobile = game.get().getSolApplication().isMobile();
         MainGameScreen main = screens.mainGameScreen;
         boolean mouseCtrl = main.getShipControl() instanceof ShipMixedControl;
+        org.destinationsol.ui.nui.screens.MainGameScreen nuiMain = game.get().getMainGameScreen();
         SolUiControl shootCtrl = null;
         String shootKey;
         String shootKey2;
@@ -162,7 +160,7 @@ public class TutorialManager implements UpdateAwareSystem {
         if (screens.inventoryScreen.getSelectedItem() == null ||
                 (screens.inventoryScreen.getSelectedItem() != null && screens.inventoryScreen.getSelectedItem().isEquipped() == 0)) {
             addStep(new SelectEquippedItemStep(
-                    "Select an equipped item\n(note the text \"using\")", screens.inventoryScreen, game));
+                    "Select an equipped item\n(note the text \"using\")", screens.inventoryScreen, game.get()));
         }
 
         if (mobile) {
@@ -245,7 +243,6 @@ public class TutorialManager implements UpdateAwareSystem {
             addStep("Buy new ships, hire mercenaries\n" + shootKey2, nuiShootCtrl);
             addStep("Tutorial is complete and will exit now!\n" + shootKey2, nuiShootCtrl);
         }
-
         steps.get(0).start();
     }
 

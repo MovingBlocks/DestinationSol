@@ -16,8 +16,9 @@
 package org.destinationsol.game.screens;
 
 import com.badlogic.gdx.math.Rectangle;
-import org.destinationsol.SolApplication;
 import org.destinationsol.ui.DisplayDimensions;
+
+import javax.inject.Inject;
 
 public class RightPaneLayout {
     private final float btnH;
@@ -26,9 +27,8 @@ public class RightPaneLayout {
     private final float rowH;
     private final float col0;
 
-    public RightPaneLayout() {
-        DisplayDimensions displayDimensions = SolApplication.displayDimensions;
-
+    @Inject
+    public RightPaneLayout(DisplayDimensions displayDimensions) {
         btnH = .07f;
         rowH = 1.1f * btnH;
         row0 = .1f;

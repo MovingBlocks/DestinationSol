@@ -15,6 +15,8 @@
  */
 package org.destinationsol.testingUtilities;
 
+import org.destinationsol.entitysystem.EntitySystemManager;
+import org.destinationsol.modules.FacadeModuleConfig;
 import org.destinationsol.modules.ModuleManager;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.backends.headless.HeadlessApplication;
@@ -23,6 +25,16 @@ import com.badlogic.gdx.graphics.GL20;
 import org.destinationsol.SolApplication;
 import org.destinationsol.game.DebugOptions;
 import org.destinationsol.game.SolGame;
+import org.destinationsol.testsupport.TestModuleConfig;
+import org.terasology.context.Lifetime;
+import org.terasology.gestalt.di.DefaultBeanContext;
+import org.terasology.gestalt.di.ServiceRegistry;
+import org.terasology.gestalt.entitysystem.component.management.ComponentManager;
+import org.terasology.gestalt.module.ModuleFactory;
+import org.terasology.gestalt.module.ModulePathScanner;
+import org.terasology.gestalt.module.TableModuleRegistry;
+
+import java.util.Collections;
 
 public final class InitializationUtilities {
 
@@ -37,16 +49,20 @@ public final class InitializationUtilities {
         }
         initialized = true;
         DebugOptions.DEV_ROOT_PATH = "engine/src/main/resources/";
-        ModuleManager moduleManager;
-        try {
-            moduleManager = new ModuleManager();
-        } catch (Exception ignore) {
-            return;
-        }
         GL20 mockGL = new MockGL();
         Gdx.gl = mockGL;
         Gdx.gl20 = mockGL;
-        final HeadlessApplication application = new HeadlessApplication(new SolApplication(moduleManager, 100), new HeadlessApplicationConfiguration());
+
+        ServiceRegistry serviceRegistry = new ServiceRegistry();
+        serviceRegistry
+                .with(FacadeModuleConfig.class)
+                .lifetime(Lifetime.Singleton)
+                .use(TestModuleConfig::new);
+        serviceRegistry
+                .with(ModulePathScanner.class)
+                .lifetime(Lifetime.Singleton);
+
+        final HeadlessApplication application = new HeadlessApplication(new SolApplication(100, serviceRegistry), new HeadlessApplicationConfiguration());
         game = ((SolApplication) application.getApplicationListener()).getGame();
     }
 }

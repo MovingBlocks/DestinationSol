@@ -26,6 +26,7 @@ import org.destinationsol.game.drawables.Drawable;
 import org.destinationsol.game.drawables.DrawableLevel;
 import org.destinationsol.game.ship.ShipBuilder;
 
+import javax.inject.Inject;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -38,6 +39,7 @@ public class RubbleBuilder {
     private final CollisionMeshLoader myCollisionMeshLoader;
     private final List<TextureAtlas.AtlasRegion> myTextures;
 
+    @Inject
     public RubbleBuilder() {
         myCollisionMeshLoader = new CollisionMeshLoader("engine:miscCollisionMeshes");
         myTextures = Assets.listTexturesMatching("engine:rubble_.*");

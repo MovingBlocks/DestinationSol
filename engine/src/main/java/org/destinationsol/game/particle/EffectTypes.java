@@ -15,12 +15,14 @@
  */
 package org.destinationsol.game.particle;
 
+import javax.inject.Inject;
 import java.util.HashMap;
 import java.util.Map;
 
 public class EffectTypes {
     private final Map<String, EffectType> types;
 
+    @Inject
     public EffectTypes() {
         types = new HashMap<>();
     }

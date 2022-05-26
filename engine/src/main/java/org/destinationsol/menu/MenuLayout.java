@@ -17,8 +17,9 @@
 package org.destinationsol.menu;
 
 import com.badlogic.gdx.math.Rectangle;
-import org.destinationsol.SolApplication;
 import org.destinationsol.ui.DisplayDimensions;
+
+import javax.inject.Inject;
 
 public class MenuLayout {
     public static final float BG_BORDER = .03f;
@@ -30,8 +31,8 @@ public class MenuLayout {
     private final float rowH;
     private final float myPad;
 
-    public MenuLayout() {
-        DisplayDimensions displayDimensions = SolApplication.displayDimensions;
+    @Inject
+    public MenuLayout(DisplayDimensions displayDimensions) {
 
         btnW = .40f * displayDimensions.getRatio();
         btnH = .1f;

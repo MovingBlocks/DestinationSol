@@ -16,8 +16,8 @@
 package org.destinationsol.entitysystem;
 
 import com.google.common.collect.Lists;
-import org.destinationsol.game.context.Context;
-import org.destinationsol.util.InjectionHelper;
+import org.destinationsol.modules.ModuleManager;
+import org.terasology.gestalt.di.BeanContext;
 import org.terasology.gestalt.entitysystem.component.Component;
 import org.terasology.gestalt.entitysystem.component.management.ComponentManager;
 import org.terasology.gestalt.entitysystem.component.store.ArrayComponentStore;
@@ -31,9 +31,9 @@ import org.terasology.gestalt.entitysystem.event.Event;
 import org.terasology.gestalt.entitysystem.event.EventSystem;
 import org.terasology.gestalt.entitysystem.event.impl.EventReceiverMethodSupport;
 import org.terasology.gestalt.entitysystem.event.impl.EventSystemImpl;
-import org.terasology.gestalt.entitysystem.prefab.GeneratedFromRecipeComponent;
 import org.terasology.gestalt.module.ModuleEnvironment;
 
+import javax.inject.Inject;
 import java.lang.reflect.Modifier;
 import java.util.List;
 
@@ -41,33 +41,27 @@ public class EntitySystemManager {
 
     private static EntityManager entityManager;
     private final EventSystem eventSystem = new EventSystemImpl();
+    private final BeanContext context;
     private static final EventReceiverMethodSupport eventReceiverMethodSupport = new EventReceiverMethodSupport();
 
-    public EntitySystemManager(ModuleEnvironment environment, ComponentManager componentManager, Context context) {
-
-        context.put(EntitySystemManager.class, this);
-
+    @Inject
+    public EntitySystemManager(ModuleManager moduleManager, ComponentManager componentManager, BeanContext context) {
         List<ComponentStore<?>> stores = Lists.newArrayList();
-        for (Class<? extends Component> componentType : environment.getSubtypesOf(Component.class)) {
+        for (Class<? extends Component> componentType : moduleManager.getEnvironment().getSubtypesOf(Component.class)) {
             //This filters out abstract components, which would create exceptions
             if (!Modifier.isAbstract(componentType.getModifiers())) {
                 stores.add(
                         new ConcurrentComponentStore<>(new ArrayComponentStore<>(componentManager.getType(componentType))));
             }
         }
-        stores.add(new ConcurrentComponentStore<>(
-                new ArrayComponentStore<>(componentManager.getType(GeneratedFromRecipeComponent.class))));
-
         entityManager = new CoreEntityManager(stores);
 
-        for (Class<? extends EventReceiver> eventReceiver : environment.getSubtypesOf(EventReceiver.class)) {
-            try {
-                EventReceiver receiver = eventReceiver.newInstance();
-                InjectionHelper.inject(receiver, context);
-                eventReceiverMethodSupport.register(receiver, eventSystem);
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
+        this.context = context;
+    }
+
+    public void initialise() {
+        for (EventReceiver eventReceiver : context.getBeans(EventReceiver.class)) {
+            eventReceiverMethodSupport.register(eventReceiver, eventSystem);
         }
     }
 

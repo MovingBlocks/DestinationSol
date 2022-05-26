@@ -16,24 +16,27 @@
 package org.destinationsol.ui.nui.screens.mainMenu;
 
 import org.destinationsol.SolApplication;
-import org.destinationsol.common.In;
 import org.destinationsol.game.SaveManager;
 import org.destinationsol.game.WorldConfig;
 import org.destinationsol.ui.nui.NUIManager;
 import org.destinationsol.ui.nui.NUIScreenLayer;
 import org.destinationsol.ui.nui.widgets.KeyActivatedButton;
-import org.terasology.input.Keyboard;
 import org.terasology.nui.Canvas;
-import org.terasology.nui.UIWidget;
 import org.terasology.nui.backends.libgdx.GDXInputUtil;
 import org.terasology.nui.widgets.UIButton;
 
+import javax.inject.Inject;
+
 public class NewGameScreen extends NUIScreenLayer {
-    @In
-    private SolApplication solApplication;
+    private final SolApplication solApplication;
     private KeyActivatedButton continueButton;
     private UIButton newGameButton;
     private KeyActivatedButton cancelButton;
+
+    @Inject
+    public NewGameScreen(SolApplication solApplication) {
+        this.solApplication = solApplication;
+    }
 
     @Override
     public void initialise() {

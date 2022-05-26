@@ -19,7 +19,6 @@ import org.destinationsol.SolApplication;
 import org.destinationsol.assets.Assets;
 import org.destinationsol.assets.json.Json;
 import org.destinationsol.assets.json.Validator;
-import org.destinationsol.common.In;
 import org.destinationsol.game.WorldConfig;
 import org.destinationsol.game.planet.SystemsBuilder;
 import org.destinationsol.ui.nui.NUIManager;
@@ -30,15 +29,21 @@ import org.terasology.nui.Canvas;
 import org.terasology.nui.backends.libgdx.GDXInputUtil;
 import org.terasology.nui.widgets.UIButton;
 
+import javax.inject.Inject;
 import java.util.ArrayList;
 import java.util.List;
 
 public class NewShipScreen extends NUIScreenLayer {
-    @In
-    private SolApplication solApplication;
+
+    private final SolApplication solApplication;
     private int numberOfSystems = SystemsBuilder.DEFAULT_SYSTEM_COUNT;
     private int playerSpawnConfigIndex = 0;
     private List<String> playerSpawnConfigNames = new ArrayList<>();
+
+    @Inject
+    public NewShipScreen(SolApplication solApplication) {
+        this.solApplication = solApplication;
+    }
 
     @Override
     public void initialise() {

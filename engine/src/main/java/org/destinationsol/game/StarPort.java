@@ -40,6 +40,7 @@ import org.destinationsol.game.ship.ForceBeacon;
 import org.destinationsol.game.ship.SolShip;
 import org.destinationsol.world.generators.FeatureGenerator;
 
+import javax.inject.Inject;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -232,6 +233,7 @@ public class StarPort implements SolObject {
         public static final float FLOW_DIST = .26f * SIZE;
         private final CollisionMeshLoader myLoader;
 
+        @Inject
         Builder() {
             myLoader = new CollisionMeshLoader("engine:miscCollisionMeshes");
         }

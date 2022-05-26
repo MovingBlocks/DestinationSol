@@ -34,8 +34,9 @@ import org.slf4j.LoggerFactory;
 import org.terasology.gestalt.assets.ResourceUrn;
 import org.terasology.gestalt.assets.format.AbstractAssetFileFormat;
 import org.terasology.gestalt.assets.format.AssetDataFile;
-import org.terasology.gestalt.assets.management.AssetManager;
 import org.terasology.gestalt.assets.module.annotations.RegisterAssetFileFormat;
+import org.terasology.gestalt.di.BeanContext;
+import org.terasology.gestalt.di.exceptions.BeanResolutionException;
 import org.terasology.input.Keyboard;
 import org.terasology.nui.Color;
 import org.terasology.nui.LayoutHint;
@@ -52,6 +53,7 @@ import org.terasology.reflection.ReflectionUtil;
 import org.terasology.reflection.metadata.ClassMetadata;
 import org.terasology.reflection.metadata.FieldMetadata;
 
+import javax.inject.Inject;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.lang.reflect.Modifier;
@@ -76,12 +78,14 @@ public class UIFormat extends AbstractAssetFileFormat<UIData> {
     public static final String TYPE_FIELD = "type";
 
     private static final Logger logger = LoggerFactory.getLogger(UIFormat.class);
-    private static WidgetLibrary library;
+    private final WidgetLibrary library;
+    private final BeanContext beanContext;
 
-    public UIFormat(WidgetLibrary library) {
+    @Inject
+    public UIFormat(WidgetLibrary library, BeanContext beanContext) {
         super("ui");
-
-        UIFormat.library = library;
+        this.library = library;
+        this.beanContext = beanContext;
     }
 
     @Override
@@ -148,7 +152,7 @@ public class UIFormat extends AbstractAssetFileFormat<UIData> {
      * Each contained widget may have a "layoutInfo" attribute providing the layout hint for its container.</li>
      * </ul>
      */
-    private static final class UIWidgetTypeAdapter implements JsonDeserializer<UIWidget> {
+    private final class UIWidgetTypeAdapter implements JsonDeserializer<UIWidget> {
         @Override
         public UIWidget deserialize(JsonElement json, Type typeOfT, JsonDeserializationContext context) throws JsonParseException {
             if (json.isJsonPrimitive() && json.getAsJsonPrimitive().isString()) {
@@ -169,11 +173,19 @@ public class UIFormat extends AbstractAssetFileFormat<UIData> {
                 id = jsonObject.get(ID_FIELD).getAsString();
             }
 
-            UIWidget element = elementMetadata.newInstance();
+            UIWidget element;
+            try {
+                // try injectable variant
+                element = beanContext.getBean(elementMetadata.getType());
+            } catch (BeanResolutionException e) {
+                logger.warn("UIWidget  type {} is not injectable (if it is should -" +
+                        " mark it with @Service or it's constructor with @Inject", elementMetadata.getId());
+                element = elementMetadata.newInstance();
+            }
             if (id != null) {
                 FieldMetadata<?, ?> fieldMetadata = elementMetadata.getField(ID_FIELD);
                 if (fieldMetadata == null) {
-                    logger.warn("UIWidget type {} lacks id field", elementMetadata.getUri());
+                    logger.warn("UIWidget type {} lacks id field", elementMetadata.getId());
                 } else {
                     fieldMetadata.setValue(element, id);
                 }
@@ -184,9 +196,9 @@ public class UIFormat extends AbstractAssetFileFormat<UIData> {
             for (Entry<String, JsonElement> entry : jsonObject.entrySet()) {
                 String name = entry.getKey();
                 if (!ID_FIELD.equals(name)
-                    && !CONTENTS_FIELD.equals(name)
-                    && !TYPE_FIELD.equals(name)
-                    && !LAYOUT_INFO_FIELD.equals(name)) {
+                        && !CONTENTS_FIELD.equals(name)
+                        && !TYPE_FIELD.equals(name)
+                        && !LAYOUT_INFO_FIELD.equals(name)) {
                     unknownFields.add(name);
                 }
             }
@@ -226,7 +238,7 @@ public class UIFormat extends AbstractAssetFileFormat<UIData> {
                 UILayout<LayoutHint> layout = (UILayout<LayoutHint>) element;
 
                 Class<? extends LayoutHint> layoutHintType = (Class<? extends LayoutHint>)
-                    ReflectionUtil.getTypeParameter(elementMetadata.getType().getGenericSuperclass(), 0);
+                        ReflectionUtil.getTypeParameter(elementMetadata.getType().getGenericSuperclass(), 0);
                 if (jsonObject.has(CONTENTS_FIELD)) {
                     for (JsonElement child : jsonObject.getAsJsonArray(CONTENTS_FIELD)) {
                         UIWidget childElement = context.deserialize(child, UIWidget.class);
@@ -235,7 +247,7 @@ public class UIFormat extends AbstractAssetFileFormat<UIData> {
                             if (child.isJsonObject()) {
                                 JsonObject childObject = child.getAsJsonObject();
                                 if (layoutHintType != null && !layoutHintType.isInterface() && !Modifier.isAbstract(layoutHintType.getModifiers())
-                                    && childObject.has(LAYOUT_INFO_FIELD)) {
+                                        && childObject.has(LAYOUT_INFO_FIELD)) {
                                     hint = context.deserialize(childObject.get(LAYOUT_INFO_FIELD), layoutHintType);
                                 }
                             }

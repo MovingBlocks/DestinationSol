@@ -33,6 +33,7 @@ import org.destinationsol.game.ship.hulls.Hull;
 import org.destinationsol.game.ship.hulls.HullConfig;
 import org.destinationsol.world.generators.SolarSystemGenerator;
 
+import javax.inject.Inject;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -46,6 +47,7 @@ public class PlanetManager implements UpdateAwareSystem {
     private final PlanetCoreSingleton planetCoreSingleton;
     private Planet nearestPlanet;
 
+    @Inject
     public PlanetManager() {
         systems = new ArrayList<>();
         mazes = new ArrayList<>();

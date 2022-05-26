@@ -20,15 +20,14 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.BodyDef;
 import com.badlogic.gdx.physics.box2d.FixtureDef;
-import com.badlogic.gdx.physics.box2d.World;
 import org.destinationsol.Const;
 import org.destinationsol.asteroids.components.AsteroidMesh;
 import org.destinationsol.body.events.BodyCreatedEvent;
 import org.destinationsol.body.events.GenerateBodyEvent;
-import org.destinationsol.common.In;
 import org.destinationsol.entitysystem.EntitySystemManager;
 import org.destinationsol.entitysystem.EventReceiver;
 import org.destinationsol.game.CollisionMeshLoader;
+import org.destinationsol.game.ObjectManager;
 import org.destinationsol.game.UpdateAwareSystem;
 import org.destinationsol.location.components.Angle;
 import org.destinationsol.location.components.Position;
@@ -39,6 +38,7 @@ import org.terasology.gestalt.entitysystem.entity.EntityRef;
 import org.terasology.gestalt.entitysystem.event.EventResult;
 import org.terasology.gestalt.entitysystem.event.ReceiveEvent;
 
+import javax.inject.Inject;
 import java.util.ArrayList;
 
 /**
@@ -55,13 +55,18 @@ public class AsteroidBodyCreationSystem implements EventReceiver {
 
     private static final float DENSITY = 10f;
 
-    @In
-    private EntitySystemManager entitySystemManager;
+    @Inject
+    EntitySystemManager entitySystemManager;
 
-    @In
-    private World world;
+    @Inject
+    ObjectManager objectManager;
 
     private final CollisionMeshLoader collisionMeshLoader = new CollisionMeshLoader("engine:asteroids");
+
+    @Inject
+    public AsteroidBodyCreationSystem(){
+
+    }
 
     @ReceiveEvent(components = {AsteroidMesh.class, Size.class, Position.class, Angle.class, Renderable.class})
     public EventResult onGenerateBody(GenerateBodyEvent event, EntityRef entity) {
@@ -78,7 +83,7 @@ public class AsteroidBodyCreationSystem implements EventReceiver {
         bd.angularDamping = 0;
         bd.position.set(position);
         bd.linearDamping = 0;
-        Body body = world.createBody(bd);
+        Body body = objectManager.getWorld().createBody(bd);
 
         //This sets a reference to an entity in the Body, so that the entity can be retrieved from the body during collision handling.
         body.setUserData(entity);

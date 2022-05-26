@@ -21,8 +21,7 @@ import com.badlogic.gdx.physics.box2d.Box2D;
 import org.destinationsol.files.HullConfigManager;
 import org.destinationsol.game.AbilityCommonConfigs;
 import org.destinationsol.game.GameColors;
-import org.destinationsol.game.context.Context;
-import org.destinationsol.game.context.internal.ContextImpl;
+import org.destinationsol.game.WorldConfig;
 import org.destinationsol.game.item.ItemManager;
 import org.destinationsol.game.maze.MazeConfigManager;
 import org.destinationsol.game.particle.EffectTypes;
@@ -36,6 +35,11 @@ import org.destinationsol.testsupport.AssetsHelperInitializer;
 import org.destinationsol.world.GalaxyBuilder;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.mockito.Mockito;
+import org.terasology.context.Lifetime;
+import org.terasology.gestalt.di.BeanContext;
+import org.terasology.gestalt.di.DefaultBeanContext;
+import org.terasology.gestalt.di.ServiceRegistry;
 
 import java.util.ArrayList;
 
@@ -45,7 +49,8 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 public class SolarSystemGeneratorTest implements AssetsHelperInitializer {
-    private Context context;
+    private ServiceRegistry registry;
+    private BeanContext context;
     private ModuleManager moduleManager;
     private GalaxyBuilder galaxyBuilder;
     private GameColors gameColors;
@@ -56,16 +61,16 @@ public class SolarSystemGeneratorTest implements AssetsHelperInitializer {
 
     @BeforeEach
     public void setUp() throws Exception {
-        context = new ContextImpl();
+        registry = new ServiceRegistry();
         moduleManager = getModuleManager();
-        moduleManager.init();
-        context.put(ModuleManager.class, moduleManager);
+        registry.with(ModuleManager.class).use(() -> moduleManager).lifetime(Lifetime.Singleton);
 
         setupMockGL();
 
         setupConfigManagers();
 
-        galaxyBuilder = new GalaxyBuilder(context, 1);
+        context = new DefaultBeanContext(registry);
+        galaxyBuilder = new GalaxyBuilder(new WorldConfig(), moduleManager, context.getBean(SolarSystemConfigManager.class), context);
 
         ArrayList<SolarSystemGenerator> solarSystemGenerators = galaxyBuilder.initializeRandomSolarSystemGenerators();
         solarSystemGenerator = solarSystemGenerators.get(0);
@@ -85,24 +90,24 @@ public class SolarSystemGeneratorTest implements AssetsHelperInitializer {
 
         PlanetConfigManager planetConfigManager = new PlanetConfigManager(hullConfigManager, gameColors,itemManager);
         planetConfigManager.loadDefaultPlanetConfigs();
-        context.put(PlanetConfigManager.class, planetConfigManager);
+        registry.with(PlanetConfigManager.class).use(() -> planetConfigManager).lifetime(Lifetime.Singleton);
 
         MazeConfigManager mazeConfigManager = new MazeConfigManager(hullConfigManager, itemManager);
         mazeConfigManager.loadDefaultMazeConfigs();
-        context.put(MazeConfigManager.class, mazeConfigManager);
+        registry.with(MazeConfigManager.class).use(() -> mazeConfigManager).lifetime(Lifetime.Singleton);
 
         BeltConfigManager beltConfigManager = new BeltConfigManager(hullConfigManager, itemManager);
         beltConfigManager.loadDefaultBeltConfigs();
-        context.put(BeltConfigManager.class, beltConfigManager);
+        registry.with(BeltConfigManager.class).use(() -> beltConfigManager).lifetime(Lifetime.Singleton);
 
         SolarSystemConfigManager solarSystemConfigManager = new SolarSystemConfigManager(hullConfigManager, itemManager);
-        context.put(SolarSystemConfigManager.class, solarSystemConfigManager);
+        registry.with(SolarSystemConfigManager.class).use(() -> solarSystemConfigManager).lifetime(Lifetime.Singleton);
     }
 
     private ItemManager setupItemManager() {
         gameColors = new GameColors();
         effectTypes = new EffectTypes();
-        soundManager = new OggSoundManager(context);
+        soundManager = Mockito.mock(OggSoundManager.class);
         return new ItemManager(soundManager, effectTypes, gameColors);
     }
 

@@ -15,5 +15,8 @@
  */
 package org.destinationsol.entitysystem;
 
+import org.terasology.context.annotation.IndexInherited;
+
+@IndexInherited
 public interface EventReceiver {
 }

@@ -63,18 +63,17 @@ public class ShipMixedControl implements ShipUiControl {
 
     @Override
     public void update(SolApplication solApplication, boolean enabled) {
-        Context context = solApplication.getContext();
         GameOptions gameOptions = solApplication.getOptions();
         blur();
         SolGame game = solApplication.getGame();
-        if (!enabled || problemWithProjections(context.get(SolCam.class))) {
+        if (!enabled || problemWithProjections(game.getCam())) {
             return;
         }
         SolInputManager im = solApplication.getInputManager();
         Hero hero = game.getHero();
         if (hero.isNonTranscendent()) {
             mouseWorldPosition.set(Gdx.input.getX(), Gdx.input.getY());
-            context.get(SolCam.class).screenToWorld(mouseWorldPosition);
+            game.getCam().screenToWorld(mouseWorldPosition);
             SolMath.assetReal(mouseWorldPosition, hero.getPosition());
             float desiredAngle = SolMath.angle(hero.getPosition(), mouseWorldPosition);
             Boolean needsToTurn = Mover.needsToTurn(hero.getAngle(), desiredAngle, hero.getRotationSpeed(), hero.getRotationAcceleration(), Shooter.MIN_SHOOT_AAD);

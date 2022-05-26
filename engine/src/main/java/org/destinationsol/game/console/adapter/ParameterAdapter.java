@@ -15,7 +15,7 @@
  */
 package org.destinationsol.game.console.adapter;
 
-import org.terasology.gestalt.module.sandbox.API;
+import org.terasology.context.annotation.API;
 
 @API
 public interface ParameterAdapter<T> {

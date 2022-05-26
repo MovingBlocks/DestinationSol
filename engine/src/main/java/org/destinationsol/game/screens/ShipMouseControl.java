@@ -44,13 +44,12 @@ public class ShipMouseControl implements ShipUiControl {
 
     @Override
     public void update(SolApplication solApplication, boolean enabled) {
-        Context context = solApplication.getContext();
         SolGame game = solApplication.getGame();
         Hero hero = game.getHero();
         myCursor = null;
         if (hero.isNonTranscendent()) {
             myMouseWorldPos.set(Gdx.input.getX(), Gdx.input.getY());
-            context.get(SolCam.class).screenToWorld(myMouseWorldPos);
+            game.getCam().screenToWorld(myMouseWorldPos);
             SolInputManager im = solApplication.getInputManager();
             boolean clicked = im.getPtrs()[0].pressed;
             boolean onMap = im.isScreenOn(game.getScreens().mapScreen);

@@ -22,7 +22,7 @@ import org.terasology.nui.Color;
 import org.terasology.nui.UITextureRegion;
 import org.terasology.nui.UIWidget;
 import org.terasology.nui.asset.font.Font;
-import org.terasology.nui.skin.UISkin;
+import org.terasology.nui.reflection.WidgetLibrary;
 import org.terasology.nui.skin.UISkinAsset;
 import org.terasology.nui.skin.UISkinBuilder;
 import org.terasology.nui.skin.UISkinData;
@@ -30,6 +30,7 @@ import org.terasology.nui.skin.UIStyleFragment;
 import org.terasology.reflection.metadata.ClassLibrary;
 import org.terasology.reflection.metadata.ClassMetadata;
 
+import javax.inject.Inject;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.lang.reflect.Type;
@@ -47,10 +48,11 @@ public class UISkinFormat extends AbstractAssetFileFormat<UISkinData> {
     private Gson gson;
     private static ClassLibrary<UIWidget> widgetClassLibrary;
 
-    public UISkinFormat(ClassLibrary<UIWidget> widgetClassLibrary) {
+    @Inject
+    public UISkinFormat(WidgetLibrary widgetClassLibrary) {
         super("skin");
         gson = new GsonBuilder()
-                .registerTypeAdapter(UISkinData.class, new UISkinTypeAdapter())
+                .registerTypeAdapter(UISkinData.class, new UISkinTypeAdapter(widgetClassLibrary))
                 .registerTypeAdapterFactory(new CaseInsensitiveEnumTypeAdapterFactory())
                 .registerTypeAdapter(UITextureRegion.class, new TextureRegionTypeAdapter())
                 .registerTypeAdapter(Optional.class, new OptionalTextureRegionTypeAdapter())
@@ -59,7 +61,7 @@ public class UISkinFormat extends AbstractAssetFileFormat<UISkinData> {
                 .enableComplexMapKeySerialization()
                 .serializeNulls()
                 .create();
-        UISkinFormat.widgetClassLibrary = widgetClassLibrary;
+        this.widgetClassLibrary = widgetClassLibrary;
     }
 
     @Override
@@ -89,12 +91,19 @@ public class UISkinFormat extends AbstractAssetFileFormat<UISkinData> {
     }
 
     private static class UISkinTypeAdapter implements JsonDeserializer<UISkinData> {
+        private WidgetLibrary widgetLibrary;
+
+        public UISkinTypeAdapter(WidgetLibrary widgetLibrary) {
+            this.widgetLibrary = widgetLibrary;
+        }
+
         @Override
         public UISkinData deserialize(JsonElement json, Type typeOfT, JsonDeserializationContext context) throws JsonParseException {
             if (json.isJsonObject()) {
                 UISkinBuilder builder = new UISkinBuilder();
                 DefaultInfo defaultInfo = null;
                 defaultInfo = context.deserialize(json, DefaultInfo.class);
+                defaultInfo.setWidgetLibrary(widgetLibrary);
                 defaultInfo.apply(builder);
                 return new UISkinData(builder.build());
             }
@@ -118,6 +127,7 @@ public class UISkinFormat extends AbstractAssetFileFormat<UISkinData> {
             if (families != null) {
                 for (Map.Entry<String, FamilyInfo> entry : families.entrySet()) {
                     builder.setFamily(entry.getKey());
+                    entry.getValue().setWidgetLibrary(widgetLibrary);
                     entry.getValue().apply(builder);
                 }
             }
@@ -126,13 +136,13 @@ public class UISkinFormat extends AbstractAssetFileFormat<UISkinData> {
 
     private static class FamilyInfo extends StyleInfo {
         public Map<String, ElementInfo> elements;
+        protected ClassLibrary<UIWidget> widgetLibrary;
 
         public void apply(UISkinBuilder builder) {
             super.apply(builder);
             if (elements != null) {
                 for (Map.Entry<String, ElementInfo> entry : elements.entrySet()) {
-                    ClassLibrary<UIWidget> library = widgetClassLibrary;
-                    ClassMetadata<? extends UIWidget, ?> metadata = library.resolve(entry.getKey());
+                    ClassMetadata<? extends UIWidget, ?> metadata = widgetLibrary.resolve(entry.getKey());
                     if (metadata != null) {
                         builder.setElementClass(metadata.getType());
                         entry.getValue().apply(builder);
@@ -142,6 +152,10 @@ public class UISkinFormat extends AbstractAssetFileFormat<UISkinData> {
 
                 }
             }
+        }
+
+        public void setWidgetLibrary(ClassLibrary<UIWidget> widgetLibrary) {
+            this.widgetLibrary = widgetLibrary;
         }
     }
 

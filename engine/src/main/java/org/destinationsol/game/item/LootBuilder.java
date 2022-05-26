@@ -31,11 +31,13 @@ import org.destinationsol.game.drawables.SpriteManager;
 import org.destinationsol.game.particle.LightSource;
 import org.destinationsol.game.ship.SolShip;
 
+import javax.inject.Inject;
 import java.util.ArrayList;
 import java.util.List;
 
 public class LootBuilder {
 
+    @Inject
     public LootBuilder() {
     }
 

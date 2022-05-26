@@ -22,7 +22,6 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
 import org.destinationsol.Const;
-import org.destinationsol.SolApplication;
 import org.destinationsol.common.SolColor;
 import org.destinationsol.common.SolMath;
 import org.destinationsol.common.SolRandom;
@@ -31,6 +30,8 @@ import org.destinationsol.game.screens.MainGameScreen;
 import org.destinationsol.game.ship.SolShip;
 import org.destinationsol.game.ship.hulls.Hull;
 import org.destinationsol.ui.DisplayDimensions;
+
+import javax.inject.Inject;
 
 public class SolCam implements UpdateAwareSystem {
     public static final float CAM_ROT_SPD = 90f;
@@ -55,8 +56,9 @@ public class SolCam implements UpdateAwareSystem {
     private Vector2 position;
     private DisplayDimensions displayDimensions;
 
-    public SolCam() {
-        displayDimensions = SolApplication.displayDimensions;
+    @Inject
+    public SolCam(DisplayDimensions displayDimensions) {
+        this.displayDimensions = displayDimensions;
         myCamRotStrategy = new CamRotStrategy.ToPlanet();
         myCam = new OrthographicCamera(VIEWPORT_HEIGHT * displayDimensions.getRatio(), -VIEWPORT_HEIGHT);
         viewport = new ScreenViewport(myCam);

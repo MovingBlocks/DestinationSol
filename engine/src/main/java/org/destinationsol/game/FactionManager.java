@@ -22,12 +22,14 @@ import org.destinationsol.game.input.Pilot;
 import org.destinationsol.game.projectile.Projectile;
 import org.destinationsol.game.ship.SolShip;
 
+import javax.inject.Inject;
 import java.util.List;
 
 public class FactionManager {
 
     private final MyRayBack myRayBack;
 
+    @Inject
     public FactionManager() {
         myRayBack = new MyRayBack();
     }

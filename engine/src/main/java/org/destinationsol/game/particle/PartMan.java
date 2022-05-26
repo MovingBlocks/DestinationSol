@@ -31,6 +31,7 @@ import org.destinationsol.game.item.Shield;
 import org.destinationsol.game.ship.SolShip;
 import org.destinationsol.game.ship.hulls.Hull;
 
+import javax.inject.Inject;
 import java.util.ArrayList;
 
 public class PartMan {
@@ -38,6 +39,7 @@ public class PartMan {
     public static final float EXPL_LIGHT_MAX_FADE_TIME = .8f;
     public static final float SZ_TO_BLINK_COUNT = 18f;
 
+    @Inject
     public PartMan() {
     }
 

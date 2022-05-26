@@ -16,15 +16,20 @@
 package org.destinationsol.systems.DamageSystemTests;
 
 import org.destinationsol.entitysystem.EntitySystemManager;
-import org.destinationsol.game.context.internal.ContextImpl;
 import org.destinationsol.health.components.Health;
 import org.destinationsol.health.events.DamageEvent;
+import org.destinationsol.health.systems.DamageSystem;
 import org.destinationsol.removal.components.SlatedForDeletion;
 import org.destinationsol.removal.events.DeletionEvent;
+import org.destinationsol.removal.systems.DestroyOnZeroHealthSystem;
+import org.destinationsol.removal.systems.DestructionSystem;
 import org.destinationsol.testsupport.AssetsHelperInitializer;
 import org.destinationsol.testsupport.Box2DInitializer;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.terasology.gestalt.di.DefaultBeanContext;
+import org.terasology.gestalt.di.ServiceRegistry;
+import org.terasology.gestalt.entitysystem.component.management.ComponentManager;
 import org.terasology.gestalt.entitysystem.entity.EntityRef;
 
 import static org.junit.jupiter.api.Assertions.assertFalse;
@@ -38,7 +43,14 @@ public class ZeroHealthCausesDestructionTest implements Box2DInitializer, Assets
 
     @BeforeEach
     public void setUp() throws Exception {
-        entitySystemManager = new EntitySystemManager(getModuleManager().getEnvironment(), getComponentManager(), new ContextImpl());
+        ServiceRegistry systemsRegistry = new ServiceRegistry();
+        systemsRegistry.with(DestroyOnZeroHealthSystem.class);
+        systemsRegistry.with(DamageSystem.class);
+        systemsRegistry.with(DestructionSystem.class);
+        systemsRegistry.with(EntitySystemManager.class).use(() -> entitySystemManager);
+        entitySystemManager = new EntitySystemManager(getModuleManager(), new ComponentManager(),
+                new DefaultBeanContext(systemsRegistry));
+        entitySystemManager.initialise();
     }
 
     @Test
@@ -53,7 +65,6 @@ public class ZeroHealthCausesDestructionTest implements Box2DInitializer, Assets
         DamageEvent event = new DamageEvent(50);
 
         entitySystemManager.sendEvent(event, entity);
-
         // Emulate `DeletionUpdateSystem#update`
         entitySystemManager.sendEvent(new DeletionEvent(), new SlatedForDeletion());
 

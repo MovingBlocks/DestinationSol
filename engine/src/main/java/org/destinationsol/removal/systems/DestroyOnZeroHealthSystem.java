@@ -15,25 +15,32 @@
  */
 package org.destinationsol.removal.systems;
 
-import org.destinationsol.common.In;
 import org.destinationsol.entitysystem.EntitySystemManager;
 import org.destinationsol.entitysystem.EventReceiver;
 import org.destinationsol.health.components.Health;
 import org.destinationsol.removal.events.ShouldBeDestroyedEvent;
 import org.destinationsol.removal.events.ZeroHealthEvent;
 import org.terasology.gestalt.entitysystem.entity.EntityRef;
+import org.terasology.gestalt.entitysystem.event.EventResult;
 import org.terasology.gestalt.entitysystem.event.ReceiveEvent;
+
+import javax.inject.Inject;
 
 /**
  * When an entity's {@link Health} drops to zero, this system destroys that entity.
  */
 public class DestroyOnZeroHealthSystem implements EventReceiver {
 
-    @In
-    private EntitySystemManager entitySystemManager;
+    @Inject
+    EntitySystemManager entitySystemManager;
+
+    @Inject
+    public DestroyOnZeroHealthSystem() {
+    }
 
     @ReceiveEvent
-    public void onZeroHealth(ZeroHealthEvent event, EntityRef entity) {
+    public EventResult onZeroHealth(ZeroHealthEvent event, EntityRef entity) {
         entitySystemManager.sendEvent(new ShouldBeDestroyedEvent(), entity);
+        return EventResult.COMPLETE;
     }
 }

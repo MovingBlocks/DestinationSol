@@ -16,7 +16,6 @@
 package org.destinationsol.moneyDropping.systems;
 
 import com.badlogic.gdx.math.Vector2;
-import org.destinationsol.common.In;
 import org.destinationsol.common.SolMath;
 import org.destinationsol.common.SolRandom;
 import org.destinationsol.entitysystem.EventReceiver;
@@ -37,6 +36,7 @@ import org.terasology.gestalt.entitysystem.event.Before;
 import org.terasology.gestalt.entitysystem.event.EventResult;
 import org.terasology.gestalt.entitysystem.event.ReceiveEvent;
 
+import javax.inject.Inject;
 import java.util.List;
 
 /**
@@ -48,17 +48,22 @@ public class MoneyDroppingSystem implements EventReceiver {
     private final float MIN_MULTIPLIER = 12f;
     private final float MAX_MULTIPLIER = 40f;
 
-    @In
-    private SolGame game;
+    @Inject
+    SolGame game;
 
-    @In
-    private LootBuilder lootBuilder;
+    @Inject
+    LootBuilder lootBuilder;
 
-    @In
-    private ItemManager itemManager;
+    @Inject
+    ItemManager itemManager;
 
-    @In
-    private ObjectManager objectManager;
+    @Inject
+    ObjectManager objectManager;
+
+    @Inject
+    public MoneyDroppingSystem() {
+
+    }
 
     @ReceiveEvent(components = {DropsMoneyOnDestruction.class, Position.class, Velocity.class, Size.class})
     @Before(DestructionSystem.class)

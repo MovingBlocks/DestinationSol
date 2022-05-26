@@ -19,14 +19,12 @@ import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.math.Vector2;
 import org.destinationsol.assets.Assets;
 import org.destinationsol.body.components.BodyLinked;
-import org.destinationsol.common.In;
 import org.destinationsol.common.SolMath;
 import org.destinationsol.common.SolRandom;
 import org.destinationsol.entitysystem.EntitySystemManager;
 import org.destinationsol.entitysystem.EventReceiver;
 import org.destinationsol.game.Rubble;
 import org.destinationsol.game.RubbleBuilder;
-import org.destinationsol.game.SolGame;
 import org.destinationsol.game.drawables.DrawableLevel;
 import org.destinationsol.health.components.Health;
 import org.destinationsol.location.components.Angle;
@@ -45,6 +43,8 @@ import org.terasology.gestalt.entitysystem.event.Before;
 import org.terasology.gestalt.entitysystem.event.EventResult;
 import org.terasology.gestalt.entitysystem.event.ReceiveEvent;
 
+import javax.inject.Inject;
+
 /**
  * When an entity with a {@link CreatesRubbleOnDestruction} component is destroyed, this system creates {@link Rubble}s
  * where the entity was.
@@ -56,14 +56,15 @@ public class RubbleCreationSystem implements EventReceiver {
     public static final float MAX_SCALE = .12f;
     private static final float MAX_SPD = 40f;
 
-    @In
-    private RubbleBuilder rubbleBuilder;
+    @Inject
+    protected RubbleBuilder rubbleBuilder;
 
-    @In
-    private SolGame solGame;
+    @Inject
+    protected EntitySystemManager entitySystemManager;
 
-    @In
-    private EntitySystemManager entitySystemManager;
+    @Inject
+    public RubbleCreationSystem() {
+    }
 
     /**
      * When an entity with a {@link CreatesRubbleOnDestruction} component is destroyed, this creates {@link Rubble} where

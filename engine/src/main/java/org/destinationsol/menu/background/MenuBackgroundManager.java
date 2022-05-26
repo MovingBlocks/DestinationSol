@@ -22,6 +22,8 @@ import org.destinationsol.Const;
 import org.destinationsol.ui.DisplayDimensions;
 import org.destinationsol.ui.UiDrawer;
 
+import javax.inject.Inject;
+
 /**
  * <h1>General Menu background manager</h1>
  * Manages menu viewport, world, and the menu world's objects.
@@ -36,6 +38,7 @@ public class MenuBackgroundManager {
 
     OrthographicCamera backgroundCamera;
 
+    @Inject
     public MenuBackgroundManager(DisplayDimensions displayDimensions) {
         world = new World(new Vector2(0, 0), true);
 

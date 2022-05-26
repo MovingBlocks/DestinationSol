@@ -29,7 +29,7 @@ public class DSTexture extends Asset<DSTextureData> {
     private DSTextureData dsTextureData;
 
     public DSTexture(ResourceUrn urn, AssetType<?, DSTextureData> assetType, DSTextureData data, TextureResources resources) {
-        super(urn, assetType, resources);
+        super(urn, assetType);
         this.resources = resources;
         reload(data);
     }

@@ -34,6 +34,8 @@ import org.destinationsol.ui.DisplayDimensions;
 import org.destinationsol.ui.ResizeSubscriber;
 import org.destinationsol.ui.UiDrawer;
 
+import javax.inject.Inject;
+
 public class CommonDrawer implements ResizeSubscriber {
     private final SpriteBatch spriteBatch;
     private final BitmapFont font;
@@ -44,8 +46,9 @@ public class CommonDrawer implements ResizeSubscriber {
 
     private DisplayDimensions displayDimensions;
 
-    CommonDrawer() {
-        displayDimensions = SolApplication.displayDimensions;
+    @Inject
+    CommonDrawer(DisplayDimensions displayDimensions) {
+        this.displayDimensions = displayDimensions;
 
         spriteBatch = new SpriteBatch();
 

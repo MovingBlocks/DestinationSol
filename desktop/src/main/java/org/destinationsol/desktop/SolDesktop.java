@@ -22,6 +22,7 @@ import com.badlogic.gdx.backends.lwjgl3.Lwjgl3Application;
 import com.badlogic.gdx.backends.lwjgl3.Lwjgl3ApplicationConfiguration;
 import com.badlogic.gdx.backends.lwjgl3.Lwjgl3Graphics;
 import org.destinationsol.GameOptions;
+import org.destinationsol.modules.FacadeModuleConfig;
 import org.destinationsol.modules.ModuleManager;
 import org.destinationsol.SolApplication;
 import org.destinationsol.SolFileReader;
@@ -29,13 +30,21 @@ import org.destinationsol.game.DebugOptions;
 import org.destinationsol.ui.ResizeSubscriber;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.terasology.context.Lifetime;
 import org.terasology.crashreporter.CrashReporter;
+import org.terasology.gestalt.di.ServiceRegistry;
+import org.terasology.gestalt.module.Module;
+import org.terasology.gestalt.module.ModuleEnvironment;
+import org.terasology.gestalt.module.ModuleFactory;
+import org.terasology.gestalt.module.ModulePathScanner;
+import org.terasology.gestalt.module.sandbox.JavaModuleClassLoader;
 
 import java.awt.Graphics2D;
 import java.awt.Color;
 import java.awt.SplashScreen;
 import java.awt.Rectangle;
 import java.io.BufferedReader;
+import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -57,8 +66,6 @@ import java.util.stream.Stream;
 public final class SolDesktop {
 
     private static Logger logger = LoggerFactory.getLogger(SolDesktop.class);
-    private static boolean initFinished;
-    private static ModuleManager moduleManager;
 
     /**
      * Specifies the commandline option to pass to the application for it to generate no crash reports.
@@ -119,31 +126,13 @@ public final class SolDesktop {
         }
 
         handleCrashReporting(argv);
-        new Thread(new Runnable() {
-            @Override
-            public void run() {
-                try {
-                    moduleManager = new ModuleManager();
-                    moduleManager.init();
-                } catch (Exception ignore) {
-                }
-                initFinished = true;
-            }
-        }).start();
 
-        while (!initFinished) {
-            try {
-                Thread.sleep(100);
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-        }
 
         if (useSplash) {
             splash.close();
         }
         // Everything is set up correctly, launch the application
-        SolApplication application = new SolApplication(moduleManager, 100);
+        SolApplication application = new SolApplication(100, new DesktopServices());
         SolApplication.addResizeSubscriber(new SolDesktop.FullScreenWindowPositionAdjustment(!options.fullscreen));
         // Everything is set up correctly, launch the application
         new Lwjgl3Application(application, applicationConfig);
@@ -228,6 +217,40 @@ public final class SolDesktop {
             } else {
                 applicationConfig.setWindowedMode(options.x, options.y);
             }
+        }
+    }
+
+    private static class DesktopServices extends ServiceRegistry {
+        public DesktopServices() {
+            this.with(FacadeModuleConfig.class).lifetime(Lifetime.Singleton).use(DesktopModuleConfig::new);
+            this.with(ModulePathScanner.class).lifetime(Lifetime.Singleton);
+        }
+    }
+
+    private static class DesktopModuleConfig implements FacadeModuleConfig {
+        @Override
+        public File getModulesPath() {
+            return Paths.get(".").resolve("modules").toFile();
+        }
+
+        @Override
+        public boolean useSecurityManager() {
+            return true;
+        }
+
+        @Override
+        public ModuleEnvironment.ClassLoaderSupplier getClassLoaderSupplier() {
+            return JavaModuleClassLoader::create;
+        }
+
+        @Override
+        public Module createEngineModule() {
+            return new ModuleFactory().createPackageModule("org.destinationsol");
+        }
+
+        @Override
+        public Class<?>[] getAPIClasses() {
+            return new Class<?>[0];
         }
     }
 

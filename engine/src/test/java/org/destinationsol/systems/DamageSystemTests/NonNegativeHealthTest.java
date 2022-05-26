@@ -19,13 +19,19 @@ import org.destinationsol.entitysystem.EntitySystemManager;
 import org.destinationsol.game.context.internal.ContextImpl;
 import org.destinationsol.health.components.Health;
 import org.destinationsol.health.events.DamageEvent;
+import org.destinationsol.health.systems.DamageSystem;
 import org.destinationsol.modules.ModuleManager;
 import org.destinationsol.removal.systems.DestroyOnZeroHealthSystem;
+import org.destinationsol.testsupport.TestModuleConfig;
 import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
+import org.terasology.gestalt.di.DefaultBeanContext;
+import org.terasology.gestalt.di.ServiceRegistry;
 import org.terasology.gestalt.entitysystem.component.management.ComponentManager;
 import org.terasology.gestalt.entitysystem.entity.EntityRef;
+import org.terasology.gestalt.module.ModuleFactory;
+import org.terasology.gestalt.module.ModulePathScanner;
+import org.terasology.gestalt.module.TableModuleRegistry;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
@@ -38,9 +44,16 @@ public class NonNegativeHealthTest {
 
     @BeforeEach
     public void setUp() throws Exception {
-        moduleManager = new ModuleManager();
+        ModuleFactory moduleFactory = new ModuleFactory();
+        moduleManager = new ModuleManager(new DefaultBeanContext(), moduleFactory, new TableModuleRegistry(),
+                new ModulePathScanner(moduleFactory), new TestModuleConfig());
         moduleManager.init();
-        entitySystemManager = new EntitySystemManager(moduleManager.getEnvironment(), new ComponentManager(), new ContextImpl());
+        ServiceRegistry systemsRegistry = new ServiceRegistry();
+        systemsRegistry.with(DamageSystem.class);
+        systemsRegistry.with(EntitySystemManager.class).use(() -> entitySystemManager);
+        entitySystemManager = new EntitySystemManager(moduleManager, new ComponentManager(),
+                new DefaultBeanContext(systemsRegistry));
+        entitySystemManager.initialise();
     }
 
     /**
@@ -49,7 +62,6 @@ public class NonNegativeHealthTest {
      * so the behavior of its components is effectively unspecified.
      */
     @Test
-    @Disabled
     public void testDamageDoesntMakeHealthBecomeNegative() {
         Health health;
         EntityRef entity = entitySystemManager.getEntityManager().createEntity(new Health());
@@ -62,6 +74,8 @@ public class NonNegativeHealthTest {
 
         entitySystemManager.sendEvent(event, new Health());
 
+        // Get the latest values for the health component
+        health = entity.getComponent(Health.class).get();
         assertEquals(0, health.currentHealth);
     }
 

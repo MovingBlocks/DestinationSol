@@ -18,7 +18,6 @@ package org.destinationsol.ui.nui.screens.mainMenu;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Graphics;
 import org.destinationsol.SolApplication;
-import org.destinationsol.common.In;
 import org.destinationsol.ui.nui.NUIManager;
 import org.destinationsol.ui.nui.NUIScreenLayer;
 import org.destinationsol.ui.nui.widgets.KeyActivatedButton;
@@ -27,8 +26,9 @@ import org.slf4j.LoggerFactory;
 import org.terasology.nui.Canvas;
 import org.terasology.nui.backends.libgdx.GDXInputUtil;
 import org.terasology.nui.layouts.ColumnLayout;
-import org.terasology.nui.layouts.relative.RelativeLayout;
 import org.terasology.nui.widgets.UIButton;
+
+import javax.inject.Inject;
 
 /**
  * The resolution screen allows the user to set the game's screen resolution, fullscreen modes and NUI scaling settings.
@@ -36,8 +36,13 @@ import org.terasology.nui.widgets.UIButton;
  */
 public class ResolutionScreen extends NUIScreenLayer {
     private static final Logger logger = LoggerFactory.getLogger(ResolutionScreen.class);
-    @In
-    private SolApplication solApplication;
+
+    private final SolApplication solApplication;
+
+    @Inject
+    public ResolutionScreen(SolApplication solApplication) {
+        this.solApplication = solApplication;
+    }
 
     @Override
     public void initialise() {

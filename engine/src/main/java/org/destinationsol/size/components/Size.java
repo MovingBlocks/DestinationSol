@@ -15,6 +15,7 @@
  */
 package org.destinationsol.size.components;
 
+
 import org.terasology.gestalt.entitysystem.component.Component;
 
 /**

@@ -31,6 +31,7 @@ import org.terasology.nui.events.NUIMouseClickEvent;
 import org.terasology.nui.layouts.ScrollableArea;
 import org.terasology.nui.widgets.UIText;
 
+import javax.inject.Inject;
 import java.util.List;
 
 /**
@@ -42,6 +43,11 @@ public class ConsoleScreen extends NUIScreenLayer {
     private UICommandEntry commandLine;
     private boolean welcomePrinted;
     private boolean screenClosed;
+
+    @Inject
+    public ConsoleScreen(Console console) {
+        this.console = console;
+    }
 
     private InteractionListener screenListener = new BaseInteractionListener() {
         @Override
@@ -55,7 +61,6 @@ public class ConsoleScreen extends NUIScreenLayer {
 
     @Override
     public void initialise() {
-        console = ConsoleImpl.instance;
 
         final ScrollableArea scrollArea = find("scrollArea", ScrollableArea.class);
         scrollArea.moveToBottom();

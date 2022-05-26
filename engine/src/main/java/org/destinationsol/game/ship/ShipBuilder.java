@@ -57,6 +57,7 @@ import org.destinationsol.game.ship.hulls.Hull;
 import org.destinationsol.game.ship.hulls.HullConfig;
 import org.json.JSONObject;
 
+import javax.inject.Inject;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -67,6 +68,7 @@ public class ShipBuilder {
 
     private final CollisionMeshLoader myCollisionMeshLoader;
 
+    @Inject
     public ShipBuilder() {
         myCollisionMeshLoader = new CollisionMeshLoader();
     }

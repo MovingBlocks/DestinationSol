@@ -17,7 +17,6 @@ package org.destinationsol.ui.nui.screens.mainMenu;
 
 import org.destinationsol.Const;
 import org.destinationsol.SolApplication;
-import org.destinationsol.common.In;
 import org.destinationsol.menu.InputConfigItem;
 import org.destinationsol.menu.InputMapControllerScreen;
 import org.destinationsol.menu.InputMapKeyboardScreen;
@@ -39,6 +38,7 @@ import org.terasology.nui.widgets.UIBox;
 import org.terasology.nui.widgets.UIButton;
 import org.terasology.nui.widgets.UILabel;
 
+import javax.inject.Inject;
 import java.util.Iterator;
 import java.util.List;
 
@@ -48,8 +48,8 @@ import java.util.List;
  */
 public class InputMapScreen extends NUIScreenLayer {
     private static final Logger logger = LoggerFactory.getLogger(InputMapScreen.class);
-    @In
-    private SolApplication solApplication;
+
+    private final SolApplication solApplication;
     private UILabel titleLabel;
     private ColumnLayout inputMapRows;
     private KeyActivatedButton nextButton;
@@ -63,6 +63,11 @@ public class InputMapScreen extends NUIScreenLayer {
     private int selectedIndex;
     private UIWidget selectedRow;
     private int page;
+
+    @Inject
+    public InputMapScreen(SolApplication solApplication) {
+        this.solApplication = solApplication;
+    }
 
     @Override
     public void initialise() {

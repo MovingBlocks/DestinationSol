@@ -32,6 +32,7 @@ import org.destinationsol.game.SolGame;
 import org.destinationsol.game.SolObject;
 import org.destinationsol.game.context.Context;
 
+import javax.inject.Inject;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashSet;
@@ -44,6 +45,7 @@ public class DrawableManager {
     private final Set<Drawable> visibleDrawables = new HashSet<>();
     private final GameDrawer drawer;
 
+    @Inject
     public DrawableManager(GameDrawer drawer) {
         drawableLevels = DrawableLevel.values();
         this.drawer = drawer;

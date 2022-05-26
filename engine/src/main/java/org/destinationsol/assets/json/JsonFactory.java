@@ -19,7 +19,13 @@ import org.terasology.gestalt.assets.AssetFactory;
 import org.terasology.gestalt.assets.AssetType;
 import org.terasology.gestalt.assets.ResourceUrn;
 
+import javax.inject.Inject;
+
 public class JsonFactory implements AssetFactory<Json, JsonData> {
+
+    @Inject
+    public JsonFactory() {
+    }
 
     @Override
     public Json build(ResourceUrn urn, AssetType<Json, JsonData> type, JsonData data) {

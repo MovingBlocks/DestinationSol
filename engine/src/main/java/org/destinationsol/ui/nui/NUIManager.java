@@ -57,6 +57,7 @@ import org.terasology.nui.util.RectUtility;
 import org.terasology.nui.widgets.UIButton;
 import org.terasology.nui.widgets.UIText;
 
+import javax.inject.Inject;
 import java.io.Closeable;
 import java.util.Deque;
 import java.util.Iterator;
@@ -69,6 +70,7 @@ import java.util.stream.Collectors;
  *  It manages the rendering and update cycles of NUI widgets, which are contained in {@link NUIScreenLayer}
  *  containers. Each NUIScreenLayer manages its own UI-specific logic and rendering.
  */
+
 public class NUIManager {
     /**
      * This LibGDX renderer used for NUI. It shares a SpriteBatch with the main game, although not a ShapeRenderer.
@@ -135,10 +137,17 @@ public class NUIManager {
      * @param commonDrawer used to directly access the game's LibGDX {@link com.badlogic.gdx.graphics.g2d.SpriteBatch}
      * @param options used to initialise the UI scale with its previously-saved value
      */
-    public NUIManager(SolApplication solApplication, Context context, CommonDrawer commonDrawer, GameOptions options, UiDrawer uiDrawer) {
+    @Inject
+    public NUIManager(SolApplication solApplication,
+                      Context context,
+                      CommonDrawer commonDrawer,
+                      GameOptions options,
+                      UiDrawer uiDrawer,
+                      FocusManager focusManager) {
         NUIInputProcessor.CONSUME_INPUT = false;
         this.context = context;
         this.uiDrawer = uiDrawer;
+        this.focusManager = focusManager;
 
         // TODO: Re-enable tabbing when it works
         TabbingManager.tabForwardInput = Keyboard.Key.NONE;
@@ -149,7 +158,6 @@ public class NUIManager {
         keyboard = new LibGDXKeyboardDevice();
         canvasRenderer = new LibGDXCanvasRenderer(Gdx.graphics.getWidth(), Gdx.graphics.getHeight(),
                 commonDrawer.getSpriteBatch(), new ShapeRenderer(), false, true);
-        focusManager = new FocusManagerImpl();
         whiteTexture = Assets.getDSTexture(WHITE_TEXTURE_URN).getUiTexture();
         skin = Assets.getSkin(DEFAULT_SKIN_URN);
 
@@ -310,10 +318,6 @@ public class NUIManager {
         if (rootWidget instanceof NUIScreenLayer) {
             NUIScreenLayer screen = (NUIScreenLayer) rootWidget;
             if (!alreadyLoaded) {
-                // Populate all @In annotated fields in the screen class with values from the context.
-                InjectionHelper.inject(screen, context);
-                screen.setFocusManager(focusManager);
-                screen.setNuiManager(this);
                 screen.initialise();
             }
             return screen;

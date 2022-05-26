@@ -17,7 +17,6 @@ package org.destinationsol.ui.nui.screens.mainMenu;
 
 import org.destinationsol.Const;
 import org.destinationsol.SolApplication;
-import org.destinationsol.common.In;
 import org.destinationsol.ui.nui.NUIManager;
 import org.destinationsol.ui.nui.NUIScreenLayer;
 import org.destinationsol.ui.nui.widgets.KeyActivatedButton;
@@ -29,18 +28,24 @@ import org.terasology.nui.skin.UISkin;
 import org.terasology.nui.skin.UISkinBuilder;
 import org.terasology.nui.widgets.UILabel;
 
+import javax.inject.Inject;
 import java.util.ArrayList;
 
 public class CreditsScreen extends NUIScreenLayer {
     private static final float MAX_AWAIT = 6f;
-    @In
-    private SolApplication solApplication;
+
+    private final SolApplication solApplication;
     private UILabel creditsText;
     private ArrayList<String> myPages = new ArrayList<>();
     private UISkin textSkin;
     private Color textColor;
     private int pageIndex;
     private float pageProgressPercent;
+
+    @Inject
+    public CreditsScreen(SolApplication solApplication) {
+        this.solApplication = solApplication;
+    }
 
     @Override
     public void initialise() {

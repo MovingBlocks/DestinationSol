@@ -31,6 +31,7 @@ import org.destinationsol.modules.ModuleManager;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
+import javax.inject.Inject;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -57,6 +58,7 @@ public final class HullConfigManager {
         }
     }
 
+    @Inject
     public HullConfigManager(ItemManager itemManager, AbilityCommonConfigs abilityCommonConfigs) {
         this.itemManager = itemManager;
         this.abilityCommonConfigs = abilityCommonConfigs;

@@ -24,12 +24,15 @@ import org.destinationsol.CommonDrawer;
 import org.destinationsol.assets.Assets;
 import org.destinationsol.game.context.Context;
 
+import javax.inject.Inject;
+
 public class GameDrawer {
     public final TextureAtlas.AtlasRegion debugWhiteTexture;
     private final CommonDrawer myDrawer;
 
     private boolean myCurrAdditive;
 
+    @Inject
     public GameDrawer(CommonDrawer commonDrawer) {
         myDrawer = commonDrawer;
         debugWhiteTexture = Assets.getAtlasRegion("engine:uiWhiteTex");

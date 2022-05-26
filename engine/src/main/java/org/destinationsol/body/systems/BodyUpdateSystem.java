@@ -17,11 +17,12 @@ package org.destinationsol.body.systems;
 
 import org.destinationsol.body.components.BodyLinked;
 import org.destinationsol.body.events.BodyUpdateEvent;
-import org.destinationsol.common.In;
 import org.destinationsol.entitysystem.EntitySystemManager;
 import org.destinationsol.game.SolGame;
 import org.destinationsol.game.UpdateAwareSystem;
 import org.destinationsol.game.attributes.RegisterUpdateSystem;
+
+import javax.inject.Inject;
 
 /**
  * Sends a {@link BodyUpdateEvent} every tick to each entity with a {@link BodyLinked} component.
@@ -29,8 +30,8 @@ import org.destinationsol.game.attributes.RegisterUpdateSystem;
 @RegisterUpdateSystem
 public class BodyUpdateSystem implements UpdateAwareSystem {
 
-    @In
-    private EntitySystemManager entitySystemManager;
+    @Inject
+    protected EntitySystemManager entitySystemManager;
 
     @Override
     public void update(SolGame game, float timeStep) {

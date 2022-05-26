@@ -16,8 +16,11 @@
 package org.destinationsol.game.screens;
 
 import org.destinationsol.SolApplication;
+import org.destinationsol.game.console.Console;
 import org.destinationsol.game.context.Context;
 import org.destinationsol.ui.SolLayouts;
+
+import javax.inject.Inject;
 
 public class GameScreens {
     public final MainGameScreen mainGameScreen;
@@ -28,6 +31,7 @@ public class GameScreens {
     public final WaypointCreationScreen waypointCreationScreen;
     public final ConsoleScreen consoleScreen;
 
+    @Inject
     public GameScreens(SolApplication cmp, Context context) {
         SolLayouts layouts = cmp.getLayouts();
         RightPaneLayout rightPaneLayout = layouts.rightPaneLayout;
@@ -37,7 +41,7 @@ public class GameScreens {
         inventoryScreen = new InventoryScreen(cmp.getOptions());
         talkScreen = new TalkScreen(layouts.menuLayout, cmp.getOptions());
         waypointCreationScreen = new WaypointCreationScreen(layouts.menuLayout, cmp.getOptions(), mapScreen);
-        consoleScreen = new ConsoleScreen(context);
+        consoleScreen = new ConsoleScreen(context.get(Console.class));
     }
 
     // This was added for PlayerCreatorTest.java (used in PlayerCreator)

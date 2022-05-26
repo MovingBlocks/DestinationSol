@@ -78,7 +78,6 @@ public class MapScreen extends SolUiBaseScreen {
 
     @Override
     public void updateCustom(SolApplication solApplication, SolInputManager.InputPointer[] inputPointers, boolean clickedOutside) {
-        Context context = solApplication.getContext();
         SolGame game = solApplication.getGame();
         GameOptions gameOptions = solApplication.getOptions();
         boolean justClosed = closeControl.isJustOff();
@@ -118,15 +117,14 @@ public class MapScreen extends SolUiBaseScreen {
         if (im.touchDragged) {
             //Scroll factor negates the drag and adjusts it to map's zoom
             float scrollFactor = -mapDrawer.getZoom() / Gdx.graphics.getHeight() * gameOptions.getMapScrollSpeed();
-            float rotateAngle = context.get(SolCam.class).getAngle();
+            float rotateAngle = game.getCam().getAngle();
             mapDrawer.getMapDrawPositionAdditive().add(im.getDrag().scl(scrollFactor).rotate(rotateAngle));
         }
 
         if (isPickingWaypointSpot) {
             if (inputPointers[0].isJustUnPressed() && !addWaypointControl.isJustOff()) {
-                SolCam camera = context.get(SolCam.class);
-                float camAngle = camera.getAngle();
-                Vector2 mapCamPos = camera.getPosition().add(mapDrawer.getMapDrawPositionAdditive());
+                float camAngle = game.getCam().getAngle();
+                Vector2 mapCamPos = game.getCam().getPosition().add(mapDrawer.getMapDrawPositionAdditive());
                 Vector2 clickPosition = new Vector2(inputPointers[0].x, inputPointers[0].y);
                 Vector2 worldPosition = screenPositionToWorld(clickPosition, mapCamPos, camAngle, mapZoom);
                 ArrayList<Waypoint> waypoints = game.getHero().getWaypoints();
@@ -158,7 +156,7 @@ public class MapScreen extends SolUiBaseScreen {
         if (isPickingWaypointToRemove) {
             if (inputPointers[0].isJustUnPressed() && !removeWaypointControl.isJustOff()) {
                 Vector2 clickPosition = new Vector2(inputPointers[0].x, inputPointers[0].y);
-                SolCam camera = context.get(SolCam.class);
+                SolCam camera = game.getCam();
                 Vector2 realPosition = screenPositionToWorld(clickPosition, camera.getPosition(), camera.getAngle(), mapZoom);
 
                 ArrayList<Waypoint> waypoints = game.getHero().getWaypoints();
@@ -205,9 +203,9 @@ public class MapScreen extends SolUiBaseScreen {
         float screenWidth = (float) Gdx.graphics.getWidth();
         float screenHeight = (float)  Gdx.graphics.getHeight();
         return ScreenToWorldMapper.screenClickPositionToWorldPosition(
-            new Vector2(screenWidth, screenHeight), 
-            clickPosition, 
-            camPos, 
+            new Vector2(screenWidth, screenHeight),
+            clickPosition,
+            camPos,
             camAngle,
             mapZoom
         );

@@ -2,19 +2,11 @@ apply from: '../config/gradle/common.gradle'
 apply plugin: 'java-library'
 [compileJava, compileTestJava]*.options*.encoding = 'UTF-8'
 
-import org.reflections.Reflections;
-import org.reflections.scanners.SubTypesScanner;
-import org.reflections.scanners.TypeAnnotationsScanner;
-import org.reflections.util.ConfigurationBuilder;
-import org.reflections.util.ClasspathHelper;
-
 // Dependencies needed for what our Gradle scripts themselves use. It cannot be included via an external Gradle file :-(
 buildscript {
     repositories {
         mavenCentral()
 
-        // HACK: Needed for NUI and gestalt entity-component reflections
-        mavenLocal()
         google()
         maven { url "http://artifactory.terasology.org/artifactory/virtual-repo-live" }
         // Needed for Jsemver, which is a gestalt dependency
@@ -22,33 +14,34 @@ buildscript {
     }
 
     dependencies {
-        // Needed for caching reflected data during builds
-        classpath 'org.reflections:reflections:0.9.12'
         classpath 'dom4j:dom4j:1.6.1'
-
-        // HACK: Needed for NUI and gestalt entity-component reflections
-        classpath group: 'org.terasology.nui', name: 'nui', version: nuiVersion
-        classpath group: 'javax.servlet', name: 'javax.servlet-api', version: '3.0.1'
-        classpath group: 'org.terasology.gestalt', name: 'gestalt-entity-system', version: '7.2.0-SNAPSHOT'
     }
 }
 
 dependencies {
     api group: 'org.slf4j', name: 'slf4j-api', version: '1.7.25'
     api group: 'com.google.code.gson', name: 'gson', version: '2.6.2'
+    api group: 'com.google.guava', name: 'guava', version: '30.1-jre'
 
     api "com.badlogicgames.gdx:gdx:$gdxVersion"
     api "com.badlogicgames.gdx:gdx-box2d:$gdxVersion"
     api "com.badlogicgames.gdx-controllers:gdx-controllers-core:$gdxControllersVersion"
 
-    api(group: 'org.terasology.gestalt', name: 'gestalt-asset-core', version: '7.2.0-SNAPSHOT')
-    api(group: 'org.terasology.gestalt', name: 'gestalt-entity-system', version: '7.2.0-SNAPSHOT')
-    api(group: 'org.terasology.gestalt', name: 'gestalt-module', version: '7.2.0-SNAPSHOT')
-    api(group: 'org.terasology.gestalt', name: 'gestalt-util', version: '7.2.0-SNAPSHOT')
+    api "org.terasology.gestalt:gestalt-asset-core:$gestaltVersion"
+    api "org.terasology.gestalt:gestalt-entity-system:$gestaltVersion"
+    api "org.terasology.gestalt:gestalt-module:$gestaltVersion"
+    api "org.terasology.gestalt:gestalt-util:$gestaltVersion"
 
-    api group: 'org.terasology.nui', name: 'nui', version: nuiVersion
-    api group: 'org.terasology.nui', name: 'nui-libgdx', version: nuiVersion
-    api group: 'org.terasology.nui', name: 'nui-gestalt7', version: nuiVersion
+    api "org.terasology.gestalt:gestalt-di:$gestaltVersion"
+    api "org.terasology.gestalt:gestalt-inject:$gestaltVersion"
+    annotationProcessor "org.terasology.gestalt:gestalt-inject-java:$gestaltVersion"
+
+    implementation "net.jcip:jcip-annotations:1.0"
+
+    api "org.terasology.nui:nui:$nuiVersion"
+    api "org.terasology.nui:nui-libgdx:$nuiVersion"
+    api "org.terasology.nui:nui-gestalt:$nuiVersion"
+    api "org.terasology.nui:nui-reflect:$nuiVersion"
 
     implementation group: 'com.google.protobuf', name: 'protobuf-java', version: '3.4.0'
 
@@ -73,30 +66,19 @@ dependencies {
     testCompile group: 'org.assertj', name: 'assertj-core', version: '3.9.0'
 }
 
-task cacheReflections {
-    description = 'Caches reflection output to make regular startup faster. May go stale and need cleanup at times.'
-    inputs.files sourceSets.main.output.classesDirs,
-            // getClassesDir from all sourceSets (for any jvm (seems) language)
-            configurations."${sourceSets.main.runtimeClasspathConfigurationName}"
-
-    outputs.upToDateWhen {classes.state.upToDate}
-    outputs.file("$buildDir/resources/main/org/destinationsol/reflections.cache")
-    dependsOn classes
-
-    doLast {
-        // Without the .mkdirs() we might hit a scenario where the classes dir doesn't exist yet
-        Reflections reflections = new Reflections(new ConfigurationBuilder()
-                .addUrls(inputs.files.collect { it.toURI().toURL() })
-                .filterInputsBy({ it.startsWith("org.destinationsol") || it.startsWith("org.terasology.nui") })
-                .setScanners(new TypeAnnotationsScanner(), new SubTypesScanner()))
-        reflections.save("$buildDir/resources/main/org/destinationsol/reflections.cache")
-    }
+// Adds Resources as parameter for AnnotationProcessor (gather ResourceIndex,
+// also add resource as input for compilejava, for re-gathering ResourceIndex, when resource was changed.
+compileJava {
+    inputs.files sourceSets.main.resources.srcDirs
+    options.compilerArgs = ["-Aresource=${sourceSets.main.resources.srcDirs.join(File.pathSeparator)}"]
+}
+compileTestJava {
+    inputs.files sourceSets.test.resources.srcDirs
+    options.compilerArgs = ["-Aresource=${sourceSets.test.resources.srcDirs.join(File.pathSeparator)}"]
 }
 
-jar {
-    // This prevents the assets from being scanned as code files
-    dependsOn cacheReflections
 
+jar {
     archiveName = "sol.jar"
 
     doFirst {

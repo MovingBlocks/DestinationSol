@@ -16,22 +16,16 @@
 package org.destinationsol.modules;
 
 import com.google.common.collect.Sets;
-import com.google.common.reflect.Reflection;
-import org.reflections.Reflections;
-import org.reflections.scanners.SubTypesScanner;
-import org.reflections.scanners.TypeAnnotationsScanner;
-import org.reflections.util.ClasspathHelper;
-import org.reflections.util.ConfigurationBuilder;
+import org.destinationsol.entitysystem.ComponentSystem;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.terasology.gestalt.di.BeanContext;
 import org.terasology.gestalt.module.Module;
 import org.terasology.gestalt.module.ModuleEnvironment;
 import org.terasology.gestalt.module.ModuleFactory;
 import org.terasology.gestalt.module.ModuleMetadata;
 import org.terasology.gestalt.module.ModulePathScanner;
 import org.terasology.gestalt.module.ModuleRegistry;
-import org.terasology.gestalt.module.TableModuleRegistry;
-import org.terasology.gestalt.module.resources.EmptyFileSource;
 import org.terasology.gestalt.module.sandbox.APIScanner;
 import org.terasology.gestalt.module.sandbox.ModuleSecurityManager;
 import org.terasology.gestalt.module.sandbox.ModuleSecurityPolicy;
@@ -39,18 +33,18 @@ import org.terasology.gestalt.module.sandbox.StandardPermissionProviderFactory;
 import org.terasology.gestalt.naming.Name;
 import org.terasology.gestalt.naming.Version;
 
+import javax.inject.Inject;
 import java.io.File;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.ReflectPermission;
-import java.nio.file.Paths;
 import java.security.Policy;
-import java.util.Collections;
+import java.util.List;
 import java.util.Set;
 
 /**
  * A class used for loading and managing modules in Destination Sol.
  */
-public class ModuleManager {
+public class ModuleManager implements AutoCloseable {
     private static final Logger logger = LoggerFactory.getLogger(ModuleManager.class);
     // The API whitelist is based off Terasology's
     // https://github.com/MovingBlocks/Terasology/blob/948676050a7827dac5e04927087832ffc462da41/engine/src/main/java/org/terasology/engine/module/ExternalApiWhitelist.java
@@ -180,7 +174,7 @@ public class ModuleManager {
             java.io.DataOutputStream.class,
             java.io.FilterOutputStream.class,
             java.io.PipedOutputStream.class,
-            /* Gestalt classes */
+            /* Gestalt entity-system classes */
             org.terasology.gestalt.entitysystem.component.Component.class,
             org.terasology.gestalt.entitysystem.component.EmptyComponent.class,
             org.terasology.gestalt.entitysystem.event.Event.class,
@@ -189,6 +183,26 @@ public class ModuleManager {
             org.terasology.gestalt.entitysystem.entity.EntityManager.class,
             org.terasology.gestalt.entitysystem.event.EventResult.class,
             org.terasology.gestalt.entitysystem.event.ReceiveEvent.class,
+            org.terasology.gestalt.entitysystem.prefab.GeneratedFromRecipeComponent.class,
+            /* Gestalt DI classes */
+            org.terasology.context.AbstractBeanDefinition.class,
+            org.terasology.context.BeanResolution.class,
+            org.terasology.context.Argument.class,
+            org.terasology.context.DefaultArgument.class,
+            org.terasology.context.AnnotationMetadata.class,
+            org.terasology.context.DefaultAnnotationMetadata.class,
+            org.terasology.context.AnnotationValue.class,
+            org.terasology.context.DefaultAnnotationValue.class,
+            org.terasology.context.annotation.Index.class,
+            org.terasology.context.annotation.IndexInherited.class,
+            org.terasology.context.annotation.RegisterSystem.class,
+            org.terasology.context.annotation.UsedByGeneratedCode.class,
+            org.terasology.context.annotation.Service.class,
+            org.terasology.context.annotation.Scoped.class,
+            org.terasology.context.annotation.Transient.class,
+            org.terasology.gestalt.di.exceptions.DependencyResolutionException.class,
+            org.terasology.context.exception.DependencyInjectionException.class,
+            javax.inject.Inject.class,
             org.terasology.gestalt.entitysystem.prefab.Prefab.class,
             org.terasology.gestalt.entitysystem.prefab.GeneratedFromRecipeComponent.class,
             /* NUI classes */
@@ -200,29 +214,30 @@ public class ModuleManager {
     };
 
     protected static ModuleEnvironment environment;
+    private final ModuleFactory moduleFactory;
+    private final ModulePathScanner scanner;
+    private final BeanContext beanContext;
+    private final FacadeModuleConfig moduleConfig;
     protected ModuleRegistry registry;
     protected Module engineModule;
 
-    public ModuleManager() {
+    @Inject
+    public ModuleManager(BeanContext beanContext, ModuleFactory moduleFactory, ModuleRegistry moduleRegistry,
+                         ModulePathScanner scanner, FacadeModuleConfig moduleConfig) {
+        this.moduleFactory = moduleFactory;
+        this.registry = moduleRegistry;
+        this.scanner = scanner;
+        this.beanContext = beanContext;
+        this.moduleConfig = moduleConfig;
     }
 
     public void init() throws Exception {
         try {
-            ModuleFactory moduleFactory = new ModuleFactory();
-            engineModule = moduleFactory.createPackageModule("org.destinationsol");
-            // In order for the NUI widgets to be detected, they first need to be found and cached. The build script
-            // reflects over the NUI jar and saves a list of all the widgets within the engine's reflections.cache.
-            // TODO: Find a better way to do this.
-            Module nuiModule = new Module(new ModuleMetadata(new Name("nui"), new Version("2.0.0")), new EmptyFileSource(),
-                    Collections.emptyList(), new Reflections("org.terasology.nui"), x -> {
-                String classPackageName = Reflection.getPackageName(x);
-                return "org.terasology.nui".equals(classPackageName) || classPackageName.startsWith("org.terasology.nui.");
-            });
+            engineModule = moduleConfig.createEngineModule();
+            Module nuiModule = moduleFactory.createPackageModule(new ModuleMetadata(new Name("nui"), new Version("2.0.0")),"org.terasology.nui");
 
             // scan for all standard modules
-            registry = new TableModuleRegistry();
-            File modulesRoot = Paths.get(".").resolve("modules").toFile();
-            ModulePathScanner scanner = new ModulePathScanner(moduleFactory);
+            File modulesRoot = moduleConfig.getModulesPath();
             scanner.scan(registry, modulesRoot);
 
             Set<Module> requiredModules = Sets.newHashSet();
@@ -242,8 +257,11 @@ public class ModuleManager {
         for (String api : API_WHITELIST) {
             permissionFactory.getBasePermissionSet().addAPIPackage(api);
         }
-
         for (Class<?> apiClass : CLASS_WHITELIST) {
+            permissionFactory.getBasePermissionSet().addAPIClass(apiClass);
+        }
+
+        for (Class<?> apiClass : moduleConfig.getAPIClasses()) {
             permissionFactory.getBasePermissionSet().addAPIClass(apiClass);
         }
 
@@ -253,17 +271,17 @@ public class ModuleManager {
         permissionFactory.getBasePermissionSet().grantPermission("com.google.gson", RuntimePermission.class);
         permissionFactory.getBasePermissionSet().grantPermission("com.google.gson.internal", RuntimePermission.class);
 
-        ConfigurationBuilder config = new ConfigurationBuilder()
-                .addClassLoader(ClasspathHelper.contextClassLoader())
-                .addUrls(ClasspathHelper.forClassLoader())
-                .addScanners(new TypeAnnotationsScanner(), new SubTypesScanner());
-        Reflections reflections = new Reflections(config);
-
         APIScanner scanner = new APIScanner(permissionFactory);
-        scanner.scan(reflections);
-        Policy.setPolicy(new ModuleSecurityPolicy());
-        System.setSecurityManager(new ModuleSecurityManager());
-        environment = new ModuleEnvironment(modules, permissionFactory);
+        for(Module module: modules){
+            scanner.scan(module.getClassIndex());
+        }
+
+        if (moduleConfig.useSecurityManager()) {
+            Policy.setPolicy(new ModuleSecurityPolicy());
+            System.setSecurityManager(new ModuleSecurityManager());
+        }
+
+        environment = new ModuleEnvironment(beanContext, modules, permissionFactory, moduleConfig.getClassLoaderSupplier());
     }
 
     public ModuleEnvironment getEnvironment() {
@@ -283,5 +301,10 @@ public class ModuleManager {
 
     public void dispose() {
         environment.close();
+    }
+
+    @Override
+    public void close() throws Exception {
+        this.dispose();
     }
 }

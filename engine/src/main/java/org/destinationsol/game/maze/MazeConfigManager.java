@@ -23,6 +23,7 @@ import org.destinationsol.game.item.ItemManager;
 import org.json.JSONObject;
 import org.terasology.gestalt.assets.ResourceUrn;
 
+import javax.inject.Inject;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
@@ -36,6 +37,7 @@ public class MazeConfigManager {
     HullConfigManager hullConfigManager;
     ItemManager itemManager;
 
+    @Inject
     public MazeConfigManager(HullConfigManager hullConfigManager, ItemManager itemManager) {
         configs = new ArrayList<>();
         this.hullConfigManager = hullConfigManager;

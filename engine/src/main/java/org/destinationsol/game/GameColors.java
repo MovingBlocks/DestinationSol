@@ -20,6 +20,7 @@ import org.destinationsol.assets.json.Validator;
 import org.destinationsol.common.SolColorUtil;
 import org.json.JSONObject;
 
+import javax.inject.Inject;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -31,6 +32,7 @@ public class GameColors {
 
     private final Map<String, Color> colors = new HashMap<>();
 
+    @Inject
     public GameColors() {
         JSONObject rootNode = Validator.getValidatedJSON("core:colorsConfig", "engine:schemaColorsConfig");
 

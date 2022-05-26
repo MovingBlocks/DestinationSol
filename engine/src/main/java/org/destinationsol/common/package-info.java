@@ -13,6 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-@API package org.destinationsol.common;
+@API
+package org.destinationsol.common;
 
-import org.terasology.gestalt.module.sandbox.API;
+import org.terasology.context.annotation.API;

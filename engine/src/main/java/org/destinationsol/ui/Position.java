@@ -15,16 +15,14 @@
  */
 package org.destinationsol.ui;
 
-import org.destinationsol.SolApplication;
-
 public class Position {
-    private DisplayDimensions displayDimensions;
+    private final DisplayDimensions displayDimensions;
 
     private float xNormalized;
     private float yNormalized;
 
-    public Position(float xNormalized, float yNormalized) {
-        displayDimensions = SolApplication.displayDimensions;
+    public Position(DisplayDimensions displayDimensions, float xNormalized, float yNormalized) {
+        this.displayDimensions = displayDimensions;
 
         set(xNormalized, yNormalized);
     }

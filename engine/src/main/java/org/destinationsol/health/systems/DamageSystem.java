@@ -15,15 +15,16 @@
  */
 package org.destinationsol.health.systems;
 
-import org.destinationsol.common.In;
 import org.destinationsol.entitysystem.EntitySystemManager;
-import org.destinationsol.health.components.Health;
 import org.destinationsol.entitysystem.EventReceiver;
+import org.destinationsol.health.components.Health;
 import org.destinationsol.health.events.DamageEvent;
 import org.destinationsol.removal.events.ZeroHealthEvent;
 import org.terasology.gestalt.entitysystem.entity.EntityRef;
 import org.terasology.gestalt.entitysystem.event.EventResult;
 import org.terasology.gestalt.entitysystem.event.ReceiveEvent;
+
+import javax.inject.Inject;
 
 /**
  * When a damage event happens to an entity with a health component, this system reads the damage from that event and
@@ -32,8 +33,13 @@ import org.terasology.gestalt.entitysystem.event.ReceiveEvent;
  */
 public class DamageSystem implements EventReceiver {
 
-    @In
-    private EntitySystemManager entitySystemManager;
+    @Inject
+    EntitySystemManager entitySystemManager;
+
+    @Inject
+    public DamageSystem() {
+
+    }
 
     /**
      * Handles a damage event done to an entity with a Health component.

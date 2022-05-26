@@ -27,6 +27,7 @@ import org.json.JSONObject;
 import org.terasology.gestalt.assets.ResourceUrn;
 import org.terasology.gestalt.naming.Name;
 
+import javax.inject.Inject;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
@@ -38,6 +39,7 @@ public class SolarSystemConfigManager {
     private HullConfigManager hullConfigManager;
     private ItemManager itemManager;
 
+    @Inject
     public SolarSystemConfigManager(HullConfigManager hullConfigManager, ItemManager itemManager) {
         configs = new HashMap<>();
         hardConfigs = new HashMap<>();

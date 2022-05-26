@@ -16,9 +16,14 @@
 package org.destinationsol.world.generators;
 
 import org.destinationsol.common.SolRandom;
+import org.destinationsol.game.maze.MazeConfigManager;
+import org.destinationsol.game.planet.BeltConfigManager;
+import org.destinationsol.game.planet.PlanetConfigManager;
 import org.destinationsol.game.planet.SolarSystem;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import javax.inject.Inject;
 
 /**
  * This class is a concrete implementation of a SolarSystemGenerator and handles creation of elements
@@ -29,6 +34,10 @@ import org.slf4j.LoggerFactory;
  * This allows it to choose which FeatureGenerators to use in populating the SolarSystem.
  */
 public class SolarSystemGeneratorImpl extends SolarSystemGenerator {
+
+    @Inject
+    public SolarSystemGeneratorImpl() {
+    }
 
     @Override
     public SolarSystemSize getSolarSystemSize() {
