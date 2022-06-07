@@ -252,20 +252,31 @@ public class MainGameScreen extends NUIScreenLayer {
     }
 
     private void onItemsButtonClicked(UIWidget widget) {
+        SolGame game = solApplication.getGame();
+        Hero hero = game.getHero();
+        if (hero.isTranscendent()) {
+            return;
+        }
+
         SolInputManager solInputManager = solApplication.getInputManager();
-        GameScreens gameScreens = solApplication.getGame().getScreens();
+        GameScreens gameScreens = game.getScreens();
 
         solInputManager.setScreen(solApplication, gameScreens.mainGameScreen);
         if (!solInputManager.isScreenOn(gameScreens.inventoryScreen)) {
-            gameScreens.inventoryScreen.showInventory.setTarget(solApplication.getGame().getHero().getShip());
+            gameScreens.inventoryScreen.showInventory.setTarget(hero.getShip());
             gameScreens.inventoryScreen.setOperations(gameScreens.inventoryScreen.showInventory);
             solInputManager.addScreen(solApplication, gameScreens.inventoryScreen);
         }
     }
 
     private void onTalkButtonClicked(UIWidget widget) {
+        SolGame game = solApplication.getGame();
+        if (game.getHero().isTranscendent()) {
+            return;
+        }
+
         SolInputManager solInputManager = solApplication.getInputManager();
-        GameScreens gameScreens = solApplication.getGame().getScreens();
+        GameScreens gameScreens = game.getScreens();
 
         solInputManager.setScreen(solApplication, gameScreens.mainGameScreen);
         if (!solInputManager.isScreenOn(gameScreens.talkScreen)) {
@@ -275,14 +286,20 @@ public class MainGameScreen extends NUIScreenLayer {
     }
 
     private void onMercsButtonClicked(UIWidget widget) {
+        SolGame game = solApplication.getGame();
+        Hero hero = game.getHero();
+        if (hero.isTranscendent()) {
+            return;
+        }
+
         SolInputManager solInputManager = solApplication.getInputManager();
-        GameScreens gameScreens = solApplication.getGame().getScreens();
+        GameScreens gameScreens = game.getScreens();
 
         solInputManager.setScreen(solApplication, gameScreens.mainGameScreen);
         if (!solInputManager.isScreenOn(gameScreens.inventoryScreen)) {
             gameScreens.inventoryScreen.setOperations(gameScreens.inventoryScreen.chooseMercenaryScreen);
             solInputManager.addScreen(solApplication, gameScreens.inventoryScreen);
-            solApplication.getGame().getHero().getMercs().markAllAsSeen();
+            hero.getMercs().markAllAsSeen();
         }
     }
 }
