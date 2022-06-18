@@ -238,7 +238,7 @@ public class OggMusicManager {
     }
 
     public void resetMusic() {
-        musicMap.put(GAME_MUSIC_SET, new ArrayList<>());
+        musicMap.clear();
     }
 
     public String getCurrentMusicSet() {

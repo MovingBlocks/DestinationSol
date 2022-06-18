@@ -36,10 +36,13 @@ import org.destinationsol.game.item.MercItem;
 import org.destinationsol.game.item.SolItem;
 import org.destinationsol.game.ship.SolShip;
 import org.destinationsol.game.ship.hulls.HullConfig;
+import org.destinationsol.modules.ModuleManager;
 import org.destinationsol.ui.Waypoint;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.terasology.context.annotation.API;
+import org.terasology.gestalt.module.Module;
+import org.terasology.gestalt.naming.Name;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -50,8 +53,10 @@ import java.io.UnsupportedEncodingException;
 import java.security.AccessController;
 import java.security.PrivilegedAction;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 
 @API
 public class SaveManager {
@@ -263,6 +268,15 @@ public class SaveManager {
         }
         world.add("featureGenerators", featureGenerators);
 
+        JsonArray modulesArray = new JsonArray();
+        for (Name module : ModuleManager.getEnvironmentStatic().getModuleIdsOrderedByDependencies()) {
+            // Exclude built-in modules
+            if (module.compareTo("engine") != 0 && module.compareTo("nui") != 0) {
+                modulesArray.add(module.toString());
+            }
+        }
+        world.add("modules", modulesArray);
+
         Gson gson = new GsonBuilder().setPrettyPrinting().create();
         String stringToWrite = gson.toJson(world);
 
@@ -314,6 +328,24 @@ public class SaveManager {
                         }
                     }
                     config.setFeatureGenerators(featureGenerators);
+                }
+
+                if (world.has("modules")) {
+                    Set<Module> modules = new HashSet<>();
+                    for (JsonElement value : world.getAsJsonArray("modules")) {
+                        if (value.isJsonPrimitive() && value.getAsJsonPrimitive().isString()) {
+                            Module module = ModuleManager.getEnvironmentStatic().get(new Name(value.getAsString()));
+                            if (module != null) {
+                                modules.add(module);
+                            } else {
+                                logger.warn("The module \"" + value.getAsString() + "\" is missing!");
+                            }
+                        }
+                    }
+                    config.setModules(modules);
+                } else {
+                    // This is for compatibility with older saves, which always used all modules unconditionally.
+                    config.setModules(new HashSet<>(ModuleManager.getEnvironmentStatic().getModulesOrderedByDependencies()));
                 }
 
                 logger.debug("Successfully loaded the world file");

@@ -21,6 +21,7 @@ import org.destinationsol.assets.json.Json;
 import org.destinationsol.assets.json.Validator;
 import org.destinationsol.game.WorldConfig;
 import org.destinationsol.game.planet.SystemsBuilder;
+import org.destinationsol.modules.ModuleManager;
 import org.destinationsol.ui.nui.NUIManager;
 import org.destinationsol.ui.nui.NUIScreenLayer;
 import org.destinationsol.ui.nui.widgets.KeyActivatedButton;
@@ -28,6 +29,8 @@ import org.json.JSONObject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.terasology.gestalt.assets.ResourceUrn;
+import org.terasology.gestalt.module.Module;
+import org.terasology.gestalt.naming.Name;
 import org.terasology.nui.Canvas;
 import org.terasology.nui.UITextureRegion;
 import org.terasology.nui.backends.libgdx.GDXInputUtil;
@@ -36,32 +39,41 @@ import org.terasology.nui.widgets.UIImage;
 
 import javax.inject.Inject;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Optional;
+import java.util.Set;
 
 public class NewShipScreen extends NUIScreenLayer {
     private static final Logger logger = LoggerFactory.getLogger(NewShipScreen.class);
     private final SolApplication solApplication;
-    private int numberOfSystems = SystemsBuilder.DEFAULT_SYSTEM_COUNT;
+    private final ModuleManager moduleManager;
     private int playerSpawnConfigIndex = 0;
     private List<String> playerSpawnConfigNames = new ArrayList<>();
     private List<UITextureRegion> playerSpawnConfigTextures = new ArrayList<>();
+    private WorldConfig worldConfig;
 
     @Inject
-    public NewShipScreen(SolApplication solApplication) {
+    public NewShipScreen(SolApplication solApplication, ModuleManager moduleManager) {
         this.solApplication = solApplication;
+        this.moduleManager = moduleManager;
     }
 
     @Override
     public void initialise() {
+        worldConfig = new WorldConfig();
+        worldConfig.setNumberOfSystems(SystemsBuilder.DEFAULT_SYSTEM_COUNT);
+        worldConfig.setModules(new HashSet<>(moduleManager.getEnvironment().getModulesOrderedByDependencies()));
+
         UIButton systemsButton = find("systemsButton", UIButton.class);
-        systemsButton.setText("Systems: " + numberOfSystems);
+        systemsButton.setText("Systems: " + worldConfig.getNumberOfSystems());
         systemsButton.subscribe(button -> {
-            int systemCount = (numberOfSystems + 1) % 10;
+            int systemCount = (worldConfig.getNumberOfSystems() + 1) % 10;
             if (systemCount < 2) {
                 systemCount = 2;
             }
-            numberOfSystems = systemCount;
-            ((UIButton)button).setText("Systems: " + numberOfSystems);
+            worldConfig.setNumberOfSystems(systemCount);
+            ((UIButton)button).setText("Systems: " + worldConfig.getNumberOfSystems());
         });
 
         for (ResourceUrn configUrn : Assets.getAssetHelper().listAssets(Json.class, "playerSpawnConfig")) {
@@ -90,13 +102,17 @@ public class NewShipScreen extends NUIScreenLayer {
             shipPreviewImage.setImage(playerSpawnConfigTextures.get(playerSpawnConfigIndex));
         });
 
+        UIButton modulesButton = find("modulesButton", UIButton.class);
+        modulesButton.subscribe(button -> {
+            ModulesScreen modulesScreen = solApplication.getMenuScreens().modules;
+            modulesScreen.setSelectedModules(worldConfig.getModules());
+            nuiManager.setScreen(modulesScreen);
+        });
+
         // NOTE: The original code used getKeyEscape() for both the "OK" and "Cancel" buttons. This was probably a mistake.
         KeyActivatedButton okButton = find("okButton", KeyActivatedButton.class);
         okButton.setKey(GDXInputUtil.GDXToNuiKey(solApplication.getOptions().getKeyShoot()));
         okButton.subscribe(button -> {
-            WorldConfig worldConfig = new WorldConfig();
-            worldConfig.setNumberOfSystems(numberOfSystems);
-
             LoadingScreen loadingScreen = solApplication.getMenuScreens().loading;
             loadingScreen.setMode(false, playerSpawnConfigNames.get(playerSpawnConfigIndex), true, worldConfig);
             nuiManager.setScreen(loadingScreen);
@@ -107,6 +123,28 @@ public class NewShipScreen extends NUIScreenLayer {
         cancelButton.subscribe(button -> {
             nuiManager.setScreen(solApplication.getMenuScreens().newGame);
         });
+    }
+
+    @Override
+    public void onAdded() {
+        worldConfig.setSeed(System.currentTimeMillis());
+
+        String currentShip = playerSpawnConfigNames.get(playerSpawnConfigIndex);
+        playerSpawnConfigNames.clear();
+        Set<ResourceUrn> configUrns = Assets.getAssetHelper().listAssets(Json.class, "playerSpawnConfig");
+        for (Module module : worldConfig.getModules()) {
+            ResourceUrn configUrn = new ResourceUrn(module.getId(), new Name("playerSpawnConfig"));
+            if (configUrns.contains(configUrn)) {
+                playerSpawnConfigNames.addAll(Validator.getValidatedJSON(configUrn.toString(), "engine:schemaPlayerSpawnConfig").keySet());
+            }
+        }
+
+        if (!playerSpawnConfigNames.contains(currentShip)) {
+            // The player picked a ship that's now invalid, so reset their selection.
+            playerSpawnConfigIndex = 0;
+            UIButton startingShipButton = find("startingShipButton", UIButton.class);
+            startingShipButton.setText("Starting Ship: " + playerSpawnConfigNames.get(playerSpawnConfigIndex));
+        }
     }
 
     @Override

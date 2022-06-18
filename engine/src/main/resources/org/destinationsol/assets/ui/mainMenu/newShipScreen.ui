@@ -74,6 +74,18 @@
                     "use-content-height": true,
                     "use-content-width": true
                 }
+            },
+            {
+                "type": "UIButton",
+                "id": "modulesButton",
+                "family": "modulesButton",
+                "text": "Modules",
+                "layoutInfo": {
+                    "position-right": {},
+                    "position-bottom": {},
+                    "width": 100,
+                    "height": 50
+                }
             }
         ]
     }

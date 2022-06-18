@@ -61,6 +61,9 @@
         "creditsButton": {
             "font": "engine:main#0.60"
         },
+        "modulesButton": {
+            "font": "engine:main#0.55"
+        },
         "menuHeaderText": {
             "font": "engine:main#1.0"
         },

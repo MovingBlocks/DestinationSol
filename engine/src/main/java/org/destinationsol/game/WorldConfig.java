@@ -16,30 +16,37 @@
 package org.destinationsol.game;
 
 import org.destinationsol.game.planet.SystemsBuilder;
+import org.terasology.gestalt.module.Module;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 public class WorldConfig {
     protected long seed;
     protected int numberOfSystems;
     private List<String> solarSystemGenerators;
     private List<String> featureGenerators;
+    private Set<Module> modules;
 
     public WorldConfig() {
         seed = System.currentTimeMillis();
         numberOfSystems = SystemsBuilder.DEFAULT_SYSTEM_COUNT;
         solarSystemGenerators = new ArrayList<>();
         featureGenerators = new ArrayList<>();
+        modules = new HashSet<>();
     }
 
     public WorldConfig(long seed, int numberOfSystems,
                        List<String> solarSystemGenerators,
-                       List<String> featureGenerators) {
+                       List<String> featureGenerators,
+                       Set<Module> modules) {
         this.seed = seed;
         this.numberOfSystems = numberOfSystems;
         this.solarSystemGenerators = solarSystemGenerators;
         this.featureGenerators = featureGenerators;
+        this.modules = modules;
     }
 
     public long getSeed() {
@@ -72,5 +79,13 @@ public class WorldConfig {
 
     public void setSolarSystemGenerators(List<String> solarSystemGenerators) {
         this.solarSystemGenerators = solarSystemGenerators;
+    }
+
+    public Set<Module> getModules() {
+        return modules;
+    }
+
+    public void setModules(Set<Module> modules) {
+        this.modules = modules;
     }
 }

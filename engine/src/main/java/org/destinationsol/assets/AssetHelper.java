@@ -131,6 +131,10 @@ public class AssetHelper {
         return list;
     }
 
+    public void switchEnvironment(ModuleEnvironment environment) {
+        assetTypeManager.switchEnvironment(environment);
+    }
+
     public void dispose() {
         try {
             assetTypeManager.unloadEnvironment();
