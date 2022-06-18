@@ -20,12 +20,14 @@ import org.destinationsol.GameOptions;
 import org.destinationsol.SolApplication;
 import org.destinationsol.assets.music.OggMusicManager;
 import org.destinationsol.game.WorldConfig;
+import org.destinationsol.modules.ModuleManager;
 import org.destinationsol.ui.nui.NUIManager;
 import org.destinationsol.ui.nui.NUIScreenLayer;
 import org.terasology.nui.Canvas;
 import org.terasology.nui.widgets.UIButton;
 
 import javax.inject.Inject;
+import java.util.HashSet;
 
 /**
  * The main menu screen. This is the first screen shown when you open the game.
@@ -33,18 +35,22 @@ import javax.inject.Inject;
 public class MainMenuScreen extends NUIScreenLayer {
 
     private final SolApplication solApplication;
+    private final ModuleManager moduleManager;
     private UIButton tutorialButton;
 
     @Inject
-    public MainMenuScreen(SolApplication solApplication) {
+    public MainMenuScreen(SolApplication solApplication, ModuleManager moduleManager) {
         this.solApplication = solApplication;
+        this.moduleManager = moduleManager;
     }
 
     @Override
     public void initialise() {
         tutorialButton = find("tutorialButton", UIButton.class);
         tutorialButton.subscribe(button -> {
-            solApplication.getMenuScreens().loading.setMode(true, "Imperial Small", true, new WorldConfig());
+            WorldConfig worldConfig = new WorldConfig();
+            worldConfig.setModules(new HashSet<>(moduleManager.getEnvironment().getModulesOrderedByDependencies()));
+            solApplication.getMenuScreens().loading.setMode(true, "Imperial Small", true, worldConfig);
             nuiManager.setScreen(solApplication.getMenuScreens().loading);
         });
 

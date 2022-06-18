@@ -1,0 +1,106 @@
+{
+    "type": "ModulesScreen",
+    "skin": "engine:mainMenu",
+    "contents": {
+        "type": "RelativeLayout",
+        "contents": [
+            {
+                "type": "UILabel",
+                "id": "headerText",
+                "family": "menuHeaderText",
+                "text": "Modules",
+                "layoutInfo": {
+                    "position-horizontal-center": {},
+                    "position-top": {
+                        "target": "TOP",
+                        "offset": 32
+                    },
+                    "use-content-height": true
+                }
+            },
+            {
+                "type": "ColumnLayout",
+                "id": "moduleSelectLayout",
+                "columns": 2,
+                "column-widths": [0.7, 0.3],
+                "horizontalSpacing": 16,
+                "contents": [
+                    {
+                        "type": "ScrollableArea",
+                        "content": {
+                            "type": "UIList",
+                            "id": "modulesList",
+                            "family": "menuButtons"
+                        }
+                    },
+                    {
+                        "type": "RelativeLayout",
+                        "id": "moduleActionButtons",
+                        "contents": [
+                            {
+                                "type": "UIButton",
+                                "id": "activateButton",
+                                "text": "Activate Module",
+                                "layoutInfo": {
+                                    "position-bottom": {
+                                        "target": "MIDDLE",
+                                        "offset": 5
+                                    },
+                                    "use-content-height": true
+                                }
+                            },
+                            {
+                                "type": "UIButton",
+                                "id": "deactivateButton",
+                                "text": "Deactivate Module",
+                                "layoutInfo": {
+                                    "position-top": {
+                                        "target": "MIDDLE",
+                                        "offset": 5
+                                    },
+                                    "use-content-height": true
+                                }
+                            }
+                        ]
+                    }
+                ],
+                "layoutInfo": {
+                    "position-horizontal-center": {},
+                    "position-bottom": {
+                        "widget": "confirmButton",
+                        "target": "TOP",
+                        "offset": 16
+                    },
+                    "position-top": {
+                        "widget": "headerText",
+                        "target": "BOTTOM",
+                        "offset": 16
+                    },
+                    "position-left": {
+                        "offset": 16
+                    },
+                    "position-right": {
+                        "offset": 16
+                    }
+                }
+            },
+            {
+                "type": "UIButton",
+                "id": "confirmButton",
+                "text": "Confirm",
+                "layoutInfo": {
+                    "position-bottom": {
+                        "offset": 32
+                    },
+                    "position-left": {
+                        "offset": 32
+                    },
+                    "position-right": {
+                        "offset": 32
+                    },
+                    "use-content-height": true
+                }
+            }
+        ]
+    }
+}
