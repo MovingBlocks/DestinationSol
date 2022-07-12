@@ -188,9 +188,9 @@ public class MazeTileObject implements SolObject {
                 tex.flip(!tex.isFlipX(), !tex.isFlipY());
                 backgroundTexture.flip(!backgroundTexture.isFlipX(), !backgroundTexture.isFlipY());
             }
-            RectSprite s = SpriteManager.createSprite(tex.name, MazeBuilder.TILE_SZ, 0, 0, new Vector2(), DrawableLevel.GROUND, 0, 0, SolColor.WHITE, false);
+            RectSprite s = SpriteManager.createStaticSprite(tex, MazeBuilder.TILE_SZ, 0, 0, new Vector2(), DrawableLevel.GROUND, 0, 0, SolColor.WHITE, false);
             drawables.add(s);
-            RectSprite s2 = SpriteManager.createSprite(backgroundTexture.name, MazeBuilder.TILE_SZ, 0, 0, new Vector2(), DrawableLevel.DECO, 0, 0, SolColor.WHITE, false);
+            RectSprite s2 = SpriteManager.createStaticSprite(backgroundTexture, MazeBuilder.TILE_SZ, 0, 0, new Vector2(), DrawableLevel.DECO, 0, 0, SolColor.WHITE, false);
             drawables.add(s2);
             Body body = buildBody(game, angle, position, tile, flipped);
             MazeTileObject res = new MazeTileObject(tile, drawables, body, position, angle, flipped);
