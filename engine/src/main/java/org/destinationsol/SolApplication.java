@@ -281,7 +281,7 @@ public class SolApplication implements ApplicationListener {
             entitySystemManager.sendEvent(new RenderEvent(), new Renderable(), new Position());
 
             //TODO remove this block - it is for debugging purposes
-            if (!entityCreated) {
+            if (DebugOptions.SPAWN_ECS_ASTEROID && !entityCreated) {
 
                 Size size = new Size();
                 size.size = 2;
@@ -406,6 +406,7 @@ public class SolApplication implements ApplicationListener {
         // TODO: remove the following line when all screens have been ported to use NUI
         inputManager.setScreen(this, null);
         nuiManager.pushScreen(menuScreens.main);
+        entityCreated = false;
     }
 
     public boolean isMobile() {
