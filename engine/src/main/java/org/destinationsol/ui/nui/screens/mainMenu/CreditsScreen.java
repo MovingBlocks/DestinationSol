@@ -83,7 +83,12 @@ public class CreditsScreen extends NUIScreenLayer {
                         "Sigma-One, vampcat, malanius",
                         "AonoZan, ererbe, SurajDutta",
                         "jasyohuang, Steampunkery",
-                        "Graviton48, Adrijaned, MaxBorsch",
+                        "Graviton48, Adrijaned"
+                },
+                {
+                        "Contributors on GitHub",
+                        "",
+                        "MaxBorsch",
                         "sohil123, FieryPheonix909",
                         "digitalripperynr, NicholasBatesNZ",
                         "Pendi, Torpedo99, AndyTechGuy",
@@ -91,7 +96,14 @@ public class CreditsScreen extends NUIScreenLayer {
                         "msteiger, oniatus, arpitkamboj",
                         "manas96, IsaacLic, Mpcs, ZPendi",
                         "nailorcngci, FearlessTobi, ujjman",
-                        "ThisIsPIRI"
+                        "ThisIsPIRI, IsaiahBlanks"
+                },
+                {
+                        "Contributors on GitHub",
+                        "",
+                        "DarkWeird, Mystic-Slice",
+                        "superusercode, AdamJonsson",
+                        "Esnardo, sagarg22, jankeromnes"
                 },
                 {
                         "Soundtrack by NeonInsect"
