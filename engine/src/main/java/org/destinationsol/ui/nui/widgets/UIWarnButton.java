@@ -38,6 +38,17 @@ public class UIWarnButton extends KeyActivatedButton {
     private boolean warnPercGrows;
     private float warnAlpha = 1f;
 
+    public UIWarnButton() {
+    }
+
+    public UIWarnButton(String id) {
+        super(id);
+    }
+
+    public UIWarnButton(String id, String text) {
+        super(id, text);
+    }
+
     @Override
     public void onDraw(Canvas canvas) {
         if (warnCounter > 0) {
@@ -78,6 +89,14 @@ public class UIWarnButton extends KeyActivatedButton {
      */
     public void enableWarn() {
         warnCounter = WARN_COUNTER_MAX;
+    }
+
+    /**
+     * Returns true if the button is currently in a "warn" phase.
+     * @return true, if the button is currently in a "warn" phase, otherwise false.
+     */
+    public boolean isWarning() {
+        return warnCounter > 0;
     }
 
     @Override
