@@ -24,16 +24,16 @@ import org.destinationsol.assets.Assets;
 import org.destinationsol.assets.sound.OggSound;
 import org.destinationsol.game.context.Context;
 import org.destinationsol.ui.UiDrawer;
-import org.terasology.joml.geom.Rectanglei;
 import org.joml.Vector2i;
 import org.terasology.input.InputType;
 import org.terasology.input.Keyboard;
 import org.terasology.input.MouseInput;
 import org.terasology.input.device.CharKeyboardAction;
-import org.terasology.input.device.RawKeyboardAction;
 import org.terasology.input.device.KeyboardDevice;
 import org.terasology.input.device.MouseAction;
 import org.terasology.input.device.MouseDevice;
+import org.terasology.input.device.RawKeyboardAction;
+import org.terasology.joml.geom.Rectanglei;
 import org.terasology.nui.Canvas;
 import org.terasology.nui.FocusManager;
 import org.terasology.nui.TabbingManager;
@@ -45,13 +45,12 @@ import org.terasology.nui.backends.libgdx.LibGDXKeyboardDevice;
 import org.terasology.nui.backends.libgdx.LibGDXMouseDevice;
 import org.terasology.nui.backends.libgdx.NUIInputProcessor;
 import org.terasology.nui.canvas.CanvasImpl;
-import org.terasology.nui.events.NUICharEvent;
 import org.terasology.nui.canvas.CanvasRenderer;
+import org.terasology.nui.events.NUICharEvent;
 import org.terasology.nui.events.NUIKeyEvent;
 import org.terasology.nui.events.NUIMouseButtonEvent;
 import org.terasology.nui.events.NUIMouseWheelEvent;
 import org.terasology.nui.skin.UISkin;
-import org.terasology.nui.util.RectUtility;
 import org.terasology.nui.widgets.UIButton;
 import org.terasology.nui.widgets.UIText;
 
@@ -349,8 +348,9 @@ public class NUIManager {
     public void setScreen(NUIScreenLayer layer) {
         Iterator<NUIScreenLayer> screenIterator = uiScreens.descendingIterator();
         while (screenIterator.hasNext()) {
-            screenIterator.next().onRemoved();
+            NUIScreenLayer uiScreen = screenIterator.next();
             screenIterator.remove();
+            uiScreen.onRemoved();
         }
 
         pushScreen(layer);
@@ -361,10 +361,9 @@ public class NUIManager {
      * @return the topmost screen
      */
     public NUIScreenLayer popScreen() {
-        if (!uiScreens.isEmpty()) {
-            uiScreens.peek().onRemoved();
-        }
-        return uiScreens.pop();
+        NUIScreenLayer uiScreen = uiScreens.pop();
+        uiScreen.onRemoved();
+        return uiScreen;
     }
 
     /**
@@ -372,8 +371,8 @@ public class NUIManager {
      * @param screen the screen to remove
      */
     public void removeScreen(NUIScreenLayer screen) {
-        screen.onRemoved();
         uiScreens.remove(screen);
+        screen.onRemoved();
     }
 
     /**
@@ -412,10 +411,12 @@ public class NUIManager {
      * Removes all of the UI screens currently on UI stack.
      */
     public void clearScreens() {
-        for (NUIScreenLayer uiScreen : uiScreens) {
+        Iterator<NUIScreenLayer> screenIterator = uiScreens.descendingIterator();
+        while (screenIterator.hasNext()) {
+            NUIScreenLayer uiScreen = screenIterator.next();
+            screenIterator.remove();
             uiScreen.onRemoved();
         }
-        uiScreens.clear();
     }
 
     /**
@@ -439,10 +440,9 @@ public class NUIManager {
      * @return true, if the mouse is currently over an interactive UI element, otherwise false
      */
     public boolean isMouseOnUi() {
-        // TODO: Find better way of doing this.
         Vector2i mousePosition = mouse.getPosition();
         for (Rectanglei interactionRegion : canvas.getInteractionRegions()) {
-            if (RectUtility.contains(interactionRegion, mousePosition)) {
+            if (interactionRegion.containsPoint(mousePosition)) {
                 return true;
             }
         }
@@ -471,6 +471,14 @@ public class NUIManager {
     }
 
     /**
+     * Returns the current UI scale. This can be useful when converting from UI co-ordinates to screen co-ordinates.
+     * @return the current UI scale
+     */
+    public float getUiScale() {
+        return canvas.getUiScale();
+    }
+
+    /**
      * Returns a wrapper that allows safe usage of {@link UiDrawer} code with widget draw calls.
      * @return a {@link UiDrawer} wrapper for accessing legacy UI screens
      */
@@ -479,7 +487,7 @@ public class NUIManager {
     }
 
     /**
-     * This class acts as a wrapper to safely allow {@link UiDrawer} code to be called in {@link org.terasology.nui.UIWidget#onDraw(Canvas)} methods.
+     * This class acts as a wrapper to safely allow {@link UiDrawer} code to be called in {@link UIWidget#onDraw(Canvas)} methods.
      * The wrapper must be closed after use and no NUI canvas methods can be used before closing the wrapper.
      * Example usage:
      * <code>
