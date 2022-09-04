@@ -24,7 +24,6 @@ import org.destinationsol.assets.Assets;
 import org.destinationsol.assets.sound.OggSound;
 import org.destinationsol.game.context.Context;
 import org.destinationsol.ui.UiDrawer;
-import org.destinationsol.util.InjectionHelper;
 import org.terasology.joml.geom.Rectanglei;
 import org.joml.Vector2i;
 import org.terasology.input.InputType;
@@ -37,7 +36,6 @@ import org.terasology.input.device.MouseAction;
 import org.terasology.input.device.MouseDevice;
 import org.terasology.nui.Canvas;
 import org.terasology.nui.FocusManager;
-import org.terasology.nui.FocusManagerImpl;
 import org.terasology.nui.TabbingManager;
 import org.terasology.nui.UITextureRegion;
 import org.terasology.nui.UIWidget;
@@ -192,6 +190,8 @@ public class NUIManager {
      * @param solApplication the application to use
      */
     public void update(SolApplication solApplication) {
+        mouse.update();
+
         for (int pointer = 0; pointer < mouse.getMaxPointers(); pointer++) {
             canvas.processMousePosition(mouse.getPosition(pointer), pointer);
         }
@@ -232,9 +232,13 @@ public class NUIManager {
         for (MouseAction action : mouse.getInputQueue()) {
             if (action.getInput().getType() == InputType.MOUSE_BUTTON) {
                 if (action.getState().isDown()) {
-                    canvas.processMouseClick((MouseInput) action.getInput(), action.getMousePosition(), action.getPointer());
+                    if (canvas.processMouseClick((MouseInput) action.getInput(), action.getMousePosition(), action.getPointer())) {
+                        continue;
+                    }
                 } else {
-                    canvas.processMouseRelease((MouseInput) action.getInput(), action.getMousePosition(), action.getPointer());
+                    if (canvas.processMouseRelease((MouseInput) action.getInput(), action.getMousePosition(), action.getPointer())) {
+                        continue;
+                    }
                 }
 
                 NUIMouseButtonEvent event = new NUIMouseButtonEvent((MouseInput) action.getInput(), action.getState(), action.getMousePosition());
