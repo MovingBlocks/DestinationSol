@@ -42,6 +42,17 @@ public class KeyActivatedButton extends UIButton {
     @LayoutConfig
     private Binding<Boolean> activateWhenInvisible = new DefaultBinding<>(false);
 
+    public KeyActivatedButton() {
+    }
+
+    public KeyActivatedButton(String id) {
+        super(id);
+    }
+
+    public KeyActivatedButton(String id, String text) {
+        super(id, text);
+    }
+
     /**
      * Binds the key used to activate this {@code KeyActivatedButton}.
      *
