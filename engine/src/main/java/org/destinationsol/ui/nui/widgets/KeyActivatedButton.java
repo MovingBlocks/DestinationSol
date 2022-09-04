@@ -104,6 +104,20 @@ public class KeyActivatedButton extends UIButton {
             return true;
         }
 
+        // WidgetWithOrder contains some logic that consumed all UP key and DOWN key events, even when it does nothing
+        // with them. This might be worthwhile for scrolling lists but shouldn't do anything otherwise.
+        if (parent == null) {
+            return false;
+        }
         return super.onKeyEvent(event);
+    }
+
+    /**
+     * Simulates a button press, activating the widget immediately.
+     * This can be used for unconventional input triggers, such as mouse wheel moves,
+     * which are mapped as auxiliary triggers for the button.
+     */
+    public void simulatePress() {
+        activateWidget();
     }
 }
