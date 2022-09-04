@@ -33,6 +33,7 @@ import org.destinationsol.common.SolColor;
 import org.destinationsol.common.SolMath;
 import org.destinationsol.game.SolGame;
 import org.destinationsol.game.context.Context;
+import org.destinationsol.ui.nui.NUIManager;
 
 import javax.inject.Inject;
 import javax.inject.Singleton;
@@ -292,11 +293,12 @@ public class SolInputManager {
         if (solApplication.isMobile()) {
             return;
         }
+        NUIManager nuiManager = solApplication.getNuiManager();
         SolGame game = solApplication.getGame();
 
         mousePos.set(inputPointers[0].x, inputPointers[0].y);
         if (solApplication.getOptions().controlType == GameOptions.ControlType.MIXED || solApplication.getOptions().controlType == GameOptions.ControlType.MOUSE) {
-            if (game == null || mouseOnUi) {
+            if (game == null || mouseOnUi || nuiManager.isMouseOnUi()) {
                 currCursor = uiCursor;
             } else {
                 currCursor = game.getScreens().mainGameScreen.getShipControl().getInGameTex();
