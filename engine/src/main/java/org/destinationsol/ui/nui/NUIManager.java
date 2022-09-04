@@ -123,7 +123,7 @@ public class NUIManager {
     private static final String WHITE_TEXTURE_URN = "engine:uiWhiteTex";
     private static final String DEFAULT_SKIN_URN = "engine:default";
     private static final String BUTTON_CLICK_URN = "engine:uiHover";
-    private static final float MOBILE_UI_DENSITY = 1.5f;
+    private static final float MOBILE_UI_DENSITY = 2.0f;
     /**
      * The value 0.9 was found from {@link org.destinationsol.ui.SolInputManager#playClick}, so it was copied here to
      * retain the same click sound as the built-in UI.
