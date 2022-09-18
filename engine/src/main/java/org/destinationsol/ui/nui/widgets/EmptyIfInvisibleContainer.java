@@ -34,6 +34,9 @@ public class EmptyIfInvisibleContainer extends AbstractWidget {
     @LayoutConfig
     private UIWidget content;
 
+    public EmptyIfInvisibleContainer() {
+    }
+
     public EmptyIfInvisibleContainer(String id) {
         setId(id);
     }
@@ -53,9 +56,7 @@ public class EmptyIfInvisibleContainer extends AbstractWidget {
 
     @Override
     public void onDraw(Canvas canvas) {
-        if (content != null) {
-            content.onDraw(canvas);
-        }
+        canvas.drawWidget(content);
     }
 
     @Override
