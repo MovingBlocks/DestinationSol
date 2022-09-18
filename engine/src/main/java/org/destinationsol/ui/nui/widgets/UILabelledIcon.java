@@ -48,6 +48,9 @@ public class UILabelledIcon extends CoreWidget {
     @LayoutConfig
     private HorizontalAlign iconAlign = HorizontalAlign.LEFT;
 
+    public UILabelledIcon() {
+    }
+
     public UILabelledIcon(String id, String text, UITextureRegion icon) {
         super(id);
         this.text.set(text);
