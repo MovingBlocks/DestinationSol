@@ -37,7 +37,7 @@ public class ZoneNameAnnouncer {
     private String zone;
     private String text;
 
-    ZoneNameAnnouncer() {
+    public ZoneNameAnnouncer() {
         displayDimensions = SolApplication.displayDimensions;
     }
 

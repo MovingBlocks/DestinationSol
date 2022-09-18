@@ -71,7 +71,7 @@ public class MenuScreen extends SolUiBaseScreen {
         }
         if (respawnControl.isJustOff()) {
             game.respawn();
-            im.setScreen(solApplication, game.getScreens().mainGameScreen);
+            im.setScreen(solApplication, game.getScreens().oldMainGameScreen);
             game.setPaused(false);
         }
         if (exitControl.isJustOff()) {
@@ -79,7 +79,7 @@ public class MenuScreen extends SolUiBaseScreen {
         }
         if (closeControl.isJustOff()) {
             game.setPaused(false);
-            im.setScreen(solApplication, game.getScreens().mainGameScreen);
+            im.setScreen(solApplication, game.getScreens().oldMainGameScreen);
         }
         doNotSellEquippedControl.setDisplayName("Can sell used items: " +
                                                   (options.canSellEquippedItems ? "Yes" : "No"));

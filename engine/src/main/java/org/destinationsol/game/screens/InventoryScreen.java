@@ -157,11 +157,11 @@ public class InventoryScreen extends SolUiBaseScreen {
                 GameScreens screens = game.getScreens();
                 InventoryScreen is = screens.inventoryScreen;
                 
-                inputMan.setScreen(solApplication, screens.mainGameScreen);
+                inputMan.setScreen(solApplication, screens.oldMainGameScreen);
                 is.setOperations(is.chooseMercenaryScreen);
                 inputMan.addScreen(solApplication, is);
             }
-            solApplication.getInputManager().setScreen(solApplication, solApplication.getGame().getScreens().mainGameScreen);
+            solApplication.getInputManager().setScreen(solApplication, solApplication.getGame().getScreens().oldMainGameScreen);
             return;
         }
         if (previousControl.isJustOff()) {
