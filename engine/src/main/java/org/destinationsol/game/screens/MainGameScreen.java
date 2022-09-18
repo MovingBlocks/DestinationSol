@@ -117,7 +117,7 @@ public class MainGameScreen extends SolUiBaseScreen {
         NUIScreenLayer topScreen = nuiManager.getTopScreen();
         boolean controlsEnabled = inputMan.getTopScreen() == this &&
                 (topScreen instanceof org.destinationsol.ui.nui.screens.MainGameScreen ||
-                        inputMan.getTopScreen() instanceof UIShipControlsScreen);
+                        topScreen instanceof UIShipControlsScreen);
         shipControl.update(solApplication, controlsEnabled);
 
         if (solApplication.getNuiManager().hasScreenOfType(ConsoleScreen.class)) {

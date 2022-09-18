@@ -31,6 +31,10 @@
         "UIWarnDrawer": {
           "min-width": 160,
           "min-height": 96
+        },
+        "UILabel": {
+          "text-align-horizontal": "center",
+          "text-align-vertical": "middle"
         }
       },
       "font": "engine:main#0.8"
