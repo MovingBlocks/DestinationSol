@@ -19,6 +19,7 @@ import org.destinationsol.SolApplication;
 import org.destinationsol.game.console.Console;
 import org.destinationsol.game.context.Context;
 import org.destinationsol.ui.SolLayouts;
+import org.destinationsol.ui.nui.screens.MenuScreen;
 
 import javax.inject.Inject;
 
@@ -46,7 +47,7 @@ public class GameScreens {
             mainGameScreen = (org.destinationsol.ui.nui.screens.MainGameScreen) cmp.getNuiManager().createScreen(NUI_MAIN_GAME_SCREEN_MOBILE_URI);
         }
         mapScreen = new MapScreen(rightPaneLayout, cmp.isMobile(), cmp.getOptions());
-        menuScreen = new MenuScreen(layouts.menuLayout, cmp.getOptions());
+        menuScreen = (MenuScreen) cmp.getNuiManager().createScreen("engine:menuScreen");
         inventoryScreen = new InventoryScreen(cmp.getOptions());
         talkScreen = new TalkScreen(layouts.menuLayout, cmp.getOptions());
         waypointCreationScreen = new WaypointCreationScreen(layouts.menuLayout, cmp.getOptions(), mapScreen);

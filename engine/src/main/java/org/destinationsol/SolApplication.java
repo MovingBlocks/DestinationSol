@@ -402,9 +402,11 @@ public class SolApplication implements ApplicationListener {
 
     public void finishGame() {
         solGame.onGameEnd(gameContext.getBean(Context.class));
-        solGame = null;
         // TODO: remove the following line when all screens have been ported to use NUI
         inputManager.setScreen(this, null);
+        inputManager.update(this); // Force an update to remove all the InputManager UI screens
+
+        solGame = null;
         nuiManager.pushScreen(menuScreens.main);
         entityCreated = false;
     }

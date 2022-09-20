@@ -26,6 +26,22 @@
     "controlsUIButton": {
       "font": "engine:main#0.95"
     },
+    "unrestrictedMenuBox": {
+      "elements": {
+        "UIBox": {
+          "background": "engine:background"
+        }
+      }
+    },
+    "menuUIButton": {
+      "elements": {
+        "UIButton": {
+          "max-width": 640,
+          "max-height": 128
+        }
+      },
+      "font": "engine:main#1"
+    },
     "warnDrawers": {
       "elements": {
         "UIWarnDrawer": {
