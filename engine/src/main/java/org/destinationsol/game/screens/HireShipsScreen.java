@@ -25,6 +25,7 @@ import org.destinationsol.game.item.SolItem;
 import org.destinationsol.mercenary.MercenaryUtils;
 import org.destinationsol.ui.SolInputManager;
 import org.destinationsol.ui.SolUiControl;
+import org.destinationsol.ui.nui.screens.TalkScreen;
 
 public class HireShipsScreen extends InventoryOperationsScreen {
     private final SolUiControl hireControl;

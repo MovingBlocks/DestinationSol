@@ -1,0 +1,23 @@
+{
+  "inherit": "engine:mainGameScreen",
+  "families": {
+    "talkScreenButton": {
+      "elements": {
+        "UIButton": {
+          "max-width": 320,
+          "max-height": 256
+        }
+      },
+      "font": "engine:main#1"
+    },
+    "talkScreenMenuBox": {
+      "max-width": 320,
+      "max-height": 800,
+      "elements": {
+        "UIBox": {
+          "background": "engine:background"
+        }
+      }
+    }
+  }
+}

@@ -31,6 +31,7 @@ import org.destinationsol.game.ship.hulls.Hull;
 import org.destinationsol.game.ship.hulls.HullConfig;
 import org.destinationsol.ui.SolInputManager;
 import org.destinationsol.ui.SolUiControl;
+import org.destinationsol.ui.nui.screens.TalkScreen;
 
 public class ChangeShipScreen extends InventoryOperationsScreen {
     private final SolUiControl changeControl;
