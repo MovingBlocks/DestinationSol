@@ -54,6 +54,22 @@
         }
       },
       "font": "engine:main#0.8"
+    },
+    "menuBox": {
+      "max-width": 800,
+      "max-height": 600,
+      "elements": {
+        "UIBox": {
+          "background": "engine:background"
+        }
+      }
+    },
+    "uiBoxDefault": {
+      "elements": {
+        "UIBox": {
+          "background": "engine:area"
+        }
+      }
     }
   }
 }

@@ -445,7 +445,7 @@ public class MainGameScreen extends NUIScreenLayer {
         SolGame game = solApplication.getGame();
         Hero hero = game.getHero();
 
-        if (hero.isNonTranscendent() && !solInputManager.isScreenOn(gameScreens.inventoryScreen)) {
+        if (hero.isNonTranscendent() && !nuiManager.hasScreen(gameScreens.inventoryScreen)) {
             if (hero.getItemContainer().hasNew()) {
                 inventoryButton.enableWarn();
             }
@@ -923,10 +923,12 @@ public class MainGameScreen extends NUIScreenLayer {
         GameScreens gameScreens = game.getScreens();
 
         solInputManager.setScreen(solApplication, gameScreens.oldMainGameScreen);
-        if (!solInputManager.isScreenOn(gameScreens.inventoryScreen)) {
-            gameScreens.inventoryScreen.showInventory.setTarget(hero.getShip());
-            gameScreens.inventoryScreen.setOperations(gameScreens.inventoryScreen.showInventory);
-            solInputManager.addScreen(solApplication, gameScreens.inventoryScreen);
+        if (!nuiManager.hasScreen(gameScreens.inventoryScreen)) {
+            gameScreens.inventoryScreen.getShowInventory().setTarget(hero.getShip());
+            gameScreens.inventoryScreen.setOperations(gameScreens.inventoryScreen.getShowInventory());
+            nuiManager.pushScreen(gameScreens.inventoryScreen);
+        } else {
+            nuiManager.removeScreen(gameScreens.inventoryScreen);
         }
     }
 
@@ -959,10 +961,12 @@ public class MainGameScreen extends NUIScreenLayer {
         GameScreens gameScreens = game.getScreens();
 
         solInputManager.setScreen(solApplication, gameScreens.oldMainGameScreen);
-        if (!solInputManager.isScreenOn(gameScreens.inventoryScreen)) {
-            gameScreens.inventoryScreen.setOperations(gameScreens.inventoryScreen.chooseMercenaryScreen);
-            solInputManager.addScreen(solApplication, gameScreens.inventoryScreen);
+        if (!nuiManager.hasScreen(gameScreens.inventoryScreen)) {
+            gameScreens.inventoryScreen.setOperations(gameScreens.inventoryScreen.getChooseMercenaryScreen());
+            nuiManager.pushScreen(gameScreens.inventoryScreen);
             hero.getMercs().markAllAsSeen();
+        } else {
+            nuiManager.removeScreen(gameScreens.inventoryScreen);
         }
     }
 

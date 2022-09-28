@@ -15,21 +15,35 @@
  */
 package org.destinationsol.game.screens;
 
+import org.destinationsol.SolApplication;
 import org.destinationsol.game.SolGame;
 import org.destinationsol.game.item.ItemContainer;
 import org.destinationsol.game.item.SolItem;
 import org.destinationsol.ui.SolUiBaseScreen;
+import org.destinationsol.ui.nui.screens.InventoryScreen;
+import org.terasology.nui.widgets.UIButton;
 
+/**
+ * This is the base class for all inventory operations.
+ */
 public abstract class InventoryOperationsScreen extends SolUiBaseScreen {
-    abstract ItemContainer getItems(SolGame game);
+    public abstract ItemContainer getItems(SolGame game);
 
-    boolean isUsing(SolGame game, SolItem item) {
+    public boolean isUsing(SolGame game, SolItem item) {
         return false;
     }
 
-    float getPriceMul() {
+    public float getPriceMul() {
         return 1;
     }
 
-    abstract String getHeader();
+    public abstract String getHeader();
+
+    public abstract UIButton[] getActionButtons();
+
+    public void initialise(SolApplication solApplication, InventoryScreen inventoryScreen) {
+    }
+
+    public void update(SolApplication solApplication, InventoryScreen inventoryScreen) {
+    }
 }

@@ -16,7 +16,6 @@
 
 package org.destinationsol.game.screens;
 
-import org.destinationsol.GameOptions;
 import org.destinationsol.SolApplication;
 import org.destinationsol.game.FactionInfo;
 import org.destinationsol.game.Hero;
@@ -24,17 +23,42 @@ import org.destinationsol.game.SolGame;
 import org.destinationsol.game.item.ItemContainer;
 import org.destinationsol.game.item.SolItem;
 import org.destinationsol.game.ship.SolShip;
-import org.destinationsol.ui.SolInputManager;
-import org.destinationsol.ui.SolUiControl;
+import org.destinationsol.ui.nui.screens.InventoryScreen;
 import org.destinationsol.ui.nui.screens.TalkScreen;
+import org.destinationsol.ui.nui.widgets.UIWarnButton;
+import org.terasology.nui.backends.libgdx.GDXInputUtil;
+import org.terasology.nui.widgets.UIButton;
 
+/**
+ * This screen allows you to purchase items for the hero's ship.
+ * The purchased items are moved to the hero's inventory and the cost deducted from the hero's money.
+ */
 public class BuyItemsScreen extends InventoryOperationsScreen {
-    public final SolUiControl buyControl;
+    private final UIButton[] actionButtons = new UIButton[1];
 
-    BuyItemsScreen(InventoryScreen inventoryScreen, GameOptions gameOptions) {
-        buyControl = new SolUiControl(inventoryScreen.itemCtrl(0), true, gameOptions.getKeyBuyItem());
-        buyControl.setDisplayName("Buy");
-        controls.add(buyControl);
+    @Override
+    public void initialise(SolApplication solApplication, InventoryScreen inventoryScreen) {
+        UIWarnButton buyButton = new UIWarnButton();
+        buyButton.setText("Buy");
+        buyButton.setKey(GDXInputUtil.GDXToNuiKey(solApplication.getOptions().getKeyBuyItem()));
+        buyButton.subscribe(button -> {
+            SolGame game = solApplication.getGame();
+            Hero hero = game.getHero();
+            TalkScreen talkScreen = game.getScreens().talkScreen;
+            SolShip target = talkScreen.getTarget();
+            SolItem selectedItem = inventoryScreen.getSelectedItem();
+            if (selectedItem == null) {
+                return;
+            }
+
+            target.getTradeContainer().getItems().remove(selectedItem);
+            hero.getItemContainer().add(selectedItem);
+            hero.setMoney(hero.getMoney() - selectedItem.getPrice());
+            FactionInfo.setDisposition(target.getFactionID(), 1);
+
+            inventoryScreen.updateItemRows();
+        });
+        actionButtons[0] = buyButton;
     }
 
     @Override
@@ -48,28 +72,27 @@ public class BuyItemsScreen extends InventoryOperationsScreen {
     }
 
     @Override
-    public void updateCustom(SolApplication solApplication, SolInputManager.InputPointer[] inputPointers, boolean clickedOutside) {
+    public UIButton[] getActionButtons() {
+        return actionButtons;
+    }
+
+    public UIWarnButton getBuyControl() {
+        return (UIWarnButton) actionButtons[0];
+    }
+
+    @Override
+    public void update(SolApplication solApplication, InventoryScreen inventoryScreen) {
         SolGame game = solApplication.getGame();
-        InventoryScreen is = game.getScreens().inventoryScreen;
         Hero hero = game.getHero();
         TalkScreen talkScreen = game.getScreens().talkScreen;
-        SolShip target = talkScreen.getTarget();
         if (talkScreen.isTargetFar(hero)) {
-            solApplication.getInputManager().setScreen(solApplication, game.getScreens().oldMainGameScreen);
+            solApplication.getNuiManager().removeScreen(inventoryScreen);
             return;
         }
-        SolItem selItem = is.getSelectedItem();
+        SolItem selItem = inventoryScreen.getSelectedItem();
         boolean enabled = selItem != null && hero.getMoney() >= selItem.getPrice() && hero.getItemContainer().canAdd(selItem);
-        buyControl.setDisplayName(enabled ? "Buy" : "---");
-        buyControl.setEnabled(enabled);
-        if (!enabled) {
-            return;
-        }
-        if (buyControl.isJustOff()) {
-            target.getTradeContainer().getItems().remove(selItem);
-            hero.getItemContainer().add(selItem);
-            hero.setMoney(hero.getMoney() - selItem.getPrice());
-            FactionInfo.setDisposition(target.getFactionID(), 1);
-        }
+        UIButton buyButton = actionButtons[0];
+        buyButton.setText(enabled ? "Buy" : "---");
+        buyButton.setEnabled(enabled);
     }
 }

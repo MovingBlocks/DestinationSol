@@ -1,0 +1,150 @@
+{
+    "type": "InventoryScreen",
+    "skin": "engine:inventoryScreen",
+    "contents": {
+        "type": "RelativeLayout",
+        "contents": [
+            {
+                "type": "UIBackingBox",
+                "family": "menuBox",
+                "content": {
+                    "type": "RelativeLayout",
+                    "contents": [
+                        {
+                            "type": "ColumnLayout",
+                            "id": "inventoryRows",
+                            "verticalSpacing": 8,
+                            "contents": [
+                                {
+                                    "type": "RowLayout",
+                                    "id": "header",
+                                    "family": "inventoryHeader",
+                                    "horizontalSpacing": 8,
+                                    "contents": [
+                                        {
+                                            "type": "UILabel",
+                                            "id": "title",
+                                            "text": "Inventory Screen",
+                                            "layoutInfo": {
+                                                "relativeWidth": 0.6
+                                            }
+                                        },
+                                        {
+                                            "type": "UIWarnButton",
+                                            "id": "previousButton",
+                                            "text": "<"
+                                        },
+                                        {
+                                            "type": "UIWarnButton",
+                                            "id": "nextButton",
+                                            "text": ">"
+                                        }
+                                    ]
+                                }
+                            ],
+                            "layoutInfo": {
+                                "position-horizontal-center": {},
+                                "position-top": {
+                                    "offset": 8
+                                },
+                                "position-bottom": {
+                                    "widget": "selectedItemLabel",
+                                    "target": "TOP",
+                                    "offset": 8
+                                },
+                                "position-left": {
+                                    "offset": 8
+                                },
+                                "position-right": {
+                                    "offset": 8
+                                }
+                            }
+                        },
+                        {
+                            "type": "UILabel",
+                            "id": "selectedItemLabel",
+                            "text": "Selected Item:",
+                            "layoutInfo": {
+                                "position-top": {
+                                    "target": "MIDDLE",
+                                    "offset": 64
+                                },
+                                "position-left": {
+                                    "offset": 8
+                                },
+                                "position-right": {
+                                    "offset": 8
+                                },
+                                "use-content-height": true
+                            }
+                        },
+                        {
+                            "type": "RowLayout",
+                            "id": "inventoryItemInfo",
+                            "horizontalSpacing": 16,
+                            "contents": [
+                                {
+                                    "type": "UIBox",
+                                    "id": "itemDescriptionBox",
+                                    "family": "uiBoxDefault",
+                                    "content": {
+                                        "type": "ScrollableArea",
+                                        "id": "itemDescriptionScrollArea",
+                                        "content": {
+                                            "type": "UILabel",
+                                            "id": "itemDescription",
+                                            "text": "This is a really long description. Longer than that. No, even longer!"
+                                        }
+                                    },
+                                    "layoutInfo": {
+                                        "relativeWidth": 0.6
+                                    }
+                                },
+                                {
+                                    "type": "ColumnLayout",
+                                    "id": "inventoryActionButtons",
+                                    "family": "inputMapOptions",
+                                    "verticalSpacing": 8,
+                                    "contents": [
+                                    ]
+                                }
+                            ],
+                            "layoutInfo": {
+                                "position-top": {
+                                    "widget": "selectedItemLabel",
+                                    "target": "BOTTOM",
+                                    "offset": 8
+                                },
+                                "position-bottom": {
+                                    "offset": 8
+                                },
+                                "position-left": {
+                                    "offset": 8
+                                },
+                                "position-right": {
+                                    "offset": 8
+                                }
+                            }
+                        }
+                    ]
+                },
+                "layoutInfo": {
+                    "position-horizontal-center": {},
+                    "position-vertical-center": {},
+                    "position-top": {
+                        "offset": 64
+                    },
+                    "position-bottom": {
+                        "offset": 64
+                    },
+                    "position-left": {
+                        "offset": 64
+                    },
+                    "position-right": {
+                        "offset": 64
+                    }
+                }
+            }
+        ]
+    }
+}
