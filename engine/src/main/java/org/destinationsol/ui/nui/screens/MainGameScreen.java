@@ -427,7 +427,7 @@ public class MainGameScreen extends NUIScreenLayer {
         SolInputManager solInputManager = solApplication.getInputManager();
         GameScreens gameScreens = solApplication.getGame().getScreens();
         if (!nuiManager.hasScreen(gameScreens.menuScreen) &&
-                !solInputManager.isScreenOn(gameScreens.mapScreen)) {
+                !nuiManager.hasScreen(gameScreens.mapScreen)) {
             ((AbstractWidget) contents).setVisible(true);
         } else {
             ((AbstractWidget) contents).setVisible(false);
@@ -535,7 +535,7 @@ public class MainGameScreen extends NUIScreenLayer {
         super.onDraw(canvas);
 
         // Don't render the borders on-top of the map screen.
-        if (!solApplication.getInputManager().isScreenOn(solApplication.getGame().getScreens().mapScreen)) {
+        if (!nuiManager.hasScreen(solApplication.getGame().getScreens().mapScreen)) {
             try (NUIManager.LegacyUiDrawerWrapper wrapper = nuiManager.getLegacyUiDrawer()) {
                 borderDrawer.draw(wrapper.getUiDrawer(), solApplication, solApplication.getGame().getContext());
                 zoneNameAnnouncer.drawText(wrapper.getUiDrawer());
@@ -906,10 +906,9 @@ public class MainGameScreen extends NUIScreenLayer {
     }
 
     private void onMapButtonClicked(UIWidget widget) {
-        SolInputManager solInputManager = solApplication.getInputManager();
         GameScreens gameScreens = solApplication.getGame().getScreens();
 
-        solInputManager.setScreen(solApplication, gameScreens.mapScreen);
+        nuiManager.pushScreen(gameScreens.mapScreen);
     }
 
     private void onItemsButtonClicked(UIWidget widget) {
