@@ -16,16 +16,16 @@
 package org.destinationsol.ui;
 
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.math.Rectangle;
 import org.destinationsol.GameOptions;
-import org.destinationsol.common.SolColor;
 import org.destinationsol.game.SolGame;
 import org.destinationsol.game.UpdateAwareSystem;
 import org.destinationsol.game.item.SolItem;
 import org.destinationsol.game.screens.GameScreens;
 import org.destinationsol.game.screens.MainGameScreen;
 import org.destinationsol.game.screens.ShipMixedControl;
-import org.destinationsol.ui.nui.screens.InventoryScreen;
+import org.destinationsol.ui.nui.NUIManager;
+import org.destinationsol.ui.nui.NUIScreenLayer;
+import org.destinationsol.ui.nui.screens.TutorialScreen;
 import org.destinationsol.ui.nui.screens.UIShipControlsScreen;
 import org.destinationsol.ui.nui.widgets.UIWarnButton;
 
@@ -35,25 +35,23 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class TutorialManager implements UpdateAwareSystem {
-    private final Rectangle background;
+    private final NUIManager nuiManager;
+    private final TutorialScreen tutorialScreen;
     private final ArrayList<Step> steps;
     private final GameScreens screens;
     private final GameOptions gameOptions;
     private final Provider<SolGame> game;
-    private final DisplayDimensions displayDimensions;
 
     private int stepIndex;
 
     @Inject
-    public TutorialManager(GameScreens screens, GameOptions gameOptions, Provider<SolGame> game, DisplayDimensions displayDimensions) {
+    public TutorialManager(GameScreens screens, GameOptions gameOptions, Provider<SolGame> game, NUIManager nuiManager) {
         this.screens = screens;
         this.gameOptions = gameOptions;
         this.game = game;
-        this.displayDimensions = displayDimensions;
+        this.nuiManager = nuiManager;
+        this.tutorialScreen = (TutorialScreen) nuiManager.createScreen("engine:tutorialScreen");
 
-        float backgroundW = displayDimensions.getRatio() * .5f;
-        float backgroundH = .2f;
-        background = new Rectangle(displayDimensions.getRatio() / 2 - backgroundW / 2, 1 - backgroundH, backgroundW, backgroundH);
         steps = new ArrayList<>();
         stepIndex = 0;
     }
@@ -124,10 +122,10 @@ public class TutorialManager implements UpdateAwareSystem {
         }
 
         if (mobile) {
-            addStep("Close the map", screens.mapScreen.getCloseButton(), true);
+            addScreenCloseStep("Close the map", screens.mapScreen.getCloseButton(), screens.mapScreen);
         } else {
-            addStep("Close the map\n(" + gameOptions.getKeyMapName() + " or " + gameOptions.getKeyCloseName() + " keys)",
-                    screens.mapScreen.getCloseButton(), true);
+            addScreenCloseStep("Close the map\n(" + gameOptions.getKeyMapName() + " or " + gameOptions.getKeyCloseName() + " keys)",
+                    screens.mapScreen.getCloseButton(), screens.mapScreen);
         }
 
         UIWarnButton inventoryButton = nuiMain.getInventoryButton();
@@ -177,9 +175,9 @@ public class TutorialManager implements UpdateAwareSystem {
         }
 
         if (mobile) {
-            addStep("Close the inventory\n(Touch the screen outside inventory)", screens.inventoryScreen.getCloseButton(), true);
+            addScreenCloseStep("Close the inventory\n(Touch the screen outside inventory)", screens.inventoryScreen.getCloseButton(), screens.inventoryScreen);
         } else {
-            addStep("Close the inventory (" + gameOptions.getKeyCloseName() + " key)", screens.inventoryScreen.getCloseButton(), true);
+            addScreenCloseStep("Close the inventory (" + gameOptions.getKeyCloseName() + " key)", screens.inventoryScreen.getCloseButton(), screens.inventoryScreen);
         }
 
         if (mouseCtrl) {
@@ -210,9 +208,9 @@ public class TutorialManager implements UpdateAwareSystem {
         }
 
         if (mobile) {
-            addStep("Close the Buy screen\n(Touch the screen outside inventory)", screens.inventoryScreen.getCloseButton(), true);
+            addScreenCloseStep("Close the Buy screen\n(Touch the screen outside inventory)", screens.inventoryScreen.getCloseButton(), screens.inventoryScreen);
         } else {
-            addStep("Close the Buy screen\n(" + gameOptions.getKeyCloseName() + " key)", screens.inventoryScreen.getCloseButton(), true);
+            addScreenCloseStep("Close the Buy screen\n(" + gameOptions.getKeyCloseName() + " key)", screens.inventoryScreen.getCloseButton(), screens.inventoryScreen);
         }
 
         if (mouseCtrl) {
@@ -243,7 +241,9 @@ public class TutorialManager implements UpdateAwareSystem {
             addStep("Buy new ships, hire mercenaries\n" + shootKey2, nuiShootCtrl);
             addStep("Tutorial is complete and will exit now!\n" + shootKey2, nuiShootCtrl);
         }
+
         steps.get(0).start();
+        tutorialScreen.setTutorialText(steps.get(0).text);
     }
 
     private void addStep(String text, SolUiControl ctrl) {
@@ -270,28 +270,33 @@ public class TutorialManager implements UpdateAwareSystem {
         steps.add(step);
     }
 
+    private void addScreenCloseStep(String text, UIWarnButton ctrl, NUIScreenLayer uiScreen) {
+        steps.add(new NuiScreenCloseStep(text, ctrl, nuiManager, uiScreen));
+    }
+
     @Override
     public void update(SolGame game, float timeStep) {
+        if (nuiManager.getTopScreen() != tutorialScreen) {
+            if (nuiManager.hasScreen(tutorialScreen)) {
+                tutorialScreen.moveToTop();
+            } else {
+                nuiManager.pushScreen(tutorialScreen);
+            }
+        }
+
         Step step = steps.get(stepIndex);
         step.highlight();
         if (step.canProgressToNextStep()) {
             stepIndex++;
             if (stepIndex < steps.size()) {
                 steps.get(stepIndex).start();
+                tutorialScreen.setTutorialText(steps.get(stepIndex).text);
+            }
+
+            if (isFinished()) {
+                game.getSolApplication().finishGame();
             }
         }
-    }
-
-    public void draw(UiDrawer uiDrawer) {
-        if (isFinished()) {
-            return;
-        }
-        Step step = steps.get(stepIndex);
-        uiDrawer.draw(background, SolColor.UI_BG_LIGHT);
-        uiDrawer.drawLine(background.x, background.y, 0, background.width, SolColor.WHITE);
-        uiDrawer.drawLine(background.x + background.width, background.y, 90, background.height, SolColor.WHITE);
-        uiDrawer.drawLine(background.x, background.y, 90, background.height, SolColor.WHITE);
-        uiDrawer.drawString(step.text, displayDimensions.getRatio() / 2, background.y + background.height / 2, FontSize.TUT, true, SolColor.WHITE);
     }
 
     public boolean isFinished() {
@@ -367,11 +372,30 @@ public class TutorialManager implements UpdateAwareSystem {
         }
     }
 
+    public static class NuiScreenCloseStep extends NuiStep {
+        private final NUIManager nuiManager;
+        private final NUIScreenLayer uiScreen;
+
+        public NuiScreenCloseStep(String text, UIWarnButton closeButton, NUIManager nuiManager, NUIScreenLayer uiScreen) {
+            super(text, closeButton, true);
+            this.nuiManager = nuiManager;
+            this.uiScreen = uiScreen;
+        }
+
+        @Override
+        public boolean canProgressToNextStep() {
+            if (super.canProgressToNextStep()) {
+                return true;
+            }
+            return !nuiManager.hasScreen(uiScreen);
+        }
+    }
+
     public static class SelectEquippedItemStep extends Step {
-        InventoryScreen inventoryScreen;
+        org.destinationsol.ui.nui.screens.InventoryScreen inventoryScreen;
         SolGame game;
 
-        public SelectEquippedItemStep(String text, InventoryScreen inventoryScreen, SolGame game) {
+        public SelectEquippedItemStep(String text, org.destinationsol.ui.nui.screens.InventoryScreen inventoryScreen, SolGame game) {
             super(text, null, true);
             this.inventoryScreen = inventoryScreen;
             this.game = game;

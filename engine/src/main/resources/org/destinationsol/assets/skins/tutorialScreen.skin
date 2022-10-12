@@ -1,0 +1,16 @@
+{
+  "inherit": "engine:mainGameScreen",
+  "families": {
+    "tutorialBox": {
+      "font": "engine:main#0.8",
+      "max-width": 512,
+      "min-height": 128,
+      "elements": {
+        "UIBox": {
+          "background": "engine:background",
+          "text-align-horizontal": "middle"
+        }
+      }
+    }
+  }
+}

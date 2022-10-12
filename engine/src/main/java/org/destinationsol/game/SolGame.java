@@ -337,10 +337,11 @@ public class SolGame {
             } catch (Exception e) {
                 e.printStackTrace();
             }
-
-            // TODO: Remove this when context is reset after each game
-            context.get(EntitySystemManager.class).getEntityManager().allEntities().forEach(EntityRef::delete);
         }
+
+        // TODO: Remove this when context is reset after each game
+        context.get(EntitySystemManager.class).getEntityManager().allEntities().forEach(EntityRef::delete);
+
         FactionInfo.clearValues();
         try {
             objectManager.close();
