@@ -220,6 +220,7 @@ public class ModuleManager implements AutoCloseable {
     private final FacadeModuleConfig moduleConfig;
     protected ModuleRegistry registry;
     protected Module engineModule;
+    private Set<Module> builtInModules;
 
     @Inject
     public ModuleManager(BeanContext beanContext, ModuleFactory moduleFactory, ModuleRegistry moduleRegistry,
@@ -240,9 +241,12 @@ public class ModuleManager implements AutoCloseable {
             File modulesRoot = moduleConfig.getModulesPath();
             scanner.scan(registry, modulesRoot);
 
+            builtInModules = Sets.newHashSet();
+            builtInModules.add(engineModule);
+            builtInModules.add(nuiModule);
+            registry.addAll(builtInModules);
+
             Set<Module> requiredModules = Sets.newHashSet();
-            registry.add(engineModule);
-            registry.add(nuiModule);
             requiredModules.addAll(registry);
 
             loadEnvironment(requiredModules);
@@ -253,6 +257,8 @@ public class ModuleManager implements AutoCloseable {
     }
 
     public void loadEnvironment(Set<Module> modules) {
+        modules.addAll(builtInModules);
+
         StandardPermissionProviderFactory permissionFactory = new StandardPermissionProviderFactory();
         for (String api : API_WHITELIST) {
             permissionFactory.getBasePermissionSet().addAPIPackage(api);
@@ -288,6 +294,10 @@ public class ModuleManager implements AutoCloseable {
         return environment;
     }
 
+    public Set<Module> getBuiltInModules() {
+        return builtInModules;
+    }
+
     //TODO: REMOVE THIS
     public static ModuleEnvironment getEnvironmentStatic() {
         return environment;
@@ -297,6 +307,10 @@ public class ModuleManager implements AutoCloseable {
         for (Module module : registry) {
             logger.info("Module Discovered: {}", module);
         }
+    }
+
+    public ModuleRegistry getRegistry() {
+        return registry;
     }
 
     public void dispose() {

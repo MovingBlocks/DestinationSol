@@ -333,6 +333,9 @@ public class SolApplication implements ApplicationListener {
 
     public void play(boolean tut, String shipName, boolean isNewGame, WorldConfig worldConfig) {
         ModuleManager moduleManager = appContext.getBean(ModuleManager.class);
+        moduleManager.loadEnvironment(worldConfig.getModules());
+        appContext.getBean(AssetHelper.class).switchEnvironment(moduleManager.getEnvironment());
+
         gameContext = appContext.getNestedContainer(
                 new GameConfigurationServiceRegistry(worldConfig),
                 new EventReceiverServiceRegistry(moduleManager.getEnvironment()),
@@ -350,7 +353,7 @@ public class SolApplication implements ApplicationListener {
         entitySystemManager.initialise();
 
         solGame.createUpdateSystems();
-        solGame.startGame(shipName, isNewGame, worldConfig, entitySystemManager);
+        solGame.startGame(shipName, isNewGame, entitySystemManager);
 
         if (!isNewGame) {
             try {

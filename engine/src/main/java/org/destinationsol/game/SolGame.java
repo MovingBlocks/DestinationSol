@@ -149,6 +149,8 @@ public class SolGame {
     protected SolCam solCam;
     @Inject
     protected ModuleManager moduleManager;
+    @Inject
+    protected WorldConfig worldConfig;
 
     protected SolApplication solApplication;
     private Hero hero;
@@ -236,7 +238,7 @@ public class SolGame {
         }
     }
 
-    public void startGame(String shipName, boolean isNewGame, WorldConfig worldConfig, EntitySystemManager entitySystemManager) {
+    public void startGame(String shipName, boolean isNewGame, EntitySystemManager entitySystemManager) {
         this.entitySystemManager = entitySystemManager;
 
         respawnState = new RespawnState();
@@ -331,7 +333,7 @@ public class SolGame {
             if (!hero.isTranscendent()) {
                 saveShip();
             }
-            SaveManager.saveWorld(getPlanetManager().getSystems().size());
+            SaveManager.saveWorld(worldConfig);
 
             try {
                 context.get(SerialisationManager.class).serialise();
@@ -601,6 +603,10 @@ public class SolGame {
 
     public DrawableManager getDrawableManager() {
         return drawableManager;
+    }
+
+    public WorldConfig getWorldConfig() {
+        return worldConfig;
     }
 
     public void setRespawnState() {

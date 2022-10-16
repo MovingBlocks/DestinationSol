@@ -22,8 +22,7 @@ import org.destinationsol.assets.sound.OggSoundManager;
 import org.destinationsol.files.HullConfigManager;
 import org.destinationsol.game.AbilityCommonConfigs;
 import org.destinationsol.game.GameColors;
-import org.destinationsol.game.context.Context;
-import org.destinationsol.game.context.internal.ContextImpl;
+import org.destinationsol.game.WorldConfig;
 import org.destinationsol.game.item.ItemManager;
 import org.destinationsol.game.maze.MazeConfigManager;
 import org.destinationsol.game.particle.EffectTypes;
@@ -36,30 +35,37 @@ import org.destinationsol.testsupport.AssetsHelperInitializer;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
+import org.terasology.context.Lifetime;
+import org.terasology.gestalt.di.BeanContext;
+import org.terasology.gestalt.di.DefaultBeanContext;
+import org.terasology.gestalt.di.ServiceRegistry;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 public class GalaxyBuilderTest implements AssetsHelperInitializer {
-    private Context context;
     private ModuleManager moduleManager;
     GalaxyBuilder galaxyBuilder;
     private GameColors gameColors;
     private EffectTypes effectTypes;
     private OggSoundManager soundManager;
     private AbilityCommonConfigs abilityCommonConfigs;
+    private ServiceRegistry registry;
+    private BeanContext context;
 
 
     @BeforeEach
     public void setUp() throws Exception {
-        context = new ContextImpl();
+        registry = new ServiceRegistry();
         moduleManager = getModuleManager();
-        context.put(ModuleManager.class, moduleManager);
+        registry.with(ModuleManager.class).use(() -> moduleManager).lifetime(Lifetime.Singleton);
 
         setupMockGL();
 
         setupConfigManagers();
+
+        context = new DefaultBeanContext(registry);
+        galaxyBuilder = new GalaxyBuilder(new WorldConfig(), moduleManager, context.getBean(SolarSystemConfigManager.class), context);
     }
 
     private void setupMockGL() {
@@ -69,24 +75,25 @@ public class GalaxyBuilderTest implements AssetsHelperInitializer {
         Box2D.init();
     }
 
+    // TODO: This method is duplicated in most of the world generation tests. Maybe move it into an initialiser interface?
     private void setupConfigManagers() {
         ItemManager itemManager = setupItemManager();
         HullConfigManager hullConfigManager = setupHullConfigManager(itemManager);
 
         PlanetConfigManager planetConfigManager = new PlanetConfigManager(hullConfigManager, gameColors,itemManager);
         planetConfigManager.loadDefaultPlanetConfigs();
-        context.put(PlanetConfigManager.class, planetConfigManager);
+        registry.with(PlanetConfigManager.class).use(() -> planetConfigManager);
 
         MazeConfigManager mazeConfigManager = new MazeConfigManager(hullConfigManager, itemManager);
         mazeConfigManager.loadDefaultMazeConfigs();
-        context.put(MazeConfigManager.class, mazeConfigManager);
+        registry.with(MazeConfigManager.class).use(() -> mazeConfigManager);
 
         BeltConfigManager beltConfigManager = new BeltConfigManager(hullConfigManager, itemManager);
         beltConfigManager.loadDefaultBeltConfigs();
-        context.put(BeltConfigManager.class, beltConfigManager);
+        registry.with(BeltConfigManager.class).use(() -> beltConfigManager);
 
         SolarSystemConfigManager solarSystemConfigManager = new SolarSystemConfigManager(hullConfigManager, itemManager);
-        context.put(SolarSystemConfigManager.class, solarSystemConfigManager);
+        registry.with(SolarSystemConfigManager.class).use(() -> solarSystemConfigManager);
     }
 
     private ItemManager setupItemManager() {
@@ -103,42 +110,25 @@ public class GalaxyBuilderTest implements AssetsHelperInitializer {
 
     @Test
     void populatesSolarSystemsList() {
-        int testNumberSystems = 2;
-//        galaxyBuilder = new GalaxyBuilder(context, testNumberSystems);
-//        galaxyBuilder.buildWithRandomSolarSystemGenerators();
-//        assertTrue(galaxyBuilder.getSolarSystemGeneratorTypes().size() > 0);
-
+        galaxyBuilder.buildWithRandomSolarSystemGenerators();
+        assertTrue(galaxyBuilder.getSolarSystemGeneratorTypes().size() > 0);
     }
 
     @Test
     void populatesFeatureGeneratorsList() {
-        int testNumberSystems = 2;
-//        galaxyBuilder = new GalaxyBuilder(context, testNumberSystems);
-//        galaxyBuilder.buildWithRandomSolarSystemGenerators();
-//        assertTrue(galaxyBuilder.getFeatureGeneratorTypes().size() > 0);
+        galaxyBuilder.buildWithRandomSolarSystemGenerators();
+        assertTrue(galaxyBuilder.getFeatureGeneratorTypes().size() > 0);
     }
 
     @Test
     void createsCorrectNumberOfSolarSystemGenerators() {
-        int testNumberSystems = 2;
-//        galaxyBuilder = new GalaxyBuilder(context, testNumberSystems);
-//        galaxyBuilder.buildWithRandomSolarSystemGenerators();
-//        assertEquals(galaxyBuilder.getActiveSolarSystemGenerators().size(), 2);
+        galaxyBuilder.buildWithRandomSolarSystemGenerators();
+        assertEquals(galaxyBuilder.getActiveSolarSystemGenerators().size(), 2);
     }
 
     @Test
     void createsCorrectNumberOfSolarSystems() {
-        int testNumberSystems = 2;
-//        galaxyBuilder = new GalaxyBuilder(context, testNumberSystems);
-//        galaxyBuilder.buildWithRandomSolarSystemGenerators();
-//        assertEquals(galaxyBuilder.getBuiltSolarSystems().size(), 2);
+        galaxyBuilder.buildWithRandomSolarSystemGenerators();
+        assertEquals(galaxyBuilder.getBuiltSolarSystems().size(), 2);
     }
-
-    @Test
-    void setsContext() {
-        int testNumberSystems = 2;
-//        galaxyBuilder = new GalaxyBuilder(context, testNumberSystems);
-//        assertNotNull(galaxyBuilder.getContext());
-    }
-
 }

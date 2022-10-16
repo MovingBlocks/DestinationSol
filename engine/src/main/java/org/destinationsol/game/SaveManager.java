@@ -20,6 +20,8 @@ import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.math.Vector2;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import com.google.gson.JsonArray;
+import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import com.google.gson.stream.JsonReader;
@@ -34,10 +36,13 @@ import org.destinationsol.game.item.MercItem;
 import org.destinationsol.game.item.SolItem;
 import org.destinationsol.game.ship.SolShip;
 import org.destinationsol.game.ship.hulls.HullConfig;
+import org.destinationsol.modules.ModuleManager;
 import org.destinationsol.ui.Waypoint;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.terasology.context.annotation.API;
+import org.terasology.gestalt.module.Module;
+import org.terasology.gestalt.naming.Name;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -46,8 +51,10 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 
 @API
 public class SaveManager {
@@ -232,16 +239,38 @@ public class SaveManager {
     }
 
     /**
-     * Saves the world to a file. Currently stores the seed used to generate the world and the number of systems
-     * @param numberOfSystems
+     * Saves the world to a file. Currently stores the seed used to generate the world,
+     * the number of systems and the generators used.
+     * @param worldConfig the current world configuration.
      */
-    public static void saveWorld(int numberOfSystems) {
+    public static void saveWorld(WorldConfig worldConfig) {
         Long seed = SolRandom.getSeed();
         String fileName = SaveManager.getResourcePath(Const.WORLD_SAVE_FILE_NAME);
 
         JsonObject world = new JsonObject();
         world.addProperty("seed", seed);
-        world.addProperty("systems", numberOfSystems);
+        world.addProperty("systems", worldConfig.getNumberOfSystems());
+
+        JsonArray solarSystemGenerators = new JsonArray();
+        for (String solarSystemGenerator : worldConfig.getSolarSystemGenerators()) {
+            solarSystemGenerators.add(solarSystemGenerator);
+        }
+        world.add("solarSystemGenerators", solarSystemGenerators);
+
+        JsonArray featureGenerators = new JsonArray();
+        for (String featureGenerator : worldConfig.getFeatureGenerators()) {
+            featureGenerators.add(featureGenerator);
+        }
+        world.add("featureGenerators", featureGenerators);
+
+        JsonArray modulesArray = new JsonArray();
+        for (Name module : ModuleManager.getEnvironmentStatic().getModuleIdsOrderedByDependencies()) {
+            // Exclude built-in modules
+            if (module.compareTo("engine") != 0 && module.compareTo("nui") != 0) {
+                modulesArray.add(module.toString());
+            }
+        }
+        world.add("modules", modulesArray);
 
         Gson gson = new GsonBuilder().setPrettyPrinting().create();
         String stringToWrite = gson.toJson(world);
@@ -270,6 +299,44 @@ public class SaveManager {
 
                 if (world.has("systems")) {
                     config.setNumberOfSystems(world.get("systems").getAsInt());
+                }
+
+                if (world.has("solarSystemGenerators")) {
+                    List<String> solarSystemGenerators = new ArrayList<>();
+                    for (JsonElement value : world.getAsJsonArray("solarSystemGenerators")) {
+                        if (value.isJsonPrimitive() && value.getAsJsonPrimitive().isString()) {
+                            solarSystemGenerators.add(value.getAsString());
+                        }
+                    }
+                    config.setSolarSystemGenerators(solarSystemGenerators);
+                }
+
+                if (world.has("featureGenerators")) {
+                    List<String> featureGenerators = new ArrayList<>();
+                    for (JsonElement value : world.getAsJsonArray("featureGenerators")) {
+                        if (value.isJsonPrimitive() && value.getAsJsonPrimitive().isString()) {
+                            featureGenerators.add(value.getAsString());
+                        }
+                    }
+                    config.setFeatureGenerators(featureGenerators);
+                }
+
+                if (world.has("modules")) {
+                    Set<Module> modules = new HashSet<>();
+                    for (JsonElement value : world.getAsJsonArray("modules")) {
+                        if (value.isJsonPrimitive() && value.getAsJsonPrimitive().isString()) {
+                            Module module = ModuleManager.getEnvironmentStatic().get(new Name(value.getAsString()));
+                            if (module != null) {
+                                modules.add(module);
+                            } else {
+                                logger.warn("The module \"" + value.getAsString() + "\" is missing!");
+                            }
+                        }
+                    }
+                    config.setModules(modules);
+                } else {
+                    // This is for compatibility with older saves, which always used all modules unconditionally.
+                    config.setModules(new HashSet<>(ModuleManager.getEnvironmentStatic().getModulesOrderedByDependencies()));
                 }
 
                 logger.debug("Successfully loaded the world file");
