@@ -17,18 +17,29 @@ package org.destinationsol.game;
 
 import org.destinationsol.game.planet.SystemsBuilder;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class WorldConfig {
     protected long seed;
     protected int numberOfSystems;
+    private List<String> solarSystemGenerators;
+    private List<String> featureGenerators;
 
     public WorldConfig() {
         seed = System.currentTimeMillis();
         numberOfSystems = SystemsBuilder.DEFAULT_SYSTEM_COUNT;
+        solarSystemGenerators = new ArrayList<>();
+        featureGenerators = new ArrayList<>();
     }
 
-    public WorldConfig(long seed, int numberOfSystems) {
+    public WorldConfig(long seed, int numberOfSystems,
+                       List<String> solarSystemGenerators,
+                       List<String> featureGenerators) {
         this.seed = seed;
         this.numberOfSystems = numberOfSystems;
+        this.solarSystemGenerators = solarSystemGenerators;
+        this.featureGenerators = featureGenerators;
     }
 
     public long getSeed() {
@@ -45,5 +56,21 @@ public class WorldConfig {
 
     public void setNumberOfSystems(int numberOfSystems) {
         this.numberOfSystems = numberOfSystems;
+    }
+
+    public List<String> getSolarSystemGenerators() {
+        return solarSystemGenerators;
+    }
+
+    public void setFeatureGenerators(List<String> featureGenerators) {
+        this.featureGenerators = featureGenerators;
+    }
+
+    public List<String> getFeatureGenerators() {
+        return featureGenerators;
+    }
+
+    public void setSolarSystemGenerators(List<String> solarSystemGenerators) {
+        this.solarSystemGenerators = solarSystemGenerators;
     }
 }

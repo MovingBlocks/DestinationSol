@@ -43,6 +43,7 @@ import org.json.JSONObject;
 
 import javax.inject.Inject;
 import java.util.ArrayList;
+import java.util.List;
 
 public class GalaxyFiller {
     private static final float STATION_CONSUME_SECTOR = 45f;
@@ -140,7 +141,7 @@ public class GalaxyFiller {
             return;
         }
         createStarPorts(game);
-        ArrayList<SolarSystem> systems = game.getGalaxyBuilder().getBuiltSolarSystems();
+        List<SolarSystem> systems = game.getGalaxyBuilder().getBuiltSolarSystems();
 
         JSONObject rootNode = Validator.getValidatedJSON(moduleName + ":startingStation", "engine:schemaStartingStation");
 

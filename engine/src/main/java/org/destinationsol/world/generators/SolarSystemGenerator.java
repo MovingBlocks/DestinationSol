@@ -466,7 +466,7 @@ public abstract class SolarSystemGenerator {
                 && !PlanetGenerator.class.isAssignableFrom(featureGeneratorTypes.get(index));
     }
 
-    public void setFeatureGeneratorTypes(ArrayList<Class<? extends FeatureGenerator>> generators) {
+    public void setFeatureGeneratorTypes(List<Class<? extends FeatureGenerator>> generators) {
         featureGeneratorTypes.addAll(generators);
     }
 

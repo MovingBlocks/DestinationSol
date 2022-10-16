@@ -350,7 +350,7 @@ public class SolApplication implements ApplicationListener {
         entitySystemManager.initialise();
 
         solGame.createUpdateSystems();
-        solGame.startGame(shipName, isNewGame, worldConfig, entitySystemManager);
+        solGame.startGame(shipName, isNewGame, entitySystemManager);
 
         if (!isNewGame) {
             try {
