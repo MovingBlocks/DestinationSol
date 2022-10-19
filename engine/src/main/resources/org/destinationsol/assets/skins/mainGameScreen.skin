@@ -13,7 +13,7 @@
     "statsBars": {
       "elements": {
         "RelativeLayout": {
-          "fixed-height": 32
+          "fixed-height": 36
         },
         "UILabelledIcon": {
           "fixed-height": 32,
