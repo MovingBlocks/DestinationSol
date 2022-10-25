@@ -11,9 +11,27 @@
                 "layoutInfo": {
                     "position-horizontal-center": {},
                     "position-top": {
-                        "target": "MIDDLE",
+                        "widget": "shipPreviewImage",
+                        "target": "TOP",
                         "offset": -64
+                    },
+                    "position-bottom": {
+                        "widget": "shipPreviewImage",
+                        "target": "TOP"
                     }
+                }
+            },
+            {
+                "type": "UIImage",
+                "id": "shipPreviewImage",
+                "layoutInfo": {
+                    "position-horizontal-center": {},
+                    "position-top": {
+                        "target": "MIDDLE",
+                        "offset": -80
+                    },
+                    "use-content-width": true,
+                    "use-content-height": true
                 }
             },
             {
