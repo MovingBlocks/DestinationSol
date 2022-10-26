@@ -25,6 +25,8 @@ import org.destinationsol.ui.nui.NUIManager;
 import org.destinationsol.ui.nui.NUIScreenLayer;
 import org.destinationsol.ui.nui.widgets.KeyActivatedButton;
 import org.json.JSONObject;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.terasology.gestalt.assets.ResourceUrn;
 import org.terasology.nui.Canvas;
 import org.terasology.nui.UITextureRegion;
@@ -37,7 +39,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class NewShipScreen extends NUIScreenLayer {
-
+    private static final Logger logger = LoggerFactory.getLogger(NewShipScreen.class);
     private final SolApplication solApplication;
     private int numberOfSystems = SystemsBuilder.DEFAULT_SYSTEM_COUNT;
     private int playerSpawnConfigIndex = 0;
@@ -67,7 +69,13 @@ public class NewShipScreen extends NUIScreenLayer {
             playerSpawnConfigNames.addAll(playerSpawnConfigs.keySet());
             for (String spawnConfigName : playerSpawnConfigs.keySet()) {
                 JSONObject playerSpawnConfig = playerSpawnConfigs.getJSONObject(spawnConfigName);
-                playerSpawnConfigTextures.add(Assets.getDSTexture(playerSpawnConfig.getString("hull")).getUiTexture());
+                try {
+                    playerSpawnConfigTextures.add(Assets.getDSTexture(playerSpawnConfig.getString("hull")).getUiTexture());
+                } catch (RuntimeException e) {
+                    logger.error("Failed to load ship texture!", e);
+                    // Null values will not render any texture.
+                    playerSpawnConfigTextures.add(null);
+                }
             }
         }
 
