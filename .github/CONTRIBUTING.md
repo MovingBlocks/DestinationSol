@@ -4,7 +4,7 @@ If you would like to contribute code, documentation, or other assets you can do 
 
 *When submitting code, please make every effort to follow existing conventions and style in order to keep the code as readable as possible.*
 
-Read on for an overview and [check the wiki for more details](https://github.com/MovingBlocks/DestinationSol/wiki). For questions please join us in our [forum](http://forum.terasology.org/forum) or in `#terasology` on Freenode IRC (http://webchat.freenode.net) - while `#destination-sol` exists as well we're keeping all activity within the Terasology community for simplicity's sake, for now.
+Read on for an overview and [check the wiki for more details](https://github.com/MovingBlocks/DestinationSol/wiki). For questions please join us in our [forum](http://forum.terasology.org/forum) or in `#destination-sol` on the Terasology [Discord](https://discord.gg/Terasology).
 
 ## File an Issue
 
@@ -12,7 +12,7 @@ You can report bugs and feature requests to [GitHub Issues](https://github.com/M
 
 For finding easy to do issues to start with looking at the [help wanted](https://github.com/MovingBlocks/DestinationSol/labels/help%20wanted) issues.
 
-We prefer questions and support requests to be posted in the [forum](http://forum.terasology.org/forum).
+We prefer questions and support requests to be posted on [Discord](https://discord.gg/Terasology).
 
 __Please provide as much information as possible to help us solve problems and answer questions better!__
 
@@ -21,9 +21,9 @@ __Please provide as much information as possible to help us solve problems and a
 Follow these guidelines when creating public commits and writing commit messages.
 
 1. If your work spans multiple local commits make sure they can be merged directly into the target branch. If you have some commit and merge noise in the history have a look at git-rebase. Ideally, every commit should be able to be used in isolation -- that is, each commit must build and pass all tests.
-1. The first line of the commit message should be a descriptive sentence about what the commit is doing. It should be possible to fully understand what the commit does by just reading this single line.
-1. **Optional:** Following the single line description (ideally no more than 70 characters long) should be a blank line followed by a list with the details of the commit.
-1. **Optional:** Add `Fix/Fixing/Fixes/Close/Closing/Refs #issue` if you want to mark the issue mentioned as complete in the issue tracker when the change is merged.
+2. The first line of the commit message should be a descriptive sentence about what the commit is doing. It should be possible to fully understand what the commit does by just reading this single line.
+3. **Optional:** Following the single line description (ideally no more than 70 characters long) should be a blank line followed by a list with the details of the commit.
+4. **Optional:** Add `Fix/Fixing/Fixes/Close/Closing/Refs #issue` if you want to mark the issue mentioned as complete in the issue tracker when the change is merged.
 
 ## License
 
@@ -32,7 +32,7 @@ Submissions must be licensed under the [Apache License, Version 2.0](http://www.
 If you are adding a new file it should have a header like this (automatically available as a template in IntelliJ):
 ```
 /*
- * Copyright 2018 MovingBlocks
+ * Copyright 2022 MovingBlocks
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
