@@ -198,9 +198,9 @@ public class TutorialManager implements UpdateAwareSystem {
         }
 
         if (mouseCtrl || mobile) {
-            addStep("See what there is to buy", screens.talkScreen.buyControl, true);
+            addStep("See what there is to buy", screens.talkScreen.getBuyButton(), true);
         } else {
-            addStep("See what there is to buy\n(" + gameOptions.getKeyBuyMenuName() + " key)", screens.talkScreen.buyControl, true);
+            addStep("See what there is to buy\n(" + gameOptions.getKeyBuyMenuName() + " key)", screens.talkScreen.getBuyButton(), true);
         }
 
         if (mobile) {
