@@ -24,21 +24,27 @@ import org.destinationsol.game.planet.SystemsBuilder;
 import org.destinationsol.ui.nui.NUIManager;
 import org.destinationsol.ui.nui.NUIScreenLayer;
 import org.destinationsol.ui.nui.widgets.KeyActivatedButton;
+import org.json.JSONObject;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.terasology.gestalt.assets.ResourceUrn;
 import org.terasology.nui.Canvas;
+import org.terasology.nui.UITextureRegion;
 import org.terasology.nui.backends.libgdx.GDXInputUtil;
 import org.terasology.nui.widgets.UIButton;
+import org.terasology.nui.widgets.UIImage;
 
 import javax.inject.Inject;
 import java.util.ArrayList;
 import java.util.List;
 
 public class NewShipScreen extends NUIScreenLayer {
-
+    private static final Logger logger = LoggerFactory.getLogger(NewShipScreen.class);
     private final SolApplication solApplication;
     private int numberOfSystems = SystemsBuilder.DEFAULT_SYSTEM_COUNT;
     private int playerSpawnConfigIndex = 0;
     private List<String> playerSpawnConfigNames = new ArrayList<>();
+    private List<UITextureRegion> playerSpawnConfigTextures = new ArrayList<>();
 
     @Inject
     public NewShipScreen(SolApplication solApplication) {
@@ -59,14 +65,29 @@ public class NewShipScreen extends NUIScreenLayer {
         });
 
         for (ResourceUrn configUrn : Assets.getAssetHelper().listAssets(Json.class, "playerSpawnConfig")) {
-            playerSpawnConfigNames.addAll(Validator.getValidatedJSON(configUrn.toString(), "engine:schemaPlayerSpawnConfig").keySet());
+            JSONObject playerSpawnConfigs = Validator.getValidatedJSON(configUrn.toString(), "engine:schemaPlayerSpawnConfig");
+            playerSpawnConfigNames.addAll(playerSpawnConfigs.keySet());
+            for (String spawnConfigName : playerSpawnConfigs.keySet()) {
+                JSONObject playerSpawnConfig = playerSpawnConfigs.getJSONObject(spawnConfigName);
+                try {
+                    playerSpawnConfigTextures.add(Assets.getDSTexture(playerSpawnConfig.getString("hull")).getUiTexture());
+                } catch (RuntimeException e) {
+                    logger.error("Failed to load ship texture!", e);
+                    // Null values will not render any texture.
+                    playerSpawnConfigTextures.add(null);
+                }
+            }
         }
+
+        UIImage shipPreviewImage = find("shipPreviewImage", UIImage.class);
+        shipPreviewImage.setImage(playerSpawnConfigTextures.get(playerSpawnConfigIndex));
 
         UIButton startingShipButton = find("startingShipButton", UIButton.class);
         startingShipButton.setText("Starting Ship: " + playerSpawnConfigNames.get(playerSpawnConfigIndex));
         startingShipButton.subscribe(button -> {
             playerSpawnConfigIndex = (playerSpawnConfigIndex + 1) % playerSpawnConfigNames.size();
             ((UIButton)button).setText("Starting Ship: " + playerSpawnConfigNames.get(playerSpawnConfigIndex));
+            shipPreviewImage.setImage(playerSpawnConfigTextures.get(playerSpawnConfigIndex));
         });
 
         // NOTE: The original code used getKeyEscape() for both the "OK" and "Cancel" buttons. This was probably a mistake.
