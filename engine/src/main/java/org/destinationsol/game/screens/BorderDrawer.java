@@ -56,7 +56,7 @@ public class BorderDrawer {
     private final ArrayList<PlanetProximityIndicator> planetProximityIndicators;
     private final Vector2 myTmpVec = new Vector2();
 
-    BorderDrawer() {
+    public BorderDrawer() {
         displayDimensions = SolApplication.displayDimensions;
 
         TextureAtlas.AtlasRegion texture = Assets.getAtlasRegion("engine:uiPlanetProximityIndicator");

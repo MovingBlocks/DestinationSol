@@ -58,7 +58,7 @@ public class ChangeShipScreen extends InventoryOperationsScreen {
         Hero hero = game.getHero();
         TalkScreen talkScreen = game.getScreens().talkScreen;
         if (talkScreen.isTargetFar(hero)) {
-            solApplication.getInputManager().setScreen(solApplication, game.getScreens().mainGameScreen);
+            solApplication.getInputManager().setScreen(solApplication, game.getScreens().oldMainGameScreen);
             return;
         }
         SolItem selItem = is.getSelectedItem();

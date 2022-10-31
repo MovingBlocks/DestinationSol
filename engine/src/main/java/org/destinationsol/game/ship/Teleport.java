@@ -126,7 +126,7 @@ public class Teleport implements ShipAbility {
 
         public static AbilityConfig load(JSONObject abNode, ItemManager itemManager, AbilityCommonConfig cc) {
             float angle = (float) abNode.getDouble("angle");
-            SolItem chargeExample = itemManager.getExample("teleportCharge");
+            SolItem chargeExample = itemManager.parseItem("core:teleportCharge").examples.get(0);
             float rechargeTime = (float) abNode.getDouble("rechargeTime");
             return new TeleportConfig(angle, chargeExample, rechargeTime, cc);
         }

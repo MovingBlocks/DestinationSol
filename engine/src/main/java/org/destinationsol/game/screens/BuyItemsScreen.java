@@ -54,7 +54,7 @@ public class BuyItemsScreen extends InventoryOperationsScreen {
         TalkScreen talkScreen = game.getScreens().talkScreen;
         SolShip target = talkScreen.getTarget();
         if (talkScreen.isTargetFar(hero)) {
-            solApplication.getInputManager().setScreen(solApplication, game.getScreens().mainGameScreen);
+            solApplication.getInputManager().setScreen(solApplication, game.getScreens().oldMainGameScreen);
             return;
         }
         SolItem selItem = is.getSelectedItem();

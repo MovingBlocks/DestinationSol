@@ -59,7 +59,7 @@ public class TutorialManager implements UpdateAwareSystem {
 
     public void start() {
         boolean mobile = game.get().getSolApplication().isMobile();
-        MainGameScreen main = screens.mainGameScreen;
+        MainGameScreen main = screens.oldMainGameScreen;
         boolean mouseCtrl = main.getShipControl() instanceof ShipMixedControl;
         org.destinationsol.ui.nui.screens.MainGameScreen nuiMain = game.get().getMainGameScreen();
         SolUiControl shootCtrl = null;

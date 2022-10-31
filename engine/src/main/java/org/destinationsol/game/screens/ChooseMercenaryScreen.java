@@ -60,19 +60,19 @@ public class ChooseMercenaryScreen extends InventoryOperationsScreen {
 
         if (giveControl.isJustOff() && selNull) {
             SolShip solship = ((MercItem) selItem).getSolShip();
-            inputMan.setScreen(solApplication, screens.mainGameScreen);
+            inputMan.setScreen(solApplication, screens.oldMainGameScreen);
             is.giveItemsScreen.setTarget(solship);
             is.setOperations(is.giveItemsScreen);
             inputMan.addScreen(solApplication, is);
         } else if (takeControl.isJustOff() && selNull) {
             SolShip solship = ((MercItem) selItem).getSolShip();
-            inputMan.setScreen(solApplication, screens.mainGameScreen);
+            inputMan.setScreen(solApplication, screens.oldMainGameScreen);
             is.takeItems.setTarget(solship);
             is.setOperations(is.takeItems);
             inputMan.addScreen(solApplication, is);
         } else if (equipControl.isJustOff() && selNull) {
             SolShip solship = ((MercItem) selItem).getSolShip();
-            inputMan.setScreen(solApplication, screens.mainGameScreen);
+            inputMan.setScreen(solApplication, screens.oldMainGameScreen);
             is.showInventory.setTarget(solship);
             is.setOperations(is.showInventory);
             inputMan.addScreen(solApplication, is);

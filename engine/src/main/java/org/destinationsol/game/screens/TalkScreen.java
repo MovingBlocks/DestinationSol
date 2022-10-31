@@ -75,7 +75,7 @@ public class TalkScreen extends SolUiBaseScreen {
         Hero hero = game.getHero();
         SolInputManager inputManager = solApplication.getInputManager();
         if (closeControl.isJustOff() || isTargetFar(hero)) {
-            inputManager.setScreen(solApplication, game.getScreens().mainGameScreen);
+            inputManager.setScreen(solApplication, game.getScreens().oldMainGameScreen);
             return;
         }
 
@@ -90,7 +90,7 @@ public class TalkScreen extends SolUiBaseScreen {
         boolean hire = hireControl.isJustOff();
         if (sell || buy || sellShips || hire) {
             inventoryScreen.setOperations(sell ? inventoryScreen.sellItems : buy ? inventoryScreen.buyItemsScreen : sellShips ? inventoryScreen.changeShipScreen : inventoryScreen.hireShipsScreen);
-            inputManager.setScreen(solApplication, game.getScreens().mainGameScreen);
+            inputManager.setScreen(solApplication, game.getScreens().oldMainGameScreen);
             inputManager.addScreen(solApplication, inventoryScreen);
         }
     }

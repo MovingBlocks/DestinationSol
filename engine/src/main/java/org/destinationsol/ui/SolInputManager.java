@@ -301,7 +301,7 @@ public class SolInputManager {
             if (game == null || mouseOnUi || nuiManager.isMouseOnUi()) {
                 currCursor = uiCursor;
             } else {
-                currCursor = game.getScreens().mainGameScreen.getShipControl().getInGameTex();
+                currCursor = game.getScreens().oldMainGameScreen.getShipControl().getInGameTex();
                 if (currCursor == null) {
                     currCursor = uiCursor;
                 }

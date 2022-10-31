@@ -10,8 +10,34 @@
       },
       "font": "engine:main#1"
     },
+    "statsBars": {
+      "elements": {
+        "RelativeLayout": {
+          "fixed-height": 36
+        },
+        "UILabelledIcon": {
+          "fixed-height": 32,
+          "text-align-horizontal": "left",
+          "text-align-vertical": "center",
+          "font": "engine:main#0.75"
+        }
+      }
+    },
     "controlsUIButton": {
       "font": "engine:main#0.95"
+    },
+    "warnDrawers": {
+      "elements": {
+        "UIWarnDrawer": {
+          "min-width": 160,
+          "min-height": 96
+        },
+        "UILabel": {
+          "text-align-horizontal": "center",
+          "text-align-vertical": "middle"
+        }
+      },
+      "font": "engine:main#0.8"
     }
   }
 }

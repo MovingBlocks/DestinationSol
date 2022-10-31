@@ -78,6 +78,14 @@ public class ItemManager {
         }
     }
 
+    public ItemConfig parseItem(String item) {
+        List<ItemConfig> items = parseItems(item);
+        if (items.isEmpty()) {
+            return null;
+        }
+        return items.get(0);
+    }
+
     public List<ItemConfig> parseItems(String items) {
         ArrayList<ItemConfig> result = new ArrayList<>();
 

@@ -89,7 +89,7 @@ public class MapScreen extends SolUiBaseScreen {
             mapDrawer.getMapDrawPositionAdditive().set(0, 0);
             isPickingWaypointSpot = false;
             addWaypointControl.setDisplayName(NEW_WAYPOINT_TEXT);
-            im.setScreen(solApplication, game.getScreens().mainGameScreen);
+            im.setScreen(solApplication, game.getScreens().oldMainGameScreen);
         }
 
         boolean zoomIn = zoomInControl.isJustOff();
@@ -100,7 +100,7 @@ public class MapScreen extends SolUiBaseScreen {
         float mapZoom = mapDrawer.getZoom();
         zoomInControl.setEnabled(mapZoom != MapDrawer.MIN_ZOOM);
         zoomOutControl.setEnabled(mapZoom != MapDrawer.MAX_ZOOM);
-        ShipUiControl shipControl = game.getScreens().mainGameScreen.getShipControl();
+        ShipUiControl shipControl = game.getScreens().oldMainGameScreen.getShipControl();
         if (shipControl instanceof ShipMouseControl) {
             shipControl.update(solApplication, true);
         }
