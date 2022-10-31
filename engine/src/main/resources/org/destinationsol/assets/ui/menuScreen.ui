@@ -1,0 +1,74 @@
+{
+    "type": "MenuScreen",
+    "skin": "engine:mainGameScreen",
+    "contents": {
+        "type": "RelativeLayout",
+        "contents": [
+            {
+                "type": "UIBackingBox",
+                "family": "unrestrictedMenuBox",
+                "layoutInfo": {
+                    "position-top": {},
+                    "position-bottom": {},
+                    "position-left": {},
+                    "position-right": {}
+                }
+            },
+            {
+                "type": "ColumnLayout",
+                "id": "menuButtons",
+                "family": "menuUIButton",
+                "columns": 1,
+                "verticalSpacing": 10,
+                "contents": [
+                    {
+                        "type": "UIButton",
+                        "id": "canSellUsedItemsButton",
+                        "text": "Can sell used items"
+                    },
+                    {
+                        "type": "UIButton",
+                        "id": "soundVolumeButton",
+                        "text": "Sound Volume"
+                    },
+                    {
+                        "type": "UIButton",
+                        "id": "musicVolumeButton",
+                        "text": "Music Volume"
+                    },
+                    {
+                        "type": "UIButton",
+                        "id": "respawnButton",
+                        "text": "Respawn"
+                    },
+                    {
+                        "type": "UIButton",
+                        "id": "exitButton",
+                        "text": "Exit"
+                    },
+                    {
+                        "type": "KeyActivatedButton",
+                        "id": "resumeButton",
+                        "text": "Resume"
+                    }
+                ],
+                "layoutInfo": {
+                    "position-horizontal-center": {},
+                    "position-bottom": {
+                        "offset": 32
+                    },
+                    "position-top": {
+                        "target": "MIDDLE",
+                        "offset": -64
+                    },
+                    "position-left": {
+                        "offset": 64
+                    },
+                    "position-right": {
+                        "offset": 64
+                    }
+                }
+            }
+        ]
+    }
+}

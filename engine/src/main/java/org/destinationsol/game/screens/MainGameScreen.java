@@ -122,7 +122,7 @@ public class MainGameScreen extends SolUiBaseScreen {
 
         if (solApplication.getNuiManager().hasScreenOfType(ConsoleScreen.class)) {
             controls.forEach(x -> x.setEnabled(false));
-        } else if (!inputMan.isScreenOn(screens.menuScreen)) {
+        } else if (!nuiManager.hasScreen(screens.menuScreen)) {
             game.setPaused(false);
             controls.forEach(x -> x.setEnabled(true));
         }
