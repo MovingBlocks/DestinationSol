@@ -29,6 +29,7 @@ import org.destinationsol.ui.UiDrawer;
 import org.destinationsol.ui.nui.NUIManager;
 import org.destinationsol.ui.nui.NUIScreenLayer;
 import org.destinationsol.ui.nui.screens.ConsoleScreen;
+import org.destinationsol.ui.nui.screens.TutorialScreen;
 import org.destinationsol.ui.nui.screens.UIShipControlsScreen;
 
 import java.util.ArrayList;
@@ -117,7 +118,8 @@ public class MainGameScreen extends SolUiBaseScreen {
         NUIScreenLayer topScreen = nuiManager.getTopScreen();
         boolean controlsEnabled = inputMan.getTopScreen() == this &&
                 (topScreen instanceof org.destinationsol.ui.nui.screens.MainGameScreen ||
-                        topScreen instanceof UIShipControlsScreen);
+                        topScreen instanceof UIShipControlsScreen ||
+                        topScreen instanceof TutorialScreen);
         shipControl.update(solApplication, controlsEnabled);
 
         if (solApplication.getNuiManager().hasScreenOfType(ConsoleScreen.class)) {
