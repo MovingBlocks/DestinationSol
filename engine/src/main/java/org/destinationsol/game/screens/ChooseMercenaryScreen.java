@@ -15,7 +15,6 @@
  */
 package org.destinationsol.game.screens;
 
-import org.destinationsol.GameOptions;
 import org.destinationsol.SolApplication;
 import org.destinationsol.game.SolGame;
 import org.destinationsol.game.item.ItemContainer;
@@ -23,60 +22,88 @@ import org.destinationsol.game.item.MercItem;
 import org.destinationsol.game.item.SolItem;
 import org.destinationsol.game.ship.SolShip;
 import org.destinationsol.ui.SolInputManager;
-import org.destinationsol.ui.SolUiControl;
+import org.destinationsol.ui.nui.NUIManager;
+import org.destinationsol.ui.nui.screens.InventoryScreen;
+import org.destinationsol.ui.nui.widgets.KeyActivatedButton;
+import org.terasology.nui.backends.libgdx.GDXInputUtil;
+import org.terasology.nui.widgets.UIButton;
 
+/**
+ * This screen shows an overview of all the mercenaries that the hero has hired.
+ * You can manage each mercenary's independent inventory from here, as well as selecting their equipped items.
+ */
 public class ChooseMercenaryScreen extends InventoryOperationsScreen {
-    private final SolUiControl giveControl;
-    private final SolUiControl takeControl;
-    private final SolUiControl equipControl;
+    private final UIButton[] actionButtons = new UIButton[3];
     private final ItemContainer EMPTY_ITEM_CONTAINER = new ItemContainer();
 
-    ChooseMercenaryScreen(InventoryScreen inventoryScreen, GameOptions gameOptions) {
-        giveControl = new SolUiControl(inventoryScreen.itemCtrl(0), true, gameOptions.getKeyShoot());
-        giveControl.setDisplayName("Give Items");
-        controls.add(giveControl);
-
-        takeControl = new SolUiControl(inventoryScreen.itemCtrl(1), true, gameOptions.getKeyShoot2());
-        takeControl.setDisplayName("Take Items");
-        controls.add(takeControl);
-        
-        equipControl = new SolUiControl(inventoryScreen.itemCtrl(2), true, gameOptions.getKeyDrop());
-        equipControl.setDisplayName("Equip Items");
-        controls.add(equipControl);
+    public ChooseMercenaryScreen() {
     }
 
     @Override
-    public void updateCustom(SolApplication solApplication, SolInputManager.InputPointer[] inputPointers, boolean clickedOutside) {
-        SolGame game = solApplication.getGame();
-        InventoryScreen is = game.getScreens().inventoryScreen;
-        SolInputManager inputMan = solApplication.getInputManager();
-        GameScreens screens = game.getScreens();
-        SolItem selItem = is.getSelectedItem();
-        boolean selNull = selItem != null;
+    public void initialise(SolApplication solApplication, InventoryScreen inventoryScreen) {
+        KeyActivatedButton giveButton = new KeyActivatedButton();
+        giveButton.setText("Give Items");
+        giveButton.setKey(GDXInputUtil.GDXToNuiKey(solApplication.getOptions().getKeyShoot()));
+        giveButton.subscribe(button -> {
+            SolItem selectedItem = inventoryScreen.getSelectedItem();
+            SolInputManager inputManager = solApplication.getInputManager();
+            NUIManager nuiManager = solApplication.getNuiManager();
 
-        giveControl.setEnabled(selNull);
-        takeControl.setEnabled(selNull);
-        equipControl.setEnabled(selNull);
+            SolShip solship = ((MercItem) selectedItem).getSolShip();
+            inputManager.setScreen(solApplication, solApplication.getGame().getScreens().oldMainGameScreen);
+            nuiManager.removeScreen(inventoryScreen);
+            inventoryScreen.getGiveItems().setTarget(solship);
+            inventoryScreen.setOperations(inventoryScreen.getGiveItems());
+            nuiManager.pushScreen(inventoryScreen);
+        });
+        actionButtons[0] = giveButton;
 
-        if (giveControl.isJustOff() && selNull) {
-            SolShip solship = ((MercItem) selItem).getSolShip();
-            inputMan.setScreen(solApplication, screens.oldMainGameScreen);
-            is.giveItemsScreen.setTarget(solship);
-            is.setOperations(is.giveItemsScreen);
-            inputMan.addScreen(solApplication, is);
-        } else if (takeControl.isJustOff() && selNull) {
-            SolShip solship = ((MercItem) selItem).getSolShip();
-            inputMan.setScreen(solApplication, screens.oldMainGameScreen);
-            is.takeItems.setTarget(solship);
-            is.setOperations(is.takeItems);
-            inputMan.addScreen(solApplication, is);
-        } else if (equipControl.isJustOff() && selNull) {
-            SolShip solship = ((MercItem) selItem).getSolShip();
-            inputMan.setScreen(solApplication, screens.oldMainGameScreen);
-            is.showInventory.setTarget(solship);
-            is.setOperations(is.showInventory);
-            inputMan.addScreen(solApplication, is);
-        }
+        KeyActivatedButton takeButton = new KeyActivatedButton();
+        takeButton.setText("Take Items");
+        takeButton.setKey(GDXInputUtil.GDXToNuiKey(solApplication.getOptions().getKeyShoot2()));
+        takeButton.subscribe(button -> {
+            SolItem selectedItem = inventoryScreen.getSelectedItem();
+            SolInputManager inputManager = solApplication.getInputManager();
+            NUIManager nuiManager = solApplication.getNuiManager();
+
+            SolShip solship = ((MercItem) selectedItem).getSolShip();
+            inputManager.setScreen(solApplication, solApplication.getGame().getScreens().oldMainGameScreen);
+            inventoryScreen.getTakeItems().setTarget(solship);
+            nuiManager.removeScreen(inventoryScreen);
+            inventoryScreen.setOperations(inventoryScreen.getTakeItems());
+            nuiManager.pushScreen(inventoryScreen);
+        });
+        actionButtons[1] = takeButton;
+
+        KeyActivatedButton equipButton = new KeyActivatedButton();
+        equipButton.setText("Equip Items");
+        equipButton.setKey(GDXInputUtil.GDXToNuiKey(solApplication.getOptions().getKeyDrop()));
+        equipButton.subscribe(button -> {
+            SolItem selectedItem = inventoryScreen.getSelectedItem();
+            SolInputManager inputManager = solApplication.getInputManager();
+            NUIManager nuiManager = solApplication.getNuiManager();
+
+            SolShip solship = ((MercItem) selectedItem).getSolShip();
+            inputManager.setScreen(solApplication, solApplication.getGame().getScreens().oldMainGameScreen);
+            nuiManager.removeScreen(inventoryScreen);
+            inventoryScreen.getShowInventory().setTarget(solship);
+            inventoryScreen.setOperations(inventoryScreen.getShowInventory());
+            nuiManager.pushScreen(inventoryScreen);
+        });
+        actionButtons[2] = equipButton;
+    }
+
+    @Override
+    public void update(SolApplication solApplication, InventoryScreen inventoryScreen) {
+        boolean selNull = inventoryScreen.getSelectedItem() != null;
+
+        UIButton giveButton = actionButtons[0];
+        UIButton takeButton = actionButtons[1];
+        UIButton equipButton = actionButtons[2];
+
+        giveButton.setEnabled(selNull);
+        takeButton.setEnabled(selNull);
+        equipButton.setEnabled(selNull);
     }
 
     @Override
@@ -95,4 +122,8 @@ public class ChooseMercenaryScreen extends InventoryOperationsScreen {
         return "Mercenaries:";
     }
 
+    @Override
+    public UIButton[] getActionButtons() {
+        return actionButtons;
+    }
 }

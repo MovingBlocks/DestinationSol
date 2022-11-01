@@ -1,0 +1,32 @@
+{
+  "inherit": "engine:mainGameScreen",
+  "families": {
+    "mapUIButton": {
+      "elements": {
+        "UIButton": {
+          "min-width": 164,
+          "min-height": 64
+        }
+      },
+      "font": "engine:main#0.95"
+    },
+    "waypointColourPreview": {
+      "fixed-height": 32,
+      "texture-scale-mode": "stretch"
+    },
+    "waypointScreenMenuBox": {
+      "max-width": 360,
+      "max-height": 600,
+      "elements": {
+        "UIBox": {
+          "background": "engine:background"
+        },
+        "UILabel": {
+          "font": "engine:main#0.6",
+          "text-align-horizontal": "center",
+          "text-align-vertical": "middle"
+        }
+      }
+    }
+  }
+}

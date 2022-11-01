@@ -16,24 +16,42 @@
 
 package org.destinationsol.game.screens;
 
-import org.destinationsol.GameOptions;
 import org.destinationsol.SolApplication;
 import org.destinationsol.game.Hero;
 import org.destinationsol.game.SolGame;
 import org.destinationsol.game.item.ItemContainer;
 import org.destinationsol.game.item.SolItem;
 import org.destinationsol.game.ship.SolShip;
-import org.destinationsol.ui.SolInputManager;
-import org.destinationsol.ui.SolUiControl;
+import org.destinationsol.ui.nui.screens.InventoryScreen;
+import org.destinationsol.ui.nui.widgets.KeyActivatedButton;
+import org.terasology.nui.backends.libgdx.GDXInputUtil;
+import org.terasology.nui.widgets.UIButton;
 
+/**
+ * This screen allows the hero to take items acquired by their hired mercenaries.
+ * The items taken will be transferred directly into the hero's inventory.
+ */
 public class TakeItems extends InventoryOperationsScreen {
-    public final SolUiControl takeControl;
+    public final UIButton[] actionButtons = new UIButton[1];
     private SolShip target;
 
-    TakeItems(InventoryScreen inventoryScreen, GameOptions gameOptions) {
-        takeControl = new SolUiControl(inventoryScreen.itemCtrl(0), true, gameOptions.getKeyShoot());
-        takeControl.setDisplayName("Take");
-        controls.add(takeControl);
+    public TakeItems() {
+    }
+
+    @Override
+    public void initialise(SolApplication solApplication, InventoryScreen inventoryScreen) {
+        KeyActivatedButton takeButton = new KeyActivatedButton();
+        takeButton.setText("Take");
+        takeButton.setKey(GDXInputUtil.GDXToNuiKey(solApplication.getOptions().getKeyShoot()));
+        takeButton.subscribe(button -> {
+            SolItem selectedItem = inventoryScreen.getSelectedItem();
+            Hero hero = solApplication.getGame().getHero();
+
+            target.getItemContainer().remove(selectedItem);
+            hero.getItemContainer().add(selectedItem);
+            inventoryScreen.updateItemRows();
+        });
+        actionButtons[0] = takeButton;
     }
 
     @Override
@@ -47,24 +65,21 @@ public class TakeItems extends InventoryOperationsScreen {
     }
 
     @Override
-    public void updateCustom(SolApplication solApplication, SolInputManager.InputPointer[] inputPointers, boolean clickedOutside) {
+    public UIButton[] getActionButtons() {
+        return actionButtons;
+    }
+
+    @Override
+    public void update(SolApplication solApplication, InventoryScreen inventoryScreen) {
         SolGame game = solApplication.getGame();
-        InventoryScreen is = game.getScreens().inventoryScreen;
         Hero hero = game.getHero();
-        
-        SolItem selItem = is.getSelectedItem();
-        boolean enabled = selItem != null && hero.getItemContainer().canAdd(selItem);
-        takeControl.setDisplayName(enabled ? "Take" : "---");
-        takeControl.setEnabled(enabled);
-        
-        if (!enabled) {
-            return;
-        }
-        
-        if (takeControl.isJustOff()) {
-            target.getItemContainer().remove(selItem);
-            hero.getItemContainer().add(selItem);
-        }
+
+        UIButton takeButton = actionButtons[0];
+
+        SolItem selectedItem = inventoryScreen.getSelectedItem();
+        boolean enabled = selectedItem != null && hero.getItemContainer().canAdd(selectedItem);
+        takeButton.setText(enabled ? "Take" : "---");
+        takeButton.setEnabled(enabled);
     }
     
     /**

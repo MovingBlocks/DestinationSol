@@ -18,7 +18,6 @@ package org.destinationsol.ui.nui.screens;
 
 import org.destinationsol.SolApplication;
 import org.destinationsol.game.Hero;
-import org.destinationsol.game.screens.InventoryScreen;
 import org.destinationsol.game.ship.SolShip;
 import org.destinationsol.game.ship.hulls.HullConfig;
 import org.destinationsol.ui.nui.NUIScreenLayer;
@@ -51,36 +50,36 @@ public class TalkScreen extends NUIScreenLayer {
         sellButton.setKey(GDXInputUtil.GDXToNuiKey(solApplication.getOptions().getKeySellMenu()));
         sellButton.subscribe(button -> {
             InventoryScreen inventoryScreen = solApplication.getGame().getScreens().inventoryScreen;
-            inventoryScreen.setOperations(inventoryScreen.sellItems);
+            inventoryScreen.setOperations(inventoryScreen.getSellItems());
             nuiManager.removeScreen(this);
-            solApplication.getInputManager().addScreen(solApplication, inventoryScreen);
+            nuiManager.pushScreen(inventoryScreen);
         });
 
         buyButton = find("buyButton", UIWarnButton.class);
         buyButton.setKey(GDXInputUtil.GDXToNuiKey(solApplication.getOptions().getKeyBuyMenu()));
         buyButton.subscribe(button -> {
             InventoryScreen inventoryScreen = solApplication.getGame().getScreens().inventoryScreen;
-            inventoryScreen.setOperations(inventoryScreen.buyItemsScreen);
+            inventoryScreen.setOperations(inventoryScreen.getBuyItemsScreen());
             nuiManager.removeScreen(this);
-            solApplication.getInputManager().addScreen(solApplication, inventoryScreen);
+            nuiManager.pushScreen(inventoryScreen);
         });
 
         changeShipButton = find("changeShipButton", KeyActivatedButton.class);
         changeShipButton.setKey(GDXInputUtil.GDXToNuiKey(solApplication.getOptions().getKeyChangeShipMenu()));
         changeShipButton.subscribe(button -> {
             InventoryScreen inventoryScreen = solApplication.getGame().getScreens().inventoryScreen;
-            inventoryScreen.setOperations(inventoryScreen.changeShipScreen);
+            inventoryScreen.setOperations(inventoryScreen.getChangeShipScreen());
             nuiManager.removeScreen(this);
-            solApplication.getInputManager().addScreen(solApplication, inventoryScreen);
+            nuiManager.pushScreen(inventoryScreen);
         });
 
         hireButton = find("hireButton", KeyActivatedButton.class);
         hireButton.setKey(GDXInputUtil.GDXToNuiKey(solApplication.getOptions().getKeyHireShipMenu()));
         hireButton.subscribe(button -> {
             InventoryScreen inventoryScreen = solApplication.getGame().getScreens().inventoryScreen;
-            inventoryScreen.setOperations(inventoryScreen.hireShipsScreen);
+            inventoryScreen.setOperations(inventoryScreen.getHireShipsScreen());
             nuiManager.removeScreen(this);
-            solApplication.getInputManager().addScreen(solApplication, inventoryScreen);
+            nuiManager.pushScreen(inventoryScreen);
         });
 
         KeyActivatedButton closeButton = find("closeButton", KeyActivatedButton.class);

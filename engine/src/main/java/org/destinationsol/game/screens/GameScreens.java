@@ -21,6 +21,9 @@ import org.destinationsol.game.context.Context;
 import org.destinationsol.ui.SolLayouts;
 import org.destinationsol.ui.nui.screens.MenuScreen;
 import org.destinationsol.ui.nui.screens.TalkScreen;
+import org.destinationsol.ui.nui.screens.InventoryScreen;
+import org.destinationsol.ui.nui.screens.MapScreen;
+import org.destinationsol.ui.nui.screens.WaypointCreationScreen;
 
 import javax.inject.Inject;
 
@@ -44,14 +47,15 @@ public class GameScreens {
         boolean isMobile = cmp.isMobile();
         if (!isMobile) {
             mainGameScreen = (org.destinationsol.ui.nui.screens.MainGameScreen) cmp.getNuiManager().createScreen(NUI_MAIN_GAME_SCREEN_DESKTOP_URI);
+            mapScreen = (MapScreen) cmp.getNuiManager().createScreen("engine:mapScreen_desktop");
         } else {
             mainGameScreen = (org.destinationsol.ui.nui.screens.MainGameScreen) cmp.getNuiManager().createScreen(NUI_MAIN_GAME_SCREEN_MOBILE_URI);
+            mapScreen = (MapScreen) cmp.getNuiManager().createScreen("engine:mapScreen_mobile");
         }
-        mapScreen = new MapScreen(rightPaneLayout, cmp.isMobile(), cmp.getOptions());
         menuScreen = (MenuScreen) cmp.getNuiManager().createScreen("engine:menuScreen");
-        inventoryScreen = new InventoryScreen(cmp.getOptions());
+        inventoryScreen = (InventoryScreen) cmp.getNuiManager().createScreen("engine:inventoryScreen");
         talkScreen = (TalkScreen) cmp.getNuiManager().createScreen("engine:talkScreen");
-        waypointCreationScreen = new WaypointCreationScreen(layouts.menuLayout, cmp.getOptions(), mapScreen);
+        waypointCreationScreen = (WaypointCreationScreen) cmp.getNuiManager().createScreen("engine:waypointCreationScreen");
         consoleScreen = new ConsoleScreen(context.get(Console.class));
     }
 
