@@ -899,16 +899,27 @@ public class MainGameScreen extends NUIScreenLayer {
         };
     }
 
+    private void toggleScreen(NUIScreenLayer screen) {
+        if (nuiManager.hasScreen(screen)) {
+            nuiManager.removeScreen(screen);
+            return;
+        }
+
+        while (!(nuiManager.getTopScreen() instanceof MainGameScreen) && !(nuiManager.getTopScreen() instanceof UIShipControlsScreen)) {
+            nuiManager.popScreen();
+        }
+        solApplication.getInputManager().setScreen(solApplication, solApplication.getGame().getScreens().oldMainGameScreen);
+        nuiManager.pushScreen(screen);
+    }
+
     private void onMenuButtonClicked(UIWidget widget) {
         GameScreens gameScreens = solApplication.getGame().getScreens();
-
-        nuiManager.pushScreen(gameScreens.menuScreen);
+        toggleScreen(gameScreens.menuScreen);
     }
 
     private void onMapButtonClicked(UIWidget widget) {
         GameScreens gameScreens = solApplication.getGame().getScreens();
-
-        nuiManager.pushScreen(gameScreens.mapScreen);
+        toggleScreen(gameScreens.mapScreen);
     }
 
     private void onItemsButtonClicked(UIWidget widget) {
@@ -918,17 +929,10 @@ public class MainGameScreen extends NUIScreenLayer {
             return;
         }
 
-        SolInputManager solInputManager = solApplication.getInputManager();
         GameScreens gameScreens = game.getScreens();
-
-        solInputManager.setScreen(solApplication, gameScreens.oldMainGameScreen);
-        if (!nuiManager.hasScreen(gameScreens.inventoryScreen)) {
-            gameScreens.inventoryScreen.getShowInventory().setTarget(hero.getShip());
-            gameScreens.inventoryScreen.setOperations(gameScreens.inventoryScreen.getShowInventory());
-            nuiManager.pushScreen(gameScreens.inventoryScreen);
-        } else {
-            nuiManager.removeScreen(gameScreens.inventoryScreen);
-        }
+        gameScreens.inventoryScreen.getShowInventory().setTarget(hero.getShip());
+        gameScreens.inventoryScreen.setOperations(gameScreens.inventoryScreen.getShowInventory());
+        toggleScreen(gameScreens.inventoryScreen);
     }
 
     private void onTalkButtonClicked(UIWidget widget) {
@@ -937,16 +941,9 @@ public class MainGameScreen extends NUIScreenLayer {
             return;
         }
 
-        SolInputManager solInputManager = solApplication.getInputManager();
         GameScreens gameScreens = game.getScreens();
-
-        solInputManager.setScreen(solApplication, gameScreens.oldMainGameScreen);
-        if (!nuiManager.hasScreen(gameScreens.talkScreen)) {
-            gameScreens.talkScreen.setTarget(talkTarget);
-            nuiManager.pushScreen(gameScreens.talkScreen);
-        } else {
-            nuiManager.removeScreen(gameScreens.talkScreen);
-        }
+        gameScreens.talkScreen.setTarget(talkTarget);
+        toggleScreen(gameScreens.talkScreen);
     }
 
     private void onMercsButtonClicked(UIWidget widget) {
@@ -956,17 +953,10 @@ public class MainGameScreen extends NUIScreenLayer {
             return;
         }
 
-        SolInputManager solInputManager = solApplication.getInputManager();
         GameScreens gameScreens = game.getScreens();
-
-        solInputManager.setScreen(solApplication, gameScreens.oldMainGameScreen);
-        if (!nuiManager.hasScreen(gameScreens.inventoryScreen)) {
-            gameScreens.inventoryScreen.setOperations(gameScreens.inventoryScreen.getChooseMercenaryScreen());
-            nuiManager.pushScreen(gameScreens.inventoryScreen);
-            hero.getMercs().markAllAsSeen();
-        } else {
-            nuiManager.removeScreen(gameScreens.inventoryScreen);
-        }
+        gameScreens.inventoryScreen.setOperations(gameScreens.inventoryScreen.getChooseMercenaryScreen());
+        toggleScreen(gameScreens.inventoryScreen);
+        hero.getMercs().markAllAsSeen();
     }
 
     private final class CollisionWarnDrawerRayCastCallback implements RayCastCallback {
