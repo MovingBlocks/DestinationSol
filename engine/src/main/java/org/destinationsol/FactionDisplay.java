@@ -44,7 +44,7 @@ public class FactionDisplay {
             isPressed = !isPressed;
         }
         // angle must be zero as the camera angles on planets mess up the text display
-        if (isPressed && camera.getAngle() == 0 && !inputManager.isScreenOn(game.getScreens().mapScreen)) {
+        if (isPressed && camera.getAngle() == 0 && !game.getSolApplication().getNuiManager().hasScreen(game.getScreens().mapScreen)) {
             for (SolObject obj : objManager.getObjects()) {
                 if (obj instanceof SolShip) {
                     SolShip ship = (SolShip) obj;

@@ -22,18 +22,45 @@ import org.destinationsol.game.SolGame;
 import org.destinationsol.game.item.ItemContainer;
 import org.destinationsol.game.item.SolItem;
 import org.destinationsol.game.ship.SolShip;
-import org.destinationsol.ui.SolInputManager;
-import org.destinationsol.ui.SolUiControl;
+import org.destinationsol.ui.nui.screens.InventoryScreen;
+import org.destinationsol.ui.nui.screens.TalkScreen;
+import org.destinationsol.ui.nui.widgets.KeyActivatedButton;
+import org.terasology.nui.backends.libgdx.GDXInputUtil;
+import org.terasology.nui.widgets.UIButton;
 
+/**
+ * This screen allows the hero to sell their items in exchange for in-game currency (money).
+ * The sold items are moved into the vendor's inventory.
+ */
 public class SellItems extends InventoryOperationsScreen {
     private static float PERC = .8f;
 
-    private final SolUiControl sellControl;
+    private final UIButton[] actionButtons = new UIButton[1];
 
-    SellItems(InventoryScreen inventoryScreen, GameOptions gameOptions) {
-        sellControl = new SolUiControl(inventoryScreen.itemCtrl(0), true, gameOptions.getKeySellItem());
-        sellControl.setDisplayName("Sell");
-        controls.add(sellControl);
+    public SellItems() {
+    }
+
+    @Override
+    public void initialise(SolApplication solApplication, InventoryScreen inventoryScreen) {
+        KeyActivatedButton sellButton = new KeyActivatedButton();
+        sellButton.setText("Sell");
+        sellButton.setKey(GDXInputUtil.GDXToNuiKey(solApplication.getOptions().getKeySellItem()));
+        sellButton.subscribe(button -> {
+            SolGame game = solApplication.getGame();
+            Hero hero = game.getHero();
+            SolItem selectedItem = inventoryScreen.getSelectedItem();
+            TalkScreen talkScreen = game.getScreens().talkScreen;
+            SolShip target = talkScreen.getTarget();
+
+            ItemContainer itemContainer = hero.getItemContainer();
+            inventoryScreen.setSelected(itemContainer.getSelectionAfterRemove(inventoryScreen.getSelected()));
+            itemContainer.remove(selectedItem);
+            target.getTradeContainer().getItems().add(selectedItem);
+            hero.setMoney(hero.getMoney() + selectedItem.getPrice() * PERC);
+
+            inventoryScreen.updateItemRows();
+        });
+        actionButtons[0] = sellButton;
     }
 
     @Override
@@ -59,20 +86,26 @@ public class SellItems extends InventoryOperationsScreen {
     }
 
     @Override
-    public void updateCustom(SolApplication solApplication, SolInputManager.InputPointer[] inputPointers, boolean clickedOutside) {
+    public UIButton[] getActionButtons() {
+        return actionButtons;
+    }
+
+    @Override
+    public void update(SolApplication solApplication, InventoryScreen inventoryScreen) {
         SolGame game = solApplication.getGame();
-        InventoryScreen inventoryScreen = game.getScreens().inventoryScreen;
+        UIButton sellButton = actionButtons[0];
+
         TalkScreen talkScreen = game.getScreens().talkScreen;
         SolShip target = talkScreen.getTarget();
         Hero hero = game.getHero();
         if (talkScreen.isTargetFar(hero)) {
-            solApplication.getInputManager().setScreen(solApplication, game.getScreens().mainGameScreen);
+            solApplication.getInputManager().setScreen(solApplication, game.getScreens().oldMainGameScreen);
             return;
         }
         SolItem selItem = inventoryScreen.getSelectedItem();
         if (selItem == null) {
-            sellControl.setDisplayName("----");
-            sellControl.setEnabled(false);
+            sellButton.setText("----");
+            sellButton.setEnabled(false);
             return;
         }
 
@@ -80,25 +113,14 @@ public class SellItems extends InventoryOperationsScreen {
         boolean enabled = isItemSellable(selItem, target);
 
         if (enabled && isWornAndCanBeSold) {
-            sellControl.setDisplayName("Sell");
-            sellControl.setEnabled(true);
+            sellButton.setText("Sell");
+            sellButton.setEnabled(true);
         } else if (enabled) {
-            sellControl.setDisplayName("Unequip it!");
-            sellControl.setEnabled(false);
+            sellButton.setText("Unequip it!");
+            sellButton.setEnabled(false);
         } else {
-            sellControl.setDisplayName("----");
-            sellControl.setEnabled(false);
-        }
-
-        if (!enabled || !isWornAndCanBeSold) {
-            return;
-        }
-        if (sellControl.isJustOff()) {
-            ItemContainer itemContainer = hero.getItemContainer();
-            inventoryScreen.setSelected(itemContainer.getSelectionAfterRemove(inventoryScreen.getSelected()));
-            itemContainer.remove(selItem);
-            target.getTradeContainer().getItems().add(selItem);
-            hero.setMoney(hero.getMoney() + selItem.getPrice() * PERC);
+            sellButton.setText("----");
+            sellButton.setEnabled(false);
         }
     }
 

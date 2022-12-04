@@ -19,6 +19,7 @@ import org.destinationsol.GameOptions;
 import org.destinationsol.SolApplication;
 import org.destinationsol.game.Hero;
 import org.destinationsol.game.item.Gun;
+import org.destinationsol.game.screens.GameScreens;
 import org.destinationsol.game.screens.ShipUiControl;
 import org.destinationsol.ui.nui.NUIScreenLayer;
 import org.destinationsol.ui.nui.widgets.UIWarnButton;
@@ -96,7 +97,9 @@ public class UIShipControlsScreen extends NUIScreenLayer implements ShipUiContro
     @Override
     public void update(float delta) {
         // Hide and disable controls if the main game screen is not visible.
-        boolean mainGameScreenVisible = solApplication.getInputManager().isScreenOn(solApplication.getGame().getScreens().mainGameScreen);
+        GameScreens gameScreens = solApplication.getGame().getScreens();
+        boolean mainGameScreenVisible = solApplication.getInputManager().isScreenOn(solApplication.getGame().getScreens().oldMainGameScreen)
+                && !nuiManager.hasScreen(gameScreens.mapScreen);
         ((AbstractWidget)contents).setVisible(mainGameScreenVisible);
         contents.setEnabled(mainGameScreenVisible);
 

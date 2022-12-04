@@ -1,0 +1,29 @@
+{
+  "type": "TutorialScreen",
+  "skin": "engine:tutorialScreen",
+  "contents": {
+    "type": "RelativeLayout",
+    "contents": [
+      {
+        "type": "UIBox",
+        "id": "tutorialBox",
+        "family": "tutorialBox",
+        "content": {
+          "type": "UILabel",
+          "id": "tutorialText",
+          "text": "Tutorial content goes here..."
+        },
+        "layoutInfo": {
+          "position-left": {
+            "offset": 128
+          },
+          "position-right": {
+            "offset": 128
+          },
+          "position-bottom": {},
+          "use-content-height": true
+        }
+      }
+    ]
+  }
+}

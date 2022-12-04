@@ -6,6 +6,49 @@
     "contents": [
       {
         "type": "ColumnLayout",
+        "id": "statsBars",
+        "family": "statsBars",
+        "layoutInfo": {
+          "position-left": {
+            "offset": 16
+          },
+          "position-top": {
+            "offset": 16
+          },
+          "width": 288
+        },
+        "verticalSpacing": 0,
+        "fillVerticalSpace": false,
+        "contents": [
+        ]
+      },
+      {
+        "type": "FlowLayout",
+        "id": "warnDrawers",
+        "family": "warnDrawers",
+        "horizontalSpacing": 8,
+        "verticalSpacing": 8,
+        "contents": [
+        ],
+        "layoutInfo": {
+          "position-left": {
+            "widget": "statsBars",
+            "target": "RIGHT"
+          },
+          "position-right": {
+            "widget": "menuList",
+            "target": "LEFT"
+          },
+          "position-top": {
+            "offset": 16
+          },
+          "position-bottom": {
+            "target": "MIDDLE"
+          }
+        }
+      },
+      {
+        "type": "ColumnLayout",
         "id": "menuList",
         "layoutInfo": {
           "use-content-width": true,
@@ -20,9 +63,9 @@
         "family": "sideUIButton",
         "contents": [
           {
-          "type": "UIWarnButton",
-          "text": "Menu",
-          "id": "menuButton"
+            "type": "UIWarnButton",
+            "text": "Menu",
+            "id": "menuButton"
           },
           {
             "type": "UIWarnButton",

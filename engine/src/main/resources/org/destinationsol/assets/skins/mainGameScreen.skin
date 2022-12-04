@@ -10,8 +10,66 @@
       },
       "font": "engine:main#1"
     },
+    "statsBars": {
+      "elements": {
+        "RelativeLayout": {
+          "fixed-height": 36
+        },
+        "UILabelledIcon": {
+          "fixed-height": 32,
+          "text-align-horizontal": "left",
+          "text-align-vertical": "center",
+          "font": "engine:main#0.75"
+        }
+      }
+    },
     "controlsUIButton": {
       "font": "engine:main#0.95"
+    },
+    "unrestrictedMenuBox": {
+      "elements": {
+        "UIBox": {
+          "background": "engine:background"
+        }
+      }
+    },
+    "menuUIButton": {
+      "elements": {
+        "UIButton": {
+          "max-width": 640,
+          "max-height": 128
+        }
+      },
+      "font": "engine:main#1"
+    },
+    "warnDrawers": {
+      "elements": {
+        "UIWarnDrawer": {
+          "min-width": 160,
+          "min-height": 96
+        },
+        "UILabel": {
+          "text-align-horizontal": "center",
+          "text-align-vertical": "middle"
+        }
+      },
+      "font": "engine:main#0.8"
+    },
+    "menuBox": {
+      "max-width": 800,
+      "max-height": 600,
+      "elements": {
+        "UIBox": {
+          "background": "engine:background"
+        }
+      }
+    },
+    "uiBoxDefault": {
+      "elements": {
+        "UIBox": {
+          "background": "engine:area"
+        }
+      }
     }
   }
 }

@@ -1,0 +1,24 @@
+{
+    "inherit": "engine:mainGameScreen",
+    "families": {
+        "inventoryHeader": {
+            "text-align-vertical": "middle",
+            "text-align-horizontal": "left",
+            "min-height": 16
+        },
+        "inventoryRow": {
+            "font": "engine:main#0.675",
+            "text-align-vertical": "middle",
+            "text-align-horizontal": "center",
+            "min-height": 32,
+            "max-height": 64
+        },
+        "inventoryActionButtons": {
+            "font": "engine:main#0.4"
+        },
+        "selectedItemLabel": {
+            "text-align-vertical": "middle",
+            "text-align-horizontal": "left"
+        }
+    }
+}

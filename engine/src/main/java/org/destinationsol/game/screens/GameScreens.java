@@ -19,11 +19,19 @@ import org.destinationsol.SolApplication;
 import org.destinationsol.game.console.Console;
 import org.destinationsol.game.context.Context;
 import org.destinationsol.ui.SolLayouts;
+import org.destinationsol.ui.nui.screens.MenuScreen;
+import org.destinationsol.ui.nui.screens.TalkScreen;
+import org.destinationsol.ui.nui.screens.InventoryScreen;
+import org.destinationsol.ui.nui.screens.MapScreen;
+import org.destinationsol.ui.nui.screens.WaypointCreationScreen;
 
 import javax.inject.Inject;
 
 public class GameScreens {
-    public final MainGameScreen mainGameScreen;
+    private static final String NUI_MAIN_GAME_SCREEN_DESKTOP_URI = "engine:mainGameScreen_desktop";
+    private static final String NUI_MAIN_GAME_SCREEN_MOBILE_URI = "engine:mainGameScreen_mobile";
+    public final MainGameScreen oldMainGameScreen;
+    public final org.destinationsol.ui.nui.screens.MainGameScreen mainGameScreen;
     public final MapScreen mapScreen;
     public final MenuScreen menuScreen;
     public final InventoryScreen inventoryScreen;
@@ -35,18 +43,25 @@ public class GameScreens {
     public GameScreens(SolApplication cmp, Context context) {
         SolLayouts layouts = cmp.getLayouts();
         RightPaneLayout rightPaneLayout = layouts.rightPaneLayout;
-        mainGameScreen = new MainGameScreen(rightPaneLayout, context);
-        mapScreen = new MapScreen(rightPaneLayout, cmp.isMobile(), cmp.getOptions());
-        menuScreen = new MenuScreen(layouts.menuLayout, cmp.getOptions());
-        inventoryScreen = new InventoryScreen(cmp.getOptions());
-        talkScreen = new TalkScreen(layouts.menuLayout, cmp.getOptions());
-        waypointCreationScreen = new WaypointCreationScreen(layouts.menuLayout, cmp.getOptions(), mapScreen);
+        oldMainGameScreen = new MainGameScreen(rightPaneLayout, context);
+        boolean isMobile = cmp.isMobile();
+        if (!isMobile) {
+            mainGameScreen = (org.destinationsol.ui.nui.screens.MainGameScreen) cmp.getNuiManager().createScreen(NUI_MAIN_GAME_SCREEN_DESKTOP_URI);
+            mapScreen = (MapScreen) cmp.getNuiManager().createScreen("engine:mapScreen_desktop");
+        } else {
+            mainGameScreen = (org.destinationsol.ui.nui.screens.MainGameScreen) cmp.getNuiManager().createScreen(NUI_MAIN_GAME_SCREEN_MOBILE_URI);
+            mapScreen = (MapScreen) cmp.getNuiManager().createScreen("engine:mapScreen_mobile");
+        }
+        menuScreen = (MenuScreen) cmp.getNuiManager().createScreen("engine:menuScreen");
+        inventoryScreen = (InventoryScreen) cmp.getNuiManager().createScreen("engine:inventoryScreen");
+        talkScreen = (TalkScreen) cmp.getNuiManager().createScreen("engine:talkScreen");
+        waypointCreationScreen = (WaypointCreationScreen) cmp.getNuiManager().createScreen("engine:waypointCreationScreen");
         consoleScreen = new ConsoleScreen(context.get(Console.class));
     }
 
     // This was added for PlayerCreatorTest.java (used in PlayerCreator)
     // so that it can successfully mock the returned result.
-    public MainGameScreen getMainGameScreen() {
-        return mainGameScreen;
+    public MainGameScreen getOldMainGameScreen() {
+        return oldMainGameScreen;
     }
 }

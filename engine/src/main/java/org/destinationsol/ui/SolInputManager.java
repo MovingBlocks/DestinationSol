@@ -199,7 +199,8 @@ public class SolInputManager {
 
         // This keeps the mouse within the window, but only when playing the game with the mouse.
         // All other times the mouse can freely leave and return.
-        if (!mobile && solApplication.getOptions().controlType == GameOptions.ControlType.MIXED && game != null && getTopScreen() != game.getScreens().menuScreen) {
+        if (!mobile && solApplication.getOptions().controlType == GameOptions.ControlType.MIXED && game != null &&
+                solApplication.getNuiManager().getTopScreen() != game.getScreens().menuScreen) {
             if (!Gdx.input.isCursorCatched() && !osIsLinux) {
                 Gdx.input.setCursorCatched(true);
             }
@@ -254,11 +255,6 @@ public class SolInputManager {
             screen.updateCustom(solApplication, inputPointers, clickedOutside);
         }
 
-        TutorialManager tutorialManager = game == null ? null : game.getTutMan();
-        if (tutorialManager != null && tutorialManager.isFinished()) {
-            solApplication.finishGame();
-        }
-
         updateCursor(solApplication);
         addRemoveScreens();
         updateWarnPerc();
@@ -301,14 +297,15 @@ public class SolInputManager {
             if (game == null || mouseOnUi || nuiManager.isMouseOnUi()) {
                 currCursor = uiCursor;
             } else {
-                currCursor = game.getScreens().mainGameScreen.getShipControl().getInGameTex();
+                currCursor = game.getScreens().oldMainGameScreen.getShipControl().getInGameTex();
                 if (currCursor == null) {
                     currCursor = uiCursor;
                 }
             }
             return;
         }
-        if (mousePrevPos.epsilonEquals(mousePos, 0) && game != null && getTopScreen() != game.getScreens().menuScreen) {
+        if (mousePrevPos.epsilonEquals(mousePos, 0) && game != null &&
+                solApplication.getNuiManager().getTopScreen() != game.getScreens().menuScreen) {
             mouseIdleTime += Const.REAL_TIME_STEP;
             currCursor = mouseIdleTime < CURSOR_SHOW_TIME ? uiCursor : null;
         } else {
@@ -364,12 +361,6 @@ public class SolInputManager {
             }
         }
         uiDrawer.setTextMode(null);
-
-        SolGame game = solApplication.getGame();
-        TutorialManager tutorialManager = game == null ? null : game.getTutMan();
-        if (tutorialManager != null && getTopScreen() != game.getScreens().menuScreen) {
-            tutorialManager.draw(uiDrawer);
-        }
     }
 
     public void drawCursor(UiDrawer uiDrawer) {

@@ -107,7 +107,7 @@ public class UnShield implements ShipAbility {
         public static AbilityConfig load(JSONObject abNode, ItemManager itemManager, AbilityCommonConfig cc) {
             float rechargeTime = (float) abNode.getDouble("rechargeTime");
             float amount = (float) abNode.getDouble("amount");
-            SolItem chargeExample = itemManager.getExample("unShieldCharge");
+            SolItem chargeExample = itemManager.parseItem("core:unShieldCharge").examples.get(0);
             return new UnShieldConfig(rechargeTime, chargeExample, amount, cc);
         }
 
