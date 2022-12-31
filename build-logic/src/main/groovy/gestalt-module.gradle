@@ -1,0 +1,112 @@
+plugins {
+    //noinspection JavaPluginLanguageLevel
+    id 'java-library'
+    id 'gestalt-repositories'
+    id 'terasology-publish-common'
+}
+
+interface GestaltExtension {
+    Property<String> getModulesPackage();
+    Property<String> getModuleMetadataFileName();
+}
+
+GestaltExtension gestaltExtension = extensions.create('gestalt', GestaltExtension);
+
+gestalt {
+    modulesPackage = "org.terasology.gestalt.modules"
+    moduleMetadataFileName = "module.txt"
+}
+
+// Change the output dir of each module
+sourceSets {
+    main {
+        java.destinationDirectory.set(new File("$buildDir/classes"))
+    }
+    test {
+        java.destinationDirectory.set(new File("$buildDir/testClasses"))
+    }
+}
+
+jar {
+    from ('module.json') {
+        into ''
+    }
+    from ('assets') {
+        into 'assets'
+    }
+    from ('overrides') {
+        into 'overrides'
+    }
+    from ('deltas') {
+        into 'deltas'
+    }
+}
+
+configurations {
+    gestaltModule
+    api.extendsFrom(gestaltModule)
+}
+
+import groovy.json.JsonSlurper
+afterEvaluate {
+    File moduleMetadataFile = file(gestaltExtension.moduleMetadataFileName.get())
+    if (!moduleMetadataFile.exists()) {
+        println "${gestaltExtension.moduleMetadataFileName.get()} does not exist!"
+        throw new GradleException("Failed to find ${gestaltExtension.moduleMetadataFileName.get()} for module " + project.name)
+    }
+
+    ext {
+        moduleMetadata = new JsonSlurper().parse(moduleMetadataFile)
+        modulesRoot = properties.modulesRoot ?: "$rootProject/modules"
+    }
+
+    version = ext.moduleMetadata.version
+    description = ext.moduleMetadata.description
+
+    publishing {
+        publications {
+            "$project.name"(MavenPublication) {
+                pom {
+                    name = "$project.name"
+                    description = "$project.description"
+                    if (moduleMetadata.author) {
+                        developers {
+                            for (String developerId : moduleMetadata.author.split(',')) {
+                                developer {
+                                    id = developerId.trim()
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    dependencies {
+        moduleMetadata.dependencies.each { dependency ->
+            if (!dependency.optional) {
+                //noinspection DependencyNotationArgument
+                gestaltModule (group: gestaltExtension.modulesPackage.get(), name: dependency.id) {
+                    if (dependency.minVersion && !dependency.maxVersion) {
+                        version {
+                            strictly "[${dependency.minVersion},)"
+                        }
+                    }
+
+                    if (!dependency.minVersion && dependency.maxVersion) {
+                        version {
+                            strictly "(,${dependency.maxVersion}["
+                        }
+                    }
+
+                    if (dependency.minVersion && dependency.maxVersion) {
+                        version {
+                            strictly "[${dependency.minVersion}, ${dependency.maxVersion}["
+                        }
+                    }
+                }
+            }
+        }
+    }
+}

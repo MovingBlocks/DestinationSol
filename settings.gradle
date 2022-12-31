@@ -1,3 +1,5 @@
+includeBuild 'build-logic'
+
 include 'desktop', 'engine', 'modules'
 import groovy.io.FileType
 

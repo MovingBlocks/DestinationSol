@@ -1,5 +1,5 @@
 /*
- * Copyright 2020 The Terasology Foundation
+ * Copyright 2022 The Terasology Foundation
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -14,8 +14,12 @@
  * limitations under the License.
  */
 
+plugins {
+    id 'de.undercouch.download'
+}
+
 // Uses Bellsoft Liberica JRE
-def jreVersion = '8u212'
+def jreVersion = '8u352+8'
 def jreUrlBase = "https://download.bell-sw.com/java/$jreVersion/bellsoft-jre$jreVersion"
 def jreUrlFilenames = [
         lwjreLinux64 : 'linux-amd64.tar.gz',
@@ -23,21 +27,21 @@ def jreUrlFilenames = [
         lwjreOSX     : 'macos-amd64.zip'
 ]
 
-task downloadJreAll {
+tasks.register('downloadJreAll') {
     group 'Download'
     description 'Downloads JRE for all platforms'
 }
 
 jreUrlFilenames.each { os, file ->
     def packedJre = new File("$rootDir/jre/$jreVersion/$file")
-    def unpackedJre = new File("$distsDir/app/$os")
+    def unpackedJre = new File("${distsDirectory.getAsFile().get()}/app/$os")
 
-    def downloadTask = task("downloadJre$os") {
+    def downloadTask = tasks.register("downloadJre$os") {
         group 'Download'
         description "Downloads JRE for $os"
 
         doFirst {
-            download {
+            download.run {
                 src "$jreUrlBase-$file"
                 dest packedJre
                 overwrite false
@@ -66,5 +70,3 @@ jreUrlFilenames.each { os, file ->
 
     downloadJreAll.dependsOn downloadTask
 }
-
-

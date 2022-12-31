@@ -1,0 +1,97 @@
+import com.github.spotbugs.snom.SpotBugsTask
+
+plugins {
+    //noinspection JavaPluginLanguageLevel
+    id 'java'
+    id 'project-report'
+    id 'checkstyle'
+    id 'pmd'
+    id 'com.github.spotbugs'
+    id 'jacoco'
+}
+
+configurations {
+    codeMetrics
+}
+
+dependencies {
+    // Config for our code analytics lives in a centralized repo: https://github.com/MovingBlocks/TeraConfig
+    codeMetrics(group: 'org.terasology.config', name: 'codemetrics', version: '1.6.3', ext: 'zip')
+
+    pmd('net.sourceforge.pmd:pmd-core:6.15.0')
+    pmd('net.sourceforge.pmd:pmd-java:6.15.0')
+}
+
+jacoco {
+    toolVersion = "0.8.5"
+}
+
+jacocoTestReport {
+    dependsOn test // Despite doc saying this should be automatic we need to explicitly add it anyway :-(
+    reports {
+        // We only use the .exec report for display in Jenkins and such. More could be enabled if desired.
+        xml.required = false
+        csv.required = false
+        html.required = false
+    }
+}
+
+checkstyle {
+    ignoreFailures = true
+    configFile = new File(rootDir, 'config/metrics/checkstyle/checkstyle.xml')
+    configProperties.samedir = checkstyle.configFile.parentFile
+}
+
+pmd {
+    ignoreFailures = true
+    ruleSetFiles = files("$rootDir/config/metrics/pmd/pmd.xml")
+    // By default, gradle uses both ruleset file AND the rulesets. Override the ruleSets to use only those from the file
+    ruleSets = []
+}
+
+spotbugs {
+    toolVersion = '4.0.0'
+    ignoreFailures = true
+    excludeFilter = new File(rootDir, "config/metrics/findbugs/findbugs-exclude.xml")
+}
+spotbugsMain {
+    reports {
+        xml {
+            enabled = true
+            destination = file("$buildDir/reports/spotbugs/main/spotbugs.xml")
+        }
+    }
+}
+
+var extractMetricsConfig = rootProject.tasks.findByName("extractMetricsConfig")
+if (extractMetricsConfig != null) {
+    // Task already present, so no need to re-register.
+} else {
+    extractMetricsConfig = rootProject.tasks.register("extractMetricsConfig", Copy) {
+        description = "Extracts our configuration files from the zip we fetched as a dependency"
+        from {
+            configurations.codeMetrics.collect {
+                zipTree(it)
+            }
+        }
+        into "$rootDir/config/metrics"
+    }
+}
+
+spotbugsMain.dependsOn extractMetricsConfig
+pmdMain.dependsOn extractMetricsConfig
+
+tasks.withType(Checkstyle).configureEach {
+    group = 'Reporting'
+    dependsOn extractMetricsConfig
+}
+
+tasks.withType(Pmd).configureEach {
+    group = 'Reporting'
+}
+
+tasks.withType(SpotBugsTask).configureEach {
+    group = 'Reporting'
+}
+
+check.dependsOn extractMetricsConfig
