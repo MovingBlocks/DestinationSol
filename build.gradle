@@ -1,5 +1,3 @@
-apply from: 'config/gradle/ide.gradle'
-
 buildscript {
     repositories {
         mavenCentral()
@@ -10,33 +8,18 @@ buildscript {
     dependencies {
         // Git plugin for Gradle
         classpath 'org.ajoberstar:gradle-git:0.6.3'
-
-        //spotbugs
-        classpath "gradle.plugin.com.github.spotbugs.snom:spotbugs-gradle-plugin:4.6.0"
     }
 }
 // Git plugin details at https://github.com/ajoberstar/gradle-git
 import org.ajoberstar.gradle.git.tasks.*
 
-allprojects {
-    apply plugin: 'eclipse'
-    apply plugin: 'idea'
-
-    version = '2.1.0'
-    ext {
-        appName = 'DestinationSol'
-        gdxVersion = '1.9.14'
-        // The LibGDX controllers library is versioned differently to the main LibGDX versions.
-        // See https://github.com/libgdx/gdx-controllers/wiki/Compatibility for compatible versions.
-        gdxControllersVersion = '2.1.0'
-        roboVMVersion = '2.3.3'
-        gestaltVersion = '8.0.0-SNAPSHOT'
-        nuiVersion = '4.0.0-SNAPSHOT'
-    }
+plugins {
+    id 'destination-sol-ide'
+    id 'destination-sol-repositories'
+    id 'terasology-metrics'
 }
 
 repositories {
-
     // Good ole Maven central
     mavenCentral()
 
@@ -45,45 +28,80 @@ repositories {
     maven { url "https://oss.sonatype.org/content/repositories/releases/" }
 
     // Terasology Artifactory for any shared libs
-    maven { url "http://artifactory.terasology.org/artifactory/virtual-repo-live" }
+    maven {
+        url "http://artifactory.terasology.org/artifactory/virtual-repo-live"
+        allowInsecureProtocol true // TODO: Review this when HTTPS finally supported.
+    }
 
     maven { url "https://maven.google.com" }
 }
-
-configurations {
-    codeMetrics
-}
-
-dependencies {
-    // Config for our code analytics lives in a centralized repo: https://github.com/MovingBlocks/TeraConfig
-    codeMetrics group: 'org.terasology.config', name: 'codemetrics', version: '1.6.0', ext: 'zip'
-}
-
-task extractConfig(type: Copy) {
-    description = "Extracts our configuration files from the zip we fetched as a dependency"
-    from {
-        configurations.codeMetrics.collect {
-            zipTree(it)
-        }
-    }
-    into "$rootDir/config/metrics"
-}
-
 
 // Helper that returns a list of all local Destination Sol module projects
 def destinationSolModules() {
     subprojects.findAll {it.parent.name == 'modules'}
 }
 
+destinationSolModules().forEach { destSolModule ->
+    destSolModule.configurations.configureEach {
+        resolutionStrategy.dependencySubstitution.all { dependency ->
+            if (dependency.requested instanceof ModuleComponentSelector && dependency.requested.group == "org.destinationsol.modules") {
+                destinationSolModules().forEach { otherModule ->
+                    if (otherModule.name == dependency.requested.module) {
+                        dependency.useTarget otherModule
+                    }
+                }
+            }
+        }
+    }
+}
+
 tasks.eclipse.doLast {
     delete ".project"
 }
+tasks.eclipse.dependsOn extractMetricsConfig
 
+import org.jetbrains.gradle.ext.Application
 idea {
     project {
         // Set JDK
         jdkName = '1.8'
         wildcards -= '!?*.groovy'
+
+        settings {
+            compiler {
+                enableAutomake = true
+            }
+
+            runConfigurations {
+                "Desktop"(Application) {
+                    mainClass = 'org.destinationsol.desktop.SolDesktop'
+                    moduleName 'DestinationSol.desktop.main'
+                    workingDirectory = rootDir
+                    jvmArgs = '-splash:engine/src/main/resources/assets/textures/mainMenu/mainMenuLogo.png -Xms256m -Xmx1024m -Dlog4j.configuration=log4j-debug.properties'
+                    programParameters = '-noSplash -noCrashReport'
+                }
+            }
+
+            copyright {
+                useDefault = 'DestinationSolCopyright'
+                profiles {
+                    DestinationSolCopyright {
+                        notice = 'Copyright 2023 The Terasology Foundation\n\nLicensed under the Apache License, Version 2.0 (the "License");\nyou may not use this file except in compliance with the License.\nYou may obtain a copy of the License at\n\n     https://www.apache.org/licenses/LICENSE-2.0\n\nUnless required by applicable law or agreed to in writing, software\ndistributed under the License is distributed on an "AS IS" BASIS,\nWITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.\nSee the License for the specific language governing permissions and\nlimitations under the License.'
+                        keyword = 'Copyright'
+                        allowReplaceRegexp = ''
+                    }
+                }
+            }
+
+            taskTriggers {
+                afterSync tasks.named('extractMetricsConfig')
+            }
+
+            generateImlFiles = true
+            withIDEAFileXml("compiler.xml", ideaPatchAnnotationProcessors)
+            withIDEAFileXml("misc.xml", ideaPatchEntryPoints)
+            withIDEAFileXml("checkstyle-idea.xml", ideaPatchCheckstyle)
+        }
 
         ipr {
             withXml { xmlProvider ->
@@ -118,7 +136,7 @@ cleanIdea.doLast {
     println "Cleaned root - don't forget to re-extract code metrics config! 'gradlew extractConfig' will do so, or 'gradlew idea' (or eclipse)"
 }
 
-task(fetchAndroid, type: GitClone) {
+tasks.register('fetchAndroid', GitClone) {
     description = 'Git clones the Android facade source from GitHub'
 
     // Repo name is the dynamic part of the task name
@@ -140,7 +158,7 @@ task(fetchAndroid, type: GitClone) {
     bare = false
 }
 
-task(fetchGwt, type: GitClone) {
+tasks.register('fetchGwt', GitClone) {
     description = 'Git clones the GWT facade source from GitHub'
 
     // Repo name is the dynamic part of the task name

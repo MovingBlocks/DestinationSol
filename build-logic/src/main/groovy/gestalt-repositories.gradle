@@ -1,0 +1,26 @@
+repositories {
+    mavenCentral() {
+        content {
+            // Terasology's libraries/modules aren't on maven central, so don't bother looking there.
+            excludeGroupByRegex('org\\.terasology(\\..+)?')
+        }
+    }
+
+    google() {
+        content {
+            // Terasology's libraries/modules aren't on maven central, so don't bother looking there.
+            excludeGroupByRegex('org\\.terasology(\\..+)?')
+        }
+    }
+
+    // Terasology Artifactory for any shared libs
+    maven {
+        url "http://artifactory.terasology.org/artifactory/virtual-repo-live"
+        content {
+            includeGroupByRegex('org\\.terasology(\\..+)?')
+            // A copy of Java-semver is hosted here too
+            includeModule('com.github.zafarkhaja', 'java-semver')
+        }
+        allowInsecureProtocol true // TODO: Review this when HTTPS finally supported.
+    }
+}

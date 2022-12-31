@@ -1,0 +1,81 @@
+plugins {
+    id 'eclipse'
+    id 'idea'
+    id 'org.jetbrains.gradle.plugin.idea-ext'
+}
+
+ext {
+    ideaPatchAnnotationProcessors = { XmlProvider provider ->
+        var profile = provider.asNode().component
+                .find { it.@name == 'CompilerConfiguration' }
+                .annotationProcessing.profile
+        for (Node profileNode : profile) {
+            def moduleName = profileNode.module.@name[0]
+
+            String sourceOutputDir, sourceTestOutputDir
+
+            if (moduleName.startsWith('DestinationSol.modules.')) {
+                // Modules output to a unified build directory.
+                sourceOutputDir = "../generated/sources/annotationProcessor/java/main"
+                sourceTestOutputDir = "../generated/sources/annotationProcessor/java/main"
+            } else {
+                // Normal libraries use separated build directories instead.
+                sourceOutputDir = "../../../generated/sources/annotationProcessor/java/main"
+                sourceTestOutputDir = "../../../generated/sources/annotationProcessor/java/test"
+            }
+
+            if (profileNode.sourceOutputDir.size() == 0) {
+                profileNode.appendNode("sourceOutputDir", [name: sourceOutputDir])
+            } else {
+                profileNode.sourceOutputDir.@name = sourceOutputDir
+            }
+            if (profileNode.sourceTestOutputDir.size() == 0) {
+                profileNode.appendNode("sourceTestOutputDir", [name: sourceTestOutputDir])
+            } else {
+                profileNode.sourceTestOutputDir.@name = sourceTestOutputDir
+            }
+            if (profileNode.outputRelativeToContentRoot.size() == 0) {
+                profileNode.appendNode("outputRelativeToContentRoot", [value: false])
+            } else {
+                profileNode.outputRelativeToContentRoot.@value = false
+            }
+        }
+    }
+
+    ideaPatchEntryPoints = { XmlProvider provider ->
+        var component = provider.asNode().component
+                .find { it.@name == 'EntryPointsManager' }
+        if (component.list.size() != 0) {
+            component.remove(component.list)
+        }
+        Node entryPointsList = component.appendNode("list", [size: 5])
+        entryPointsList.appendNode("item", [index: 0, class: 'java.lang.String', itemvalue: 'org.destinationsol.game.attributes.RegisterUpdateSystem'])
+        entryPointsList.appendNode("item", [index: 1, class: 'java.lang.String', itemvalue: 'org.destinationsol.game.console.annotations.Command'])
+        entryPointsList.appendNode("item", [index: 2, class: 'java.lang.String', itemvalue: 'org.terasology.gestalt.assets.module.annotations.RegisterAssetFileFormat'])
+        entryPointsList.appendNode("item", [index: 3, class: 'java.lang.String', itemvalue: 'org.terasology.gestalt.assets.module.annotations.RegisterAssetType'])
+        entryPointsList.appendNode("item", [index: 4, class: 'java.lang.String', itemvalue: 'org.terasology.context.annotation.Service'])
+
+        if (component.writeAnnotations.size() != 0) {
+            component.remove(component.writeAnnotations)
+        }
+        Node writeAnnotations = component.appendNode("writeAnnotations", [])
+        writeAnnotations.appendNode("writeAnnotation", [name: "javax.inject.Inject"])
+        writeAnnotations.appendNode("writeAnnotation", [name: "org.destinationsol.common.In"])
+    }
+
+    ideaPatchCheckstyle = { XmlProvider provider ->
+        var checkstyleConfigs = provider.asNode().component
+                .find { it.@name == 'CheckStyle-IDEA' }
+                .option.find { it.@name == 'locations' }.list
+        var terasologyConfig = checkstyleConfigs.ConfigurationLocation.find { it.@id == 'terasology-style'}
+        if (terasologyConfig != null) {
+            println "$terasologyConfig"
+            checkstyleConfigs.ConfigurationLocation.remove(terasologyConfig)
+        }
+        terasologyConfig = checkstyleConfigs[0].appendNode('ConfigurationLocation',
+                [id: 'terasology-style', type: "LOCAL_FILE", scope: "All", description: "Terasology Style"])
+        terasologyConfig.value = '$PROJECT_DIR$/config/metrics/checkstyle/checkstyle.xml'
+        var terasologyConfigProperties = terasologyConfig.appendNode("option", [name: "properties"]).appendNode("map", [])
+        terasologyConfigProperties.appendNode("entry", [key: "sameDir", value: '$PROJECT_DIR$/config/metrics/checkstyle'])
+    }
+}

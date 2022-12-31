@@ -1,0 +1,76 @@
+plugins {
+    id 'destination-sol-constants'
+    id 'gestalt-8-module'
+    id 'destination-sol-common'
+}
+
+group = 'org.destinationsol.modules'
+
+dependencies {
+    api (rootProject.findProject("engine") ?: "org.destinationsol.engine:engine:$engineVersion")
+}
+
+gestalt {
+    modulesPackage = "org.destinationsol.modules"
+    moduleMetadataFileName = "module.json"
+}
+
+publishing {
+    publications {
+        "$project.name"(MavenPublication) {
+            pom {
+                url = "https://github.com/DestinationSol/${project.name}"
+                licenses {
+                    license {
+                        name = 'Apache-2.0'
+                        url = 'https://www.apache.org/licenses/LICENSE-2.0.txt'
+                        distribution = 'repo'
+                    }
+                }
+                issueManagement {
+                    system = 'GitHub'
+                    url = "https://github.com/DestinationSol/${project.name}/issues"
+                }
+                scm {
+                    connection = "scm:git:https://github.com/DestinationSol/${project.name}.git"
+                    developerConnection = "scm:git:ssh://github.com/DestinationSol/${project.name}.git"
+                    url = "scm:git:https://github.com/DestinationSol/${project.name}.git"
+                }
+            }
+        }
+    }
+}
+
+// Generate the module directory structure if missing
+tasks.register('createSkeleton') {
+    mkdir('assets')
+    mkdir('assets/music')
+    mkdir('assets/sounds')
+    mkdir('assets/textures')
+    mkdir('assets/configs')
+    mkdir('assets/asteroids')
+    mkdir('assets/schemas')
+    mkdir('assets/prefabs')
+    mkdir('assets/ui')
+    mkdir('assets/skins')
+    mkdir('overrides')
+    mkdir('deltas')
+    mkdir('src/main/java')
+    mkdir('src/test/java')
+}
+
+idea {
+    module {
+        inheritOutputDirs = false
+        outputDir = file('build/classes')
+        testOutputDir = file('build/testClasses')
+        downloadSources = true
+    }
+}
+
+// For Eclipse just make sure the classpath is right
+eclipse {
+    classpath {
+        defaultOutputDir = file('build/classes')
+    }
+}

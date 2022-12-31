@@ -1,0 +1,18 @@
+plugins {
+    id('groovy-gradle-plugin')
+}
+
+repositories {
+    gradlePluginPortal()
+}
+
+compileJava {
+    sourceCompatibility = JavaVersion.VERSION_1_8
+    targetCompatibility = JavaVersion.VERSION_1_8
+}
+
+dependencies {
+    implementation 'com.github.spotbugs.snom:spotbugs-gradle-plugin:5.0.13'
+    implementation 'de.undercouch:gradle-download-task:5.3.0'
+    implementation 'gradle.plugin.org.jetbrains.gradle.plugin.idea-ext:gradle-idea-ext:1.1.7'
+}

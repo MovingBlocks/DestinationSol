@@ -1,0 +1,33 @@
+plugins {
+    id 'java'
+}
+
+java {
+    sourceCompatibility = JavaVersion.VERSION_1_8
+    targetCompatibility = JavaVersion.VERSION_1_8
+
+    withJavadocJar()
+    withSourcesJar()
+}
+
+compileJava {
+    options.encoding = 'UTF-8'
+    sourceCompatibility = JavaVersion.VERSION_1_8
+    targetCompatibility = JavaVersion.VERSION_1_8
+
+    // The release flag is required for Java 9+.
+    if (JavaVersion.current().isJava9Compatible()) {
+        options.release = 8
+    }
+}
+
+compileTestJava {
+    options.encoding = 'UTF-8'
+    sourceCompatibility = JavaVersion.VERSION_1_8
+    targetCompatibility = JavaVersion.VERSION_1_8
+
+    // The release flag is required for Java 9+.
+    if (JavaVersion.current().isJava9Compatible()) {
+        options.release = 8
+    }
+}

@@ -1,5 +1,5 @@
 /*
- * Copyright 2020 The Terasology Foundation
+ * Copyright 2022 The Terasology Foundation
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -15,11 +15,9 @@
  */
 
 plugins {
-    id 'de.undercouch.download' version '4.0.4'
+    id 'destination-sol-common'
+    id 'destination-sol-jre'
 }
-
-apply from: '../config/gradle/common.gradle'
-apply from: "../config/gradle/jre.gradle"
 
 project.ext.mainClassName = "org.destinationsol.desktop.SolDesktop"
 
@@ -34,18 +32,17 @@ dependencies {
     implementation group: 'org.terasology.crashreporter', name: 'cr-destsol', version: '4.0.0'
 }
 
-task run(type: JavaExec) {
+tasks.register('run', JavaExec) {
     dependsOn classes
     //TODO: Remove extra args when the splash screen works on Macs again - see https://github.com/MovingBlocks/DestinationSol/issues/414
     if (System.properties["os.name"].toLowerCase().contains("mac")) {
         jvmArgs = ["-splash:../engine/src/main/resources/assets/textures/mainMenu/mainMenuLogo.png", "-XstartOnFirstThread", "-Dlog4j.configuration=log4j-debug.properties"]
         String[] runArgs = ["-noSplash"]
         args runArgs
-    }
-    else {
+    } else {
         jvmArgs = ["-splash:../engine/src/main/resources/assets/textures/mainMenu/mainMenuLogo.png", "-Dlog4j.configuration=log4j-debug.properties"]
     }
-    main = project.mainClassName
+    mainClass = project.mainClassName
     classpath = sourceSets.main.runtimeClasspath
     standardInput = System.in
     workingDir = rootProject.projectDir
@@ -53,7 +50,7 @@ task run(type: JavaExec) {
 }
 
 jar {
-    archiveName = "solDesktop.jar"
+    archiveFileName = "solDesktop.jar"
 
     manifest {
         def manifestClasspath = configurations.runtimeClasspath.collect { it.getName() }.join(" ")
@@ -63,55 +60,53 @@ jar {
     }
 }
 
-task moduleDist(type: Sync) {
-    into("$distsDir/app/modules")
+tasks.register('moduleDist', Copy) {
+    into("${distsDirectory.getAsFile().get()}/app/modules")
     rootProject.destinationSolModules().each { module ->
         dependsOn ":modules:$module.name" + ":jar"
-        println "Distributing $module.name..."
         from("$rootDir/modules/${module.name}/build/libs") {
             include "*.jar"
         }
     }
 }
 
-task copyLaunchers (type: Copy) {
+tasks.register('copyLaunchers', Copy) {
     description = "Copy launchers into the distribution folder."
 
     from("$rootDir/launcher")
     include("*.sh", "*.exe")
-    into("$distsDir/app")
+    into("${distsDirectory.getAsFile().get()}/app")
 }
 
-task libsDist(type: Copy) {
+tasks.register('libsDist', Copy) {
     description = "Copy libs directory into the distribution folder."
 
     dependsOn jar
 
     from jar
     from configurations.runtimeClasspath
-    into("$distsDir/app/libs")
+    into("${distsDirectory.getAsFile().get()}/app/libs")
 }
 
-task distUnbundledJRE() {
+tasks.register('distUnbundledJRE') {
     description = "Creates an application package without any bundled JRE."
     group 'Distribution'
 
-    dependsOn jar
+    dependsOn libsDist
+    dependsOn moduleDist
     dependsOn copyLaunchers
 }
-distUnbundledJRE.finalizedBy libsDist
-distUnbundledJRE.finalizedBy moduleDist
 
-task distZipUnbundledJRE(type: Zip) {
+tasks.register('distZipUnbundledJRE', Zip) {
     description = "Creates an application package and zip archive without any bundled JRE."
     group 'Distribution'
 
     dependsOn distUnbundledJRE
-    from "$distsDir/app"
-    archiveName = "DestinationSol.zip"
+    from "${distsDirectory.getAsFile().get()}/app"
+    archiveFileName = "DestinationSol.zip"
 }
 
-task distBundleJREs {
+tasks.register('distBundleJREs') {
     description = "Creates an application package with a bundled JRE."
     group 'Distribution'
 
@@ -119,13 +114,13 @@ task distBundleJREs {
     dependsOn downloadJreAll
 }
 
-task distZipBundleJREs (type: Zip) {
+tasks.register('distZipBundleJREs', Zip) {
     description = "Creates an application package and zip archive with a bundled JRE."
     group 'Distribution'
 
     dependsOn distBundleJREs
-    from "$distsDir/app"
-    archiveName = "DestinationSol.zip"
+    from "${distsDirectory.getAsFile().get()}/app"
+    archiveFileName = "DestinationSol.zip"
 }
 
 // TODO: LibGDX Generated config for Eclipse. Needs adjustment for assets not being in the Android facade
@@ -161,7 +156,10 @@ eclipse {
     }
 }
 
-task afterEclipseImport(description: "Post processing after project generation", group: "IDE") {
+tasks.register('afterEclipseImport') {
+    description 'Post processing after project generation'
+    group 'IDE'
+
     doLast {
         def classpath = new XmlParser().parse(file(".classpath"))
         new Node(classpath, "classpathentry", [kind: 'src', path: 'assets']);
@@ -172,7 +170,7 @@ task afterEclipseImport(description: "Post processing after project generation",
     }
 }
 
-tasks.withType(JavaExec) {
+tasks.withType(JavaExec).configureEach {
     if (System.getProperty('DEBUG', 'false') == 'true') {
         jvmArgs '-Xdebug', '-Xrunjdwp:transport=dt_socket,server=y,suspend=y,address=9099', '-Dlog4j.configuration=log4j-debug.properties'
     }
