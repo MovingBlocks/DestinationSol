@@ -24,7 +24,7 @@ import org.destinationsol.game.item.SolItem;
 import org.destinationsol.mercenary.MercenaryUtils;
 import org.destinationsol.ui.nui.screens.InventoryScreen;
 import org.destinationsol.ui.nui.screens.TalkScreen;
-import org.destinationsol.ui.nui.widgets.KeyActivatedButton;
+import org.destinationsol.ui.nui.widgets.UIWarnButton;
 import org.terasology.nui.backends.libgdx.GDXInputUtil;
 import org.terasology.nui.widgets.UIButton;
 
@@ -36,7 +36,7 @@ public class HireShipsScreen extends InventoryOperationsScreen {
 
     @Override
     public void initialise(SolApplication solApplication, InventoryScreen inventoryScreen) {
-        KeyActivatedButton hireButton = new KeyActivatedButton();
+        UIWarnButton hireButton = new UIWarnButton();
         hireButton.setKey(GDXInputUtil.GDXToNuiKey(solApplication.getOptions().getKeyHireShip()));
         hireButton.subscribe(button -> {
             SolGame game = solApplication.getGame();
@@ -64,6 +64,10 @@ public class HireShipsScreen extends InventoryOperationsScreen {
     @Override
     public UIButton[] getActionButtons() {
         return actionButtons;
+    }
+
+    public UIWarnButton getHireControl() {
+        return (UIWarnButton) actionButtons[0];
     }
 
     @Override

@@ -18,6 +18,8 @@ package org.destinationsol.ui.nui.screens;
 
 import org.destinationsol.game.SolGame;
 import org.destinationsol.ui.nui.NUIScreenLayer;
+import org.terasology.nui.HorizontalAlign;
+import org.terasology.nui.widgets.UIBox;
 import org.terasology.nui.widgets.UILabel;
 
 import javax.inject.Inject;
@@ -28,7 +30,10 @@ import javax.inject.Inject;
  * See {@link #moveToTop()} and {@link org.destinationsol.ui.TutorialManager#update(SolGame, float)} for how this is done.
  */
 public class TutorialScreen extends NUIScreenLayer {
-    private UILabel tutorialText;
+    private UIBox tutorialBoxLeft;
+    private UILabel tutorialTextLeft;
+    private UIBox tutorialBoxCentre;
+    private UILabel tutorialTextCentre;
     private boolean isReplaceRemove;
 
     @Inject
@@ -37,20 +42,59 @@ public class TutorialScreen extends NUIScreenLayer {
 
     @Override
     public void initialise() {
-        tutorialText = find("tutorialText", UILabel.class);
+        tutorialBoxLeft = find("tutorialBoxLeft", UIBox.class);
+        tutorialTextLeft = find("tutorialTextLeft", UILabel.class);
+        tutorialBoxCentre = find("tutorialBoxCentre", UIBox.class);
+        tutorialTextCentre = find("tutorialTextCentre", UILabel.class);
     }
 
     public String getTutorialText() {
-        return tutorialText.getText();
+        return getTutorialText(HorizontalAlign.CENTER);
+    }
+
+    public String getTutorialText(HorizontalAlign horizontalAlign) {
+        return getTutorialTextLabel(horizontalAlign).getText();
     }
 
     public void setTutorialText(String text) {
-        tutorialText.setText(text);
+        setTutorialText(text, HorizontalAlign.CENTER);
+    }
+
+    public void setTutorialText(String text, HorizontalAlign horizontalAlign) {
+        getTutorialTextLabel(horizontalAlign).setText(text);
+        getTutorialBox(horizontalAlign).setVisible(!text.isEmpty());
+    }
+
+    public void clearAllTutorialBoxes() {
+        tutorialBoxLeft.setVisible(false);
+        tutorialBoxCentre.setVisible(false);
     }
 
     @Override
     public boolean isBlockingInput() {
         return false;
+    }
+
+    protected UILabel getTutorialTextLabel(HorizontalAlign horizontalAlign) {
+        switch (horizontalAlign) {
+            case LEFT:
+                return tutorialTextLeft;
+            case CENTER:
+                return tutorialTextCentre;
+            default:
+                return tutorialTextCentre;
+        }
+    }
+
+    protected UIBox getTutorialBox(HorizontalAlign horizontalAlign) {
+        switch (horizontalAlign) {
+            case LEFT:
+                return tutorialBoxLeft;
+            case CENTER:
+                return tutorialBoxCentre;
+            default:
+                return tutorialBoxLeft;
+        }
     }
 
     @Override

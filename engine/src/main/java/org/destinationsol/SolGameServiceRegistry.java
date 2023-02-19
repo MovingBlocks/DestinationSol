@@ -46,6 +46,7 @@ import org.destinationsol.game.particle.SpecialEffects;
 import org.destinationsol.game.planet.PlanetManager;
 import org.destinationsol.game.screens.GameScreens;
 import org.destinationsol.game.ship.ShipBuilder;
+import org.destinationsol.game.tutorial.NewTutorialManager;
 import org.destinationsol.ui.TutorialManager;
 import org.terasology.context.Lifetime;
 import org.terasology.gestalt.di.ServiceRegistry;
@@ -54,7 +55,8 @@ public class SolGameServiceRegistry extends ServiceRegistry {
     public SolGameServiceRegistry(boolean isTutorial) {
         this.with(SolGame.class).lifetime(Lifetime.Singleton);
         if (isTutorial) {
-            this.with(TutorialManager.class).lifetime(Lifetime.Singleton);
+//            this.with(TutorialManager.class).lifetime(Lifetime.Singleton);
+            this.with(NewTutorialManager.class).lifetime(Lifetime.Singleton);
         }
 
         this.with(EntitySystemManager.class);

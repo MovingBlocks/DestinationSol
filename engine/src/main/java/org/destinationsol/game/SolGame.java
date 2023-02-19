@@ -58,6 +58,7 @@ import org.destinationsol.game.ship.ShipAbility;
 import org.destinationsol.game.ship.ShipBuilder;
 import org.destinationsol.game.ship.SloMo;
 import org.destinationsol.game.ship.hulls.HullConfig;
+import org.destinationsol.game.tutorial.NewTutorialManager;
 import org.destinationsol.mercenary.MercenaryUtils;
 import org.destinationsol.modules.ModuleManager;
 import org.destinationsol.ui.DebugCollector;
@@ -139,6 +140,8 @@ public class SolGame {
     @Inject
     protected Optional<TutorialManager> tutorialManager;
     @Inject
+    protected Optional<NewTutorialManager> newTutorialManager;
+    @Inject
     protected BeanContext beanContext;
     @Inject
     protected GalaxyBuilder galaxyBuilder;
@@ -191,6 +194,7 @@ public class SolGame {
         updateSystems = new TreeMap<>();
         List<UpdateAwareSystem> defaultSystems = new ArrayList<>(Arrays.asList(planetManager, solCam, chunkManager, mountDetectDrawer, objectManager, mapDrawer, soundManager, beaconHandler, drawableDebugger));
         tutorialManager.ifPresent(defaultSystems::add);
+        newTutorialManager.ifPresent(defaultSystems::add);
         updateSystems.put(0, defaultSystems);
 
         List<UpdateAwareSystem> defaultPausedSystems = new ArrayList<UpdateAwareSystem>();
@@ -265,6 +269,7 @@ public class SolGame {
         gameScreens.consoleScreen.init(this);
         solApplication.getNuiManager().pushScreen(gameScreens.mainGameScreen);
         tutorialManager.ifPresent(TutorialManager::start);
+        newTutorialManager.ifPresent(NewTutorialManager::start);
     }
 
     private void addObjectsToPlanetManager() {

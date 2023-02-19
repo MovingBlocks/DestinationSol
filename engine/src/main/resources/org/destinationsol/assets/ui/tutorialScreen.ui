@@ -6,11 +6,11 @@
     "contents": [
       {
         "type": "UIBox",
-        "id": "tutorialBox",
+        "id": "tutorialBoxCentre",
         "family": "tutorialBox",
         "content": {
           "type": "UILabel",
-          "id": "tutorialText",
+          "id": "tutorialTextCentre",
           "text": "Tutorial content goes here..."
         },
         "layoutInfo": {
@@ -22,6 +22,26 @@
           },
           "position-bottom": {},
           "use-content-height": true
+        }
+      },
+      {
+        "type": "UIBox",
+        "id": "tutorialBoxLeft",
+        "family": "tutorialBoxLeft",
+        "content": {
+          "type": "UILabel",
+          "id": "tutorialTextLeft",
+          "text": "Tutorial content goes here..."
+        },
+        "layoutInfo": {
+          "position-left": {
+            "offset": 16
+          },
+          "position-bottom": {
+            "offset": 64
+          },
+          "use-content-height": true,
+          "use-content-width": true
         }
       }
     ]

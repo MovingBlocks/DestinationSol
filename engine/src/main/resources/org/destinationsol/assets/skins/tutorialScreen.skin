@@ -7,7 +7,18 @@
       "min-height": 128,
       "elements": {
         "UIBox": {
-          "background": "engine:background",
+          "background": "engine:box",
+          "text-align-horizontal": "middle"
+        }
+      }
+    },
+    "tutorialBoxLeft": {
+      "font": "engine:main#0.8",
+      "max-width": 160,
+      "min-height": 192,
+      "elements": {
+        "UIBox": {
+          "background": "engine:box",
           "text-align-horizontal": "middle"
         }
       }

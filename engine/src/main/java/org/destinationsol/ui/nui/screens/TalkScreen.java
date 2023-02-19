@@ -34,9 +34,10 @@ import javax.inject.Inject;
 public class TalkScreen extends NUIScreenLayer {
     public static final float MAX_TALK_DIST = 1f;
     private final SolApplication solApplication;
+    private UIWarnButton sellButton;
     private UIWarnButton buyButton;
     private KeyActivatedButton changeShipButton;
-    private KeyActivatedButton hireButton;
+    private UIWarnButton hireButton;
     private SolShip target;
 
     @Inject
@@ -46,7 +47,7 @@ public class TalkScreen extends NUIScreenLayer {
 
     @Override
     public void initialise() {
-        KeyActivatedButton sellButton = find("sellButton", KeyActivatedButton.class);
+        sellButton = find("sellButton", UIWarnButton.class);
         sellButton.setKey(GDXInputUtil.GDXToNuiKey(solApplication.getOptions().getKeySellMenu()));
         sellButton.subscribe(button -> {
             InventoryScreen inventoryScreen = solApplication.getGame().getScreens().inventoryScreen;
@@ -73,7 +74,7 @@ public class TalkScreen extends NUIScreenLayer {
             nuiManager.pushScreen(inventoryScreen);
         });
 
-        hireButton = find("hireButton", KeyActivatedButton.class);
+        hireButton = find("hireButton", UIWarnButton.class);
         hireButton.setKey(GDXInputUtil.GDXToNuiKey(solApplication.getOptions().getKeyHireShipMenu()));
         hireButton.subscribe(button -> {
             InventoryScreen inventoryScreen = solApplication.getGame().getScreens().inventoryScreen;
@@ -113,6 +114,20 @@ public class TalkScreen extends NUIScreenLayer {
      */
     public UIWarnButton getBuyButton() {
         return buyButton;
+    }
+
+    /**
+     * Returns the button pressed to open the sell items screen.
+     *
+     * This is exposed directly for use in the tutorial.
+     * @return the buy items button
+     */
+    public UIWarnButton getSellButton() {
+        return sellButton;
+    }
+
+    public UIWarnButton getHireButton() {
+        return hireButton;
     }
 
     /**
