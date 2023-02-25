@@ -6,12 +6,32 @@
     "contents": [
       {
         "type": "UIBox",
-        "id": "tutorialBoxCentre",
+        "id": "tutorialBoxCENTER",
         "family": "tutorialBox",
         "content": {
-          "type": "UILabel",
-          "id": "tutorialTextCentre",
-          "text": "Tutorial content goes here..."
+          "type": "RelativeLayout",
+          "contents": [
+            {
+              "type": "UILabel",
+              "id": "tutorialTextCENTER",
+              "text": "Tutorial content goes here...",
+              "layoutInfo": {}
+            },
+            {
+              "type": "InteractHint",
+              "id": "interactHintCENTER",
+              "image": "engine:keyboardKey",
+              "layoutInfo": {
+                "use-content-width": true,
+                "use-content-height": true,
+                "position-top": {
+                  "target": "BOTTOM",
+                  "offset": -32
+                },
+                "position-right": {}
+              }
+            }
+          ]
         },
         "layoutInfo": {
           "position-left": {
@@ -26,11 +46,11 @@
       },
       {
         "type": "UIBox",
-        "id": "tutorialBoxLeft",
-        "family": "tutorialBoxLeft",
+        "id": "tutorialBoxLEFT",
+        "family": "tutorialBoxLEFT",
         "content": {
           "type": "UILabel",
-          "id": "tutorialTextLeft",
+          "id": "tutorialTextLEFT",
           "text": "Tutorial content goes here..."
         },
         "layoutInfo": {

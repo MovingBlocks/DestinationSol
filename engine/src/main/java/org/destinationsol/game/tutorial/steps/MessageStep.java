@@ -19,6 +19,7 @@ package org.destinationsol.game.tutorial.steps;
 import org.destinationsol.game.SolGame;
 import org.destinationsol.game.tutorial.TutorialStep;
 import org.destinationsol.ui.nui.screens.TutorialScreen;
+import org.terasology.input.MouseInput;
 
 public class MessageStep extends TutorialStep {
     protected static final float MIN_STEP_DURATION = 0.5f;
@@ -37,6 +38,8 @@ public class MessageStep extends TutorialStep {
     @Override
     public void start() {
         tutorialScreen.setTutorialText(message);
+        // TODO: Choose this input dynamically.
+        tutorialScreen.setInteractHintInput(MouseInput.MOUSE_LEFT);
     }
 
     @Override

@@ -38,11 +38,14 @@ public class FlyToNearestStationStep extends FlyToWaypointStep {
         for (SolObject solObject : game.getObjectManager().getObjects()) {
             if (solObject instanceof SolShip &&
                     ((SolShip) solObject).getHull().getHullConfig().getType() == HullConfig.Type.STATION) {
+                SolShip station = (SolShip) solObject;
                 float stationDistance = solObject.getPosition().dst(heroPosition);
                 if (stationDistance < nearestStationDistance) {
                     nearestStationDistance = stationDistance;
                     nearestStationPosition.set(solObject.getPosition());
-                    nearestStationPosition.add(((SolShip) solObject).getHull().getHullConfig().getForceBeaconPositions().get(0));
+                    if (station.getHull().getHullConfig().getForceBeaconPositions().size() > 0) {
+                        nearestStationPosition.add(station.getHull().getHullConfig().getForceBeaconPositions().get(0));
+                    }
                 }
             }
         }

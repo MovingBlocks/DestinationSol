@@ -18,11 +18,14 @@ package org.destinationsol.ui.nui.screens;
 
 import org.destinationsol.game.SolGame;
 import org.destinationsol.ui.nui.NUIScreenLayer;
+import org.destinationsol.ui.nui.widgets.InteractHint;
+import org.terasology.input.Input;
 import org.terasology.nui.HorizontalAlign;
 import org.terasology.nui.widgets.UIBox;
 import org.terasology.nui.widgets.UILabel;
 
 import javax.inject.Inject;
+import java.util.EnumMap;
 
 /**
  * This screen displays the message box shown during the tutorial to instruct the user.
@@ -30,22 +33,35 @@ import javax.inject.Inject;
  * See {@link #moveToTop()} and {@link org.destinationsol.ui.TutorialManager#update(SolGame, float)} for how this is done.
  */
 public class TutorialScreen extends NUIScreenLayer {
-    private UIBox tutorialBoxLeft;
-    private UILabel tutorialTextLeft;
-    private UIBox tutorialBoxCentre;
-    private UILabel tutorialTextCentre;
+    private static final class TutorialBox {
+        public final UIBox box;
+        public final UILabel text;
+        public final InteractHint interactHint;
+
+        public TutorialBox(UIBox box, UILabel text, InteractHint interactHint) {
+            this.box = box;
+            this.text = text;
+            this.interactHint = interactHint;
+        }
+    }
+
+    private final EnumMap<HorizontalAlign, TutorialBox> tutorialBoxes;
     private boolean isReplaceRemove;
 
     @Inject
     public TutorialScreen() {
+        tutorialBoxes = new EnumMap<>(HorizontalAlign.class);
     }
 
     @Override
     public void initialise() {
-        tutorialBoxLeft = find("tutorialBoxLeft", UIBox.class);
-        tutorialTextLeft = find("tutorialTextLeft", UILabel.class);
-        tutorialBoxCentre = find("tutorialBoxCentre", UIBox.class);
-        tutorialTextCentre = find("tutorialTextCentre", UILabel.class);
+        for (HorizontalAlign horizontalAlign : HorizontalAlign.values()) {
+            tutorialBoxes.put(horizontalAlign, new TutorialBox(
+                    find("tutorialBox" + horizontalAlign.toString(), UIBox.class),
+                    find("tutorialText" + horizontalAlign.toString(), UILabel.class),
+                    find("interactHint" + horizontalAlign.toString(), InteractHint.class)
+            ));
+        }
     }
 
     public String getTutorialText() {
@@ -65,9 +81,40 @@ public class TutorialScreen extends NUIScreenLayer {
         getTutorialBox(horizontalAlign).setVisible(!text.isEmpty());
     }
 
+    public Input getInteractHintInput() {
+        return getInteractHintInput(HorizontalAlign.CENTER);
+    }
+
+    public Input getInteractHintInput(HorizontalAlign horizontalAlign) {
+        return getInteractHint(horizontalAlign).getInput();
+    }
+
+    public void setInteractHintInput(Input input) {
+        setInteractHintInput(HorizontalAlign.CENTER, input);
+    }
+
+    public void setInteractHintInput(HorizontalAlign horizontalAlign, Input input) {
+        InteractHint interactHint = getInteractHint(horizontalAlign);
+        if (input != null) {
+            getInteractHint(horizontalAlign).setInput(input);
+            interactHint.setVisible(true);
+        } else {
+            interactHint.setVisible(false);
+        }
+    }
+
     public void clearAllTutorialBoxes() {
-        tutorialBoxLeft.setVisible(false);
-        tutorialBoxCentre.setVisible(false);
+        for (TutorialBox tutorialBox : tutorialBoxes.values()) {
+            if (tutorialBox.box != null) {
+                tutorialBox.box.setVisible(false);
+            }
+            if (tutorialBox.text != null) {
+                tutorialBox.text.setText("");
+            }
+            if (tutorialBox.interactHint != null) {
+                tutorialBox.interactHint.setVisible(false);
+            }
+        }
     }
 
     @Override
@@ -76,25 +123,15 @@ public class TutorialScreen extends NUIScreenLayer {
     }
 
     protected UILabel getTutorialTextLabel(HorizontalAlign horizontalAlign) {
-        switch (horizontalAlign) {
-            case LEFT:
-                return tutorialTextLeft;
-            case CENTER:
-                return tutorialTextCentre;
-            default:
-                return tutorialTextCentre;
-        }
+        return tutorialBoxes.get(horizontalAlign).text;
     }
 
     protected UIBox getTutorialBox(HorizontalAlign horizontalAlign) {
-        switch (horizontalAlign) {
-            case LEFT:
-                return tutorialBoxLeft;
-            case CENTER:
-                return tutorialBoxCentre;
-            default:
-                return tutorialBoxLeft;
-        }
+        return tutorialBoxes.get(horizontalAlign).box;
+    }
+
+    protected InteractHint getInteractHint(HorizontalAlign horizontalAlign) {
+        return tutorialBoxes.get(horizontalAlign).interactHint;
     }
 
     @Override

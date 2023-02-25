@@ -16,7 +16,6 @@
 
 package org.destinationsol.game.tutorial.steps;
 
-import org.destinationsol.GameOptions;
 import org.destinationsol.game.SolGame;
 import org.destinationsol.game.screens.ShipUiControl;
 import org.destinationsol.ui.nui.screens.TutorialScreen;
@@ -24,22 +23,14 @@ import org.destinationsol.ui.nui.screens.UIShipControlsScreen;
 import org.destinationsol.ui.nui.widgets.UIWarnButton;
 
 public class FireGunStep extends MessageStep {
-    private final GameOptions gameOptions;
-    private final boolean isMobile;
     private UIWarnButton fireButton;
 
-    public FireGunStep(TutorialScreen tutorialScreen, SolGame game, GameOptions gameOptions, boolean isMobile, String message) {
+    public FireGunStep(TutorialScreen tutorialScreen, SolGame game, String message) {
         super(tutorialScreen, game, message);
-        this.gameOptions = gameOptions;
-        this.isMobile = isMobile;
     }
 
     public void start() {
-        if (!isMobile) {
-            tutorialScreen.setTutorialText(message + " (" + gameOptions.getKeyShootName() + ").");
-        } else {
-            tutorialScreen.setTutorialText(message + ".");
-        }
+        tutorialScreen.setTutorialText(message);
 
         ShipUiControl shipUiControl = game.getScreens().oldMainGameScreen.getShipControl();
         if (shipUiControl instanceof UIShipControlsScreen) {

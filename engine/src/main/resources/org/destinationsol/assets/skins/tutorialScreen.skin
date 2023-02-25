@@ -12,7 +12,7 @@
         }
       }
     },
-    "tutorialBoxLeft": {
+    "tutorialBoxLEFT": {
       "font": "engine:main#0.8",
       "max-width": 160,
       "min-height": 192,
@@ -20,6 +20,42 @@
         "UIBox": {
           "background": "engine:box",
           "text-align-horizontal": "middle"
+        }
+      }
+    }
+  },
+  "elements": {
+    "InteractHint": {
+      "background": "engine:uiWhiteTex",
+      "background-scale-mode": "scale fit",
+      "font": "engine:main#0.36",
+      "parts": {
+        "key": {
+          "modes": {
+            "": {
+              "background": "engine:keyboardKey"
+            }
+          }
+        },
+        "mouse_button": {
+          "modes": {
+            "mouse_left": {
+              "background": "engine:mouseClickLeft"
+            },
+            "mouse_right": {
+              "background": "engine:mouseClickRight"
+            }
+          }
+        },
+        "button": {
+          "modes": {
+            "": {
+              "background": "engine:uiPlanetProximityIndicator"
+            }
+          }
+        },
+        "axis": {
+          "background": "engine:uiWhiteTex"
         }
       }
     }

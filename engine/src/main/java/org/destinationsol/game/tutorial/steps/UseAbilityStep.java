@@ -16,7 +16,6 @@
 
 package org.destinationsol.game.tutorial.steps;
 
-import org.destinationsol.GameOptions;
 import org.destinationsol.game.Hero;
 import org.destinationsol.game.SolGame;
 import org.destinationsol.game.screens.ShipUiControl;
@@ -28,16 +27,12 @@ import org.destinationsol.ui.nui.widgets.UIWarnButton;
 public class UseAbilityStep extends TutorialStep {
     private final TutorialScreen tutorialScreen;
     private final SolGame game;
-    private final GameOptions gameOptions;
-    private final boolean isMobile;
     private final String message;
     private UIWarnButton abilityButton;
 
-    public UseAbilityStep(TutorialScreen tutorialScreen, SolGame game, GameOptions gameOptions, boolean isMobile, String message) {
+    public UseAbilityStep(TutorialScreen tutorialScreen, SolGame game, String message) {
         this.tutorialScreen = tutorialScreen;
         this.game = game;
-        this.gameOptions = gameOptions;
-        this.isMobile = isMobile;
         this.message = message;
     }
 
@@ -46,11 +41,7 @@ public class UseAbilityStep extends TutorialStep {
         if (shipUiControl instanceof UIShipControlsScreen) {
             abilityButton = ((UIShipControlsScreen) shipUiControl).getAbilityButton();
         }
-        if (!isMobile) {
-            tutorialScreen.setTutorialText(message + " (" + gameOptions.getKeyAbilityName() + ").");
-        } else {
-            tutorialScreen.setTutorialText(message + ".");
-        }
+        tutorialScreen.setTutorialText(message);
     }
     public boolean checkComplete(float timeStep) {
         if (abilityButton != null) {
