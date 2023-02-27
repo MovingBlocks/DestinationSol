@@ -16,6 +16,7 @@
 
 package org.destinationsol.game.tutorial.steps;
 
+import org.destinationsol.game.item.SolItem;
 import org.destinationsol.game.tutorial.TutorialStep;
 import org.destinationsol.ui.nui.screens.InventoryScreen;
 import org.destinationsol.ui.nui.screens.TutorialScreen;
@@ -25,6 +26,7 @@ public class CheckItemEquippedStep extends TutorialStep {
     private final InventoryScreen inventoryScreen;
     private final boolean equipped;
     private final String message;
+    private SolItem itemToCheck;
 
     public CheckItemEquippedStep(TutorialScreen tutorialScreen, InventoryScreen inventoryScreen,
                                  boolean equipped, String message) {
@@ -36,10 +38,14 @@ public class CheckItemEquippedStep extends TutorialStep {
 
     public void start() {
         tutorialScreen.setTutorialText(message);
+        if (equipped) {
+            itemToCheck = inventoryScreen.getSelectedItem();
+        }
     }
+
     public boolean checkComplete(float timeStep) {
         if (equipped) {
-            return inventoryScreen.getSelectedItem().isEquipped() > 0;
+            return itemToCheck.isEquipped() > 0;
         } else {
             return inventoryScreen.getSelectedItem().isEquipped() == 0;
         }

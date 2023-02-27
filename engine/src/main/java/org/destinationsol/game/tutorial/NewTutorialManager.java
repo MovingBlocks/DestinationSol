@@ -81,6 +81,8 @@ public class NewTutorialManager implements UpdateAwareSystem {
 
         GameOptions gameOptions = solApplication.getOptions();
         boolean isMobile = solApplication.isMobile();
+        boolean usesKeyboard = !isMobile &&
+                (gameOptions.controlType == GameOptions.ControlType.KEYBOARD || gameOptions.controlType == GameOptions.ControlType.MIXED);
 
         steps = new TutorialStep[] {
                 new MessageStep(tutorialScreen, solGame.get(), "Section 1 - Movement"),
@@ -97,30 +99,44 @@ public class NewTutorialManager implements UpdateAwareSystem {
                 new SlowVelocityStep(tutorialScreen, solGame.get(), 0.05f, "Turn around and slow to a stop."),
                 new FlyToRandomWaypointAroundHeroStep(tutorialScreen, solGame.get(), 1.0f, 4.0f, "Fly to the waypoint."),
                 new MessageStep(tutorialScreen, solGame.get(), "Section 2 - Weapons"),
-                new FireGunStep(tutorialScreen, solGame.get(), isMobile ? "Fire your gun." : "Fire your gun (" + gameOptions.getKeyShootName() + ")."),
+                new FireGunStep(tutorialScreen, solGame.get(), isMobile ?
+                        "Fire your gun." :
+                        "Fire your gun (" + (gameOptions.controlType == GameOptions.ControlType.MIXED ?
+                                "Left mouse button" : // TODO: Why isn't there a setting for this control?
+                                gameOptions.getKeyShootName()) + ")."),
                 new CheckGunReloadStep(tutorialScreen, solGame.get(), false, true, "Firing weapons drains your ammunition. Keep on firing."),
                 new CheckGunReloadStep(tutorialScreen, solGame.get(), false, false,
                         "When your weapon is depleted, it automatically reloads.\n" +
                                 "You can't fire when your weapon is reloading."),
-                new UseAbilityStep(tutorialScreen, solGame.get(), isMobile ? "Use your ability." : "Use your ability (" + gameOptions.getKeyAbilityName() + ")."),
+                new UseAbilityStep(tutorialScreen, solGame.get(), isMobile ?
+                        "Use your ability." :
+                        "Use your ability (" + (gameOptions.controlType == GameOptions.ControlType.MIXED ?
+                                "Middle mouse button" : // TODO: Why isn't there a setting for this control?
+                                gameOptions.getKeyAbilityName()) + ")."),
                 new MessageStep(tutorialScreen, solGame.get(), "Abilities consume ability charges."),
                 new MessageStep(tutorialScreen, solGame.get(), "Section 3 - Money"),
-                new DestroySpawnedAsteroidAroundHeroStep(tutorialScreen, solGame.get(), 1.0f, 2.0f, "Fire at the asteroid."),
+                new DestroySpawnedAsteroidAroundHeroStep(tutorialScreen, solGame.get(), 1.0f, 4.0f, "Fire at the asteroid."),
                 new MessageStep(tutorialScreen, solGame.get(), "Asteroids drop loot - money in this case."),
                 new MessageStep(tutorialScreen, solGame.get(), "Section 4 - Items"),
                 new OpenScreenStep(tutorialScreen, nuiManager,
                         solGame.get().getScreens().mainGameScreen.getInventoryButton(),
                         solGame.get().getScreens().inventoryScreen,
+                        usesKeyboard ?
+                        "Open your inventory (" + gameOptions.getKeyInventoryName() + ")." :
                         "Open your inventory."),
                 new SelectEquippedWeaponStep(tutorialScreen,
                         solGame.get().getScreens().inventoryScreen,
-                        "Select an equipped item."),
+                        usesKeyboard ?
+                                "Select an equipped item (Move with " + gameOptions.getKeyUpName() + " and " + gameOptions.getKeyDownName() + ")" :
+                                "Select an equipped item."),
                 new CheckItemEquippedStep(tutorialScreen,
                         solGame.get().getScreens().inventoryScreen,
-                        false, "Un-equip an item."),
+                        false,
+                        usesKeyboard ? "Un-equip an item (" + gameOptions.getKeyEquipName() + ")." : "Un-equip an item."),
                 new CheckItemEquippedStep(tutorialScreen,
                         solGame.get().getScreens().inventoryScreen,
-                        false, "Equip an item."),
+                        false,
+                        usesKeyboard ? "Re-equip that item (" + gameOptions.getKeyEquipName() + ")." : "Un-equip an item."),
                 new MessageStep(tutorialScreen, solGame.get(), "Section 5 - Weapon Mounts"),
                 new MessageStep(tutorialScreen, solGame.get(), "All ships may come with with up to two weapon mounts."),
                 new MessageStep(tutorialScreen, solGame.get(), "Weapon mounts vary by their socket type."),
@@ -131,11 +147,11 @@ public class NewTutorialManager implements UpdateAwareSystem {
                 new OpenScreenStep(tutorialScreen, nuiManager,
                         solGame.get().getScreens().mainGameScreen.getTalkButton(),
                         solGame.get().getScreens().talkScreen,
-                        "Talk to the station."),
+                        isMobile ? "Talk to the station." : "Talk to the station (" + gameOptions.getKeyTalkName() + ")."),
                 new BuyItemStep(tutorialScreen,
                         solGame.get().getScreens().talkScreen.getBuyButton(),
                         solGame.get().getScreens().inventoryScreen.getBuyItemsScreen().getBuyControl(),
-                        "Buy an item."),
+                        isMobile ? "Buy an item." : "Buy an item (" + gameOptions.getKeyBuyItemName() + ")."),
                 new MessageStep(tutorialScreen, solGame.get(), "Section 7 - Combat"),
                 new DestroySpawnedShipsStep(tutorialScreen, solGame.get(), 1, "core:minerSmall",
                         "core:fixedBlaster", "Destroy all targets.",
@@ -148,7 +164,7 @@ public class NewTutorialManager implements UpdateAwareSystem {
                 new OpenScreenStep(tutorialScreen, nuiManager,
                         solGame.get().getScreens().mainGameScreen.getMapButton(),
                         solGame.get().getScreens().mapScreen,
-                        "Open the map."),
+                        isMobile ? "Open the map." : "Open the map (" + gameOptions.getKeyMapName() + ")."),
                 new ButtonPressStep(tutorialScreen, solGame.get().getScreens().mapScreen.getZoomInButton(), "Zoom In"),
                 new ButtonPressStep(tutorialScreen, solGame.get().getScreens().mapScreen.getZoomOutButton(), "Zoom Out"),
                 new MapDragStep(tutorialScreen, solGame.get(), solGame.get().getMapDrawer(), "You can move around the map by clicking/tapping and dragging."),
@@ -178,10 +194,10 @@ public class NewTutorialManager implements UpdateAwareSystem {
                 new OpenScreenStep(tutorialScreen, nuiManager,
                         solGame.get().getScreens().mainGameScreen.getMercsButton(),
                         solGame.get().getScreens().inventoryScreen,
-                        "Open the mercenaries menu."),
+                        isMobile ? "Open the mercenaries menu." : "Open the mercenaries menu (" + gameOptions.getKeyMercenaryInterationName() + ")."),
                 new ManageMercenariesGuidanceStep(tutorialScreen, nuiManager,
                         solGame.get().getScreens().inventoryScreen,
-                        "Here you can manage your mercenaries.",
+                        "Here you can manage your mercenaries. When you're done here, close the menu.",
                         "Here you can give items to your mercenary.",
                         "Here you can take items back from your mercenary.",
                         "Here you can manage your mercenary's equipment.")
