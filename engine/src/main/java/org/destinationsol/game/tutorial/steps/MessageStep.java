@@ -16,10 +16,14 @@
 
 package org.destinationsol.game.tutorial.steps;
 
+import org.destinationsol.GameOptions;
 import org.destinationsol.game.SolGame;
 import org.destinationsol.game.tutorial.TutorialStep;
 import org.destinationsol.ui.nui.screens.TutorialScreen;
+import org.terasology.input.ControllerInput;
+import org.terasology.input.InputType;
 import org.terasology.input.MouseInput;
+import org.terasology.nui.backends.libgdx.GDXInputUtil;
 
 public class MessageStep extends TutorialStep {
     protected static final float MIN_STEP_DURATION = 0.5f;
@@ -38,8 +42,19 @@ public class MessageStep extends TutorialStep {
     @Override
     public void start() {
         tutorialScreen.setTutorialText(message);
-        // TODO: Choose this input dynamically.
-        tutorialScreen.setInteractHintInput(MouseInput.MOUSE_LEFT);
+        GameOptions gameOptions = game.getSolApplication().getOptions();
+        switch (gameOptions.controlType) {
+            case KEYBOARD:
+                tutorialScreen.setInteractHintInput(GDXInputUtil.GDXToNuiKey(gameOptions.getKeyShoot()));
+                break;
+            case MOUSE:
+            case MIXED:
+                tutorialScreen.setInteractHintInput(MouseInput.MOUSE_LEFT);
+                break;
+            case CONTROLLER:
+                tutorialScreen.setInteractHintInput(ControllerInput.find(InputType.CONTROLLER_BUTTON, gameOptions.getControllerButtonUp()));
+                break;
+        }
     }
 
     @Override
