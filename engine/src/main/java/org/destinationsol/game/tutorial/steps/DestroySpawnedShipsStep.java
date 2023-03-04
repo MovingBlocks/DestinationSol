@@ -18,6 +18,7 @@ package org.destinationsol.game.tutorial.steps;
 
 import com.badlogic.gdx.math.Vector2;
 import org.destinationsol.Const;
+import org.destinationsol.common.SolMath;
 import org.destinationsol.common.SolRandom;
 import org.destinationsol.game.Faction;
 import org.destinationsol.game.Hero;
@@ -26,6 +27,7 @@ import org.destinationsol.game.SolObject;
 import org.destinationsol.game.input.AiPilot;
 import org.destinationsol.game.input.Guardian;
 import org.destinationsol.game.input.Pilot;
+import org.destinationsol.game.planet.Planet;
 import org.destinationsol.game.ship.FarShip;
 import org.destinationsol.game.ship.hulls.HullConfig;
 import org.destinationsol.game.tutorial.steps.wrapper.TrackedSolObjectWrapper;
@@ -53,8 +55,22 @@ public class DestroySpawnedShipsStep extends DestroyObjectsStep {
         HullConfig enemyConfig = game.getHullConfigManager().getConfig(hullConfig);
         for (int enemyNo = 0; enemyNo < shipCount; enemyNo++) {
             Vector2 enemyPosition = hero.getPosition().cpy();
-            while (!game.isPlaceEmpty(enemyPosition, false)) {
-                enemyPosition.set(hero.getPosition().x + SolRandom.randomFloat(2, 10), hero.getPosition().y + SolRandom.randomFloat(2, 10));
+
+            Planet nearestPlanet = game.getPlanetManager().getNearestPlanet(hero.getPosition());
+            if (nearestPlanet.isNearGround(hero.getPosition())) {
+                Vector2 enemyOffset = SolMath.fromAl(game.getCam().getAngle() + SolRandom.randomFloat(-8, 8), SolRandom.randomFloat(4, 12));
+                enemyPosition.add(enemyOffset);
+                SolMath.free(enemyOffset);
+                while (!game.isPlaceEmpty(enemyPosition, false)) {
+                    enemyPosition.set(hero.getPosition());
+                    enemyOffset = SolMath.fromAl(game.getCam().getAngle() + SolRandom.randomFloat(-8, 8), SolRandom.randomFloat(8, 20));
+                    enemyPosition.add(enemyOffset);
+                    SolMath.free(enemyOffset);
+                }
+            } else {
+                while (!game.isPlaceEmpty(enemyPosition, false)) {
+                    enemyPosition.set(hero.getPosition().x + SolRandom.randomFloat(2, 10), hero.getPosition().y + SolRandom.randomFloat(2, 10));
+                }
             }
 
             Guardian dp = new Guardian(game, enemyConfig, hero.getPilot(), hero.getPosition(), hero.getHull().getHullConfig(), 0);

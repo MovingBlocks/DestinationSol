@@ -40,9 +40,6 @@ public class FlyToPlanetStep extends FlyToWaypointStep {
     public boolean checkComplete(float timeStep) {
         Hero hero = game.getHero();
         if (planet.isNearGround(hero.getPosition())) {
-            game.getObjectManager().removeObjDelayed(waypoint);
-            // Force an object manager update to remove the waypoint.
-            game.getObjectManager().update(game, timeStep);
             hero.removeWaypoint(waypoint);
             return true;
         }

@@ -31,6 +31,7 @@ import org.destinationsol.game.tutorial.steps.DestroySpawnedAsteroidAroundHeroSt
 import org.destinationsol.game.tutorial.steps.DestroySpawnedShipsStep;
 import org.destinationsol.game.tutorial.steps.FireGunStep;
 import org.destinationsol.game.tutorial.steps.FlyToHeroFirstWaypointStep;
+import org.destinationsol.game.tutorial.steps.FlyToNearestStarPortStep;
 import org.destinationsol.game.tutorial.steps.FlyToNearestStationStep;
 import org.destinationsol.game.tutorial.steps.FlyToPlanetSellingMercenariesStep;
 import org.destinationsol.game.tutorial.steps.FlyToRandomWaypointAroundHeroStep;
@@ -135,7 +136,7 @@ public class NewTutorialManager implements UpdateAwareSystem {
                         usesKeyboard ? "Un-equip an item (" + gameOptions.getKeyEquipName() + ")." : "Un-equip an item."),
                 new CheckItemEquippedStep(tutorialScreen,
                         solGame.get().getScreens().inventoryScreen,
-                        false,
+                        true,
                         usesKeyboard ? "Re-equip that item (" + gameOptions.getKeyEquipName() + ")." : "Un-equip an item."),
                 new MessageStep(tutorialScreen, solGame.get(), "Section 5 - Weapon Mounts"),
                 new MessageStep(tutorialScreen, solGame.get(), "All ships may come with with up to two weapon mounts."),
@@ -185,6 +186,10 @@ public class NewTutorialManager implements UpdateAwareSystem {
                         solGame.get().getScreens().talkScreen,
                         "Talk to the station."),
                 new BuyMercenaryStep(tutorialScreen, solGame.get(), 1000, "Try hiring a mercenary."),
+                new CloseScreenStep(tutorialScreen, nuiManager,
+                        solGame.get().getScreens().inventoryScreen.getCloseButton(),
+                        solGame.get().getScreens().inventoryScreen,
+                        "Close the buy screen."),
                 new MessageStep(tutorialScreen, solGame.get(), "Let's see how your mercenary fights."),
                 new DestroySpawnedShipsStep(tutorialScreen, solGame.get(), 1, "core:pirateSmall",
                         "core:blaster core:smallShield", "Destroy all targets.",
@@ -200,7 +205,10 @@ public class NewTutorialManager implements UpdateAwareSystem {
                         "Here you can manage your mercenaries. When you're done here, close the menu.",
                         "Here you can give items to your mercenary.",
                         "Here you can take items back from your mercenary.",
-                        "Here you can manage your mercenary's equipment.")
+                        "Here you can manage your mercenary's equipment."),
+                new FlyToNearestStarPortStep(tutorialScreen, solGame.get(), "Fly to the marked star lane."),
+                new MessageStep(tutorialScreen, solGame.get(),
+                        "Star lanes allow you to travel quickly between planets.\nThey cost money to use.")
         };
         
         stepNo = 0;

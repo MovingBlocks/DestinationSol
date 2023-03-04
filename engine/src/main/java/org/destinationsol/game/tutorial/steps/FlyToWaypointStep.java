@@ -53,6 +53,11 @@ public class FlyToWaypointStep extends TutorialStep {
     @Override
     public boolean checkComplete(float timeStep) {
         Hero hero = game.getHero();
+        if (!hero.getWaypoints().contains(waypoint)) {
+            hero.getWaypoints().add(waypoint);
+            game.getObjectManager().addObjDelayed(waypoint);
+        }
+
         if (hero.getPosition().dst(waypoint.getPosition()) < MIN_WAYPOINT_DISTANCE) {
             hero.removeWaypoint(waypoint);
             game.getObjectManager().removeObjDelayed(waypoint);

@@ -18,7 +18,11 @@ package org.destinationsol.game.tutorial.steps;
 
 import com.badlogic.gdx.math.Vector2;
 import org.destinationsol.game.SolGame;
+import org.destinationsol.game.SolObject;
 import org.destinationsol.game.planet.Planet;
+import org.destinationsol.game.ship.FarShip;
+import org.destinationsol.game.ship.SolShip;
+import org.destinationsol.game.ship.hulls.HullConfig;
 import org.destinationsol.ui.nui.screens.TutorialScreen;
 
 import java.util.ArrayList;
@@ -35,7 +39,7 @@ public class FlyToPlanetSellingMercenariesStep extends FlyToPlanetStep {
 
         Vector2 heroPosition = game.getHero().getPosition();
         for (Planet planet : game.getPlanetManager().getNearestSystem(heroPosition).getPlanets()) {
-            if (planet.getConfig().tradeConfig.mercs.groupCount() > 0) {
+            if (planet.getConfig().easyOnly && planet.getConfig().tradeConfig.mercs.groupCount() > 0) {
                 planetsWithMercenaries.add(planet);
             }
         }
@@ -60,11 +64,48 @@ public class FlyToPlanetSellingMercenariesStep extends FlyToPlanetStep {
         super.start();
     }
 
+    private void setPlanetStationWaypoint() {
+        for (FarShip farShip : game.getObjectManager().getFarShips()) {
+            if (farShip.getHullConfig().getType() == HullConfig.Type.STATION &&
+                    farShip.getTradeContainer() != null &&
+                    farShip.getTradeContainer().getMercs().groupCount() > 0 &&
+                    planet.isNearGround(farShip.getPosition())) {
+                waypointPosition = farShip.getPosition();
+                waypoint.position.set(waypointPosition);
+                if (!game.getHero().getWaypoints().contains(waypoint)) {
+                    game.getHero().addWaypoint(waypoint);
+                    game.getObjectManager().addObjNow(game, waypoint);
+                }
+                return;
+            }
+        }
+        for (SolObject solObject : game.getObjectManager().getObjects()) {
+            if (solObject instanceof SolShip &&
+                    ((SolShip) solObject).getHull().getHullConfig().getType() == HullConfig.Type.STATION &&
+                    ((SolShip) solObject).getTradeContainer() != null &&
+                    ((SolShip) solObject).getTradeContainer().getMercs().groupCount() > 0 &&
+                    !planet.isNearGround(solObject.getPosition())) {
+                waypointPosition = solObject.getPosition();
+                waypoint.position.set(waypointPosition);
+                if (!game.getHero().getWaypoints().contains(waypoint)) {
+                    game.getHero().addWaypoint(waypoint);
+                    game.getObjectManager().addObjNow(game, waypoint);
+                }
+                return;
+            }
+        }
+    }
+
     @Override
     public boolean checkComplete(float timeStep) {
         boolean nearPlanet = super.checkComplete(timeStep);
         if (nearPlanet && planet.areObjectsCreated()) {
-            return game.getScreens().talkScreen.isTargetFar(game.getHero());
+            setPlanetStationWaypoint();
+            if (game.getMainGameScreen().getTalkButton().isEnabled()) {
+                game.getHero().getWaypoints().remove(waypoint);
+                game.getObjectManager().removeObjDelayed(waypoint);
+                return true;
+            }
         }
         return false;
     }
