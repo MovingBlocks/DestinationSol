@@ -52,7 +52,12 @@ public class MessageStep extends TutorialStep {
                 tutorialScreen.setInteractHintInput(MouseInput.MOUSE_LEFT);
                 break;
             case CONTROLLER:
-                tutorialScreen.setInteractHintInput(ControllerInput.find(InputType.CONTROLLER_BUTTON, gameOptions.getControllerButtonUp()));
+                if (gameOptions.getControllerAxisShoot() > 0) {
+                    // Ideally this would use CONTROLLER_AXIS but the ids do not quite match-up.
+                    tutorialScreen.setInteractHintInput(ControllerInput.find(InputType.CONTROLLER_BUTTON, gameOptions.getControllerAxisShoot()));
+                } else {
+                    tutorialScreen.setInteractHintInput(ControllerInput.find(InputType.CONTROLLER_BUTTON, gameOptions.getControllerButtonShoot()));
+                }
                 break;
         }
     }

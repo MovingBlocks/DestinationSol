@@ -81,39 +81,67 @@ public class NewTutorialManager implements UpdateAwareSystem {
         tutorialScreen.clearAllTutorialBoxes();
 
         GameOptions gameOptions = solApplication.getOptions();
+        GameOptions.ControlType controlType = gameOptions.controlType;
         boolean isMobile = solApplication.isMobile();
         boolean usesKeyboard = !isMobile &&
-                (gameOptions.controlType == GameOptions.ControlType.KEYBOARD || gameOptions.controlType == GameOptions.ControlType.MIXED);
+                (controlType != GameOptions.ControlType.MOUSE);
+
+        String turnControlHint = "";
+        String thrustForwardControlHint = "";
+        String shootControlHint = "";
+        String abilityControlHint = "";
+        switch (controlType) {
+            case KEYBOARD:
+                turnControlHint = gameOptions.getKeyLeftName() + " and " + gameOptions.getKeyRightName();
+                thrustForwardControlHint = gameOptions.getKeyUpName();
+                shootControlHint = gameOptions.getKeyShootName();
+                abilityControlHint = gameOptions.getKeyAbilityName();
+                break;
+            case MIXED:
+            case MOUSE:
+                turnControlHint = "Move Mouse";
+                thrustForwardControlHint = gameOptions.getKeyUpMouseName();
+                shootControlHint = "Left Mouse Button";
+                abilityControlHint = "Middle Mouse Button";
+                break;
+            case CONTROLLER:
+                if (gameOptions.getControllerAxisLeftRight() > 0) {
+                    turnControlHint = "Axis " + gameOptions.getControllerAxisLeftRight();
+                } else {
+                    turnControlHint = "Button " + gameOptions.getControllerButtonLeft() + " and Button " + gameOptions.getControllerButtonRight();
+                }
+                if (gameOptions.getControllerAxisUpDown() > 0) {
+                    thrustForwardControlHint = "Axis " + gameOptions.getControllerAxisUpDown();
+                } else {
+                    thrustForwardControlHint = "Button " + gameOptions.getControllerButtonUp();
+                }
+                if (gameOptions.getControllerAxisShoot() > 0) {
+                    shootControlHint = "Axis " + gameOptions.getControllerAxisShoot();
+                } else {
+                    shootControlHint = "Button " + gameOptions.getControllerButtonShoot();
+                }
+                if (gameOptions.getControllerAxisAbility() > 0) {
+                    abilityControlHint = "Axis " + gameOptions.getControllerAxisAbility();
+                } else {
+                    abilityControlHint = "Button " + gameOptions.getControllerButtonAbility();
+                }
+        }
 
         steps = new TutorialStep[] {
                 new MessageStep(tutorialScreen, solGame.get(), "Section 1 - Movement"),
-                new TurnLeftRightStep(tutorialScreen, solGame.get(), "Turn left and right (" +
-                        ((gameOptions.controlType == GameOptions.ControlType.MIXED) ? "Move Mouse" :
-                                gameOptions.getKeyLeftName() + " and " + gameOptions.getKeyRightName())
-                        + ")."),
-                new ThrustForwardsStep(tutorialScreen, solGame.get(),
-                        (gameOptions.controlType == GameOptions.ControlType.MOUSE || gameOptions.controlType == GameOptions.ControlType.MIXED) ?
-                                "Thrust forwards (" + gameOptions.getKeyUpMouseName() + ")." :
-                        !isMobile ?
-                                "Thrust forwards (" + gameOptions.getKeyUpName() + ")." :
-                                "Thrust forwards."),
+                new TurnLeftRightStep(tutorialScreen, solGame.get(), isMobile ? "Turn left and right." : "Turn left and right (" + turnControlHint + ")."),
+                new ThrustForwardsStep(tutorialScreen, solGame.get(), isMobile ? "Thrust forwards." : "Thrust forwards (" + thrustForwardControlHint + ")."),
                 new SlowVelocityStep(tutorialScreen, solGame.get(), 0.05f, "Turn around and slow to a stop."),
                 new FlyToRandomWaypointAroundHeroStep(tutorialScreen, solGame.get(), 1.0f, 4.0f, "Fly to the waypoint."),
                 new MessageStep(tutorialScreen, solGame.get(), "Section 2 - Weapons"),
-                new FireGunStep(tutorialScreen, solGame.get(), isMobile ?
-                        "Fire your gun." :
-                        "Fire your gun (" + (gameOptions.controlType == GameOptions.ControlType.MIXED ?
-                                "Left mouse button" : // TODO: Why isn't there a setting for this control?
-                                gameOptions.getKeyShootName()) + ")."),
+                new FireGunStep(tutorialScreen, solGame.get(), isMobile ? "Fire your gun." : "Fire your gun (" + shootControlHint + ")."),
                 new CheckGunReloadStep(tutorialScreen, solGame.get(), false, true, "Firing weapons drains your ammunition. Keep on firing."),
                 new CheckGunReloadStep(tutorialScreen, solGame.get(), false, false,
                         "When your weapon is depleted, it automatically reloads.\n" +
                                 "You can't fire when your weapon is reloading."),
                 new UseAbilityStep(tutorialScreen, solGame.get(), isMobile ?
                         "Use your ability." :
-                        "Use your ability (" + (gameOptions.controlType == GameOptions.ControlType.MIXED ?
-                                "Middle mouse button" : // TODO: Why isn't there a setting for this control?
-                                gameOptions.getKeyAbilityName()) + ")."),
+                        "Use your ability (" + abilityControlHint + ")."),
                 new MessageStep(tutorialScreen, solGame.get(), "Abilities consume ability charges."),
                 new MessageStep(tutorialScreen, solGame.get(), "Section 3 - Money"),
                 new DestroySpawnedAsteroidAroundHeroStep(tutorialScreen, solGame.get(), 1.0f, 4.0f, "Fire at the asteroid."),

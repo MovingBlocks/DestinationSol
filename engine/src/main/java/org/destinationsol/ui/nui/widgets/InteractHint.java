@@ -55,6 +55,10 @@ public class InteractHint extends CoreWidget {
         if (input.get().getType() == InputType.KEY) {
             canvas.drawText(input.get().getDisplayName(), canvas.getCurrentStyle().getBackground().getPixelRegion());
         }
+
+        if (input.get().getType() == InputType.CONTROLLER_BUTTON || input.get().getType() == InputType.CONTROLLER_AXIS) {
+            canvas.drawText(String.valueOf(input.get().getId()), canvas.getCurrentStyle().getBackground().getPixelRegion());
+        }
     }
 
     @Override

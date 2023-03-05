@@ -28,7 +28,7 @@
     "InteractHint": {
       "background": "engine:uiWhiteTex",
       "background-scale-mode": "scale fit",
-      "font": "engine:main#0.36",
+      "font": "engine:main#0.30",
       "parts": {
         "key": {
           "modes": {
@@ -47,14 +47,17 @@
             }
           }
         },
-        "button": {
+        "controller_button": {
           "modes": {
             "": {
-              "background": "engine:uiPlanetProximityIndicator"
+              "background": "engine:uiPlanetProximityIndicator",
+              "text-shadowed": false,
+              "text-color": "000000FF",
+              "font": "engine:main#0.40"
             }
           }
         },
-        "axis": {
+        "controller_axis": {
           "background": "engine:uiWhiteTex"
         }
       }
