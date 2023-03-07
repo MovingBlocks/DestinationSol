@@ -20,6 +20,7 @@ import org.destinationsol.game.item.SolItem;
 import org.destinationsol.game.tutorial.TutorialStep;
 import org.destinationsol.ui.nui.screens.InventoryScreen;
 import org.destinationsol.ui.nui.screens.TutorialScreen;
+import org.destinationsol.ui.nui.widgets.UIWarnButton;
 
 public class CheckItemEquippedStep extends TutorialStep {
     private final TutorialScreen tutorialScreen;
@@ -27,6 +28,8 @@ public class CheckItemEquippedStep extends TutorialStep {
     private final boolean equipped;
     private final String message;
     private SolItem itemToCheck;
+    private UIWarnButton equipButton;
+    private boolean actionPerformed;
 
     public CheckItemEquippedStep(TutorialScreen tutorialScreen, InventoryScreen inventoryScreen,
                                  boolean equipped, String message) {
@@ -41,13 +44,18 @@ public class CheckItemEquippedStep extends TutorialStep {
         if (equipped) {
             itemToCheck = inventoryScreen.getSelectedItem();
         }
+        equipButton = inventoryScreen.getShowInventory().getEq1Control();
+        equipButton.subscribe(button -> {
+            if (equipped && inventoryScreen.getSelectedItem() != itemToCheck) {
+                return;
+            }
+            actionPerformed = true;
+        });
+        actionPerformed = false;
     }
 
     public boolean checkComplete(float timeStep) {
-        if (equipped) {
-            return itemToCheck.isEquipped() > 0;
-        } else {
-            return inventoryScreen.getSelectedItem().isEquipped() == 0;
-        }
+        equipButton.enableWarn();
+        return actionPerformed;
     }
 }

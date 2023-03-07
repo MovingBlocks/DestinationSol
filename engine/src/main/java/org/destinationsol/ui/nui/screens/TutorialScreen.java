@@ -20,12 +20,18 @@ import org.destinationsol.game.SolGame;
 import org.destinationsol.ui.nui.NUIScreenLayer;
 import org.destinationsol.ui.nui.widgets.InteractHint;
 import org.terasology.input.Input;
+import org.terasology.nui.BaseInteractionListener;
+import org.terasology.nui.Canvas;
 import org.terasology.nui.HorizontalAlign;
+import org.terasology.nui.InteractionListener;
+import org.terasology.nui.events.NUIKeyEvent;
+import org.terasology.nui.events.NUIMouseClickEvent;
 import org.terasology.nui.widgets.UIBox;
 import org.terasology.nui.widgets.UILabel;
 
 import javax.inject.Inject;
 import java.util.EnumMap;
+import java.util.function.Consumer;
 
 /**
  * This screen displays the message box shown during the tutorial to instruct the user.
@@ -37,6 +43,7 @@ public class TutorialScreen extends NUIScreenLayer {
         public final UIBox box;
         public final UILabel text;
         public final InteractHint interactHint;
+        public Consumer<Input> inputEventListener;
 
         public TutorialBox(UIBox box, UILabel text, InteractHint interactHint) {
             this.box = box;
@@ -46,6 +53,22 @@ public class TutorialScreen extends NUIScreenLayer {
     }
 
     private final EnumMap<HorizontalAlign, TutorialBox> tutorialBoxes;
+    private final InteractionListener mouseInputListener = new BaseInteractionListener() {
+        @Override
+        public boolean onMouseClick(NUIMouseClickEvent event) {
+            for (TutorialBox tutorialBox : tutorialBoxes.values()) {
+                if (tutorialBox.interactHint != null && tutorialBox.interactHint.isVisible() &&
+                        tutorialBox.interactHint.getInput().equals(event.getMouseButton())) {
+                    if (tutorialBox.inputEventListener != null) {
+                        tutorialBox.inputEventListener.accept(event.getMouseButton());
+                    }
+                    return true;
+                }
+            }
+            return super.onMouseClick(event);
+        }
+    };
+
     private boolean isReplaceRemove;
 
     @Inject
@@ -103,6 +126,14 @@ public class TutorialScreen extends NUIScreenLayer {
         }
     }
 
+    public void setInteractEvent(Consumer<Input> interactEvent) {
+        setInteractEvent(HorizontalAlign.CENTER, interactEvent);
+    }
+
+    public void setInteractEvent(HorizontalAlign horizontalAlign, Consumer<Input> interactEvent) {
+        tutorialBoxes.get(horizontalAlign).inputEventListener = interactEvent;
+    }
+
     public void clearAllTutorialBoxes() {
         for (TutorialBox tutorialBox : tutorialBoxes.values()) {
             if (tutorialBox.box != null) {
@@ -114,6 +145,7 @@ public class TutorialScreen extends NUIScreenLayer {
             if (tutorialBox.interactHint != null) {
                 tutorialBox.interactHint.setVisible(false);
             }
+            tutorialBox.inputEventListener = null;
         }
     }
 
@@ -137,6 +169,37 @@ public class TutorialScreen extends NUIScreenLayer {
     @Override
     protected boolean escapeCloses() {
         return false;
+    }
+
+    @Override
+    public boolean onKeyEvent(NUIKeyEvent event) {
+        if (event.isDown()) {
+            return super.onKeyEvent(event);
+        }
+
+        for (TutorialBox tutorialBox : tutorialBoxes.values()) {
+            if (tutorialBox.interactHint != null && tutorialBox.interactHint.isVisible() &&
+                    tutorialBox.interactHint.getInput().equals(event.getKey())) {
+                if (tutorialBox.inputEventListener != null) {
+                    tutorialBox.inputEventListener.accept(event.getKey());
+                }
+                return true;
+            }
+        }
+        return super.onKeyEvent(event);
+    }
+
+    @Override
+    public void onDraw(Canvas canvas) {
+        super.onDraw(canvas);
+        InteractHint leftInteractHint = getInteractHint(HorizontalAlign.LEFT);
+        InteractHint centreInteractHint = getInteractHint(HorizontalAlign.CENTER);
+        InteractHint rightInteractHint = getInteractHint(HorizontalAlign.RIGHT);
+        if ((leftInteractHint != null && leftInteractHint.isVisible()) ||
+                (centreInteractHint != null && centreInteractHint.isVisible()) ||
+                (rightInteractHint != null && rightInteractHint.isVisible())) {
+            canvas.addInteractionRegion(mouseInputListener, canvas.getRegion());
+        }
     }
 
     public void moveToTop() {

@@ -380,6 +380,42 @@ public class InventoryScreen extends NUIScreenLayer {
     }
 
     /**
+     * This is an internal API used by the tutorial. It just returns the buttons representing items of a specified type.
+     * @return The buttons representing items of a specified type.
+     */
+    public List<UIWarnButton> getItemUIControlsForTutorialByType(Class<? extends SolItem> itemClass) {
+        List<UIWarnButton> controls = new ArrayList<>();
+
+        Iterator<UIWidget> rowsIterator = inventoryRows.iterator();
+        rowsIterator.next(); // Skip header
+        UIWidget row = rowsIterator.next();
+        int startIndex = page * Const.ITEM_GROUPS_PER_PAGE;
+        ItemContainer items = inventoryOperations.getItems(solApplication.getGame());
+        for (int rowNo = 0; rowNo < Const.ITEM_GROUPS_PER_PAGE; rowNo++) {
+            int groupNo = startIndex + rowNo;
+            boolean emptyRow = groupNo >= items.groupCount();
+
+            UIWarnButton itemButton = row.find("itemButton", UIWarnButton.class);
+            if (emptyRow) {
+                break;
+            } else {
+                List<SolItem> itemGroup = items.getGroup(groupNo);
+                SolItem sample = itemGroup.get(0);
+
+                if (itemClass.isInstance(sample)) {
+                    controls.add(itemButton);
+                }
+            }
+
+            if (rowsIterator.hasNext()) {
+                row = rowsIterator.next();
+            }
+        }
+
+        return controls;
+    }
+
+    /**
      * @return the next button - used in the tutorial
      */
     public UIWarnButton getNextButton() {

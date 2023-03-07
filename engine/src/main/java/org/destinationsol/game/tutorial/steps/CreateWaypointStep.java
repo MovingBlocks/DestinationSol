@@ -19,6 +19,7 @@ package org.destinationsol.game.tutorial.steps;
 import org.destinationsol.game.Hero;
 import org.destinationsol.game.SolGame;
 import org.destinationsol.game.tutorial.TutorialStep;
+import org.destinationsol.ui.Waypoint;
 import org.destinationsol.ui.nui.screens.TutorialScreen;
 import org.destinationsol.ui.nui.widgets.UIWarnButton;
 import org.terasology.nui.HorizontalAlign;
@@ -29,6 +30,7 @@ public class CreateWaypointStep extends TutorialStep {
     private final UIWarnButton addWaypointButton;
     private final String message;
     private boolean buttonPressed = false;
+    private int lastWaypointCount;
 
     public CreateWaypointStep(TutorialScreen tutorialScreen, SolGame game, UIWarnButton addWaypointButton, String message) {
         this.tutorialScreen = tutorialScreen;
@@ -43,6 +45,7 @@ public class CreateWaypointStep extends TutorialStep {
             addWaypointButton.enableWarn();
             buttonPressed = true;
         });
+        lastWaypointCount = game.getHero().getWaypoints().size();
     }
     public boolean checkComplete(float timeStep) {
         if (!buttonPressed) {
@@ -50,6 +53,15 @@ public class CreateWaypointStep extends TutorialStep {
         }
 
         Hero hero = game.getHero();
-        return hero.getWaypoints().size() > 0;
+        if (hero.getWaypoints().size() > lastWaypointCount) {
+            Waypoint waypoint = hero.getWaypoints().get(hero.getWaypoints().size()-1);
+            if (waypoint.getPosition().dst(hero.getPosition()) < 100.0f) {
+                return true;
+            } else {
+                hero.removeWaypoint(waypoint);
+            }
+        }
+        lastWaypointCount = game.getHero().getWaypoints().size();
+        return false;
     }
 }

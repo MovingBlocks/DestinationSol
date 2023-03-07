@@ -35,6 +35,7 @@ import org.destinationsol.game.tutorial.steps.FlyToNearestStarPortStep;
 import org.destinationsol.game.tutorial.steps.FlyToNearestStationStep;
 import org.destinationsol.game.tutorial.steps.FlyToPlanetSellingMercenariesStep;
 import org.destinationsol.game.tutorial.steps.FlyToRandomWaypointAroundHeroStep;
+import org.destinationsol.game.tutorial.steps.ItemTypesExplanationStep;
 import org.destinationsol.game.tutorial.steps.ManageMercenariesGuidanceStep;
 import org.destinationsol.game.tutorial.steps.MapDragStep;
 import org.destinationsol.game.tutorial.steps.MessageStep;
@@ -131,7 +132,7 @@ public class NewTutorialManager implements UpdateAwareSystem {
                 new MessageStep(tutorialScreen, solGame.get(), "Section 1 - Movement"),
                 new TurnLeftRightStep(tutorialScreen, solGame.get(), isMobile ? "Turn left and right." : "Turn left and right (" + turnControlHint + ")."),
                 new ThrustForwardsStep(tutorialScreen, solGame.get(), isMobile ? "Thrust forwards." : "Thrust forwards (" + thrustForwardControlHint + ")."),
-                new SlowVelocityStep(tutorialScreen, solGame.get(), 0.05f, "Turn around and slow to a stop."),
+                new SlowVelocityStep(tutorialScreen, solGame.get(), 0.1f, "Turn around and thrust again to slow down.\n\nTry slowing to a stop."),
                 new FlyToRandomWaypointAroundHeroStep(tutorialScreen, solGame.get(), 1.0f, 4.0f, "Fly to the waypoint."),
                 new MessageStep(tutorialScreen, solGame.get(), "Section 2 - Weapons"),
                 new FireGunStep(tutorialScreen, solGame.get(), isMobile ? "Fire your gun." : "Fire your gun (" + shootControlHint + ")."),
@@ -153,6 +154,7 @@ public class NewTutorialManager implements UpdateAwareSystem {
                         usesKeyboard ?
                         "Open your inventory (" + gameOptions.getKeyInventoryName() + ")." :
                         "Open your inventory."),
+                new ItemTypesExplanationStep(tutorialScreen, solGame.get()),
                 new SelectEquippedWeaponStep(tutorialScreen,
                         solGame.get().getScreens().inventoryScreen,
                         usesKeyboard ?
@@ -166,8 +168,12 @@ public class NewTutorialManager implements UpdateAwareSystem {
                         solGame.get().getScreens().inventoryScreen,
                         true,
                         usesKeyboard ? "Re-equip that item (" + gameOptions.getKeyEquipName() + ")." : "Un-equip an item."),
+                new CloseScreenStep(tutorialScreen, nuiManager,
+                        solGame.get().getScreens().inventoryScreen.getCloseButton(),
+                        solGame.get().getScreens().inventoryScreen,
+                        isMobile ? "Close your inventory (tap outside of your inventory)." : "Close your inventory."),
                 new MessageStep(tutorialScreen, solGame.get(), "Section 5 - Weapon Mounts"),
-                new MessageStep(tutorialScreen, solGame.get(), "All ships may come with with up to two weapon mounts."),
+                new MessageStep(tutorialScreen, solGame.get(), "All ships may come with up to two weapon mounts."),
                 new MessageStep(tutorialScreen, solGame.get(), "Weapon mounts vary by their socket type."),
                 new MessageStep(tutorialScreen, solGame.get(), "Weapon sockets are either fixed or rotating."),
                 new MessageStep(tutorialScreen, solGame.get(), "A weapon can only be equipped if its socket type matches its mount."),
@@ -177,11 +183,13 @@ public class NewTutorialManager implements UpdateAwareSystem {
                         solGame.get().getScreens().mainGameScreen.getTalkButton(),
                         solGame.get().getScreens().talkScreen,
                         isMobile ? "Talk to the station." : "Talk to the station (" + gameOptions.getKeyTalkName() + ")."),
-                new BuyItemStep(tutorialScreen,
+                new BuyItemStep(tutorialScreen, nuiManager,
                         solGame.get().getScreens().talkScreen.getBuyButton(),
                         solGame.get().getScreens().inventoryScreen.getBuyItemsScreen().getBuyControl(),
                         isMobile ? "Buy an item." : "Buy an item (" + gameOptions.getKeyBuyItemName() + ")."),
                 new MessageStep(tutorialScreen, solGame.get(), "Section 7 - Combat"),
+                new MessageStep(tutorialScreen, solGame.get(), "You'll encounter hostile ships whilst travelling. " +
+                        "Shoot at the ships to destroy them.\nHere's one coming now."),
                 new DestroySpawnedShipsStep(tutorialScreen, solGame.get(), 1, "core:minerSmall",
                         "core:fixedBlaster", "Destroy all targets.",
                         "Enemy ships can be tough.\nOpen the pause menu and select Respawn."),
@@ -199,7 +207,7 @@ public class NewTutorialManager implements UpdateAwareSystem {
                 new MapDragStep(tutorialScreen, solGame.get(), solGame.get().getMapDrawer(), "You can move around the map by clicking/tapping and dragging."),
                 new CreateWaypointStep(tutorialScreen, solGame.get(),
                         solGame.get().getScreens().mapScreen.getAddWaypointButton(),
-                        "Create a waypoint."),
+                        "Create a waypoint near your ship."),
                 new CloseScreenStep(tutorialScreen,
                         nuiManager,
                         solGame.get().getScreens().mapScreen.getCloseButton(),
@@ -214,10 +222,6 @@ public class NewTutorialManager implements UpdateAwareSystem {
                         solGame.get().getScreens().talkScreen,
                         "Talk to the station."),
                 new BuyMercenaryStep(tutorialScreen, solGame.get(), 1000, "Try hiring a mercenary."),
-                new CloseScreenStep(tutorialScreen, nuiManager,
-                        solGame.get().getScreens().inventoryScreen.getCloseButton(),
-                        solGame.get().getScreens().inventoryScreen,
-                        "Close the buy screen."),
                 new MessageStep(tutorialScreen, solGame.get(), "Let's see how your mercenary fights."),
                 new DestroySpawnedShipsStep(tutorialScreen, solGame.get(), 1, "core:pirateSmall",
                         "core:blaster core:smallShield", "Destroy all targets.",

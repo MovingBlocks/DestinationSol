@@ -22,10 +22,12 @@ import org.destinationsol.game.tutorial.TutorialStep;
 import org.destinationsol.ui.nui.screens.TutorialScreen;
 
 public class SlowVelocityStep extends TutorialStep {
+    private static final float MAX_ACCELERATION = 0.8f;
     private final TutorialScreen tutorialScreen;
     private final SolGame game;
     private final float threshold;
     private final String message;
+    private float lastSpeed;
 
     public SlowVelocityStep(TutorialScreen tutorialScreen, SolGame game, float threshold, String message) {
         this.tutorialScreen = tutorialScreen;
@@ -37,11 +39,14 @@ public class SlowVelocityStep extends TutorialStep {
     @Override
     public void start() {
         tutorialScreen.setTutorialText(message);
+        lastSpeed = game.getHero().getVelocity().len();
     }
 
     @Override
     public boolean checkComplete(float timeStep) {
         Hero hero = game.getHero();
-        return hero.getShip().getVelocity().len() < threshold;
+        float speed = hero.getVelocity().len();
+        float acceleration = (speed - lastSpeed)/timeStep;
+        return acceleration < MAX_ACCELERATION && speed < threshold;
     }
 }

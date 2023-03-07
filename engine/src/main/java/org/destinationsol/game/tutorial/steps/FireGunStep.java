@@ -43,6 +43,7 @@ public class FireGunStep extends MessageStep {
             fireButton.enableWarn();
         }
 
-        return super.checkComplete(timeStep) && game.getHero().getPilot().isShoot();
+        stepTimer += timeStep;
+        return stepTimer > MIN_STEP_DURATION && game.getHero().getPilot().isShoot();
     }
 }

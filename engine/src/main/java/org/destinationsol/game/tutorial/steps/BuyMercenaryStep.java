@@ -65,6 +65,11 @@ public class BuyMercenaryStep extends TutorialStep {
         } else {
             hireMercenaryButton.enableWarn();
         }
-        return hireButtonPressed && hireMercenaryButtonPressed;
+
+        if (hireButtonPressed && hireMercenaryButtonPressed) {
+            game.getSolApplication().getNuiManager().popScreen();
+            return true;
+        }
+        return false;
     }
 }

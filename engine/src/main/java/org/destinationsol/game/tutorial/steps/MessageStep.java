@@ -31,6 +31,7 @@ public class MessageStep extends TutorialStep {
     protected final SolGame game;
     protected final String message;
     protected float stepTimer;
+    protected boolean interactComplete;
 
     public MessageStep(TutorialScreen tutorialScreen, SolGame game, String message) {
         this.tutorialScreen = tutorialScreen;
@@ -60,11 +61,15 @@ public class MessageStep extends TutorialStep {
                 }
                 break;
         }
+        interactComplete = false;
+        tutorialScreen.setInteractEvent(input -> {
+            interactComplete = true;
+        });
     }
 
     @Override
     public boolean checkComplete(float timeStep) {
         stepTimer += timeStep;
-        return stepTimer >= MIN_STEP_DURATION && game.getHero().getPilot().isShoot();
+        return stepTimer >= MIN_STEP_DURATION && interactComplete;
     }
 }

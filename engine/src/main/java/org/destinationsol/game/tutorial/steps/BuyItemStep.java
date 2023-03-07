@@ -17,20 +17,24 @@
 package org.destinationsol.game.tutorial.steps;
 
 import org.destinationsol.game.tutorial.TutorialStep;
+import org.destinationsol.ui.nui.NUIManager;
 import org.destinationsol.ui.nui.screens.TutorialScreen;
 import org.destinationsol.ui.nui.widgets.UIWarnButton;
 import org.terasology.nui.HorizontalAlign;
 
 public class BuyItemStep extends TutorialStep {
     private final TutorialScreen tutorialScreen;
+    private final NUIManager nuiManager;
     private final UIWarnButton buyButton;
     private final UIWarnButton purchaseButton;
     private final String message;
     private boolean buyButtonPressed = false;
     private boolean purchaseButtonPressed = false;
 
-    public BuyItemStep(TutorialScreen tutorialScreen, UIWarnButton buyButton, UIWarnButton purchaseButton, String message) {
+    public BuyItemStep(TutorialScreen tutorialScreen, NUIManager nuiManager,
+                       UIWarnButton buyButton, UIWarnButton purchaseButton, String message) {
         this.tutorialScreen = tutorialScreen;
+        this.nuiManager = nuiManager;
         this.buyButton = buyButton;
         this.purchaseButton = purchaseButton;
         this.message = message;
@@ -51,6 +55,11 @@ public class BuyItemStep extends TutorialStep {
         } else {
             purchaseButton.enableWarn();
         }
-        return buyButtonPressed && purchaseButtonPressed;
+
+        if (buyButtonPressed && purchaseButtonPressed) {
+            nuiManager.popScreen();
+            return true;
+        }
+        return false;
     }
 }
