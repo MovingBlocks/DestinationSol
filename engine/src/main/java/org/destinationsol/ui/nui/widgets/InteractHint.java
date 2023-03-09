@@ -22,7 +22,6 @@ import org.terasology.input.InputType;
 import org.terasology.input.Keyboard;
 import org.terasology.nui.Canvas;
 import org.terasology.nui.CoreWidget;
-import org.terasology.nui.LayoutConfig;
 import org.terasology.nui.databinding.Binding;
 import org.terasology.nui.databinding.DefaultBinding;
 
@@ -33,6 +32,7 @@ public class InteractHint extends CoreWidget {
     }
 
     public InteractHint(String id, Input input) {
+        setId(id);
         this.input.set(input);
     }
 

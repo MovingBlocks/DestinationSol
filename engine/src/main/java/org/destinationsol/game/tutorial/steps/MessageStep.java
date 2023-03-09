@@ -61,6 +61,9 @@ public class MessageStep extends TutorialStep {
                 }
                 break;
         }
+        if (game.getSolApplication().isMobile()) {
+            tutorialScreen.setInteractHintInput(MouseInput.MOUSE_LEFT);
+        }
         interactComplete = false;
         tutorialScreen.setInteractEvent(input -> {
             interactComplete = true;

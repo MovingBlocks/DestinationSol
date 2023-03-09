@@ -18,22 +18,27 @@ package org.destinationsol.game.tutorial.steps;
 
 import com.badlogic.gdx.math.Vector2;
 import org.destinationsol.game.MapDrawer;
-import org.destinationsol.game.SolGame;
+import org.destinationsol.game.tutorial.TutorialStep;
 import org.destinationsol.ui.nui.screens.TutorialScreen;
+import org.terasology.input.MouseInput;
 
-public class MapDragStep extends MessageStep {
+public class MapDragStep extends TutorialStep {
+    private final TutorialScreen tutorialScreen;
     private final MapDrawer mapDrawer;
+    private final String message;
     private Vector2 originalMapPosition;
 
-    public MapDragStep(TutorialScreen tutorialScreen, SolGame game, MapDrawer mapDrawer, String message) {
-        super(tutorialScreen, game, message);
+    public MapDragStep(TutorialScreen tutorialScreen, MapDrawer mapDrawer, String message) {
+        this.tutorialScreen = tutorialScreen;
         this.mapDrawer = mapDrawer;
+        this.message = message;
     }
 
     @Override
     public void start() {
-        originalMapPosition = game.getMapDrawer().getMapDrawPositionAdditive().cpy();
-        super.start();
+        tutorialScreen.setTutorialText(message);
+        tutorialScreen.setInteractHintInput(MouseInput.MOUSE_LEFT);
+        originalMapPosition = mapDrawer.getMapDrawPositionAdditive().cpy();
     }
 
     @Override

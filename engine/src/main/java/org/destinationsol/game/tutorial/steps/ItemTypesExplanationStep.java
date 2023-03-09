@@ -23,59 +23,41 @@ import org.destinationsol.game.item.Shield;
 import org.destinationsol.game.item.SolItem;
 import org.destinationsol.ui.nui.screens.TutorialScreen;
 
+import java.util.Map;
+
 public class ItemTypesExplanationStep extends MessageStep {
-    private enum ExplanationType {
-        // TODO: Pass these in as constructor parameters instead.
-        WEAPONS(Gun.class, "You can mine asteroids and attack enemies with guns."),
-        ARMOUR(Armor.class, "Armour makes attacks less effective against you."),
-        SHIELDS(Shield.class, "Shields absorb energy-based projectiles until depleted."),
-        LAST(null, "");
+    private final Map<Class<? extends SolItem>, String> itemExplanations;
+    private final Class<? extends SolItem>[] itemTypes;
+    private int itemTypeNo;
 
-        private final Class<? extends SolItem> itemClass;
-        private final String explanation;
-
-        ExplanationType(Class<? extends SolItem> itemClass, String explanation) {
-            this.itemClass = itemClass;
-            this.explanation = explanation;
-        }
-
-        public Class<? extends SolItem> getItemClass() {
-            return itemClass;
-        }
-
-        public String getExplanation() {
-            return explanation;
-        }
-
-        public ExplanationType next() {
-            return ExplanationType.values()[this.ordinal()+1];
-        }
-    };
-    private ExplanationType explanationType;
-
-    public ItemTypesExplanationStep(TutorialScreen tutorialScreen, SolGame game) {
+    public ItemTypesExplanationStep(TutorialScreen tutorialScreen, SolGame game,
+                                    Map<Class<? extends SolItem>, String> itemExplanations,
+                                    Class<? extends SolItem>[] itemTypes) {
         super(tutorialScreen, game, "");
+        this.itemExplanations = itemExplanations;
+        this.itemTypes = itemTypes;
+        this.itemTypeNo = 0;
     }
 
     @Override
     public void start() {
         super.start();
-        explanationType = ExplanationType.WEAPONS;
-        tutorialScreen.setTutorialText(explanationType.getExplanation());
+        itemTypeNo = 0;
+        tutorialScreen.setTutorialText(itemExplanations.get(itemTypes[itemTypeNo]));
     }
 
     @Override
     public boolean checkComplete(float timeStep) {
-        game.getScreens().inventoryScreen.getItemUIControlsForTutorialByType(explanationType.getItemClass()).get(0).enableWarn();
+        game.getScreens().inventoryScreen.getItemUIControlsForTutorialByType(itemTypes[itemTypeNo]).get(0).enableWarn();
         boolean complete = super.checkComplete(timeStep);
         if (complete) {
-            explanationType = explanationType.next();
-            if (explanationType == ExplanationType.LAST) {
+            itemTypeNo++;
+            if (itemTypeNo >= itemTypes.length) {
                 return true;
             }
             stepTimer = 0.0f;
             interactComplete = false;
-            tutorialScreen.setTutorialText(explanationType.getExplanation());
+            tutorialScreen.setTutorialText(itemExplanations.get(itemTypes[itemTypeNo]));
         }
         return false;
     }

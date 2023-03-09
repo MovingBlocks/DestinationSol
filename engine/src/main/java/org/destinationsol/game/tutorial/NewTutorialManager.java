@@ -20,6 +20,10 @@ import org.destinationsol.GameOptions;
 import org.destinationsol.SolApplication;
 import org.destinationsol.game.SolGame;
 import org.destinationsol.game.UpdateAwareSystem;
+import org.destinationsol.game.item.Armor;
+import org.destinationsol.game.item.Gun;
+import org.destinationsol.game.item.Shield;
+import org.destinationsol.game.item.SolItem;
 import org.destinationsol.game.tutorial.steps.ButtonPressStep;
 import org.destinationsol.game.tutorial.steps.BuyItemStep;
 import org.destinationsol.game.tutorial.steps.BuyMercenaryStep;
@@ -54,6 +58,8 @@ import org.slf4j.LoggerFactory;
 
 import javax.inject.Inject;
 import javax.inject.Provider;
+import java.util.HashMap;
+import java.util.Map;
 
 public class NewTutorialManager implements UpdateAwareSystem {
     private static final Logger logger = LoggerFactory.getLogger(NewTutorialManager.class);
@@ -128,6 +134,11 @@ public class NewTutorialManager implements UpdateAwareSystem {
                 }
         }
 
+        Map<Class<? extends SolItem>, String> itemTypesExplanations = new HashMap<>();
+        itemTypesExplanations.put(Gun.class, "You can mine asteroids and attack enemies with guns.");
+        itemTypesExplanations.put(Armor.class, "Armour makes attacks less effective against you.");
+        itemTypesExplanations.put(Shield.class, "Shields absorb energy-based projectiles until depleted.");
+
         steps = new TutorialStep[] {
                 new MessageStep(tutorialScreen, solGame.get(), "Section 1 - Movement"),
                 new TurnLeftRightStep(tutorialScreen, solGame.get(), isMobile ? "Turn left and right." : "Turn left and right (" + turnControlHint + ")."),
@@ -138,8 +149,8 @@ public class NewTutorialManager implements UpdateAwareSystem {
                 new FireGunStep(tutorialScreen, solGame.get(), isMobile ? "Fire your gun." : "Fire your gun (" + shootControlHint + ")."),
                 new CheckGunReloadStep(tutorialScreen, solGame.get(), false, true, "Firing weapons drains your ammunition. Keep on firing."),
                 new CheckGunReloadStep(tutorialScreen, solGame.get(), false, false,
-                        "When your weapon is depleted, it automatically reloads.\n" +
-                                "You can't fire when your weapon is reloading."),
+                        "Your weapon reloads when depleted.\n" +
+                                "You can't fire when reloading."),
                 new UseAbilityStep(tutorialScreen, solGame.get(), isMobile ?
                         "Use your ability." :
                         "Use your ability (" + abilityControlHint + ")."),
@@ -154,7 +165,11 @@ public class NewTutorialManager implements UpdateAwareSystem {
                         usesKeyboard ?
                         "Open your inventory (" + gameOptions.getKeyInventoryName() + ")." :
                         "Open your inventory."),
-                new ItemTypesExplanationStep(tutorialScreen, solGame.get()),
+                new ItemTypesExplanationStep(tutorialScreen, solGame.get(), itemTypesExplanations, new Class[] {
+                        Gun.class,
+                        Armor.class,
+                        Shield.class
+                }),
                 new SelectEquippedWeaponStep(tutorialScreen,
                         solGame.get().getScreens().inventoryScreen,
                         usesKeyboard ?
@@ -171,12 +186,11 @@ public class NewTutorialManager implements UpdateAwareSystem {
                 new CloseScreenStep(tutorialScreen, nuiManager,
                         solGame.get().getScreens().inventoryScreen.getCloseButton(),
                         solGame.get().getScreens().inventoryScreen,
-                        isMobile ? "Close your inventory (tap outside of your inventory)." : "Close your inventory."),
+                        isMobile ? "Close your inventory (tap outside of the inventory)." : "Close your inventory."),
                 new MessageStep(tutorialScreen, solGame.get(), "Section 5 - Weapon Mounts"),
                 new MessageStep(tutorialScreen, solGame.get(), "All ships may come with up to two weapon mounts."),
-                new MessageStep(tutorialScreen, solGame.get(), "Weapon mounts vary by their socket type."),
-                new MessageStep(tutorialScreen, solGame.get(), "Weapon sockets are either fixed or rotating."),
-                new MessageStep(tutorialScreen, solGame.get(), "A weapon can only be equipped if its socket type matches its mount."),
+                new MessageStep(tutorialScreen, solGame.get(), "Weapon mounts are either fixed or rotating."),
+                new MessageStep(tutorialScreen, solGame.get(), "You can only equip weapons on matching mounts."),
                 new MessageStep(tutorialScreen, solGame.get(), "Section 6 - Shops"),
                 new FlyToNearestStationStep(tutorialScreen, solGame.get(), "Fly to the station."),
                 new OpenScreenStep(tutorialScreen, nuiManager,
@@ -188,10 +202,9 @@ public class NewTutorialManager implements UpdateAwareSystem {
                         solGame.get().getScreens().inventoryScreen.getBuyItemsScreen().getBuyControl(),
                         isMobile ? "Buy an item." : "Buy an item (" + gameOptions.getKeyBuyItemName() + ")."),
                 new MessageStep(tutorialScreen, solGame.get(), "Section 7 - Combat"),
-                new MessageStep(tutorialScreen, solGame.get(), "You'll encounter hostile ships whilst travelling. " +
-                        "Shoot at the ships to destroy them.\nHere's one coming now."),
+                new MessageStep(tutorialScreen, solGame.get(), "Shoot at ships to destroy them.\n"),
                 new DestroySpawnedShipsStep(tutorialScreen, solGame.get(), 1, "core:minerSmall",
-                        "core:fixedBlaster", "Destroy all targets.",
+                        "core:fixedBlaster", "Destroy the targeted ship.",
                         "Enemy ships can be tough.\nOpen the pause menu and select Respawn."),
                 new MessageStep(tutorialScreen, solGame.get(), "Destroyed ships drop valuable loot."),
                 new MessageStep(tutorialScreen, solGame.get(), "Section 8 - Repair Kits"),
@@ -204,7 +217,7 @@ public class NewTutorialManager implements UpdateAwareSystem {
                         isMobile ? "Open the map." : "Open the map (" + gameOptions.getKeyMapName() + ")."),
                 new ButtonPressStep(tutorialScreen, solGame.get().getScreens().mapScreen.getZoomInButton(), "Zoom In"),
                 new ButtonPressStep(tutorialScreen, solGame.get().getScreens().mapScreen.getZoomOutButton(), "Zoom Out"),
-                new MapDragStep(tutorialScreen, solGame.get(), solGame.get().getMapDrawer(), "You can move around the map by clicking/tapping and dragging."),
+                new MapDragStep(tutorialScreen, solGame.get().getMapDrawer(), "You can move around the map by clicking/tapping and dragging."),
                 new CreateWaypointStep(tutorialScreen, solGame.get(),
                         solGame.get().getScreens().mapScreen.getAddWaypointButton(),
                         "Create a waypoint near your ship."),
@@ -224,7 +237,7 @@ public class NewTutorialManager implements UpdateAwareSystem {
                 new BuyMercenaryStep(tutorialScreen, solGame.get(), 1000, "Try hiring a mercenary."),
                 new MessageStep(tutorialScreen, solGame.get(), "Let's see how your mercenary fights."),
                 new DestroySpawnedShipsStep(tutorialScreen, solGame.get(), 1, "core:pirateSmall",
-                        "core:blaster core:smallShield", "Destroy all targets.",
+                        "core:blaster core:smallShield", "Destroy the targeted ship.",
                         "Enemy ships can be tough.\nOpen the pause menu and select Respawn."),
                 new MessageStep(tutorialScreen, solGame.get(), "Mercenaries will keep any money they collect as part of their payment."),
                 new MessageStep(tutorialScreen, solGame.get(), "Section 11 - Managing Mercenaries"),
@@ -240,7 +253,7 @@ public class NewTutorialManager implements UpdateAwareSystem {
                         "Here you can manage your mercenary's equipment."),
                 new FlyToNearestStarPortStep(tutorialScreen, solGame.get(), "Fly to the marked star lane."),
                 new MessageStep(tutorialScreen, solGame.get(),
-                        "Star lanes allow you to travel quickly between planets.\nThey cost money to use.")
+                        "For a small fee, star lanes allow you to travel quickly between planets.")
         };
         
         stepNo = 0;
