@@ -32,24 +32,27 @@ public class FlyToNearestStarPortStep extends FlyToWaypointStep {
     }
 
     private Vector2 findNearestStarPort() {
-        Planet nearestPlanet = game.getPlanetManager().getNearestPlanet();
+        Vector2 heroPosition = game.getHero().getPosition();
+        float nearestStarPortDistance = Float.MAX_VALUE;
         Vector2 nearestStarPortPosition = null;
 
         for (SolObject solObject : game.getObjectManager().getObjects()) {
-            if (solObject instanceof StarPort && ((StarPort)solObject).getFromPlanet() == nearestPlanet) {
+            float distance = solObject.getPosition().dst(heroPosition);
+            if (solObject instanceof StarPort && distance < nearestStarPortDistance) {
                 StarPort starPort = (StarPort) solObject;
                 fromPlanet = starPort.getFromPlanet();
                 toPlanet = starPort.getToPlanet();
                 nearestStarPortPosition = solObject.getPosition();
-                break;
+                nearestStarPortDistance = distance;
             }
         }
         for (StarPort.FarStarPort farStarPort : game.getObjectManager().getFarPorts()) {
-            if (farStarPort.getFrom() == nearestPlanet) {
+            float distance = farStarPort.getPosition().dst(heroPosition);
+            if (distance < nearestStarPortDistance) {
                 fromPlanet = farStarPort.getFrom();
                 toPlanet = farStarPort.getTo();
                 nearestStarPortPosition = farStarPort.getPosition();
-                break;
+                nearestStarPortDistance = distance;
             }
         }
 
