@@ -19,16 +19,20 @@ package org.destinationsol.game.tutorial.steps;
 import com.badlogic.gdx.math.Vector2;
 import org.destinationsol.common.SolRandom;
 import org.destinationsol.game.Hero;
-import org.destinationsol.game.SolGame;
-import org.destinationsol.ui.nui.screens.TutorialScreen;
+
+import javax.inject.Inject;
 
 public class FlyToRandomWaypointAroundHeroStep extends FlyToWaypointStep {
     private final float minDistance;
     private final float radius;
 
-    public FlyToRandomWaypointAroundHeroStep(TutorialScreen tutorialScreen, SolGame game,
-                                             float minDistance, float radius, String message) {
-        super(tutorialScreen, game, Vector2.Zero, message);
+    @Inject
+    protected FlyToRandomWaypointAroundHeroStep() {
+        throw new RuntimeException("Attempted to instantiate TutorialStep via DI. This is not supported.");
+    }
+
+    public FlyToRandomWaypointAroundHeroStep(float minDistance, float radius, String message) {
+        super(Vector2.Zero, message);
         this.minDistance = minDistance;
         this.radius = radius;
     }

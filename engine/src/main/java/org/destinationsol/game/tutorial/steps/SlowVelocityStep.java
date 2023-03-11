@@ -19,26 +19,30 @@ package org.destinationsol.game.tutorial.steps;
 import org.destinationsol.game.Hero;
 import org.destinationsol.game.SolGame;
 import org.destinationsol.game.tutorial.TutorialStep;
-import org.destinationsol.ui.nui.screens.TutorialScreen;
+
+import javax.inject.Inject;
 
 public class SlowVelocityStep extends TutorialStep {
     private static final float MAX_ACCELERATION = 0.8f;
-    private final TutorialScreen tutorialScreen;
-    private final SolGame game;
+    @Inject
+    protected SolGame game;
     private final float threshold;
     private final String message;
     private float lastSpeed;
 
-    public SlowVelocityStep(TutorialScreen tutorialScreen, SolGame game, float threshold, String message) {
-        this.tutorialScreen = tutorialScreen;
-        this.game = game;
+    @Inject
+    protected SlowVelocityStep() {
+        throw new RuntimeException("Attempted to instantiate TutorialStep via DI. This is not supported.");
+    }
+
+    public SlowVelocityStep(float threshold, String message) {
         this.threshold = threshold;
         this.message = message;
     }
 
     @Override
     public void start() {
-        tutorialScreen.setTutorialText(message);
+        setTutorialText(message);
         lastSpeed = game.getHero().getVelocity().len();
     }
 

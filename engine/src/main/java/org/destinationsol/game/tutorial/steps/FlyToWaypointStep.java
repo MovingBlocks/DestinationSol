@@ -23,19 +23,23 @@ import org.destinationsol.game.Hero;
 import org.destinationsol.game.SolGame;
 import org.destinationsol.game.tutorial.TutorialStep;
 import org.destinationsol.ui.Waypoint;
-import org.destinationsol.ui.nui.screens.TutorialScreen;
+
+import javax.inject.Inject;
 
 public class FlyToWaypointStep extends TutorialStep {
     private static final float MIN_WAYPOINT_DISTANCE = 0.2f;
-    protected final TutorialScreen tutorialScreen;
-    protected final SolGame game;
+    @Inject
+    protected SolGame game;
     protected final String message;
     protected Vector2 waypointPosition;
     protected Waypoint waypoint;
 
-    public FlyToWaypointStep(TutorialScreen tutorialScreen, SolGame game, Vector2 waypointPosition, String message) {
-        this.tutorialScreen = tutorialScreen;
-        this.game = game;
+    @Inject
+    protected FlyToWaypointStep() {
+        throw new RuntimeException("Attempted to instantiate TutorialStep via DI. This is not supported.");
+    }
+
+    public FlyToWaypointStep(Vector2 waypointPosition, String message) {
         this.waypointPosition = waypointPosition;
         this.message = message;
     }
@@ -47,7 +51,7 @@ public class FlyToWaypointStep extends TutorialStep {
         Hero hero = game.getHero();
         hero.addWaypoint(waypoint);
         game.getObjectManager().addObjDelayed(waypoint);
-        tutorialScreen.setTutorialText(message);
+        setTutorialText(message);
     }
 
     @Override

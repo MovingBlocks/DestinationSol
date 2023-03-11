@@ -17,55 +17,59 @@
 package org.destinationsol.game.tutorial.steps;
 
 import org.destinationsol.GameOptions;
-import org.destinationsol.game.SolGame;
+import org.destinationsol.SolApplication;
 import org.destinationsol.game.tutorial.TutorialStep;
-import org.destinationsol.ui.nui.screens.TutorialScreen;
 import org.terasology.input.ControllerInput;
 import org.terasology.input.InputType;
 import org.terasology.input.MouseInput;
 import org.terasology.nui.backends.libgdx.GDXInputUtil;
 
+import javax.inject.Inject;
+
 public class MessageStep extends TutorialStep {
     protected static final float MIN_STEP_DURATION = 0.5f;
-    protected final TutorialScreen tutorialScreen;
-    protected final SolGame game;
+    @Inject
+    protected SolApplication solApplication;
     protected final String message;
     protected float stepTimer;
     protected boolean interactComplete;
 
-    public MessageStep(TutorialScreen tutorialScreen, SolGame game, String message) {
-        this.tutorialScreen = tutorialScreen;
-        this.game = game;
+    @Inject
+    protected MessageStep() {
+        throw new RuntimeException("Attempted to instantiate TutorialStep via DI. This is not supported.");
+    }
+
+    public MessageStep(String message) {
         this.message = message;
         this.stepTimer = 0.0f;
     }
 
     @Override
     public void start() {
-        tutorialScreen.setTutorialText(message);
-        GameOptions gameOptions = game.getSolApplication().getOptions();
+        setTutorialText(message);
+        GameOptions gameOptions = solApplication.getOptions();
         switch (gameOptions.controlType) {
             case KEYBOARD:
-                tutorialScreen.setInteractHintInput(GDXInputUtil.GDXToNuiKey(gameOptions.getKeyShoot()));
+                setRequiredInput(GDXInputUtil.GDXToNuiKey(gameOptions.getKeyShoot()));
                 break;
             case MOUSE:
             case MIXED:
-                tutorialScreen.setInteractHintInput(MouseInput.MOUSE_LEFT);
+                setRequiredInput(MouseInput.MOUSE_LEFT);
                 break;
             case CONTROLLER:
                 if (gameOptions.getControllerAxisShoot() > 0) {
                     // Ideally this would use CONTROLLER_AXIS but the ids do not quite match-up.
-                    tutorialScreen.setInteractHintInput(ControllerInput.find(InputType.CONTROLLER_BUTTON, gameOptions.getControllerAxisShoot()));
+                    setRequiredInput(ControllerInput.find(InputType.CONTROLLER_BUTTON, gameOptions.getControllerAxisShoot()));
                 } else {
-                    tutorialScreen.setInteractHintInput(ControllerInput.find(InputType.CONTROLLER_BUTTON, gameOptions.getControllerButtonShoot()));
+                    setRequiredInput(ControllerInput.find(InputType.CONTROLLER_BUTTON, gameOptions.getControllerButtonShoot()));
                 }
                 break;
         }
-        if (game.getSolApplication().isMobile()) {
-            tutorialScreen.setInteractHintInput(MouseInput.MOUSE_LEFT);
+        if (solApplication.isMobile()) {
+            setRequiredInput(MouseInput.MOUSE_LEFT);
         }
         interactComplete = false;
-        tutorialScreen.setInteractEvent(input -> {
+        setInputHandler(input -> {
             interactComplete = true;
         });
     }

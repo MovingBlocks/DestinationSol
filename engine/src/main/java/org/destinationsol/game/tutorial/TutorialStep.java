@@ -15,7 +15,50 @@
  */
 
 package org.destinationsol.game.tutorial;
+
+import org.terasology.input.Input;
+import org.terasology.nui.HorizontalAlign;
+
+import java.util.function.Consumer;
+
 public abstract class TutorialStep {
+    private String tutorialText;
+    private HorizontalAlign tutorialBoxPosition = HorizontalAlign.CENTER;
+    private Input requiredInput;
+    private Consumer<Input> inputHandler;
+
     public abstract void start();
     public abstract boolean checkComplete(float timeStep);
+
+    public String getTutorialText() {
+        return tutorialText;
+    }
+
+    public HorizontalAlign getTutorialBoxPosition() {
+        return tutorialBoxPosition;
+    }
+
+    public Input getRequiredInput() {
+        return requiredInput;
+    }
+
+    public Consumer<Input> getInputHandler() {
+        return inputHandler;
+    }
+
+    protected void setTutorialText(String tutorialText) {
+        this.tutorialText = tutorialText;
+    }
+
+    public void setTutorialBoxPosition(HorizontalAlign tutorialBoxPosition) {
+        this.tutorialBoxPosition = tutorialBoxPosition;
+    }
+
+    protected void setRequiredInput(Input requiredInput) {
+        this.requiredInput = requiredInput;
+    }
+
+    protected void setInputHandler(Consumer<Input> inputHandler) {
+        this.inputHandler = inputHandler;
+    }
 }

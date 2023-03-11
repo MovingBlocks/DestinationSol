@@ -25,18 +25,22 @@ import org.destinationsol.game.SolGame;
 import org.destinationsol.game.SolObject;
 import org.destinationsol.game.tutorial.TutorialStep;
 import org.destinationsol.ui.Waypoint;
-import org.destinationsol.ui.nui.screens.TutorialScreen;
+
+import javax.inject.Inject;
 
 public class DestroyObjectsStep extends TutorialStep {
-    protected final TutorialScreen tutorialScreen;
-    protected final SolGame game;
+    @Inject
+    protected SolGame game;
     protected final SolObject[] objects;
     protected final String message;
     protected final Waypoint[] objectWaypoints;
 
-    public DestroyObjectsStep(TutorialScreen tutorialScreen, SolGame game, SolObject[] objects, String message) {
-        this.tutorialScreen = tutorialScreen;
-        this.game = game;
+    @Inject
+    protected DestroyObjectsStep() {
+        throw new RuntimeException("Attempted to instantiate TutorialStep via DI. This is not supported.");
+    }
+
+    public DestroyObjectsStep(SolObject[] objects, String message) {
         this.objects = objects;
         this.message = message;
         this.objectWaypoints = new Waypoint[objects.length];
@@ -44,7 +48,7 @@ public class DestroyObjectsStep extends TutorialStep {
 
     @Override
     public void start() {
-        tutorialScreen.setTutorialText(message);
+        setTutorialText(message);
 
         Hero hero = game.getHero();
         ObjectManager objectManager = game.getObjectManager();

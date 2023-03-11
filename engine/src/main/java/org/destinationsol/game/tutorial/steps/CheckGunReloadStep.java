@@ -19,17 +19,22 @@ package org.destinationsol.game.tutorial.steps;
 import org.destinationsol.game.Hero;
 import org.destinationsol.game.SolGame;
 import org.destinationsol.game.tutorial.TutorialStep;
-import org.destinationsol.ui.nui.screens.TutorialScreen;
+
+import javax.inject.Inject;
+
 public class CheckGunReloadStep extends TutorialStep {
-    private final TutorialScreen tutorialScreen;
-    private final SolGame game;
+    @Inject
+    protected SolGame game;
     private final boolean isSecondary;
     private final boolean isReloading;
     private final String message;
 
-    public CheckGunReloadStep(TutorialScreen tutorialScreen, SolGame game, boolean isSecondary, boolean isReloading, String message) {
-        this.tutorialScreen = tutorialScreen;
-        this.game = game;
+    @Inject
+    protected CheckGunReloadStep() {
+        throw new RuntimeException("Attempted to instantiate TutorialStep via DI. This is not supported.");
+    }
+
+    public CheckGunReloadStep(boolean isSecondary, boolean isReloading, String message) {
         this.isSecondary = isSecondary;
         this.isReloading = isReloading;
         this.message = message;
@@ -37,7 +42,7 @@ public class CheckGunReloadStep extends TutorialStep {
 
     @Override
     public void start() {
-        tutorialScreen.setTutorialText(message);
+        setTutorialText(message);
     }
 
     @Override

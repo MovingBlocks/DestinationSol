@@ -16,32 +16,42 @@
 
 package org.destinationsol.game.tutorial.steps;
 
+import org.destinationsol.game.screens.GameScreens;
 import org.destinationsol.game.tutorial.TutorialStep;
 import org.destinationsol.ui.nui.NUIManager;
-import org.destinationsol.ui.nui.screens.TutorialScreen;
 import org.destinationsol.ui.nui.widgets.UIWarnButton;
 import org.terasology.nui.HorizontalAlign;
 
+import javax.inject.Inject;
+
 public class BuyItemStep extends TutorialStep {
-    private final TutorialScreen tutorialScreen;
-    private final NUIManager nuiManager;
-    private final UIWarnButton buyButton;
-    private final UIWarnButton purchaseButton;
-    private final String message;
+    @Inject
+    protected NUIManager nuiManager;
+    @Inject
+    protected GameScreens gameScreens;
+    private final String buyButtonMessage;
+    private final String purchaseButtonMessage;
+    private UIWarnButton buyButton;
+    private UIWarnButton purchaseButton;
     private boolean buyButtonPressed = false;
     private boolean purchaseButtonPressed = false;
 
-    public BuyItemStep(TutorialScreen tutorialScreen, NUIManager nuiManager,
-                       UIWarnButton buyButton, UIWarnButton purchaseButton, String message) {
-        this.tutorialScreen = tutorialScreen;
-        this.nuiManager = nuiManager;
-        this.buyButton = buyButton;
-        this.purchaseButton = purchaseButton;
-        this.message = message;
+    @Inject
+    protected BuyItemStep() {
+        throw new RuntimeException("Attempted to instantiate TutorialStep via DI. This is not supported.");
+    }
+
+    public BuyItemStep(String buyButtonMessage, String purchaseButtonMessage) {
+        this.buyButtonMessage = buyButtonMessage;
+        this.purchaseButtonMessage = purchaseButtonMessage;
     }
 
     public void start() {
-        tutorialScreen.setTutorialText(message, HorizontalAlign.LEFT);
+        buyButton = gameScreens.talkScreen.getBuyButton();;
+        purchaseButton = gameScreens.inventoryScreen.getBuyItemsScreen().getBuyControl();
+
+        setTutorialBoxPosition(HorizontalAlign.LEFT);
+        setTutorialText(buyButtonMessage);
         buyButton.subscribe(button -> {
             buyButtonPressed = true;
         });
@@ -53,6 +63,8 @@ public class BuyItemStep extends TutorialStep {
         if (!buyButtonPressed) {
             buyButton.enableWarn();
         } else {
+            setTutorialBoxPosition(HorizontalAlign.LEFT);
+            setTutorialText(purchaseButtonMessage);
             purchaseButton.enableWarn();
         }
 

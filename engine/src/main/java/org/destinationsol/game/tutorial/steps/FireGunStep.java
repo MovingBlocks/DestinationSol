@@ -17,22 +17,33 @@
 package org.destinationsol.game.tutorial.steps;
 
 import org.destinationsol.game.SolGame;
+import org.destinationsol.game.screens.GameScreens;
 import org.destinationsol.game.screens.ShipUiControl;
-import org.destinationsol.ui.nui.screens.TutorialScreen;
 import org.destinationsol.ui.nui.screens.UIShipControlsScreen;
 import org.destinationsol.ui.nui.widgets.UIWarnButton;
 
+import javax.inject.Inject;
+
 public class FireGunStep extends MessageStep {
+    @Inject
+    protected SolGame game;
+    @Inject
+    protected GameScreens gameScreens;
     private UIWarnButton fireButton;
 
-    public FireGunStep(TutorialScreen tutorialScreen, SolGame game, String message) {
-        super(tutorialScreen, game, message);
+    @Inject
+    protected FireGunStep() {
+        throw new RuntimeException("Attempted to instantiate TutorialStep via DI. This is not supported.");
+    }
+
+    public FireGunStep(String message) {
+        super(message);
     }
 
     public void start() {
-        tutorialScreen.setTutorialText(message);
+        setTutorialText(message);
 
-        ShipUiControl shipUiControl = game.getScreens().oldMainGameScreen.getShipControl();
+        ShipUiControl shipUiControl = gameScreens.oldMainGameScreen.getShipControl();
         if (shipUiControl instanceof UIShipControlsScreen) {
             fireButton = ((UIShipControlsScreen) shipUiControl).getGun1Button();
         }

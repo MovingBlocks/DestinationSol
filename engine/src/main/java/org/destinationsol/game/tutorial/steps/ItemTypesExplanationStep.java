@@ -16,24 +16,30 @@
 
 package org.destinationsol.game.tutorial.steps;
 
-import org.destinationsol.game.SolGame;
-import org.destinationsol.game.item.Armor;
-import org.destinationsol.game.item.Gun;
-import org.destinationsol.game.item.Shield;
 import org.destinationsol.game.item.SolItem;
-import org.destinationsol.ui.nui.screens.TutorialScreen;
+import org.destinationsol.game.screens.GameScreens;
+import org.destinationsol.ui.nui.widgets.UIWarnButton;
 
+import javax.inject.Inject;
+import java.util.List;
 import java.util.Map;
 
 public class ItemTypesExplanationStep extends MessageStep {
+    @Inject
+    protected GameScreens gameScreens;
     private final Map<Class<? extends SolItem>, String> itemExplanations;
     private final Class<? extends SolItem>[] itemTypes;
     private int itemTypeNo;
 
-    public ItemTypesExplanationStep(TutorialScreen tutorialScreen, SolGame game,
+    @Inject
+    protected ItemTypesExplanationStep() {
+        throw new RuntimeException("Attempted to instantiate TutorialStep via DI. This is not supported.");
+    }
+
+    public ItemTypesExplanationStep(
                                     Map<Class<? extends SolItem>, String> itemExplanations,
                                     Class<? extends SolItem>[] itemTypes) {
-        super(tutorialScreen, game, "");
+        super("");
         this.itemExplanations = itemExplanations;
         this.itemTypes = itemTypes;
         this.itemTypeNo = 0;
@@ -43,12 +49,13 @@ public class ItemTypesExplanationStep extends MessageStep {
     public void start() {
         super.start();
         itemTypeNo = 0;
-        tutorialScreen.setTutorialText(itemExplanations.get(itemTypes[itemTypeNo]));
+        setTutorialText(itemExplanations.get(itemTypes[itemTypeNo]));
     }
 
     @Override
     public boolean checkComplete(float timeStep) {
-        game.getScreens().inventoryScreen.getItemUIControlsForTutorialByType(itemTypes[itemTypeNo]).get(0).enableWarn();
+        List<UIWarnButton> itemControls = gameScreens.inventoryScreen.getItemUIControlsForTutorialByType(itemTypes[itemTypeNo]);
+        itemControls.get(0).enableWarn();
         boolean complete = super.checkComplete(timeStep);
         if (complete) {
             itemTypeNo++;
@@ -57,7 +64,7 @@ public class ItemTypesExplanationStep extends MessageStep {
             }
             stepTimer = 0.0f;
             interactComplete = false;
-            tutorialScreen.setTutorialText(itemExplanations.get(itemTypes[itemTypeNo]));
+            setTutorialText(itemExplanations.get(itemTypes[itemTypeNo]));
         }
         return false;
     }

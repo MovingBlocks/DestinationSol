@@ -61,8 +61,8 @@ public class TutorialScreen extends NUIScreenLayer {
                         tutorialBox.interactHint.getInput().equals(event.getMouseButton())) {
                     if (tutorialBox.inputEventListener != null) {
                         tutorialBox.inputEventListener.accept(event.getMouseButton());
+                        return true;
                     }
-                    return true;
                 }
             }
             return super.onMouseClick(event);

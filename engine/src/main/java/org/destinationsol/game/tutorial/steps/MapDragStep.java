@@ -19,25 +19,29 @@ package org.destinationsol.game.tutorial.steps;
 import com.badlogic.gdx.math.Vector2;
 import org.destinationsol.game.MapDrawer;
 import org.destinationsol.game.tutorial.TutorialStep;
-import org.destinationsol.ui.nui.screens.TutorialScreen;
 import org.terasology.input.MouseInput;
 
+import javax.inject.Inject;
+
 public class MapDragStep extends TutorialStep {
-    private final TutorialScreen tutorialScreen;
-    private final MapDrawer mapDrawer;
+    @Inject
+    protected MapDrawer mapDrawer;
     private final String message;
     private Vector2 originalMapPosition;
 
-    public MapDragStep(TutorialScreen tutorialScreen, MapDrawer mapDrawer, String message) {
-        this.tutorialScreen = tutorialScreen;
-        this.mapDrawer = mapDrawer;
+    @Inject
+    protected MapDragStep() {
+        throw new RuntimeException("Attempted to instantiate TutorialStep via DI. This is not supported.");
+    }
+
+    public MapDragStep(String message) {
         this.message = message;
     }
 
     @Override
     public void start() {
-        tutorialScreen.setTutorialText(message);
-        tutorialScreen.setInteractHintInput(MouseInput.MOUSE_LEFT);
+        setTutorialText(message);
+        setRequiredInput(MouseInput.MOUSE_LEFT);
         originalMapPosition = mapDrawer.getMapDrawPositionAdditive().cpy();
     }
 

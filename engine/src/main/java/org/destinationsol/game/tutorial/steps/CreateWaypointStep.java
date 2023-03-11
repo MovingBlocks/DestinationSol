@@ -18,29 +18,38 @@ package org.destinationsol.game.tutorial.steps;
 
 import org.destinationsol.game.Hero;
 import org.destinationsol.game.SolGame;
+import org.destinationsol.game.screens.GameScreens;
 import org.destinationsol.game.tutorial.TutorialStep;
 import org.destinationsol.ui.Waypoint;
-import org.destinationsol.ui.nui.screens.TutorialScreen;
 import org.destinationsol.ui.nui.widgets.UIWarnButton;
 import org.terasology.nui.HorizontalAlign;
 
+import javax.inject.Inject;
+
 public class CreateWaypointStep extends TutorialStep {
-    private final TutorialScreen tutorialScreen;
-    private final SolGame game;
-    private final UIWarnButton addWaypointButton;
+    @Inject
+    protected SolGame game;
+    @Inject
+    protected GameScreens gameScreens;
     private final String message;
+    private UIWarnButton addWaypointButton;
     private boolean buttonPressed = false;
     private int lastWaypointCount;
 
-    public CreateWaypointStep(TutorialScreen tutorialScreen, SolGame game, UIWarnButton addWaypointButton, String message) {
-        this.tutorialScreen = tutorialScreen;
-        this.game = game;
-        this.addWaypointButton = addWaypointButton;
+    @Inject
+    protected CreateWaypointStep() {
+        throw new RuntimeException("Attempted to instantiate TutorialStep via DI. This is not supported.");
+    }
+
+    public CreateWaypointStep(String message) {
         this.message = message;
     }
 
     public void start() {
-        tutorialScreen.setTutorialText(message, HorizontalAlign.LEFT);
+        addWaypointButton = gameScreens.mapScreen.getAddWaypointButton();
+
+        setTutorialBoxPosition(HorizontalAlign.LEFT);
+        setTutorialText(message);
         addWaypointButton.subscribe(button -> {
             addWaypointButton.enableWarn();
             buttonPressed = true;

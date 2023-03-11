@@ -17,24 +17,28 @@
 package org.destinationsol.game.tutorial.steps;
 
 import org.destinationsol.game.tutorial.TutorialStep;
-import org.destinationsol.ui.nui.screens.TutorialScreen;
 import org.destinationsol.ui.nui.widgets.UIWarnButton;
 
+import javax.inject.Inject;
+
 public class ButtonPressStep extends TutorialStep {
-    private final TutorialScreen tutorialScreen;
     private final UIWarnButton button;
     private final String message;
     private boolean buttonPressed;
 
-    public ButtonPressStep(TutorialScreen tutorialScreen, UIWarnButton button, String message) {
-        this.tutorialScreen = tutorialScreen;
+    @Inject
+    protected ButtonPressStep() {
+        throw new RuntimeException("Attempted to instantiate TutorialStep via DI. This is not supported.");
+    }
+
+    public ButtonPressStep(UIWarnButton button, String message) {
         this.button = button;
         this.message = message;
     }
 
     @Override
     public void start() {
-        tutorialScreen.setTutorialText(message);
+        setTutorialText(message);
         button.subscribe(button -> {
             buttonPressed = true;
         });

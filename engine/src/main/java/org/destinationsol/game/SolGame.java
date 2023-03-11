@@ -342,6 +342,8 @@ public class SolGame {
             } catch (Exception e) {
                 e.printStackTrace();
             }
+        } else {
+            newTutorialManager.ifPresent(NewTutorialManager::onGameEnd);
         }
 
         // TODO: Remove this when context is reset after each game
@@ -637,7 +639,7 @@ public class SolGame {
     }
 
     public boolean isTutorial() {
-        return tutorialManager.isPresent();
+        return tutorialManager.isPresent() || newTutorialManager.isPresent();
     }
 
     public SolApplication getSolApplication() {

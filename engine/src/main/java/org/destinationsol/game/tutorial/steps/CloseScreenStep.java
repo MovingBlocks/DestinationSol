@@ -20,20 +20,24 @@ import org.destinationsol.common.Nullable;
 import org.destinationsol.game.tutorial.TutorialStep;
 import org.destinationsol.ui.nui.NUIManager;
 import org.destinationsol.ui.nui.NUIScreenLayer;
-import org.destinationsol.ui.nui.screens.TutorialScreen;
 import org.destinationsol.ui.nui.widgets.UIWarnButton;
 
+import javax.inject.Inject;
+
 public class CloseScreenStep extends TutorialStep {
-    private final TutorialScreen tutorialScreen;
-    private final NUIManager nuiManager;
+    @Inject
+    protected NUIManager nuiManager;
     private final UIWarnButton closeButton;
     private final NUIScreenLayer screen;
     private final String message;
 
-    public CloseScreenStep(TutorialScreen tutorialScreen, NUIManager nuiManager, @Nullable UIWarnButton closeButton,
+    @Inject
+    protected CloseScreenStep() {
+        throw new RuntimeException("Attempted to instantiate TutorialStep via DI. This is not supported.");
+    }
+
+    public CloseScreenStep(@Nullable UIWarnButton closeButton,
                            NUIScreenLayer screen, String message) {
-        this.tutorialScreen = tutorialScreen;
-        this.nuiManager = nuiManager;
         this.closeButton = closeButton;
         this.screen = screen;
         this.message = message;
@@ -44,7 +48,7 @@ public class CloseScreenStep extends TutorialStep {
         if (closeButton != null) {
             closeButton.setVisible(true);
         }
-        tutorialScreen.setTutorialText(message);
+        setTutorialText(message);
     }
 
     @Override

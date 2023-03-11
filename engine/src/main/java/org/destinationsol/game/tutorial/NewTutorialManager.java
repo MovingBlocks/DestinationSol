@@ -55,10 +55,15 @@ import org.destinationsol.ui.nui.screens.MainGameScreen;
 import org.destinationsol.ui.nui.screens.TutorialScreen;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.terasology.context.exception.BeanNotFoundException;
+import org.terasology.gestalt.di.BeanContext;
 
 import javax.inject.Inject;
 import javax.inject.Provider;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 public class NewTutorialManager implements UpdateAwareSystem {
@@ -67,15 +72,17 @@ public class NewTutorialManager implements UpdateAwareSystem {
     private final TutorialScreen tutorialScreen;
     private final SolApplication solApplication;
     private final Provider<SolGame> solGame;
-    private TutorialStep[] steps;
+    private final BeanContext beanContext;
+    private List<TutorialStep> steps;
     private int stepNo;
 
     @Inject
-    public NewTutorialManager(NUIManager nuiManager, SolApplication solApplication, Provider<SolGame> game) {
+    public NewTutorialManager(NUIManager nuiManager, SolApplication solApplication, Provider<SolGame> game, BeanContext beanContext) {
         this.nuiManager = nuiManager;
         this.tutorialScreen = (TutorialScreen) nuiManager.createScreen("engine:tutorialScreen");
         this.solApplication = solApplication;
         this.solGame = game;
+        this.beanContext = beanContext;
     }
 
     public void start() {
@@ -139,125 +146,128 @@ public class NewTutorialManager implements UpdateAwareSystem {
         itemTypesExplanations.put(Armor.class, "Armour makes attacks less effective against you.");
         itemTypesExplanations.put(Shield.class, "Shields absorb energy-based projectiles until depleted.");
 
-        steps = new TutorialStep[] {
-                new MessageStep(tutorialScreen, solGame.get(), "Section 1 - Movement"),
-                new TurnLeftRightStep(tutorialScreen, solGame.get(), isMobile ? "Turn left and right." : "Turn left and right (" + turnControlHint + ")."),
-                new ThrustForwardsStep(tutorialScreen, solGame.get(), isMobile ? "Thrust forwards." : "Thrust forwards (" + thrustForwardControlHint + ")."),
-                new SlowVelocityStep(tutorialScreen, solGame.get(), 0.1f, "Turn around and thrust again to slow down.\n\nTry slowing to a stop."),
-                new FlyToRandomWaypointAroundHeroStep(tutorialScreen, solGame.get(), 1.0f, 4.0f, "Fly to the waypoint."),
-                new MessageStep(tutorialScreen, solGame.get(), "Section 2 - Weapons"),
-                new FireGunStep(tutorialScreen, solGame.get(), isMobile ? "Fire your gun." : "Fire your gun (" + shootControlHint + ")."),
-                new CheckGunReloadStep(tutorialScreen, solGame.get(), false, true, "Firing weapons drains your ammunition. Keep on firing."),
-                new CheckGunReloadStep(tutorialScreen, solGame.get(), false, false,
+        steps = new ArrayList<>(Arrays.asList(
+                new MessageStep("Section 1 - Movement"),
+                new TurnLeftRightStep(isMobile ? "Turn left and right." : "Turn left and right (" + turnControlHint + ")."),
+                new ThrustForwardsStep(isMobile ? "Thrust forwards." : "Thrust forwards (" + thrustForwardControlHint + ")."),
+                new SlowVelocityStep(0.1f, "Turn around and thrust again to slow down.\n\nTry slowing to a stop."),
+                new FlyToRandomWaypointAroundHeroStep(1.0f, 4.0f, "Fly to the waypoint."),
+                new MessageStep("Section 2 - Weapons"),
+                new FireGunStep(isMobile ? "Fire your gun." : "Fire your gun (" + shootControlHint + ")."),
+                new CheckGunReloadStep(false, true, "Firing weapons drains your ammunition. Keep on firing."),
+                new CheckGunReloadStep(false, false,
                         "Your weapon reloads when depleted.\n" +
                                 "You can't fire when reloading."),
-                new UseAbilityStep(tutorialScreen, solGame.get(), isMobile ?
-                        "Use your ability." :
-                        "Use your ability (" + abilityControlHint + ")."),
-                new MessageStep(tutorialScreen, solGame.get(), "Abilities consume ability charges."),
-                new MessageStep(tutorialScreen, solGame.get(), "Section 3 - Money"),
-                new DestroySpawnedAsteroidAroundHeroStep(tutorialScreen, solGame.get(), 1.0f, 4.0f, "Fire at the asteroid."),
-                new MessageStep(tutorialScreen, solGame.get(), "Asteroids drop loot - money in this case."),
-                new MessageStep(tutorialScreen, solGame.get(), "Section 4 - Items"),
-                new OpenScreenStep(tutorialScreen, nuiManager,
+                new UseAbilityStep(isMobile ? "Use your ability." : "Use your ability (" + abilityControlHint + ")."),
+                new MessageStep("Abilities consume ability charges."),
+                new MessageStep("Section 3 - Money"),
+                new DestroySpawnedAsteroidAroundHeroStep(1.0f, 4.0f, "Fire at the asteroid."),
+                new MessageStep("Asteroids drop loot - money in this case."),
+                new MessageStep("Section 4 - Items"),
+                new OpenScreenStep(
                         solGame.get().getScreens().mainGameScreen.getInventoryButton(),
                         solGame.get().getScreens().inventoryScreen,
                         usesKeyboard ?
                         "Open your inventory (" + gameOptions.getKeyInventoryName() + ")." :
                         "Open your inventory."),
-                new ItemTypesExplanationStep(tutorialScreen, solGame.get(), itemTypesExplanations, new Class[] {
+                new ItemTypesExplanationStep(itemTypesExplanations, new Class[] {
                         Gun.class,
                         Armor.class,
                         Shield.class
                 }),
-                new SelectEquippedWeaponStep(tutorialScreen,
-                        solGame.get().getScreens().inventoryScreen,
+                new SelectEquippedWeaponStep(
                         usesKeyboard ?
                                 "Select an equipped item (Move with " + gameOptions.getKeyUpName() + " and " + gameOptions.getKeyDownName() + ")" :
                                 "Select an equipped item."),
-                new CheckItemEquippedStep(tutorialScreen,
-                        solGame.get().getScreens().inventoryScreen,
-                        false,
+                new CheckItemEquippedStep(false,
                         usesKeyboard ? "Un-equip an item (" + gameOptions.getKeyEquipName() + ")." : "Un-equip an item."),
-                new CheckItemEquippedStep(tutorialScreen,
-                        solGame.get().getScreens().inventoryScreen,
-                        true,
+                new CheckItemEquippedStep(true,
                         usesKeyboard ? "Re-equip that item (" + gameOptions.getKeyEquipName() + ")." : "Un-equip an item."),
-                new CloseScreenStep(tutorialScreen, nuiManager,
+                new CloseScreenStep(
                         solGame.get().getScreens().inventoryScreen.getCloseButton(),
                         solGame.get().getScreens().inventoryScreen,
                         isMobile ? "Close your inventory (tap outside of the inventory)." : "Close your inventory."),
-                new MessageStep(tutorialScreen, solGame.get(), "Section 5 - Weapon Mounts"),
-                new MessageStep(tutorialScreen, solGame.get(), "All ships may come with up to two weapon mounts."),
-                new MessageStep(tutorialScreen, solGame.get(), "Weapon mounts are either fixed or rotating."),
-                new MessageStep(tutorialScreen, solGame.get(), "You can only equip weapons on matching mounts."),
-                new MessageStep(tutorialScreen, solGame.get(), "Section 6 - Shops"),
-                new FlyToNearestStationStep(tutorialScreen, solGame.get(), "Fly to the station."),
-                new OpenScreenStep(tutorialScreen, nuiManager,
+                new MessageStep("Section 5 - Weapon Mounts"),
+                new MessageStep("All ships may come with up to two weapon mounts."),
+                new MessageStep("Weapon mounts are either fixed or rotating."),
+                new MessageStep("You can only equip weapons on matching mounts."),
+                new MessageStep("Section 6 - Shops"),
+                new FlyToNearestStationStep("Fly to the station."),
+                new OpenScreenStep(
                         solGame.get().getScreens().mainGameScreen.getTalkButton(),
                         solGame.get().getScreens().talkScreen,
                         isMobile ? "Talk to the station." : "Talk to the station (" + gameOptions.getKeyTalkName() + ")."),
-                new BuyItemStep(tutorialScreen, nuiManager,
-                        solGame.get().getScreens().talkScreen.getBuyButton(),
-                        solGame.get().getScreens().inventoryScreen.getBuyItemsScreen().getBuyControl(),
+                new BuyItemStep(usesKeyboard ? "Select Buy (" + gameOptions.getKeyBuyMenuName() + ")." : "Select Buy.",
                         isMobile ? "Buy an item." : "Buy an item (" + gameOptions.getKeyBuyItemName() + ")."),
-                new MessageStep(tutorialScreen, solGame.get(), "Section 7 - Combat"),
-                new MessageStep(tutorialScreen, solGame.get(), "Shoot at ships to destroy them.\n"),
-                new DestroySpawnedShipsStep(tutorialScreen, solGame.get(), 1, "core:minerSmall",
+                new MessageStep("Section 7 - Combat"),
+                new MessageStep("Shoot at ships to destroy them.\n"),
+                new DestroySpawnedShipsStep(1, "core:minerSmall",
                         "core:fixedBlaster", "Destroy the targeted ship.",
                         "Enemy ships can be tough.\nOpen the pause menu and select Respawn."),
-                new MessageStep(tutorialScreen, solGame.get(), "Destroyed ships drop valuable loot."),
-                new MessageStep(tutorialScreen, solGame.get(), "Section 8 - Repair Kits"),
-                new WaitUntilFullyRepairedStep(tutorialScreen, solGame.get(),
-                        "Stay still and wait until the repair kits have repaired your hull fully."),
-                new MessageStep(tutorialScreen, solGame.get(), "Section 9 - Map"),
-                new OpenScreenStep(tutorialScreen, nuiManager,
+                new MessageStep("Destroyed ships drop valuable loot."),
+                new MessageStep("Section 8 - Repair Kits"),
+                new WaitUntilFullyRepairedStep("Stay still and wait until the repair kits have repaired your hull fully."),
+                new MessageStep("Section 9 - Map"),
+                new OpenScreenStep(
                         solGame.get().getScreens().mainGameScreen.getMapButton(),
                         solGame.get().getScreens().mapScreen,
                         isMobile ? "Open the map." : "Open the map (" + gameOptions.getKeyMapName() + ")."),
-                new ButtonPressStep(tutorialScreen, solGame.get().getScreens().mapScreen.getZoomInButton(), "Zoom In"),
-                new ButtonPressStep(tutorialScreen, solGame.get().getScreens().mapScreen.getZoomOutButton(), "Zoom Out"),
-                new MapDragStep(tutorialScreen, solGame.get().getMapDrawer(), "You can move around the map by clicking/tapping and dragging."),
-                new CreateWaypointStep(tutorialScreen, solGame.get(),
-                        solGame.get().getScreens().mapScreen.getAddWaypointButton(),
-                        "Create a waypoint near your ship."),
-                new CloseScreenStep(tutorialScreen,
-                        nuiManager,
+                new ButtonPressStep(solGame.get().getScreens().mapScreen.getZoomInButton(), "Zoom In"),
+                new ButtonPressStep(solGame.get().getScreens().mapScreen.getZoomOutButton(), "Zoom Out"),
+                new MapDragStep("You can move around the map by clicking/tapping and dragging."),
+                new CreateWaypointStep("Create a waypoint near your ship."),
+                new CloseScreenStep(
                         solGame.get().getScreens().mapScreen.getCloseButton(),
                         solGame.get().getScreens().mapScreen,
                         "Close the map."),
-                new FlyToHeroFirstWaypointStep(tutorialScreen, solGame.get(), "Fly to your waypoint."),
-                new MessageStep(tutorialScreen, solGame.get(), "Section 10 - Hiring Mercenaries"),
-                new FlyToPlanetSellingMercenariesStep(tutorialScreen, solGame.get(), "Fly to a planetary station providing mercenaries."),
-                new MessageStep(tutorialScreen, solGame.get(), "When flying around planets, you'll be affected by gravity."),
-                new OpenScreenStep(tutorialScreen, nuiManager,
+                new FlyToHeroFirstWaypointStep("Fly to your waypoint."),
+                new MessageStep("Section 10 - Hiring Mercenaries"),
+                new FlyToPlanetSellingMercenariesStep("Fly to a planetary station providing mercenaries."),
+                new MessageStep("When flying around planets, you'll be affected by gravity."),
+                new OpenScreenStep(
                         solGame.get().getScreens().mainGameScreen.getTalkButton(),
                         solGame.get().getScreens().talkScreen,
                         "Talk to the station."),
-                new BuyMercenaryStep(tutorialScreen, solGame.get(), 1000, "Try hiring a mercenary."),
-                new MessageStep(tutorialScreen, solGame.get(), "Let's see how your mercenary fights."),
-                new DestroySpawnedShipsStep(tutorialScreen, solGame.get(), 1, "core:pirateSmall",
+                new BuyMercenaryStep(1000, "Try hiring a mercenary."),
+                new MessageStep("Let's see how your mercenary fights."),
+                new DestroySpawnedShipsStep(1, "core:pirateSmall",
                         "core:blaster core:smallShield", "Destroy the targeted ship.",
                         "Enemy ships can be tough.\nOpen the pause menu and select Respawn."),
-                new MessageStep(tutorialScreen, solGame.get(), "Mercenaries will keep any money they collect as part of their payment."),
-                new MessageStep(tutorialScreen, solGame.get(), "Section 11 - Managing Mercenaries"),
-                new OpenScreenStep(tutorialScreen, nuiManager,
+                new MessageStep("Mercenaries will keep any money they collect as part of their payment."),
+                new MessageStep("Section 11 - Managing Mercenaries"),
+                new OpenScreenStep(
                         solGame.get().getScreens().mainGameScreen.getMercsButton(),
                         solGame.get().getScreens().inventoryScreen,
                         isMobile ? "Open the mercenaries menu." : "Open the mercenaries menu (" + gameOptions.getKeyMercenaryInterationName() + ")."),
-                new ManageMercenariesGuidanceStep(tutorialScreen, nuiManager,
-                        solGame.get().getScreens().inventoryScreen,
+                new ManageMercenariesGuidanceStep(
                         "Here you can manage your mercenaries. When you're done here, close the menu.",
                         "Here you can give items to your mercenary.",
                         "Here you can take items back from your mercenary.",
                         "Here you can manage your mercenary's equipment."),
-                new FlyToNearestStarPortStep(tutorialScreen, solGame.get(), "Fly to the marked star lane."),
-                new MessageStep(tutorialScreen, solGame.get(),
-                        "For a small fee, star lanes allow you to travel quickly between planets.")
-        };
-        
+                new FlyToNearestStarPortStep("Fly to the marked star lane."),
+                new MessageStep("For a small fee, star lanes allow you to travel quickly between planets."),
+                new MessageStep("The tutorial is finished. You will be returned to the main menu.")
+        ));
+
+        for (TutorialStep step : steps) {
+            try {
+                beanContext.inject(step);
+            } catch (BeanNotFoundException ignore) {
+            }
+        }
+
         stepNo = 0;
-        steps[stepNo].start();
+        TutorialStep firstStep = steps.get(stepNo);
+        firstStep.start();
+        tutorialScreen.setTutorialText(firstStep.getTutorialText(), firstStep.getTutorialBoxPosition());
+    }
+
+    public boolean hasStep(TutorialStep step) {
+        return steps.contains(step);
+    }
+
+    public void addStep(TutorialStep step) {
+        steps.add(step);
     }
 
     @Override
@@ -270,20 +280,34 @@ public class NewTutorialManager implements UpdateAwareSystem {
             }
         }
 
-        if (stepNo >= steps.length) {
-            tutorialScreen.setTutorialText("The tutorial is finished. Shoot to return to the main menu.");
-            if (game.getHero().getShip().getPilot().isShoot()) {
-                solApplication.finishGame();
-            }
-            return;
+        TutorialStep currentStep = steps.get(stepNo);
+        tutorialScreen.setTutorialText(currentStep.getTutorialText(), currentStep.getTutorialBoxPosition());
+        if (currentStep.getRequiredInput() != null) {
+            tutorialScreen.setInteractHintInput(currentStep.getTutorialBoxPosition(), currentStep.getRequiredInput());
+            tutorialScreen.setInteractEvent(currentStep.getTutorialBoxPosition(), currentStep.getInputHandler());
         }
-
-        if (steps[stepNo].checkComplete(timeStep)) {
+        if (currentStep.checkComplete(timeStep)) {
             stepNo++;
             tutorialScreen.clearAllTutorialBoxes();
-            if (stepNo < steps.length) {
-                steps[stepNo].start();
+            if (stepNo < steps.size()) {
+                TutorialStep newStep = steps.get(stepNo);
+                newStep.start();
+                tutorialScreen.setTutorialText(newStep.getTutorialText(), newStep.getTutorialBoxPosition());
+                if (newStep.getRequiredInput() != null) {
+                    tutorialScreen.setInteractHintInput(newStep.getTutorialBoxPosition(), newStep.getRequiredInput());
+                    tutorialScreen.setInteractEvent(newStep.getTutorialBoxPosition(), newStep.getInputHandler());
+                }
+            } else {
+                solApplication.finishGame();
             }
         }
+    }
+
+    public void onGameEnd() {
+        MainGameScreen mainGameScreen = solGame.get().getMainGameScreen();
+        mainGameScreen.getTalkButton().setVisible(true);
+        mainGameScreen.getMapButton().setVisible(true);
+        mainGameScreen.getInventoryButton().setVisible(true);
+        mainGameScreen.getMercsButton().setVisible(true);
     }
 }

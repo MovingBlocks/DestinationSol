@@ -19,13 +19,14 @@ package org.destinationsol.game.tutorial.steps;
 import org.destinationsol.game.Hero;
 import org.destinationsol.game.SolGame;
 import org.destinationsol.game.tutorial.TutorialStep;
-import org.destinationsol.ui.nui.screens.TutorialScreen;
 import org.destinationsol.ui.nui.widgets.UIWarnButton;
 import org.terasology.nui.HorizontalAlign;
 
+import javax.inject.Inject;
+
 public class BuyMercenaryStep extends TutorialStep {
-    private final TutorialScreen tutorialScreen;
-    private final SolGame game;
+    @Inject
+    protected SolGame game;
     private final int giftMoney;
     private final String message;
     private boolean hireButtonPressed = false;
@@ -33,9 +34,12 @@ public class BuyMercenaryStep extends TutorialStep {
     private UIWarnButton hireButton;
     private UIWarnButton hireMercenaryButton;
 
-    public BuyMercenaryStep(TutorialScreen tutorialScreen, SolGame game, int giftMoney, String message) {
-        this.tutorialScreen = tutorialScreen;
-        this.game = game;
+    @Inject
+    protected BuyMercenaryStep() {
+        throw new RuntimeException("Attempted to instantiate TutorialStep via DI. This is not supported.");
+    }
+
+    public BuyMercenaryStep(int giftMoney, String message) {
         this.giftMoney = giftMoney;
         this.message = message;
     }
@@ -43,7 +47,8 @@ public class BuyMercenaryStep extends TutorialStep {
     public void start() {
         Hero hero = game.getHero();
         hero.setMoney(hero.getMoney() + giftMoney);
-        tutorialScreen.setTutorialText(message, HorizontalAlign.LEFT);
+        setTutorialBoxPosition(HorizontalAlign.LEFT);
+        setTutorialText(message);
         hireButton = game.getScreens().talkScreen.getHireButton();
         hireButton.subscribe(button -> {
             hireButtonPressed = true;

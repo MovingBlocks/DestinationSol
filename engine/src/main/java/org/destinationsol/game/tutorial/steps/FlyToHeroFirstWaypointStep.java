@@ -18,18 +18,23 @@ package org.destinationsol.game.tutorial.steps;
 
 import com.badlogic.gdx.math.Vector2;
 import org.destinationsol.game.Hero;
-import org.destinationsol.game.SolGame;
-import org.destinationsol.ui.nui.screens.TutorialScreen;
+
+import javax.inject.Inject;
 
 public class FlyToHeroFirstWaypointStep extends FlyToWaypointStep {
-    public FlyToHeroFirstWaypointStep(TutorialScreen tutorialScreen, SolGame game, String message) {
-        super(tutorialScreen, game, Vector2.Zero, message);
+    @Inject
+    protected FlyToHeroFirstWaypointStep() {
+        throw new RuntimeException("Attempted to instantiate TutorialStep via DI. This is not supported.");
+    }
+
+    public FlyToHeroFirstWaypointStep(String message) {
+        super(Vector2.Zero, message);
     }
 
     @Override
     public void start() {
         waypoint = game.getHero().getWaypoints().get(0);
-        tutorialScreen.setTutorialText(message);
+        setTutorialText(message);
     }
 
     @Override

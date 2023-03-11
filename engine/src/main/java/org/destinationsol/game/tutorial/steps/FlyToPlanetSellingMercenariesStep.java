@@ -17,20 +17,24 @@
 package org.destinationsol.game.tutorial.steps;
 
 import com.badlogic.gdx.math.Vector2;
-import org.destinationsol.game.SolGame;
 import org.destinationsol.game.SolObject;
 import org.destinationsol.game.planet.Planet;
 import org.destinationsol.game.ship.FarShip;
 import org.destinationsol.game.ship.SolShip;
 import org.destinationsol.game.ship.hulls.HullConfig;
-import org.destinationsol.ui.nui.screens.TutorialScreen;
 
+import javax.inject.Inject;
 import java.util.ArrayList;
 import java.util.List;
 
 public class FlyToPlanetSellingMercenariesStep extends FlyToPlanetStep {
-    public FlyToPlanetSellingMercenariesStep(TutorialScreen tutorialScreen, SolGame game, String message) {
-        super(tutorialScreen, game, null, message);
+    @Inject
+    protected FlyToPlanetSellingMercenariesStep() {
+        throw new RuntimeException("Attempted to instantiate TutorialStep via DI. This is not supported.");
+    }
+
+    public FlyToPlanetSellingMercenariesStep(String message) {
+        super(null, message);
     }
 
     @Override
@@ -45,7 +49,7 @@ public class FlyToPlanetSellingMercenariesStep extends FlyToPlanetStep {
         }
 
         if (planetsWithMercenaries.size() == 0) {
-            tutorialScreen.setTutorialText("ERROR: Failed to find suitable planet.");
+            setTutorialText("ERROR: Failed to find suitable planet.");
             return;
         }
 

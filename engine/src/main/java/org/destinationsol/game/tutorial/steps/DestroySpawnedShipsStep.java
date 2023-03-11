@@ -22,7 +22,6 @@ import org.destinationsol.common.SolMath;
 import org.destinationsol.common.SolRandom;
 import org.destinationsol.game.Faction;
 import org.destinationsol.game.Hero;
-import org.destinationsol.game.SolGame;
 import org.destinationsol.game.SolObject;
 import org.destinationsol.game.input.AiPilot;
 import org.destinationsol.game.input.Guardian;
@@ -31,7 +30,8 @@ import org.destinationsol.game.planet.Planet;
 import org.destinationsol.game.ship.FarShip;
 import org.destinationsol.game.ship.hulls.HullConfig;
 import org.destinationsol.game.tutorial.steps.wrapper.TrackedSolObjectWrapper;
-import org.destinationsol.ui.nui.screens.TutorialScreen;
+
+import javax.inject.Inject;
 
 public class DestroySpawnedShipsStep extends DestroyObjectsStep {
     private final int shipCount;
@@ -39,9 +39,13 @@ public class DestroySpawnedShipsStep extends DestroyObjectsStep {
     private final String items;
     private final String respawnMessage;
 
-    public DestroySpawnedShipsStep(TutorialScreen tutorialScreen, SolGame game, int shipCount,
-                                   String hullConfig, String items, String attackMessage, String respawnMessage) {
-        super(tutorialScreen, game, new SolObject[shipCount], attackMessage);
+    @Inject
+    protected DestroySpawnedShipsStep() {
+        throw new RuntimeException("Attempted to instantiate TutorialStep via DI. This is not supported.");
+    }
+
+    public DestroySpawnedShipsStep(int shipCount, String hullConfig, String items, String attackMessage, String respawnMessage) {
+        super(new SolObject[shipCount], attackMessage);
         this.shipCount = shipCount;
         this.hullConfig = hullConfig;
         this.items = items;
@@ -91,9 +95,9 @@ public class DestroySpawnedShipsStep extends DestroyObjectsStep {
     public boolean checkComplete(float timeStep) {
         Hero hero = game.getHero();
         if (hero.isDead()) {
-            tutorialScreen.setTutorialText(respawnMessage);
+            setTutorialText(respawnMessage);
         } else {
-            tutorialScreen.setTutorialText(message);
+            setTutorialText(message);
         }
 
         return super.checkComplete(timeStep);

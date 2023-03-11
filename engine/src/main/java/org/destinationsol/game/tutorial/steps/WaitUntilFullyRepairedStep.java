@@ -19,22 +19,26 @@ package org.destinationsol.game.tutorial.steps;
 import org.destinationsol.game.Hero;
 import org.destinationsol.game.SolGame;
 import org.destinationsol.game.tutorial.TutorialStep;
-import org.destinationsol.ui.nui.screens.TutorialScreen;
+
+import javax.inject.Inject;
 
 public class WaitUntilFullyRepairedStep extends TutorialStep {
-    private final TutorialScreen tutorialScreen;
-    private final SolGame game;
+    @Inject
+    protected SolGame game;
     private final String message;
 
-    public WaitUntilFullyRepairedStep(TutorialScreen tutorialScreen, SolGame game, String message) {
-        this.tutorialScreen = tutorialScreen;
-        this.game = game;
+    @Inject
+    protected WaitUntilFullyRepairedStep() {
+        throw new RuntimeException("Attempted to instantiate TutorialStep via DI. This is not supported.");
+    }
+
+    public WaitUntilFullyRepairedStep(String message) {
         this.message = message;
     }
 
     @Override
     public void start() {
-        tutorialScreen.setTutorialText(message);
+        setTutorialText(message);
     }
 
     @Override

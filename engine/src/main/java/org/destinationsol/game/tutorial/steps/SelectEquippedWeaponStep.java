@@ -16,32 +16,36 @@
 
 package org.destinationsol.game.tutorial.steps;
 
+import org.destinationsol.game.screens.GameScreens;
 import org.destinationsol.game.tutorial.TutorialStep;
-import org.destinationsol.ui.nui.screens.InventoryScreen;
-import org.destinationsol.ui.nui.screens.TutorialScreen;
 import org.destinationsol.ui.nui.widgets.UIWarnButton;
 
+import javax.inject.Inject;
+
 public class SelectEquippedWeaponStep extends TutorialStep {
-    private final TutorialScreen tutorialScreen;
-    private final InventoryScreen inventoryScreen;
+    @Inject
+    protected GameScreens gameScreens;
     private final String message;
 
-    public SelectEquippedWeaponStep(TutorialScreen tutorialScreen, InventoryScreen inventoryScreen, String message) {
-        this.tutorialScreen = tutorialScreen;
-        this.inventoryScreen = inventoryScreen;
+    @Inject
+    protected SelectEquippedWeaponStep() {
+        throw new RuntimeException("Attempted to instantiate TutorialStep via DI. This is not supported.");
+    }
+
+    public SelectEquippedWeaponStep(String message) {
         this.message = message;
     }
 
     @Override
     public void start() {
-        tutorialScreen.setTutorialText(message);
+        setTutorialText(message);
     }
 
     @Override
     public boolean checkComplete(float timeStep) {
-        for (UIWarnButton button : inventoryScreen.getEquippedItemUIControlsForTutorial()) {
+        for (UIWarnButton button : gameScreens.inventoryScreen.getEquippedItemUIControlsForTutorial()) {
             button.enableWarn();
         }
-        return inventoryScreen.getSelectedItem().isEquipped() > 0;
+        return gameScreens.inventoryScreen.getSelectedItem().isEquipped() > 0;
     }
 }

@@ -18,30 +18,37 @@ package org.destinationsol.game.tutorial.steps;
 
 import org.destinationsol.game.Hero;
 import org.destinationsol.game.SolGame;
+import org.destinationsol.game.screens.GameScreens;
 import org.destinationsol.game.screens.ShipUiControl;
 import org.destinationsol.game.tutorial.TutorialStep;
-import org.destinationsol.ui.nui.screens.TutorialScreen;
 import org.destinationsol.ui.nui.screens.UIShipControlsScreen;
 import org.destinationsol.ui.nui.widgets.UIWarnButton;
 
+import javax.inject.Inject;
+
 public class UseAbilityStep extends TutorialStep {
-    private final TutorialScreen tutorialScreen;
-    private final SolGame game;
+    @Inject
+    protected SolGame game;
+    @Inject
+    protected GameScreens gameScreens;
     private final String message;
     private UIWarnButton abilityButton;
 
-    public UseAbilityStep(TutorialScreen tutorialScreen, SolGame game, String message) {
-        this.tutorialScreen = tutorialScreen;
-        this.game = game;
+    @Inject
+    protected UseAbilityStep() {
+        throw new RuntimeException("Attempted to instantiate TutorialStep via DI. This is not supported.");
+    }
+
+    public UseAbilityStep(String message) {
         this.message = message;
     }
 
     public void start() {
-        ShipUiControl shipUiControl = game.getScreens().oldMainGameScreen.getShipControl();
+        ShipUiControl shipUiControl = gameScreens.oldMainGameScreen.getShipControl();
         if (shipUiControl instanceof UIShipControlsScreen) {
             abilityButton = ((UIShipControlsScreen) shipUiControl).getAbilityButton();
         }
-        tutorialScreen.setTutorialText(message);
+        setTutorialText(message);
     }
     public boolean checkComplete(float timeStep) {
         if (abilityButton != null) {

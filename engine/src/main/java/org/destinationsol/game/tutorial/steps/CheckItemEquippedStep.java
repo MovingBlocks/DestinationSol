@@ -17,30 +17,35 @@
 package org.destinationsol.game.tutorial.steps;
 
 import org.destinationsol.game.item.SolItem;
+import org.destinationsol.game.screens.GameScreens;
 import org.destinationsol.game.tutorial.TutorialStep;
 import org.destinationsol.ui.nui.screens.InventoryScreen;
-import org.destinationsol.ui.nui.screens.TutorialScreen;
 import org.destinationsol.ui.nui.widgets.UIWarnButton;
 
+import javax.inject.Inject;
+
 public class CheckItemEquippedStep extends TutorialStep {
-    private final TutorialScreen tutorialScreen;
-    private final InventoryScreen inventoryScreen;
+    @Inject
+    protected GameScreens gameScreens;
     private final boolean equipped;
     private final String message;
     private SolItem itemToCheck;
     private UIWarnButton equipButton;
     private boolean actionPerformed;
 
-    public CheckItemEquippedStep(TutorialScreen tutorialScreen, InventoryScreen inventoryScreen,
-                                 boolean equipped, String message) {
-        this.tutorialScreen = tutorialScreen;
-        this.inventoryScreen = inventoryScreen;
+    @Inject
+    protected CheckItemEquippedStep() {
+        throw new RuntimeException("Attempted to instantiate TutorialStep via DI. This is not supported.");
+    }
+
+    public CheckItemEquippedStep(boolean equipped, String message) {
         this.equipped = equipped;
         this.message = message;
     }
 
     public void start() {
-        tutorialScreen.setTutorialText(message);
+        InventoryScreen inventoryScreen = gameScreens.inventoryScreen;
+        setTutorialText(message);
         if (equipped) {
             itemToCheck = inventoryScreen.getSelectedItem();
         }

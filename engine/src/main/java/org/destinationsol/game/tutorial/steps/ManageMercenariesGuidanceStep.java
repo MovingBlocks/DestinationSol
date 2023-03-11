@@ -17,18 +17,21 @@
 package org.destinationsol.game.tutorial.steps;
 
 import org.destinationsol.game.screens.ChooseMercenaryScreen;
+import org.destinationsol.game.screens.GameScreens;
 import org.destinationsol.game.screens.GiveItemsScreen;
 import org.destinationsol.game.screens.ShowInventory;
 import org.destinationsol.game.screens.TakeItems;
 import org.destinationsol.game.tutorial.TutorialStep;
 import org.destinationsol.ui.nui.NUIManager;
 import org.destinationsol.ui.nui.screens.InventoryScreen;
-import org.destinationsol.ui.nui.screens.TutorialScreen;
+
+import javax.inject.Inject;
 
 public class ManageMercenariesGuidanceStep extends TutorialStep {
-    private final TutorialScreen tutorialScreen;
-    private final NUIManager nuiManager;
-    private final InventoryScreen inventoryScreen;
+    @Inject
+    protected NUIManager nuiManager;
+    @Inject
+    protected GameScreens gameScreens;
     private final String chooseMessage;
     private final String giveMessage;
     private final String takeMessage;
@@ -37,13 +40,13 @@ public class ManageMercenariesGuidanceStep extends TutorialStep {
     private boolean takeItemsPressed;
     private boolean equipItemsPressed;
 
-    public ManageMercenariesGuidanceStep(TutorialScreen tutorialScreen, NUIManager nuiManager, InventoryScreen inventoryScreen,
-                                         String chooseMessage, String giveMessage,
-                                         String takeMessage, String equipMessage) {
-        this.tutorialScreen = tutorialScreen;
-        this.nuiManager = nuiManager;
-        this.inventoryScreen = inventoryScreen;
+    @Inject
+    protected ManageMercenariesGuidanceStep() {
+        throw new RuntimeException("Attempted to instantiate TutorialStep via DI. This is not supported.");
+    }
 
+    public ManageMercenariesGuidanceStep(String chooseMessage, String giveMessage,
+                                         String takeMessage, String equipMessage) {
         this.chooseMessage = chooseMessage;
         this.giveMessage = giveMessage;
         this.takeMessage = takeMessage;
@@ -52,9 +55,9 @@ public class ManageMercenariesGuidanceStep extends TutorialStep {
 
     @Override
     public void start() {
-        tutorialScreen.setTutorialText(chooseMessage);
+        setTutorialText(chooseMessage);
 
-        ChooseMercenaryScreen chooseMercenaryScreen = inventoryScreen.getChooseMercenaryScreen();
+        ChooseMercenaryScreen chooseMercenaryScreen = gameScreens.inventoryScreen.getChooseMercenaryScreen();
         chooseMercenaryScreen.getGiveItemsButton().subscribe(button -> {
             giveItemsPressed = true;
         });
@@ -68,13 +71,14 @@ public class ManageMercenariesGuidanceStep extends TutorialStep {
 
     @Override
     public boolean checkComplete(float timeStep) {
+        InventoryScreen inventoryScreen = gameScreens.inventoryScreen;
         ChooseMercenaryScreen chooseMercenaryScreen = inventoryScreen.getChooseMercenaryScreen();
         GiveItemsScreen giveItemsScreen = inventoryScreen.getGiveItems();
         TakeItems takeItemsScreen = inventoryScreen.getTakeItems();
         ShowInventory equipItemsScreen = inventoryScreen.getShowInventory();
 
         if (inventoryScreen.getOperations() == chooseMercenaryScreen) {
-            tutorialScreen.setTutorialText(chooseMessage);
+            setTutorialText(chooseMessage);
             if (!giveItemsPressed) {
                 chooseMercenaryScreen.getGiveItemsButton().enableWarn();
             }
@@ -85,11 +89,11 @@ public class ManageMercenariesGuidanceStep extends TutorialStep {
                 chooseMercenaryScreen.getEquipItemsButton().enableWarn();
             }
         } else if (inventoryScreen.getOperations() == giveItemsScreen) {
-            tutorialScreen.setTutorialText(giveMessage);
+            setTutorialText(giveMessage);
         } else if (inventoryScreen.getOperations() == takeItemsScreen) {
-            tutorialScreen.setTutorialText(takeMessage);
+            setTutorialText(takeMessage);
         } else if (inventoryScreen.getOperations() == equipItemsScreen && equipItemsScreen.getTarget().isMerc()) {
-            tutorialScreen.setTutorialText(equipMessage);
+            setTutorialText(equipMessage);
         }
 
         return !nuiManager.hasScreen(inventoryScreen);

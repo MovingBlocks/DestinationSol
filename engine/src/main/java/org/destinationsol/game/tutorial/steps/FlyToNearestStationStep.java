@@ -17,16 +17,21 @@
 package org.destinationsol.game.tutorial.steps;
 
 import com.badlogic.gdx.math.Vector2;
-import org.destinationsol.game.SolGame;
 import org.destinationsol.game.SolObject;
 import org.destinationsol.game.ship.FarShip;
 import org.destinationsol.game.ship.SolShip;
 import org.destinationsol.game.ship.hulls.HullConfig;
-import org.destinationsol.ui.nui.screens.TutorialScreen;
+
+import javax.inject.Inject;
 
 public class FlyToNearestStationStep extends FlyToWaypointStep {
-    public FlyToNearestStationStep(TutorialScreen tutorialScreen, SolGame game, String message) {
-        super(tutorialScreen, game, Vector2.Zero, message);
+    @Inject
+    protected FlyToNearestStationStep() {
+        throw new RuntimeException("Attempted to instantiate TutorialStep via DI. This is not supported.");
+    }
+
+    public FlyToNearestStationStep(String message) {
+        super(Vector2.Zero, message);
     }
 
     @Override

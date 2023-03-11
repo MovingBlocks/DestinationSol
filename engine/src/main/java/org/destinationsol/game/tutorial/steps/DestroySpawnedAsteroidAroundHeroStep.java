@@ -19,19 +19,23 @@ package org.destinationsol.game.tutorial.steps;
 import com.badlogic.gdx.math.Vector2;
 import org.destinationsol.common.SolRandom;
 import org.destinationsol.game.Hero;
-import org.destinationsol.game.SolGame;
 import org.destinationsol.game.SolObject;
 import org.destinationsol.game.asteroid.Asteroid;
 import org.destinationsol.game.tutorial.steps.wrapper.TrackedSolObjectWrapper;
-import org.destinationsol.ui.nui.screens.TutorialScreen;
+
+import javax.inject.Inject;
 
 public class DestroySpawnedAsteroidAroundHeroStep extends DestroyObjectsStep {
     private final float minDistance;
     private final float spawnRadius;
 
-    public DestroySpawnedAsteroidAroundHeroStep(TutorialScreen tutorialScreen, SolGame game,
-            float minDistance, float spawnRadius, String message) {
-        super(tutorialScreen, game, new SolObject[1], message);
+    @Inject
+    protected DestroySpawnedAsteroidAroundHeroStep() {
+        throw new RuntimeException("Attempted to instantiate TutorialStep via DI. This is not supported.");
+    }
+
+    public DestroySpawnedAsteroidAroundHeroStep(float minDistance, float spawnRadius, String message) {
+        super(new SolObject[1], message);
         this.minDistance = minDistance;
         this.spawnRadius = spawnRadius;
     }
