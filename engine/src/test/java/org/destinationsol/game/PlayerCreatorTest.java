@@ -142,6 +142,7 @@ public class PlayerCreatorTest {
 
     @Test
     public void testUseRespawnMoneyIfNotZero() {
+        solGame.isTutorial(); // This is here purely for the side effects, as this is the only test that doesn't call isTutorial.
         float respawnMoney = 42f;
         respawnState.setRespawnMoney(respawnMoney);
         playerCreator.createPlayer(shipConfig, false, respawnState, solGame, false, false);
