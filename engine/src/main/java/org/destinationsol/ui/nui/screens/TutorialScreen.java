@@ -16,6 +16,7 @@
 
 package org.destinationsol.ui.nui.screens;
 
+import org.destinationsol.SolApplication;
 import org.destinationsol.game.SolGame;
 import org.destinationsol.ui.nui.NUIScreenLayer;
 import org.destinationsol.ui.nui.widgets.InteractHint;
@@ -68,22 +69,28 @@ public class TutorialScreen extends NUIScreenLayer {
             return super.onMouseClick(event);
         }
     };
+    private final SolApplication solApplication;
 
     private boolean isReplaceRemove;
 
     @Inject
-    public TutorialScreen() {
+    public TutorialScreen(SolApplication solApplication) {
         tutorialBoxes = new EnumMap<>(HorizontalAlign.class);
+        this.solApplication = solApplication;
     }
 
     @Override
     public void initialise() {
         for (HorizontalAlign horizontalAlign : HorizontalAlign.values()) {
-            tutorialBoxes.put(horizontalAlign, new TutorialBox(
+            TutorialBox tutorialBox = new TutorialBox(
                     find("tutorialBox" + horizontalAlign.toString(), UIBox.class),
                     find("tutorialText" + horizontalAlign.toString(), UILabel.class),
                     find("interactHint" + horizontalAlign.toString(), InteractHint.class)
-            ));
+            );
+            if (tutorialBox.interactHint != null) {
+                tutorialBox.interactHint.useMobileIcons(solApplication.isMobile());
+            }
+            tutorialBoxes.put(horizontalAlign, tutorialBox);
         }
     }
 

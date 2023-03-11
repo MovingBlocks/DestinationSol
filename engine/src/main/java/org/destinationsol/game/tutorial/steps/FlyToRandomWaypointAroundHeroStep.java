@@ -43,7 +43,7 @@ public class FlyToRandomWaypointAroundHeroStep extends FlyToWaypointStep {
         waypointPosition = hero.getPosition().cpy();
         while (!game.isPlaceEmpty(waypointPosition, true)) {
             waypointPosition.set(
-                    hero.getPosition().x + SolRandom.randomFloat(minDistance, minDistance + radius),
+                    hero.getPosition().x + SolRandom.randomFloat(-(minDistance + radius), minDistance + radius),
                     hero.getPosition().y + SolRandom.randomFloat(minDistance, minDistance + radius)
             );
         }

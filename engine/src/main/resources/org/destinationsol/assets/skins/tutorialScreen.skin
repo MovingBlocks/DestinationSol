@@ -44,6 +44,9 @@
             },
             "mouse_right": {
               "background": "engine:mouseClickRight"
+            },
+            "mobile_tap": {
+              "background": "engine:uiPlanetProximityIndicator"
             }
           }
         },

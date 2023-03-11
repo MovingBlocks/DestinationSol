@@ -20,13 +20,18 @@ import org.joml.Vector2i;
 import org.terasology.input.Input;
 import org.terasology.input.InputType;
 import org.terasology.input.Keyboard;
+import org.terasology.input.MouseInput;
 import org.terasology.nui.Canvas;
 import org.terasology.nui.CoreWidget;
+import org.terasology.nui.LayoutConfig;
 import org.terasology.nui.databinding.Binding;
 import org.terasology.nui.databinding.DefaultBinding;
 
 public class InteractHint extends CoreWidget {
+    public static String MOBILE_TAP_MODE = "mobile_tap";
     private Binding<Input> input = new DefaultBinding<>(Keyboard.Key.NONE);
+    @LayoutConfig
+    private boolean useMobileIcons;
 
     public InteractHint() {
     }
@@ -46,6 +51,14 @@ public class InteractHint extends CoreWidget {
 
     public void bindInput(Binding<Input> input) {
         this.input = input;
+    }
+
+    public boolean isUsingMobileIcons() {
+        return useMobileIcons;
+    }
+
+    public void useMobileIcons(boolean useMobileIcons) {
+        this.useMobileIcons = useMobileIcons;
     }
 
     @Override
@@ -74,6 +87,9 @@ public class InteractHint extends CoreWidget {
         }
         if (input.get() == null) {
             return DEFAULT_MODE;
+        }
+        if (useMobileIcons && input.get() == MouseInput.MOUSE_LEFT) {
+            return MOBILE_TAP_MODE;
         }
         return input.get().getName().toLowerCase();
     }

@@ -151,7 +151,7 @@ public class NewTutorialManager implements UpdateAwareSystem {
                 new TurnLeftRightStep(isMobile ? "Turn left and right." : "Turn left and right (" + turnControlHint + ")."),
                 new ThrustForwardsStep(isMobile ? "Thrust forwards." : "Thrust forwards (" + thrustForwardControlHint + ")."),
                 new SlowVelocityStep(0.1f, "Turn around and thrust again to slow down.\n\nTry slowing to a stop."),
-                new FlyToRandomWaypointAroundHeroStep(1.0f, 4.0f, "Fly to the waypoint."),
+                new FlyToRandomWaypointAroundHeroStep(1.0f, 2.5f, "Fly to the waypoint."),
                 new MessageStep("Section 2 - Weapons"),
                 new FireGunStep(isMobile ? "Fire your gun." : "Fire your gun (" + shootControlHint + ")."),
                 new CheckGunReloadStep(false, true, "Firing weapons drains your ammunition. Keep on firing."),
@@ -161,7 +161,7 @@ public class NewTutorialManager implements UpdateAwareSystem {
                 new UseAbilityStep(isMobile ? "Use your ability." : "Use your ability (" + abilityControlHint + ")."),
                 new MessageStep("Abilities consume ability charges."),
                 new MessageStep("Section 3 - Money"),
-                new DestroySpawnedAsteroidAroundHeroStep(1.0f, 4.0f, "Fire at the asteroid."),
+                new DestroySpawnedAsteroidAroundHeroStep(1.0f, 2.5f, "Fire at the asteroid."),
                 new MessageStep("Asteroids drop loot - money in this case."),
                 new MessageStep("Section 4 - Items"),
                 new OpenScreenStep(

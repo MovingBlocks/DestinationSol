@@ -19,14 +19,24 @@ package org.destinationsol.game.tutorial.steps;
 import org.destinationsol.game.Hero;
 import org.destinationsol.game.SolGame;
 import org.destinationsol.game.input.Pilot;
+import org.destinationsol.game.screens.GameScreens;
+import org.destinationsol.game.screens.ShipUiControl;
 import org.destinationsol.game.tutorial.TutorialStep;
+import org.destinationsol.ui.nui.screens.UIShipControlsScreen;
+import org.destinationsol.ui.nui.widgets.UIWarnButton;
 
 import javax.inject.Inject;
 
 public class TurnLeftRightStep extends TutorialStep {
+    private static final float LEFT_TURN_DURATION = 0.75f;
+    private static final float RIGHT_TURN_DURATION = 0.75f;
     @Inject
     protected SolGame game;
+    @Inject
+    protected GameScreens gameScreens;
     private final String message;
+    private UIWarnButton leftButton;
+    private UIWarnButton rightButton;
     private float leftSeconds = 0;
     private float rightSeconds = 0;
 
@@ -40,10 +50,23 @@ public class TurnLeftRightStep extends TutorialStep {
     }
 
     public void start() {
+        ShipUiControl shipUiControl = gameScreens.oldMainGameScreen.getShipControl();
+        if (shipUiControl instanceof UIShipControlsScreen) {
+            UIShipControlsScreen uiShipControlsScreen = (UIShipControlsScreen) shipUiControl;
+            this.leftButton = uiShipControlsScreen.getLeftButton();
+            this.rightButton = uiShipControlsScreen.getRightButton();
+        }
         setTutorialText(message);
     }
 
     public boolean checkComplete(float timeStep) {
+        if (this.leftButton != null && leftSeconds < LEFT_TURN_DURATION) {
+            this.leftButton.enableWarn();
+        }
+        if (this.rightButton != null && rightSeconds < RIGHT_TURN_DURATION) {
+            this.rightButton.enableWarn();
+        }
+
         Hero hero = game.getHero();
         Pilot playerPilot = hero.getShip().getPilot();
 
@@ -55,6 +78,6 @@ public class TurnLeftRightStep extends TutorialStep {
             rightSeconds += timeStep;
         }
 
-        return (leftSeconds > 1.0f && rightSeconds > 1.0f);
+        return (leftSeconds >= LEFT_TURN_DURATION && rightSeconds >= RIGHT_TURN_DURATION);
     }
 }
