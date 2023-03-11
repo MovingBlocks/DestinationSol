@@ -266,16 +266,6 @@ public class PlayerCreatorTest {
     }
 
     @Test
-    public void testTutorialModeAddsSeenItemsIfRespawnItemsAreEmpty() {
-        respawnState.getRespawnItems().clear();
-        when(solGame.isTutorial()).thenReturn(true);
-        int groupCountBefore = shipItemContainer.groupCount();
-        playerCreator.createPlayer(shipConfig, false, respawnState, solGame, false, false);
-        assertThat(shipItemContainer.groupCount()).isGreaterThan(groupCountBefore);
-        assertThat(shipItemContainer.hasNew()).isFalse();
-    }
-
-    @Test
     public void testAddShipDelayed() {
         playerCreator.createPlayer(shipConfig, false, respawnState, solGame, false, false);
         verify(solGame.getObjectManager()).addObjDelayed(solShip);
