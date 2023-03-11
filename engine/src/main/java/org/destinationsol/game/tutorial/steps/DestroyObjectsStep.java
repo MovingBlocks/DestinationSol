@@ -28,6 +28,10 @@ import org.destinationsol.ui.Waypoint;
 
 import javax.inject.Inject;
 
+/**
+ * A tutorial step that completes when the specified object is destroyed.
+ * It marks the object with a waypoint to guide the player towards it.
+ */
 public class DestroyObjectsStep extends TutorialStep {
     @Inject
     protected SolGame game;

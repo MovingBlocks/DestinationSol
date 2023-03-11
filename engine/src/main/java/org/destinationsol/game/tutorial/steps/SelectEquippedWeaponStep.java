@@ -22,6 +22,10 @@ import org.destinationsol.ui.nui.widgets.UIWarnButton;
 
 import javax.inject.Inject;
 
+/**
+ * A tutorial step that completes when the player selects an equipped weapon.
+ * The step hints to the player those items that are already equipped.
+ */
 public class SelectEquippedWeaponStep extends TutorialStep {
     @Inject
     protected GameScreens gameScreens;

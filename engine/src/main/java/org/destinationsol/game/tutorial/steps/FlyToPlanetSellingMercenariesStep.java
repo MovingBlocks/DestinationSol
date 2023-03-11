@@ -27,6 +27,10 @@ import javax.inject.Inject;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * A tutorial step that completes when the player reaches a planet-based store selling mercenaries.
+ * It guides the player towards the planet first with a waypoint, then towards the shop itself.
+ */
 public class FlyToPlanetSellingMercenariesStep extends FlyToPlanetStep {
     @Inject
     protected FlyToPlanetSellingMercenariesStep() {

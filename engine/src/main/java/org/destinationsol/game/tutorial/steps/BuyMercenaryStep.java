@@ -24,11 +24,16 @@ import org.terasology.nui.HorizontalAlign;
 
 import javax.inject.Inject;
 
+/**
+ * A tutorial step that completes when the user has navigated to the {@link org.destinationsol.game.screens.HireShipsScreen}
+ * and hired a mercenary. The player is gifted some money to allow them to afford this.
+ */
 public class BuyMercenaryStep extends TutorialStep {
     @Inject
     protected SolGame game;
     private final int giftMoney;
-    private final String message;
+    private final String hireMessage;
+    private final String hireMercenaryMessage;
     private boolean hireButtonPressed = false;
     private boolean hireMercenaryButtonPressed = false;
     private UIWarnButton hireButton;
@@ -39,16 +44,17 @@ public class BuyMercenaryStep extends TutorialStep {
         throw new RuntimeException("Attempted to instantiate TutorialStep via DI. This is not supported.");
     }
 
-    public BuyMercenaryStep(int giftMoney, String message) {
+    public BuyMercenaryStep(int giftMoney, String hireMessage, String hireMercenaryMessage) {
         this.giftMoney = giftMoney;
-        this.message = message;
+        this.hireMessage = hireMessage;
+        this.hireMercenaryMessage = hireMercenaryMessage;
     }
 
     public void start() {
         Hero hero = game.getHero();
         hero.setMoney(hero.getMoney() + giftMoney);
         setTutorialBoxPosition(HorizontalAlign.LEFT);
-        setTutorialText(message);
+        setTutorialText(hireMessage);
         hireButton = game.getScreens().talkScreen.getHireButton();
         hireButton.subscribe(button -> {
             hireButtonPressed = true;
@@ -68,6 +74,7 @@ public class BuyMercenaryStep extends TutorialStep {
         if (!hireButtonPressed) {
             hireButton.enableWarn();
         } else {
+            setTutorialText(hireMercenaryMessage);
             hireMercenaryButton.enableWarn();
         }
 

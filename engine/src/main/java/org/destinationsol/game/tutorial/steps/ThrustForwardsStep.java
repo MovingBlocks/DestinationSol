@@ -27,6 +27,9 @@ import org.destinationsol.ui.nui.widgets.UIWarnButton;
 
 import javax.inject.Inject;
 
+/**
+ * A tutorial step that completes when the play ship thrusts forwards.
+ */
 public class ThrustForwardsStep extends TutorialStep {
     @Inject
     protected SolGame game;

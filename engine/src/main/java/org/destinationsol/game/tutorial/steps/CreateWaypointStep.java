@@ -26,6 +26,10 @@ import org.terasology.nui.HorizontalAlign;
 
 import javax.inject.Inject;
 
+/**
+ * A tutorial step that completes when the player has created a waypoint.
+ * The waypoint will only be accepted if it is less than 100 units away from the player ship.
+ */
 public class CreateWaypointStep extends TutorialStep {
     @Inject
     protected SolGame game;

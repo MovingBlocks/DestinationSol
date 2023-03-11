@@ -23,6 +23,9 @@ import org.terasology.input.MouseInput;
 
 import javax.inject.Inject;
 
+/**
+ * A tutorial step that completes when the player pans the map.
+ */
 public class MapDragStep extends TutorialStep {
     @Inject
     protected MapDrawer mapDrawer;

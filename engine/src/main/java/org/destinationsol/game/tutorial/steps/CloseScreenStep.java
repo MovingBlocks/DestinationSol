@@ -24,6 +24,9 @@ import org.destinationsol.ui.nui.widgets.UIWarnButton;
 
 import javax.inject.Inject;
 
+/**
+ * A tutorial step that completes when the specified screen is closed. It hints at a button that can be used to do this.
+ */
 public class CloseScreenStep extends TutorialStep {
     @Inject
     protected NUIManager nuiManager;

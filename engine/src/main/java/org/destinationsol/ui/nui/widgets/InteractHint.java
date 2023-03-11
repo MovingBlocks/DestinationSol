@@ -27,9 +27,17 @@ import org.terasology.nui.LayoutConfig;
 import org.terasology.nui.databinding.Binding;
 import org.terasology.nui.databinding.DefaultBinding;
 
+/**
+ * This widget displays an icon representing the desired input interaction.
+ * The icons used are determined by the UI style assigned to the widget.
+ * The widget's part is set to the input type and its mode set to the exact input name (lowercase).
+ */
 public class InteractHint extends CoreWidget {
     public static String MOBILE_TAP_MODE = "mobile_tap";
     private Binding<Input> input = new DefaultBinding<>(Keyboard.Key.NONE);
+    /**
+     * Determines if mouse left-click actions should use the {@link #MOBILE_TAP_MODE} mode instead.
+     */
     @LayoutConfig
     private boolean useMobileIcons;
 
@@ -41,22 +49,42 @@ public class InteractHint extends CoreWidget {
         this.input.set(input);
     }
 
+    /**
+     * Returns the input being hinted at.
+     * @return the hinted input
+     */
     public Input getInput() {
         return input.get();
     }
 
+    /**
+     * Sets the input to be hinted.
+     * @param input the input to be hinted
+     */
     public void setInput(Input input) {
         this.input.set(input);
     }
 
+    /**
+     * Binds the input to be hinted to the specified binding.
+     * @param input the input binding
+     */
     public void bindInput(Binding<Input> input) {
         this.input = input;
     }
 
+    /**
+     * States if the hint uses a mobile icon for the mouse left-click input.
+     * @return true, if using a mobile icon for left-click, otherwise false
+     */
     public boolean isUsingMobileIcons() {
         return useMobileIcons;
     }
 
+    /**
+     * Specifies if a mobile icon should be used for the mouse left-click hint.
+     * @param useMobileIcons determines if the mobile icon should be used
+     */
     public void useMobileIcons(boolean useMobileIcons) {
         this.useMobileIcons = useMobileIcons;
     }

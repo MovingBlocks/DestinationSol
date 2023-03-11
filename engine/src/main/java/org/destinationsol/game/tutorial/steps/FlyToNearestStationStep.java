@@ -24,6 +24,9 @@ import org.destinationsol.game.ship.hulls.HullConfig;
 
 import javax.inject.Inject;
 
+/**
+ * A tutorial step that completes when the player reaches the nearest station to their location at the start of the step.
+ */
 public class FlyToNearestStationStep extends FlyToWaypointStep {
     @Inject
     protected FlyToNearestStationStep() {

@@ -25,6 +25,10 @@ import org.destinationsol.game.tutorial.steps.wrapper.TrackedSolObjectWrapper;
 
 import javax.inject.Inject;
 
+/**
+ * A tutorial step that completes when the player destroys a spawned asteroid.
+ * The asteroid is spawned somewhere around the player ship at the start of this step.
+ */
 public class DestroySpawnedAsteroidAroundHeroStep extends DestroyObjectsStep {
     private final float minDistance;
     private final float spawnRadius;

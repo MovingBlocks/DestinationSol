@@ -81,6 +81,7 @@ public class TutorialScreen extends NUIScreenLayer {
 
     @Override
     public void initialise() {
+        // TODO: The right tutorial box doesn't exist yet. It will return null values.
         for (HorizontalAlign horizontalAlign : HorizontalAlign.values()) {
             TutorialBox tutorialBox = new TutorialBox(
                     find("tutorialBox" + horizontalAlign.toString(), UIBox.class),
@@ -94,35 +95,71 @@ public class TutorialScreen extends NUIScreenLayer {
         }
     }
 
+    /**
+     * Returns the text displayed in the centre tutorial box.
+     * @return the text displayed in the centre tutorial box
+     */
     public String getTutorialText() {
         return getTutorialText(HorizontalAlign.CENTER);
     }
 
+    /**
+     * Returns the text displayed in the specified tutorial box.
+     * @param horizontalAlign the tutorial box to select
+     * @return the text displayed in the specified tutorial box.
+     */
     public String getTutorialText(HorizontalAlign horizontalAlign) {
         return getTutorialTextLabel(horizontalAlign).getText();
     }
 
+    /**
+     * Specifies the text to be displayed in the centre tutorial box.
+     * @param text the text to be displayed in the centre tutorial box
+     */
     public void setTutorialText(String text) {
         setTutorialText(text, HorizontalAlign.CENTER);
     }
 
+    /**
+     * Specifies the text to be displayed in the specified tutorial box.
+     * @param text the text to be displayed
+     * @param horizontalAlign the tutorial box to select
+     */
     public void setTutorialText(String text, HorizontalAlign horizontalAlign) {
         getTutorialTextLabel(horizontalAlign).setText(text);
         getTutorialBox(horizontalAlign).setVisible(!text.isEmpty());
     }
 
+    /**
+     * Returns the input hinted at by the centre tutorial box. This can be null.
+     * @return the input hinted at by the centre tutorial box
+     */
     public Input getInteractHintInput() {
         return getInteractHintInput(HorizontalAlign.CENTER);
     }
 
+    /**
+     * Returns the input hinted at by the specified tutorial box. This can be null.
+     * @param horizontalAlign the tutorial box to select
+     * @return the input hinted at by the specified tutorial box
+     */
     public Input getInteractHintInput(HorizontalAlign horizontalAlign) {
         return getInteractHint(horizontalAlign).getInput();
     }
 
+    /**
+     * Specifies the input hinted at by the centre tutorial box.
+     * @param input the input hinted at by the centre tutorial box
+     */
     public void setInteractHintInput(Input input) {
         setInteractHintInput(HorizontalAlign.CENTER, input);
     }
 
+    /**
+     * Specifies the input hinted at by the specified tutorial box.
+     * @param horizontalAlign the tutorial box to select
+     * @param input the input to hint at
+     */
     public void setInteractHintInput(HorizontalAlign horizontalAlign, Input input) {
         InteractHint interactHint = getInteractHint(horizontalAlign);
         if (input != null) {
@@ -133,14 +170,26 @@ public class TutorialScreen extends NUIScreenLayer {
         }
     }
 
+    /**
+     * Specifies a callback involved when the hinted-at input is activated.
+     * @param interactEvent the interaction callback
+     */
     public void setInteractEvent(Consumer<Input> interactEvent) {
         setInteractEvent(HorizontalAlign.CENTER, interactEvent);
     }
 
+    /**
+     * Specifies a callback involved when the hinted-at input is activated.
+     * @param horizontalAlign the tutorial box to select
+     * @param interactEvent the interaction callback
+     */
     public void setInteractEvent(HorizontalAlign horizontalAlign, Consumer<Input> interactEvent) {
         tutorialBoxes.get(horizontalAlign).inputEventListener = interactEvent;
     }
 
+    /**
+     * This clears the contents of all the tutorial boxes and hides them.
+     */
     public void clearAllTutorialBoxes() {
         for (TutorialBox tutorialBox : tutorialBoxes.values()) {
             if (tutorialBox.box != null) {

@@ -22,6 +22,9 @@ import org.destinationsol.game.planet.Planet;
 
 import javax.inject.Inject;
 
+/**
+ * A tutorial step that completes when the player reaches the specified planet.
+ */
 public class FlyToPlanetStep extends FlyToWaypointStep {
     protected Planet planet;
 

@@ -66,8 +66,12 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+/**
+ * This class is responsible for running the in-game tutorial. It delegates the individual tasks to {@link TutorialStep}
+ * instances.
+ * @see TutorialStep
+ */
 public class NewTutorialManager implements UpdateAwareSystem {
-    private static final Logger logger = LoggerFactory.getLogger(NewTutorialManager.class);
     private final NUIManager nuiManager;
     private final TutorialScreen tutorialScreen;
     private final SolApplication solApplication;
@@ -100,6 +104,8 @@ public class NewTutorialManager implements UpdateAwareSystem {
         boolean usesKeyboard = !isMobile &&
                 (controlType != GameOptions.ControlType.MOUSE);
 
+        // A lot of input names will vary by control type. In some control types, the inputs are also hard-coded.
+        // Rather than a lot of messy conditional statements in-line with the step definitions, we'll set things up here.
         String turnControlHint = "";
         String thrustForwardControlHint = "";
         String shootControlHint = "";
@@ -228,7 +234,9 @@ public class NewTutorialManager implements UpdateAwareSystem {
                         solGame.get().getScreens().mainGameScreen.getTalkButton(),
                         solGame.get().getScreens().talkScreen,
                         "Talk to the station."),
-                new BuyMercenaryStep(1000, "Try hiring a mercenary."),
+                new BuyMercenaryStep(1000,
+                        usesKeyboard ? "Select Hire (" + gameOptions.getKeyHireShipMenuName() + ")." : "Select Hire.",
+                        "Try hiring a mercenary."),
                 new MessageStep("Let's see how your mercenary fights."),
                 new DestroySpawnedShipsStep(1, "core:pirateSmall",
                         "core:blaster core:smallShield", "Destroy the targeted ship.",
@@ -262,16 +270,26 @@ public class NewTutorialManager implements UpdateAwareSystem {
         tutorialScreen.setTutorialText(firstStep.getTutorialText(), firstStep.getTutorialBoxPosition());
     }
 
+    /**
+     * Checks if a step instance is already present in the tutorial.
+     * @param step the step to check for
+     * @return true, if the step exists, otherwise false
+     */
     public boolean hasStep(TutorialStep step) {
         return steps.contains(step);
     }
 
+    /**
+     * Appends a step to the end of the tutorial list.
+     * @param step the step to add
+     */
     public void addStep(TutorialStep step) {
         steps.add(step);
     }
 
     @Override
     public void update(SolGame game, float timeStep) {
+        // Move the tutorial overlay back to the front of the UI stack, if needed.
         if (nuiManager.getTopScreen() != tutorialScreen) {
             if (nuiManager.hasScreen(tutorialScreen)) {
                 tutorialScreen.moveToTop();
@@ -303,6 +321,9 @@ public class NewTutorialManager implements UpdateAwareSystem {
         }
     }
 
+    /**
+     * This method should be called when either the game or the tutorial ends. It cleans-up the UI changes made for the tutorial.
+     */
     public void onGameEnd() {
         MainGameScreen mainGameScreen = solGame.get().getMainGameScreen();
         mainGameScreen.getTalkButton().setVisible(true);

@@ -24,6 +24,9 @@ import org.destinationsol.ui.nui.widgets.UIWarnButton;
 
 import javax.inject.Inject;
 
+/**
+ * A tutorial step that completes when the player ship fires its gun.
+ */
 public class FireGunStep extends MessageStep {
     @Inject
     protected SolGame game;

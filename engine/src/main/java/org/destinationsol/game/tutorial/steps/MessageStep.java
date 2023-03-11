@@ -26,6 +26,11 @@ import org.terasology.nui.backends.libgdx.GDXInputUtil;
 
 import javax.inject.Inject;
 
+/**
+ * A tutorial step that displays a message to the player and waits for input before completing.
+ * The input is hinted-at in the corner of the message box.
+ * There is a cooldown to prevent continuously skipping these messages by holding down the advance input.
+ */
 public class MessageStep extends TutorialStep {
     protected static final float MIN_STEP_DURATION = 0.5f;
     @Inject

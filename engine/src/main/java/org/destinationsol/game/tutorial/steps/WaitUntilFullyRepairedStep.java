@@ -22,6 +22,9 @@ import org.destinationsol.game.tutorial.TutorialStep;
 
 import javax.inject.Inject;
 
+/**
+ * A tutorial step that completes when the player ship's hull is at full health.
+ */
 public class WaitUntilFullyRepairedStep extends TutorialStep {
     @Inject
     protected SolGame game;

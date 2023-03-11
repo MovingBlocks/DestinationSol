@@ -21,6 +21,9 @@ import org.destinationsol.ui.nui.widgets.UIWarnButton;
 
 import javax.inject.Inject;
 
+/**
+ * A tutorial step that completes when the user presses the specified {@link UIWarnButton}.
+ */
 public class ButtonPressStep extends TutorialStep {
     private final UIWarnButton button;
     private final String message;

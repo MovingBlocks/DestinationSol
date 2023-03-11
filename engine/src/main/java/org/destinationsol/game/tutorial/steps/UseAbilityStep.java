@@ -26,6 +26,9 @@ import org.destinationsol.ui.nui.widgets.UIWarnButton;
 
 import javax.inject.Inject;
 
+/**
+ * A tutorial step that completes when the player ship uses its ability.
+ */
 public class UseAbilityStep extends TutorialStep {
     @Inject
     protected SolGame game;

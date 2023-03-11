@@ -21,6 +21,9 @@ import org.destinationsol.game.Hero;
 
 import javax.inject.Inject;
 
+/**
+ * A tutorial step that completes when the player ship reaches a nearby spawned waypoint.
+ */
 public class FlyToHeroFirstWaypointStep extends FlyToWaypointStep {
     @Inject
     protected FlyToHeroFirstWaypointStep() {

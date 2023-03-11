@@ -22,6 +22,9 @@ import org.destinationsol.game.tutorial.TutorialStep;
 
 import javax.inject.Inject;
 
+/**
+ * A tutorial step that completes when the player ship reduces its velocity to below a specified threshold.
+ */
 public class SlowVelocityStep extends TutorialStep {
     private static final float MAX_ACCELERATION = 0.8f;
     @Inject

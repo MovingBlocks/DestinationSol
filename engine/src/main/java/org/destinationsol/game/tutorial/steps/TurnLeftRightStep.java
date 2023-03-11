@@ -27,6 +27,9 @@ import org.destinationsol.ui.nui.widgets.UIWarnButton;
 
 import javax.inject.Inject;
 
+/**
+ * A tutorial step that completes once the player ship has attempted turning both left and right.
+ */
 public class TurnLeftRightStep extends TutorialStep {
     private static final float LEFT_TURN_DURATION = 0.75f;
     private static final float RIGHT_TURN_DURATION = 0.75f;

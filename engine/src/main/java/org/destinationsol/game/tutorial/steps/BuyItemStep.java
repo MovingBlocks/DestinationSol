@@ -24,6 +24,10 @@ import org.terasology.nui.HorizontalAlign;
 
 import javax.inject.Inject;
 
+/**
+ * A tutorial step that completes when the user has navigated to the {@link org.destinationsol.game.screens.BuyItemsScreen}
+ * and purchased an item.
+ */
 public class BuyItemStep extends TutorialStep {
     @Inject
     protected NUIManager nuiManager;

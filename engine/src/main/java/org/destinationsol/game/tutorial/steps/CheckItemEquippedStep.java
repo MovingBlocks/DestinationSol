@@ -24,6 +24,11 @@ import org.destinationsol.ui.nui.widgets.UIWarnButton;
 
 import javax.inject.Inject;
 
+/**
+ * A tutorial step that completes when the player either equips or un-equips an item.
+ * If {@link #equipped} is true, then the step completes when the player equips an item.
+ * If {@link #equipped} is false, then the step completes when the player un-equips the item they had selected.
+ */
 public class CheckItemEquippedStep extends TutorialStep {
     @Inject
     protected GameScreens gameScreens;

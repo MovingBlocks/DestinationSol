@@ -26,6 +26,10 @@ import org.destinationsol.ui.Waypoint;
 
 import javax.inject.Inject;
 
+/**
+ * A tutorial step that completes when the player reaches the specified position.
+ * A waypoint is automatically created at the specified position to guide the player.
+ */
 public class FlyToWaypointStep extends TutorialStep {
     private static final float MIN_WAYPOINT_DISTANCE = 0.2f;
     @Inject

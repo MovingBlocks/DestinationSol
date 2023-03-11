@@ -33,6 +33,11 @@ import org.destinationsol.game.tutorial.steps.wrapper.TrackedSolObjectWrapper;
 
 import javax.inject.Inject;
 
+/**
+ * A tutorial step that completes when all spawned ships have been destroyed. If the player dies, they are prompted to respawn.
+ * The spawned ships are marked by waypoints, which guide the player towards them.
+ * All ships are spawned at the start of the ships from a specified hull configuration.
+ */
 public class DestroySpawnedShipsStep extends DestroyObjectsStep {
     private final int shipCount;
     private final String hullConfig;

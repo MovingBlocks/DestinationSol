@@ -24,6 +24,11 @@ import javax.inject.Inject;
 import java.util.List;
 import java.util.Map;
 
+/**
+ * A tutorial step that explains the purposes of specified item types to the player.
+ * It completes when the explanations have been advanced.
+ * @see MessageStep
+ */
 public class ItemTypesExplanationStep extends MessageStep {
     @Inject
     protected GameScreens gameScreens;

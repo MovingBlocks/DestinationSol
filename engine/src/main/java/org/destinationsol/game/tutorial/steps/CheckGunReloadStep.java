@@ -22,6 +22,11 @@ import org.destinationsol.game.tutorial.TutorialStep;
 
 import javax.inject.Inject;
 
+/**
+ * A tutorial step that completes when the player gun has either started or stopped reloading.
+ * If {@link #isReloading} is true, then the step completes when the player gun starts reloading.
+ * If {@link #isReloading} is false, then the step completes when the player gun has finished reloading.
+ */
 public class CheckGunReloadStep extends TutorialStep {
     @Inject
     protected SolGame game;

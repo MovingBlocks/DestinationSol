@@ -23,6 +23,10 @@ import org.destinationsol.game.planet.Planet;
 
 import javax.inject.Inject;
 
+/**
+ * A tutorial step that completes when the player reaches the nearest star port (star lane) to their location at
+ * the start of the step.
+ */
 public class FlyToNearestStarPortStep extends FlyToWaypointStep {
     private Planet fromPlanet;
     private Planet toPlanet;

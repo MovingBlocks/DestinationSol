@@ -27,6 +27,11 @@ import org.destinationsol.ui.nui.screens.InventoryScreen;
 
 import javax.inject.Inject;
 
+/**
+ * A tutorial step that guides the player through the {@link ChooseMercenaryScreen}.
+ * It explains what the various sub-screens do as well.
+ * It completes when the player closes the screen.
+ */
 public class ManageMercenariesGuidanceStep extends TutorialStep {
     @Inject
     protected NUIManager nuiManager;

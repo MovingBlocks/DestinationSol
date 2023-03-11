@@ -24,6 +24,9 @@ import org.destinationsol.ui.nui.widgets.UIWarnButton;
 
 import javax.inject.Inject;
 
+/**
+ * A tutorial step that completes when the specified screen is opened.
+ */
 public class OpenScreenStep extends TutorialStep {
     @Inject
     protected NUIManager nuiManager;

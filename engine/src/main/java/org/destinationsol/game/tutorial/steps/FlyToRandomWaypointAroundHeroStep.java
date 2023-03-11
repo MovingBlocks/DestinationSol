@@ -22,6 +22,10 @@ import org.destinationsol.game.Hero;
 
 import javax.inject.Inject;
 
+/**
+ * A tutorial step that completes when the player reaches a waypoint randomly spawned around them.
+ * You can configure how close or far away from the player's starting position the waypoint should spawn.
+ */
 public class FlyToRandomWaypointAroundHeroStep extends FlyToWaypointStep {
     private final float minDistance;
     private final float radius;
