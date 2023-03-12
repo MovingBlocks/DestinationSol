@@ -18,6 +18,7 @@ package org.destinationsol.game.tutorial.steps;
 
 import org.destinationsol.GameOptions;
 import org.destinationsol.SolApplication;
+import org.destinationsol.game.SolGame;
 import org.destinationsol.game.tutorial.TutorialStep;
 import org.terasology.input.ControllerInput;
 import org.terasology.input.InputType;
@@ -35,6 +36,8 @@ public class MessageStep extends TutorialStep {
     protected static final float MIN_STEP_DURATION = 0.5f;
     @Inject
     protected SolApplication solApplication;
+    @Inject
+    protected SolGame game;
     protected final String message;
     protected float stepTimer;
     protected boolean interactComplete;
@@ -81,6 +84,11 @@ public class MessageStep extends TutorialStep {
 
     @Override
     public boolean checkComplete(float timeStep) {
+        if (solApplication.getOptions().controlType == GameOptions.ControlType.CONTROLLER && game.getHero().getPilot().isShoot()) {
+            // TODO: NUI doesn't support controller input at the moment, so we detect completion here.
+            interactComplete = true;
+        }
+
         stepTimer += timeStep;
         return stepTimer >= MIN_STEP_DURATION && interactComplete;
     }

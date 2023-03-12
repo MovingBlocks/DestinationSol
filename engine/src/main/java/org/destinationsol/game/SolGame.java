@@ -58,11 +58,10 @@ import org.destinationsol.game.ship.ShipAbility;
 import org.destinationsol.game.ship.ShipBuilder;
 import org.destinationsol.game.ship.SloMo;
 import org.destinationsol.game.ship.hulls.HullConfig;
-import org.destinationsol.game.tutorial.NewTutorialManager;
+import org.destinationsol.game.tutorial.TutorialManager;
 import org.destinationsol.mercenary.MercenaryUtils;
 import org.destinationsol.modules.ModuleManager;
 import org.destinationsol.ui.DebugCollector;
-import org.destinationsol.ui.TutorialManager;
 import org.destinationsol.ui.UiDrawer;
 import org.destinationsol.ui.Waypoint;
 import org.destinationsol.ui.nui.screens.MainGameScreen;
@@ -140,8 +139,6 @@ public class SolGame {
     @Inject
     protected Optional<TutorialManager> tutorialManager;
     @Inject
-    protected Optional<NewTutorialManager> newTutorialManager;
-    @Inject
     protected BeanContext beanContext;
     @Inject
     protected GalaxyBuilder galaxyBuilder;
@@ -194,7 +191,6 @@ public class SolGame {
         updateSystems = new TreeMap<>();
         List<UpdateAwareSystem> defaultSystems = new ArrayList<>(Arrays.asList(planetManager, solCam, chunkManager, mountDetectDrawer, objectManager, mapDrawer, soundManager, beaconHandler, drawableDebugger));
         tutorialManager.ifPresent(defaultSystems::add);
-        newTutorialManager.ifPresent(defaultSystems::add);
         updateSystems.put(0, defaultSystems);
 
         List<UpdateAwareSystem> defaultPausedSystems = new ArrayList<UpdateAwareSystem>();
@@ -269,7 +265,6 @@ public class SolGame {
         gameScreens.consoleScreen.init(this);
         solApplication.getNuiManager().pushScreen(gameScreens.mainGameScreen);
         tutorialManager.ifPresent(TutorialManager::start);
-        newTutorialManager.ifPresent(NewTutorialManager::start);
     }
 
     private void addObjectsToPlanetManager() {
@@ -343,7 +338,7 @@ public class SolGame {
                 e.printStackTrace();
             }
         } else {
-            newTutorialManager.ifPresent(NewTutorialManager::onGameEnd);
+            tutorialManager.ifPresent(TutorialManager::onGameEnd);
         }
 
         // TODO: Remove this when context is reset after each game
@@ -639,7 +634,7 @@ public class SolGame {
     }
 
     public boolean isTutorial() {
-        return tutorialManager.isPresent() || newTutorialManager.isPresent();
+        return tutorialManager.isPresent();
     }
 
     public SolApplication getSolApplication() {

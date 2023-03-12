@@ -47,14 +47,13 @@ import org.destinationsol.game.tutorial.steps.OpenScreenStep;
 import org.destinationsol.game.tutorial.steps.SelectEquippedWeaponStep;
 import org.destinationsol.game.tutorial.steps.SlowVelocityStep;
 import org.destinationsol.game.tutorial.steps.ThrustForwardsStep;
+import org.destinationsol.game.tutorial.steps.TravelThroughStarPortStep;
 import org.destinationsol.game.tutorial.steps.TurnLeftRightStep;
 import org.destinationsol.game.tutorial.steps.UseAbilityStep;
 import org.destinationsol.game.tutorial.steps.WaitUntilFullyRepairedStep;
 import org.destinationsol.ui.nui.NUIManager;
 import org.destinationsol.ui.nui.screens.MainGameScreen;
 import org.destinationsol.ui.nui.screens.TutorialScreen;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.terasology.context.exception.BeanNotFoundException;
 import org.terasology.gestalt.di.BeanContext;
 
@@ -71,7 +70,7 @@ import java.util.Map;
  * instances.
  * @see TutorialStep
  */
-public class NewTutorialManager implements UpdateAwareSystem {
+public class TutorialManager implements UpdateAwareSystem {
     private final NUIManager nuiManager;
     private final TutorialScreen tutorialScreen;
     private final SolApplication solApplication;
@@ -81,7 +80,7 @@ public class NewTutorialManager implements UpdateAwareSystem {
     private int stepNo;
 
     @Inject
-    public NewTutorialManager(NUIManager nuiManager, SolApplication solApplication, Provider<SolGame> game, BeanContext beanContext) {
+    public TutorialManager(NUIManager nuiManager, SolApplication solApplication, Provider<SolGame> game, BeanContext beanContext) {
         this.nuiManager = nuiManager;
         this.tutorialScreen = (TutorialScreen) nuiManager.createScreen("engine:tutorialScreen");
         this.solApplication = solApplication;
@@ -101,8 +100,7 @@ public class NewTutorialManager implements UpdateAwareSystem {
         GameOptions gameOptions = solApplication.getOptions();
         GameOptions.ControlType controlType = gameOptions.controlType;
         boolean isMobile = solApplication.isMobile();
-        boolean usesKeyboard = !isMobile &&
-                (controlType != GameOptions.ControlType.MOUSE);
+        boolean usesKeyboard = !isMobile && (controlType != GameOptions.ControlType.MOUSE);
 
         // A lot of input names will vary by control type. In some control types, the inputs are also hard-coded.
         // Rather than a lot of messy conditional statements in-line with the step definitions, we'll set things up here.
@@ -220,7 +218,7 @@ public class NewTutorialManager implements UpdateAwareSystem {
                         isMobile ? "Open the map." : "Open the map (" + gameOptions.getKeyMapName() + ")."),
                 new ButtonPressStep(solGame.get().getScreens().mapScreen.getZoomInButton(), "Zoom In"),
                 new ButtonPressStep(solGame.get().getScreens().mapScreen.getZoomOutButton(), "Zoom Out"),
-                new MapDragStep("You can move around the map by clicking/tapping and dragging."),
+                new MapDragStep("You can drag the map to move around."),
                 new CreateWaypointStep("Create a waypoint near your ship."),
                 new CloseScreenStep(
                         solGame.get().getScreens().mapScreen.getCloseButton(),
@@ -237,11 +235,7 @@ public class NewTutorialManager implements UpdateAwareSystem {
                 new BuyMercenaryStep(1000,
                         usesKeyboard ? "Select Hire (" + gameOptions.getKeyHireShipMenuName() + ")." : "Select Hire.",
                         "Try hiring a mercenary."),
-                new MessageStep("Let's see how your mercenary fights."),
-                new DestroySpawnedShipsStep(1, "core:pirateSmall",
-                        "core:blaster core:smallShield", "Destroy the targeted ship.",
-                        "Enemy ships can be tough.\nOpen the pause menu and select Respawn."),
-                new MessageStep("Mercenaries will keep any money they collect as part of their payment."),
+                new MessageStep("Mercenaries will fight for you. They keep any money they collect as part of their payment."),
                 new MessageStep("Section 11 - Managing Mercenaries"),
                 new OpenScreenStep(
                         solGame.get().getScreens().mainGameScreen.getMercsButton(),
@@ -254,7 +248,8 @@ public class NewTutorialManager implements UpdateAwareSystem {
                         "Here you can manage your mercenary's equipment."),
                 new FlyToNearestStarPortStep("Fly to the marked star lane."),
                 new MessageStep("For a small fee, star lanes allow you to travel quickly between planets."),
-                new MessageStep("The tutorial is finished. You will be returned to the main menu.")
+                new TravelThroughStarPortStep("Fly into the centre to travel across the star lane."),
+                new MessageStep("That's it! The tutorial is finished. You will be returned to the main menu.")
         ));
 
         for (TutorialStep step : steps) {
@@ -299,25 +294,25 @@ public class NewTutorialManager implements UpdateAwareSystem {
         }
 
         TutorialStep currentStep = steps.get(stepNo);
-        tutorialScreen.setTutorialText(currentStep.getTutorialText(), currentStep.getTutorialBoxPosition());
-        if (currentStep.getRequiredInput() != null) {
-            tutorialScreen.setInteractHintInput(currentStep.getTutorialBoxPosition(), currentStep.getRequiredInput());
-            tutorialScreen.setInteractEvent(currentStep.getTutorialBoxPosition(), currentStep.getInputHandler());
-        }
+        setUpTutorialBox(currentStep);
         if (currentStep.checkComplete(timeStep)) {
             stepNo++;
             tutorialScreen.clearAllTutorialBoxes();
             if (stepNo < steps.size()) {
                 TutorialStep newStep = steps.get(stepNo);
                 newStep.start();
-                tutorialScreen.setTutorialText(newStep.getTutorialText(), newStep.getTutorialBoxPosition());
-                if (newStep.getRequiredInput() != null) {
-                    tutorialScreen.setInteractHintInput(newStep.getTutorialBoxPosition(), newStep.getRequiredInput());
-                    tutorialScreen.setInteractEvent(newStep.getTutorialBoxPosition(), newStep.getInputHandler());
-                }
+                setUpTutorialBox(newStep);
             } else {
                 solApplication.finishGame();
             }
+        }
+    }
+
+    private void setUpTutorialBox(TutorialStep tutorialStep) {
+        tutorialScreen.setTutorialText(tutorialStep.getTutorialText(), tutorialStep.getTutorialBoxPosition());
+        if (tutorialStep.getRequiredInput() != null) {
+            tutorialScreen.setInteractHintInput(tutorialStep.getTutorialBoxPosition(), tutorialStep.getRequiredInput());
+            tutorialScreen.setInteractEvent(tutorialStep.getTutorialBoxPosition(), tutorialStep.getInputHandler());
         }
     }
 

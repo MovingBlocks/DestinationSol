@@ -37,7 +37,7 @@ import java.util.function.Consumer;
 /**
  * This screen displays the message box shown during the tutorial to instruct the user.
  * It is unusual in that it should always be rendered on-top of all other UI screens.
- * See {@link #moveToTop()} and {@link org.destinationsol.ui.TutorialManager#update(SolGame, float)} for how this is done.
+ * See {@link #moveToTop()} and {@link org.destinationsol.game.tutorial.TutorialManager#update(SolGame, float)} for how this is done.
  */
 public class TutorialScreen extends NUIScreenLayer {
     private static final class TutorialBox {
@@ -229,14 +229,10 @@ public class TutorialScreen extends NUIScreenLayer {
 
     @Override
     public boolean onKeyEvent(NUIKeyEvent event) {
-        if (event.isDown()) {
-            return super.onKeyEvent(event);
-        }
-
         for (TutorialBox tutorialBox : tutorialBoxes.values()) {
             if (tutorialBox.interactHint != null && tutorialBox.interactHint.isVisible() &&
                     tutorialBox.interactHint.getInput().equals(event.getKey())) {
-                if (tutorialBox.inputEventListener != null) {
+                if (!event.isDown() && tutorialBox.inputEventListener != null) {
                     tutorialBox.inputEventListener.accept(event.getKey());
                 }
                 return true;
