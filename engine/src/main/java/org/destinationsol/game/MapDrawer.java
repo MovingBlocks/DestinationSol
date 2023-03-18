@@ -21,7 +21,6 @@ import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
-import com.badlogic.gdx.math.Vector3;
 import org.destinationsol.Const;
 import org.destinationsol.SolApplication;
 import org.destinationsol.assets.Assets;
@@ -142,18 +141,20 @@ public class MapDrawer implements UpdateAwareSystem{
 
         //Update drawing camera's position in-case the map is panned around
         OrthographicCamera drawCamera = camera.getCamera();
-        drawCamera.position.add(new Vector3(mapDrawPositionAdditive, 0));
+        drawCamera.position.add(mapDrawPositionAdditive.x, mapDrawPositionAdditive.y, 0);
         drawCamera.update();
         drawer.updateMatrix(context);
 
+        Vector2 viewPosition = cameraPosition.cpy().add(mapDrawPositionAdditive);
+
         game.getGridDrawer().draw(drawer, game, GRID_SZ, lineTexture);
-        drawPlanets(drawer, game, viewDist, np, cameraPosition, heroDmgCap, camAngle, context);
-        drawMazes(drawer, game, viewDist, np, cameraPosition, heroDmgCap, camAngle);
-        drawStarNodes(drawer, game, viewDist, cameraPosition, starNodeW);
+        drawPlanets(drawer, game, viewDist, np, cameraPosition, viewPosition, heroDmgCap, camAngle, context);
+        drawMazes(drawer, game, viewDist, np, viewPosition, heroDmgCap, camAngle);
+        drawStarNodes(drawer, game, viewDist, viewPosition, starNodeW);
         drawWaypoints(drawer, game, iconSz, viewDist);
 
         // using ui textures
-        drawIcons(drawer, game, iconSz, viewDist, factionManager, hero, cameraPosition, heroDmgCap);
+        drawIcons(drawer, game, iconSz, viewDist, factionManager, hero, viewPosition, heroDmgCap);
 
         if (game.getScreens().mapScreen.isPickingWaypointSpot()) {
             drawer.drawString("Click a spot for the new waypoint", drawCamera.position.x, drawCamera.position.y + (zoom* 1.5f), 0.125f * zoom, true, Color.RED);
@@ -164,7 +165,7 @@ public class MapDrawer implements UpdateAwareSystem{
         }
 
         //Reset the camera's position for use in any other class
-        drawCamera.position.set(new Vector3(cameraPosition.x, cameraPosition.y,0));
+        drawCamera.position.set(cameraPosition.x, cameraPosition.y, 0);
         drawCamera.update();
     }
 
@@ -172,14 +173,14 @@ public class MapDrawer implements UpdateAwareSystem{
         return cam.getViewHeight(zoom) * iconRadius;
     }
 
-    private void drawMazes(GameDrawer drawer, SolGame game, float viewDist, Planet np, Vector2 camPos, float heroDmgCap,
+    private void drawMazes(GameDrawer drawer, SolGame game, float viewDist, Planet np, Vector2 viewPos, float heroDmgCap,
                            float camAngle) {
         ArrayList<Maze> mazes = game.getPlanetManager().getMazes();
         for (Maze maze : mazes) {
             Vector2 mazePos = maze.getPos();
             float outerRad = maze.getRadius();
             float rad = outerRad - MazeBuilder.BORDER;
-            if (viewDist < camPos.dst(mazePos) - rad) {
+            if (viewDist < viewPos.dst(mazePos) - rad) {
                 continue;
             }
             drawer.draw(mazeTexture, 2 * rad, 2 * rad, rad, rad, mazePos.x, mazePos.y, 45, SolColor.WHITE);
@@ -190,8 +191,8 @@ public class MapDrawer implements UpdateAwareSystem{
 
     }
 
-    private void drawPlanets(GameDrawer drawer, SolGame game, float viewDist, Planet np, Vector2 camPos, float heroDmgCap,
-                             float camAngle, Context context) {
+    private void drawPlanets(GameDrawer drawer, SolGame game, float viewDist, Planet np, Vector2 camPos, Vector2 viewPos,
+                             float heroDmgCap, float camAngle, Context context) {
         ArrayList<SolarSystem> systems = game.getPlanetManager().getSystems();
         SolCam cam = context.get(SolCam.class);
         float circleWidth = cam.getRealLineWidth() * 6;
@@ -203,7 +204,7 @@ public class MapDrawer implements UpdateAwareSystem{
             float dangerRad = HardnessCalc.isDangerous(heroDmgCap, sys.getDps()) ? sys.getRadius() : 0;
             Vector2 sysPos = sys.getPosition();
             float rad = SolarSystemGenerator.SUN_RADIUS;
-            if (camPos.dst(sysPos) - rad < viewDist) {
+            if (viewPos.dst(sysPos) - rad < viewDist) {
                 drawer.draw(starTexture, 2 * rad, 2 * rad, rad, rad, sysPos.x, sysPos.y, 0, SolColor.WHITE);
             }
 
@@ -237,12 +238,13 @@ public class MapDrawer implements UpdateAwareSystem{
         for (Planet planet : planets) {
             Vector2 planetPos = planet.getPosition();
             float fh = planet.getFullHeight();
-            float dstToPlanetAtm = camPos.dst(planetPos) - fh;
-            if (viewDist < dstToPlanetAtm) {
+            float viewDstToPlanetAtm = viewPos.dst(planetPos) - fh;
+            if (viewDist < viewDstToPlanetAtm) {
                 continue;
             }
             drawer.draw(atmosphereTexture, 2 * fh, 2 * fh, fh, fh, planetPos.x, planetPos.y, 0, SolColor.UI_DARK);
             float groundHeight;
+            float dstToPlanetAtm = camPos.dst(planetPos) - fh;
             if (dstToPlanetAtm < 0) {
                 groundHeight = planet.getMinGroundHeight() + .5f;
                 drawer.draw(planetCoreTexture, 2 * groundHeight, 2 * groundHeight, groundHeight, groundHeight, planetPos.x, planetPos.y, planet.getAngle(), SolColor.WHITE);
@@ -284,11 +286,11 @@ public class MapDrawer implements UpdateAwareSystem{
     }
 
     private void drawIcons(GameDrawer drawer, SolGame game, float iconSz, float viewDist, FactionManager factionManager,
-                           Hero hero, Vector2 camPos, float heroDmgCap) {
+                           Hero hero, Vector2 viewPos, float heroDmgCap) {
         List<SolObject> objs = game.getObjectManager().getObjects();
         for (SolObject o : objs) {
             Vector2 oPos = o.getPosition();
-            if (viewDist < camPos.dst(oPos)) {
+            if (viewDist < viewPos.dst(oPos)) {
                 continue;
             }
             if ((o instanceof SolShip)) {
@@ -317,7 +319,7 @@ public class MapDrawer implements UpdateAwareSystem{
         List<FarShip> farShips = game.getObjectManager().getFarShips();
         for (FarShip ship : farShips) {
             Vector2 oPos = ship.getPosition();
-            if (viewDist < camPos.dst(oPos)) {
+            if (viewDist < viewPos.dst(oPos)) {
                 continue;
             }
             String hint = ship.getPilot().getMapHint();
@@ -354,14 +356,14 @@ public class MapDrawer implements UpdateAwareSystem{
         SolMath.free(position);
     }
 
-    private void drawStarNodes(GameDrawer drawer, SolGame game, float viewDist, Vector2 camPos, float starNodeW) {
+    private void drawStarNodes(GameDrawer drawer, SolGame game, float viewDist, Vector2 viewPos, float starNodeW) {
         List<SolObject> objs = game.getObjectManager().getObjects();
         for (SolObject o : objs) {
             if (!(o instanceof StarPort)) {
                 continue;
             }
             Vector2 oPos = o.getPosition();
-            if (viewDist < camPos.dst(oPos)) {
+            if (viewDist < viewPos.dst(oPos)) {
                 continue;
             }
             StarPort sp = (StarPort) o;
@@ -371,7 +373,7 @@ public class MapDrawer implements UpdateAwareSystem{
         List<StarPort.FarStarPort> farPorts = game.getObjectManager().getFarPorts();
         for (StarPort.FarStarPort sp : farPorts) {
             Vector2 oPos = sp.getPosition();
-            if (viewDist < camPos.dst(oPos)) {
+            if (viewDist < viewPos.dst(oPos)) {
                 continue;
             }
             if (!sp.isSecondary()) {
