@@ -227,7 +227,7 @@ public class OggSoundManager implements UpdateAwareSystem {
         float distance = position.dst(cameraPosition) - soundRadius;
         float distanceMultiplier = SolMath.clamp(1 - distance / maxSoundDist);
 
-        return sound.getBaseVolume() * volumeMultiplier * distanceMultiplier * globalVolumeMultiplier;
+        return SolMath.clamp(sound.getBaseVolume() * volumeMultiplier * distanceMultiplier * globalVolumeMultiplier);
     }
 
     /**
