@@ -36,13 +36,14 @@ public class SolContactListener implements ContactListener {
     @Inject
     protected EntitySystemManager entitySystemManager;
 
-    private final Provider<SolGame> myGame;
+    private final Provider<SolGame> gameProvider;
 
     private final SpecialSounds specialSounds;
+    private SolGame gameCached;
 
     @Inject
-    public SolContactListener(Provider<SolGame> game, SpecialSounds specialSounds) {
-        this.myGame = game;
+    public SolContactListener(Provider<SolGame> gameProvider, SpecialSounds specialSounds) {
+        this.gameProvider = gameProvider;
         this.specialSounds = specialSounds;
     }
 
@@ -77,7 +78,7 @@ public class SolContactListener implements ContactListener {
         }
         Projectile projectile = (Projectile) (firstSolObjectIsProjectile ? firstSolObject : secondSolObject);
         SolObject solObject = firstSolObjectIsProjectile ? secondSolObject : firstSolObject;
-        projectile.setObstacle(solObject, myGame.get());
+        projectile.setObstacle(solObject, getGame());
     }
 
     @Override
@@ -123,10 +124,12 @@ public class SolContactListener implements ContactListener {
         if (secondSolObject instanceof Projectile && ((Projectile) secondSolObject).getConfig().density <= 0) {
             return;
         }
-        firstSolObject.handleContact(secondSolObject, absImpulse, myGame.get(), collPos);
-        secondSolObject.handleContact(firstSolObject, absImpulse, myGame.get(), collPos);
-        specialSounds.playColl(myGame.get(), absImpulse, firstSolObject, collPos);
-        specialSounds.playColl(myGame.get(), absImpulse, secondSolObject, collPos);
+
+        SolGame game = getGame();
+        firstSolObject.handleContact(secondSolObject, absImpulse, game, collPos);
+        secondSolObject.handleContact(firstSolObject, absImpulse, game, collPos);
+        specialSounds.playColl(game, absImpulse, firstSolObject, collPos);
+        specialSounds.playColl(game, absImpulse, secondSolObject, collPos);
 
     }
 
@@ -142,5 +145,18 @@ public class SolContactListener implements ContactListener {
             }
         }
         return absImpulse;
+    }
+
+    /**
+     * This method exists as a special-case because {@link ContactListener#postSolve}
+     * is called frequently during collisions and {@link Provider#get()} has quite a bit of performance overhead.
+     * This caches the result to increase performance noticeably.
+     * @return an instance of {@link SolGame}.
+     */
+    private SolGame getGame() {
+        if (gameCached == null) {
+            gameCached = gameProvider.get();
+        }
+        return gameCached;
     }
 }
