@@ -63,7 +63,7 @@ public class DrawableObject implements SolObject {
             Planet planet = game.getPlanetManager().getNearestPlanet();
             Vector2 planetPosition = planet.getPosition();
             float planetGroundHeight = planet.getGroundHeight();
-            DrawableManager drawableManager = game.getContext().get(DrawableManager.class);
+            DrawableManager drawableManager = game.getDrawableManager();
             for (Drawable drawable : drawables) {
                 if (!(drawable instanceof RectSprite)) {
                     continue;
