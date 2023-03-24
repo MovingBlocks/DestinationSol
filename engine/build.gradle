@@ -40,7 +40,7 @@ plugins {
 }
 
 group = "org.destinationsol.engine"
-version = '2.1.0'
+version = engineVersion
 
 dependencies {
     api group: 'org.slf4j', name: 'slf4j-api', version: '1.7.25'
