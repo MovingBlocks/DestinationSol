@@ -4,9 +4,8 @@ import groovy.json.JsonSlurper
 @Grab(group = 'org.slf4j', module = 'slf4j-nop', version = '1.6.1')
 
 // TODO: Temp replacement for jcenter, grgit is not in MavenCentral yet
-@Grab(group = 'org.ajoberstar', module = 'grgit', version = '5.0.0')
+@Grab(group = 'org.ajoberstar.grgit', module = 'grgit-core', version = '5.0.0')
 import org.ajoberstar.grgit.Grgit
-import org.ajoberstar.grgit.exception.GrgitException
 import org.ajoberstar.grgit.Remote
 import org.eclipse.jgit.errors.RepositoryNotFoundException
 
@@ -133,7 +132,7 @@ class common {
                 } else {
                     Grgit.clone dir: targetDir, uri: targetUrl
                 }
-            } catch (GrgitException exception) {
+            } catch (Exception exception) {
                 println color("Unable to clone $itemName, Skipping: ${exception.getMessage()}", Ansi.RED)
                 return
             }
@@ -273,7 +272,7 @@ class common {
                     } else {
                         println color ("No changes found", Ansi.YELLOW)
                     }
-                } catch (GrgitException exception) {
+                } catch (Exception exception) {
                     println color("Unable to update $itemName, Skipping: ${exception.getMessage()}", Ansi.RED)
                 }
             }
