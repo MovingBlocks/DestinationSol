@@ -4,8 +4,7 @@ import groovy.json.JsonSlurper
 @Grab(group = 'org.slf4j', module = 'slf4j-nop', version = '1.6.1')
 
 // TODO: Temp replacement for jcenter, grgit is not in MavenCentral yet
-@GrabResolver(name = 'ajoberstar-backup', root = 'https://ajoberstar.github.io/bintray-backup/')
-@Grab(group = 'org.ajoberstar', module = 'grgit', version = '1.9.3')
+@Grab(group = 'org.ajoberstar', module = 'grgit', version = '5.0.0')
 import org.ajoberstar.grgit.Grgit
 import org.ajoberstar.grgit.exception.GrgitException
 import org.ajoberstar.grgit.Remote
