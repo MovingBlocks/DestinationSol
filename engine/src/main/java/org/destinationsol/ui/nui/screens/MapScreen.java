@@ -80,7 +80,7 @@ public class MapScreen extends NUIScreenLayer {
                 SolCam solCam = solApplication.getGame().getCam();
 
                 float camAngle = solCam.getAngle();
-                Vector2 mapCamPos = solCam.getPosition().add(mapDrawer.getMapDrawPositionAdditive());
+                Vector2 mapCamPos = solCam.getPosition().cpy().add(mapDrawer.getMapDrawPositionAdditive());
                 Vector2i mousePosition = event.getMouse().getPosition();
                 // Canvas co-ordinates are relative to the virtual canvas size, rather than the physical canvas size.
                 // The scale factor is therefore needed to convert these virtual co-ordinates into screen co-ordinates.
@@ -225,6 +225,7 @@ public class MapScreen extends NUIScreenLayer {
     public void onAdded() {
         solApplication.getGame().getMapDrawer().setToggled(true);
         waypointOperation = WaypointOperation.NONE;
+        solApplication.getGame().getMapDrawer().getMapDrawPositionAdditive().set(0, 0);
     }
 
     @Override
