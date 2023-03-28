@@ -32,13 +32,16 @@ import java.util.List;
  * It guides the player towards the planet first with a waypoint, then towards the shop itself.
  */
 public class FlyToPlanetSellingMercenariesStep extends FlyToPlanetStep {
+    private final String onPlanetMessage;
+
     @Inject
     protected FlyToPlanetSellingMercenariesStep() {
         throw new RuntimeException("Attempted to instantiate TutorialStep via DI. This is not supported.");
     }
 
-    public FlyToPlanetSellingMercenariesStep(String message) {
+    public FlyToPlanetSellingMercenariesStep(String message, String onPlanetMessage) {
         super(null, message);
+        this.onPlanetMessage = onPlanetMessage;
     }
 
     @Override
@@ -107,12 +110,15 @@ public class FlyToPlanetSellingMercenariesStep extends FlyToPlanetStep {
     @Override
     public boolean checkComplete(float timeStep) {
         boolean nearPlanet = super.checkComplete(timeStep);
-        if (nearPlanet && planet.areObjectsCreated()) {
-            setPlanetStationWaypoint();
-            if (game.getMainGameScreen().getTalkButton().isEnabled()) {
-                game.getHero().getWaypoints().remove(waypoint);
-                game.getObjectManager().removeObjDelayed(waypoint);
-                return true;
+        if (nearPlanet) {
+            setTutorialText(onPlanetMessage);
+            if (planet.areObjectsCreated()) {
+                setPlanetStationWaypoint();
+                if (game.getMainGameScreen().getTalkButton().isEnabled()) {
+                    game.getHero().getWaypoints().remove(waypoint);
+                    game.getObjectManager().removeObjDelayed(waypoint);
+                    return true;
+                }
             }
         }
         return false;

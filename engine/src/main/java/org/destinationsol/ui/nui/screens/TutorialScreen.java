@@ -43,12 +43,14 @@ public class TutorialScreen extends NUIScreenLayer {
     private static final class TutorialBox {
         public final UIBox box;
         public final UILabel text;
+        public final UILabel heading;
         public final InteractHint interactHint;
         public Consumer<Input> inputEventListener;
 
-        public TutorialBox(UIBox box, UILabel text, InteractHint interactHint) {
+        public TutorialBox(UIBox box, UILabel text, UILabel heading, InteractHint interactHint) {
             this.box = box;
             this.text = text;
+            this.heading = heading;
             this.interactHint = interactHint;
         }
     }
@@ -86,6 +88,7 @@ public class TutorialScreen extends NUIScreenLayer {
             TutorialBox tutorialBox = new TutorialBox(
                     find("tutorialBox" + horizontalAlign.toString(), UIBox.class),
                     find("tutorialText" + horizontalAlign.toString(), UILabel.class),
+                    find("tutorialHeading" + horizontalAlign.toString(), UILabel.class),
                     find("interactHint" + horizontalAlign.toString(), InteractHint.class)
             );
             if (tutorialBox.interactHint != null) {
@@ -128,6 +131,41 @@ public class TutorialScreen extends NUIScreenLayer {
     public void setTutorialText(String text, HorizontalAlign horizontalAlign) {
         getTutorialTextLabel(horizontalAlign).setText(text);
         getTutorialBox(horizontalAlign).setVisible(!text.isEmpty());
+    }
+
+    /**
+     * Returns the heading displayed above the centre tutorial box.
+     * @return the heading displayed above the centre tutorial box.
+     */
+    public String getTutorialHeading() {
+        return getTutorialHeading(HorizontalAlign.CENTER);
+    }
+
+    /**
+     * Returns the heading displayed above the specified tutorial box.
+     * @param horizontalAlign the tutorial box to select
+     * @return the heading displayed above the specified tutorial box.
+     */
+    public String getTutorialHeading(HorizontalAlign horizontalAlign) {
+        return getTutorialHeadingLabel(horizontalAlign).getText();
+    }
+
+    /**
+     * Specifies the heading to be displayed above the specified tutorial box.
+     * @param heading the heading to be displayed
+     */
+    public void setTutorialHeading(String heading) {
+        setTutorialHeading(heading, HorizontalAlign.CENTER);
+    }
+
+    /**
+     * Specifies the heading to be displayed above the specified tutorial box.
+     * @param heading the heading to be displayed
+     * @param horizontalAlign the tutorial box to select
+     */
+    public void setTutorialHeading(String heading, HorizontalAlign horizontalAlign) {
+        getTutorialHeadingLabel(horizontalAlign).setText(heading);
+        getTutorialHeadingLabel(horizontalAlign).setVisible(!heading.isEmpty());
     }
 
     /**
@@ -212,6 +250,10 @@ public class TutorialScreen extends NUIScreenLayer {
 
     protected UILabel getTutorialTextLabel(HorizontalAlign horizontalAlign) {
         return tutorialBoxes.get(horizontalAlign).text;
+    }
+
+    protected UILabel getTutorialHeadingLabel(HorizontalAlign horizontalAlign) {
+        return tutorialBoxes.get(horizontalAlign).heading;
     }
 
     protected UIBox getTutorialBox(HorizontalAlign horizontalAlign) {

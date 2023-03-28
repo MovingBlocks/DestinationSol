@@ -27,6 +27,7 @@ import org.destinationsol.game.item.SolItem;
 import org.destinationsol.game.tutorial.steps.ButtonPressStep;
 import org.destinationsol.game.tutorial.steps.BuyItemStep;
 import org.destinationsol.game.tutorial.steps.BuyMercenaryStep;
+import org.destinationsol.game.tutorial.steps.ChangeTutorialSectionStep;
 import org.destinationsol.game.tutorial.steps.CheckGunReloadStep;
 import org.destinationsol.game.tutorial.steps.CheckItemEquippedStep;
 import org.destinationsol.game.tutorial.steps.CloseScreenStep;
@@ -78,6 +79,7 @@ public class TutorialManager implements UpdateAwareSystem {
     private final BeanContext beanContext;
     private List<TutorialStep> steps;
     private int stepNo;
+    private String currentTutorialHeading;
 
     @Inject
     public TutorialManager(NUIManager nuiManager, SolApplication solApplication, Provider<SolGame> game, BeanContext beanContext) {
@@ -151,12 +153,12 @@ public class TutorialManager implements UpdateAwareSystem {
         itemTypesExplanations.put(Shield.class, "Shields absorb energy-based projectiles until depleted.");
 
         steps = new ArrayList<>(Arrays.asList(
-                new MessageStep("Section 1 - Movement"),
+                new ChangeTutorialSectionStep("Movement"),
                 new TurnLeftRightStep(isMobile ? "Turn left and right." : "Turn left and right (" + turnControlHint + ")."),
                 new ThrustForwardsStep(isMobile ? "Thrust forwards." : "Thrust forwards (" + thrustForwardControlHint + ")."),
                 new SlowVelocityStep(0.1f, "Turn around and thrust again to slow down.\n\nTry slowing to a stop."),
                 new FlyToRandomWaypointAroundHeroStep(1.0f, 2.5f, "Fly to the waypoint."),
-                new MessageStep("Section 2 - Weapons"),
+                new ChangeTutorialSectionStep("Weapons"),
                 new FireGunStep(isMobile ? "Fire your gun." : "Fire your gun (" + shootControlHint + ")."),
                 new CheckGunReloadStep(false, true, "Firing weapons drains your ammunition. Keep on firing."),
                 new CheckGunReloadStep(false, false,
@@ -164,10 +166,10 @@ public class TutorialManager implements UpdateAwareSystem {
                                 "You can't fire when reloading."),
                 new UseAbilityStep(isMobile ? "Use your ability." : "Use your ability (" + abilityControlHint + ")."),
                 new MessageStep("Abilities consume ability charges."),
-                new MessageStep("Section 3 - Money"),
+                new ChangeTutorialSectionStep("Money"),
                 new DestroySpawnedAsteroidAroundHeroStep(1.0f, 2.5f, "Fire at the asteroid."),
-                new MessageStep("Asteroids drop loot - money in this case."),
-                new MessageStep("Section 4 - Items"),
+                new MessageStep("Asteroids drop money. You can fly into it to collect it."),
+                new ChangeTutorialSectionStep("Items"),
                 new OpenScreenStep(
                         solGame.get().getScreens().mainGameScreen.getInventoryButton(),
                         solGame.get().getScreens().inventoryScreen,
@@ -191,11 +193,11 @@ public class TutorialManager implements UpdateAwareSystem {
                         solGame.get().getScreens().inventoryScreen.getCloseButton(),
                         solGame.get().getScreens().inventoryScreen,
                         isMobile ? "Close your inventory (tap outside of the inventory)." : "Close your inventory."),
-                new MessageStep("Section 5 - Weapon Mounts"),
+                new ChangeTutorialSectionStep("Weapon Mounts"),
                 new MessageStep("All ships may come with up to two weapon mounts."),
                 new MessageStep("Weapon mounts are either fixed or rotating."),
                 new MessageStep("You can only equip weapons on matching mounts."),
-                new MessageStep("Section 6 - Shops"),
+                new ChangeTutorialSectionStep("Shops"),
                 new FlyToNearestStationStep("Fly to the station."),
                 new OpenScreenStep(
                         solGame.get().getScreens().mainGameScreen.getTalkButton(),
@@ -203,15 +205,15 @@ public class TutorialManager implements UpdateAwareSystem {
                         isMobile ? "Talk to the station." : "Talk to the station (" + gameOptions.getKeyTalkName() + ")."),
                 new BuyItemStep(usesKeyboard ? "Select Buy (" + gameOptions.getKeyBuyMenuName() + ")." : "Select Buy.",
                         isMobile ? "Buy an item." : "Buy an item (" + gameOptions.getKeyBuyItemName() + ")."),
-                new MessageStep("Section 7 - Combat"),
+                new ChangeTutorialSectionStep("Combat"),
                 new MessageStep("Shoot at ships to destroy them.\n"),
                 new DestroySpawnedShipsStep(1, "core:minerSmall",
                         "core:fixedBlaster", "Destroy the targeted ship.",
                         "Enemy ships can be tough.\nOpen the pause menu and select Respawn."),
                 new MessageStep("Destroyed ships drop valuable loot."),
-                new MessageStep("Section 8 - Repair Kits"),
+                new ChangeTutorialSectionStep("Repair Kits"),
                 new WaitUntilFullyRepairedStep("Stay still and wait until the repair kits have repaired your hull fully."),
-                new MessageStep("Section 9 - Map"),
+                new ChangeTutorialSectionStep("Map"),
                 new OpenScreenStep(
                         solGame.get().getScreens().mainGameScreen.getMapButton(),
                         solGame.get().getScreens().mapScreen,
@@ -225,8 +227,9 @@ public class TutorialManager implements UpdateAwareSystem {
                         solGame.get().getScreens().mapScreen,
                         "Close the map."),
                 new FlyToHeroFirstWaypointStep("Fly to your waypoint."),
-                new MessageStep("Section 10 - Hiring Mercenaries"),
-                new FlyToPlanetSellingMercenariesStep("Fly to a planetary station providing mercenaries."),
+                new ChangeTutorialSectionStep("Planets"),
+                new FlyToPlanetSellingMercenariesStep("Head towards a planet.", "Look for the planetary station."),
+                new ChangeTutorialSectionStep("Mercenaries"),
                 new MessageStep("When flying around planets, you'll be affected by gravity."),
                 new OpenScreenStep(
                         solGame.get().getScreens().mainGameScreen.getTalkButton(),
@@ -236,7 +239,6 @@ public class TutorialManager implements UpdateAwareSystem {
                         usesKeyboard ? "Select Hire (" + gameOptions.getKeyHireShipMenuName() + ")." : "Select Hire.",
                         "Try hiring a mercenary."),
                 new MessageStep("Mercenaries will fight for you. They keep any money they collect as part of their payment."),
-                new MessageStep("Section 11 - Managing Mercenaries"),
                 new OpenScreenStep(
                         solGame.get().getScreens().mainGameScreen.getMercsButton(),
                         solGame.get().getScreens().inventoryScreen,
@@ -246,9 +248,11 @@ public class TutorialManager implements UpdateAwareSystem {
                         "Here you can give items to your mercenary.",
                         "Here you can take items back from your mercenary.",
                         "Here you can manage your mercenary's equipment."),
+                new ChangeTutorialSectionStep("Star Lanes"),
                 new FlyToNearestStarPortStep("Fly to the marked star lane."),
                 new MessageStep("For a small fee, star lanes allow you to travel quickly between planets."),
                 new TravelThroughStarPortStep("Fly into the centre to travel across the star lane."),
+                new ChangeTutorialSectionStep("Finish"),
                 new MessageStep("That's it! The tutorial is finished. You will be returned to the main menu.")
         ));
 
@@ -309,7 +313,12 @@ public class TutorialManager implements UpdateAwareSystem {
     }
 
     private void setUpTutorialBox(TutorialStep tutorialStep) {
+        if (tutorialStep.getTutorialHeading() != null) {
+            currentTutorialHeading = tutorialStep.getTutorialHeading();
+        }
+
         tutorialScreen.setTutorialText(tutorialStep.getTutorialText(), tutorialStep.getTutorialBoxPosition());
+        tutorialScreen.setTutorialHeading(currentTutorialHeading, tutorialStep.getTutorialBoxPosition());
         if (tutorialStep.getRequiredInput() != null) {
             tutorialScreen.setInteractHintInput(tutorialStep.getTutorialBoxPosition(), tutorialStep.getRequiredInput());
             tutorialScreen.setInteractEvent(tutorialStep.getTutorialBoxPosition(), tutorialStep.getInputHandler());

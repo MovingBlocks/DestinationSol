@@ -14,7 +14,7 @@
     },
     "tutorialBoxLEFT": {
       "font": "engine:main#0.8",
-      "max-width": 160,
+      "min-width": 178,
       "min-height": 192,
       "elements": {
         "UIBox": {
@@ -22,6 +22,9 @@
           "text-align-horizontal": "middle"
         }
       }
+    },
+    "tutorialHeading": {
+      "font": "engine:main#0.4"
     }
   },
   "elements": {

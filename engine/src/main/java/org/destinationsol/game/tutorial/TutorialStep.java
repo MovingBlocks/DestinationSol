@@ -28,6 +28,7 @@ import java.util.function.Consumer;
  * populate.
  */
 public abstract class TutorialStep {
+    private String tutorialHeading;
     private String tutorialText;
     private HorizontalAlign tutorialBoxPosition = HorizontalAlign.CENTER;
     private Input requiredInput;
@@ -46,8 +47,16 @@ public abstract class TutorialStep {
     public abstract boolean checkComplete(float timeStep);
 
     /**
-     * Returns the explanatory text to the shown to the player.
-     * @return the explanatory text to the shown to the player
+     * Returns the heading text shown to the player. This can be null, to preserve the existing heading.
+     * @return the heading text shown to the player This can be null to preserve the existing heading.
+     */
+    public String getTutorialHeading() {
+        return tutorialHeading;
+    }
+
+    /**
+     * Returns the explanatory text to be the shown to the player.
+     * @return the explanatory text to be the shown to the player
      */
     public String getTutorialText() {
         return tutorialText;
@@ -75,6 +84,14 @@ public abstract class TutorialStep {
      */
     public Consumer<Input> getInputHandler() {
         return inputHandler;
+    }
+
+    /**
+     * Specifies the heading to display above the tutorial box. This can be null to preserve the existing heading.
+     * @param tutorialHeading the heading to display above the tutorial box, or null to preserve the existing heading.
+     */
+    protected void setTutorialHeading(String tutorialHeading) {
+        this.tutorialHeading = tutorialHeading;
     }
 
     /**
