@@ -83,7 +83,7 @@ public class KnockBack implements ShipAbility {
             Vector2 toO = SolMath.distVec(ownerPos, oPos);
             float accLen = config.force * perc;
             toO.scl(accLen / dst);
-            o.receiveForce(toO, game, false);
+            o.receiveForce(toO, game, true);
             SolMath.free(toO);
         }
         DSParticleEmitter src = new DSParticleEmitter(config.cc.effect, MAX_RADIUS, DrawableLevel.PART_BG_0, new Vector2(), true, game, ownerPos, Vector2.Zero, 0);
