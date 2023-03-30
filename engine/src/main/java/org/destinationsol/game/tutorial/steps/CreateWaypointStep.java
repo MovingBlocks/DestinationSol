@@ -36,6 +36,7 @@ public class CreateWaypointStep extends TutorialStep {
     @Inject
     protected GameScreens gameScreens;
     private final String message;
+    private final String waypointTooFarMessage;
     private UIWarnButton addWaypointButton;
     private boolean buttonPressed = false;
     private int lastWaypointCount;
@@ -45,8 +46,9 @@ public class CreateWaypointStep extends TutorialStep {
         throw new RuntimeException("Attempted to instantiate TutorialStep via DI. This is not supported.");
     }
 
-    public CreateWaypointStep(String message) {
+    public CreateWaypointStep(String message, String waypointTooFarMessage) {
         this.message = message;
+        this.waypointTooFarMessage = waypointTooFarMessage;
     }
 
     public void start() {
@@ -66,12 +68,16 @@ public class CreateWaypointStep extends TutorialStep {
         }
 
         Hero hero = game.getHero();
+        if (hero.getWaypoints().size() == 0) {
+            setTutorialText(message);
+        }
+
         if (hero.getWaypoints().size() > lastWaypointCount) {
             Waypoint waypoint = hero.getWaypoints().get(hero.getWaypoints().size()-1);
             if (waypoint.getPosition().dst(hero.getPosition()) < 100.0f) {
                 return true;
             } else {
-                hero.removeWaypoint(waypoint);
+                setTutorialText(waypointTooFarMessage);
             }
         }
         lastWaypointCount = game.getHero().getWaypoints().size();

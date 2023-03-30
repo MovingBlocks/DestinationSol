@@ -221,7 +221,9 @@ public class TutorialManager implements UpdateAwareSystem {
                 new ButtonPressStep(solGame.get().getScreens().mapScreen.getZoomInButton(), "Zoom In"),
                 new ButtonPressStep(solGame.get().getScreens().mapScreen.getZoomOutButton(), "Zoom Out"),
                 new MapDragStep("You can drag the map to move around."),
-                new CreateWaypointStep("Create a waypoint near your ship."),
+                new CreateWaypointStep("Create a waypoint near your ship.",
+                        "That's too far away.\n\n" +
+                        "Remove it and place one closer to your ship."),
                 new CloseScreenStep(
                         solGame.get().getScreens().mapScreen.getCloseButton(),
                         solGame.get().getScreens().mapScreen,
