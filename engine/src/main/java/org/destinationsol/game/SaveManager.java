@@ -47,6 +47,8 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.io.UnsupportedEncodingException;
+import java.security.AccessController;
+import java.security.PrivilegedAction;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -61,16 +63,19 @@ public class SaveManager {
     public static void writeShips(HullConfig hull, float money, List<SolItem> itemsList, Hero hero, HullConfigManager hullConfigManager) {
         String hullName = hullConfigManager.getName(hull);
 
-        writeMercs(hero, hullConfigManager);
+        AccessController.doPrivileged((PrivilegedAction<Object>) () -> {
+            writeMercs(hero, hullConfigManager);
 
-        String items = itemsToString(itemsList);
+            String items = itemsToString(itemsList);
 
-        Vector2 pos = hero.getPosition();
+            Vector2 pos = hero.getPosition();
 
-        String waypoints = waypointsToString(hero.getWaypoints());
+            String waypoints = waypointsToString(hero.getWaypoints());
 
-        IniReader.write(Const.SAVE_FILE_NAME, "hull", hullName, "money", (int) money, "items", items,
-                "x", pos.x, "y", pos.y, "waypoints", waypoints, "version", Const.VERSION);
+            IniReader.write(Const.SAVE_FILE_NAME, "hull", hullName, "money", (int) money, "items", items,
+                    "x", pos.x, "y", pos.y, "waypoints", waypoints, "version", Const.VERSION);
+            return null;
+        });
     }
 
     private static String waypointsToString(ArrayList<Waypoint> waypoints) {
@@ -261,12 +266,16 @@ public class SaveManager {
         Gson gson = new GsonBuilder().setPrettyPrinting().create();
         String stringToWrite = gson.toJson(world);
 
-        try (PrintWriter writer = new PrintWriter(fileName, "UTF-8")) {
-            writer.write(stringToWrite);
-            logger.debug("Successfully saved the world file");
-        } catch (FileNotFoundException | UnsupportedEncodingException e) {
-            logger.error("Could not save world file", e);
-        }
+        AccessController.doPrivileged((PrivilegedAction<Object>) () -> {
+            try (PrintWriter writer = new PrintWriter(fileName, "UTF-8")) {
+                writer.write(stringToWrite);
+                logger.debug("Successfully saved the world file");
+            } catch (FileNotFoundException | UnsupportedEncodingException e) {
+                logger.error("Could not save world file", e);
+            }
+
+            return null;
+        });
     }
 
     /**
