@@ -237,6 +237,10 @@ public class MainGameScreen extends NUIScreenLayer {
             @Override
             public UITextureRegion get() {
                 Hero hero = solApplication.getGame().getHero();
+                if (hero.getAbility() == null) {
+                    return null;
+                }
+
                 SolItem example = hero.getAbility().getConfig().getChargeExample();
                 if (example != null) {
                     return Assets.getDSTexture(example.getIcon(solApplication.getGame()).name).getUiTexture();
@@ -247,7 +251,7 @@ public class MainGameScreen extends NUIScreenLayer {
             @Override
             public Float get() {
                 Hero hero = solApplication.getGame().getHero();
-                if (hero.getAbilityAwait() > 0) {
+                if (hero.getAbility() != null && hero.getAbilityAwait() > 0) {
                     return 1.0f - hero.getAbilityAwait() / hero.getAbility().getConfig().getRechargeTime();
                 } else {
                     return 1.0f;
@@ -265,6 +269,10 @@ public class MainGameScreen extends NUIScreenLayer {
             public Float get() {
                 SolGame game = solApplication.getGame();
                 Hero hero = game.getHero();
+                if (hero.getAbility() == null) {
+                    return 0.0f;
+                }
+
                 SolItem example = hero.getAbility().getConfig().getChargeExample();
                 if (example != null) {
                     return (float) hero.getItemContainer().count(example);
@@ -521,10 +529,12 @@ public class MainGameScreen extends NUIScreenLayer {
             gun2Stats.findAll(UIIconBar.class).iterator().next().setIcon(gun2ClipIcon);
         }
 
-        SolItem example = hero.getAbility().getConfig().getChargeExample();
-        if (example != null) {
-            UITextureRegion abilityIcon = Assets.getDSTexture(example.getIcon(solApplication.getGame()).name).getUiTexture();
-            abilityStats.findAll(UIIconBar.class).iterator().next().setIcon(abilityIcon);
+        if (hero.getAbility() != null) {
+            SolItem example = hero.getAbility().getConfig().getChargeExample();
+            if (example != null) {
+                UITextureRegion abilityIcon = Assets.getDSTexture(example.getIcon(solApplication.getGame()).name).getUiTexture();
+                abilityStats.findAll(UIIconBar.class).iterator().next().setIcon(abilityIcon);
+            }
         }
 
         zoneNameAnnouncer.update(solApplication.getGame(), solApplication.getGame().getContext());
