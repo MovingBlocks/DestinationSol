@@ -25,6 +25,7 @@ import org.destinationsol.game.ship.SolShip;
 import org.destinationsol.ui.nui.screens.InventoryScreen;
 import org.destinationsol.ui.nui.screens.TalkScreen;
 import org.destinationsol.ui.nui.widgets.KeyActivatedButton;
+import org.destinationsol.ui.nui.widgets.UIWarnButton;
 import org.terasology.nui.backends.libgdx.GDXInputUtil;
 import org.terasology.nui.widgets.UIButton;
 
@@ -42,7 +43,7 @@ public class SellItems extends InventoryOperationsScreen {
 
     @Override
     public void initialise(SolApplication solApplication, InventoryScreen inventoryScreen) {
-        KeyActivatedButton sellButton = new KeyActivatedButton();
+        UIWarnButton sellButton = new UIWarnButton();
         sellButton.setText("Sell");
         sellButton.setKey(GDXInputUtil.GDXToNuiKey(solApplication.getOptions().getKeySellItem()));
         sellButton.subscribe(button -> {
@@ -61,6 +62,10 @@ public class SellItems extends InventoryOperationsScreen {
             inventoryScreen.updateItemRows();
         });
         actionButtons[0] = sellButton;
+    }
+
+    public UIWarnButton getSellControl() {
+        return (UIWarnButton) actionButtons[0];
     }
 
     @Override

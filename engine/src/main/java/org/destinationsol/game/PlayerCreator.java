@@ -67,8 +67,6 @@ class PlayerCreator {
         ItemContainer itemContainer = hero.getItemContainer();
         if (!respawnState.getRespawnItems().isEmpty()) {
             addAndEquipRespawnItems(hero, respawnState, itemContainer, game);
-        } else if (game.isTutorial()) {
-            addRandomTutorialItems(game, itemContainer);
         }
         itemContainer.markAllAsSeen();
     }
@@ -93,18 +91,6 @@ class PlayerCreator {
             Waypoint waypoint = new Waypoint(waypointPosition, color, game.getMapDrawer().getWaypointTexture());
             hero.addWaypoint(waypoint);
             game.getObjectManager().addObjDelayed(waypoint);
-        }
-    }
-
-    private void addRandomTutorialItems(SolGame game, ItemContainer itemContainer) {
-        for (int i = 0; i < NUMBER_OF_TUTORIAL_ITEM_ADD_ATTEMPTS; i++) {
-            if (itemContainer.groupCount() > MAX_NUMBER_OF_TUTORIAL_ITEM_GROUPS) {
-                return;
-            }
-            SolItem item = game.getItemMan().random();
-            if (isNoGunAndHasIcon(item, game) && itemContainer.canAdd(item)) {
-                itemContainer.add(item.copy());
-            }
         }
     }
 

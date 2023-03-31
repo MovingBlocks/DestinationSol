@@ -142,6 +142,7 @@ public class PlayerCreatorTest {
 
     @Test
     public void testUseRespawnMoneyIfNotZero() {
+        solGame.isTutorial(); // This is here purely for the side effects, as this is the only test that doesn't call isTutorial.
         float respawnMoney = 42f;
         respawnState.setRespawnMoney(respawnMoney);
         playerCreator.createPlayer(shipConfig, false, respawnState, solGame, false, false);
@@ -263,16 +264,6 @@ public class PlayerCreatorTest {
         respawnState.getRespawnItems().add(gun);
         playerCreator.createPlayer(shipConfig, false, respawnState, solGame, false, false);
         verify(solShip).maybeEquip(any(), eq(gun), eq(true), eq(true));
-    }
-
-    @Test
-    public void testTutorialModeAddsSeenItemsIfRespawnItemsAreEmpty() {
-        respawnState.getRespawnItems().clear();
-        when(solGame.isTutorial()).thenReturn(true);
-        int groupCountBefore = shipItemContainer.groupCount();
-        playerCreator.createPlayer(shipConfig, false, respawnState, solGame, false, false);
-        assertThat(shipItemContainer.groupCount()).isGreaterThan(groupCountBefore);
-        assertThat(shipItemContainer.hasNew()).isFalse();
     }
 
     @Test

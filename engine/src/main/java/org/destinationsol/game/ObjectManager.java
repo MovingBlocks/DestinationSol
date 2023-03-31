@@ -141,11 +141,14 @@ public class ObjectManager implements UpdateAwareSystem, AutoCloseable{
             }
             if (isNear(fod, camPos, timeStep)) {
                 SolObject o = fo.toObject(game);
-                // Ensure that StarPorts are added straight away so that we can see if they overlap
-                if (o instanceof StarPort) {
-                    addObjNow(game, o);
-                } else {
-                    addObjDelayed(o);
+                // Rarely a far object can produce a null sol object because the instance it references no longer exists.
+                if (o != null) {
+                    // Ensure that StarPorts are added straight away so that we can see if they overlap
+                    if (o instanceof StarPort) {
+                        addObjNow(game, o);
+                    } else {
+                        addObjDelayed(o);
+                    }
                 }
                 removeFo(it, fo);
             }

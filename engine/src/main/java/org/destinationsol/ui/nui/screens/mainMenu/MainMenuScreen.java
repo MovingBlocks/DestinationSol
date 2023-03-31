@@ -80,8 +80,6 @@ public class MainMenuScreen extends NUIScreenLayer {
         if (!musicManager.getCurrentMusicSet().equals(OggMusicManager.MENU_MUSIC_SET)) {
             musicManager.playMusic(OggMusicManager.MENU_MUSIC_SET, solApplication.getOptions());
         }
-
-        tutorialButton.setEnabled(solApplication.getOptions().controlType != GameOptions.ControlType.CONTROLLER);
     }
 
     @Override

@@ -31,7 +31,7 @@
                     "verticalSpacing": 10,
                     "contents": [
                         {
-                            "type": "KeyActivatedButton",
+                            "type": "UIWarnButton",
                             "id": "sellButton",
                             "text": "Sell"
                         },
@@ -46,7 +46,7 @@
                             "text": "Change Ship"
                         },
                         {
-                            "type": "KeyActivatedButton",
+                            "type": "UIWarnButton",
                             "id": "hireButton",
                             "text": "Hire"
                         },

@@ -58,10 +58,10 @@ import org.destinationsol.game.ship.ShipAbility;
 import org.destinationsol.game.ship.ShipBuilder;
 import org.destinationsol.game.ship.SloMo;
 import org.destinationsol.game.ship.hulls.HullConfig;
+import org.destinationsol.game.tutorial.TutorialManager;
 import org.destinationsol.mercenary.MercenaryUtils;
 import org.destinationsol.modules.ModuleManager;
 import org.destinationsol.ui.DebugCollector;
-import org.destinationsol.ui.TutorialManager;
 import org.destinationsol.ui.UiDrawer;
 import org.destinationsol.ui.Waypoint;
 import org.destinationsol.ui.nui.screens.MainGameScreen;
@@ -337,6 +337,8 @@ public class SolGame {
             } catch (Exception e) {
                 e.printStackTrace();
             }
+        } else {
+            tutorialManager.ifPresent(TutorialManager::onGameEnd);
         }
 
         // TODO: Remove this when context is reset after each game

@@ -16,36 +16,231 @@
 
 package org.destinationsol.ui.nui.screens;
 
+import org.destinationsol.SolApplication;
 import org.destinationsol.game.SolGame;
 import org.destinationsol.ui.nui.NUIScreenLayer;
+import org.destinationsol.ui.nui.widgets.InteractHint;
+import org.terasology.input.Input;
+import org.terasology.nui.BaseInteractionListener;
+import org.terasology.nui.Canvas;
+import org.terasology.nui.HorizontalAlign;
+import org.terasology.nui.InteractionListener;
+import org.terasology.nui.events.NUIKeyEvent;
+import org.terasology.nui.events.NUIMouseClickEvent;
+import org.terasology.nui.widgets.UIBox;
 import org.terasology.nui.widgets.UILabel;
 
 import javax.inject.Inject;
+import java.util.EnumMap;
+import java.util.function.Consumer;
 
 /**
  * This screen displays the message box shown during the tutorial to instruct the user.
  * It is unusual in that it should always be rendered on-top of all other UI screens.
- * See {@link #moveToTop()} and {@link org.destinationsol.ui.TutorialManager#update(SolGame, float)} for how this is done.
+ * See {@link #moveToTop()} and {@link org.destinationsol.game.tutorial.TutorialManager#update(SolGame, float)} for how this is done.
  */
 public class TutorialScreen extends NUIScreenLayer {
-    private UILabel tutorialText;
+    private static final class TutorialBox {
+        public final UIBox box;
+        public final UILabel text;
+        public final UILabel heading;
+        public final InteractHint interactHint;
+        public Consumer<Input> inputEventListener;
+
+        public TutorialBox(UIBox box, UILabel text, UILabel heading, InteractHint interactHint) {
+            this.box = box;
+            this.text = text;
+            this.heading = heading;
+            this.interactHint = interactHint;
+        }
+    }
+
+    private final EnumMap<HorizontalAlign, TutorialBox> tutorialBoxes;
+    private final InteractionListener mouseInputListener = new BaseInteractionListener() {
+        @Override
+        public boolean onMouseClick(NUIMouseClickEvent event) {
+            for (TutorialBox tutorialBox : tutorialBoxes.values()) {
+                if (tutorialBox.interactHint != null && tutorialBox.interactHint.isVisible() &&
+                        tutorialBox.interactHint.getInput().equals(event.getMouseButton())) {
+                    if (tutorialBox.inputEventListener != null) {
+                        tutorialBox.inputEventListener.accept(event.getMouseButton());
+                        return true;
+                    }
+                }
+            }
+            return super.onMouseClick(event);
+        }
+    };
+    private final SolApplication solApplication;
+
     private boolean isReplaceRemove;
 
     @Inject
-    public TutorialScreen() {
+    public TutorialScreen(SolApplication solApplication) {
+        tutorialBoxes = new EnumMap<>(HorizontalAlign.class);
+        this.solApplication = solApplication;
     }
 
     @Override
     public void initialise() {
-        tutorialText = find("tutorialText", UILabel.class);
+        // TODO: The right tutorial box doesn't exist yet. It will return null values.
+        for (HorizontalAlign horizontalAlign : HorizontalAlign.values()) {
+            TutorialBox tutorialBox = new TutorialBox(
+                    find("tutorialBox" + horizontalAlign.toString(), UIBox.class),
+                    find("tutorialText" + horizontalAlign.toString(), UILabel.class),
+                    find("tutorialHeading" + horizontalAlign.toString(), UILabel.class),
+                    find("interactHint" + horizontalAlign.toString(), InteractHint.class)
+            );
+            if (tutorialBox.interactHint != null) {
+                tutorialBox.interactHint.useMobileIcons(solApplication.isMobile());
+            }
+            tutorialBoxes.put(horizontalAlign, tutorialBox);
+        }
     }
 
+    /**
+     * Returns the text displayed in the centre tutorial box.
+     * @return the text displayed in the centre tutorial box
+     */
     public String getTutorialText() {
-        return tutorialText.getText();
+        return getTutorialText(HorizontalAlign.CENTER);
     }
 
+    /**
+     * Returns the text displayed in the specified tutorial box.
+     * @param horizontalAlign the tutorial box to select
+     * @return the text displayed in the specified tutorial box.
+     */
+    public String getTutorialText(HorizontalAlign horizontalAlign) {
+        return getTutorialTextLabel(horizontalAlign).getText();
+    }
+
+    /**
+     * Specifies the text to be displayed in the centre tutorial box.
+     * @param text the text to be displayed in the centre tutorial box
+     */
     public void setTutorialText(String text) {
-        tutorialText.setText(text);
+        setTutorialText(text, HorizontalAlign.CENTER);
+    }
+
+    /**
+     * Specifies the text to be displayed in the specified tutorial box.
+     * @param text the text to be displayed
+     * @param horizontalAlign the tutorial box to select
+     */
+    public void setTutorialText(String text, HorizontalAlign horizontalAlign) {
+        getTutorialTextLabel(horizontalAlign).setText(text);
+        getTutorialBox(horizontalAlign).setVisible(!text.isEmpty());
+    }
+
+    /**
+     * Returns the heading displayed above the centre tutorial box.
+     * @return the heading displayed above the centre tutorial box.
+     */
+    public String getTutorialHeading() {
+        return getTutorialHeading(HorizontalAlign.CENTER);
+    }
+
+    /**
+     * Returns the heading displayed above the specified tutorial box.
+     * @param horizontalAlign the tutorial box to select
+     * @return the heading displayed above the specified tutorial box.
+     */
+    public String getTutorialHeading(HorizontalAlign horizontalAlign) {
+        return getTutorialHeadingLabel(horizontalAlign).getText();
+    }
+
+    /**
+     * Specifies the heading to be displayed above the specified tutorial box.
+     * @param heading the heading to be displayed
+     */
+    public void setTutorialHeading(String heading) {
+        setTutorialHeading(heading, HorizontalAlign.CENTER);
+    }
+
+    /**
+     * Specifies the heading to be displayed above the specified tutorial box.
+     * @param heading the heading to be displayed
+     * @param horizontalAlign the tutorial box to select
+     */
+    public void setTutorialHeading(String heading, HorizontalAlign horizontalAlign) {
+        getTutorialHeadingLabel(horizontalAlign).setText(heading);
+        getTutorialHeadingLabel(horizontalAlign).setVisible(!heading.isEmpty());
+    }
+
+    /**
+     * Returns the input hinted at by the centre tutorial box. This can be null.
+     * @return the input hinted at by the centre tutorial box
+     */
+    public Input getInteractHintInput() {
+        return getInteractHintInput(HorizontalAlign.CENTER);
+    }
+
+    /**
+     * Returns the input hinted at by the specified tutorial box. This can be null.
+     * @param horizontalAlign the tutorial box to select
+     * @return the input hinted at by the specified tutorial box
+     */
+    public Input getInteractHintInput(HorizontalAlign horizontalAlign) {
+        return getInteractHint(horizontalAlign).getInput();
+    }
+
+    /**
+     * Specifies the input hinted at by the centre tutorial box.
+     * @param input the input hinted at by the centre tutorial box
+     */
+    public void setInteractHintInput(Input input) {
+        setInteractHintInput(HorizontalAlign.CENTER, input);
+    }
+
+    /**
+     * Specifies the input hinted at by the specified tutorial box.
+     * @param horizontalAlign the tutorial box to select
+     * @param input the input to hint at
+     */
+    public void setInteractHintInput(HorizontalAlign horizontalAlign, Input input) {
+        InteractHint interactHint = getInteractHint(horizontalAlign);
+        if (input != null) {
+            getInteractHint(horizontalAlign).setInput(input);
+            interactHint.setVisible(true);
+        } else {
+            interactHint.setVisible(false);
+        }
+    }
+
+    /**
+     * Specifies a callback involved when the hinted-at input is activated.
+     * @param interactEvent the interaction callback
+     */
+    public void setInteractEvent(Consumer<Input> interactEvent) {
+        setInteractEvent(HorizontalAlign.CENTER, interactEvent);
+    }
+
+    /**
+     * Specifies a callback involved when the hinted-at input is activated.
+     * @param horizontalAlign the tutorial box to select
+     * @param interactEvent the interaction callback
+     */
+    public void setInteractEvent(HorizontalAlign horizontalAlign, Consumer<Input> interactEvent) {
+        tutorialBoxes.get(horizontalAlign).inputEventListener = interactEvent;
+    }
+
+    /**
+     * This clears the contents of all the tutorial boxes and hides them.
+     */
+    public void clearAllTutorialBoxes() {
+        for (TutorialBox tutorialBox : tutorialBoxes.values()) {
+            if (tutorialBox.box != null) {
+                tutorialBox.box.setVisible(false);
+            }
+            if (tutorialBox.text != null) {
+                tutorialBox.text.setText("");
+            }
+            if (tutorialBox.interactHint != null) {
+                tutorialBox.interactHint.setVisible(false);
+            }
+            tutorialBox.inputEventListener = null;
+        }
     }
 
     @Override
@@ -53,9 +248,52 @@ public class TutorialScreen extends NUIScreenLayer {
         return false;
     }
 
+    protected UILabel getTutorialTextLabel(HorizontalAlign horizontalAlign) {
+        return tutorialBoxes.get(horizontalAlign).text;
+    }
+
+    protected UILabel getTutorialHeadingLabel(HorizontalAlign horizontalAlign) {
+        return tutorialBoxes.get(horizontalAlign).heading;
+    }
+
+    protected UIBox getTutorialBox(HorizontalAlign horizontalAlign) {
+        return tutorialBoxes.get(horizontalAlign).box;
+    }
+
+    protected InteractHint getInteractHint(HorizontalAlign horizontalAlign) {
+        return tutorialBoxes.get(horizontalAlign).interactHint;
+    }
+
     @Override
     protected boolean escapeCloses() {
         return false;
+    }
+
+    @Override
+    public boolean onKeyEvent(NUIKeyEvent event) {
+        for (TutorialBox tutorialBox : tutorialBoxes.values()) {
+            if (tutorialBox.interactHint != null && tutorialBox.interactHint.isVisible() &&
+                    tutorialBox.interactHint.getInput().equals(event.getKey())) {
+                if (!event.isDown() && tutorialBox.inputEventListener != null) {
+                    tutorialBox.inputEventListener.accept(event.getKey());
+                }
+                return true;
+            }
+        }
+        return super.onKeyEvent(event);
+    }
+
+    @Override
+    public void onDraw(Canvas canvas) {
+        super.onDraw(canvas);
+        InteractHint leftInteractHint = getInteractHint(HorizontalAlign.LEFT);
+        InteractHint centreInteractHint = getInteractHint(HorizontalAlign.CENTER);
+        InteractHint rightInteractHint = getInteractHint(HorizontalAlign.RIGHT);
+        if ((leftInteractHint != null && leftInteractHint.isVisible()) ||
+                (centreInteractHint != null && centreInteractHint.isVisible()) ||
+                (rightInteractHint != null && rightInteractHint.isVisible())) {
+            canvas.addInteractionRegion(mouseInputListener, canvas.getRegion());
+        }
     }
 
     public void moveToTop() {

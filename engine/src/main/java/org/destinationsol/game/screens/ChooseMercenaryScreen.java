@@ -24,7 +24,7 @@ import org.destinationsol.game.ship.SolShip;
 import org.destinationsol.ui.SolInputManager;
 import org.destinationsol.ui.nui.NUIManager;
 import org.destinationsol.ui.nui.screens.InventoryScreen;
-import org.destinationsol.ui.nui.widgets.KeyActivatedButton;
+import org.destinationsol.ui.nui.widgets.UIWarnButton;
 import org.terasology.nui.backends.libgdx.GDXInputUtil;
 import org.terasology.nui.widgets.UIButton;
 
@@ -41,7 +41,7 @@ public class ChooseMercenaryScreen extends InventoryOperationsScreen {
 
     @Override
     public void initialise(SolApplication solApplication, InventoryScreen inventoryScreen) {
-        KeyActivatedButton giveButton = new KeyActivatedButton();
+        UIWarnButton giveButton = new UIWarnButton();
         giveButton.setText("Give Items");
         giveButton.setKey(GDXInputUtil.GDXToNuiKey(solApplication.getOptions().getKeyShoot()));
         giveButton.subscribe(button -> {
@@ -58,7 +58,7 @@ public class ChooseMercenaryScreen extends InventoryOperationsScreen {
         });
         actionButtons[0] = giveButton;
 
-        KeyActivatedButton takeButton = new KeyActivatedButton();
+        UIWarnButton takeButton = new UIWarnButton();
         takeButton.setText("Take Items");
         takeButton.setKey(GDXInputUtil.GDXToNuiKey(solApplication.getOptions().getKeyShoot2()));
         takeButton.subscribe(button -> {
@@ -75,7 +75,7 @@ public class ChooseMercenaryScreen extends InventoryOperationsScreen {
         });
         actionButtons[1] = takeButton;
 
-        KeyActivatedButton equipButton = new KeyActivatedButton();
+        UIWarnButton equipButton = new UIWarnButton();
         equipButton.setText("Equip Items");
         equipButton.setKey(GDXInputUtil.GDXToNuiKey(solApplication.getOptions().getKeyDrop()));
         equipButton.subscribe(button -> {
@@ -91,6 +91,18 @@ public class ChooseMercenaryScreen extends InventoryOperationsScreen {
             nuiManager.pushScreen(inventoryScreen);
         });
         actionButtons[2] = equipButton;
+    }
+
+    public UIWarnButton getGiveItemsButton() {
+        return (UIWarnButton) actionButtons[0];
+    }
+
+    public UIWarnButton getTakeItemsButton() {
+        return (UIWarnButton) actionButtons[1];
+    }
+
+    public UIWarnButton getEquipItemsButton() {
+        return (UIWarnButton) actionButtons[2];
     }
 
     @Override

@@ -67,8 +67,8 @@ public class MapScreen extends NUIScreenLayer {
     private UIWarnButton closeButton;
     private UIWarnButton zoomInButton;
     private UIWarnButton zoomOutButton;
-    private KeyActivatedButton addWaypointButton;
-    private KeyActivatedButton removeWaypointButton;
+    private UIWarnButton addWaypointButton;
+    private UIWarnButton removeWaypointButton;
     private WaypointOperation waypointOperation;
     private final InteractionListener dragListener = new BaseInteractionListener() {
         @Override
@@ -193,7 +193,7 @@ public class MapScreen extends NUIScreenLayer {
             zoomOutButton.setEnabled(mapZoom != MapDrawer.MAX_ZOOM);
         });
 
-        addWaypointButton = find("addWaypointButton", KeyActivatedButton.class);
+        addWaypointButton = find("addWaypointButton", UIWarnButton.class);
         addWaypointButton.subscribe(button -> {
             if (waypointOperation == WaypointOperation.ADDING) {
                 // Cancel add
@@ -206,7 +206,7 @@ public class MapScreen extends NUIScreenLayer {
                 addWaypointButton.setText(CANCEL_TEXT);
             }
         });
-        removeWaypointButton = find("removeWaypointButton", KeyActivatedButton.class);
+        removeWaypointButton = find("removeWaypointButton", UIWarnButton.class);
         removeWaypointButton.subscribe(button -> {
             if (waypointOperation == WaypointOperation.REMOVING) {
                 // Cancel remove
@@ -314,6 +314,24 @@ public class MapScreen extends NUIScreenLayer {
      */
     public UIWarnButton getZoomOutButton() {
         return zoomOutButton;
+    }
+
+    /**
+     * Returns the button used to add a waypoint.
+     * This is mostly exposed for use in the tutorial.
+     * @return the button used to add a waypoint.
+     */
+    public UIWarnButton getAddWaypointButton() {
+        return addWaypointButton;
+    }
+
+    /**
+     * Returns the button used to remove a waypoint.
+     * This is mostly exposed for use in the tutorial.
+     * @return the button used to remove a waypoint.
+     */
+    public UIWarnButton getRemoveWaypointButton() {
+        return removeWaypointButton;
     }
 
     /**

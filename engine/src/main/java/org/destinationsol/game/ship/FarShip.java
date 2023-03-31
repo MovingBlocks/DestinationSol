@@ -147,6 +147,10 @@ public class FarShip implements FarObject {
         return hullConfig;
     }
 
+    public TradeContainer getTradeContainer() {
+        return tradeContainer;
+    }
+
     public float getAngle() {
         return angle;
     }
