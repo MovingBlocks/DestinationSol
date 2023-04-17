@@ -46,7 +46,6 @@ public class MainGameScreen extends SolUiBaseScreen {
     static final float HELPER_ROW_1 = 1 - 3f * CELL_SZ;
 
     private final ShipUiControl shipControl;
-    private final SolUiControl pauseControl;
     private final CameraKeyboardControl cameraControl;
     private final SolApplication solApplication;
 
@@ -75,8 +74,6 @@ public class MainGameScreen extends SolUiBaseScreen {
                 break;
         }
 
-        pauseControl = new SolUiControl(null, true, gameOptions.getKeyPause());
-        controls.add(pauseControl);
         cameraControl = new CameraKeyboardControl(gameOptions, controls);
     }
 
@@ -125,12 +122,7 @@ public class MainGameScreen extends SolUiBaseScreen {
         if (solApplication.getNuiManager().hasScreenOfType(ConsoleScreen.class)) {
             controls.forEach(x -> x.setEnabled(false));
         } else if (!nuiManager.hasScreen(screens.menuScreen)) {
-            game.setPaused(false);
             controls.forEach(x -> x.setEnabled(true));
-        }
-
-        if (pauseControl.isJustOff()) {
-            game.setPaused(!game.isPaused());
         }
 
         for (SolUiScreen screen : gameOverlayScreens) {
