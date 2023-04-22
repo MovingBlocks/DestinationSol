@@ -38,6 +38,7 @@ import org.destinationsol.game.planet.Planet;
 import org.destinationsol.game.screens.BorderDrawer;
 import org.destinationsol.game.screens.GameScreens;
 import org.destinationsol.game.screens.ZoneNameAnnouncer;
+import org.destinationsol.game.ship.ShipAbility;
 import org.destinationsol.game.ship.SolShip;
 import org.destinationsol.ui.SolInputManager;
 import org.destinationsol.ui.UiDrawer;
@@ -237,11 +238,16 @@ public class MainGameScreen extends NUIScreenLayer {
             @Override
             public UITextureRegion get() {
                 Hero hero = solApplication.getGame().getHero();
-                if (hero.getAbility() == null) {
+                ShipAbility ability = hero.getAbility();
+                if (ability == null) {
                     return null;
                 }
 
-                SolItem example = hero.getAbility().getConfig().getChargeExample();
+                if (ability.getCommonConfig().icon != null) {
+                    return Assets.getDSTexture(ability.getCommonConfig().icon.name).getUiTexture();
+                }
+
+                SolItem example = ability.getConfig().getChargeExample();
                 if (example != null) {
                     return Assets.getDSTexture(example.getIcon(solApplication.getGame()).name).getUiTexture();
                 }

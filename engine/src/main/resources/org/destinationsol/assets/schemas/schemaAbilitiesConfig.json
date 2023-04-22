@@ -11,6 +11,11 @@
       "activatedSound"
     ],
     "properties": {
+      "icon": {
+        "type": "string",
+        "description": "The gestalt id of the icon representing this ability.",
+        "pattern": "^\\w+:\\w+$"
+      },
       "activatedSound": {
         "type": "string",
         "description": "The gestalt id of the sound effect played upon ability activation.",

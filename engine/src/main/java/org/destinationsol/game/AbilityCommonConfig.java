@@ -15,6 +15,8 @@
  */
 package org.destinationsol.game;
 
+import com.badlogic.gdx.graphics.g2d.TextureAtlas;
+import org.destinationsol.assets.Assets;
 import org.destinationsol.assets.sound.OggSound;
 import org.destinationsol.assets.sound.OggSoundManager;
 import org.destinationsol.assets.sound.PlayableSound;
@@ -23,10 +25,12 @@ import org.destinationsol.game.particle.EffectTypes;
 import org.json.JSONObject;
 
 public class AbilityCommonConfig {
+    public final TextureAtlas.AtlasRegion icon;
     public final EffectConfig effect;
     public final PlayableSound activatedSound;
 
-    public AbilityCommonConfig(EffectConfig effect, PlayableSound activatedSound) {
+    public AbilityCommonConfig(TextureAtlas.AtlasRegion icon, EffectConfig effect, PlayableSound activatedSound) {
+        this.icon = icon;
         this.effect = effect;
         this.activatedSound = activatedSound;
     }
@@ -34,6 +38,7 @@ public class AbilityCommonConfig {
     public static AbilityCommonConfig load(JSONObject node, EffectTypes types, GameColors cols, OggSoundManager soundManager) {
         EffectConfig ec = EffectConfig.load(node.has("effect") ? node.getJSONObject("effect") : null, types, cols);
         OggSound activatedSound = soundManager.getSound(node.getString("activatedSound"));
-        return new AbilityCommonConfig(ec, activatedSound);
+        TextureAtlas.AtlasRegion icon = node.has("icon") ? Assets.getAtlasRegion(node.getString("icon")) : null;
+        return new AbilityCommonConfig(icon, ec, activatedSound);
     }
 }
