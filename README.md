@@ -60,7 +60,7 @@ Note: You can select either pure keyboard, keyboard + mouse, or controller (in t
 *With inventory up*
 
 * [Left, Right] - change page
-* [Up, Down] - scroll up and down
+* [Page Up, Page Down] - scroll up and down
 * [Space] - equip / unequip item *OR* buy / sell if talking to a station
 * [D] - discard selected item
 
@@ -68,13 +68,13 @@ Note: You can select either pure keyboard, keyboard + mouse, or controller (in t
 Building and running from source
 --------
 
-You only need Java 8 installed to run Destination Sol from source.
+You only need Java 11 installed to run Destination Sol from source.
 
 Run any commands in the project root directory (where you cloned / extracted the project to, using a command prompt / terminal).
 
 * Download / clone the [source from GitHub](https://github.com/MovingBlocks/DestinationSol)
 * To run from the command line: `gradlew run` (on Linux you might need to use `./gradlew run`)
-* To prepare for IntelliJ run: `gradlew idea` then load the generated project via `DestinationSol.ipr`
+* IntelliJ should import the project automatically when you open the project directory
 * Distributions (Windows, Linux, Mac) can be created locally by running: `gradlew distZipBundleJREs`
 
 For Android a little extra setup is needed. See instructions [here](https://github.com/MovingBlocks/DestSolAndroid).
