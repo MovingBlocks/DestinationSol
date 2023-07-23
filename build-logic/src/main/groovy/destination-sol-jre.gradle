@@ -19,7 +19,7 @@ plugins {
 }
 
 // Uses Bellsoft Liberica JRE
-def jreVersion = '8u352+8'
+def jreVersion = '11.0.19+7'
 def jreUrlBase = "https://download.bell-sw.com/java/$jreVersion/bellsoft-jre$jreVersion"
 def jreUrlFilenames = [
         lwjreLinux64 : 'linux-amd64.tar.gz',
