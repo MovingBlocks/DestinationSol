@@ -324,11 +324,13 @@ public class SolInputManager {
         int mouseX = Gdx.input.getX();
         int mouseY = Gdx.input.getY();
         // TODO: look into the usefulness of this, and replace with Gdx.graphics.* with displayDimensions if nothing else
-        int w = Gdx.graphics.getWidth();
-        int h = Gdx.graphics.getHeight();
-        mouseX = (int) MathUtils.clamp((float) mouseX, (float) 0, (float) w);
-        mouseY = (int) MathUtils.clamp((float) mouseY, (float) 0, (float) h);
-        Gdx.input.setCursorPosition(mouseX, mouseY);
+        int screenWidth = Gdx.graphics.getWidth();
+        int screenHeight = Gdx.graphics.getHeight();
+        if (mouseX < 0 || mouseX >= screenWidth || mouseY < 0 || mouseY >= screenHeight) {
+            mouseX = (int) MathUtils.clamp((float) mouseX, (float) 0, (float) screenWidth - 1);
+            mouseY = (int) MathUtils.clamp((float) mouseY, (float) 0, (float) screenHeight - 1);
+            Gdx.input.setCursorPosition(mouseX, mouseY);
+        }
     }
 
     private void updatePointers() {
