@@ -228,7 +228,7 @@ public class TutorialManager implements UpdateAwareSystem {
                         solGame.get().getScreens().mapScreen.getCloseButton(),
                         solGame.get().getScreens().mapScreen,
                         "Close the map."),
-                new FlyToHeroFirstWaypointStep("Fly to your waypoint."),
+                new FlyToHeroFirstWaypointStep("Fly to your waypoint.", "Create a waypoint near your ship."),
                 new ChangeTutorialSectionStep("Planets"),
                 new FlyToPlanetSellingMercenariesStep("Head towards a planet.", "Look for the planetary station."),
                 new ChangeTutorialSectionStep("Mercenaries"),

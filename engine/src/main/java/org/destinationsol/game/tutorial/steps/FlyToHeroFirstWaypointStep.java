@@ -25,24 +25,39 @@ import javax.inject.Inject;
  * A tutorial step that completes when the player ship reaches a nearby spawned waypoint.
  */
 public class FlyToHeroFirstWaypointStep extends FlyToWaypointStep {
+    private final String missingWaypointMessage;
+
     @Inject
     protected FlyToHeroFirstWaypointStep() {
         throw new RuntimeException("Attempted to instantiate TutorialStep via DI. This is not supported.");
     }
 
-    public FlyToHeroFirstWaypointStep(String message) {
+    public FlyToHeroFirstWaypointStep(String message, String missingWaypointMessage) {
         super(Vector2.Zero, message);
+        this.missingWaypointMessage = missingWaypointMessage;
     }
 
     @Override
     public void start() {
-        waypoint = game.getHero().getWaypoints().get(0);
-        setTutorialText(message);
+        Hero hero = game.getHero();
+        if (hero.getWaypoints().isEmpty()) {
+            setTutorialText(missingWaypointMessage);
+        } else {
+            waypoint = game.getHero().getWaypoints().get(0);
+            setTutorialText(message);
+        }
     }
 
     @Override
     public boolean checkComplete(float timeStep) {
         Hero hero = game.getHero();
+        if (hero.getWaypoints().isEmpty()) {
+            setTutorialText(missingWaypointMessage);
+            return false;
+        } else {
+            setTutorialText(message);
+        }
+
         if (!hero.getWaypoints().contains(waypoint) && hero.getWaypoints().size() > 0) {
             // Change the target waypoint just in-case the player removes it.
             waypoint = hero.getWaypoints().get(0);
