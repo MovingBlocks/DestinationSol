@@ -169,7 +169,7 @@ public class NUIManager {
         UIText.DEFAULT_CURSOR_TEXTURE = whiteTexture;
 
         // NOTE: SolApplication::addResizeSubscriber is not intended to be static, so use the instance form for compatibility
-        solApplication.addResizeSubscriber(() -> resize(Gdx.graphics.getBackBufferWidth(), Gdx.graphics.getBackBufferHeight()));
+        solApplication.addResizeSubscriber(() -> resize(Gdx.graphics.getWidth(), Gdx.graphics.getHeight()));
 
         // Mobile screen densities can vary considerably, so a large digital resolution can be displayed
         // on a very small screen. Due to this, it makes sense to scale the UI roughly proportionally
