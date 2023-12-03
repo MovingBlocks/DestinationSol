@@ -24,7 +24,8 @@ def jreUrlBase = "https://download.bell-sw.com/java/$jreVersion/bellsoft-jre$jre
 def jreUrlFilenames = [
         lwjreLinux64 : 'linux-amd64.tar.gz',
         lwjre        : 'windows-i586.zip',
-        lwjreOSX     : 'macos-amd64.zip'
+        lwjreOSX     : 'macos-amd64.zip',
+        lwjreOSXArm  : 'macos-aarch64.zip'
 ]
 
 tasks.register('downloadJreAll') {
