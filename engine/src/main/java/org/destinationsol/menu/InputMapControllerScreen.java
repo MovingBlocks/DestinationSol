@@ -25,6 +25,7 @@ import com.badlogic.gdx.controllers.ControllerListener;
 import com.badlogic.gdx.controllers.Controllers;
 import org.destinationsol.GameOptions;
 import org.destinationsol.SolApplication;
+import org.destinationsol.input.DefaultControls;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -137,39 +138,39 @@ public class InputMapControllerScreen extends InputMapOperations {
         itemsList.set(index++, InitItem(GameOptions.DEFAULT_AXIS_ABILITY, GameOptions.DEFAULT_BUTTON_ABILITY, "Ability"));
 
         InputConfigItem item = itemsList.get(index);
-        item.setInputKey(GameOptions.DEFAULT_PAUSE);
+        item.setInputKey(Input.Keys.toString(DefaultControls.PAUSE.getDefaultInputs()[0]));
         itemsList.set(index++, item);
 
         item = itemsList.get(index);
-        item.setInputKey(GameOptions.DEFAULT_MAP);
+        item.setInputKey(Input.Keys.toString(DefaultControls.MAP.getDefaultInputs()[0]));
         itemsList.set(index++, item);
 
         item = itemsList.get(index);
-        item.setInputKey(GameOptions.DEFAULT_INVENTORY);
+        item.setInputKey(Input.Keys.toString(DefaultControls.INVENTORY.getDefaultInputs()[0]));
         itemsList.set(index++, item);
 
         item = itemsList.get(index);
-        item.setInputKey(GameOptions.DEFAULT_DROP);
+        item.setInputKey(Input.Keys.toString(DefaultControls.DROP.getDefaultInputs()[0]));
         itemsList.set(index++, item);
 
         item = itemsList.get(index);
-        item.setInputKey(GameOptions.DEFAULT_TALK);
+        item.setInputKey(Input.Keys.toString(DefaultControls.TALK.getDefaultInputs()[0]));
         itemsList.set(index++, item);
 
         item = itemsList.get(index);
-        item.setInputKey(GameOptions.DEFAULT_SELL);
+        item.setInputKey(Input.Keys.toString(DefaultControls.SELL.getDefaultInputs()[0]));
         itemsList.set(index++, item);
 
         item = itemsList.get(index);
-        item.setInputKey(GameOptions.DEFAULT_BUY);
+        item.setInputKey(Input.Keys.toString(DefaultControls.BUY.getDefaultInputs()[0]));
         itemsList.set(index++, item);
 
         item = itemsList.get(index);
-        item.setInputKey(GameOptions.DEFAULT_CHANGE_SHIP);
+        item.setInputKey(Input.Keys.toString(DefaultControls.CHANGE_SHIP.getDefaultInputs()[0]));
         itemsList.set(index++, item);
 
         item = itemsList.get(index);
-        item.setInputKey(GameOptions.DEFAULT_HIRE_SHIP);
+        item.setInputKey(Input.Keys.toString(DefaultControls.HIRE_SHIP.getDefaultInputs()[0]));
         itemsList.set(index++, item);
     }
 

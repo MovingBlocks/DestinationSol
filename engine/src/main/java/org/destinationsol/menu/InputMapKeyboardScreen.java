@@ -22,6 +22,7 @@ import com.badlogic.gdx.InputAdapter;
 import com.badlogic.gdx.InputProcessor;
 import org.destinationsol.GameOptions;
 import org.destinationsol.SolApplication;
+import org.destinationsol.input.DefaultControls;
 import org.destinationsol.ui.SolInputManager;
 import org.destinationsol.ui.SolUiControl;
 
@@ -107,67 +108,67 @@ public class InputMapKeyboardScreen extends InputMapOperations {
 
         // This needs to be in the same order the list is initialised
         InputConfigItem item = itemsList.get(index);
-        item.setInputKey(GameOptions.DEFAULT_UP);
+        item.setInputKey(Input.Keys.toString(DefaultControls.UP.getDefaultInputs()[0]));
         itemsList.set(index++, item);
 
         item = itemsList.get(index);
-        item.setInputKey(GameOptions.DEFAULT_DOWN);
+        item.setInputKey(Input.Keys.toString(DefaultControls.DOWN.getDefaultInputs()[0]));
         itemsList.set(index++, item);
 
         item = itemsList.get(index);
-        item.setInputKey(GameOptions.DEFAULT_LEFT);
+        item.setInputKey(Input.Keys.toString(DefaultControls.LEFT.getDefaultInputs()[0]));
         itemsList.set(index++, item);
 
         item = itemsList.get(index);
-        item.setInputKey(GameOptions.DEFAULT_RIGHT);
+        item.setInputKey(Input.Keys.toString(DefaultControls.RIGHT.getDefaultInputs()[0]));
         itemsList.set(index++, item);
 
         item = itemsList.get(index);
-        item.setInputKey(GameOptions.DEFAULT_SHOOT);
+        item.setInputKey(Input.Keys.toString(DefaultControls.SHOOT.getDefaultInputs()[0]));
         itemsList.set(index++, item);
 
         item = itemsList.get(index);
-        item.setInputKey(GameOptions.DEFAULT_SHOOT2);
+        item.setInputKey(Input.Keys.toString(DefaultControls.SHOOT2.getDefaultInputs()[0]));
         itemsList.set(index++, item);
 
         item = itemsList.get(index);
-        item.setInputKey(GameOptions.DEFAULT_ABILITY);
+        item.setInputKey(Input.Keys.toString(DefaultControls.ABILITY.getDefaultInputs()[0]));
         itemsList.set(index++, item);
 
         item = itemsList.get(index);
-        item.setInputKey(GameOptions.DEFAULT_PAUSE);
+        item.setInputKey(Input.Keys.toString(DefaultControls.PAUSE.getDefaultInputs()[0]));
         itemsList.set(index++, item);
 
         item = itemsList.get(index);
-        item.setInputKey(GameOptions.DEFAULT_MAP);
+        item.setInputKey(Input.Keys.toString(DefaultControls.MAP.getDefaultInputs()[0]));
         itemsList.set(index++, item);
 
         item = itemsList.get(index);
-        item.setInputKey(GameOptions.DEFAULT_INVENTORY);
+        item.setInputKey(Input.Keys.toString(DefaultControls.INVENTORY.getDefaultInputs()[0]));
         itemsList.set(index++, item);
 
         item = itemsList.get(index);
-        item.setInputKey(GameOptions.DEFAULT_DROP);
+        item.setInputKey(Input.Keys.toString(DefaultControls.DROP.getDefaultInputs()[0]));
         itemsList.set(index++, item);
 
         item = itemsList.get(index);
-        item.setInputKey(GameOptions.DEFAULT_TALK);
+        item.setInputKey(Input.Keys.toString(DefaultControls.TALK.getDefaultInputs()[0]));
         itemsList.set(index++, item);
 
         item = itemsList.get(index);
-        item.setInputKey(GameOptions.DEFAULT_SELL);
+        item.setInputKey(Input.Keys.toString(DefaultControls.SELL.getDefaultInputs()[0]));
         itemsList.set(index++, item);
 
         item = itemsList.get(index);
-        item.setInputKey(GameOptions.DEFAULT_BUY);
+        item.setInputKey(Input.Keys.toString(DefaultControls.BUY.getDefaultInputs()[0]));
         itemsList.set(index++, item);
 
         item = itemsList.get(index);
-        item.setInputKey(GameOptions.DEFAULT_CHANGE_SHIP);
+        item.setInputKey(Input.Keys.toString(DefaultControls.CHANGE_SHIP.getDefaultInputs()[0]));
         itemsList.set(index++, item);
 
         item = itemsList.get(index);
-        item.setInputKey(GameOptions.DEFAULT_HIRE_SHIP);
+        item.setInputKey(Input.Keys.toString(DefaultControls.HIRE_SHIP.getDefaultInputs()[0]));
         itemsList.set(index++, item);
     }
 
