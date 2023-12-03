@@ -3,7 +3,7 @@ ext {
 
     engineVersion = '2.1.0'
     gestaltVersion = '8.0.0-SNAPSHOT'
-    gdxVersion = '1.12.0'
+    gdxVersion = '1.12.1'
     // The LibGDX controllers library is versioned differently to the main LibGDX versions.
     // See https://github.com/libgdx/gdx-controllers/wiki/Compatibility for compatible versions.
     gdxControllersVersion = '2.2.3'
