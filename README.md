@@ -13,7 +13,7 @@ Milosh accepted our offer and supported us in moving the game onwards to its new
 
 Destination Sol is now officially licensed under the [Apache 2.0 License](http://www.apache.org/licenses/LICENSE-2.0.html) (except soundtrack, see its section below) and available in source code form at [GitHub](https://github.com/MovingBlocks/DestinationSol).
 
-You can download the game on [Steam](http://store.steampowered.com/app/342980/), get it in the [Google Play Store](https://play.google.com/store/apps/details?id=com.miloshpetrov.sol2.android&hl=en), or download the [very latest version from our build server](http://jenkins.terasology.io/teraorg/job/DestinationSol/job/engine/job/develop/lastSuccessfulBuild/artifact/desktop/build/distributions/DestinationSol.zip) (warning: latest build may be unstable)
+You can download the game on [Steam](http://store.steampowered.com/app/342980/), get it in the [Google Play Store](https://play.google.com/store/apps/details?id=com.miloshpetrov.sol2.android) or on [F-Droid](https://f-droid.org/packages/com.miloshpetrov.sol2.android/), or download the [very latest version from our build server](http://jenkins.terasology.io/teraorg/job/DestinationSol/job/engine/job/develop/lastSuccessfulBuild/artifact/desktop/build/distributions/DestinationSol.zip) (warning: latest build may be unstable)
 
 Feel free to fork the project and contribute pull requests! You can visit a [Destination Sol forum](http://forum.terasology.org/forum/destination-sol.57/) on the Terasology site if you have any questions or would like to discuss the game or contributing.
 
