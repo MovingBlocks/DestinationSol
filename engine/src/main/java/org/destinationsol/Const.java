@@ -15,6 +15,9 @@
  */
 package org.destinationsol;
 
+import org.terasology.gestalt.module.sandbox.API;
+
+@API
 public class Const {
     public static final float ATM_HEIGHT = 14f;
     public static final float MAX_SKY_HEIGHT_FROM_GROUND = 1.5f * ATM_HEIGHT;
