@@ -30,6 +30,7 @@ import org.destinationsol.health.components.Health;
 import org.destinationsol.location.components.Angle;
 import org.destinationsol.location.components.Position;
 import org.destinationsol.location.components.Velocity;
+import org.destinationsol.moneyDropping.components.DropsMoneyOnDestruction;
 import org.destinationsol.removal.events.DeletionEvent;
 import org.destinationsol.removal.systems.DestructionSystem;
 import org.destinationsol.rendering.RenderableElement;
@@ -51,9 +52,10 @@ import javax.inject.Inject;
  */
 public class RubbleCreationSystem implements EventReceiver {
 
-    public static final float SIZE_TO_RUBBLE_COUNT = 13f;
-    public static final float MIN_SCALE = .07f;
-    public static final float MAX_SCALE = .12f;
+    public static final float SIZE_TO_RUBBLE_COUNT = 8f;
+    public static final float MIN_DIVISIBLE_SIZE = .1f;
+    public static final float MIN_SCALE = .1f;
+    public static final float MAX_SCALE = .3f;
     private static final float MAX_SPD = 40f;
 
     @Inject
@@ -116,7 +118,8 @@ public class RubbleCreationSystem implements EventReceiver {
             element.graphicsOffset = new Vector2();
 
             float scale = SolRandom.randomFloat(MIN_SCALE, MAX_SCALE);
-            element.setSize(scale);
+            float scaledSize = scale * size.size;
+            element.setSize(scaledSize);
 
             element.relativePosition = new Vector2();
             element.tint = Color.WHITE;
@@ -126,7 +129,7 @@ public class RubbleCreationSystem implements EventReceiver {
             //Create position component
             float velocityAngle = SolRandom.randomFloat(180);
             Vector2 position = new Vector2();
-            SolMath.fromAl(position, velocityAngle, SolRandom.randomFloat(size.size));
+            SolMath.fromAl(position, velocityAngle, SolRandom.randomFloat(scaledSize));
             position.add(basePos);
             Position positionComponent = new Position();
             positionComponent.position = position;
@@ -137,7 +140,7 @@ public class RubbleCreationSystem implements EventReceiver {
 
             //Create size component
             Size sizeComponent = new Size();
-            sizeComponent.size = scale;
+            sizeComponent.size = scaledSize;
 
             //Create velocity component
             Velocity velocityComponent = new Velocity();
@@ -147,6 +150,11 @@ public class RubbleCreationSystem implements EventReceiver {
 
             EntityRef entityRef = entitySystemManager.getEntityManager().createEntity(graphicsComponent, positionComponent,
                     sizeComponent, angle, velocityComponent, new RubbleMesh(), health);
+
+            if (scaledSize > MIN_DIVISIBLE_SIZE) {
+                entityRef.setComponent(new CreatesRubbleOnDestruction());
+                entityRef.setComponent(new DropsMoneyOnDestruction());
+            }
 
             SolMath.free(velocity);
             entityRef.setComponent(new BodyLinked());
