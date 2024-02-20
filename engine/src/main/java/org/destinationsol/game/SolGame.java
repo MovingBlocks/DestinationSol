@@ -256,7 +256,7 @@ public class SolGame {
         Timer.schedule(new Timer.Task() {
             @Override
             public void run() {
-                if (!hero.isTranscendent()) {
+                if (!hero.isTranscendent() && !isTutorial()) {
                     saveShip();
 //                    Console.getInstance().println("Game saved");
                 }
