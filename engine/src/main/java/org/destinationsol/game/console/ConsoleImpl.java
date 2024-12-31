@@ -89,7 +89,7 @@ public class ConsoleImpl implements Console {
     }
 
     public void init(SolGame game) {
-
+        commandRegistry.clear();
         for (Class commands : context.get(ModuleManager.class).getEnvironment().getTypesAnnotatedWith(RegisterCommands.class)) {
             try {
                 Object commandsObject = commands.newInstance();
