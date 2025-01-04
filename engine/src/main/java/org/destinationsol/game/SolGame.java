@@ -168,7 +168,6 @@ public class SolGame {
 
     @Inject
     public SolGame(SolApplication solApplication, PlanetConfigManager planetConfigManager, MazeConfigManager mazeConfigManager, BeltConfigManager beltConfigManager) {
-        FactionInfo.init();
         this.solApplication = solApplication;
         boolean isMobile = solApplication.isMobile();
 
@@ -344,7 +343,6 @@ public class SolGame {
         // TODO: Remove this when context is reset after each game
         context.get(EntitySystemManager.class).getEntityManager().allEntities().forEach(EntityRef::delete);
 
-        FactionInfo.clearValues();
         try {
             objectManager.close();
         } catch (Exception e) {

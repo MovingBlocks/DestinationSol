@@ -19,6 +19,7 @@ import com.badlogic.gdx.math.Vector2;
 import org.destinationsol.GameOptions;
 import org.destinationsol.assets.music.OggMusicManager;
 import org.destinationsol.common.SolException;
+import org.destinationsol.game.faction.Faction;
 import org.destinationsol.game.input.Pilot;
 import org.destinationsol.game.item.Armor;
 import org.destinationsol.game.item.ItemContainer;
@@ -101,6 +102,10 @@ public class Hero {
 
     public SolShip getShipUnchecked() {
         return shipHero;
+    }
+
+    public Faction getFaction() {
+        return getPilot().getFaction();
     }
 
     public StarPort.Transcendent getTranscendentHero() {

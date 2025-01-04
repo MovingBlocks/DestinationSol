@@ -1,0 +1,14 @@
+{
+  "name": "Pirate",
+  "description": "Pirates. They steal stuff.",
+  "colour": "DC143C",
+  "defaultDisposition": -100,
+  "shipDesigns": [
+    "core:pirateMedium",
+    "core:pirateOrbiter",
+    "core:piratePlanetTurret",
+    "core:pirateSmall",
+    "core:pirateSpaceTurret",
+    "core:truck"
+  ]
+}

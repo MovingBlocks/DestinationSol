@@ -25,13 +25,13 @@ import org.destinationsol.common.SolColor;
 import org.destinationsol.common.SolMath;
 import org.destinationsol.common.SolRandom;
 import org.destinationsol.game.DebugOptions;
-import org.destinationsol.game.Faction;
 import org.destinationsol.game.ShipConfig;
 import org.destinationsol.game.SolGame;
 import org.destinationsol.game.drawables.Drawable;
 import org.destinationsol.game.drawables.DrawableLevel;
 import org.destinationsol.game.drawables.RectSprite;
 import org.destinationsol.game.drawables.SpriteManager;
+import org.destinationsol.game.faction.Faction;
 import org.destinationsol.game.input.AiPilot;
 import org.destinationsol.game.input.OrbiterDestProvider;
 import org.destinationsol.game.input.Pilot;
@@ -104,7 +104,7 @@ public class PlanetObjectsBuilder {
     private void buildStation(SolGame game, Planet planet, ConsumedAngles takenAngles) {
         ShipConfig stationConfig = planet.getConfig().stationConfig;
         if (stationConfig != null) {
-            buildGroundShip(game, planet, stationConfig, planet.getConfig().tradeConfig, Faction.LAANI, takenAngles, "Station");
+            buildGroundShip(game, planet, stationConfig, planet.getConfig().tradeConfig, game.getFactionMan().getBuilderForHull(stationConfig.hull), takenAngles, "Station");
         }
     }
 
@@ -112,7 +112,7 @@ public class PlanetObjectsBuilder {
         for (ShipConfig groundEnemy : config.groundEnemies) {
             int count = (int) (groundEnemy.density * groundHeight);
             for (int i = 0; i < count; i++) {
-                buildGroundShip(game, planet, groundEnemy, null, Faction.EHAR, takenAngles, null);
+                buildGroundShip(game, planet, groundEnemy, null, game.getFactionMan().getBuilderForHull(groundEnemy.hull), takenAngles, null);
             }
         }
     }
@@ -322,13 +322,13 @@ public class PlanetObjectsBuilder {
     }
 
     private void buildGroundShip(SolGame game, Planet planet, ShipConfig shipConfig, TradeConfig tradeConfig,
-                                   Faction faction, ConsumedAngles takenAngles, String mapHint) {
+                                 Faction faction, ConsumedAngles takenAngles, String mapHint) {
         Vector2 position = game.getPlanetManager().findFlatPlace(game, planet, takenAngles, shipConfig.hull.getApproxRadius());
         boolean goodSpot = true;
         boolean station = shipConfig.hull.getType() == HullConfig.Type.STATION;
         String shipItems = shipConfig.items;
         boolean hasRepairer;
-        hasRepairer = faction == Faction.LAANI;
+        hasRepairer = game.getHero().getFaction().getRelation(faction) >= 0;
         int money = shipConfig.money;
         float height = position.len();
         float aboveGround;
@@ -380,7 +380,7 @@ public class PlanetObjectsBuilder {
         SolMath.free(directionToPlanet);
 
         OrbiterDestProvider destProvider = new OrbiterDestProvider(planet, height, clockwise);
-        Pilot provider = new AiPilot(destProvider, false, Faction.EHAR, true, null, detectionDistance);
+        Pilot provider = new AiPilot(destProvider, false, game.getFactionMan().getBuilderForHull(shipConfig.hull), true, null, detectionDistance);
 
         int money = shipConfig.money;
 

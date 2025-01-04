@@ -24,7 +24,6 @@ import org.destinationsol.common.SolColor;
 import org.destinationsol.common.SolMath;
 import org.destinationsol.common.SolRandom;
 import org.destinationsol.game.DebugOptions;
-import org.destinationsol.game.Faction;
 import org.destinationsol.game.RemoveController;
 import org.destinationsol.game.ShipConfig;
 import org.destinationsol.game.SolGame;
@@ -197,7 +196,7 @@ public class ChunkFiller {
         SolMath.fromAl(velocity, SolRandom.randomFloat(180), SolRandom.randomFloat(0, ENEMY_MAX_SPD));
         float rotationSpeed = SolRandom.randomFloat(ENEMY_MAX_ROT_SPD);
         MoveDestProvider dp = new StillGuard(position, game, enemyConf);
-        Pilot provider = new AiPilot(dp, false, Faction.EHAR, true, null, Const.AI_DET_DIST);
+        Pilot provider = new AiPilot(dp, false, game.getFactionMan().getBuilderForHull(enemyConf.hull), true, null, Const.AI_DET_DIST);
         HullConfig config = enemyConf.hull;
         int money = enemyConf.money;
         float angle = SolRandom.randomFloat(180);

@@ -17,9 +17,7 @@ package org.destinationsol;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
-import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.math.Vector2;
-import org.destinationsol.game.FactionInfo;
 import org.destinationsol.game.ObjectManager;
 import org.destinationsol.game.SolCam;
 import org.destinationsol.game.SolGame;
@@ -27,6 +25,7 @@ import org.destinationsol.game.SolObject;
 import org.destinationsol.game.ship.SolShip;
 import org.destinationsol.ui.SolInputManager;
 import org.destinationsol.ui.UiDrawer;
+import org.terasology.nui.backends.libgdx.GdxColorUtil;
 
 /**
  * Acquires faction information fromm all the ships and draws it above them.
@@ -49,8 +48,8 @@ public class FactionDisplay {
                 if (obj instanceof SolShip) {
                     SolShip ship = (SolShip) obj;
                     Vector2 drawPosition = camera.worldToScreen(ship);
-                    uiDrawer.drawString(ship.getFactionName(), drawPosition.x * SolApplication.displayDimensions.getRatio(),
-                            drawPosition.y - .1f, 1, false, Color.valueOf(FactionInfo.getFactionColors().get(ship.getFactionID()).toString()));
+                    uiDrawer.drawString(ship.getFaction().getName(), drawPosition.x * SolApplication.displayDimensions.getRatio(),
+                            drawPosition.y - .1f, 1, false, GdxColorUtil.terasologyToGDXColor(ship.getFaction().getColour()));
                 }
             }
         }

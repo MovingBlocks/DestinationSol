@@ -17,17 +17,18 @@
 package org.destinationsol.game.input;
 
 import org.destinationsol.Const;
-import org.destinationsol.game.Faction;
 import org.destinationsol.game.SolGame;
+import org.destinationsol.game.faction.Faction;
 import org.destinationsol.game.screens.ShipUiControl;
 import org.destinationsol.game.ship.FarShip;
 import org.destinationsol.game.ship.SolShip;
 
 public class UiControlledPilot implements Pilot {
-
+    private final Faction faction;
     private final ShipUiControl uiControls;
 
-    public UiControlledPilot(ShipUiControl controls) {
+    public UiControlledPilot(Faction faction, ShipUiControl controls) {
+        this.faction = faction;
         uiControls = controls;
     }
 
@@ -72,12 +73,7 @@ public class UiControlledPilot implements Pilot {
 
     @Override
     public Faction getFaction() {
-        return Faction.LAANI;
-    }
-
-    @Override
-    public void stringToFaction(String faction) {
-    // TODO Create values outside of laani and ehar, making this necessary
+        return faction;
     }
 
     @Override

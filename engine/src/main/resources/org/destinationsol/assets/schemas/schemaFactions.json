@@ -1,43 +1,5 @@
 {
   "$schema": "http://json-schema.org/draft-07/schema#",
   "description": "Configuration for in-game factions and the members of the factions.",
-  "properties": {
-    "factions": {
-      "type": "array",
-      "items": {
-        "type": "object",
-        "properties": {
-          "name": {
-            "type": "string",
-            "description": "Faction names can be any non-blank string of ascii characters.",
-            "pattern": "^[ -~]+$"
-          },
-          "color": {
-            "type": "string",
-            "description": "Faction colors are hexidecimal, in the form RRGGBB(AA).",
-            "pattern": "^([A-Fa-f0-9]{8}|[A-Fa-f0-9]{6})$"
-          },
-          "disposition": {
-            "type": "integer",
-            "description": "The opinion of the faction towards the player. Positive is friendly, negative is hostile. Faction will attack player when disposition < 0."
-          },
-          "ships": {
-            "type": "array",
-            "description": "The list of ships in this faction.",
-            "items": {
-              "type": "string",
-              "description": "The string Id of this ship. Can be any sequence of basic alphanumeric characters without a space.",
-              "pattern": "^\\w+$"
-            }
-          }
-        },
-        "required": [
-          "name",
-          "color",
-          "disposition",
-          "ships"
-        ]
-      }
-    }
-  }
+  "additionalProperties": { "type": "object" }
 }

@@ -33,7 +33,6 @@ import org.destinationsol.common.SolColor;
 import org.destinationsol.common.SolMath;
 import org.destinationsol.common.SolRandom;
 import org.destinationsol.game.CollisionMeshLoader;
-import org.destinationsol.game.Faction;
 import org.destinationsol.game.GameColors;
 import org.destinationsol.game.RemoveController;
 import org.destinationsol.game.SolGame;
@@ -41,6 +40,7 @@ import org.destinationsol.game.drawables.Drawable;
 import org.destinationsol.game.drawables.DrawableLevel;
 import org.destinationsol.game.drawables.RectSprite;
 import org.destinationsol.game.drawables.SpriteManager;
+import org.destinationsol.game.faction.Faction;
 import org.destinationsol.game.gun.GunMount;
 import org.destinationsol.game.input.Pilot;
 import org.destinationsol.game.item.Armor;
@@ -154,15 +154,16 @@ public class ShipBuilder {
         }
 
         if (giveAmmo) {
-            addAbilityCharges(itemContainer, hullConfig, pilot);
-            addAmmo(itemContainer, g1, pilot);
-            addAmmo(itemContainer, g2, pilot);
+            boolean isPlayerAlly = game.getFactionMan().getPlayerFaction().getRelation(pilot.getFaction()) >= 0;
+            addAbilityCharges(isPlayerAlly, itemContainer, hullConfig, pilot);
+            addAmmo(isPlayerAlly, itemContainer, g1, pilot);
+            addAmmo(isPlayerAlly, itemContainer, g2, pilot);
         }
         return new FarShip(new Vector2(position), new Vector2(velocity), angle, rotationSpeed, pilot, itemContainer, hullConfig, hullConfig.getMaxLife(),
                 g1, g2, removeController, ei, hasRepairer ? new ShipRepairer() : null, money, tc, shield, armor);
     }
 
-    private void addAmmo(ItemContainer ic, Gun g, Pilot pilot) {
+    private void addAmmo(boolean isPlayerAlly, ItemContainer ic, Gun g, Pilot pilot) {
         if (g == null) {
             return;
         }
@@ -172,7 +173,7 @@ public class ShipBuilder {
             return;
         }
         float clipUseTime = cc.size * gc.timeBetweenShots + gc.reloadTime;
-        float lifeTime = pilot.getFaction() == Faction.LAANI ? AVG_ALLY_LIFE_TIME : AVG_BATTLE_TIME;
+        float lifeTime = isPlayerAlly ? AVG_ALLY_LIFE_TIME : AVG_BATTLE_TIME;
         int count = 1 + (int) (lifeTime / clipUseTime) + SolRandom.randomInt(0, 2);
         for (int i = 0; i < count; i++) {
             if (ic.canAdd(cc.example)) {
@@ -181,7 +182,7 @@ public class ShipBuilder {
         }
     }
 
-    private void addAbilityCharges(ItemContainer ic, HullConfig hc, Pilot pilot) {
+    private void addAbilityCharges(boolean isPlayerAlly, ItemContainer ic, HullConfig hc, Pilot pilot) {
         if (hc.getAbility() != null) {
             SolItem ex = hc.getAbility().getChargeExample();
             if (ex != null) {
@@ -189,7 +190,7 @@ public class ShipBuilder {
                 if (pilot.isPlayer()) {
                     count = 3;
                 } else {
-                    float lifeTime = pilot.getFaction() == Faction.LAANI ? AVG_ALLY_LIFE_TIME : AVG_BATTLE_TIME;
+                    float lifeTime = isPlayerAlly ? AVG_ALLY_LIFE_TIME : AVG_BATTLE_TIME;
                     count = (int) (lifeTime / hc.getAbility().getRechargeTime() * SolRandom.randomFloat(.3f, 1));
                 }
                 for (int i = 0; i < count; i++) {

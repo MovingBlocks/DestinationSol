@@ -1,0 +1,10 @@
+{
+  "name": "Trader",
+  "description": "Merchants of the galaxy. Friends to all who can pay.",
+  "colour": "006400",
+  "defaultDisposition": 50,
+  "shipDesigns": [
+    "core:bus",
+    "core:drome"
+  ]
+}

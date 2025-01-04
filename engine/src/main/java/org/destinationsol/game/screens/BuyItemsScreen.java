@@ -17,9 +17,9 @@
 package org.destinationsol.game.screens;
 
 import org.destinationsol.SolApplication;
-import org.destinationsol.game.FactionInfo;
 import org.destinationsol.game.Hero;
 import org.destinationsol.game.SolGame;
+import org.destinationsol.game.faction.DefaultReputationEvent;
 import org.destinationsol.game.item.ItemContainer;
 import org.destinationsol.game.item.SolItem;
 import org.destinationsol.game.ship.SolShip;
@@ -54,7 +54,7 @@ public class BuyItemsScreen extends InventoryOperationsScreen {
             target.getTradeContainer().getItems().remove(selectedItem);
             hero.getItemContainer().add(selectedItem);
             hero.setMoney(hero.getMoney() - selectedItem.getPrice());
-            FactionInfo.setDisposition(target.getFactionID(), 1);
+            solApplication.getGame().getFactionMan().reportEvent(hero.getFaction(), target.getFaction(), DefaultReputationEvent.BOUGHT_ITEM);
 
             inventoryScreen.updateItemRows();
         });

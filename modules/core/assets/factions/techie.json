@@ -1,0 +1,11 @@
+{
+  "name": "Techie",
+  "description": "Technical wizards. Can fix anything. Specialists in shield hacking technology.",
+  "colour": "169E10",
+  "defaultDisposition": -50,
+  "shipDesigns": [
+    "core:techieOrbiter",
+    "core:techiePlanetTurret",
+    "core:techieSmall"
+  ]
+}

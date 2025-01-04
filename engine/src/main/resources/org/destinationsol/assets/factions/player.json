@@ -1,0 +1,7 @@
+{
+  "name": "Player",
+  "description": "This is you.",
+  "colour": "b0c4de",
+  "defaultDisposition": 0,
+  "shipDesigns": []
+}

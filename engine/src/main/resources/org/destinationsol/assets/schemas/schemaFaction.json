@@ -1,0 +1,38 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "description": "Configuration for an in-game faction and the members of the faction.",
+  "required": ["name", "description", "colour", "shipDesigns"],
+  "properties": {
+    "name": {
+      "type": "string",
+      "description": "The name of the faction."
+    },
+    "description": {
+      "type": "string",
+      "description": "A string description the faction. This may include an overview of the faction's background."
+    },
+    "colour": {
+      "type": "string",
+      "description": "Faction colours are hexadecimal, in the form RRGGBB(AA).",
+      "pattern": "^([A-Fa-f0-9]{8}|[A-Fa-f0-9]{6})$"
+    },
+    "shipDesigns": {
+      "type": "array",
+      "description": "A list of ship designs that can be produced by this faction.",
+      "items": {
+        "type": "string",
+        "description": "The ResourceUrn of a particular ship.",
+        "pattern": "^\\w+:\\w+$"
+      }
+    },
+    "defaultDisposition": {
+      "type": "integer",
+      "description": "The default disposition that the faction has towards other unknown factions."
+    },
+    "relations": {
+      "type": "object",
+      "additionalProperties": { "type": "integer" },
+      "description": "Relations between factions."
+    }
+  }
+}

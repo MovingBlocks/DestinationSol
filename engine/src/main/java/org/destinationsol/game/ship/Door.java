@@ -22,12 +22,12 @@ import com.badlogic.gdx.physics.box2d.World;
 import com.badlogic.gdx.physics.box2d.joints.PrismaticJoint;
 import org.destinationsol.assets.sound.SpecialSounds;
 import org.destinationsol.common.SolMath;
-import org.destinationsol.game.Faction;
 import org.destinationsol.game.FactionManager;
 import org.destinationsol.game.SolGame;
 import org.destinationsol.game.SolObject;
 import org.destinationsol.game.drawables.Drawable;
 import org.destinationsol.game.drawables.RectSprite;
+import org.destinationsol.game.faction.Faction;
 import org.destinationsol.game.input.Pilot;
 
 import java.util.ArrayList;
