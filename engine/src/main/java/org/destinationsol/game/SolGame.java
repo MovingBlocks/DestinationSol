@@ -366,8 +366,16 @@ public class SolGame {
             hull = hero.isTranscendent() ? hero.getTranscendentHero().getShip().getHullConfig() : hero.getHull().config;
             money = hero.getMoney();
             items = new ArrayList<>();
+
+            SolItem defaultEngineItem = hull.getEngineConfig().exampleEngine;
             for (List<SolItem> group : hero.getItemContainer()) {
                 for (SolItem i : group) {
+                    if (i.isSame(defaultEngineItem)) {
+                        // The default engine is always added to new ships to mimic previous behaviour.
+                        // We do not want to save this engine, as it would otherwise be duplicated on reload.
+                        continue;
+                    }
+
                     items.add(0, i);
                 }
             }
@@ -620,8 +628,16 @@ public class SolGame {
         respawnState.getRespawnItems().clear();
         respawnState.getRespawnWaypoints().clear();
         respawnState.setPlayerRespawned(true);
+
+        SolItem defaultShipEngine = respawnState.getRespawnHull().getEngineConfig().exampleEngine;
         for (List<SolItem> group : hero.getItemContainer()) {
             for (SolItem item : group) {
+                if (item.isSame(defaultShipEngine)) {
+                    // The default engine is always added to new ships to mimic previous behaviour.
+                    // We do not want to save this engine, as it would otherwise be duplicated on respawn.
+                    continue;
+                }
+
                 boolean equipped = hero.isTranscendent() || hero.maybeUnequip(this, item, false);
                 if (equipped || SolRandom.test(.75f)) {
                     respawnState.getRespawnItems().add(item);

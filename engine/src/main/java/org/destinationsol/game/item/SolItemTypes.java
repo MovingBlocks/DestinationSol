@@ -23,6 +23,7 @@ import org.destinationsol.game.GameColors;
 import org.json.JSONObject;
 
 public class SolItemTypes {
+    public final SolItemType engine;
     public final SolItemType clip;
     public final SolItemType shield;
     public final SolItemType armor;
@@ -37,6 +38,7 @@ public class SolItemTypes {
     public SolItemTypes(OggSoundManager soundManager, GameColors cols) {
         JSONObject rootNode = Validator.getValidatedJSON("core:types", "engine:schemaTypes");
 
+        engine = load(rootNode.getJSONObject("engine"), soundManager, cols);
         clip = load(rootNode.getJSONObject("clip"), soundManager, cols);
         shield = load(rootNode.getJSONObject("shield"), soundManager, cols);
         armor = load(rootNode.getJSONObject("armor"), soundManager, cols);

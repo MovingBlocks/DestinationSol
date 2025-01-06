@@ -384,6 +384,13 @@ public class MainGameScreen extends NUIScreenLayer {
                 return hero.isNonTranscendent() && hero.getArmor() == null;
             }
         });
+        addWarnDrawer("noEngine", warnColour, "No Engine", new ReadOnlyBinding<Boolean>() {
+            @Override
+            public Boolean get() {
+                Hero hero = solApplication.getGame().getHero();
+                return hero.isNonTranscendent() && hero.getHull().getEngine() == null;
+            }
+        });
         addWarnDrawer("enemyWarnDrawer", warnColour, "Dangerous Enemy", new ReadOnlyBinding<Boolean>() {
             @Override
             public Boolean get() {

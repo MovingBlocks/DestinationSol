@@ -1,4 +1,10 @@
 {
+    "engine": {
+        "color": "hsb 0 100 50",
+        "pickUpSound": "core:otherPickUp",
+        "sz": 0.12
+    },
+
     "clip": {
         "color": "hsb 0 100 50",
         "pickUpSound": "core:otherPickUp",

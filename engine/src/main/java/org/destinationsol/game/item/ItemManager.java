@@ -155,6 +155,8 @@ public class ItemManager {
                             Clip.Config.load(itemName, this, myTypes);
                         } else if (itemName.endsWith("Shield") || itemName.endsWith("shield")) {
                             Shield.Config.load(itemName, this, soundManager, myTypes);
+                        } else if (itemName.endsWith("Engine") || itemName.endsWith("engine")) {
+                            Engine.Config.load(itemName, this, myTypes);
                         } else {
                             Gun.Config.load(itemName, this, soundManager, myTypes);
                         }
@@ -193,7 +195,7 @@ public class ItemManager {
     }
 
     public Engine.Config getEngineConfig(String engineName) {
-        return engineConfigs.computeIfAbsent(engineName, engineConfig -> Engine.Config.load(engineConfig));
+        return engineConfigs.computeIfAbsent(engineName, engineConfig -> Engine.Config.load(engineConfig, this, myTypes));
     }
 
     public SolItem random() {

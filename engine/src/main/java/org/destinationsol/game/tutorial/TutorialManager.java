@@ -21,6 +21,7 @@ import org.destinationsol.SolApplication;
 import org.destinationsol.game.SolGame;
 import org.destinationsol.game.UpdateAwareSystem;
 import org.destinationsol.game.item.Armor;
+import org.destinationsol.game.item.Engine;
 import org.destinationsol.game.item.Gun;
 import org.destinationsol.game.item.Shield;
 import org.destinationsol.game.item.SolItem;
@@ -148,6 +149,7 @@ public class TutorialManager implements UpdateAwareSystem {
         }
 
         Map<Class<? extends SolItem>, String> itemTypesExplanations = new HashMap<>();
+        itemTypesExplanations.put(Engine.class, "Engines allow your ship to move.");
         itemTypesExplanations.put(Gun.class, "You can mine asteroids and attack enemies with guns.");
         itemTypesExplanations.put(Armor.class, "Armour makes attacks less effective against you.");
         itemTypesExplanations.put(Shield.class, "Shields absorb energy-based projectiles until depleted.");
@@ -177,6 +179,7 @@ public class TutorialManager implements UpdateAwareSystem {
                         "Open your inventory (" + gameOptions.getKeyInventoryName() + ")." :
                         "Open your inventory."),
                 new ItemTypesExplanationStep(itemTypesExplanations, new Class[] {
+                        Engine.class,
                         Gun.class,
                         Armor.class,
                         Shield.class

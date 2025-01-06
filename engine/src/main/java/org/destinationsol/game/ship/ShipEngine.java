@@ -38,7 +38,9 @@ public class ShipEngine {
 
     public void update(float angle, SolGame game, Pilot provider, Body body, Vector2 velocity, boolean controlsEnabled,
                        float mass, SolShip ship) {
-
+        if (myItem.isEquipped() == 0) {
+            return;
+        }
         boolean working = applyInput(game, angle, provider, body, velocity, controlsEnabled, mass);
         game.getPartMan().updateAllHullEmittersOfType(ship, "engine", working);
     }

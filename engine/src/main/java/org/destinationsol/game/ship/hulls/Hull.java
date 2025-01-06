@@ -158,7 +158,11 @@ public class Hull {
     }
 
     public void setEngine(Engine engine) {
-        this.engine = new ShipEngine(engine);
+        if (engine != null) {
+            this.engine = new ShipEngine(engine);
+        } else {
+            this.engine = null;
+        }
     }
 
     public void setParticleEmitters(SolGame game, SolShip ship) {

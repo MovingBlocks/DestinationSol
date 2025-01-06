@@ -85,10 +85,16 @@ public class ShipBuilder {
         game.getItemMan().fillContainer(itemContainer, items);
         Engine.Config ec = hullConfig.getEngineConfig();
         Engine ei = ec == null ? null : ec.exampleEngine.copy();
+        // A ship's default engine is defined in its hull config.
+        // Engines are also regular items, so add the default to the ship's item container.
+        if (ei != null) {
+            itemContainer.add(ei);
+        }
         TradeContainer tc = tradeConfig == null ? null : new TradeContainer(tradeConfig);
 
         Gun g1 = null;
         Gun g2 = null;
+        Engine engine = ei;
         Shield shield = null;
         Armor armor = null;
 
@@ -96,6 +102,12 @@ public class ShipBuilder {
         if (pilot.isPlayer()) {
             for (List<SolItem> group : itemContainer) {
                 for (SolItem i : group) {
+                    if (i instanceof Engine) {
+                        if (i.isEquipped() > 0) {
+                            engine = (Engine) i;
+                            continue;
+                        }
+                    }
                     if (i instanceof Shield) {
                         if (i.isEquipped() > 0) {
                             shield = (Shield) i;
@@ -159,7 +171,7 @@ public class ShipBuilder {
             addAmmo(itemContainer, g2, pilot);
         }
         return new FarShip(new Vector2(position), new Vector2(velocity), angle, rotationSpeed, pilot, itemContainer, hullConfig, hullConfig.getMaxLife(),
-                g1, g2, removeController, ei, hasRepairer ? new ShipRepairer() : null, money, tc, shield, armor);
+                g1, g2, removeController, engine, hasRepairer ? new ShipRepairer() : null, money, tc, shield, armor);
     }
 
     private void addAmmo(ItemContainer ic, Gun g, Pilot pilot) {
@@ -215,6 +227,7 @@ public class ShipBuilder {
         hull.setParticleEmitters(game, ship);
 
         if (engine != null) {
+            engine.setEquipped(1);
             hull.setEngine(engine);
         }
         if (gun1 != null) {
