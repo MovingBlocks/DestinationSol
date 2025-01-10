@@ -19,7 +19,6 @@ import com.badlogic.gdx.math.Vector2;
 import org.destinationsol.Const;
 import org.destinationsol.common.SolMath;
 import org.destinationsol.common.SolRandom;
-import org.destinationsol.game.Faction;
 import org.destinationsol.game.Hero;
 import org.destinationsol.game.ShipConfig;
 import org.destinationsol.game.SolGame;
@@ -42,7 +41,7 @@ public class MercenaryUtils {
     public static boolean createMerc(SolGame game, Hero hero, MercItem mercItem) {
         ShipConfig config = mercItem.getConfig();
         Guardian guardian = new Guardian(game, config.hull, hero.getPilot(), hero.getPosition(), hero.getHull().config, SolRandom.randomFloat(180));
-        AiPilot pilot = new AiPilot(guardian, true, Faction.LAANI, false, "Merc", Const.AI_DET_DIST);
+        AiPilot pilot = new AiPilot(guardian, true, hero.getFaction(), false, "Merc", Const.AI_DET_DIST);
         Vector2 position = getPos(game, hero, config.hull);
         if (position == null) {
             return false;

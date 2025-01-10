@@ -1,0 +1,14 @@
+{
+  "name": "Desert",
+  "description": "Masters of camouflage. They also have a strange affinity for mazes.",
+  "colour": "624A2E",
+  "defaultDisposition": -50,
+  "shipDesigns": [
+    "core:desertBoss",
+    "core:desertMedium",
+    "core:desertPlanetTurret",
+    "core:desertSmall",
+    "core:desertSpaceTurret",
+    "core:desertOrbiter"
+  ]
+}

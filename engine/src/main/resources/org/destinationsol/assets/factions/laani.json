@@ -1,0 +1,7 @@
+{
+  "name": "Laani",
+  "description": "A generic all-good faction. The forerunner to all friendly entities.",
+  "colour": "b0c4de",
+  "defaultDisposition": 100,
+  "shipDesigns": []
+}

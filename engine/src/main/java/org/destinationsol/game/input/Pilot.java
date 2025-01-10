@@ -16,8 +16,8 @@
 
 package org.destinationsol.game.input;
 
-import org.destinationsol.game.Faction;
 import org.destinationsol.game.SolGame;
+import org.destinationsol.game.faction.Faction;
 import org.destinationsol.game.ship.FarShip;
 import org.destinationsol.game.ship.SolShip;
 
@@ -39,8 +39,6 @@ public interface Pilot {
     boolean isAbility();
 
     Faction getFaction();
-
-    void stringToFaction(String faction);
 
     boolean shootsAtObstacles();
 

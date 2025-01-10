@@ -21,7 +21,7 @@ import org.terasology.gestalt.assets.AssetType;
 import org.terasology.gestalt.assets.ResourceUrn;
 import org.terasology.gestalt.assets.module.annotations.RegisterAssetType;
 
-@RegisterAssetType(folderName = {"collisionMeshes", "ships", "items", "configs", "grounds", "mazes", "asteroids", "schemas"}, factoryClass = JsonFactory.class)
+@RegisterAssetType(folderName = {"collisionMeshes", "ships", "factions", "items", "configs", "grounds", "mazes", "asteroids", "schemas"}, factoryClass = JsonFactory.class)
 public class Json extends Asset<JsonData> {
     private JsonData jsonData;
 

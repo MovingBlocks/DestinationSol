@@ -22,6 +22,7 @@ import org.destinationsol.assets.json.Validator;
 import org.destinationsol.common.SolMath;
 import org.destinationsol.common.SolRandom;
 import org.destinationsol.files.HullConfigManager;
+import org.destinationsol.game.faction.Faction;
 import org.destinationsol.game.input.AiPilot;
 import org.destinationsol.game.input.ExplorerDestProvider;
 import org.destinationsol.game.input.Guardian;
@@ -85,6 +86,7 @@ public class GalaxyFiller {
     private FarShip build(SolGame game, ShipConfig config, Faction faction, boolean mainStation, SolarSystem system,
                           ConsumedAngles angles) {
         HullConfig hullConf = config.hull;
+        boolean isPlayerAlly = game.getFactionMan().getPlayerFaction().getRelation(faction) >= 0;
 
         MoveDestProvider destProvider;
         Vector2 position;
@@ -99,7 +101,7 @@ public class GalaxyFiller {
             boolean isBig = hullConf.getType() == HullConfig.Type.BIG;
             destProvider = new ExplorerDestProvider(position, !isBig, hullConf, system);
             if (isBig) {
-                if (faction == Faction.LAANI) {
+                if (isPlayerAlly) {
                     tradeConfig = system.getConfig().tradeConfig;
                 }
             } else {
@@ -109,7 +111,7 @@ public class GalaxyFiller {
         Pilot pilot = new AiPilot(destProvider, true, faction, true, "something", detectionDist);
         float angle = mainStation ? 0 : SolRandom.seededRandomFloat(180);
         boolean hasRepairer;
-        hasRepairer = faction == Faction.LAANI;
+        hasRepairer = isPlayerAlly;
         int money = config.money;
         FarShip ship = game.getShipBuilder().buildNewFar(game, position, null, angle, 0, pilot, config.items, hullConf, null, hasRepairer, money, tradeConfig, true);
         game.getObjectManager().addFarObjNow(ship);
@@ -148,7 +150,8 @@ public class GalaxyFiller {
         ShipConfig mainStationCfg = ShipConfig.load(hullConfigManager, rootNode, itemManager);
 
         ConsumedAngles angles = new ConsumedAngles();
-        FarShip mainStation = build(game, mainStationCfg, Faction.LAANI, true, systems.get(0), angles);
+        // TODO: Select an appropriate enemy faction based on the player faction.
+        FarShip mainStation = build(game, mainStationCfg, game.getFactionMan().getBuilderForHull(mainStationCfg.hull), true, systems.get(0), angles);
         mainStationPos.set(mainStation.getPosition());
         mainStationHc = mainStation.getHullConfig();
 
@@ -158,14 +161,16 @@ public class GalaxyFiller {
             for (ShipConfig shipConfig : solarSystemConfig.constAllies) {
                 int count = (int) (shipConfig.density);
                 for (int i = 0; i < count; i++) {
-                    build(game, shipConfig, Faction.LAANI, false, system, angles);
+                    // TODO: Select an appropriate ally faction based on the player faction.
+                    build(game, shipConfig, game.getFactionMan().getBuilderForHull(shipConfig.hull), false, system, angles);
                 }
             }
 
             for (ShipConfig shipConfig : solarSystemConfig.constEnemies) {
                 int count = (int) (shipConfig.density);
                 for (int i = 0; i < count; i++) {
-                    build(game, shipConfig, Faction.EHAR, false, system, angles);
+                    // TODO: Select an appropriate enemy faction based on the player faction.
+                    build(game, shipConfig, game.getFactionMan().getBuilderForHull(mainStationCfg.hull), false, system, angles);
                 }
             }
 
@@ -227,7 +232,7 @@ public class GalaxyFiller {
     private void createGuard(SolGame game, FarShip target, ShipConfig guardConfig, Faction faction, float guardRelAngle) {
         Guardian dp = new Guardian(game, guardConfig.hull, target.getPilot(), target.getPosition(), target.getHullConfig(), guardRelAngle);
         Pilot pilot = new AiPilot(dp, true, faction, false, null, Const.AI_DET_DIST);
-        boolean hasRepairer = faction == Faction.LAANI;
+        boolean hasRepairer =  game.getFactionMan().getPlayerFaction().getRelation(faction) >= 0;
         int money = guardConfig.money;
         FarShip enemy = game.getShipBuilder().buildNewFar(game, dp.getDestination(), null, guardRelAngle, 0, pilot, guardConfig.items,
                 guardConfig.hull, null, hasRepairer, money, null, true);

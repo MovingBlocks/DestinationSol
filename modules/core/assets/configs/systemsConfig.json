@@ -80,7 +80,7 @@
 
             {
                 "hull": "core:pirateMedium",
-                "items": "core:gun core:miner 0.25|core:lightArmor core:bigShield",
+                "items": "core:gun core:minerGun 0.25|core:lightArmor core:bigShield",
                 "money": 200,
                 "density": 0.0002
             },

@@ -1,0 +1,12 @@
+{
+  "name": "Miner",
+  "description": "They break space rocks. Somebody's got to do it.",
+  "colour": "FFFF33",
+  "defaultDisposition": 0,
+  "shipDesigns": [
+    "core:minerBoss",
+    "core:minerMedium",
+    "core:minerSmall",
+    "core:minerTurret"
+  ]
+}

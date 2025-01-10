@@ -28,6 +28,7 @@ import org.destinationsol.common.Nullable;
 import org.destinationsol.common.SolColor;
 import org.destinationsol.common.SolMath;
 import org.destinationsol.game.context.Context;
+import org.destinationsol.game.faction.Faction;
 import org.destinationsol.game.maze.Maze;
 import org.destinationsol.game.maze.MazeBuilder;
 import org.destinationsol.game.planet.FarTileObject;

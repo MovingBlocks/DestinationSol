@@ -18,6 +18,7 @@ package org.destinationsol.game;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.math.Vector2;
 import org.destinationsol.Const;
+import org.destinationsol.game.faction.Faction;
 import org.destinationsol.game.input.AiPilot;
 import org.destinationsol.game.input.BeaconDestProvider;
 import org.destinationsol.game.input.Pilot;
@@ -51,7 +52,8 @@ class PlayerCreator {
     }
 
     private Hero configureAndCreateHero(ShipConfig shipConfig, RespawnState respawnState, SolGame game, boolean isMouseControl, boolean isNewShip, Vector2 position) {
-        Pilot pilot = createPilot(game, isMouseControl);
+        Faction faction = game.getFactionMan().getPlayerFaction();
+        Pilot pilot = createPilot(game, faction, isMouseControl);
         float money = grantPlayerMoney(shipConfig, respawnState, game);
         HullConfig hull = findHullConfig(shipConfig, respawnState);
         String items = findItems(shipConfig, respawnState);
@@ -167,11 +169,11 @@ class PlayerCreator {
         return shipConfig.getMoney();
     }
 
-    private Pilot createPilot(SolGame game, boolean isMouseControl) {
+    private Pilot createPilot(SolGame game, Faction faction, boolean isMouseControl) {
         if (isMouseControl) {
-            return new AiPilot(new BeaconDestProvider(), true, Faction.LAANI, false, "you", Const.AI_DET_DIST);
+            return new AiPilot(new BeaconDestProvider(), true, faction, false, "you", Const.AI_DET_DIST);
         } else {
-            return new UiControlledPilot(game.getScreens().getOldMainGameScreen().getShipControl());
+            return new UiControlledPilot(faction, game.getScreens().getOldMainGameScreen().getShipControl());
         }
     }
 

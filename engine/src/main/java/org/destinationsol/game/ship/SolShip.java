@@ -26,12 +26,12 @@ import org.destinationsol.common.SolMath;
 import org.destinationsol.common.SolRandom;
 import org.destinationsol.game.AbilityCommonConfig;
 import org.destinationsol.game.DmgType;
-import org.destinationsol.game.FactionInfo;
 import org.destinationsol.game.Hero;
 import org.destinationsol.game.RemoveController;
 import org.destinationsol.game.SolGame;
 import org.destinationsol.game.SolObject;
 import org.destinationsol.game.drawables.Drawable;
+import org.destinationsol.game.faction.Faction;
 import org.destinationsol.game.gun.GunMount;
 import org.destinationsol.game.input.Pilot;
 import org.destinationsol.game.item.Armor;
@@ -62,8 +62,6 @@ public class SolShip implements SolObject {
     private static final float ENERGY_DMG_FACTOR = .7f;
     private boolean colliding;
 
-    private String factionName;
-    private int factionID;
     private final Pilot myPilot;
     private final ItemContainer myItemContainer;
     private final TradeContainer myTradeContainer;
@@ -112,8 +110,6 @@ public class SolShip implements SolObject {
         if (myAbility != null) {
             myAbilityAwait = myAbility.getConfig().getRechargeTime();
         }
-        factionID = FactionInfo.getFactionID(this);
-        factionName = FactionInfo.getFactionNames().get(factionID).toString();
         if (myHull.getEngine() != null && !myItemContainer.contains(myHull.getEngine())) {
             myItemContainer.add(myHull.getEngine());
         }
@@ -243,12 +239,6 @@ public class SolShip implements SolObject {
         updateAbility(game);
         updateIdleTime(game);
         updateShield(game);
-
-        if (!isMerc && FactionInfo.getDisposition().get(factionID) < -5) {
-            getPilot().stringToFaction("ehar");
-        } else {
-            getPilot().stringToFaction("laani");
-        }
 
         if (myArmor != null && !myItemContainer.contains(myArmor)) {
             myArmor = null;
@@ -692,15 +682,7 @@ public class SolShip implements SolObject {
         return this.isMerc;
     }
 
-    public String getFactionName() {
-        return factionName;
-    }
-
-    public int getFactionID() {
-        return factionID;
-    }
-
-    public void changeDisposition(int id) {
-        FactionInfo.setDisposition(id, -1);
+    public Faction getFaction() {
+        return myPilot.getFaction();
     }
 }

@@ -1,0 +1,7 @@
+{
+  "name": "Ehar",
+  "description": "A generic all-bad faction. The forerunner to all hostile entities.",
+  "colour": "b0c4de",
+  "defaultDisposition": -100,
+  "shipDesigns": []
+}

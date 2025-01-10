@@ -25,7 +25,6 @@ import org.destinationsol.common.SolColor;
 import org.destinationsol.common.SolMath;
 import org.destinationsol.common.SolRandom;
 import org.destinationsol.game.DmgType;
-import org.destinationsol.game.Faction;
 import org.destinationsol.game.FactionManager;
 import org.destinationsol.game.FarObject;
 import org.destinationsol.game.GameDrawer;
@@ -35,6 +34,8 @@ import org.destinationsol.game.SolObjectEntityWrapper;
 import org.destinationsol.game.drawables.Drawable;
 import org.destinationsol.game.drawables.DrawableLevel;
 import org.destinationsol.game.drawables.SpriteManager;
+import org.destinationsol.game.faction.DefaultReputationEvent;
+import org.destinationsol.game.faction.Faction;
 import org.destinationsol.game.item.Shield;
 import org.destinationsol.game.particle.DSParticleEmitter;
 import org.destinationsol.game.particle.EffectConfig;
@@ -216,7 +217,7 @@ public class Projectile implements SolObject {
             game.getPartMan().blinks(position, game, config.collisionEffectBackground.size);
         }
         if (ship.getPilot().isPlayer() && obstacle instanceof SolShip) {
-            ship.changeDisposition(((SolShip) obstacle).getFactionID());
+            game.getFactionMan().reportEvent(ship.getFaction(), ((SolShip) obstacle).getFaction(), DefaultReputationEvent.DAMAGED_SHIP);
         }
 
         game.getSoundManager().play(game, config.collisionSound, null, this);

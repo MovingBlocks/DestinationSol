@@ -21,7 +21,6 @@ import com.badlogic.gdx.math.Vector2;
 import org.destinationsol.Const;
 import org.destinationsol.common.SolMath;
 import org.destinationsol.common.SolRandom;
-import org.destinationsol.game.Faction;
 import org.destinationsol.game.ShipConfig;
 import org.destinationsol.game.SolGame;
 import org.destinationsol.game.input.AiPilot;
@@ -167,7 +166,7 @@ public class MazeBuilder {
         if (inner) {
             viewDist = TILE_SZ * 1.25f;
         }
-        Pilot pilot = new AiPilot(new StillGuard(position, game, e), false, Faction.EHAR, true, null, viewDist);
+        Pilot pilot = new AiPilot(new StillGuard(position, game, e), false, game.getFactionMan().getBuilderForHull(e.hull), true, null, viewDist);
         int money = e.money;
         FarShip s = sb.buildNewFar(game, position, new Vector2(), angle, 0, pilot, e.items, e.hull, null, false, money, null, true);
         game.getObjectManager().addFarObjNow(s);

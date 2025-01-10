@@ -20,7 +20,6 @@ import com.badlogic.gdx.math.Vector2;
 import org.destinationsol.Const;
 import org.destinationsol.common.SolMath;
 import org.destinationsol.common.SolRandom;
-import org.destinationsol.game.Faction;
 import org.destinationsol.game.Hero;
 import org.destinationsol.game.SolObject;
 import org.destinationsol.game.input.AiPilot;
@@ -83,7 +82,7 @@ public class DestroySpawnedShipsStep extends DestroyObjectsStep {
             }
 
             Guardian dp = new Guardian(game, enemyConfig, hero.getPilot(), hero.getPosition(), hero.getHull().getHullConfig(), 0);
-            Pilot pilot = new AiPilot(dp, true, Faction.EHAR, false, null, Const.AI_DET_DIST);
+            Pilot pilot = new AiPilot(dp, true, game.getFactionMan().getGenericEnemyFaction(), false, null, Const.AI_DET_DIST);
             int money = 60;
             FarShip enemy = game.getShipBuilder().buildNewFar(game, enemyPosition, null,
                     0, 0, pilot, items,
