@@ -77,7 +77,7 @@ public class FactionManager {
         //       - A protective faction may dispatch a fleet to intercept the attacker if one of their ships is attacked.
         Integer targetReputationImpact = target.getReputationImpact(event);
         if (targetReputationImpact != null) {
-            target.setRelation(instigator, target.getRelation(instigator) + event.getDefaultReputationImpact());
+            target.setRelation(instigator, target.getRelation(instigator) + targetReputationImpact);
         } else {
             target.setRelation(instigator, target.getRelation(instigator) + event.getDefaultReputationImpact());
         }
