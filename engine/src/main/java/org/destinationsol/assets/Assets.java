@@ -225,7 +225,7 @@ public abstract class Assets {
         }
 
         String animationPath = texturePath + "Animation";
-        if (!assetHelper.get(new ResourceUrn(animationPath), DSTexture.class).isPresent()) {
+        if (!assetHelper.get(new ResourceUrn(animationPath), Json.class).isPresent()) {
             return new Animation<>(Float.MAX_VALUE, getAtlasRegion(texturePath));
         }
 
