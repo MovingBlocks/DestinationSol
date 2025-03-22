@@ -162,7 +162,7 @@ public class GalaxyFiller {
                 int count = (int) (shipConfig.density);
                 for (int i = 0; i < count; i++) {
                     // TODO: Select an appropriate ally faction based on the player faction.
-                    build(game, shipConfig, game.getFactionMan().getBuilderForHull(shipConfig.hull), false, system, angles);
+                    build(game, shipConfig, game.getFactionMan().getGenericAllyFaction(), false, system, angles);
                 }
             }
 
@@ -170,7 +170,7 @@ public class GalaxyFiller {
                 int count = (int) (shipConfig.density);
                 for (int i = 0; i < count; i++) {
                     // TODO: Select an appropriate enemy faction based on the player faction.
-                    build(game, shipConfig, game.getFactionMan().getBuilderForHull(mainStationCfg.hull), false, system, angles);
+                    build(game, shipConfig, game.getFactionMan().getGenericEnemyFaction(), false, system, angles);
                 }
             }
 
