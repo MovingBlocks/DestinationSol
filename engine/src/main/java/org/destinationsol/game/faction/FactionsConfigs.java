@@ -60,8 +60,34 @@ public class FactionsConfigs {
                 for (Map.Entry<ResourceUrn, Integer> factionRelation : factionRelations.getValue().entrySet()) {
                     Faction otherFaction = factionConfigs.get(factionRelation.getKey());
                     faction.setRelation(otherFaction, factionRelation.getValue());
-                    if (!otherFaction.isAwareOf(faction)) {
-                        otherFaction.setRelation(faction, factionRelation.getValue());
+                }
+            }
+
+            for (Faction faction : factionConfigs.values()) {
+                for (Faction otherFaction : factionConfigs.values()) {
+                    if (faction.isAwareOf(otherFaction) && otherFaction.isAwareOf(faction)) {
+                        // Asymmetric relationships are explicitly allowed.
+                        continue;
+                    }
+
+                    if (faction.isAwareOf(otherFaction) && !otherFaction.isAwareOf(faction)) {
+                        otherFaction.setRelation(faction, faction.getRelation(otherFaction));
+                    } else if (!faction.isAwareOf(otherFaction) && otherFaction.isAwareOf(faction)) {
+                        faction.setRelation(otherFaction, otherFaction.getRelation(faction));
+                    } else {
+                        int factionRelation = faction.getRelation(otherFaction);
+                        int otherFactionRelation = otherFaction.getRelation(faction);
+
+                        // The simplified rules of uncertain Destination Sol diplomacy:
+                        //   - If both are friendly, the stronger positivity will prevail.
+                        //   - If both are hostile, the stronger hostility will prevail.
+                        //   - If your enemy is hostile to you, you must be hostile to your enemy.
+                        //   - Neutrality is considered friendly.
+                        int relation = (factionRelation >= 0 && otherFactionRelation >= 0) ?
+                                Math.max(factionRelation, otherFactionRelation) :
+                                Math.min(factionRelation, otherFactionRelation);
+                        faction.setRelation(otherFaction, relation);
+                        otherFaction.setRelation(faction, relation);
                     }
                 }
             }
