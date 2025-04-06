@@ -73,6 +73,7 @@ public class InventoryScreen extends NUIScreenLayer {
     private ColumnLayout inventoryActionButtons;
     private UIWarnButton closeButton;
     private InventoryOperationsScreen inventoryOperations;
+    private List<SolItem> selectedItemGroup;
     private int selectedIndex;
     private int page;
 
@@ -102,6 +103,7 @@ public class InventoryScreen extends NUIScreenLayer {
         nextButton.subscribe(button -> {
             nextPage(button);
             selectedIndex = 0;
+            selectedItemGroup = null;
             updateItemRows();
         });
 
@@ -110,6 +112,7 @@ public class InventoryScreen extends NUIScreenLayer {
         previousButton.subscribe(button -> {
             previousPage(button);
             selectedIndex = 0;
+            selectedItemGroup = null;
             updateItemRows();
         });
 
@@ -250,6 +253,7 @@ public class InventoryScreen extends NUIScreenLayer {
                     selectedIndex--;
                     previousButton.getClickSound().play(previousButton.getClickVolume());
                 }
+                selectedItemGroup = null;
 
                 if (items.groupCount() > 0) {
                     items.seen(items.getGroup(selectedIndex + page * Const.ITEM_GROUPS_PER_PAGE));
@@ -270,6 +274,7 @@ public class InventoryScreen extends NUIScreenLayer {
                     selectedIndex++;
                     nextButton.getClickSound().play(nextButton.getClickVolume());
                 }
+                selectedItemGroup = null;
 
                 if (items.groupCount() > 0) {
                     items.seen(items.getGroup(selectedIndex + page * Const.ITEM_GROUPS_PER_PAGE));
@@ -318,18 +323,7 @@ public class InventoryScreen extends NUIScreenLayer {
      * @param itemGroup the item group to select
      */
     public void setSelected(List<SolItem> itemGroup) {
-        ItemContainer items = inventoryOperations.getItems(solApplication.getGame());
-        if (!items.containsGroup(itemGroup)) {
-            selectedIndex = 0;
-        } else {
-            for (int groupNo = 0; groupNo < items.groupCount(); groupNo++) {
-                if (items.getGroup(groupNo) == itemGroup) {
-                    page = groupNo / Const.ITEM_GROUPS_PER_PAGE;
-                    selectedIndex = groupNo % Const.ITEM_GROUPS_PER_PAGE;
-                }
-            }
-        }
-
+        selectedItemGroup = itemGroup;
         updateItemRows();
     }
 
@@ -541,6 +535,17 @@ public class InventoryScreen extends NUIScreenLayer {
 
     public void updateItemRows() {
         ItemContainer items = inventoryOperations.getItems(solApplication.getGame());
+        if (selectedItemGroup != null && items.containsGroup(selectedItemGroup)) {
+            for (int groupNo = 0; groupNo < items.groupCount(); groupNo++) {
+                if (items.getGroup(groupNo) == selectedItemGroup) {
+                    page = groupNo / Const.ITEM_GROUPS_PER_PAGE;
+                    selectedIndex = groupNo % Const.ITEM_GROUPS_PER_PAGE;
+                }
+            }
+        } else {
+            selectedItemGroup = items.groupCount() < selectedIndex ? items.getGroup(selectedIndex) : null;
+        }
+
         Iterator<UIWidget> rowsIterator = inventoryRows.iterator();
         rowsIterator.next(); // Ignore the first row, since it's the header.
         UIWidget row = rowsIterator.next();
