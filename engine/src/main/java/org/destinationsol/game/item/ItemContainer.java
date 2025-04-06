@@ -130,11 +130,12 @@ public class ItemContainer implements Iterable<List<SolItem>> {
         if (selected.size() > 1) {
             return selected;
         }
-        int idx = groups.indexOf(selected) + 1;
-        if (idx <= 0 || idx >= groupCount()) {
+        int groupCount = groupCount();
+        int idx = groups.indexOf(selected);
+        if (idx <= 0 || groupCount <= 1) {
             return null;
         }
-        return groups.get(idx);
+        return groups.get(idx == (groupCount - 1) ? idx - 1 : idx + 1);
     }
 
     public SolItem getRandom() {
