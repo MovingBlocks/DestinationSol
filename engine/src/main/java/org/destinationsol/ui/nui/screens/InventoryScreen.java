@@ -251,7 +251,9 @@ public class InventoryScreen extends NUIScreenLayer {
                     previousButton.getClickSound().play(previousButton.getClickVolume());
                 }
 
-                items.seen(items.getGroup(selectedIndex + page * Const.ITEM_GROUPS_PER_PAGE));
+                if (items.groupCount() > 0) {
+                    items.seen(items.getGroup(selectedIndex + page * Const.ITEM_GROUPS_PER_PAGE));
+                }
 
                 updateItemRows();
                 return true;
@@ -269,7 +271,9 @@ public class InventoryScreen extends NUIScreenLayer {
                     nextButton.getClickSound().play(nextButton.getClickVolume());
                 }
 
-                items.seen(items.getGroup(selectedIndex + page * Const.ITEM_GROUPS_PER_PAGE));
+                if (items.groupCount() > 0) {
+                    items.seen(items.getGroup(selectedIndex + page * Const.ITEM_GROUPS_PER_PAGE));
+                }
 
                 updateItemRows();
                 return true;
