@@ -217,7 +217,7 @@ public class FactionManager {
      * @return true, if f1 and f2 are enemies, otherwise false.
      */
     public boolean areEnemies(Faction f1, Faction f2) {
-        return f1 != null && f2 != null && f1.getRelation(f2) < 0;
+        return f1 != null && f2 != null && (f1.getRelation(f2) < 0 || f2.getRelation(f1) < 0);
     }
 
     private static class MyRayBack implements RayCastCallback {
