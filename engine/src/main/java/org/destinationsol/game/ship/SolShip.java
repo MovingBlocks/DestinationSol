@@ -589,6 +589,10 @@ public class SolShip implements SolObject {
     }
 
     public boolean maybeUnequip(SolGame game, SolItem item, boolean secondarySlot, boolean unequip) {
+        if (item == null) {
+            return false;
+        }
+
         if (!secondarySlot) {
             if (myHull.getEngine() == item) {
                 if (unequip) {
