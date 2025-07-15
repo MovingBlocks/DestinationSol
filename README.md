@@ -1,4 +1,10 @@
-<p align="center"><img src="readMeLogo.png" alt="Destination Sol"/></p>
+<p align="center">
+  <picture>
+    <source media="(prefers-color-scheme: dark)" srcset="engine/src/main/resources/org/destinationsol/assets/textures/mainMenu/mainMenuLogo.png">
+    <source media="(prefers-color-scheme: light)" srcset="readMeLogo.png">
+    <img alt="Destination Sol" src="readMeLogo.png">
+  </picture>
+</p>
 
 [![Gitpod Ready-to-Code](https://img.shields.io/badge/Gitpod-ready--to--code-blue?logo=gitpod)](https://gitpod.io/#https://github.com/MovingBlocks/DestinationSol)
 [![Discord](https://img.shields.io/discord/270264625419911192.svg?label=discord)](http://discord.gg/Terasology)
