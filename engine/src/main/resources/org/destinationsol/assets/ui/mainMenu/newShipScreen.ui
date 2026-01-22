@@ -22,7 +22,7 @@
                 }
             },
             {
-                "type": "UIImage",
+                "type": "UIAnimatedImage",
                 "id": "shipPreviewImage",
                 "layoutInfo": {
                     "position-horizontal-center": {},

@@ -71,7 +71,7 @@ public class NewGameScreen extends NUIScreenLayer {
     @Override
     public void update(float delta) {
         super.update(delta);
-        solApplication.getMenuBackgroundManager().update();
+        solApplication.getMenuBackgroundManager().update(delta);
     }
 
     @Override

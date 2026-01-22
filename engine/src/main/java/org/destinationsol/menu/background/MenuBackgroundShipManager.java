@@ -15,6 +15,7 @@
  */
 package org.destinationsol.menu.background;
 
+import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
@@ -76,6 +77,7 @@ public class MenuBackgroundShipManager {
 
 
     public void addShip(String urnString) {
+        Animation<TextureAtlas.AtlasRegion> frames = Assets.getAnimation(urnString);
         TextureAtlas.AtlasRegion texture = Assets.getAtlasRegion(urnString);
         JSONObject rootNode = Validator.getValidatedJSON(urnString, "engine:schemaHullConfig");
 
@@ -89,12 +91,12 @@ public class MenuBackgroundShipManager {
         Body body = shipMeshLoader.getBodyAndSprite(world, texture, scale, BodyDef.BodyType.DynamicBody, position, angle, new ArrayList<>(), Float.MAX_VALUE, DrawableLevel.BODIES);
         body.setLinearVelocity(velocity);
         Vector2 origin = shipMeshLoader.getOrigin(texture.name, scale);
-        MenuBackgroundObject ship = new MenuBackgroundObject(texture, scale, SolColor.WHITE, position, velocity, origin.cpy(), angle, body);
+        MenuBackgroundObject ship = new MenuBackgroundObject(frames, scale, SolColor.WHITE, position, velocity, origin.cpy(), angle, body);
         backgroundShips.add(ship);
     }
 
-    public void update() {
-        backgroundShips.forEach(ship -> ship.update());
+    public void update(float deltaTime) {
+        backgroundShips.forEach(ship -> ship.update(deltaTime));
         backgroundShips.removeIf(ship -> ship.getPosition().y >= 3f);
         if (backgroundShips.isEmpty()) {
             //Spawn a random ship

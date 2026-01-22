@@ -16,6 +16,7 @@
 package org.destinationsol.menu.background;
 
 import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
@@ -64,11 +65,11 @@ public class MenuBackgroundAsteroidManager {
         }
     }
 
-    public void update() {
+    public void update(float delta) {
         retainedBackgroundAsteroids.clear();
 
         for (MenuBackgroundObject backgroundObject : backgroundAsteroids) {
-            backgroundObject.update();
+            backgroundObject.update(delta);
 
             boolean isInWidth = Math.abs(backgroundObject.getPosition().x) < MenuBackgroundManager.VIEWPORT_HEIGHT * displayDimensions.getRatio() * 0.8f;
             boolean isInHeight = Math.abs(backgroundObject.getPosition().y) < MenuBackgroundManager.VIEWPORT_HEIGHT * 0.8f;
@@ -123,7 +124,7 @@ public class MenuBackgroundAsteroidManager {
         Body body = asteroidMeshLoader.getBodyAndSprite(world, texture, size, BodyDef.BodyType.DynamicBody, position, angle, new ArrayList<>(), 10f, DrawableLevel.BODIES);
         body.setLinearVelocity(velocity);
         body.setAngularVelocity(angularVelocity);
-        MenuBackgroundObject asteroid = new MenuBackgroundObject(texture, size, tint, position, velocity, asteroidMeshLoader.getOrigin(texture.name, size).cpy(), angle, body);
+        MenuBackgroundObject asteroid = new MenuBackgroundObject(new Animation<>(Float.MAX_VALUE, texture), size, tint, position, velocity, asteroidMeshLoader.getOrigin(texture.name, size).cpy(), angle, body);
         body.setUserData(asteroid);
 
         return asteroid;
