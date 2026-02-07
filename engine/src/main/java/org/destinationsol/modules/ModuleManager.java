@@ -223,9 +223,9 @@ public class ModuleManager implements AutoCloseable {
     private Set<Module> builtInModules;
 
     @Inject
-    public ModuleManager(BeanContext beanContext, ModuleFactory moduleFactory, ModuleRegistry moduleRegistry,
+    public ModuleManager(BeanContext beanContext, ModuleRegistry moduleRegistry,
                          ModulePathScanner scanner, FacadeModuleConfig moduleConfig) {
-        this.moduleFactory = moduleFactory;
+        this.moduleFactory = moduleConfig.createModuleFactory();
         this.registry = moduleRegistry;
         this.scanner = scanner;
         this.beanContext = beanContext;
@@ -238,11 +238,13 @@ public class ModuleManager implements AutoCloseable {
             Module nuiModule = moduleFactory.createPackageModule(new ModuleMetadata(new Name("nui"), new Version("2.0.0")),"org.terasology.nui");
 
             // scan for all standard modules
-            File modulesRoot = moduleConfig.getModulesPath();
-            scanner.scan(registry, modulesRoot);
+            for (File modulesRoot : moduleConfig.getModulePaths()) {
+                scanner.scan(registry, modulesRoot);
+            }
 
             builtInModules = Sets.newHashSet();
             builtInModules.add(engineModule);
+            builtInModules.addAll(moduleConfig.createFacadeModules());
             builtInModules.add(nuiModule);
             registry.addAll(builtInModules);
 

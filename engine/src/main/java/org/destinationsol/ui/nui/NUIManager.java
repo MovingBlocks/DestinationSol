@@ -22,9 +22,9 @@ import org.destinationsol.GameOptions;
 import org.destinationsol.SolApplication;
 import org.destinationsol.assets.Assets;
 import org.destinationsol.assets.sound.OggSound;
-import org.destinationsol.game.context.Context;
 import org.destinationsol.ui.UiDrawer;
 import org.joml.Vector2i;
+import org.terasology.gestalt.di.BeanContext;
 import org.terasology.input.InputType;
 import org.terasology.input.Keyboard;
 import org.terasology.input.MouseInput;
@@ -100,7 +100,7 @@ public class NUIManager {
     /**
      * The current game context used to initialise UI screens.
      */
-    private Context context;
+    private BeanContext context;
     /**
      * The baseline UI scale used on Android.
      */
@@ -136,7 +136,7 @@ public class NUIManager {
      */
     @Inject
     public NUIManager(SolApplication solApplication,
-                      Context context,
+                      BeanContext context,
                       CommonDrawer commonDrawer,
                       GameOptions options,
                       UiDrawer uiDrawer,
@@ -321,6 +321,7 @@ public class NUIManager {
         if (rootWidget instanceof NUIScreenLayer) {
             NUIScreenLayer screen = (NUIScreenLayer) rootWidget;
             if (!alreadyLoaded) {
+                context.inject(screen);
                 screen.initialise();
             }
             return screen;
@@ -431,7 +432,7 @@ public class NUIManager {
      * Sets the game context to be used by all UI screens. Newly-added screens will the use this context.
      * @param context the new context to use
      */
-    public void setContext(Context context) {
+    public void setContext(BeanContext context) {
         this.context = context;
     }
 

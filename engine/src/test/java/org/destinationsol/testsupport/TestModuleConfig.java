@@ -6,8 +6,11 @@ import org.terasology.gestalt.module.ModuleEnvironment;
 import org.terasology.gestalt.module.ModuleFactory;
 import org.terasology.gestalt.module.sandbox.JavaModuleClassLoader;
 
+import javax.inject.Inject;
 import java.io.File;
 import java.nio.file.Paths;
+import java.util.Collection;
+import java.util.Collections;
 
 /**
  * Defines the settings used for module-based tests.
@@ -16,9 +19,13 @@ import java.nio.file.Paths;
  * module paths.
  */
 public class TestModuleConfig implements FacadeModuleConfig {
+    @Inject
+    public TestModuleConfig() {
+    }
+
     @Override
-    public File getModulesPath() {
-        return Paths.get(".").resolve("modules").toFile();
+    public Collection<File> getModulePaths() {
+        return Collections.singletonList(Paths.get(".").resolve("modules").toFile());
     }
 
     @Override

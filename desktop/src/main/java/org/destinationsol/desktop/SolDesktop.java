@@ -15,73 +15,25 @@
  */
 package org.destinationsol.desktop;
 
-import com.badlogic.gdx.Files;
-import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.Graphics;
-import com.badlogic.gdx.backends.lwjgl3.Lwjgl3Application;
-import com.badlogic.gdx.backends.lwjgl3.Lwjgl3ApplicationConfiguration;
-import com.badlogic.gdx.backends.lwjgl3.Lwjgl3Graphics;
-import org.destinationsol.GameOptions;
 import org.destinationsol.modules.FacadeModuleConfig;
-import org.destinationsol.modules.ModuleManager;
 import org.destinationsol.SolApplication;
-import org.destinationsol.SolFileReader;
-import org.destinationsol.game.DebugOptions;
-import org.destinationsol.ui.ResizeSubscriber;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.terasology.context.Lifetime;
-import org.terasology.crashreporter.CrashReporter;
-import org.terasology.gestalt.di.ServiceRegistry;
 import org.terasology.gestalt.module.Module;
 import org.terasology.gestalt.module.ModuleEnvironment;
 import org.terasology.gestalt.module.ModuleFactory;
 import org.terasology.gestalt.module.ModulePathScanner;
 import org.terasology.gestalt.module.sandbox.JavaModuleClassLoader;
 
-import java.awt.Graphics2D;
-import java.awt.Color;
-import java.awt.SplashScreen;
-import java.awt.Rectangle;
-import java.io.BufferedReader;
+import javax.inject.Inject;
 import java.io.File;
-import java.io.FileReader;
-import java.io.IOException;
-import java.io.PrintWriter;
-import java.io.StringWriter;
-import java.nio.charset.Charset;
-import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.text.SimpleDateFormat;
-import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Collections;
-import java.util.Date;
-import java.util.List;
-import java.util.stream.Stream;
 
 /**
  * This class is the desktop (PC) entry point for the whole DestinationSol application. It handles the creation and
  * launching of LwjglApplication from {@link SolApplication}.
  */
 public final class SolDesktop {
-
-    private static Logger logger = LoggerFactory.getLogger(SolDesktop.class);
-
-    /**
-     * Specifies the commandline option to pass to the application for it to generate no crash reports.
-     */
-    private static final String NO_CRASH_REPORT = "-noCrashReport";
-
-    /**
-     * Specifies the commandline option to pass to the application for it to not show a splash-screen.
-     */
-    private static final String NO_SPLASH_SCREEN = "-noSplash";
-
-    /**
-     * The colour for the splash-screen logo to be shown in.
-     */
-    private static final Color LOGO_COLOUR = Color.LIGHT_GRAY;
-
     /**
      * This class is basically only a holder for the Java's {@code main(String[])} method, thus needs not to be
      * instantiated.
@@ -90,147 +42,17 @@ public final class SolDesktop {
     }
 
     public static void main(String[] argv) {
-        SplashScreen splash = null;
-        try {
-            splash = SplashScreen.getSplashScreen();
-        } catch (Exception e) {
-            logger.error("Failed to open splash screen", e);
-        }
-
-        boolean useSplash = (splash != null) && Stream.of(argv).noneMatch(s -> s.equals(NO_SPLASH_SCREEN));
-        if (useSplash) {
-            Graphics2D splashScreenGraphics = splash.createGraphics();
-            Rectangle splashBounds = splash.getBounds();
-            splashScreenGraphics.setColor(LOGO_COLOUR);
-            splashScreenGraphics.setPaintMode();
-            splashScreenGraphics.fillRect(0, 0, splashBounds.width, splashBounds.height);
-            splash.update();
-        }
-
-        Lwjgl3ApplicationConfiguration applicationConfig = new Lwjgl3ApplicationConfiguration();
-        //TODO: Is checking for a presence of the file really the way we want to determine if it is a debug build?
-        handleDevBuild(applicationConfig);
-        MyReader reader = new MyReader();
-        DebugOptions.read(reader);
-
-        GameOptions options = new GameOptions(false, reader);
-        // Set screen width, height...
-        setScreenDimensions(applicationConfig, options);
-
-        // Set the application's title, icon...
-        applicationConfig.setTitle("Destination Sol");
-        if (DebugOptions.DEV_ROOT_PATH == null) {
-            applicationConfig.setWindowIcon(Files.FileType.Internal, "icon.png");
-        } else {
-            applicationConfig.setWindowIcon(Files.FileType.Absolute, DebugOptions.DEV_ROOT_PATH + "/icon.png");
-        }
-
-        handleCrashReporting(argv);
-
-
-        if (useSplash) {
-            splash.close();
-        }
-        // Everything is set up correctly, launch the application
-        SolApplication application = new SolApplication(100, new DesktopServices());
-        SolApplication.addResizeSubscriber(new SolDesktop.FullScreenWindowPositionAdjustment(!options.fullscreen));
-        // Everything is set up correctly, launch the application
-        new Lwjgl3Application(application, applicationConfig);
+        DesktopLauncher.launchGame(argv, DesktopModuleConfig.class, ModulePathScanner.class);
     }
 
-    /**
-     * When on dev build, use specific settings for vSync and FPS throttling.
-     *
-     * Whether a build is a dev build is found out by checking of a file "devBuild" in the root directory of DestSol.
-     * Those specific option means disabling vSync, and increasing foreground FPS throttling to allow for a swifter
-     * game, while lowering it for the background to not eat as much resources. Since game time flow is dependent on
-     * FPS, this also means that on dev build, the game may run faster in foreground than background, which is not
-     * something we exactly want. Also, since the default FPS for non-dev builds is 60, it ensures that the game will
-     * run at the same sane speed in production and the same speed in foreground as well as background.
-     *
-     * @param applicationConfig App config to configure.
-     */
-    private static void handleDevBuild(Lwjgl3ApplicationConfiguration applicationConfig) {
-        boolean devBuild = java.nio.file.Files.exists(Paths.get("devBuild"));
-        if (devBuild) {
-            DebugOptions.DEV_ROOT_PATH = "engine/src/main/resources/"; // Lets the game run from source without a tweaked working directory
-            applicationConfig.useVsync(false); // Setting to false disables vertical sync
-            //The LWJGL3 backend does not support FPS throttling in the foreground
-            //applicationConfig.foregroundFPS = 100; // Use 0 to disable foreground fps throttling
-            //applicationConfig.backgroundFPS = 10; // Use 0 to disable background fps throttling
-            applicationConfig.setIdleFPS(10);
+    public static class DesktopModuleConfig implements FacadeModuleConfig {
+        @Inject
+        public DesktopModuleConfig() {
         }
-    }
 
-    /**
-     * When flag {@link #NO_CRASH_REPORT} is NOT passed in, overload the uncaught exception behaviour to create a crash
-     * dump and report the crash.
-     *
-     * @param argv App's cmdline args.
-     */
-    private static void handleCrashReporting(String[] argv) {
-        if (Stream.of(argv).noneMatch(s -> s.equals(NO_CRASH_REPORT))) {
-            Thread.setDefaultUncaughtExceptionHandler((thread, ex) -> {
-                // Get the exception stack trace string
-                StringWriter stringWriter = new StringWriter();
-                PrintWriter printWriter = new PrintWriter(stringWriter);
-                ex.printStackTrace(printWriter);
-                String exceptionString = stringWriter.getBuffer().toString();
-                logger.error("This exception was not caught:", ex);
-
-                // Create a crash dump file
-                String fileName = "crash-" + new SimpleDateFormat("yyyy-dd-MM_HH-mm-ss").format(new Date()) + ".log";
-                List<String> lines = Collections.singletonList(exceptionString);
-                Path logPath = Paths.get(new MyReader().create(fileName, lines)).getParent();
-
-                // Run asynchronously so that the error message view is not blocked
-                new Thread(() -> CrashReporter.report(ex, logPath)).start();
-            });
-        }
-    }
-
-    /**
-     * Set up window resolution.
-     *
-     * When flag {@link DebugOptions#EMULATE_MOBILE} is set, make the app window the size of mobile screen. Otherwise,
-     * load the window resolution from game options.
-     *
-     * @param applicationConfig App config to configure
-     * @param options {@link GameOptions} the configuration to read from.
-     */
-    private static void setScreenDimensions(Lwjgl3ApplicationConfiguration applicationConfig, GameOptions options) {
-        if (DebugOptions.EMULATE_MOBILE) {
-            applicationConfig.setWindowedMode(640, 480);
-        } else {
-            if (options.fullscreen) {
-                Graphics.DisplayMode mode = null;
-                for (Graphics.DisplayMode displayMode : Lwjgl3ApplicationConfiguration.getDisplayModes()) {
-                    if (displayMode.width == options.x && displayMode.height == options.y) {
-                        mode = displayMode;
-                    }
-                }
-                if (mode != null) {
-                    applicationConfig.setFullscreenMode(mode);
-                } else {
-                    logger.warn("The resolution {}x{} is not supported in fullscreen mode!", options.x, options.y);
-                }
-            } else {
-                applicationConfig.setWindowedMode(options.x, options.y);
-            }
-        }
-    }
-
-    private static class DesktopServices extends ServiceRegistry {
-        public DesktopServices() {
-            this.with(FacadeModuleConfig.class).lifetime(Lifetime.Singleton).use(DesktopModuleConfig::new);
-            this.with(ModulePathScanner.class).lifetime(Lifetime.Singleton);
-        }
-    }
-
-    private static class DesktopModuleConfig implements FacadeModuleConfig {
         @Override
-        public File getModulesPath() {
-            return Paths.get(".").resolve("modules").toFile();
+        public Collection<File> getModulePaths() {
+            return Collections.singletonList(Paths.get(".").resolve("modules").toFile());
         }
 
         @Override
@@ -251,71 +73,6 @@ public final class SolDesktop {
         @Override
         public Class<?>[] getAPIClasses() {
             return new Class<?>[0];
-        }
-    }
-
-    /**
-     * Provides the implementation of SolFileReader used by this class.
-     */
-    //TODO Since this is currently the only implementation of SolFileReader, consider making this into a self-standing class with static methods. Also, consider uniting SolFileReader and IniReader.
-    private static class MyReader implements SolFileReader {
-        @Override
-        public String create(String fileName, List<String> lines) {
-            String path = "";
-            if (DebugOptions.DEV_ROOT_PATH != null) {
-                path = DebugOptions.DEV_ROOT_PATH;
-            }
-            path += fileName;
-
-            Path file = Paths.get(path);
-            try {
-                java.nio.file.Files.write(file, lines, Charset.forName("UTF-8"));
-            } catch (IOException e) {
-                logger.error("Failed to write to file", e);
-            }
-            return file.toAbsolutePath().toString();
-        }
-
-        @Override
-        public List<String> read(String fileName) {
-            String path = "";
-            if (DebugOptions.DEV_ROOT_PATH != null) {
-                path = DebugOptions.DEV_ROOT_PATH;
-            }
-            path += fileName;
-
-            ArrayList<String> lines = new ArrayList<>();
-
-            try {
-                BufferedReader br = new BufferedReader(new FileReader(path));
-                String line;
-                while ((line = br.readLine()) != null) {
-                    lines.add(line);
-                }
-                br.close();
-            } catch (IOException ignore) {
-            }
-
-            return lines;
-        }
-    }
-
-    private static final class FullScreenWindowPositionAdjustment implements ResizeSubscriber {
-        private boolean lastFullScreenState;
-
-        public FullScreenWindowPositionAdjustment(boolean lastFullScreenState) {
-            this.lastFullScreenState = lastFullScreenState;
-        }
-
-        @Override
-        public void resize() {
-            //If the game has gone from full-screen to windowed
-            if (lastFullScreenState && !Gdx.graphics.isFullscreen()) {
-                Graphics.DisplayMode mode = Gdx.graphics.getDisplayMode();
-                ((Lwjgl3Graphics) Gdx.graphics).getWindow().setPosition(mode.width / 4, mode.height / 4);
-            }
-
-            lastFullScreenState = Gdx.graphics.isFullscreen();
         }
     }
 }

@@ -150,3 +150,28 @@ tasks.register('fetchAndroid') {
         )
     }
 }
+
+tasks.register('fetchSteam') {
+    description = 'Git clones the Steam facade source from GitHub'
+
+    // Repo name is the dynamic part of the task name
+    def repo = 'DestSolSteam'
+
+    // Default GitHub account to use. Supply with -PgithubAccount="TargetAccountName" or via gradle.properties
+    def githubHome = 'MovingBlocks'
+
+    def destination = file('steam')
+
+    // Don't clone this repo if we already have a directory by that name (also determines Gradle UP-TO-DATE)
+    enabled = !destination.exists()
+
+    doLast {
+        Grgit.clone(
+                // Do the actual clone if we don't have the directory already
+                uri: "https://github.com/$githubHome/" + repo + ".git",
+                //println "Fetching $repo from $uri"
+                dir: destination,
+                bare: false
+        )
+    }
+}

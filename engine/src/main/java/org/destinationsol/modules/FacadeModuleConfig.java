@@ -2,8 +2,11 @@ package org.destinationsol.modules;
 
 import org.terasology.gestalt.module.Module;
 import org.terasology.gestalt.module.ModuleEnvironment;
+import org.terasology.gestalt.module.ModuleFactory;
 
 import java.io.File;
+import java.util.Collection;
+import java.util.Collections;
 
 /**
  * This interface defines the module configuration for a given facade. Different facades will have different implementations
@@ -11,10 +14,10 @@ import java.io.File;
  */
 public interface FacadeModuleConfig {
     /**
-     * Returns the root folder to search for modules in. All modules should be located within this root folder.
-     * @return the root module path
+     * Returns a collection of root folders to search for modules in. All modules should be located within these folders.
+     * @return the root module paths
      */
-    File getModulesPath();
+    Collection<File> getModulePaths();
 
     /**
      * Determines if the game uses SecurityManager for gestalt sandboxing.
@@ -34,6 +37,18 @@ public interface FacadeModuleConfig {
      * @return the constructed engine module.
      */
     Module createEngineModule();
+
+    /**
+     * Constructs facade-specific modules from the base classpath and returns them.
+     * @return the constructed facade-specific modules
+     */
+    default Collection<Module> createFacadeModules() {
+        return Collections.emptyList();
+    }
+
+    default ModuleFactory createModuleFactory() {
+        return new ModuleFactory();
+    }
 
     /**
      * Returns a list of classes that should be accessible from within the sandbox.

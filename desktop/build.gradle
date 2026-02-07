@@ -33,6 +33,7 @@ dependencies {
 
     implementation group: 'org.slf4j', name: 'slf4j-log4j12', version: '1.7.25'
     implementation group: 'org.terasology.crashreporter', name: 'cr-destsol', version: '4.0.0'
+    annotationProcessor "org.terasology.gestalt:gestalt-inject-java:$gestaltVersion"
 }
 
 tasks.withType(ru.vyarus.gradle.plugin.animalsniffer.AnimalSniffer) {
