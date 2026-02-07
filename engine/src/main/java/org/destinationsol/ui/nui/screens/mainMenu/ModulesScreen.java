@@ -19,7 +19,9 @@ package org.destinationsol.ui.nui.screens.mainMenu;
 import org.destinationsol.SolApplication;
 import org.destinationsol.modules.ModuleManager;
 import org.destinationsol.ui.nui.NUIScreenLayer;
+import org.destinationsol.ui.nui.widgets.KeyActivatedButton;
 import org.terasology.gestalt.module.Module;
+import org.terasology.nui.backends.libgdx.GDXInputUtil;
 import org.terasology.nui.databinding.ReadOnlyBinding;
 import org.terasology.nui.itemRendering.StringTextRenderer;
 import org.terasology.nui.widgets.UIButton;
@@ -93,7 +95,8 @@ public class ModulesScreen extends NUIScreenLayer {
         });
         deactivateButton.subscribe(button -> selectedModules.remove(moduleList.getSelection()));
 
-        UIButton confirmButton = find("confirmButton", UIButton.class);
+        KeyActivatedButton confirmButton = find("confirmButton", KeyActivatedButton.class);
+        confirmButton.setKey(GDXInputUtil.GDXToNuiKey(solApplication.getOptions().getKeyEscape()));
         confirmButton.subscribe(button -> {
             nuiManager.setScreen(solApplication.getMenuScreens().newShip);
         });
