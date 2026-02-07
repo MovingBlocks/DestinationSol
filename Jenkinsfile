@@ -121,7 +121,8 @@ pipeline {
                         checkout scm: [$class: 'GitSCM', branches: [[name: steamBranch]], extensions: [], userRemoteConfigs: [[credentialsId: 'GooeyHub', url: steamGitPath]]]
                     }
                 }
-                sh './gradlew :steam:distZip'
+                sh './gradlew distSteam'
+                zip dir: 'steam/build/distributions/app', file: 'DestinationSolSteam.zip'
             }
         }
         stage('Publish to Play Store') {
