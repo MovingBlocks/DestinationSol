@@ -122,7 +122,7 @@ pipeline {
                     }
                 }
                 sh './gradlew distSteam'
-                zip dir: 'steam/build/distributions/app', file: 'DestinationSolSteam.zip'
+                zip dir: 'steam/build/distributions/app', zipFile: 'DestinationSolSteam.zip'
             }
         }
         stage('Publish to Play Store') {
