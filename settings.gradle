@@ -3,6 +3,11 @@ includeBuild 'build-logic'
 include 'desktop', 'engine', 'modules'
 import groovy.io.FileType
 
+File steamGradle = new File(rootDir, 'steam/build.gradle')
+if (steamGradle.exists()) {
+    include 'steam'
+}
+
 File gwtGradle = new File(rootDir, 'gwt/build.gradle')
 if (gwtGradle.exists()) {
     include 'gwt'

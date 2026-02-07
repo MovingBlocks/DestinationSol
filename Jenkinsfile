@@ -89,6 +89,41 @@ pipeline {
                 discordSend title: env.BRANCH_NAME, link: env.BUILD_URL, result: currentBuild.currentResult, webhookURL: env.WEBHOOK
             }
         }
+        stage('Build Steam') {
+            when {
+                // Example: v2.1.0
+                tag pattern: 'v\\d+\\.\\d+\\.\\d+.*', comparator: "REGEXP"
+                branch pattern: 'steam/*'
+            }
+            steps {
+                dir('steam') {
+                    script {
+                        // Allow varying from the default Steam repo path for easier development. Assume same Steam branch as engine branch.
+                        def steamGitPath = "https://github.com/MovingBlocks/DestSolSteam.git"
+                        if (env.PUBLISH_ORG) {
+                            steamGitPath = steamGitPath.replace("MovingBlocks", env.PUBLISH_ORG)
+                            println "Updated target Steam Git path to: " + steamGitPath
+                        } else {
+                            println "Not varying the Steam path from default " + steamGitPath
+                        }
+                        // Figure out a suitable target branch in the Steam repo, default is the develop branch
+                        def steamBranch = "develop"
+                        // Check to see if Jenkins is building a tag, branch, or other (including PRs)
+                        if (env.TAG_NAME != null && env.TAG_NAME ==~ /v\d+\.\d+\.\d+.*/) {
+                            println "Going to use target Steam tag " + env.TAG_NAME
+                            steamBranch = "refs/tags/" + env.TAG_NAME
+                        } else if (env.BRANCH_NAME.equalsIgnoreCase("master") || env.BRANCH_NAME.startsWith("steam/")) {
+                            println "Going to use target unusual Steam branch " + env.BRANCH_NAME
+                            steamBranch = env.BRANCH_NAME
+                        } else {
+                            println "Going to use target Steam branch 'develop' - not building 'master' nor anything starting with 'android/'"
+                        }
+                        checkout scm: [$class: 'GitSCM', branches: [[name: steamBranch]], extensions: [], userRemoteConfigs: [[credentialsId: 'GooeyHub', url: steamGitPath]]]
+                    }
+                }
+                sh './gradlew :steam:distZip'
+            }
+        }
         stage('Publish to Play Store') {
             when {
                 // Example: v2.1.0
