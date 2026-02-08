@@ -76,26 +76,9 @@ public class NewShipScreen extends NUIScreenLayer {
             ((UIButton)button).setText("Systems: " + worldConfig.getNumberOfSystems());
         });
 
-        for (ResourceUrn configUrn : Assets.getAssetHelper().listAssets(Json.class, "playerSpawnConfig")) {
-            JSONObject playerSpawnConfigs = Validator.getValidatedJSON(configUrn.toString(), "engine:schemaPlayerSpawnConfig");
-            playerSpawnConfigNames.addAll(playerSpawnConfigs.keySet());
-            for (String spawnConfigName : playerSpawnConfigs.keySet()) {
-                JSONObject playerSpawnConfig = playerSpawnConfigs.getJSONObject(spawnConfigName);
-                try {
-                    playerSpawnConfigTextures.add(Assets.getDSTexture(playerSpawnConfig.getString("hull")).getUiTexture());
-                } catch (RuntimeException e) {
-                    logger.error("Failed to load ship texture!", e);
-                    // Null values will not render any texture.
-                    playerSpawnConfigTextures.add(null);
-                }
-            }
-        }
-
         UIImage shipPreviewImage = find("shipPreviewImage", UIImage.class);
-        shipPreviewImage.setImage(playerSpawnConfigTextures.get(playerSpawnConfigIndex));
 
         UIButton startingShipButton = find("startingShipButton", UIButton.class);
-        startingShipButton.setText("Starting Ship: " + playerSpawnConfigNames.get(playerSpawnConfigIndex));
         startingShipButton.subscribe(button -> {
             playerSpawnConfigIndex = (playerSpawnConfigIndex + 1) % playerSpawnConfigNames.size();
             ((UIButton)button).setText("Starting Ship: " + playerSpawnConfigNames.get(playerSpawnConfigIndex));
@@ -129,22 +112,42 @@ public class NewShipScreen extends NUIScreenLayer {
     public void onAdded() {
         worldConfig.setSeed(System.currentTimeMillis());
 
-        String currentShip = playerSpawnConfigNames.get(playerSpawnConfigIndex);
+        String currentShip = null;
+        if (playerSpawnConfigIndex < playerSpawnConfigNames.size()) {
+             currentShip = playerSpawnConfigNames.get(playerSpawnConfigIndex);
+        }
         playerSpawnConfigNames.clear();
+        playerSpawnConfigTextures.clear();
         Set<ResourceUrn> configUrns = Assets.getAssetHelper().listAssets(Json.class, "playerSpawnConfig");
         for (Module module : worldConfig.getModules()) {
             ResourceUrn configUrn = new ResourceUrn(module.getId(), new Name("playerSpawnConfig"));
             if (configUrns.contains(configUrn)) {
-                playerSpawnConfigNames.addAll(Validator.getValidatedJSON(configUrn.toString(), "engine:schemaPlayerSpawnConfig").keySet());
+                JSONObject playerSpawnConfigs = Validator.getValidatedJSON(configUrn.toString(), "engine:schemaPlayerSpawnConfig");
+                playerSpawnConfigNames.addAll(playerSpawnConfigs.keySet());
+                for (String spawnConfigName : playerSpawnConfigs.keySet()) {
+                    JSONObject playerSpawnConfig = playerSpawnConfigs.getJSONObject(spawnConfigName);
+                    try {
+                        playerSpawnConfigTextures.add(Assets.getDSTexture(playerSpawnConfig.getString("hull")).getUiTexture());
+                    } catch (RuntimeException e) {
+                        logger.error("Failed to load ship texture!", e);
+                        // Null values will not render any texture.
+                        playerSpawnConfigTextures.add(null);
+                    }
+                }
             }
         }
 
         if (!playerSpawnConfigNames.contains(currentShip)) {
             // The player picked a ship that's now invalid, so reset their selection.
             playerSpawnConfigIndex = 0;
-            UIButton startingShipButton = find("startingShipButton", UIButton.class);
-            startingShipButton.setText("Starting Ship: " + playerSpawnConfigNames.get(playerSpawnConfigIndex));
+        } else {
+            playerSpawnConfigIndex = playerSpawnConfigNames.indexOf(currentShip);
         }
+
+        UIButton startingShipButton = find("startingShipButton", UIButton.class);
+        startingShipButton.setText("Starting Ship: " + playerSpawnConfigNames.get(playerSpawnConfigIndex));
+        UIImage shipPreviewImage = find("shipPreviewImage", UIImage.class);
+        shipPreviewImage.setImage(playerSpawnConfigTextures.get(playerSpawnConfigIndex));
     }
 
     @Override
