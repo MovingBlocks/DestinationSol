@@ -80,12 +80,13 @@ public interface SolObject {
      * no health pool or should be otherwise indestructible, or invincible against some types of damage, this method can
      * be freely left blank.
      *
-     * @param dmg      Damage the object receives.
-     * @param game     Game this object belongs to.
-     * @param position Position the object was hit at, if hit by point-based damage. Null if not applicable, such as fire.
-     * @param dmgType  Type of the damage object receives.
+     * @param dmg        Damage the object receives.
+     * @param game       Game this object belongs to.
+     * @param position   Position the object was hit at, if hit by point-based damage. Null if not applicable, such as fire.
+     * @param dmgType    Type of the damage object receives.
+     * @param instigator Object that damaged this object.
      */
-    void receiveDmg(float dmg, SolGame game, @Nullable Vector2 position, DmgType dmgType);
+    void receiveDmg(float dmg, SolGame game, @Nullable Vector2 position, DmgType dmgType, @Nullable SolObject instigator);
 
     /**
      * Denotes whether this object is affected by gravity.

@@ -57,7 +57,7 @@ public class Waypoint implements SolObject {
     }
 
     @Override
-    public void receiveDmg(float dmg, SolGame game, Vector2 position, DmgType dmgType) {
+    public void receiveDmg(float dmg, SolGame game, Vector2 position, DmgType dmgType, SolObject instigator) {
 
     }
 

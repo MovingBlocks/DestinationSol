@@ -117,7 +117,7 @@ public class Loot implements SolObject {
     }
 
     @Override
-    public void receiveDmg(float dmg, SolGame game, Vector2 position, DmgType dmgType) {
+    public void receiveDmg(float dmg, SolGame game, Vector2 position, DmgType dmgType, SolObject instigator) {
         life -= dmg;
         game.getContext().get(SpecialSounds.class).playHit(game, this, position, dmgType);
     }
@@ -164,7 +164,7 @@ public class Loot implements SolObject {
     public void handleContact(SolObject other, float absImpulse,
                               SolGame game, Vector2 collPos) {
         float dmg = absImpulse / mass / DURABILITY;
-        receiveDmg((int) dmg, game, collPos, DmgType.CRASH);
+        receiveDmg((int) dmg, game, collPos, DmgType.CRASH, null);
     }
 
     @Override

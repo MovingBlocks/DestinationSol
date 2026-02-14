@@ -156,8 +156,9 @@ public class StarPort implements SolObject {
     }
 
     @Override
-    public void receiveDmg(float dmg, SolGame game, Vector2 position, DmgType dmgType) {
+    public void receiveDmg(float dmg, SolGame game, Vector2 position, DmgType dmgType, SolObject instigator) {
         game.getContext().get(SpecialSounds.class).playHit(game, this, position, dmgType);
+        // TODO: Reduce reputation with the origin planet's owning faction when planet ownership is implemented.
     }
 
     @Override
@@ -436,7 +437,7 @@ public class StarPort implements SolObject {
         }
 
         @Override
-        public void receiveDmg(float dmg, SolGame game, Vector2 position, DmgType dmgType) {
+        public void receiveDmg(float dmg, SolGame game, Vector2 position, DmgType dmgType, SolObject instigator) {
             game.getContext().get(SpecialSounds.class).playHit(game, this, position, dmgType);
         }
 

@@ -34,7 +34,6 @@ import org.destinationsol.game.SolObjectEntityWrapper;
 import org.destinationsol.game.drawables.Drawable;
 import org.destinationsol.game.drawables.DrawableLevel;
 import org.destinationsol.game.drawables.SpriteManager;
-import org.destinationsol.game.faction.DefaultReputationEvent;
 import org.destinationsol.game.faction.Faction;
 import org.destinationsol.game.item.Shield;
 import org.destinationsol.game.particle.DSParticleEmitter;
@@ -162,10 +161,10 @@ public class Projectile implements SolObject {
                 if (!wasDamageDealt) {
                     if (config.aoeRadius >= 0) { //If AoE is enabled for this Projectile, damage all within the radius.
                         game.getObjectManager().doToAllCloserThan(config.aoeRadius, this, (SolObject obj) ->
-                                obj.receiveDmg(config.dmg, game, body.getPosition(), config.dmgType)
+                                obj.receiveDmg(config.dmg, game, body.getPosition(), config.dmgType, ship)
                         );
                     } else {
-                        obstacle.receiveDmg(config.dmg, game, body.getPosition(), config.dmgType);
+                        obstacle.receiveDmg(config.dmg, game, body.getPosition(), config.dmgType, ship);
                     }
                 }
                 if (config.density > 0) {
@@ -216,9 +215,6 @@ public class Projectile implements SolObject {
         if (config.collisionEffectBackground != null) {
             game.getPartMan().blinks(position, game, config.collisionEffectBackground.size);
         }
-        if (ship.getPilot().isPlayer() && obstacle instanceof SolShip) {
-            game.getFactionMan().reportEvent(ship.getFaction(), ((SolShip) obstacle).getFaction(), DefaultReputationEvent.DAMAGED_SHIP);
-        }
 
         game.getSoundManager().play(game, config.collisionSound, null, this);
     }
@@ -241,7 +237,7 @@ public class Projectile implements SolObject {
     }
 
     @Override
-    public void receiveDmg(float dmg, SolGame game, Vector2 position, DmgType dmgType) {
+    public void receiveDmg(float dmg, SolGame game, Vector2 position, DmgType dmgType, SolObject instigator) {
         if (config.density > 0) {
             return;
         }

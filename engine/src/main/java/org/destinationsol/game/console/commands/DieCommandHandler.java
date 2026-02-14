@@ -38,7 +38,7 @@ public class DieCommandHandler {
         if (!hero.isAlive()) {
             throw new CommandExecutionException("Hero is already dead!");
         }
-        hero.getShip().receivePiercingDmg(hero.getHull().getHullConfig().getMaxLife() + 1f, game, hero.getPosition(), DmgType.CRASH);
+        hero.getShip().receivePiercingDmg(hero.getHull().getHullConfig().getMaxLife() + 1f, game, hero.getPosition(), DmgType.CRASH, null);
         return "Hero killed!";
     }
 }

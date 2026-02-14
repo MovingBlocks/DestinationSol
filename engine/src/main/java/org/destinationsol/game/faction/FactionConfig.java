@@ -37,7 +37,7 @@ public final class FactionConfig {
         for (int designNo = 0; designNo < shipDesignsArray.length(); designNo++) {
             shipDesigns.add(new ResourceUrn(shipDesignsArray.getString(designNo)));
         }
-        Map<String, Integer> reputationImpacts = new HashMap<>();
+        Map<String, Float> reputationImpacts = new HashMap<>();
         return new Faction(id, jsonObject.getString("name"),
                 jsonObject.getString("description"),
                 new org.terasology.nui.Color(gdxColour.r, gdxColour.g, gdxColour.b, gdxColour.a),
