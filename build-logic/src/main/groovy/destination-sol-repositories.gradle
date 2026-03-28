@@ -27,6 +27,7 @@ repositories {
         url "https://jitpack.io"
         content {
             includeModule('com.github.everit-org.json-schema', 'org.everit.json.schema')
+            includeModule('com.github.heroiclabs.nakama-java', 'nakama-java')
         }
     }
 

@@ -67,6 +67,10 @@ dependencies {
     api "org.terasology.nui:nui-reflect:$nuiVersion"
 
     implementation group: 'com.google.protobuf', name: 'protobuf-java', version: '3.4.0'
+    implementation('com.github.heroiclabs.nakama-java:nakama-java:2.5.3') {
+        // DestSol uses protobuf 3.4.0 for EntityData — avoid conflict with newer protobuf
+        exclude group: 'com.google.protobuf'
+    }
 
     implementation "com.github.zafarkhaja:java-semver:0.10.0" // gestalt lost this...
     api "com.github.everit-org.json-schema:org.everit.json.schema:1.11.1"
