@@ -281,6 +281,11 @@ public class SolApplication implements ApplicationListener {
             String msg;
             while ((msg = nakamaClient.pollMessage()) != null) {
                 solGame.getScreens().consoleScreen.getConsole().addMessage(msg);
+                org.destinationsol.game.chat.NakamaAnnouncer announcer =
+                        solGame.getScreens().mainGameScreen.getNakamaAnnouncer();
+                if (announcer != null) {
+                    announcer.announce(msg);
+                }
             }
         }
 
