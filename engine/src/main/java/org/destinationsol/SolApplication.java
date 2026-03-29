@@ -185,8 +185,8 @@ public class SolApplication implements ApplicationListener {
 
         nuiManager.pushScreen(menuScreens.main);
 
-        // Nakama integration (optional, POC)
-        org.destinationsol.game.chat.NakamaConfig nakamaConfig = org.destinationsol.game.chat.NakamaConfig.fromSystemProperties();
+        // Nakama integration (optional, loaded from nakama.ini)
+        org.destinationsol.game.chat.NakamaConfig nakamaConfig = org.destinationsol.game.chat.NakamaConfig.load();
         if (nakamaConfig.isEnabled()) {
             nakamaClient = new org.destinationsol.game.chat.NakamaClient(nakamaConfig);
             nakamaClient.connect();

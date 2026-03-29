@@ -14,5 +14,7 @@ class NakamaConfigTest {
         assertEquals("bifrost.lobby", config.getChannel());
         assertEquals(7349, config.getGrpcPort());
         assertEquals(7350, config.getWsPort());
+        assertEquals("localhost", config.getHost());
+        assertEquals("", config.getPlayerName());
     }
 }

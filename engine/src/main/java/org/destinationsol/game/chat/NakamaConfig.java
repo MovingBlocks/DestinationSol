@@ -3,11 +3,16 @@
 
 package org.destinationsol.game.chat;
 
+import org.destinationsol.IniReader;
+
 /**
  * Configuration for the Nakama client integration.
- * Read from system properties for the POC.
+ * Loaded from nakama.ini in the game's save directory.
+ * If the file doesn't exist, defaults are used (disabled).
  */
 public class NakamaConfig {
+    private static final String CONFIG_FILE = "nakama.ini";
+
     private boolean enabled = false;
     private String host = "localhost";
     private int grpcPort = 7349;
@@ -33,14 +38,32 @@ public class NakamaConfig {
     public String getPlayerName() { return playerName; }
     public void setPlayerName(String name) { this.playerName = name; }
 
-    public static NakamaConfig fromSystemProperties() {
+    /**
+     * Load config from nakama.ini. Falls back to defaults if the file doesn't exist.
+     */
+    public static NakamaConfig load() {
         NakamaConfig config = new NakamaConfig();
-        config.setEnabled(Boolean.parseBoolean(System.getProperty("nakama.enabled", "false")));
-        config.setHost(System.getProperty("nakama.host", "localhost"));
-        config.setGrpcPort(Integer.parseInt(System.getProperty("nakama.grpcPort", "7349")));
-        config.setWsPort(Integer.parseInt(System.getProperty("nakama.wsPort", "7350")));
-        config.setChannel(System.getProperty("nakama.channel", "bifrost.lobby"));
-        config.setPlayerName(System.getProperty("nakama.playerName", ""));
+        IniReader reader = new IniReader(CONFIG_FILE, null);
+        config.enabled = reader.getBoolean("enabled", false);
+        config.host = reader.getString("host", "localhost");
+        config.grpcPort = reader.getInt("grpcPort", 7349);
+        config.wsPort = reader.getInt("wsPort", 7350);
+        config.channel = reader.getString("channel", "bifrost.lobby");
+        config.playerName = reader.getString("playerName", "");
         return config;
+    }
+
+    /**
+     * Save config to nakama.ini.
+     */
+    public void save() {
+        IniReader.write(CONFIG_FILE,
+                "enabled", enabled,
+                "host", host,
+                "grpcPort", grpcPort,
+                "wsPort", wsPort,
+                "channel", channel,
+                "playerName", playerName
+        );
     }
 }
