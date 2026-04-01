@@ -26,6 +26,7 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
 import java.util.concurrent.ConcurrentLinkedQueue;
+import java.util.concurrent.atomic.AtomicReference;
 
 /**
  * Lightweight Nakama integration for DestinationSol.
@@ -53,6 +54,9 @@ public class NakamaClient {
 
     // Thread-safe queue for incoming messages to be consumed on the game thread
     private final ConcurrentLinkedQueue<String> incomingMessages = new ConcurrentLinkedQueue<>();
+
+    // Last received item link — consumed by Beam In
+    private final AtomicReference<JsonObject> lastItemLink = new AtomicReference<>();
 
     public NakamaClient(NakamaConfig config) {
         this.config = config;
@@ -106,6 +110,17 @@ public class NakamaClient {
             String text = content.has("text") ? content.get("text").getAsString() : "";
             String prefix = "[" + GAME_PREFIXES.getOrDefault(game,
                     game.toUpperCase().substring(0, Math.min(game.length(), 2))) + "]";
+
+            // Check for item link message
+            String type = content.has("type") ? content.get("type").getAsString() : "chat";
+            if ("item_link".equals(type)) {
+                lastItemLink.set(content);
+                String itemName = content.has("name") ? content.get("name").getAsString() : "???";
+                String formatted = prefix + " " + player + " beamed: [" + itemName + "]";
+                incomingMessages.add(formatted);
+                return;
+            }
+
             String formatted = prefix + " " + player + ": " + text;
             incomingMessages.add(formatted);
         } catch (Exception e) {
@@ -135,6 +150,49 @@ public class NakamaClient {
             logger.warn("Nakama: failed to send message", e);
             return false;
         }
+    }
+
+    /**
+     * Send an item link to the Nakama channel.
+     */
+    public boolean sendItemLink(String itemName, String description, float price) {
+        if (socket == null || channel == null) {
+            return false;
+        }
+        try {
+            String playerName = config.getPlayerName().isEmpty()
+                    ? session.getUserId().substring(0, 8)
+                    : config.getPlayerName();
+
+            JsonObject content = new JsonObject();
+            content.addProperty("game", GAME_ID);
+            content.addProperty("player", playerName);
+            content.addProperty("type", "item_link");
+            content.addProperty("name", itemName);
+            content.addProperty("description", description);
+            content.addProperty("price", price);
+
+            socket.writeChatMessage(channel.getId(), content.toString()).get();
+            return true;
+        } catch (Exception e) {
+            logger.warn("Nakama: failed to send item link", e);
+            return false;
+        }
+    }
+
+    /**
+     * Consume the last received item link (returns null if none pending).
+     * Once consumed, the same link cannot be consumed again.
+     */
+    public JsonObject consumeItemLink() {
+        return lastItemLink.getAndSet(null);
+    }
+
+    /**
+     * Check if there's a pending item link without consuming it.
+     */
+    public boolean hasItemLink() {
+        return lastItemLink.get() != null;
     }
 
     /**
