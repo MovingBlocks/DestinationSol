@@ -8,6 +8,7 @@ plugins {
     id 'pmd'
     id 'com.github.spotbugs'
     id 'jacoco'
+    id 'ru.vyarus.animalsniffer'
 }
 
 configurations {
@@ -21,6 +22,13 @@ dependencies {
     pmd("net.sourceforge.pmd:pmd-ant:7.26.0")
     pmd("net.sourceforge.pmd:pmd-core:7.26.0")
     pmd("net.sourceforge.pmd:pmd-java:7.26.0")
+
+    signature('com.toasttab.android:gummy-bears-api-24:0.15.0:coreLib2@signature')
+}
+
+animalsniffer {
+    // java.nio.* APIs can be desugared by D8. java.io.File.toPath() also needs to be excluded.
+    ignore = ["java.nio.file.*", "java.io.File"]
 }
 
 jacoco {

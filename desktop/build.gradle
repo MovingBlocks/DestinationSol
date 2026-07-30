@@ -35,6 +35,11 @@ dependencies {
     implementation group: 'org.terasology.crashreporter', name: 'cr-destsol', version: '4.0.0'
 }
 
+tasks.withType(ru.vyarus.gradle.plugin.animalsniffer.AnimalSniffer) {
+    // The desktop facade does not run on Android, so we do not have to fulfil its constraints.
+    exclude("**/*")
+}
+
 tasks.register('run', JavaExec) {
     dependsOn classes
     //TODO: Remove extra args when the splash screen works on Macs again - see https://github.com/MovingBlocks/DestinationSol/issues/414

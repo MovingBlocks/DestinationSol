@@ -74,7 +74,7 @@ Note: You can select either pure keyboard, keyboard + mouse, or controller (in t
 Building and running from source
 --------
 
-You only need Java 11 installed to run Destination Sol from source.
+You only need Java 17 installed to run Destination Sol from source.
 
 Run any commands in the project root directory (where you cloned / extracted the project to, using a command prompt / terminal).
 

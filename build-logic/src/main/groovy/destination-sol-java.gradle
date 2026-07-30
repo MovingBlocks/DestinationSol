@@ -3,8 +3,8 @@ plugins {
 }
 
 java {
-    sourceCompatibility = JavaVersion.VERSION_1_8
-    targetCompatibility = JavaVersion.VERSION_1_8
+    sourceCompatibility = JavaVersion.VERSION_17
+    targetCompatibility = JavaVersion.VERSION_17
 
     withJavadocJar()
     withSourcesJar()
@@ -12,22 +12,22 @@ java {
 
 compileJava {
     options.encoding = 'UTF-8'
-    sourceCompatibility = JavaVersion.VERSION_1_8
-    targetCompatibility = JavaVersion.VERSION_1_8
+    sourceCompatibility = JavaVersion.VERSION_17
+    targetCompatibility = JavaVersion.VERSION_17
 
     // The release flag is required for Java 9+.
     if (JavaVersion.current().isJava9Compatible()) {
-        options.release = 8
+        options.release = 17
     }
 }
 
 compileTestJava {
     options.encoding = 'UTF-8'
-    sourceCompatibility = JavaVersion.VERSION_1_8
-    targetCompatibility = JavaVersion.VERSION_1_8
+    sourceCompatibility = JavaVersion.VERSION_17
+    targetCompatibility = JavaVersion.VERSION_17
 
     // The release flag is required for Java 9+.
     if (JavaVersion.current().isJava9Compatible()) {
-        options.release = 8
+        options.release = 17
     }
 }
