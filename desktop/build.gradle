@@ -19,6 +19,9 @@ plugins {
     id 'destination-sol-jre'
 }
 
+import groovy.xml.XmlParser
+import groovy.xml.XmlNodePrinter
+
 project.ext.mainClassName = "org.destinationsol.desktop.SolDesktop"
 
 dependencies {
@@ -61,7 +64,7 @@ jar {
 }
 
 tasks.register('moduleDist', Copy) {
-    into("${distsDirectory.getAsFile().get()}/app/modules")
+    into("${base.distsDirectory.getAsFile().get()}/app/modules")
     rootProject.destinationSolModules().each { module ->
         dependsOn ":modules:$module.name" + ":jar"
         from("$rootDir/modules/${module.name}/build/libs") {
@@ -75,7 +78,7 @@ tasks.register('copyLaunchers', Copy) {
 
     from("$rootDir/launcher")
     include("*.sh", "*.exe")
-    into("${distsDirectory.getAsFile().get()}/app")
+    into("${base.distsDirectory.getAsFile().get()}/app")
 }
 
 tasks.register('libsDist', Copy) {
@@ -85,7 +88,7 @@ tasks.register('libsDist', Copy) {
 
     from jar
     from configurations.runtimeClasspath
-    into("${distsDirectory.getAsFile().get()}/app/libs")
+    into("${base.distsDirectory.getAsFile().get()}/app/libs")
 }
 
 tasks.register('distUnbundledJRE') {
@@ -102,7 +105,7 @@ tasks.register('distZipUnbundledJRE', Zip) {
     group 'Distribution'
 
     dependsOn distUnbundledJRE
-    from "${distsDirectory.getAsFile().get()}/app"
+    from "${base.distsDirectory.getAsFile().get()}/app"
     archiveFileName = "DestinationSol.zip"
 }
 
@@ -119,7 +122,7 @@ tasks.register('distZipBundleJREs', Zip) {
     group 'Distribution'
 
     dependsOn distBundleJREs
-    from "${distsDirectory.getAsFile().get()}/app"
+    from "${base.distsDirectory.getAsFile().get()}/app"
     archiveFileName = "DestinationSol.zip"
 }
 

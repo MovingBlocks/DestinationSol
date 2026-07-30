@@ -16,14 +16,15 @@ configurations {
 
 dependencies {
     // Config for our code analytics lives in a centralized repo: https://github.com/MovingBlocks/TeraConfig
-    codeMetrics(group: 'org.terasology.config', name: 'codemetrics', version: '1.6.3', ext: 'zip')
+    codeMetrics(group: 'org.terasology.config', name: 'codemetrics', version: '2.2.0', ext: 'zip')
 
-    pmd('net.sourceforge.pmd:pmd-core:6.15.0')
-    pmd('net.sourceforge.pmd:pmd-java:6.15.0')
+    pmd("net.sourceforge.pmd:pmd-ant:7.26.0")
+    pmd("net.sourceforge.pmd:pmd-core:7.26.0")
+    pmd("net.sourceforge.pmd:pmd-java:7.26.0")
 }
 
 jacoco {
-    toolVersion = "0.8.5"
+    toolVersion = "0.8.15"
 }
 
 jacocoTestReport {
@@ -39,6 +40,8 @@ jacocoTestReport {
 checkstyle {
     ignoreFailures = true
     configFile = new File(rootDir, 'config/metrics/checkstyle/checkstyle.xml')
+    toolVersion = "10.2"
+    configDirectory.set(configFile.parentFile)
     configProperties.samedir = checkstyle.configFile.parentFile
 }
 
@@ -50,16 +53,14 @@ pmd {
 }
 
 spotbugs {
-    toolVersion = '4.0.0'
+    toolVersion = '4.8.1'
     ignoreFailures = true
     excludeFilter = new File(rootDir, "config/metrics/findbugs/findbugs-exclude.xml")
 }
-spotbugsMain {
-    reports {
-        xml {
-            enabled = true
-            destination = file("$buildDir/reports/spotbugs/main/spotbugs.xml")
-        }
+tasks.spotbugsMain {
+    reports.create('xml') {
+        enabled = true
+        outputLocation = file("$buildDir/reports/spotbugs/main/spotbugs.xml")
     }
 }
 
@@ -87,10 +88,12 @@ tasks.withType(Checkstyle).configureEach {
 }
 
 tasks.withType(Pmd).configureEach {
+    dependsOn extractMetricsConfig
     group = 'Reporting'
 }
 
 tasks.withType(SpotBugsTask).configureEach {
+    dependsOn extractMetricsConfig
     group = 'Reporting'
 }
 

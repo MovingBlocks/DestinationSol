@@ -4,6 +4,9 @@ plugins {
     id 'org.jetbrains.gradle.plugin.idea-ext'
 }
 
+import groovy.xml.XmlParser
+import groovy.xml.XmlNodePrinter
+
 ext {
     ideaPatchAnnotationProcessors = { XmlProvider provider ->
         var profile = provider.asNode().component
@@ -45,6 +48,9 @@ ext {
     ideaPatchEntryPoints = { XmlProvider provider ->
         var component = provider.asNode().component
                 .find { it.@name == 'EntryPointsManager' }
+        if (component == null) {
+            return;
+        }
         if (component.list.size() != 0) {
             component.remove(component.list)
         }

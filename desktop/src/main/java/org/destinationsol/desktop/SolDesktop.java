@@ -94,7 +94,7 @@ public final class SolDesktop {
         try {
             splash = SplashScreen.getSplashScreen();
         } catch (Exception e) {
-            e.printStackTrace();
+            logger.error("Failed to open splash screen", e);
         }
 
         boolean useSplash = (splash != null) && Stream.of(argv).noneMatch(s -> s.equals(NO_SPLASH_SCREEN));
