@@ -48,9 +48,9 @@ public class MenuBackgroundManager {
         backgroundCamera = new OrthographicCamera(VIEWPORT_HEIGHT * displayDimensions.getRatio(), -VIEWPORT_HEIGHT);
     }
 
-    public void update() {
-        asteroidManager.update();
-        shipManager.update();
+    public void update(float delta) {
+        asteroidManager.update(delta);
+        shipManager.update(delta);
         world.step(Const.REAL_TIME_STEP, 6, 2);
     }
 

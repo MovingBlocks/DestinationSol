@@ -172,7 +172,7 @@ public class InputMapScreen extends NUIScreenLayer {
             }
         }
 
-        solApplication.getMenuBackgroundManager().update();
+        solApplication.getMenuBackgroundManager().update(delta);
     }
 
     @Override

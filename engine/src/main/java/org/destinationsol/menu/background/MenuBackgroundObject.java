@@ -16,6 +16,7 @@
 package org.destinationsol.menu.background;
 
 import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
@@ -27,7 +28,7 @@ import org.destinationsol.ui.UiDrawer;
  * Contains common data holders required for all background objects.
  */
 public class MenuBackgroundObject {
-    TextureAtlas.AtlasRegion texture;
+    Animation<TextureAtlas.AtlasRegion> frames;
 
     float scale;
 
@@ -41,8 +42,10 @@ public class MenuBackgroundObject {
 
     Body body;
 
-    public MenuBackgroundObject(TextureAtlas.AtlasRegion texture, float scale, Color tint, Vector2 position, Vector2 velocity, Vector2 origin, float angle, Body body) {
-        this.texture = texture;
+    float animationTime;
+
+    public MenuBackgroundObject(Animation<TextureAtlas.AtlasRegion> frames, float scale, Color tint, Vector2 position, Vector2 velocity, Vector2 origin, float angle, Body body) {
+        this.frames = frames;
         this.scale = scale;
         this.tint = tint;
         this.position = position;
@@ -50,6 +53,7 @@ public class MenuBackgroundObject {
         this.origin = origin;
         this.angle = angle;
         this.body = body;
+        this.animationTime = 0.0f;
     }
 
     public void setParamsFromBody() {
@@ -58,12 +62,13 @@ public class MenuBackgroundObject {
         angle = body.getAngle() * MathUtils.radDeg;
     }
 
-    public void update() {
+    public void update(float delta) {
+        this.animationTime += delta;
         setParamsFromBody();
     }
 
     public void draw(UiDrawer drawer) {
-        drawer.draw(texture, scale, scale, origin.x, origin.y, position.x, position.y, angle, tint);
+        drawer.draw(frames.getKeyFrame(animationTime, true), scale, scale, origin.x, origin.y, position.x, position.y, angle, tint);
     }
 
     public Vector2 getPosition() {

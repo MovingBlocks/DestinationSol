@@ -15,6 +15,8 @@
  */
 package org.destinationsol.ui.nui.screens.mainMenu;
 
+import com.badlogic.gdx.graphics.g2d.Animation;
+import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import org.destinationsol.SolApplication;
 import org.destinationsol.assets.Assets;
 import org.destinationsol.assets.json.Json;
@@ -25,23 +27,23 @@ import org.destinationsol.modules.ModuleManager;
 import org.destinationsol.ui.nui.NUIManager;
 import org.destinationsol.ui.nui.NUIScreenLayer;
 import org.destinationsol.ui.nui.widgets.KeyActivatedButton;
+import org.destinationsol.ui.nui.widgets.UIAnimatedImage;
 import org.json.JSONObject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.terasology.gestalt.assets.ResourceUrn;
 import org.terasology.gestalt.module.Module;
 import org.terasology.gestalt.naming.Name;
+import org.terasology.joml.geom.Rectanglei;
 import org.terasology.nui.Canvas;
 import org.terasology.nui.UITextureRegion;
 import org.terasology.nui.backends.libgdx.GDXInputUtil;
 import org.terasology.nui.widgets.UIButton;
-import org.terasology.nui.widgets.UIImage;
 
 import javax.inject.Inject;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
-import java.util.Optional;
 import java.util.Set;
 
 public class NewShipScreen extends NUIScreenLayer {
@@ -50,7 +52,7 @@ public class NewShipScreen extends NUIScreenLayer {
     private final ModuleManager moduleManager;
     private int playerSpawnConfigIndex = 0;
     private List<String> playerSpawnConfigNames = new ArrayList<>();
-    private List<UITextureRegion> playerSpawnConfigTextures = new ArrayList<>();
+    private List<ShipSpriteData> playerSpawnConfigTextures = new ArrayList<>();
     private WorldConfig worldConfig;
 
     @Inject
@@ -82,7 +84,14 @@ public class NewShipScreen extends NUIScreenLayer {
             for (String spawnConfigName : playerSpawnConfigs.keySet()) {
                 JSONObject playerSpawnConfig = playerSpawnConfigs.getJSONObject(spawnConfigName);
                 try {
-                    playerSpawnConfigTextures.add(Assets.getDSTexture(playerSpawnConfig.getString("hull")).getUiTexture());
+                    String shipHullName = playerSpawnConfig.getString("hull");
+                    Animation<TextureAtlas.AtlasRegion> shipAnimation = Assets.getAnimation(shipHullName);
+                    UITextureRegion shipAnimationTextureRegion = Assets.getDSTexture(shipHullName).getUiTexture();
+                    List<Rectanglei> frames = new ArrayList<>();
+                    for (TextureAtlas.AtlasRegion frame : shipAnimation.getKeyFrames()) {
+                        frames.add(new Rectanglei(frame.getRegionX(), frame.getRegionY() - frame.getRegionHeight(), frame.getRegionX() + frame.getRegionWidth(), frame.getRegionY()));
+                    }
+                    playerSpawnConfigTextures.add(new ShipSpriteData(shipAnimationTextureRegion, shipAnimation.getFrameDuration(), frames));
                 } catch (RuntimeException e) {
                     logger.error("Failed to load ship texture!", e);
                     // Null values will not render any texture.
@@ -91,15 +100,19 @@ public class NewShipScreen extends NUIScreenLayer {
             }
         }
 
-        UIImage shipPreviewImage = find("shipPreviewImage", UIImage.class);
-        shipPreviewImage.setImage(playerSpawnConfigTextures.get(playerSpawnConfigIndex));
+        UIAnimatedImage shipPreviewImage = find("shipPreviewImage", UIAnimatedImage.class);
+        shipPreviewImage.setSpritesheet(playerSpawnConfigTextures.get(playerSpawnConfigIndex).texture);
+        shipPreviewImage.setFrameDuration(playerSpawnConfigTextures.get(playerSpawnConfigIndex).frameDuration);
+        shipPreviewImage.setFrames(playerSpawnConfigTextures.get(playerSpawnConfigIndex).frames);
 
         UIButton startingShipButton = find("startingShipButton", UIButton.class);
         startingShipButton.setText("Starting Ship: " + playerSpawnConfigNames.get(playerSpawnConfigIndex));
         startingShipButton.subscribe(button -> {
             playerSpawnConfigIndex = (playerSpawnConfigIndex + 1) % playerSpawnConfigNames.size();
             ((UIButton)button).setText("Starting Ship: " + playerSpawnConfigNames.get(playerSpawnConfigIndex));
-            shipPreviewImage.setImage(playerSpawnConfigTextures.get(playerSpawnConfigIndex));
+            shipPreviewImage.setSpritesheet(playerSpawnConfigTextures.get(playerSpawnConfigIndex).texture);
+            shipPreviewImage.setFrameDuration(playerSpawnConfigTextures.get(playerSpawnConfigIndex).frameDuration);
+            shipPreviewImage.setFrames(playerSpawnConfigTextures.get(playerSpawnConfigIndex).frames);
         });
 
         UIButton modulesButton = find("modulesButton", UIButton.class);
@@ -150,7 +163,7 @@ public class NewShipScreen extends NUIScreenLayer {
     @Override
     public void update(float delta) {
         super.update(delta);
-        solApplication.getMenuBackgroundManager().update();
+        solApplication.getMenuBackgroundManager().update(delta);
     }
 
     @Override
@@ -165,5 +178,17 @@ public class NewShipScreen extends NUIScreenLayer {
     @Override
     protected boolean escapeCloses() {
         return false;
+    }
+
+    private static class ShipSpriteData {
+        public final float frameDuration;
+        public final List<Rectanglei> frames;
+        public final UITextureRegion texture;
+
+        public ShipSpriteData(UITextureRegion texture, float frameDuration, List<Rectanglei> frames) {
+            this.texture = texture;
+            this.frameDuration = frameDuration;
+            this.frames = frames;
+        }
     }
 }

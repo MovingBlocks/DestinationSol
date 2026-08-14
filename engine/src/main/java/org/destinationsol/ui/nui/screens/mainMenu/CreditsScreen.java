@@ -182,7 +182,7 @@ public class CreditsScreen extends NUIScreenLayer {
         textColor.setAlpha(Math.clamp(0.0f, 1.0f, alpha));
         textSkin.getDefaultStyleFor(creditsText.getFamily()).setTextColor(textColor);
 
-        solApplication.getMenuBackgroundManager().update();
+        solApplication.getMenuBackgroundManager().update(delta);
     }
 
     @Override
