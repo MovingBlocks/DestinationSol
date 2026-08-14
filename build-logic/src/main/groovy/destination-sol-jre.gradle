@@ -39,7 +39,7 @@ jreUrlFilenames.each { os, file ->
         description "Downloads JRE for $os"
 
         def packedJre = new File("$rootDir/jre/$jreVersion/$file")
-        def unpackedJre = base.distsDirectory.dir('app/$os').get().asFile
+        def unpackedJre = base.distsDirectory.dir("app/$os").get().asFile
 
         doFirst {
             download.run {
