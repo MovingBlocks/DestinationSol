@@ -157,7 +157,10 @@ public class RubbleCreationSystem implements EventReceiver {
             }
 
             SolMath.free(velocity);
-            entityRef.setComponent(new BodyLinked());
+            BodyLinked bodyLinked = new BodyLinked();
+            bodyLinked.setJsonSchemaFileName("engine:schemaCollisionMesh");
+            bodyLinked.setJsonPath("engine:miscCollisionMeshes");
+            entityRef.setComponent(bodyLinked);
         }
     }
 }
