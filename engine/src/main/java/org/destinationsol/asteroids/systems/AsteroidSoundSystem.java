@@ -17,7 +17,6 @@ package org.destinationsol.asteroids.systems;
 
 import org.destinationsol.assets.sound.SpecialSounds;
 import org.destinationsol.asteroids.components.AsteroidMesh;
-import org.destinationsol.common.In;
 import org.destinationsol.common.SolMath;
 import org.destinationsol.entitysystem.EntitySystemManager;
 import org.destinationsol.entitysystem.EventReceiver;
@@ -31,16 +30,23 @@ import org.terasology.gestalt.entitysystem.event.Before;
 import org.terasology.gestalt.entitysystem.event.EventResult;
 import org.terasology.gestalt.entitysystem.event.ReceiveEvent;
 
+import javax.inject.Inject;
+
 /**
  * This system plays asteroid-specific sounds.
  */
 public class AsteroidSoundSystem implements EventReceiver {
 
-    @In
-    private EntitySystemManager entitySystemManager;
+    @Inject
+    EntitySystemManager entitySystemManager;
 
-    @In
-    private SpecialSounds specialSounds;
+    @Inject
+    SpecialSounds specialSounds;
+
+    @Inject
+    public AsteroidSoundSystem() {
+
+    }
 
     /**
      * When an asteroid is destroyed, this plays the asteroid destruction sound.

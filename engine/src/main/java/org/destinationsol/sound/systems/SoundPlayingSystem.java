@@ -16,11 +16,8 @@
 package org.destinationsol.sound.systems;
 
 import com.badlogic.gdx.math.Vector2;
-import org.destinationsol.Const;
 import org.destinationsol.assets.sound.OggSoundManager;
-import org.destinationsol.assets.sound.PlayableSound;
 import org.destinationsol.assets.sound.SpecialSounds;
-import org.destinationsol.common.In;
 import org.destinationsol.entitysystem.EventReceiver;
 import org.destinationsol.force.events.ImpulseEvent;
 import org.destinationsol.game.DmgType;
@@ -34,19 +31,29 @@ import org.terasology.gestalt.entitysystem.entity.EntityRef;
 import org.terasology.gestalt.entitysystem.event.EventResult;
 import org.terasology.gestalt.entitysystem.event.ReceiveEvent;
 
+import javax.inject.Inject;
+
 /**
  * This system plays sounds emitting from entities with a {@link Position} component, using the {@link OggSoundManager}.
+ * <p>
+ * Hit and collision sounds are selected and played by {@link SpecialSounds}, which is also what the non-entity
+ * ({@link org.destinationsol.game.SolObject}) code path uses, so that both paths stay in step.
  */
 public class SoundPlayingSystem implements EventReceiver {
 
-    @In
-    private SolGame game;
+    @Inject
+    SolGame game;
 
-    @In
-    private OggSoundManager soundManager;
+    @Inject
+    OggSoundManager soundManager;
 
-    @In
-    private SpecialSounds specialSounds;
+    @Inject
+    SpecialSounds specialSounds;
+
+    @Inject
+    public SoundPlayingSystem() {
+
+    }
 
     /**
      * Plays a given sound emitting from an entity, at that entity's {@link Position}.
@@ -54,42 +61,32 @@ public class SoundPlayingSystem implements EventReceiver {
     @ReceiveEvent(components = Position.class)
     public EventResult playSound(SoundEvent event, EntityRef entity) {
         Vector2 position = entity.getComponent(Position.class).get().position;
-        soundManager.play(game, event.playableSound, position, entity, event.volumeMultplier);
+        soundManager.play(game, event.playableSound, position, entity, event.volumeMultiplier);
         return EventResult.CONTINUE;
     }
 
     /**
      * When an entity takes damage, this plays a sound based on the type of damage taken and the type of material that
      * the entity is. No sound will be played if there is no defined sound for the {@link DmgType}/{@link MaterialType}
-     * combination, or if either the {@link DmgType} or {@link MaterialType} is null.
+     * combination, or if either the {@link DmgType} or {@link MaterialType} is unknown.
      */
     @ReceiveEvent(components = {Position.class, Material.class})
     public EventResult playDamageSound(DamageEvent event, EntityRef entity) {
         MaterialType materialType = entity.getComponent(Material.class).get().materialType;
-        PlayableSound sound = specialSounds.getHitSound(materialType, event.getDamageType());
-        if (sound != null) {
-            Vector2 position = entity.getComponent(Position.class).get().position;
-            soundManager.play(game, sound, position, entity);
-        }
+        Vector2 position = entity.getComponent(Position.class).get().position;
+        specialSounds.playHit(game, entity, position, event.getDamageType().orElse(null), materialType);
         return EventResult.CONTINUE;
     }
 
     /**
      * When an entity experiences a collision, this plays a sound based on the type of material that the entity is. No
-     * sound will be played if there is no defined collision sound for the {@link MaterialType}, or if the
-     * {@link MaterialType} is null.
+     * sound will be played if there is no defined collision sound for the {@link MaterialType}, if the
+     * {@link MaterialType} is unknown, or if the collision was too gentle to be heard.
      */
     @ReceiveEvent(components = {Position.class, Material.class})
     public EventResult playCollisionSound(ImpulseEvent event, EntityRef entity) {
-        float magnitude = event.getMagnitude();
-        if (magnitude >= .1f) {
-            Vector2 position = entity.getComponent(Position.class).get().position;
-            MaterialType materialType = entity.getComponent(Material.class).get().materialType;
-            PlayableSound collisionSound = specialSounds.getCollisionSound(materialType);
-            if (collisionSound != null) {
-                soundManager.play(game, collisionSound, position, entity, magnitude * Const.IMPULSE_TO_COLL_VOL);
-            }
-        }
+        MaterialType materialType = entity.getComponent(Material.class).get().materialType;
+        specialSounds.playColl(game, event.getMagnitude(), entity, event.getContactPosition(), materialType);
         return EventResult.CONTINUE;
     }
 }

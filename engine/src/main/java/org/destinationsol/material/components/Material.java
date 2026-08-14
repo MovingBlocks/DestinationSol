@@ -26,7 +26,7 @@ public class Material implements Component<Material> {
     public MaterialType materialType;
 
     @Override
-    public void copy(Material other) {
+    public void copyFrom(Material other) {
         this.materialType = other.materialType;
     }
 }

@@ -182,33 +182,15 @@ public class OggSoundManager implements UpdateAwareSystem {
             position = source.getPosition();
         }
 
-        float volume = getVolume(game, position, volumeMultiplier, sound, game.getCam());
-
-        if (volume <= 0) {
-            return;
-        }
-
-        // Calculate the pitch for the sound
-        float pitch = SolRandom.randomFloat(.97f, 1.03f) * game.getTimeFactor() * playableSound.getBasePitch();
-
-        if (skipLooped(source, sound, game.getTime())) {
-            return;
-        }
-
-        if (DebugOptions.SOUND_INFO) {
+        if (play(game, sound, playableSound.getBasePitch(), position, volumeMultiplier, loopedSoundMapOfSolObjects, source)
+                && DebugOptions.SOUND_INFO) {
             debugHintDrawer.add(source, position, sound.toString());
         }
-
-        Sound gdxSound = sound.getSound();
-        gdxSound.play(volume, pitch, 0);
     }
 
     /**
      * Plays a sound at a particular position. If the sound has an associated loop, this will loop the sound, coming
      * from the entity.
-     * <p>
-     * {@code source} must not be null if the sound is specified to loop, and at least one of {@code source} or
-     * {@code position} must be specified.
      *
      * @param game          Game to play the sound in
      * @param playableSound The sound to play
@@ -230,7 +212,6 @@ public class OggSoundManager implements UpdateAwareSystem {
      * @param volumeMultiplier Multiplier for sound volume
      */
     public void play(SolGame game, PlayableSound playableSound, @NotNull Vector2 position, @NotNull EntityRef soundSource, float volumeMultiplier) {
-
         if (playableSound == null) {
             return;
         }
@@ -240,24 +221,48 @@ public class OggSoundManager implements UpdateAwareSystem {
 
         OggSound sound = playableSound.getOggSound();
 
-        float volume = getVolume(game, position, volumeMultiplier, sound);
+        if (play(game, sound, playableSound.getBasePitch(), position, volumeMultiplier, loopedSoundMapOfEntities, soundSource)
+                && DebugOptions.SOUND_INFO) {
+            debugHintDrawer.add(soundSource, position, sound.toString());
+        }
+    }
+
+    /**
+     * The shared body of the public {@code play} overloads. Everything about playing a sound is identical between a
+     * {@link SolObject} source and an {@link EntityRef} source, except for which map the loop bookkeeping lives in -
+     * so the caller supplies that map along with the key to use within it.
+     * <p>
+     * The already-resolved {@link OggSound} is taken rather than a {@link PlayableSound}, because a
+     * {@link PlayableSound} may pick a different sound on every call (see {@link OggSoundSet}) and so must only be
+     * resolved once per playback.
+     *
+     * @param game             Game to play the sound in.
+     * @param sound            The sound to play.
+     * @param basePitch        The base pitch of the {@link PlayableSound} the sound was resolved from.
+     * @param position         Position to play the sound at. Must not be null.
+     * @param volumeMultiplier Multiplier for sound volume.
+     * @param loopedSounds     The loop bookkeeping map appropriate for {@code source}.
+     * @param source           Bearer of the sound, used as the key into {@code loopedSounds}.
+     * @param <T>              The type of the sound's bearer.
+     * @return true if the sound was played, false if it was inaudible or suppressed by its loop.
+     */
+    private <T> boolean play(SolGame game, OggSound sound, float basePitch, Vector2 position, float volumeMultiplier,
+                             Map<T, Map<OggSound, Float>> loopedSounds, @Nullable T source) {
+        float volume = getVolume(game, position, volumeMultiplier, sound, game.getCam());
         if (volume <= 0) {
-            return;
+            return false;
         }
 
         // Calculate the pitch for the sound
-        float pitch = SolRandom.randomFloat(.97f, 1.03f) * game.getTimeFactor() * playableSound.getBasePitch();
+        float pitch = SolRandom.randomFloat(.97f, 1.03f) * game.getTimeFactor() * basePitch;
 
-        if (skipLooped(soundSource, sound, game.getTime())) {
-            return;
-        }
-
-        if (DebugOptions.SOUND_INFO) {
-            debugHintDrawer.add(soundSource, position, sound.toString());
+        if (skipLooped(loopedSounds, source, sound, game.getTime())) {
+            return false;
         }
 
         Sound gdxSound = sound.getSound();
         gdxSound.play(volume, pitch, 0);
+        return true;
     }
 
     /**
@@ -304,53 +309,22 @@ public class OggSoundManager implements UpdateAwareSystem {
      * since it was last played on the object.
      * TODO: now handles even adding the sound to the list of looping sounds. Possibly extract that?
      *
-     * @param source Object playing this sound.
-     * @param sound  Sound to be played.
-     * @param time   Game's current time.
+     * @param loopedSounds The loop bookkeeping map appropriate for {@code source}.
+     * @param source       Object or entity playing this sound.
+     * @param sound        Sound to be played.
+     * @param time         Game's current time.
+     * @param <T>          The type of the sound's bearer.
      * @return true when sound should not be played because of loop, false otherwise.
      */
-    private boolean skipLooped(SolObject source, OggSound sound, float time) {
+    private <T> boolean skipLooped(Map<T, Map<OggSound, Float>> loopedSounds, T source, OggSound sound, float time) {
         if (sound.getLoopTime() == 0) {
             return false;
         }
 
-        Map<OggSound, Float> looped = loopedSoundMapOfSolObjects.get(source);
+        Map<OggSound, Float> looped = loopedSounds.get(source);
         if (looped == null) {
             looped = new HashMap<>();
-            loopedSoundMapOfSolObjects.put(source, looped);
-            return false;
-        } else {
-            Float endTime = looped.get(sound);
-            if (endTime == null || endTime <= time) {
-                looped.put(sound, time + sound.getLoopTime()); // argh, performance loss
-                return false;
-            } else {
-                return true;
-            }
-        }
-    }
-
-    /**
-     * Returns true when sound should not be played because of loop, false otherwise.
-     * <p>
-     * Sound should not be played when its {@code loopTime > 0} and {@code loopTime} time units have not yet passed
-     * since it was last played on the object.
-     * TODO: now handles even adding the sound to the list of looping sounds. Possibly extract that?
-     *
-     * @param source Object playing this sound.
-     * @param sound  Sound to be played.
-     * @param time   Game's current time.
-     * @return true when sound should not be played because of loop, false otherwise.
-     */
-    private boolean skipLooped(EntityRef source, OggSound sound, float time) {
-        if (sound.getLoopTime() == 0) {
-            return false;
-        }
-
-        Map<OggSound, Float> looped = loopedSoundMapOfEntities.get(source);
-        if (looped == null) {
-            looped = new HashMap<>();
-            loopedSoundMapOfEntities.put(source, looped);
+            loopedSounds.put(source, looped);
             return false;
         } else {
             Float endTime = looped.get(sound);

@@ -24,10 +24,10 @@ import org.terasology.gestalt.entitysystem.event.Event;
 public class SoundEvent implements Event {
 
     public final PlayableSound playableSound;
-    public final float volumeMultplier;
+    public final float volumeMultiplier;
 
-    public SoundEvent(PlayableSound playableSound, float volumeMultplier) {
+    public SoundEvent(PlayableSound playableSound, float volumeMultiplier) {
         this.playableSound = playableSound;
-        this.volumeMultplier = volumeMultplier;
+        this.volumeMultiplier = volumeMultiplier;
     }
 }

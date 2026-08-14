@@ -17,15 +17,23 @@ package org.destinationsol.assets.sound;
 
 import com.badlogic.gdx.math.Vector2;
 import org.destinationsol.Const;
+import org.destinationsol.common.Nullable;
 import org.destinationsol.game.DmgType;
 import org.destinationsol.game.SolGame;
 import org.destinationsol.game.SolObject;
 import org.destinationsol.material.MaterialType;
+import org.terasology.gestalt.entitysystem.entity.EntityRef;
 
 import javax.inject.Inject;
 import java.util.Arrays;
+import java.util.Optional;
 
 public class SpecialSounds {
+
+    /**
+     * Collisions gentler than this do not make a sound.
+     */
+    private static final float MIN_COLLISION_IMPULSE = .1f;
 
     public final PlayableSound metalColl;
     public final PlayableSound metalEnergyHit;
@@ -74,83 +82,109 @@ public class SpecialSounds {
         transcendentMove = new OggSoundSet(soundManager, Arrays.asList("core:transcendentMove", "core:transcendentMove2", "core:transcendentMove3", "core:transcendentMove4"));
     }
 
-    public PlayableSound hitSound(boolean forMetal, DmgType dmgType) {
+    /**
+     * The sound made when something of the given material is hit by the given kind of damage.
+     * <p>
+     * This is the single place where hit sounds are selected: both the {@link SolObject} and the entity code paths
+     * resolve their sound through it.
+     *
+     * @param materialType the material of the thing being hit, or null if it is not made of a known material
+     * @param dmgType      the kind of damage being dealt, or null if it is not known
+     * @return the sound to play, or empty if no sound is defined for that combination
+     */
+    public Optional<PlayableSound> hitSound(@Nullable MaterialType materialType, @Nullable DmgType dmgType) {
+        if (materialType == null || dmgType == null) {
+            return Optional.empty();
+        }
+        boolean metal = materialType == MaterialType.METAL;
         if (dmgType == DmgType.ENERGY) {
-            return forMetal ? metalEnergyHit : rockEnergyHit;
+            return Optional.of(metal ? metalEnergyHit : rockEnergyHit);
         }
         if (dmgType == DmgType.BULLET) {
-            return forMetal ? metalBulletHit : rockBulletHit;
+            return Optional.of(metal ? metalBulletHit : rockBulletHit);
         }
-        return null;
+        return Optional.empty();
+    }
+
+    /**
+     * The sound made when something of the given material collides with something else.
+     * <p>
+     * This is the single place where collision sounds are selected: both the {@link SolObject} and the entity code
+     * paths resolve their sound through it.
+     *
+     * @param materialType the material of the colliding thing, or null if it is not made of a known material
+     * @return the sound to play, or empty if no sound is defined for that material
+     */
+    public Optional<PlayableSound> collisionSound(@Nullable MaterialType materialType) {
+        if (materialType == null) {
+            return Optional.empty();
+        }
+        return Optional.of(materialType == MaterialType.METAL ? metalColl : rockColl);
     }
 
     public void playHit(SolGame game, SolObject o, Vector2 position, DmgType dmgType) {
         if (o == null) {
             return;
         }
-        Boolean metal = o.isMetal();
-        if (metal == null) {
-            return;
-        }
-        PlayableSound sound = hitSound(metal, dmgType);
-        if (sound == null) {
-            return;
-        }
-        game.getSoundManager().play(game, sound, position, o);
+        hitSound(materialTypeOf(o), dmgType)
+                .ifPresent(sound -> game.getSoundManager().play(game, sound, position, o));
+    }
+
+    /**
+     * The entity-based counterpart of {@link #playHit(SolGame, SolObject, Vector2, DmgType)}. An entity carries its
+     * material as a component rather than through {@link SolObject#isMetal()}, and its position is not derivable from
+     * the sound's bearer, so both are passed in; sound selection is shared.
+     *
+     * @param game         Game to play the sound in.
+     * @param entity       The entity that was hit; the sound is attached to it for looping and debug purposes.
+     * @param position     Where the hit happened.
+     * @param dmgType      The kind of damage dealt.
+     * @param materialType The material the entity is made of.
+     */
+    public void playHit(SolGame game, EntityRef entity, Vector2 position, @Nullable DmgType dmgType, @Nullable MaterialType materialType) {
+        hitSound(materialType, dmgType)
+                .ifPresent(sound -> game.getSoundManager().play(game, sound, position, entity));
     }
 
     public void playColl(SolGame game, float absImpulse, SolObject o, Vector2 position) {
-        if (o == null || absImpulse < .1f) {
+        if (o == null || absImpulse < MIN_COLLISION_IMPULSE) {
             return;
         }
-        Boolean metal = o.isMetal();
+        collisionSound(materialTypeOf(o))
+                .ifPresent(sound -> game.getSoundManager().play(game, sound, position, o, absImpulse * Const.IMPULSE_TO_COLL_VOL));
+    }
+
+    /**
+     * The entity-based counterpart of {@link #playColl(SolGame, float, SolObject, Vector2)}. See
+     * {@link #playHit(SolGame, EntityRef, Vector2, DmgType, MaterialType)} for why the material and position are
+     * passed in rather than read off the sound's bearer.
+     *
+     * @param game         Game to play the sound in.
+     * @param absImpulse   The magnitude of the impulse of the collision.
+     * @param entity       The entity that collided; the sound is attached to it for looping and debug purposes.
+     * @param position     Where the collision happened.
+     * @param materialType The material the entity is made of.
+     */
+    public void playColl(SolGame game, float absImpulse, EntityRef entity, Vector2 position, @Nullable MaterialType materialType) {
+        if (absImpulse < MIN_COLLISION_IMPULSE) {
+            return;
+        }
+        collisionSound(materialType)
+                .ifPresent(sound -> game.getSoundManager().play(game, sound, position, entity, absImpulse * Const.IMPULSE_TO_COLL_VOL));
+    }
+
+    /**
+     * Bridges the {@link SolObject} representation of a material - a nullable {@link Boolean} "is it metal?" - to the
+     * {@link MaterialType} used by entities.
+     *
+     * @return the object's material, or null if the object does not declare one
+     */
+    @Nullable
+    private static MaterialType materialTypeOf(SolObject solObject) {
+        Boolean metal = solObject.isMetal();
         if (metal == null) {
-            return;
+            return null;
         }
-        game.getSoundManager().play(game, metal ? metalColl : rockColl, position, o, absImpulse * Const.IMPULSE_TO_COLL_VOL);
-    }
-
-    /**
-     * Gets the damage sound associated with the given {@link MaterialType} and {@link DmgType}. If no sound is defined,
-     * null is returned.
-     *
-     * @param materialType the material type of the damaged entity
-     * @param damageType   the type of damage done
-     * @return the sound of the damage
-     */
-    public PlayableSound getHitSound(MaterialType materialType, DmgType damageType) {
-        if (damageType == DmgType.ENERGY) {
-            if (materialType == MaterialType.METAL) {
-                return metalEnergyHit;
-            }
-            if (materialType == MaterialType.ROCK) {
-                return rockEnergyHit;
-            }
-        }
-        if (damageType == DmgType.BULLET) {
-            if (materialType == MaterialType.METAL) {
-                return metalBulletHit;
-            }
-            if (materialType == MaterialType.ROCK) {
-                return rockBulletHit;
-            }
-        }
-        return null;
-    }
-
-    /**
-     * Gets the collision sound associated with the given {@link MaterialType}. If no sound is defined, null is returned.
-     *
-     * @param materialType the material type of the entity
-     * @return the sound of the collision
-     */
-    public PlayableSound getCollisionSound(MaterialType materialType) {
-        if (materialType == MaterialType.METAL) {
-            return metalColl;
-        }
-        if (materialType == MaterialType.ROCK) {
-            return rockColl;
-        }
-        return null;
+        return metal ? MaterialType.METAL : MaterialType.ROCK;
     }
 }

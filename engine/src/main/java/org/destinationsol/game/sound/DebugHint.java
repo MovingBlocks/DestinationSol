@@ -39,11 +39,28 @@ public class DebugHint {
 
     private EntityRef entity;
 
-    public DebugHint(SolObject owner, EntityRef entity, Vector2 position) {
-        myOwner = owner;
-        this.entity = entity;
+    /**
+     * A hint pinned to a fixed position, belonging to nothing in particular.
+     */
+    public DebugHint(Vector2 position) {
         this.position = new Vector2(position);
         myMsgs = new HashMap<>();
+    }
+
+    /**
+     * A hint that follows a {@link SolObject}, and disappears when that object does.
+     */
+    public DebugHint(SolObject owner, Vector2 position) {
+        this(position);
+        myOwner = owner;
+    }
+
+    /**
+     * A hint that follows an entity, and disappears when that entity does.
+     */
+    public DebugHint(EntityRef entity, Vector2 position) {
+        this(position);
+        this.entity = entity;
     }
 
     public void add(String value) {

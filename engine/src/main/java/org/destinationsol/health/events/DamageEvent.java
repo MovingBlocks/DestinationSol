@@ -18,16 +18,22 @@ package org.destinationsol.health.events;
 import org.destinationsol.game.DmgType;
 import org.terasology.gestalt.entitysystem.event.Event;
 
+import java.util.Optional;
+
 /**
  * Event that contains information about the damage an entity receives.
  */
 public class DamageEvent implements Event {
 
-    private float damage;
-    private DmgType damageType;
+    private final float damage;
+    private final DmgType damageType;
 
+    /**
+     * Damage of no particular kind. Use {@link #DamageEvent(float, DmgType)} where the kind of damage is known, so
+     * that systems which care about it (such as sound) can react to it.
+     */
     public DamageEvent(float damage) {
-        this.damage = damage;
+        this(damage, null);
     }
 
     public DamageEvent(float damage, DmgType damageType) {
@@ -39,7 +45,10 @@ public class DamageEvent implements Event {
         return damage;
     }
 
-    public DmgType getDamageType() {
-        return damageType;
+    /**
+     * The kind of damage dealt, if the source of the damage specified one.
+     */
+    public Optional<DmgType> getDamageType() {
+        return Optional.ofNullable(damageType);
     }
 }

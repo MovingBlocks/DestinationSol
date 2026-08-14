@@ -41,16 +41,15 @@ public class DebugHintDrawer {
     public void add(@Nullable SolObject owner, Vector2 position, String value) {
         DebugHint dh;
         if (owner == null) {
-            dh = freeNotes.computeIfAbsent(position, p -> new DebugHint(null, null, p));
+            dh = freeNotes.computeIfAbsent(position, DebugHint::new);
         } else {
-            dh = tracedSolObjectNotes.computeIfAbsent(owner, o -> new DebugHint(o, null, o.getPosition()));
+            dh = tracedSolObjectNotes.computeIfAbsent(owner, o -> new DebugHint(o, o.getPosition()));
         }
         dh.add(value);
     }
 
     public void add(EntityRef entity, Vector2 position, String value) {
-        DebugHint debugHint;
-        debugHint = tracedEntityNotes.computeIfAbsent(entity, entityRef -> new DebugHint(null, entityRef, position));
+        DebugHint debugHint = tracedEntityNotes.computeIfAbsent(entity, entityRef -> new DebugHint(entityRef, position));
         debugHint.add(value);
     }
 
