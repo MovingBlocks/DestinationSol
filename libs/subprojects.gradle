@@ -5,9 +5,11 @@
 // https://docs.gradle.org/6.4.1/userguide/composite_builds.html
 file(".").eachDir { possibleIncludedBuildDirectory ->
     File buildFile = new File(possibleIncludedBuildDirectory, "build.gradle")
+    File buildFileKts = new File(possibleIncludedBuildDirectory, "build.gradle.kts")
     File settingsFile = new File(possibleIncludedBuildDirectory, "settings.gradle")
+    File settingsFileKts = new File(possibleIncludedBuildDirectory, "settings.gradle.kts")
 
-    if (buildFile.exists() && settingsFile.exists()) {
+    if ((buildFile.exists() || buildFileKts.exists()) && (settingsFile.exists() || settingsFileKts.exists())) {
         logger.info("{} will be included in the composite build.",
             rootDir.relativePath(possibleIncludedBuildDirectory))
         includeBuild(possibleIncludedBuildDirectory)

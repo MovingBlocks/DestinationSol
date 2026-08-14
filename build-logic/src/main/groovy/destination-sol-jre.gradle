@@ -34,12 +34,12 @@ tasks.register('downloadJreAll') {
 }
 
 jreUrlFilenames.each { os, file ->
-    def packedJre = new File("$rootDir/jre/$jreVersion/$file")
-    def unpackedJre = new File("${distsDirectory.getAsFile().get()}/app/$os")
-
     def downloadTask = tasks.register("downloadJre$os") {
         group 'Download'
         description "Downloads JRE for $os"
+
+        def packedJre = new File("$rootDir/jre/$jreVersion/$file")
+        def unpackedJre = base.distsDirectory.dir("app/$os").get().asFile
 
         doFirst {
             download.run {
