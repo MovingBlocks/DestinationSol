@@ -36,7 +36,6 @@ import org.destinationsol.removal.systems.DestructionSystem;
 import org.destinationsol.rendering.RenderableElement;
 import org.destinationsol.rendering.components.Renderable;
 import org.destinationsol.rubble.components.CreatesRubbleOnDestruction;
-import org.destinationsol.rubble.components.RubbleMesh;
 import org.destinationsol.size.components.Size;
 import org.destinationsol.stasis.components.Stasis;
 import org.terasology.gestalt.entitysystem.entity.EntityRef;
@@ -57,6 +56,8 @@ public class RubbleCreationSystem implements EventReceiver {
     public static final float MIN_SCALE = .1f;
     public static final float MAX_SCALE = .3f;
     private static final float MAX_SPD = 40f;
+    /** The density used for the collision meshes of rubble pieces. */
+    private static final float DENSITY = 3f;
 
     @Inject
     protected RubbleBuilder rubbleBuilder;
@@ -123,6 +124,7 @@ public class RubbleCreationSystem implements EventReceiver {
 
             element.relativePosition = new Vector2();
             element.tint = Color.WHITE;
+            element.density = DENSITY;
             Renderable graphicsComponent = new Renderable();
             graphicsComponent.elements.add(element);
 
@@ -149,7 +151,7 @@ public class RubbleCreationSystem implements EventReceiver {
             velocityComponent.velocity = velocity;
 
             EntityRef entityRef = entitySystemManager.getEntityManager().createEntity(graphicsComponent, positionComponent,
-                    sizeComponent, angle, velocityComponent, new RubbleMesh(), health);
+                    sizeComponent, angle, velocityComponent, health);
 
             if (scaledSize > MIN_DIVISIBLE_SIZE) {
                 entityRef.setComponent(new CreatesRubbleOnDestruction());

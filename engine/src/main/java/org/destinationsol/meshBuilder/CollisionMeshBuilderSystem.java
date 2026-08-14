@@ -17,16 +17,20 @@ package org.destinationsol.meshBuilder;
 
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
-import com.badlogic.gdx.physics.box2d.*;
+import com.badlogic.gdx.physics.box2d.Body;
+import com.badlogic.gdx.physics.box2d.BodyDef;
+import com.badlogic.gdx.physics.box2d.CircleShape;
+import com.badlogic.gdx.physics.box2d.FixtureDef;
+import com.badlogic.gdx.physics.box2d.PolygonShape;
 import org.destinationsol.Const;
 import org.destinationsol.assets.json.Validator;
 import org.destinationsol.body.components.BodyLinked;
 import org.destinationsol.body.events.BodyCreatedEvent;
 import org.destinationsol.body.events.GenerateBodyEvent;
-import org.destinationsol.common.In;
 import org.destinationsol.entitysystem.EntitySystemManager;
 import org.destinationsol.entitysystem.EventReceiver;
 import org.destinationsol.game.CollisionMeshLoader;
+import org.destinationsol.game.ObjectManager;
 import org.destinationsol.game.UpdateAwareSystem;
 import org.destinationsol.location.components.Angle;
 import org.destinationsol.location.components.Position;
@@ -39,6 +43,7 @@ import org.terasology.gestalt.entitysystem.entity.EntityRef;
 import org.terasology.gestalt.entitysystem.event.EventResult;
 import org.terasology.gestalt.entitysystem.event.ReceiveEvent;
 
+import javax.inject.Inject;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -56,17 +61,21 @@ public class CollisionMeshBuilderSystem implements EventReceiver {
 
     private HashMap<String, CollisionMeshLoader.Model> storedData = new HashMap<>();
 
-    @In
-    private World world;
+    @Inject
+    protected ObjectManager objectManager;
 
-    @In
-    private EntitySystemManager entitySystemManager;
+    @Inject
+    protected EntitySystemManager entitySystemManager;
 
     // Reusable objects, used for constructing Body instances
     private final List<Vector2> vectorPool = new ArrayList<>();
     Vector2 reusableVector = new Vector2();
     private final PolygonShape reusablePolygonShape = new PolygonShape();
     private final CircleShape reusableCircleShape = new CircleShape();
+
+    @Inject
+    public CollisionMeshBuilderSystem() {
+    }
 
     @ReceiveEvent(components = {BodyLinked.class, Size.class, Position.class, Angle.class, Renderable.class})
     public EventResult onGenerateBodyEvent(GenerateBodyEvent event, EntityRef entity) {
@@ -94,22 +103,24 @@ public class CollisionMeshBuilderSystem implements EventReceiver {
     private void loadDataFromFile(BodyLinked bodyLinkedComponent, String jsonPath) {
         String schemaFileName = bodyLinkedComponent.getJsonSchemaFileName();
 
+        CollisionMeshLoader.Model model = storedData.computeIfAbsent(jsonPath, path -> new CollisionMeshLoader.Model());
+
         if (schemaFileName.equals("engine:schemaCollisionMesh")) {
             JSONObject rootNode = Validator.getValidatedJSON(jsonPath, schemaFileName);
             JSONArray rbNode = rootNode.getJSONArray("rigidBodies");
             for (int i = 0; i < rbNode.length(); i++) {
                 JSONObject jsonObject = rbNode.getJSONObject(i);
-                readIndividualMeshData(jsonObject, jsonPath, jsonObject.getString("name"));
+                readIndividualMeshData(jsonObject, model, jsonObject.getString("name"));
             }
         } else {
-            readIndividualMeshData(Validator.getValidatedJSON(jsonPath, schemaFileName), jsonPath, jsonPath);
+            readIndividualMeshData(Validator.getValidatedJSON(jsonPath, schemaFileName), model, jsonPath);
         }
     }
 
     /**
-     * This reads a particular collision mesh's data from a given file, and stores it in a model.
+     * This reads a particular collision mesh's data from a given file, and adds it to the given model.
      */
-    private void readIndividualMeshData(JSONObject rbNode, String jsonPath, String identifier) {
+    private void readIndividualMeshData(JSONObject rbNode, CollisionMeshLoader.Model model, String identifier) {
         CollisionMeshLoader.RigidBodyModel rbModel = new CollisionMeshLoader.RigidBodyModel();
         rbModel.name = identifier;
 
@@ -169,9 +180,7 @@ public class CollisionMeshBuilderSystem implements EventReceiver {
             circleModel.radius = (float) circleNode.getDouble("r");
         }
 
-        CollisionMeshLoader.Model model = new CollisionMeshLoader.Model();
         model.rigidBodies.put(rbModel.name, rbModel);
-        storedData.put(jsonPath, model);
     }
 
     /**
@@ -185,7 +194,7 @@ public class CollisionMeshBuilderSystem implements EventReceiver {
         bodyDef.angularDamping = 0;
         bodyDef.position.set(position);
         bodyDef.linearDamping = 0;
-        Body body = world.createBody(bodyDef);
+        Body body = objectManager.getWorld().createBody(bodyDef);
 
         //This sets a reference to an entity in the Body, so that the entity can be retrieved from the body during collision handling.
         body.setUserData(entity);
@@ -214,7 +223,7 @@ public class CollisionMeshBuilderSystem implements EventReceiver {
             } else {
                 reusableVector.set(rbModel.origin);
             }
-            reusableVector.scl(size);
+            reusableVector.sub(.5f, .5f);
             element.graphicsOffset = reusableVector.cpy();
 
         }
