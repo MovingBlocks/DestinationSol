@@ -16,7 +16,6 @@
 
 package org.destinationsol.game.ship;
 
-import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
@@ -31,6 +30,8 @@ import org.destinationsol.game.RemoveController;
 import org.destinationsol.game.SolGame;
 import org.destinationsol.game.SolObject;
 import org.destinationsol.game.drawables.Drawable;
+import org.destinationsol.game.faction.DamageInflictedReputationEvent;
+import org.destinationsol.game.faction.DefaultReputationEvent;
 import org.destinationsol.game.faction.Faction;
 import org.destinationsol.game.gun.GunMount;
 import org.destinationsol.game.input.Pilot;
@@ -147,7 +148,7 @@ public class SolShip implements SolObject {
         if (myHull.config.getType() != HullConfig.Type.STATION) {
             float dmg = absImpulse / myHull.getMass() / myHull.config.getDurability();
             dmg *= BASE_DUR_MOD;
-            receiveDmg((int) dmg, game, collPos, DmgType.CRASH);
+            receiveDmg((int) dmg, game, collPos, DmgType.CRASH, null);
         }
     }
 
@@ -411,7 +412,7 @@ public class SolShip implements SolObject {
     }
 
     @Override
-    public void receiveDmg(float dmg, SolGame game, Vector2 position, DmgType dmgType) {
+    public void receiveDmg(float dmg, SolGame game, Vector2 position, DmgType dmgType, SolObject instigator) {
         Hero hero = game.getHero();
         if (dmg <= 0 || (hero.isInvincible() && hero.getShip() == this)) {
             return;
@@ -426,26 +427,34 @@ public class SolShip implements SolObject {
             }
             dmg *= (1 - myArmor.getPerc());
         }
-        getHitWith(dmg, game, position, dmgType);
+        getHitWith(dmg, game, position, dmgType, instigator);
     }
 
     /**
-     * Like {{@link #receiveDmg(float, SolGame, Vector2, DmgType)} but shield and armor are ignored, the damage goes straight to the hull
+     * Like {{@link SolObject#receiveDmg(float, SolGame, Vector2, DmgType, SolObject)} but shield and armor are ignored, the damage goes straight to the hull
      */
-    public void receivePiercingDmg(float dmg, SolGame game, Vector2 position, DmgType dmgType) {
+    public void receivePiercingDmg(float dmg, SolGame game, Vector2 position, DmgType dmgType, SolObject instigator) {
         if (dmg <= 0) {
             return;
         }
 
-        getHitWith(dmg, game, position, dmgType);
+        getHitWith(dmg, game, position, dmgType, instigator);
     }
 
-    private void getHitWith(float dmg, SolGame game, Vector2 position, DmgType dmgType) {
+    private void getHitWith(float dmg, SolGame game, Vector2 position, DmgType dmgType, SolObject instigator) {
         playHitSound(game, position, dmgType);
+
+        if (instigator instanceof SolShip) {
+            game.getFactionMan().reportEvent(((SolShip) instigator).getFaction(), getFaction(), new DamageInflictedReputationEvent(dmg));
+        }
 
         boolean wasAlive = myHull.life > 0;
         myHull.life -= dmg;
         if (wasAlive && myHull.life <= 0) {
+            if (instigator instanceof SolShip) {
+                game.getFactionMan().reportEvent(((SolShip) instigator).getFaction(), getFaction(), DefaultReputationEvent.DESTROYED_SHIP);
+            }
+
             onDeath(game);
             Vector2 shipPos = getPosition();
             game.getSpecialEffects().explodeShip(game, shipPos, myHull.config.getSize());

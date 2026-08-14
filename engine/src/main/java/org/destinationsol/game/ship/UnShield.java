@@ -84,7 +84,7 @@ public class UnShield implements ShipAbility {
             if (shieldLife < amount) {
                 amount = shieldLife;
             }
-            oShip.receiveDmg(amount, game, ownerPos, DmgType.ENERGY);
+            oShip.receiveDmg(amount, game, ownerPos, DmgType.ENERGY, owner);
         }
         DSParticleEmitter src = new DSParticleEmitter(config.cc.effect, MAX_RADIUS, DrawableLevel.PART_BG_0, new Vector2(), true, game, ownerPos, Vector2.Zero, 0);
         game.getPartMan().finish(game, src, ownerPos);

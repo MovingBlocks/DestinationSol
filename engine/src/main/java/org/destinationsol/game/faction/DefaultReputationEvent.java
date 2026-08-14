@@ -48,7 +48,7 @@ public enum DefaultReputationEvent implements ReputationEvent {
      * @return the default impact on reputation this event will have in absence of a faction-specific value.
      */
     @Override
-    public int getDefaultReputationImpact() {
+    public float getDefaultReputationImpact() {
         return defaultReputationImpact;
     }
 }

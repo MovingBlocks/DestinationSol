@@ -69,13 +69,13 @@ public class FactionManager {
      * @param event the event that occurred.
      * @param <T> the type of event.
      */
-    public <T extends Enum<T> & ReputationEvent> void reportEvent(Faction instigator, Faction target, T event) {
+    public <T extends ReputationEvent> void reportEvent(Faction instigator, Faction target, T event) {
         // TODO: Add support for custom event handlers.
         //       Some examples:
         //       - A pacifist faction is offended by any attacks made by a faction, regardless of the target.
         //       - A merchant faction may randomly give a free bonus when buying items.
         //       - A protective faction may dispatch a fleet to intercept the attacker if one of their ships is attacked.
-        Integer targetReputationImpact = target.getReputationImpact(event);
+        Float targetReputationImpact = target.getReputationImpact(event);
         if (targetReputationImpact != null) {
             target.setRelation(instigator, target.getRelation(instigator) + targetReputationImpact);
         } else {

@@ -137,7 +137,7 @@ public class RubbleTest implements AssetsHelperInitializer, Box2DInitializer {
     @Test
     public void receiveDmg() {
         // Rubbles have no health, and thus receiveDamage() just should not crash
-        RUBBLE_CONSTANT.receiveDmg(100, game, null, DmgType.BULLET);
+        RUBBLE_CONSTANT.receiveDmg(100, game, null, DmgType.BULLET, null);
     }
 
     @Test

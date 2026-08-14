@@ -30,5 +30,5 @@ public interface ReputationEvent {
      * Returns the default impact on reputation this event will have in absence of a faction-specific value.
      * @return the default impact on reputation this event will have in absence of a faction-specific value.
      */
-    int getDefaultReputationImpact();
+    float getDefaultReputationImpact();
 }

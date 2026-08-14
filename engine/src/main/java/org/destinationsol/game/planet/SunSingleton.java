@@ -71,6 +71,6 @@ public class SunSingleton {
         if (SUN_HOT_RAD < toSys) {
             return;
         }
-        obj.receiveDmg(dmg, game, null, DmgType.FIRE);
+        obj.receiveDmg(dmg, game, null, DmgType.FIRE, null);
     }
 }

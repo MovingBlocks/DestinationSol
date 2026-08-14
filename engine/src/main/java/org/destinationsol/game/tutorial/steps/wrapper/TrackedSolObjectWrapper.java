@@ -58,8 +58,8 @@ public class TrackedSolObjectWrapper implements SolObject {
     }
 
     @Override
-    public void receiveDmg(float dmg, SolGame game, Vector2 position, DmgType dmgType) {
-        trackedSolObject.receiveDmg(dmg, game, position, dmgType);
+    public void receiveDmg(float dmg, SolGame game, Vector2 position, DmgType dmgType, SolObject instigator) {
+        trackedSolObject.receiveDmg(dmg, game, position, dmgType, instigator);
     }
 
     @Override

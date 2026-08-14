@@ -112,7 +112,7 @@ public class Asteroid implements SolObject {
         } else {
             dmg = absImpulse / mass / DUR;
         }
-        receiveDmg(dmg, game, collPos, DmgType.CRASH);
+        receiveDmg(dmg, game, collPos, DmgType.CRASH, null);
     }
 
     @Override
@@ -149,7 +149,7 @@ public class Asteroid implements SolObject {
         }
 
         float dmg = body.getLinearVelocity().len() * SPD_TO_ATM_DMG * game.getTimeStep();
-        receiveDmg(dmg, game, null, DmgType.FIRE);
+        receiveDmg(dmg, game, null, DmgType.FIRE, null);
         return true;
     }
 
@@ -215,7 +215,7 @@ public class Asteroid implements SolObject {
     }
 
     @Override
-    public void receiveDmg(float dmg, SolGame game, Vector2 position, DmgType dmgType) {
+    public void receiveDmg(float dmg, SolGame game, Vector2 position, DmgType dmgType, SolObject instigator) {
         life -= dmg;
         game.getContext().get(SpecialSounds.class).playHit(game, this, position, dmgType);
     }

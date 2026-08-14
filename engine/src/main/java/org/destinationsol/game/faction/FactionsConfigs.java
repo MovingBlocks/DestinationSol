@@ -75,15 +75,15 @@ public class FactionsConfigs {
                     } else if (!faction.isAwareOf(otherFaction) && otherFaction.isAwareOf(faction)) {
                         faction.setRelation(otherFaction, otherFaction.getRelation(faction));
                     } else {
-                        int factionRelation = faction.getRelation(otherFaction);
-                        int otherFactionRelation = otherFaction.getRelation(faction);
+                        float factionRelation = faction.getRelation(otherFaction);
+                        float otherFactionRelation = otherFaction.getRelation(faction);
 
                         // The simplified rules of uncertain Destination Sol diplomacy:
                         //   - If both are friendly, the stronger positivity will prevail.
                         //   - If both are hostile, the stronger hostility will prevail.
                         //   - If your enemy is hostile to you, you must be hostile to your enemy.
                         //   - Neutrality is considered friendly.
-                        int relation = (factionRelation >= 0 && otherFactionRelation >= 0) ?
+                        float relation = (factionRelation >= 0 && otherFactionRelation >= 0) ?
                                 Math.max(factionRelation, otherFactionRelation) :
                                 Math.min(factionRelation, otherFactionRelation);
                         faction.setRelation(otherFaction, relation);

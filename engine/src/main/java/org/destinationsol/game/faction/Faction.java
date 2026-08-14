@@ -61,17 +61,17 @@ public class Faction {
     /**
      * The default standing that this faction has towards unknown factions.
      */
-    private final int defaultDisposition;
+    private final float defaultDisposition;
     /**
      * The relations held between this faction and other factions.
      */
-    private final Map<Faction, Integer> relations;
+    private final Map<Faction, Float> relations;
     /**
      * The impact that certain events will have on relations with another faction if they instigate a given event.
      * (For example, hitting the ship with a projectile loses reputation, having a negative impact.)
      * @see DefaultReputationEvent
      */
-    private final Map<String, Integer> reputationImpacts;
+    private final Map<String, Float> reputationImpacts;
 
     /**
      * Instantiates a new faction instance.
@@ -84,7 +84,7 @@ public class Faction {
      * @param reputationImpacts the impact certain events should have on relationships between this faction and others.
      */
     public Faction(ResourceUrn id, String name, String description, Color colour, int defaultDisposition,
-                   List<ResourceUrn> shipDesigns, Map<String, Integer> reputationImpacts) {
+                   List<ResourceUrn> shipDesigns, Map<String, Float> reputationImpacts) {
         this.id = id;
         this.name = name;
         this.description = description;
@@ -141,7 +141,7 @@ public class Faction {
      * @return the change in reputation, if known, otherwise null.
      * @param <T> the type of event.
      */
-    public <T extends Enum<T> & ReputationEvent> Integer getReputationImpact(T event) {
+    public <T extends ReputationEvent> Float getReputationImpact(T event) {
         return reputationImpacts.get(event.toString());
     }
 
@@ -159,7 +159,7 @@ public class Faction {
      * @param faction the faction to check.
      * @return the reputation value held with this faction.
      */
-    public int getRelation(Faction faction) {
+    public float getRelation(Faction faction) {
         if (faction == this) {
             return MAX_REPUTATION;
         }
@@ -171,7 +171,7 @@ public class Faction {
      * @param faction the faction to assign reputation with.
      * @param disposition the overall disposition of this faction towards the other.
      */
-    public void setRelation(Faction faction, int disposition) {
+    public void setRelation(Faction faction, float disposition) {
         if (faction != this) {
             relations.put(faction, Math.clamp(MIN_REPUTATION, MAX_REPUTATION, disposition));
         }
