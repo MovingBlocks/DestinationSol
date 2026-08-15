@@ -26,11 +26,11 @@ import java.util.EnumSet;
  * It is recommended that you create an enum implementing this interface per-module to contain all the new controls you add to the game.
  * <br>
  * Example Implementation:
- * <pre>
+ * <pre>{@code
  * public enum ModuleControls implements InputControls {
  *     CONTROL_1("module_control1", "Control 1", EnumSet.of(GameOptions.ControlType.KEYBOARD), Input.Keys.W),
  *     CONTROL_2("module_control2", "Control 2", EnumSet.of(GameOptions.ControlType.MIXED), Input.Keys.S),
- *     CONTROL_2("module_control3", "Control 3", EnumSet.allOf(GameOptions.ControlType.class), Input.Keys.PAGE_DOWN);
+ *     CONTROL_3("module_control3", "Control 3", EnumSet.allOf(GameOptions.ControlType.class), Input.Keys.PAGE_DOWN);
  *
  *     private final String controlName;
  *     private final String displayName;
@@ -60,7 +60,7 @@ import java.util.EnumSet;
  *         return defaultInputs;
  *     }
  * }
- * </pre>
+ * }</pre>
  * @see DefaultControls the built-in game controls
  */
 public interface InputControls {

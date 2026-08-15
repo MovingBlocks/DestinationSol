@@ -22,6 +22,8 @@ import org.destinationsol.input.DefaultControls;
 import org.destinationsol.input.InputControls;
 import org.destinationsol.menu.Resolution;
 import org.destinationsol.menu.ResolutionProvider;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -122,6 +124,7 @@ public class GameOptions {
     public static final int DEFAULT_MAP_SCROLL_SPEED = 10;
     public static final int DEFAULT_MOBILE_MAP_SCROLL_SPEED = 5;
     private static final float DEFAULT_NUI_UI_SCALE = 1.0f;
+    private static final Logger logger = LoggerFactory.getLogger(GameOptions.class);
 
     public int x;
     public int y;
@@ -268,11 +271,23 @@ public class GameOptions {
 
             int[] inputs = control.getValue();
             for (int inputNo = 0; inputNo < inputs.length - 1; inputNo++) {
-                inputsStringBuilder.append(Input.Keys.toString(inputs[inputNo]));
-                inputsStringBuilder.append(",");
+                if (inputs[inputNo] != -1) {
+                    try {
+                        inputsStringBuilder.append(Input.Keys.toString(inputs[inputNo]));
+                        inputsStringBuilder.append(",");
+                    } catch (IllegalArgumentException ignore) {
+                    }
+                }
             }
-            inputsStringBuilder.append(Input.Keys.toString(inputs[inputs.length - 1]));
-            iniValues.add(inputsStringBuilder.toString());
+            if (inputs.length > 0 && inputs[inputs.length - 1] != -1) {
+                try {
+                    inputsStringBuilder.append(Input.Keys.toString(inputs[inputs.length - 1]));
+                } catch (IllegalArgumentException ignore) {
+                }
+                iniValues.add(inputsStringBuilder.toString());
+            } else {
+                iniValues.add("");
+            }
 
             inputsStringBuilder.delete(0, inputsStringBuilder.length());
         }
@@ -895,6 +910,12 @@ public class GameOptions {
     }
 
     public void setControl(InputControls control, int[] keys) {
+        for (int key : keys) {
+            if (key == -1) {
+                logger.error("Attempted to set invalid key for control \"{}\" - failed.", control.getControlName());
+                return;
+            }
+        }
         controls.put(control, keys);
     }
 
