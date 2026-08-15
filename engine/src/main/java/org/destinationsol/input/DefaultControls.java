@@ -45,7 +45,7 @@ public enum DefaultControls implements InputControls {
     BUY("keyBuyMenu", "Buy", EnumSet.allOf(GameOptions.ControlType.class), Input.Keys.B),
     CHANGE_SHIP("keyChangeShipMenu", "Change Ship", EnumSet.allOf(GameOptions.ControlType.class), Input.Keys.C),
     HIRE_SHIP("keyHireShipMenu", "Hire Ship", EnumSet.allOf(GameOptions.ControlType.class), Input.Keys.H),
-    MERCENARY_INTERACTION("keyMercenaryInteraction", "Hire Ship", EnumSet.allOf(GameOptions.ControlType.class), Input.Keys.M),
+    MERCENARY_INTERACTION("keyMercenaryInteraction", "Manage Mercenaries", EnumSet.allOf(GameOptions.ControlType.class), Input.Keys.M),
     FREE_CAMERA_MOVEMENT("keyFreeCameraMovement", "Free Camera", EnumSet.allOf(GameOptions.ControlType.class), Input.Keys.V),
     ZOOM_IN("keyZoomIn", "Zoom In", EnumSet.allOf(GameOptions.ControlType.class), Input.Keys.PAGE_UP),
     ZOOM_OUT("keyZoomOut", "Zoom Out", EnumSet.allOf(GameOptions.ControlType.class), Input.Keys.PAGE_DOWN);
