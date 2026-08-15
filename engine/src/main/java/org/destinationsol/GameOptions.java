@@ -196,6 +196,9 @@ public class GameOptions {
         int[] inputKeys = new int[inputNames.length];
         for (int inputNo = 0; inputNo < inputNames.length; inputNo++) {
             inputKeys[inputNo] = Input.Keys.valueOf(inputNames[inputNo]);
+            if (inputKeys[inputNo] == -1) {
+                inputKeys[inputNo] = Input.Keys.UNKNOWN;
+            }
         }
         return inputKeys;
     }
@@ -910,10 +913,10 @@ public class GameOptions {
     }
 
     public void setControl(InputControls control, int[] keys) {
-        for (int key : keys) {
-            if (key == -1) {
-                logger.error("Attempted to set invalid key for control \"{}\" - failed.", control.getControlName());
-                return;
+        for (int keyNo = 0; keyNo < keys.length; keyNo++) {
+            if (keys[keyNo] == -1) {
+                logger.error("Attempted to set invalid key {} for control \"{}\" - filtered.", keyNo, control.getControlName());
+                keys[keyNo] = Input.Keys.UNKNOWN;
             }
         }
         controls.put(control, keys);
