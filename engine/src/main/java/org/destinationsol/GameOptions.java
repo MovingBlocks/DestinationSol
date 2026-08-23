@@ -271,6 +271,12 @@ public class GameOptions {
 
         StringBuilder inputsStringBuilder = new StringBuilder();
         for (Map.Entry<InputControls, int[]> control : controls.entrySet()) {
+            // The constructor only ever loads DefaultControls.values() back in, so a runtime-registered
+            // control (e.g. from a module) would be written here and then silently dropped on the next
+            // load. Skip it rather than persist something that can't be read back yet.
+            if (!(control.getKey() instanceof DefaultControls)) {
+                continue;
+            }
             iniValues.add(control.getKey().getControlName());
 
             int[] inputs = control.getValue();
