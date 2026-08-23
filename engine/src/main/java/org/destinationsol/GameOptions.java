@@ -27,7 +27,6 @@ import org.slf4j.LoggerFactory;
 
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
@@ -155,7 +154,13 @@ public class GameOptions {
     private ResolutionProvider resolutionProvider;
 
     public GameOptions(boolean mobile, SolFileReader solFileReader) {
-        controls = new HashMap<>();
+        // LinkedHashMap rather than HashMap: keeps settings.ini's control key order stable
+        // (insertion order, i.e. DefaultControls.values() order) instead of reshuffling on every
+        // save. EnumMap would do the same for the current DefaultControls-only content, but its key
+        // type is fixed to one enum, which would rule out the InputControls interface ever holding a
+        // non-DefaultControls (e.g. module-registered) key - the whole point of this class moving to
+        // an interface instead of the enum type directly.
+        controls = new LinkedHashMap<>();
 
         IniReader reader = new IniReader(FILE_NAME, solFileReader);
         for (DefaultControls control : DefaultControls.values()) {
