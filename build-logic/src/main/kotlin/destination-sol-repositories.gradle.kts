@@ -1,0 +1,45 @@
+repositories {
+    mavenCentral {
+        content {
+            // Terasology's libraries/modules aren't on maven central, so don't bother looking there.
+            excludeGroupByRegex("""org\.terasology(\..+)?""")
+            // Same for Destination Sol.
+            excludeGroupByRegex("""org\.destinationsol(\..+)?""")
+        }
+    }
+
+    // Repos for LibGDX
+    maven {
+        url = uri("https://oss.sonatype.org/content/repositories/snapshots/")
+        content {
+            includeGroupByRegex("""com\.badlogicgames.gdx(\..+)?""")
+        }
+    }
+    maven {
+        url = uri("https://oss.sonatype.org/content/repositories/releases/")
+        content {
+            includeGroupByRegex("""com\.badlogicgames.gdx(\..+)?""")
+        }
+    }
+
+    // everit-org JSON schema dependency
+    maven {
+        url = uri("https://jitpack.io")
+        content {
+            includeModule("com.github.everit-org.json-schema", "org.everit.json.schema")
+        }
+    }
+
+    // Terasology Artifactory for any shared libs
+    maven {
+        url = uri("https://artifactory.terasology.io/artifactory/virtual-repo-live")
+        content {
+            includeGroupByRegex("""org\.terasology(\..+)?""")
+            includeGroupByRegex("""org\.destinationsol(\..+)?""")
+            // A copy of jpastebin is hosted here
+            includeModule("brianbb", "jpastebin")
+        }
+    }
+
+    google()
+}

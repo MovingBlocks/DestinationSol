@@ -1,3 +1,0 @@
-plugins {
-    id 'destination-sol-module'
-}

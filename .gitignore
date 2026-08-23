@@ -11,10 +11,11 @@ gwt
 steam
 modules/*
 modules/**/build.gradle
+modules/**/build.gradle.kts
 !modules/core
-!modules/subprojects.gradle
+!modules/subprojects.gradle.kts
 libs/*
-!libs/subprojects.gradle
+!libs/subprojects.gradle.kts
 
 ## GWT
 war/
