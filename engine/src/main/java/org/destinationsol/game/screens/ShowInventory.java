@@ -33,7 +33,7 @@ import java.util.List;
  * You can also equip and de-equip items here, as well as force the ship to drop those items out into space.
  */
 public class ShowInventory extends InventoryOperationsScreen {
-    private final UIButton[] actionButtons = new UIButton[3];
+    private final UIButton[] actionButtons = new UIButton[5];
 
     private SolShip target;
 
@@ -90,9 +90,29 @@ public class ShowInventory extends InventoryOperationsScreen {
             inventoryScreen.setSelected(newSelection);
         });
 
+        UIWarnButton beamOutButton = new UIWarnButton();
+        beamOutButton.setText("Beam Out");
+        beamOutButton.subscribe(button -> {
+            SolItem selItem = inventoryScreen.getSelectedItem();
+            if (selItem == null) {
+                return;
+            }
+            org.destinationsol.game.chat.SayCommandHandler.beamOutItem(selItem);
+        });
+
+        UIWarnButton beamInButton = new UIWarnButton();
+        beamInButton.setText("Beam In");
+        beamInButton.subscribe(button -> {
+            SolGame game = solApplication.getGame();
+            org.destinationsol.game.chat.SayCommandHandler.beamInItem(game, target);
+            inventoryScreen.updateItemRows();
+        });
+
         actionButtons[0] = equip1Button;
         actionButtons[1] = equip2Button;
         actionButtons[2] = dropButton;
+        actionButtons[3] = beamOutButton;
+        actionButtons[4] = beamInButton;
     }
 
     @Override
@@ -136,18 +156,38 @@ public class ShowInventory extends InventoryOperationsScreen {
         UIButton equip1Button = actionButtons[0];
         UIButton equip2Button = actionButtons[1];
         UIButton dropButton = actionButtons[2];
+        UIButton beamOutButton = actionButtons[3];
+        UIButton beamInButton = actionButtons[4];
 
         equip1Button.setText("---");
         equip1Button.setEnabled(false);
         equip2Button.setText("---");
         equip2Button.setEnabled(false);
         dropButton.setEnabled(false);
+        beamOutButton.setEnabled(false);
+        beamInButton.setEnabled(false);
+
+        // Beam In is available when there's a pending item link, even without selection
+        org.destinationsol.game.chat.NakamaClient nc =
+                org.destinationsol.game.chat.SayCommandHandler.getNakamaClient();
+        boolean hasLink = nc != null && nc.hasItemLink();
+        beamInButton.setEnabled(hasLink);
+        if (hasLink) {
+            beamInButton.setText("Beam In!");
+        } else {
+            beamInButton.setText("Beam In");
+        }
 
         if (selItem == null || target == null) {
             return;
         }
 
         dropButton.setEnabled(true);
+
+        // Beam Out needs a selected item and Nakama connection
+        if (nc != null && nc.isConnected()) {
+            beamOutButton.setEnabled(true);
+        }
 
         boolean equipped1 = target.maybeUnequip(game, selItem, false, false);
         boolean canEquip1 = target.maybeEquip(game, selItem, false, false);

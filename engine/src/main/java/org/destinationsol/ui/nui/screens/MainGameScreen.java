@@ -112,6 +112,7 @@ public class MainGameScreen extends NUIScreenLayer {
     private FlowLayout warnDrawers;
     private BorderDrawer borderDrawer;
     private ZoneNameAnnouncer zoneNameAnnouncer;
+    private org.destinationsol.game.chat.NakamaAnnouncer nakamaAnnouncer;
     private com.badlogic.gdx.graphics.Color compassTint;
 
     private final SolApplication solApplication;
@@ -435,6 +436,7 @@ public class MainGameScreen extends NUIScreenLayer {
 
         borderDrawer = new BorderDrawer();
         zoneNameAnnouncer = new ZoneNameAnnouncer();
+        nakamaAnnouncer = new org.destinationsol.game.chat.NakamaAnnouncer();
     }
 
     @Override
@@ -551,6 +553,7 @@ public class MainGameScreen extends NUIScreenLayer {
         }
 
         zoneNameAnnouncer.update(solApplication.getGame(), solApplication.getGame().getContext());
+        nakamaAnnouncer.update();
     }
 
     @Override
@@ -562,6 +565,7 @@ public class MainGameScreen extends NUIScreenLayer {
             try (NUIManager.LegacyUiDrawerWrapper wrapper = nuiManager.getLegacyUiDrawer()) {
                 borderDrawer.draw(wrapper.getUiDrawer(), solApplication, solApplication.getGame().getContext());
                 zoneNameAnnouncer.drawText(wrapper.getUiDrawer());
+                nakamaAnnouncer.drawText(wrapper.getUiDrawer());
                 drawHeightCompass(wrapper);
             }
         }
@@ -667,6 +671,10 @@ public class MainGameScreen extends NUIScreenLayer {
      */
     public UIWarnButton getMercsButton() {
         return mercsButton;
+    }
+
+    public org.destinationsol.game.chat.NakamaAnnouncer getNakamaAnnouncer() {
+        return nakamaAnnouncer;
     }
 
     /**

@@ -116,6 +116,7 @@ public class SolApplication implements ApplicationListener {
     private NUIManager nuiManager;
     private float timeAccumulator = 0;
     private boolean isMobile;
+    private org.destinationsol.game.chat.NakamaClient nakamaClient;
     private ComponentManager componentManager;
     private BeanContext appContext;
     private BeanContext gameContext;
@@ -183,6 +184,14 @@ public class SolApplication implements ApplicationListener {
         menuScreens = new MenuScreens(layouts, isMobile(), options, nuiManager);
 
         nuiManager.pushScreen(menuScreens.main);
+
+        // Nakama integration (optional, loaded from nakama.ini)
+        org.destinationsol.game.chat.NakamaConfig nakamaConfig = org.destinationsol.game.chat.NakamaConfig.load();
+        if (nakamaConfig.isEnabled()) {
+            nakamaClient = new org.destinationsol.game.chat.NakamaClient(nakamaConfig);
+            nakamaClient.connect();
+            org.destinationsol.game.chat.SayCommandHandler.setNakamaClient(nakamaClient);
+        }
     }
 
     @Override
@@ -265,6 +274,19 @@ public class SolApplication implements ApplicationListener {
 
         if (solGame != null) {
             solGame.update();
+        }
+
+        // Poll Nakama for incoming cross-game chat messages
+        if (nakamaClient != null && nakamaClient.isConnected() && solGame != null) {
+            String msg;
+            while ((msg = nakamaClient.pollMessage()) != null) {
+                solGame.getScreens().consoleScreen.getConsole().addMessage(msg);
+                org.destinationsol.game.chat.NakamaAnnouncer announcer =
+                        solGame.getScreens().mainGameScreen.getNakamaAnnouncer();
+                if (announcer != null) {
+                    announcer.announce(msg);
+                }
+            }
         }
 
         SolMath.checkVectorsTaken(null);
@@ -378,6 +400,9 @@ public class SolApplication implements ApplicationListener {
 
     @Override
     public void dispose() {
+        if (nakamaClient != null) {
+            nakamaClient.disconnect();
+        }
         commonDrawer.dispose();
 
         if (solGame != null) {
