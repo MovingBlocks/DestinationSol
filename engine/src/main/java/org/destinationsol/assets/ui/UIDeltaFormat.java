@@ -34,10 +34,21 @@ import java.io.StringReader;
 import java.lang.reflect.Field;
 import java.security.AccessController;
 import java.security.PrivilegedAction;
+import java.util.Map;
+import java.util.WeakHashMap;
 
 @RegisterAssetDeltaFileFormat
 public class UIDeltaFormat extends AbstractAssetAlterationFileFormat<UIData> {
     private final UIFormat uiFormat;
+
+    /**
+     * The JSON state accumulated so far for a given {@link UIData} instance, across however many deltas
+     * have been {@link #apply}ed to it - without this, a second delta on the same {@code .ui} file would
+     * re-read the original base JSON from {@link UIData#getSource()} and overwrite the first delta's
+     * result instead of stacking on top of it. Keyed weakly so an asset's entry is reclaimable once
+     * nothing else references it (e.g. after a hot-reload creates a fresh {@link UIData}).
+     */
+    private final Map<UIData, JSONObject> mergedJsonByAsset = new WeakHashMap<>();
 
     @Inject
     public UIDeltaFormat(UIFormat uiFormat) {
@@ -50,8 +61,12 @@ public class UIDeltaFormat extends AbstractAssetAlterationFileFormat<UIData> {
         FileHandle handle = new AssetDataFileHandle(input);
         JSONObject deltaJsonValue = new JSONObject(handle.readString());
 
-        JSONObject jsonValue = new JSONObject(new AssetDataFileHandle(assetData.getSource()).readString());
+        JSONObject jsonValue = mergedJsonByAsset.get(assetData);
+        if (jsonValue == null) {
+            jsonValue = new JSONObject(new AssetDataFileHandle(assetData.getSource()).readString());
+        }
         JSONMerger.merge(jsonValue, deltaJsonValue);
+        mergedJsonByAsset.put(assetData, jsonValue);
 
         JsonReader jsonReader = new JsonReader(new StringReader(jsonValue.toString()));
         jsonReader.setLenient(true);

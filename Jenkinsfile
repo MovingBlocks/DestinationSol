@@ -91,9 +91,11 @@ pipeline {
         }
         stage('Build Steam') {
             when {
-                // Example: v2.1.0
-                tag pattern: 'v\\d+\\.\\d+\\.\\d+.*', comparator: "REGEXP"
-                branch pattern: 'steam/*'
+                anyOf {
+                    // Example: v2.1.0
+                    tag pattern: 'v\\d+\\.\\d+\\.\\d+.*', comparator: "REGEXP"
+                    branch pattern: 'steam/*'
+                }
             }
             steps {
                 dir('steam') {
