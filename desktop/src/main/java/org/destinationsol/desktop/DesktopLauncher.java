@@ -37,8 +37,9 @@ import org.terasology.gestalt.module.ModulePathScanner;
 
 import java.awt.*;
 import java.io.BufferedReader;
-import java.io.FileReader;
+import java.io.FileInputStream;
 import java.io.IOException;
+import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.io.StringWriter;
 import java.nio.charset.Charset;
@@ -121,7 +122,7 @@ public final class DesktopLauncher {
         handleCrashReporting(argv);
 
 
-        if (useSplash) {
+        if (splash != null && splash.isVisible()) {
             splash.close();
         }
         // Everything is set up correctly, launch the application
@@ -179,7 +180,13 @@ public final class DesktopLauncher {
                 Path logPath = Paths.get(new DesktopLauncher.MyReader().create(fileName, lines)).getParent();
 
                 // Run asynchronously so that the error message view is not blocked
-                new Thread(() -> CrashReporter.report(ex, logPath)).start();
+                new Thread(() -> {
+                    try {
+                        CrashReporter.report(ex, logPath);
+                    } catch (Exception reportingException) {
+                        logger.error("Failed to report crash", reportingException);
+                    }
+                }).start();
             });
         }
     }
@@ -254,13 +261,11 @@ public final class DesktopLauncher {
 
             ArrayList<String> lines = new ArrayList<>();
 
-            try {
-                BufferedReader br = new BufferedReader(new FileReader(path));
+            try (BufferedReader br = new BufferedReader(new InputStreamReader(new FileInputStream(path), Charset.forName("UTF-8")))) {
                 String line;
                 while ((line = br.readLine()) != null) {
                     lines.add(line);
                 }
-                br.close();
             } catch (IOException ignore) {
             }
 
