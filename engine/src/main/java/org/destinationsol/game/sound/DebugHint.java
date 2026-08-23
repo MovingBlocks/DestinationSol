@@ -22,6 +22,8 @@ import org.destinationsol.game.GameDrawer;
 import org.destinationsol.game.SolCam;
 import org.destinationsol.game.SolGame;
 import org.destinationsol.game.SolObject;
+import org.destinationsol.location.components.Position;
+import org.terasology.gestalt.entitysystem.entity.EntityRef;
 
 import java.util.HashMap;
 import java.util.Iterator;
@@ -35,10 +37,30 @@ public class DebugHint {
     private SolObject myOwner;
     private String myMsg;
 
-    public DebugHint(SolObject owner, Vector2 position) {
-        myOwner = owner;
+    private EntityRef entity;
+
+    /**
+     * A hint pinned to a fixed position, belonging to nothing in particular.
+     */
+    public DebugHint(Vector2 position) {
         this.position = new Vector2(position);
         myMsgs = new HashMap<>();
+    }
+
+    /**
+     * A hint that follows a {@link SolObject}, and disappears when that object does.
+     */
+    public DebugHint(SolObject owner, Vector2 position) {
+        this(position);
+        myOwner = owner;
+    }
+
+    /**
+     * A hint that follows an entity, and disappears when that entity does.
+     */
+    public DebugHint(EntityRef entity, Vector2 position) {
+        this(position);
+        this.entity = entity;
     }
 
     public void add(String value) {
@@ -63,6 +85,16 @@ public class DebugHint {
                 myOwner = null;
             } else {
                 position.set(myOwner.getPosition());
+            }
+        }
+
+        if (entity != null) {
+            if (!entity.exists()) {
+                entity = null;
+            } else {
+                entity.getComponent(Position.class).ifPresent(entityPosition -> {
+                    position.set(entityPosition.position);
+                });
             }
         }
 

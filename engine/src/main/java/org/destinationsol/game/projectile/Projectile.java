@@ -132,12 +132,12 @@ public class Projectile implements SolObject {
                         while (iterator.next()) {
                             Vector2 entityPosition = iterator.getEntity().getComponent(Position.class).get().position;
                             if (getPosition().dst2(entityPosition) <= config.aoeRadius) {
-                                game.getEntitySystemManager().sendEvent(new DamageEvent(config.dmg), entity);
+                                game.getEntitySystemManager().sendEvent(new DamageEvent(config.dmg, config.dmgType), entity);
                             }
                         }
 
                     } else {
-                        game.getEntitySystemManager().sendEvent(new DamageEvent(config.dmg), entity);
+                        game.getEntitySystemManager().sendEvent(new DamageEvent(config.dmg, config.dmgType), entity);
                     }
                 }
 
