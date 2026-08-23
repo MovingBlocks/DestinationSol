@@ -174,7 +174,7 @@ public final class DesktopLauncher {
                 logger.error("This exception was not caught:", ex);
 
                 // Create a crash dump file
-                String fileName = "crash-" + new SimpleDateFormat("yyyy-dd-MM_HH-mm-ss").format(new Date()) + ".log";
+                String fileName = "crash-" + new SimpleDateFormat("yyyy-MM-dd_HH-mm-ss").format(new Date()) + ".log";
                 java.util.List<String> lines = Collections.singletonList(exceptionString);
                 Path logPath = Paths.get(new DesktopLauncher.MyReader().create(fileName, lines)).getParent();
 

@@ -30,18 +30,20 @@ public final class JSONMerger {
      * If a value does not exist in the delta, then the original input value is preserved. Otherwise, if the value is
      * a primitive type (excluding array), then the delta value will override the input value. For JSONObject values,
      * this method is called recursively to merge the sub-objects together. In the case of arrays, all of the values
-     * in the delta array are appended to the input array.
+     * in the delta array are appended to the input array. Keys that exist only in the delta are added to the input
+     * directly.
      *
      * @param input the JSONObject to merge into
      * @param delta the JSONObject to merge with
      */
     public static void merge(JSONObject input, JSONObject delta) {
-        for (String key : input.keySet()) {
-            Object subObject = input.get(key);
-            if (!delta.has(key)) {
-                // Value is not modified
+        for (String key : delta.keySet()) {
+            if (!input.has(key)) {
+                // Key only exists in the delta, so add it directly
+                input.put(key, delta.get(key));
                 continue;
             }
+            Object subObject = input.get(key);
 
             if (subObject instanceof JSONObject) {
                 Object deltaObject = delta.get(key);

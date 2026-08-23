@@ -158,7 +158,7 @@ tasks.register('fetchSteam') {
     def repo = 'DestSolSteam'
 
     // Default GitHub account to use. Supply with -PgithubAccount="TargetAccountName" or via gradle.properties
-    def githubHome = 'MovingBlocks'
+    def githubHome = findProperty('githubAccount') ?: 'MovingBlocks'
 
     def destination = file('steam')
 
