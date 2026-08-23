@@ -3,7 +3,10 @@
 
 // This magically allows subdirs to become included builds
 // https://docs.gradle.org/6.4.1/userguide/composite_builds.html
-file(".").listFiles { f -> f.isDirectory }?.forEach { possibleIncludedBuildDirectory ->
+// This script is apply(from = ...)'d from settings.gradle.kts, so file(".") here would resolve
+// against settingsDir (the repo root), not against libs/ where this script itself lives - scan
+// libs/ explicitly instead.
+File(rootDir, "libs").listFiles { f -> f.isDirectory }?.forEach { possibleIncludedBuildDirectory ->
     val buildFile = File(possibleIncludedBuildDirectory, "build.gradle")
     val buildFileKts = File(possibleIncludedBuildDirectory, "build.gradle.kts")
     val settingsFile = File(possibleIncludedBuildDirectory, "settings.gradle")

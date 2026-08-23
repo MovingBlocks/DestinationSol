@@ -118,8 +118,8 @@ idea {
 
 tasks.named("cleanIdea") {
     doLast {
-        File("DestinationSol.iws").delete()
-        File("config/metrics").deleteRecursively()
+        rootDir.resolve("DestinationSol.iws").delete()
+        rootDir.resolve("config/metrics").deleteRecursively()
         println("Cleaned root - don't forget to re-extract code metrics config! 'gradlew extractConfig' will do so, or 'gradlew idea' (or eclipse)")
     }
 }
@@ -131,7 +131,7 @@ tasks.register("fetchAndroid") {
     val repo = "DestSolAndroid"
 
     // Default GitHub account to use. Supply with -PgithubAccount="TargetAccountName" or via gradle.properties
-    val githubHome = "MovingBlocks"
+    val githubHome = findProperty("githubAccount") as String? ?: "MovingBlocks"
 
     val destination = file("android")
 

@@ -2,13 +2,11 @@ includeBuild("build-logic")
 
 include("desktop", "engine", "modules")
 
-val steamGradle = File(rootDir, "steam/build.gradle")
-if (steamGradle.exists()) {
+if (File(rootDir, "steam/build.gradle").exists() || File(rootDir, "steam/build.gradle.kts").exists()) {
     include("steam")
 }
 
-val gwtGradle = File(rootDir, "gwt/build.gradle")
-if (gwtGradle.exists()) {
+if (File(rootDir, "gwt/build.gradle").exists() || File(rootDir, "gwt/build.gradle.kts").exists()) {
     include("gwt")
 }
 
@@ -26,7 +24,8 @@ rootDir.listFiles { file -> file.isDirectory }?.forEach { possibleSubprojectDir 
 }
 
 // This is put last to ensure that Android can detect the modules
-val androidGradle = File(rootDir, "android/build.gradle.kts")
-if (androidGradle.exists()) {
+// Checks both names: Jenkins checks out DestSolAndroid's own develop branch here, which may or
+// may not have been converted to Kotlin DSL independently of this repo.
+if (File(rootDir, "android/build.gradle").exists() || File(rootDir, "android/build.gradle.kts").exists()) {
     include("android")
 }
