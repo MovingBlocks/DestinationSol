@@ -28,6 +28,7 @@ import org.slf4j.LoggerFactory;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -273,24 +274,21 @@ public class GameOptions {
             iniValues.add(control.getKey().getControlName());
 
             int[] inputs = control.getValue();
-            for (int inputNo = 0; inputNo < inputs.length - 1; inputNo++) {
-                if (inputs[inputNo] != -1) {
-                    try {
-                        inputsStringBuilder.append(Input.Keys.toString(inputs[inputNo]));
-                        inputsStringBuilder.append(",");
-                    } catch (IllegalArgumentException ignore) {
-                    }
+            boolean firstValidInput = true;
+            for (int input : inputs) {
+                // UNKNOWN is the sentinel parseKeyboardControl()/setControl() substitute for an invalid
+                // key; skip it here rather than gating on it further down, so one invalid entry can't
+                // wipe out the other, still-valid entries for this control.
+                if (input == Input.Keys.UNKNOWN) {
+                    continue;
                 }
-            }
-            if (inputs.length > 0 && inputs[inputs.length - 1] != -1) {
-                try {
-                    inputsStringBuilder.append(Input.Keys.toString(inputs[inputs.length - 1]));
-                } catch (IllegalArgumentException ignore) {
+                if (!firstValidInput) {
+                    inputsStringBuilder.append(",");
                 }
-                iniValues.add(inputsStringBuilder.toString());
-            } else {
-                iniValues.add("");
+                inputsStringBuilder.append(Input.Keys.toString(input));
+                firstValidInput = false;
             }
+            iniValues.add(inputsStringBuilder.toString());
 
             inputsStringBuilder.delete(0, inputsStringBuilder.length());
         }
@@ -904,22 +902,37 @@ public class GameOptions {
         setControl(DefaultControls.HIRE_SHIP, new int[] { Input.Keys.valueOf(keyHireShipMenuName) });
     }
 
+    /**
+     * Returns a read-only snapshot of the current controls. Both the entry set and each control's key
+     * array are copies, so mutating either does not affect the actual bindings - use {@link #setControl}
+     * to change them.
+     */
     public Set<Map.Entry<InputControls, int[]>> getControls() {
-        return controls.entrySet();
+        Map<InputControls, int[]> snapshot = new LinkedHashMap<>();
+        for (Map.Entry<InputControls, int[]> entry : controls.entrySet()) {
+            snapshot.put(entry.getKey(), entry.getValue().clone());
+        }
+        return Collections.unmodifiableMap(snapshot).entrySet();
     }
 
+    /**
+     * Returns a copy of the keys bound to the given control, or null if it has no binding. Mutating the
+     * returned array does not affect the actual binding - use {@link #setControl} to change it.
+     */
     public int[] getControl(InputControls control) {
-        return controls.get(control);
+        int[] keys = controls.get(control);
+        return keys == null ? null : keys.clone();
     }
 
     public void setControl(InputControls control, int[] keys) {
-        for (int keyNo = 0; keyNo < keys.length; keyNo++) {
-            if (keys[keyNo] == -1) {
+        int[] validatedKeys = keys.clone();
+        for (int keyNo = 0; keyNo < validatedKeys.length; keyNo++) {
+            if (validatedKeys[keyNo] == -1) {
                 logger.error("Attempted to set invalid key {} for control \"{}\" - filtered.", keyNo, control.getControlName());
-                keys[keyNo] = Input.Keys.UNKNOWN;
+                validatedKeys[keyNo] = Input.Keys.UNKNOWN;
             }
         }
-        controls.put(control, keys);
+        controls.put(control, validatedKeys);
     }
 
     public int getControllerAxisShoot() {
