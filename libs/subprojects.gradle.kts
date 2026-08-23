@@ -17,10 +17,10 @@ File(rootDir, "libs").listFiles { f -> f.isDirectory }?.forEach { possibleInclud
             rootDir.toPath().relativize(possibleIncludedBuildDirectory.toPath()))
         includeBuild(possibleIncludedBuildDirectory)
     } else {
-        logger.warn("{} REJECTED as an included build. build.gradle: {}, settings.gradle: {}",
+        logger.warn("{} REJECTED as an included build. build.gradle(.kts): {}, settings.gradle(.kts): {}",
             rootDir.toPath().relativize(possibleIncludedBuildDirectory.toPath()),
-            if (buildFile.exists()) "present" else "MISSING",
-            if (settingsFile.exists()) "present" else "MISSING"
+            if (buildFile.exists() || buildFileKts.exists()) "present" else "MISSING",
+            if (settingsFile.exists() || settingsFileKts.exists()) "present" else "MISSING"
         )
     }
 }

@@ -26,12 +26,16 @@ plugins {
 // so the type-safe `base { }` accessor isn't available here - look it up explicitly instead.
 val distsDirectory = the<BasePluginExtension>().distsDirectory
 
-// Uses Bellsoft Liberica JRE
-val jreVersion = "11.0.19+7"
+// Uses Bellsoft Liberica JRE. Must stay on a Java 17+ build - the engine compiles with
+// options.release = 17 (see destination-sol-java.gradle.kts), and a Java 11 runtime can't
+// load Java 17 class files (UnsupportedClassVersionError).
+val jreVersion = "17.0.12+10"
 val jreUrlBase = "https://download.bell-sw.com/java/$jreVersion/bellsoft-jre$jreVersion"
 val jreUrlFilenames = mapOf(
     "lwjreLinux64" to "linux-amd64.tar.gz",
-    "lwjre" to "windows-i586.zip",
+    // 32-bit Windows dropped from JDK 12+ builds; windows-amd64 is the closest equivalent to
+    // the old windows-i586 key.
+    "lwjre" to "windows-amd64.zip",
     "lwjreOSX" to "macos-amd64.zip",
     "lwjreOSXArm" to "macos-aarch64.zip"
 )

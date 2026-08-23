@@ -194,6 +194,11 @@ tasks.register("afterEclipseImport") {
     }
 }
 
+// Registering the task above doesn't make :desktop:eclipse run it. finalizedBy, not
+// synchronizationTasks: the latter only fires on a Buildship-driven IDE sync, not on a plain
+// `gradlew eclipse` - and .classpath (which this patches) doesn't exist until eclipse has run.
+tasks.named("eclipse") { finalizedBy(tasks.named("afterEclipseImport")) }
+
 tasks.withType<JavaExec>().configureEach {
     if (System.getProperty("DEBUG", "false") == "true") {
         jvmArgs("-Xdebug", "-Xrunjdwp:transport=dt_socket,server=y,suspend=y,address=9099", "-Dlog4j.configuration=log4j-debug.properties")

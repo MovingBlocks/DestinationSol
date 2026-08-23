@@ -120,7 +120,7 @@ tasks.named("cleanIdea") {
     doLast {
         rootDir.resolve("DestinationSol.iws").delete()
         rootDir.resolve("config/metrics").deleteRecursively()
-        println("Cleaned root - don't forget to re-extract code metrics config! 'gradlew extractConfig' will do so, or 'gradlew idea' (or eclipse)")
+        println("Cleaned root - don't forget to re-extract code metrics config! 'gradlew extractMetricsConfig' will do so, or 'gradlew idea' (or eclipse)")
     }
 }
 
