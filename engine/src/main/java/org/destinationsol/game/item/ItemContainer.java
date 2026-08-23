@@ -132,7 +132,7 @@ public class ItemContainer implements Iterable<List<SolItem>> {
         }
         int groupCount = groupCount();
         int idx = groups.indexOf(selected);
-        if (idx <= 0 || groupCount <= 1) {
+        if (idx < 0 || groupCount <= 1) {
             return null;
         }
         return groups.get(idx == (groupCount - 1) ? idx - 1 : idx + 1);

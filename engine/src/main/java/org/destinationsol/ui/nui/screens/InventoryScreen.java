@@ -255,7 +255,7 @@ public class InventoryScreen extends NUIScreenLayer {
                 }
                 selectedItemGroup = null;
 
-                if (items.groupCount() > 0) {
+                if (selectedIndex + page * Const.ITEM_GROUPS_PER_PAGE < items.groupCount()) {
                     items.seen(items.getGroup(selectedIndex + page * Const.ITEM_GROUPS_PER_PAGE));
                 }
 
@@ -276,7 +276,7 @@ public class InventoryScreen extends NUIScreenLayer {
                 }
                 selectedItemGroup = null;
 
-                if (items.groupCount() > 0) {
+                if (selectedIndex + page * Const.ITEM_GROUPS_PER_PAGE < items.groupCount()) {
                     items.seen(items.getGroup(selectedIndex + page * Const.ITEM_GROUPS_PER_PAGE));
                 }
 
@@ -543,7 +543,8 @@ public class InventoryScreen extends NUIScreenLayer {
                 }
             }
         } else {
-            selectedItemGroup = items.groupCount() < selectedIndex ? items.getGroup(selectedIndex) : null;
+            int groupNo = page * Const.ITEM_GROUPS_PER_PAGE + selectedIndex;
+            selectedItemGroup = groupNo < items.groupCount() ? items.getGroup(groupNo) : null;
         }
 
         Iterator<UIWidget> rowsIterator = inventoryRows.iterator();
