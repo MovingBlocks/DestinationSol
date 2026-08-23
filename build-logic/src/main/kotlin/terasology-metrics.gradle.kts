@@ -1,11 +1,11 @@
-import com.github.spotbugs.snom.SpotBugsTask
+import net.ltgt.gradle.errorprone.errorprone
 
 plugins {
     java
     id("project-report")
     checkstyle
     pmd
-    id("com.github.spotbugs")
+    id("net.ltgt.errorprone")
     jacoco
     id("ru.vyarus.animalsniffer")
 }
@@ -21,6 +21,11 @@ dependencies {
     "pmd"("net.sourceforge.pmd:pmd-java:7.26.0")
 
     "signature"("com.toasttab.android:gummy-bears-api-24:0.15.0:coreLib2@signature")
+
+    // Pinned to the last release that still runs on JDK 17 (2.43.0+ requires JDK 21+ to run the
+    // analyzer itself, independent of this project's own --release 17 compile target) since the
+    // Jenkins CI agent's JDK version isn't controlled from this repo.
+    errorprone("com.google.errorprone:error_prone_core:2.42.0")
 }
 
 animalsniffer {
@@ -57,15 +62,12 @@ pmd {
     ruleSets = listOf()
 }
 
-spotbugs {
-    toolVersion.set("4.8.1")
-    ignoreFailures.set(true)
-    excludeFilter.set(File(rootDir, "config/metrics/findbugs/findbugs-exclude.xml"))
-}
-tasks.named<SpotBugsTask>("spotbugsMain") {
-    reports.create("xml") {
-        enabled = true
-        outputLocation.set(file("$buildDir/reports/spotbugs/main/spotbugs.xml"))
+tasks.withType<JavaCompile>().configureEach {
+    options.errorprone {
+        // Match the ignoreFailures = true posture of checkstyle/pmd above: Error Prone's ERROR-severity
+        // checks fail the build by default, which none of the other analyzers here do.
+        allErrorsAsWarnings.set(true)
+        disableWarningsInGeneratedCode.set(true)
     }
 }
 
@@ -76,7 +78,6 @@ val extractMetricsConfig = rootProject.tasks.findByName("extractMetricsConfig")
         into("$rootDir/config/metrics")
     }.get()
 
-tasks.named("spotbugsMain") { dependsOn(extractMetricsConfig) }
 tasks.named("pmdMain") { dependsOn(extractMetricsConfig) }
 
 tasks.withType<Checkstyle>().configureEach {
@@ -85,11 +86,6 @@ tasks.withType<Checkstyle>().configureEach {
 }
 
 tasks.withType<Pmd>().configureEach {
-    dependsOn(extractMetricsConfig)
-    group = "Reporting"
-}
-
-tasks.withType<SpotBugsTask>().configureEach {
     dependsOn(extractMetricsConfig)
     group = "Reporting"
 }
