@@ -15,7 +15,7 @@
  */
 package org.destinationsol;
 
-import org.terasology.gestalt.module.sandbox.API;
+import org.terasology.context.annotation.API;
 
 @API
 public class Const {

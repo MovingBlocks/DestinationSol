@@ -15,4 +15,4 @@
  */
 @API package org.destinationsol.removal.events;
 
-import org.terasology.gestalt.module.sandbox.API;
+import org.terasology.context.annotation.API;
