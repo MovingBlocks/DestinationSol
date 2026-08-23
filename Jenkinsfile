@@ -29,7 +29,7 @@ pipeline {
                 recordIssues tool: javaDoc()
                 step([$class: 'JavadocArchiver', javadocDir: 'engine/build/docs/javadoc', keepAll: false])
                 recordIssues tool: checkStyle(pattern: '**/build/reports/checkstyle/*.xml')
-                recordIssues tool: findBugs(pattern: '**/build/reports/findbugs/*.xml', useRankAsPriority: true)
+                recordIssues tool: errorProne()
                 recordIssues tool: pmdParser(pattern: '**/build/reports/pmd/*.xml')
                 recordIssues tool: taskScanner(includePattern: '**/*.java,**/*.groovy,**/*.gradle', lowTags: 'WIBNIF', normalTags: 'TODO', highTags: 'ASAP')
             }
