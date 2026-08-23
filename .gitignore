@@ -8,6 +8,7 @@ config/metrics
 ## Ignored sub-projects with nested Git roots. Core module is bundled with the main repo.
 android
 gwt
+steam
 modules/*
 modules/**/build.gradle
 !modules/core
@@ -26,6 +27,9 @@ html/war/WEB-INF/classes/
 gwt-unitCache/
 www-test/
 .gwt-tmp/
+
+# Steam
+steam_appid.txt
 
 ## Intellij
 .idea/

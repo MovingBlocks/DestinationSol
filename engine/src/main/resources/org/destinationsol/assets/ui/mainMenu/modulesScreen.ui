@@ -85,7 +85,7 @@
                 }
             },
             {
-                "type": "UIButton",
+                "type": "KeyActivatedButton",
                 "id": "confirmButton",
                 "text": "Confirm",
                 "layoutInfo": {

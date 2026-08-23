@@ -45,7 +45,7 @@ public class PositionUpdateTest implements Box2DInitializer {
     @BeforeEach
     public void setUp() throws Exception {
         ModuleFactory moduleFactory = new ModuleFactory();
-        moduleManager = new ModuleManager(new DefaultBeanContext(), moduleFactory, new TableModuleRegistry(),
+        moduleManager = new ModuleManager(new DefaultBeanContext(), new TableModuleRegistry(),
                 new ModulePathScanner(moduleFactory), new TestModuleConfig());
         moduleManager.init();
         ServiceRegistry systemsRegistry = new ServiceRegistry();

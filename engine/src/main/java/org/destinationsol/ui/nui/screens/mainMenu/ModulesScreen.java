@@ -19,7 +19,9 @@ package org.destinationsol.ui.nui.screens.mainMenu;
 import org.destinationsol.SolApplication;
 import org.destinationsol.modules.ModuleManager;
 import org.destinationsol.ui.nui.NUIScreenLayer;
+import org.destinationsol.ui.nui.widgets.KeyActivatedButton;
 import org.terasology.gestalt.module.Module;
+import org.terasology.nui.backends.libgdx.GDXInputUtil;
 import org.terasology.nui.databinding.ReadOnlyBinding;
 import org.terasology.nui.itemRendering.StringTextRenderer;
 import org.terasology.nui.widgets.UIButton;
@@ -30,6 +32,7 @@ import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 /**
  * This screen is used to select the modules that should be active when playing a particular save.
@@ -39,6 +42,7 @@ import java.util.Set;
 public class ModulesScreen extends NUIScreenLayer {
     private final SolApplication solApplication;
     private final ModuleManager moduleManager;
+    private UIList<Module> moduleList;
     private Set<Module> selectedModules;
 
     @Inject
@@ -51,10 +55,8 @@ public class ModulesScreen extends NUIScreenLayer {
     public void initialise() {
         selectedModules = new HashSet<>();
 
-        UIList<Module> moduleList = find("modulesList", UIList.class);
-        List<Module> modules = new ArrayList<>(moduleManager.getEnvironment().getModulesOrderedByDependencies());
-        modules.removeAll(moduleManager.getBuiltInModules());
-        moduleList.setList(modules);
+        moduleList = find("modulesList", UIList.class);
+
         moduleList.setItemRenderer(new StringTextRenderer<Module>() {
             @Override
             public String getString(Module value) {
@@ -93,10 +95,18 @@ public class ModulesScreen extends NUIScreenLayer {
         });
         deactivateButton.subscribe(button -> selectedModules.remove(moduleList.getSelection()));
 
-        UIButton confirmButton = find("confirmButton", UIButton.class);
+        KeyActivatedButton confirmButton = find("confirmButton", KeyActivatedButton.class);
+        confirmButton.setKey(GDXInputUtil.GDXToNuiKey(solApplication.getOptions().getKeyEscape()));
         confirmButton.subscribe(button -> {
             nuiManager.setScreen(solApplication.getMenuScreens().newShip);
         });
+    }
+
+    @Override
+    public void onAdded() {
+        List<Module> modules = new ArrayList<>(moduleManager.getRegistry().getModuleIds().stream().map(moduleId -> moduleManager.getRegistry().getLatestModuleVersion(moduleId)).collect(Collectors.toList()));
+        modules.removeAll(moduleManager.getBuiltInModules());
+        moduleList.setList(modules);
     }
 
     public Set<Module> getSelectedModules() {

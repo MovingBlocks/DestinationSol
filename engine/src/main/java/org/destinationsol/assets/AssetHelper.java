@@ -21,6 +21,7 @@ import org.destinationsol.assets.music.OggMusicData;
 import org.destinationsol.assets.sound.AndroidOggSoundFileFormat;
 import org.destinationsol.assets.sound.OggSound;
 import org.destinationsol.assets.sound.OggSoundData;
+import org.destinationsol.assets.ui.UIDeltaFormat;
 import org.destinationsol.assets.ui.UIFormat;
 import org.destinationsol.assets.ui.UISkinFormat;
 import org.slf4j.Logger;
@@ -99,7 +100,9 @@ public class AssetHelper {
 
         // TODO inject this
         assetTypeManager.createAssetType(UIElement.class, UIElement::new, "ui");
-        ((AssetFileDataProducer) assetTypeManager.getAssetType(UIElement.class).get().getProducers().get(0)).addAssetFormat(new UIFormat(widgetLibrary,beanContext));
+        UIFormat uiFormat = new UIFormat(widgetLibrary,beanContext);
+        ((AssetFileDataProducer) assetTypeManager.getAssetType(UIElement.class).get().getProducers().get(0)).addAssetFormat(uiFormat);
+        ((AssetFileDataProducer) assetTypeManager.getAssetType(UIElement.class).get().getProducers().get(0)).addDeltaFormat(new UIDeltaFormat(uiFormat));
 
         assetTypeManager.switchEnvironment(environment);
         Assets.initialize(this);
