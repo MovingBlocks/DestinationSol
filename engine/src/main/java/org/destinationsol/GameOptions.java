@@ -161,7 +161,7 @@ public class GameOptions {
         for (DefaultControls control : DefaultControls.values()) {
             String controlValue = reader.getString(control.getControlName(), "");
             if (controlValue.isEmpty()) {
-                controls.put(control, control.getDefaultInputs());
+                controls.put(control, control.getDefaultInputs().clone());
             } else {
                 controls.put(control, parseKeyboardControl(controlValue));
             }
@@ -927,7 +927,9 @@ public class GameOptions {
     public void setControl(InputControls control, int[] keys) {
         int[] validatedKeys = keys.clone();
         for (int keyNo = 0; keyNo < validatedKeys.length; keyNo++) {
-            if (validatedKeys[keyNo] == -1) {
+            // Input.Keys.toString() only accepts UNKNOWN (0) through MAX_KEYCODE (255); anything else -
+            // not just -1 - would make save() throw IllegalArgumentException later.
+            if (validatedKeys[keyNo] < Input.Keys.UNKNOWN || validatedKeys[keyNo] > Input.Keys.MAX_KEYCODE) {
                 logger.error("Attempted to set invalid key {} for control \"{}\" - filtered.", keyNo, control.getControlName());
                 validatedKeys[keyNo] = Input.Keys.UNKNOWN;
             }
