@@ -1,25 +1,25 @@
 repositories {
-    mavenCentral() {
+    mavenCentral {
         content {
             // Terasology's libraries/modules aren't on maven central, so don't bother looking there.
-            excludeGroupByRegex('org\\.terasology(\\..+)?')
+            excludeGroupByRegex("""org\.terasology(\..+)?""")
         }
     }
 
-    google() {
+    google {
         content {
             // Terasology's libraries/modules aren't on maven central, so don't bother looking there.
-            excludeGroupByRegex('org\\.terasology(\\..+)?')
+            excludeGroupByRegex("""org\.terasology(\..+)?""")
         }
     }
 
     // Terasology Artifactory for any shared libs
     maven {
-        url "https://artifactory.terasology.io/artifactory/virtual-repo-live"
+        url = uri("https://artifactory.terasology.io/artifactory/virtual-repo-live")
         content {
-            includeGroupByRegex('org\\.terasology.gestalt(\\..+)?')
+            includeGroupByRegex("""org\.terasology.gestalt(\..+)?""")
             // A copy of Java-semver is hosted here too
-            includeModule('com.github.zafarkhaja', 'java-semver')
+            includeModule("com.github.zafarkhaja", "java-semver")
         }
     }
 }

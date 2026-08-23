@@ -1,18 +1,18 @@
 plugins {
-    id 'destination-sol-constants'
-    id 'gestalt-repositories'
-    id 'destination-sol-repositories'
-    id 'destination-sol-java'
-    id 'terasology-metrics'
-    id 'destination-sol-ide'
+    id("destination-sol-constants")
+    id("gestalt-repositories")
+    id("destination-sol-repositories")
+    id("destination-sol-java")
+    id("terasology-metrics")
+    id("destination-sol-ide")
 }
 
 // TODO: Temporary until javadoc has been fixed for Java 8 everywhere
-javadoc {
-    failOnError = false
+tasks.javadoc {
+    isFailOnError = false
 }
 
-test {
+tasks.test {
     // ignoreFailures: Specifies whether the build should break when the verifications performed by this task fail.
     ignoreFailures = true
 
@@ -20,5 +20,5 @@ test {
     testLogging.showStandardStreams = true
 
     // Arguments to include while running tests
-    jvmArgs '-Xms512m', '-Xmx1024m'
+    jvmArgs("-Xms512m", "-Xmx1024m")
 }
