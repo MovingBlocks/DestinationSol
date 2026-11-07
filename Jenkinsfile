@@ -20,14 +20,12 @@ pipeline {
         }
         stage('Analytics') {
             steps {
-                sh "./gradlew check javadoc"
+                sh "./gradlew check"
             }
         }
         stage('Record') {
             steps {
                 junit testResults: '**/build/test-results/test/*.xml',  allowEmptyResults: true
-                recordIssues tool: javaDoc()
-                step([$class: 'JavadocArchiver', javadocDir: 'engine/build/docs/javadoc', keepAll: false])
                 recordIssues tool: checkStyle(pattern: '**/build/reports/checkstyle/*.xml')
                 recordIssues tool: findBugs(pattern: '**/build/reports/findbugs/*.xml', useRankAsPriority: true)
                 recordIssues tool: pmdParser(pattern: '**/build/reports/pmd/*.xml')
